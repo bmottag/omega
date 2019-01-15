@@ -1,0 +1,659 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Incidences extends CI_Controller {
+	
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("incidences_model");
+		$this->load->model("general_model");
+    }
+	
+	/**
+	 * Near Miss list
+     * @since 17/3/2017
+     * @author BMOTTAG
+	 */
+	public function near_miss()
+	{		
+			$arrParam = array();
+			$data['nearMissInfo'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+
+			$data["view"] ='near_miss_list';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form Near Miss
+     * @since 17/3/2017
+     * @author BMOTTAG
+	 */
+	public function add_near_miss($id = 'x')
+	{
+			$data['information'] = FALSE;
+			$data['deshabilitar'] = '';
+			
+			$this->load->model("general_model");
+			//incident type list
+			$arrParam = array(
+				"table" => "param_incident_type",
+				"order" => "id_incident_type",
+				"id" => "x"
+			);
+			$data['incidentType'] = $this->general_model->get_basic_search($arrParam);
+			//job´s list - (active´s items)
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['jobs'] = $this->general_model->get_basic_search($arrParam);
+			//worker´s list
+			$arrParam = array(
+				"table" => "user",
+				"order" => "first_name, last_name",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+			
+			//si envio el id, entonces busco la informacion 
+			if ($id != 'x') {
+				
+				$arrParam = array(
+					"idNearMiss" => $id
+				);				
+				$data['information'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+				
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_near_miss';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save near miss
+     * @since 28/3/2017
+     * @author BMOTTAG
+	 */
+	public function save_near_miss()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idReport = $this->input->post('hddIdentificador');
+
+			if ($idNearmiss = $this->incidences_model->add_near_miss()) {
+				
+				if ($idReport == '') {
+					$this->email_to($idNearmiss, 1);//si es un reporte nuevo envio correo
+				}				
+				
+				$data["result"] = true;
+				$data["mensaje"] = "You have save the Near Miss Report, continue uploading the information.";
+				$data["idNearmiss"] = $idNearmiss;
+				$this->session->set_flashdata('retornoExito', 'You have save the Near Miss Report, continue uploading the information!!');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$data["idNearmiss"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Update incidence state
+     * @since 25/4/2017
+     * @author BMOTTAG
+	 */
+	public function update_incidence_state()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["identificador"] = $this->input->post('hddIdentificador');
+			$incidencesType = $this->input->post('incidencesType');
+
+			$arrParam = array(
+				"table" => "incidence_" . $incidencesType,
+				"primaryKey" => "id_" . $incidencesType,
+				"id" => $data["identificador"],
+				"column" => "state_incidence",
+				"value" => 2
+			);
+			$this->load->model("general_model");
+	
+			//actualizo el estado del formulario a cerrado(2)
+			if ($this->general_model->updateRecord($arrParam)) {
+				$data["result"] = true;
+				$data["mensaje"] = "You have close the Report.";
+				$this->session->set_flashdata('retornoExito', 'You have close Report');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Signature
+	 * param $incidencesType: near_miss / incident / accident
+	 * param $userType: supervisor / coordinator
+	 * param $identificador: llave principal del formulario
+     * @since 15/5/2017
+     * @author BMOTTAG
+	 */
+	public function add_signature($incidencesType, $userType, $identificador )
+	{
+			if (empty($incidencesType) ||empty($userType) || empty($identificador) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			if($_POST){
+				
+				//update signature with the name of de file
+				$name = "images/signature/incidences/" . $incidencesType . "_" . $userType . "_" . $identificador . ".png";
+				
+				$arrParam = array(
+					"table" => "incidence_" . $incidencesType,
+					"signatureColumn" => $userType. "_signature",
+					"valSignature" => $name,
+					"userColumn" => "fk_id_user_" . $userType,
+					"fechaColumn" => "date_" . $userType,
+					"idColumn" => "id_" . $incidencesType,
+					"idValue" => $identificador
+				);
+				
+				$data_uri = $this->input->post("image");
+				$encoded_image = explode(",", $data_uri)[1];
+				$decoded_image = base64_decode($encoded_image);
+				file_put_contents($name, $decoded_image);
+				
+				$data['linkBack'] = "incidences/add_" . $incidencesType . "/" . $identificador;
+				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
+				if ($this->incidences_model->updateInfoSignature($arrParam)) {
+					$data['clase'] = "alert-success";
+					$data['msj'] = "Good job, you have save your signature.";	
+				} else {				
+					$data['clase'] = "alert-danger";
+					$data['msj'] = "Ask for help.";
+				}
+			
+				$data["view"] = 'template/answer';
+				$this->load->view("layout", $data);
+
+			}else{		
+				$this->load->view('template/make_signature');
+			}
+	}
+	
+	/**
+	 * Evio de correo
+     * @since 15/5/2017
+     * @author BMOTTAG
+	 */
+	public function email_to($idIncidence, $incidencesType)
+	{
+	    	switch($incidencesType){
+	    		case 1: //near miss report
+					$model = "get_near_miss_by_idUser";
+					$subjet = "Near Miss Report";
+					$arrParam = array('idNearMiss' => $idIncidence);
+					break;
+	    		case 2: //incident report
+					$model = "get_incident_by";
+					$subjet = "Incident Report";
+					$arrParam = array('idIncident' => $idIncidence);
+					break;
+	    		case 3: //accident report
+					$model = "get_accident_by";
+					$subjet = "Accident Report";
+					$arrParam = array('idAccident' => $idIncidence);
+					break;
+	    	}
+			$infoIncident = $this->incidences_model->$model($arrParam);
+			
+			//busco datos de la tabla parametric para buscar el correo del jefe
+			$arrParam = array(
+				"table" => "parametric",
+				"order" => "id_parametric",
+				"id" => "x"
+			);
+			$this->load->model("general_model");
+			$parametric = $this->general_model->get_basic_search($arrParam);						
+			$user = $parametric[2]["value"];
+			$to = $parametric[0]["value"];
+		
+			//mensaje del correo
+			$msj = "<p>It is a new " . $subjet . ":</p>";
+			$msj .= "<strong>Report by: </strong>" . $infoIncident[0]["name"];
+			
+			if($incidencesType == 3){
+				$msj .= "<br><strong>Brief explanation: </strong>" . $infoIncident[0]["brief_explanation"];
+			}else{
+				$msj .= "<br><strong>What happened: </strong>" . $infoIncident[0]["what_happened"];
+			}
+			
+			$mensaje = "<html>
+			<head>
+			  <title> $subjet </title>
+			</head>
+			<body>
+				<p>Dear	$user:</p>
+				<p>$msj</p>
+				<p>Cordially,</p>
+				<p><strong>V-CONTRACTING INC</strong></p>
+			</body>
+			</html>";
+
+			$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+			$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+			$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
+			$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+
+			//enviar correo
+			mail($to, $subjet, $mensaje, $cabeceras);
+	}
+	
+	/**
+	 * incident list
+     * @since 15/5/2017
+     * @author BMOTTAG
+	 */
+	public function incident()
+	{		
+			$arrParam = array();
+			$data['incidentInfo'] = $this->incidences_model->get_incident_by($arrParam);
+
+			$data["view"] ='incident_list';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form Incident
+     * @since 15/5/2017
+     * @author BMOTTAG
+	 */
+	public function add_incident($id = 'x')
+	{
+			$data['information'] = FALSE;
+			$data['deshabilitar'] = '';
+			
+			$this->load->model("general_model");
+			//incident type list
+			$arrParam = array(
+				"table" => "param_incident_type",
+				"order" => "id_incident_type",
+				"id" => "x"
+			);
+			$data['incidentType'] = $this->general_model->get_basic_search($arrParam);
+
+			//worker´s list
+			$arrParam = array(
+				"table" => "user",
+				"order" => "first_name, last_name",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+			
+			//si envio el id, entonces busco la informacion 
+			if ($id != 'x') {
+				
+				$arrParam = array(
+					"idIncident" => $id
+				);				
+				$data['information'] = $this->incidences_model->get_incident_by($arrParam);
+				
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_incident';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save incident
+     * @since 15/5/2017
+     * @author BMOTTAG
+	 */
+	public function save_incident()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idReport = $this->input->post('hddIdentificador');
+
+			if ($idIncident = $this->incidences_model->add_incident()) {
+				
+				if ($idReport == '') {
+					$this->email_to($idIncident, 2);//si es un reporte nuevo envio correo
+				}				
+				
+				$data["result"] = true;
+				$data["mensaje"] = "You have save the Incident Report, continue uploading the information.";
+				$data["idRecord"] = $idIncident;
+				$this->session->set_flashdata('retornoExito', 'You have save the Incident Report, continue uploading the information!!');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$data["idRecord"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+	
+	/**
+	 * accident list
+     * @since 12/6/2017
+     * @author BMOTTAG
+	 */
+	public function accident()
+	{		
+			$arrParam = array();
+			$data['accidentInfo'] = $this->incidences_model->get_accident_by($arrParam);
+
+			$data["view"] ='accident_list';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form accident
+     * @since 12/6/2017
+     * @author BMOTTAG
+	 */
+	public function add_accident($id = 'x')
+	{
+			$data['information'] = FALSE;
+			
+			$this->load->model("general_model");
+			
+			//si envio el id, entonces busco la informacion 
+			if ($id != 'x') {
+				//informacion del incidente
+				$arrParam = array(
+					"idAccident" => $id
+				);				
+				$data['information'] = $this->incidences_model->get_accident_by($arrParam);
+				
+				
+				$this->load->model("general_model");
+				//informacion de los testigos
+				$arrParam = array(
+					"table" => "incidence_accident_witness",
+					"order" => "id_witness",
+					"column" => "fk_id_accident",
+					"id" => $id
+				);
+				$data['witnessInfo'] = $this->general_model->get_basic_search($arrParam);
+				
+				//informacion de los carros involucrados
+				$arrParam = array(
+					"table" => "incidence_accident_car_involved",
+					"order" => "id_car_involved",
+					"column" => "fk_id_accident",
+					"id" => $id
+				);
+				$data['carsInvolvedInfo'] = $this->general_model->get_basic_search($arrParam);
+				
+				
+				
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_accident';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save accident
+     * @since 12/6/2017
+     * @author BMOTTAG
+	 */
+	public function save_accident()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idReport = $this->input->post('hddIdentificador');
+
+			if ($idAccident = $this->incidences_model->add_accident()) {
+				
+				if ($idReport == '') {
+					$this->email_to($idAccident, 3);//si es un reporte nuevo envio correo
+				}				
+				
+				$data["result"] = true;
+				$data["mensaje"] = "You have save the Accident Report, continue uploading the information.";
+				$data["idRecord"] = $idAccident;
+				$this->session->set_flashdata('retornoExito', 'You have save the Accident Report, continue uploading the information!!');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$data["idRecord"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+	
+    /**
+     * Cargo modal- formulario de captura witness
+     * @since 12/6/2017
+     */
+    public function cargarModalWitness() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$identificador = $this->input->post("identificador");
+			//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
+			$porciones = explode("-", $identificador);
+			$data["idIncident"] = $porciones[1];
+		
+			$this->load->view("modal_witness", $data);
+    }
+	
+	/**
+	 * Save formularios
+	 * @param varchar $modalToUse: indica que funcion del modelo se debe usar
+     * @since 13/6/2017
+     * @author BMOTTAG
+	 */
+	public function save($modalToUse)
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idRecord"] = $this->input->post('hddidIncident');
+
+			if ($this->incidences_model->$modalToUse()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have add a new record!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);
+    }
+	
+    /**
+     * Delete accident record
+	 * @param varchar $tabla: nombre de la tabla de la cual se va a borrar
+	 * @param int $idValue: id que se va a borrar
+	 * @param int $idWorkorder: llave  primaria de workorder
+     */
+    public function deleteRecord($tabla, $idValue, $idWorkorder, $vista) 
+	{
+			if (empty($tabla) || empty($idValue) || empty($idWorkorder) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			$arrParam = array(
+				"table" => "incidence_accident_" . $tabla,
+				"primaryKey" => "id_"  . $tabla,
+				"id" => $idValue
+			);
+			$this->load->model("general_model");
+			if ($this->general_model->deleteRecord($arrParam)) {
+				$this->session->set_flashdata('retornoExito', 'You have delete one record from <strong>'.$tabla.'</strong> table.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('incidences/' . $vista . '/' . $idWorkorder), 'refresh');
+    }
+	
+    /**
+     * Cargo modal- formulario de carros en el accidente
+     * @since 15/6/2017
+     */
+    public function cargarModalCarsInvolved() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$identificador = $this->input->post("identificador");
+			//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
+			$porciones = explode("-", $identificador);
+			$data["idIncident"] = $porciones[1];
+		
+			$this->load->view("modal_cars_involved", $data);
+    }
+
+	/**
+	 * Generate Report in PDF
+	 * @param int $idIncident
+	 * @param int $type
+     * @since 3/7/2017
+     * @author BMOTTAG
+	 */
+	public function generaPDF($idIncident, $type)
+	{
+			$this->load->library('Pdf');
+			
+			// create new PDF document
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor('VCI');
+			$pdf->SetTitle('Incidences Report');
+			$pdf->SetSubject('TCPDF Tutorial');
+
+			// set default header data
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			
+			$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+			// set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			// set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			// set some language-dependent strings (optional)
+			if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+				require_once(dirname(__FILE__).'/lang/eng.php');
+				$pdf->setLanguageArray($l);
+			}
+
+			// ---------------------------------------------------------
+
+			// set font
+			$pdf->SetFont('dejavusans', '', 8);
+
+			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+			
+			switch ($type) {
+				case 1:
+					$arrParam = array("idNearMiss" => $idIncident);				
+					$data['info'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+					$data['title'] = "NEAR MISS REPORT";
+					$vista = "reporte_near_miss_pdf";
+					break;
+				case 2:
+					$arrParam = array("idIncident" => $idIncident);				
+					$data['info'] = $this->incidences_model->get_incident_by($arrParam);
+					$data['title'] = "INCIDENT/ACCIDENT REPORT";
+					$vista = "reporte_incident_pdf";
+					break;
+				case 3:
+					$arrParam = array("idAccident" => $idIncident);				
+					$data['info'] = $this->incidences_model->get_accident_by($arrParam);				
+					$data['title'] = "ACCIDENT REPORT";
+					$vista = "reporte_accident_pdf";
+					
+					$data['carsInvolvedInfo'] = $this->incidences_model->get_accident_car_involved($arrParam);
+					$data['witnessInfo'] = $this->incidences_model->get_accident_witness($arrParam);
+					break;
+			}
+
+
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// Print a table
+
+				
+				// add a page
+				$pdf->AddPage();
+
+				$html = $this->load->view($vista, $data, true);
+											
+				// output the HTML content
+				$pdf->writeHTML($html, true, false, true, false, '');
+		
+
+			// Print some HTML Cells
+
+			// reset pointer to the last page
+			$pdf->lastPage();
+
+
+			//Close and output PDF document
+			$pdf->Output('heavy_inspection.pdf', 'I');
+
+			//============================================================+
+			// END OF FILE
+			//============================================================+
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

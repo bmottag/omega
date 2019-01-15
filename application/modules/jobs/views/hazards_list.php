@@ -1,0 +1,108 @@
+<div id="page-wrapper">
+	<br>
+	
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<a class="btn btn-danger btn-xs" href=" <?php echo base_url().'jobs'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-life-saver"></i> <strong>JHA - JOB HAZARDS ANALYSIS<strong>
+				</div>
+				<div class="panel-body">
+
+					<div class="alert alert-danger">
+						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?><br>
+						<a href="<?php echo base_url("jobs/hazards_logs/" . $jobInfo[0]["id_job"]); ?>">LOGS</a>
+					</div>
+				
+<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-success ">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			<?php echo $retornoExito ?>		
+		</div>
+	</div>
+    <?php
+}
+
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<?php echo $retornoError ?>
+		</div>
+	</div>
+    <?php
+}
+?> 
+					<!--INICIO HAZARDS -->								
+					<div class="col-lg-12">	
+						<a href="<?php echo base_url("jobs/add_hazards/" . $jobInfo[0]['id_job']); ?>" class="btn btn-danger btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Hazards</a>
+						<br>
+					</div>
+
+					<?php 
+						if($hazards){
+					?>
+					<table class="table table-bordered table-striped table-hover table-condensed">
+						<tr class="dafault">
+							<td><p class="text-center"><strong>Activity</strong></p></td>
+							<td><p class="text-center"><strong>Hazard</strong></p></td>
+							<td><p class="text-center"><strong>Solution</strong></p></td>
+							<td><p class="text-center"><strong>Priority</strong></p></td>
+							<td><p class="text-center"><strong>Delete</strong></p></td>
+						</tr>
+						<?php
+							foreach ($hazards as $data):
+								echo "<tr>";					
+								echo "<td ><small>" . $data['hazard_activity'] . "</small></td>";
+								echo "<td ><small>" . $data['hazard_description'] . "</small></td>";
+								echo "<td ><small>" . $data['solution']  . "</small></td>";
+								
+								$priority = $data['priority_description'];
+								
+								if($priority == 1 || $priority == 2) {
+									$class = "success";
+								}elseif($priority == 3 || $priority == 4) {
+									$class = "info";
+								}elseif($priority == 5 || $priority == 6) {
+									$class = "warning";
+								}elseif($priority == 7 || $priority == 8) {
+									$class = "danger";
+								}
+												
+		echo "<td class='text-center " . $class . "'><p class='text-" . $class . "'><strong>" . $data['priority_description'] . "</strong></p></td>";
+								
+								echo "<td class='text-center'><small>";
+						?>
+							<center>
+							<a class='btn btn-danger' href='<?php echo base_url('jobs/deleteJobHazard/' . $data['id_job_hazard'] . '/' . $data['fk_id_job']) ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							</a>
+							</center>
+						<?php
+								echo "</small></td>";                     
+								echo "</tr>";
+							endforeach;
+						?>
+					</table>
+					<?php } ?>
+					<!--FIN HAZARDS -->
+					
+					<!-- /.row (nested) -->
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
