@@ -210,6 +210,30 @@ class Programming extends CI_Controller {
 
 			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
     }
+	
+    /**
+     * Delete worker
+     */
+    public function deleteWorker($idProgramming, $idWorker) 
+	{
+			if (empty($idProgramming) || empty($idWorker) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			$arrParam = array(
+				"table" => "programming_worker",
+				"primaryKey" => "id_programming_worker",
+				"id" => $idWorker
+			);
+			
+			$this->load->model("general_model");
+			if ($this->general_model->deleteRecord($arrParam)) {
+				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+    }
 		
 	public function calendar()
 	{

@@ -180,7 +180,7 @@ $datetime2 = date_create(date('Y-m-d'));
 						
 						<br><br>
 
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $data['id_workorder_materials'] . '/' . $idRecord) ?>' id="btn-delete">
+							<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
 
