@@ -109,6 +109,55 @@
 				return false;
 			}
 		}
+		
+		/**
+		 * Lista de vehiculos
+		 * @since 16/1/2019
+		 */
+		public function get_vehicles_inspection()
+		{
+				$trucks = array();
+				$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description 
+						FROM param_vehicle V 
+						INNER JOIN param_vehicle_type_2 T ON T.id_type_2 = V.type_level_2 
+						WHERE fk_id_company = 1 AND T.link_inspection != 'NA' AND V.id_vehicle NOT IN(41,42,43,44,61,62) 
+						ORDER BY unit_number";
+				
+				$query = $this->db->query($sql);
+				if ($query->num_rows() > 0) {
+					$i = 0;
+					foreach ($query->result() as $row) {
+						$trucks[$i]["id_truck"] = $row->id_vehicle;
+						$trucks[$i]["unit_number"] = $row->unit_description;
+						$i++;
+					}
+				}
+				$this->db->close();
+				return $trucks;
+		}
+		
+		/**
+		 * Update worker
+		 * @since 16/1/2019
+		 */
+		public function saveWorker() 
+		{			
+				$hddId = $this->input->post('hddId');
+								
+				$data = array(
+					'description' => $this->input->post('description'),
+					'fk_id_machine' => $this->input->post('machine')
+				);
+				
+				$this->db->where('id_programming_worker', $hddId);
+				$query = $this->db->update('programming_worker', $data);			
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 					
 		
 	    

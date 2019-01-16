@@ -463,7 +463,7 @@ class General_model extends CI_Model {
 		 */
 		public function get_programming_workers($arrData) 
 		{
-			$this->db->select("U.*, CONCAT(first_name, ' ', last_name) name");
+			$this->db->select("U.movil, CONCAT(first_name, ' ', last_name) name, P.*");
 			if (array_key_exists("idUser", $arrData)) {
 				$this->db->where('P.fk_id_programming_user', $arrData["idUser"]);
 			}

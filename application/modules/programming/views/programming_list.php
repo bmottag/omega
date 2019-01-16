@@ -8,8 +8,15 @@
 		<div class="col-lg-12">
 			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<a class="btn btn-warning btn-xs" href=" <?php echo base_url().'dashboard'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-truck"></i> <strong>PROGRAMMING LIST </strong>
+				
+		<?php
+			if($idProgramming != 'x'){
+		?>
+					<a class="btn btn-warning btn-xs" href=" <?php echo base_url('programming'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+		<?php
+			}
+		?>
+					<i class="fa fa-list"></i> <strong>PROGRAMMING LIST </strong>
 				</div>
 				<div class="panel-body">
 							
@@ -130,20 +137,60 @@ $datetime2 = date_create(date('Y-m-d'));
 								<tr class="headings">
 									<th class="column-title" style="width: 20%"><small>Name</small></th>
 									<th class="column-title text-center"><small>Movil</small></th>
+									<th class="column-title text-center"><small>Description</small></th>
 									<th class="column-title text-center"><small>Machine</small></th>
+									<th class="column-title text-center"><small>Links</small></th>
 								</tr>
 							</thead>
 
 							<tbody>
 										
-							<?php
-								$ci = &get_instance();
-								$ci->load->model("general_model");
-								
+							<?php								
 								foreach ($informationWorker as $data):
 									echo "<tr>";
 									echo "<td ><small>$data[name]</small></td>";
 									echo "<td class='text-center'><small>$data[movil]</small></td>";
+									
+									$idRecord = $data['id_programming_worker'];
+									$idProgramming = $data['fk_id_programming'];
+							?>		
+									
+						<form  name="worker_<?php echo $idRecord ?>" id="worker_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/update_worker"); ?>">
+
+							<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+							<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>"/>
+							
+						<td>
+							<input type="text" id="description" name="description" class="form-control" placeholder="Description" value="<?php echo $data['description']; ?>" >
+						</td>
+							
+						<td>
+							<select name="machine" id="machine" class="form-control" >
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
+									<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"]) { echo "selected"; }  ?>><?php echo $informationVehicles[$i]["unit_number"]; ?></option>	
+								<?php } ?>
+							</select>
+						</td>
+																
+						<td class='text-center'>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
+
+						</form>
+						
+						<br><br>
+
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $data['id_workorder_materials'] . '/' . $idRecord) ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							</a>
+
+
+						</td>
+									
+									
+									
+							<?php
+									
 									echo "<td class='text-center'><small>";
 
 

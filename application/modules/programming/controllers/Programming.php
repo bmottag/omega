@@ -31,6 +31,8 @@ class Programming extends CI_Controller {
 			
 			//lista de trabajadores para esta programacion
 			$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+
+			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
 		}
 
 		$data["view"] = 'programming_list';
@@ -187,6 +189,26 @@ class Programming extends CI_Controller {
 			}				
 
 			echo json_encode($data);
+    }
+	
+	/**
+	 * Update datos trabajdores
+     * @since 16/1/2019
+     * @author BMOTTAG
+	 */
+	public function update_worker()
+	{					
+			$idProgramming = $this->input->post('hddIdProgramming');
+
+			if ($this->programming_model->saveWorker()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the record!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
     }
 		
 	public function calendar()
