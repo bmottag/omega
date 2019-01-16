@@ -234,6 +234,44 @@ class Programming extends CI_Controller {
 			}
 			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
     }
+	
+	/**
+	 * Envio de mensaje
+     * @since 16/1/2019
+     * @author BMOTTAG
+	 */
+	public function send($idProgramming)
+	{			
+		$this->load->model("general_model");
+
+		$data['informationWorker'] = FALSE;
+		$data['idProgramming'] = $idProgramming;
+						
+
+		$arrParam = array("idProgramming" => $idProgramming);
+		$data['information'] = $this->general_model->get_programming($arrParam);//info programacion
+		
+		//lista de trabajadores para esta programacion
+		$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+
+echo "Job Code/Name: " . $data['information'][0]['job_description'];
+echo "<br>" . $data['information'][0]['observation'];
+echo "<br>Fecha/Hora: " . $data['information'][0]['date_programming'] . " " . $data['information'][0]['hour_programming'];
+
+if($data['informationWorker']){
+	foreach ($data['informationWorker'] as $data):
+		echo "<br>";
+		echo $data['name']; 
+		echo $data['description']?": " . $data['description']:"";
+		echo $data['unit_description']?" -> " . $data['unit_description']:"";
+	endforeach;
+}
+
+
+
+exit;
+
+	}
 		
 	public function calendar()
 	{

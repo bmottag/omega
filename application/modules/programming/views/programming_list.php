@@ -111,7 +111,15 @@ $datetime2 = date_create(date('Y-m-d'));
 <?php								
 								
 								echo "</small></td>";
-								echo "<td>" . $lista['name'] . "</td>";
+								echo "<td>" . $lista['name'];
+								
+//enviar mensaje; se revisar que exista al menos un trabajador
+//se actualiza el estado del los mensajes
+//se envia mensaje
+?>
+<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i> Send MSM</a>
+<?php
+								echo "</td>";
 
 								echo "</tr>";
 							endforeach;
