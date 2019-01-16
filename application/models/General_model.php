@@ -456,6 +456,31 @@ class General_model extends CI_Model {
 			} else
 				return false;
 		}
+		
+		/**
+		 * Lista trabajadores para una programacion
+		 * @since 15/1/2019
+		 */
+		public function get_programming_workers($arrData) 
+		{
+			$this->db->select("U.*, CONCAT(first_name, ' ', last_name) name");
+			if (array_key_exists("idUser", $arrData)) {
+				$this->db->where('P.fk_id_programming_user', $arrData["idUser"]);
+			}
+			if (array_key_exists("idProgramming", $arrData)) {
+				$this->db->where('P.fk_id_programming', $arrData["idProgramming"]);
+			}
+			
+			$this->db->join('user U', 'U.id_user = P.fk_id_programming_user', 'INNER');
+							
+			$this->db->order_by("U.first_name, U.last_name ASC"); 
+			$query = $this->db->get("programming_worker P");
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			} else
+				return false;
+		}
 
 
 

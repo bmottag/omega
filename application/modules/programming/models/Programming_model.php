@@ -45,7 +45,7 @@
 		
 		/**
 		 * Add PROGRAMMING WORKER
-		 * @since 4/7/2018
+		 * @since 16/1/2019
 		 */
 		public function addProgrammingWorker() 
 		{

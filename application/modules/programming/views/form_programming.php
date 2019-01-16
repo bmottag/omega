@@ -35,7 +35,7 @@
 						<div class="form-group">									
 							<label class="col-sm-4 control-label" for="date">Date</label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_issue"]:""; ?>" placeholder="Date of Issue" />
+								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="Date" />
 							</div>
 						</div>			
 												
@@ -45,7 +45,7 @@
 								<select name="jobName" id="jobName" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" ><?php echo $jobs[$i]["job_description"]; ?></option>	
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -56,7 +56,7 @@
 							<div class="col-sm-2">
 							<?php 
 								if($information){
-									$timeIn = explode(":",$information["time_in"]);
+									$timeIn = explode(":",$information[0]["hour_programming"]);
 									$hourIn = $timeIn[0];
 									$minIn = $timeIn[1];
 								}
@@ -87,7 +87,7 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="observation">Observation</label>
 							<div class="col-sm-5">
-							<textarea id="observation" name="observation" class="form-control" rows="3"></textarea>
+							<textarea id="observation" name="observation" class="form-control" rows="3"><?php echo $information?$information[0]["observation"]:""; ?></textarea>
 							</div>
 						</div>
 								

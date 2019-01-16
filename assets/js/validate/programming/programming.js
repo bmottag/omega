@@ -101,7 +101,8 @@ $( document ).ready( function () {
 						{	                                                        
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
-							var url = base_url + "programming";
+
+							var url = base_url + "programming/index/" + data.idProgramming;
 							$(location).attr("href", url);
 						}
 						else
