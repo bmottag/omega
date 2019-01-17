@@ -82,7 +82,9 @@
 		public function verifyProject($arrData) 
 		{
 				$this->db->where('fk_id_job', $arrData["idJob"]);
-				$this->db->where('date_programming', $arrData["date"]);
+				$this->db->where('date_programming', $arrData["date"]);				
+				$this->db->where('state !=', 3);
+				
 				$query = $this->db->get("programming");
 
 				if ($query->num_rows() >= 1) {
