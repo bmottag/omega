@@ -21,9 +21,6 @@ class Programming extends CI_Controller {
 		$data['informationWorker'] = FALSE;
 		$data['idProgramming'] = $idProgramming;
 						
-		$arrParam = array("estado" => "ACTIVAS");
-		$data['information'] = $this->general_model->get_programming($arrParam);//info solicitudes
-
 		//si envio el id, entonces busco la informacion 
 		if ($idProgramming != 'x') {
 			$arrParam = array("idProgramming" => $idProgramming);
@@ -33,8 +30,11 @@ class Programming extends CI_Controller {
 			$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
 			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+		}else{
+			$arrParam = array("estado" => "ACTIVAS");
+			$data['information'] = $this->general_model->get_programming($arrParam);//info solicitudes
 		}
-
+		
 		$data["view"] = 'programming_list';
 		$this->load->view("layout", $data);
 	}
@@ -156,6 +156,9 @@ class Programming extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				
+				//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
+				$updateState = $this->update_state($data["idProgramming"]);
+				
 				$this->session->set_flashdata('retornoExito', 'You have add the Workers, if they are going to use a machine remember to assign it to the worker.');
 			} else {
 				$data["result"] = "error";
@@ -228,6 +231,10 @@ class Programming extends CI_Controller {
 			
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
+				
+				//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
+				$updateState = $this->update_state($idProgramming);
+				
 				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -256,11 +263,11 @@ class Programming extends CI_Controller {
 
 echo "Job Code/Name: " . $data['information'][0]['job_description'];
 echo "<br>" . $data['information'][0]['observation'];
-echo "<br>Fecha/Hora: " . $data['information'][0]['date_programming'] . " " . $data['information'][0]['hour_programming'];
+echo "<br>" . $data['information'][0]['date_programming'] . " " . $data['information'][0]['hour_programming'];
 
 if($data['informationWorker']){
 	foreach ($data['informationWorker'] as $data):
-		echo "<br>";
+		echo "<br><br>";
 		echo $data['name']; 
 		echo $data['description']?": " . $data['description']:"";
 		echo $data['unit_description']?" -> " . $data['unit_description']:"";
@@ -272,6 +279,42 @@ if($data['informationWorker']){
 exit;
 
 	}
+	
+	/**
+	 * Actualizo estado de la programacion 2 si esta completa 1 si esta incompleta
+     * @since 17/1/2019
+	 */
+    function update_state($idProgramming) 
+	{
+			//programming info
+			$this->load->model("general_model");
+			
+			
+			//cuento la cantidad de trabajadores guardados en la base de datos
+			$countWorkers = $this->programming_model->countWorkers($idProgramming);
+		
+			$state = 1; //incompleta
+			if($countWorkers >= 1){
+				$state = 2; //completa
+			}
+
+			//guardo estado de la programacion			
+			$arrParam = array(
+				"table" => "programming",
+				"primaryKey" => "id_programming",
+				"id" => $idProgramming,
+				"column" => "state",
+				"value" => $state
+			);
+
+			if ($this->general_model->updateRecord($arrParam)) {
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+			
+			
+    }
 		
 	public function calendar()
 	{

@@ -158,6 +158,21 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * Contar trabajadors para una programacion
+		 * @since  17/1/2019
+		 */
+		public function countWorkers($idProgramming)
+		{
+				$sql = "SELECT count(id_programming_worker) CONTEO";
+				$sql.= " FROM programming_worker P";
+				$sql.= " WHERE fk_id_programming = " . $idProgramming;
+				
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->CONTEO;
+		}
 					
 		
 	    

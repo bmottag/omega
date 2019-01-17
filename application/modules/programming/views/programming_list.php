@@ -77,9 +77,11 @@ if ($retornoError) {
 								
 //consultar si la fecha de la programacion es mayor a la fecha actual
 $fechaProgramacion = $lista['date_programming'];
+$hora = $lista['hour_programming'];
 
-$datetime1 = date_create($fechaProgramacion);
-$datetime2 = date_create(date('Y-m-d'));
+$datetime1 = date_create($fechaProgramacion . ' ' . $hora);
+$datetime2 = date_create(date("Y-m-d G:i"));
+
 
 		if($datetime1 < $datetime2) {
 				echo '<p class="text-danger"><strong>OVERDUE</strong></p>';
@@ -111,14 +113,20 @@ $datetime2 = date_create(date('Y-m-d'));
 <?php								
 								
 								echo "</small></td>";
-								echo "<td>" . $lista['name'];
+								echo "<td class='text-center'><p class='text-success'>" . $lista['name'] . "</p>";
 								
-//enviar mensaje; se revisar que exista al menos un trabajador
-//se actualiza el estado del los mensajes
+//enviar mensaje; 
+//revisar que la fecha sea mayor a la fecha y hora actual
+//revisar que exista al menos un trabajador
+//se actualiza el estado de la programacion
 //se envia mensaje
+if(($datetime1 >= $datetime2) && $informationWorker)
+{
+	
 ?>
-<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i> Send MSM</a>
+	<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='glyphicon glyphicon-send'></i> Send MSM</a>
 <?php
+}
 								echo "</td>";
 
 								echo "</tr>";
