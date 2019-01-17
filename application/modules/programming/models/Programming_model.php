@@ -111,7 +111,7 @@
 		}
 		
 		/**
-		 * Lista de vehiculos
+		 * Lista de vehiculos, para asginarlos a los trabajadores en la programacion
 		 * @since 16/1/2019
 		 */
 		public function get_vehicles_inspection()

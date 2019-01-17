@@ -264,10 +264,11 @@ class Programming extends CI_Controller {
 echo "Job Code/Name: " . $data['information'][0]['job_description'];
 echo "<br>" . $data['information'][0]['observation'];
 echo "<br>" . $data['information'][0]['date_programming'] . " " . $data['information'][0]['hour_programming'];
+echo "<br>";
 
 if($data['informationWorker']){
 	foreach ($data['informationWorker'] as $data):
-		echo "<br><br>";
+		echo "<br>";
 		echo $data['name']; 
 		echo $data['description']?": " . $data['description']:"";
 		echo $data['unit_description']?" -> " . $data['unit_description']:"";
@@ -288,7 +289,6 @@ exit;
 	{
 			//programming info
 			$this->load->model("general_model");
-			
 			
 			//cuento la cantidad de trabajadores guardados en la base de datos
 			$countWorkers = $this->programming_model->countWorkers($idProgramming);
@@ -312,8 +312,64 @@ exit;
 			}else{
 				return FALSE;
 			}
+    }
+	
+	/**
+	 * CRON
+	 * Verificar para la fecha actual si existen maquinas asignadas y si se les hizo inspeccion
+	 * El CRON se corre a las 10 AM y las 3 pm de todos los dias
+     * @since 17/1/2019
+	 */
+    function verificacion() 
+	{
+			$this->load->model("general_model");
 			
+			$fechaActual = date("Y-m-d");
+			$arrParam = array("fecha" => $fechaActual);
+			$information = $this->general_model->get_programming($arrParam);//info programacion
+	
+			$i = 0;
+			$nombres = "";
+	
+			if($information){
+				//para cada programacion buscar los trabajadores que tienen maquinas asignadas
+				foreach($information as $lista):
+					//lista de trabajadores para esta programacion que tiene maquinas asignadas
+					$arrParam = array("idProgramming" => $lista['id_programming'], "machine" => TRUE);
+					$informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+					
+					if($informationWorker){
+						//busco para la fecha y para esa maquina si hay inspecciones
+						//si no hay inspecciones envio mensaje de alerta
+						foreach($informationWorker as $dato):
+							$arrParam = array("fecha" => $fechaActual, "maquina" => $dato['fk_id_machine']);
+							$inspecciones = $this->general_model->get_programming_inspecciones($arrParam);//inspecciones de maquinas asignadas en una programacion
+							
+							if(!$inspecciones){
+								$i++;
+								$nombres .= "<br>" . $dato['name'];
+								//echo "<br>Nombre: " . $dato['name'];
+								//echo "<br>Movil: " . $dato['movil'];
+
+							}
+							
+	//echo $this->db->last_query(); exit;
+							
+						endforeach;
+					}
+//pr($informationWorker);
+	
+					
+				endforeach;
+			}
 			
+			if($i != 0){
+				echo "Para el día de hoy hay $i inpecciones faltantes:";
+				echo $nombres;
+			}else{
+				echo "Se hicieron todas las inspecciones adignadas en la programación.";
+			}
+
     }
 		
 	public function calendar()

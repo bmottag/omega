@@ -550,6 +550,26 @@
 				}
 		}
 		
+		/**
+		 * Para guardar registro de la fecha y maquina de todas las inspecciones que se hacen en una sola tabla
+		 * @since 17/1/2019
+		 */
+		public function saveInspectionTotal($idMachine) 
+		{
+				$data = array(
+					'fk_id_machine' => $idMachine,
+					'date_inspection' => date("Y-m-d")
+				);
+				$query = $this->db->insert('inspection_total', $data);
+
+				
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
 		
 	    
 	}

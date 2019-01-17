@@ -124,7 +124,8 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 {
 	
 ?>
-	<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='glyphicon glyphicon-send'></i> Send MSM</a>
+	<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send MSM"><i class='glyphicon glyphicon-send'></i></a>
+	<a href='<?php echo base_url("programming/verificacion"); ?>' class='btn btn-purpura btn-xs' title="Verificar"><i class='glyphicon glyphicon-search'></i></a>
 <?php
 }
 								echo "</td>";

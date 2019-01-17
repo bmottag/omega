@@ -470,12 +470,33 @@ class General_model extends CI_Model {
 			if (array_key_exists("idProgramming", $arrData)) {
 				$this->db->where('P.fk_id_programming', $arrData["idProgramming"]);
 			}
+			if (array_key_exists("machine", $arrData)) {
+				$this->db->where('P.fk_id_machine is NOT NULL');
+			}
 			
 			$this->db->join('user U', 'U.id_user = P.fk_id_programming_user', 'INNER');
 			$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_machine', 'LEFT');
 							
 			$this->db->order_by("U.first_name, U.last_name ASC"); 
 			$query = $this->db->get("programming_worker P");
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			} else
+				return false;
+		}
+		
+		/**
+		 * Lista de inspeccions para maquinas asignadas en una programacion
+		 * @since 15/1/2019
+		 */
+		public function get_programming_inspecciones($arrData) 
+		{			
+			$this->db->select();			
+			$this->db->where('fk_id_machine', $arrData["maquina"]);
+			$this->db->where('date_inspection', $arrData["fecha"]);
+							
+			$query = $this->db->get("inspection_total");
 
 			if ($query->num_rows() >= 1) {
 				return $query->result_array();

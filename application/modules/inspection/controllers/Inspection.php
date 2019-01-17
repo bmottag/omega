@@ -124,6 +124,9 @@ class Inspection extends CI_Controller {
 					 */
 					if($flag)
 					{
+						//guardo registro de fecha y maquina, para comparar con la programacion
+						$this->inspection_model->saveInspectionTotal($idVehicle);
+						
 						//busco datos del vehiculo
 						$arrParam = array(
 							"table" => "param_vehicle",
@@ -320,6 +323,9 @@ class Inspection extends CI_Controller {
 				 */
 				if($flag)
 				{
+					//guardo registro de fecha y maquina, para comparar con la programacion
+					$this->inspection_model->saveInspectionTotal($idVehicle);
+					
 					//busco datos del vehiculo
 					$arrParam = array(
 						"table" => "param_vehicle",
@@ -762,6 +768,9 @@ class Inspection extends CI_Controller {
 				 */
 				if($flag)
 				{
+					//guardo registro de fecha y maquina, para comparar con la programacion
+					$this->inspection_model->saveInspectionTotal($idVehicle);
+					
 					//busco datos del vehiculo
 					$arrParam = array(
 						"table" => "param_vehicle",
@@ -961,6 +970,9 @@ class Inspection extends CI_Controller {
 				 */
 				if($flag)
 				{
+					//guardo registro de fecha y maquina, para comparar con la programacion
+					$this->inspection_model->saveInspectionTotal($idVehicle);
+					
 					//busco datos del vehiculo
 					$arrParam = array(
 						"table" => "param_vehicle",
@@ -1164,6 +1176,9 @@ class Inspection extends CI_Controller {
 				 */
 				if($flag)
 				{
+					//guardo registro de fecha y maquina, para comparar con la programacion
+					$this->inspection_model->saveInspectionTotal($idVehicle);
+					
 					//busco datos del vehiculo
 					$arrParam = array(
 						"table" => "param_vehicle",
