@@ -503,6 +503,22 @@ class General_model extends CI_Model {
 			} else
 				return false;
 		}
+		
+		/**
+		 * Lista de horas
+		 * @since 18/1/2019
+		 */
+		public function get_horas() 
+		{
+			$this->db->order_by("id_hora", "ASC");
+			$query = $this->db->get("param_horas");
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			} else
+				return false;
+		}		
+
 
 
 

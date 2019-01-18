@@ -30,6 +30,9 @@ class Programming extends CI_Controller {
 			$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
 			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+			
+			$data['horas'] = $this->general_model->get_horas();//LISTA DE HORAS
+			
 		}else{
 			$arrParam = array("estado" => "ACTIVAS");
 			$data['information'] = $this->general_model->get_programming($arrParam);//info solicitudes
@@ -80,7 +83,7 @@ class Programming extends CI_Controller {
 			$idJob = $this->input->post('jobName');
 			$date = $this->input->post('date');
 
-			$msj = "You have add a new programming!!";
+			$msj = "You have add a new programming. Do not forget to asign the workers.";
 			$result_project = false;
 			if ($idProgramming != '') {
 				$msj = "You have update a programming!!";

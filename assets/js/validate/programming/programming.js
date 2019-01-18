@@ -4,7 +4,6 @@ $( document ).ready( function () {
 		rules: {
 			date:					{ required: true },
 			jobName: 				{ required: true },
-			hourIn:					{ required: true },
 			observation: 			{ required: true }
 		},
 		errorElement: "em",

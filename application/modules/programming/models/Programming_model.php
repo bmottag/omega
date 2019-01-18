@@ -9,18 +9,12 @@
 		 */
 		public function saveProgramming() 
 		{
-				$hourIn = $this->input->post('hourIn');
-				$hourIn = $hourIn<10?"0".$hourIn:$hourIn;
-				$timeIn = $hourIn . ":" . $this->input->post('minIn');
-			
-			
 				$idUser = $this->session->userdata("id");
 				$idProgramming = $this->input->post('hddId');
 				
 				$data = array(
 					'fk_id_job' => $this->input->post('jobName'),
 					'date_programming' => $this->input->post('date'),
-					'hour_programming' => $timeIn,
 					'observation' => $this->input->post('observation')
 				);
 				
@@ -61,7 +55,8 @@
 				for ($i = 0; $i < $tot; $i++) {
 					$data = array(
 						'fk_id_programming' => $idProgramming,
-						'fk_id_programming_user' => $workers[$i]
+						'fk_id_programming_user' => $workers[$i],
+						'fk_id_hour' => 15 // Se coloca por defecto que ingresen a las 7 am
 					);
 					$query = $this->db->insert('programming_worker', $data);
 				}
@@ -147,6 +142,7 @@
 				$hddId = $this->input->post('hddId');
 								
 				$data = array(
+					'fk_id_hour' => $this->input->post('hora_inicio'),
 					'description' => $this->input->post('description'),
 					'fk_id_machine' => $this->input->post('machine')
 				);

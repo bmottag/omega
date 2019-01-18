@@ -57,7 +57,6 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class='text-center'>Date</th>
-								<th class='text-center'>Hour</th>
 								<th class='text-center'>Job Code/Name</th>
 								<th class='text-center'>Observation</th>
 								<th class='text-center'>Links</th>
@@ -69,7 +68,6 @@ if ($retornoError) {
 							foreach ($information as $lista):
 								echo "<tr>";
 								echo "<td class='text-center'>" . $lista['date_programming'] . "</td>";
-								echo "<td class='text-center'>" . $lista['hour_programming'] . "</td>";
 								echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
 								echo "<td>" . $lista['observation'] . "</td>";
 								echo "<td class='text-center'><small>";
@@ -77,10 +75,9 @@ if ($retornoError) {
 								
 //consultar si la fecha de la programacion es mayor a la fecha actual
 $fechaProgramacion = $lista['date_programming'];
-$hora = $lista['hour_programming'];
 
-$datetime1 = date_create($fechaProgramacion . ' ' . $hora);
-$datetime2 = date_create(date("Y-m-d G:i"));
+$datetime1 = date_create($fechaProgramacion);
+$datetime2 = date_create(date("Y-m-d"));
 
 
 		if($datetime1 < $datetime2) {
@@ -153,7 +150,7 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 								
 								<tr class="headings">
 									<th class="column-title" style="width: 20%"><small>Name</small></th>
-									<th class="column-title text-center"><small>Movil</small></th>
+									<th class="column-title text-center"><small>Time In</small></th>
 									<th class="column-title text-center"><small>Description</small></th>
 									<th class="column-title text-center"><small>Machine</small></th>
 									<th class="column-title text-center"><small>Links</small></th>
@@ -166,7 +163,6 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 								foreach ($informationWorker as $data):
 									echo "<tr>";
 									echo "<td ><small>$data[name]</small></td>";
-									echo "<td class='text-center'><small>$data[movil]</small></td>";
 									
 									$idRecord = $data['id_programming_worker'];
 									$idProgramming = $data['fk_id_programming'];
@@ -176,6 +172,22 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 							<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>"/>
+						
+						<td>
+							<select name="hora_inicio" id="hora_inicio" class="form-control" required>
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($horas); $i++) { ?>
+									<option value="<?php echo $horas[$i]["id_hora"]; ?>" 
+									<?php 
+									if($horas[$i]["id_hora"] == $data["fk_id_hour"]) 
+									{ 
+										echo 'selected="selected"'; 
+									}
+									?> ><?php echo $horas[$i]["hora"]; ?>
+									</option>	
+								<?php } ?>
+							</select>
+						</td>	
 							
 						<td>
 							<input type="text" id="description" name="description" class="form-control" placeholder="Description" value="<?php echo $data['description']; ?>" >

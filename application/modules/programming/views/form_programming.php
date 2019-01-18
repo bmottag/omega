@@ -50,40 +50,7 @@
 								</select>
 							</div>
 						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="fromSite">Time In</label>
-							<div class="col-sm-2">
-							<?php 
-								if($information){
-									$timeIn = explode(":",$information[0]["hour_programming"]);
-									$hourIn = $timeIn[0];
-									$minIn = $timeIn[1];
-								}
-							?>
-								<select name="hourIn" id="hourIn" class="form-control" required>
-									<option value='' >Select...</option>
-									<?php
-									for ($i = 0; $i < 24; $i++) {
-										?>
-										<option value='<?php echo $i; ?>' <?php
-										if ($information && $i == $hourIn) {
-											echo 'selected="selected"';
-										}
-										?>><?php echo $i; ?></option>
-											<?php } ?>									
-								</select>
-							</div>
-							<div class="col-sm-2">
-								<select name="minIn" id="minIn" class="form-control" required>
-									<option value="00" <?php if($information && $minIn == "00") { echo "selected"; }  ?>>00</option>
-									<option value="15" <?php if($information && $minIn == "15") { echo "selected"; }  ?>>15</option>
-									<option value="30" <?php if($information && $minIn == "30") { echo "selected"; }  ?>>30</option>
-									<option value="45" <?php if($information && $minIn == "45") { echo "selected"; }  ?>>45</option>
-								</select>
-							</div>
-						</div>
-												
+																		
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="observation">Observation</label>
 							<div class="col-sm-5">
