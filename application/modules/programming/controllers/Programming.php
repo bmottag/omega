@@ -264,17 +264,28 @@ class Programming extends CI_Controller {
 		//lista de trabajadores para esta programacion
 		$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
-echo "Job Code/Name: " . $data['information'][0]['job_description'];
+echo date('F j, Y', strtotime($data['information'][0]['date_programming']));
+echo "<br>" . $data['information'][0]['job_description'];
 echo "<br>" . $data['information'][0]['observation'];
-echo "<br>" . $data['information'][0]['date_programming'] . " " . $data['information'][0]['hour_programming'];
 echo "<br>";
 
 if($data['informationWorker']){
 	foreach ($data['informationWorker'] as $data):
 		echo "<br>";
-		echo $data['name']; 
-		echo $data['description']?": " . $data['description']:"";
-		echo $data['unit_description']?" -> " . $data['unit_description']:"";
+		echo $data['site']==1?"At the yard - ":"At the site - ";
+		echo $data['hora']; 
+
+		echo "<br>" . $data['name']; 
+		echo $data['description']?"<br>" . $data['description']:"";
+		echo $data['unit_description']?"<br>" . $data['unit_description']:"";
+		
+		if($data['safety']==1){
+			echo "<br>Do FLHA";
+		}elseif($data['safety']==2){
+			echo "<br>Do Tool Box";
+		}
+		
+		echo "<br>";
 	endforeach;
 }
 

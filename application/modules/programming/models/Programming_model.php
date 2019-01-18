@@ -56,7 +56,8 @@
 					$data = array(
 						'fk_id_programming' => $idProgramming,
 						'fk_id_programming_user' => $workers[$i],
-						'fk_id_hour' => 15 // Se coloca por defecto que ingresen a las 7 am
+						'fk_id_hour' => 15, // Se coloca por defecto que ingresen a las 7 am
+						'site' => 1 // Se coloca por defecto 1 -> At the yard
 					);
 					$query = $this->db->insert('programming_worker', $data);
 				}
@@ -142,9 +143,11 @@
 				$hddId = $this->input->post('hddId');
 								
 				$data = array(
-					'fk_id_hour' => $this->input->post('hora_inicio'),
 					'description' => $this->input->post('description'),
-					'fk_id_machine' => $this->input->post('machine')
+					'fk_id_machine' => $this->input->post('machine'),
+					'fk_id_hour' => $this->input->post('hora_inicio'),
+					'site' => $this->input->post('site'),
+					'safety' => $this->input->post('safety')
 				);
 				
 				$this->db->where('id_programming_worker', $hddId);

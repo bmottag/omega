@@ -149,11 +149,13 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 								</tr>
 								
 								<tr class="headings">
-									<th class="column-title" style="width: 20%"><small>Name</small></th>
-									<th class="column-title text-center"><small>Time In</small></th>
-									<th class="column-title text-center"><small>Description</small></th>
-									<th class="column-title text-center"><small>Machine</small></th>
-									<th class="column-title text-center"><small>Links</small></th>
+									<th class="column-title" style="width: 10%"><small>Name</small></th>
+									<th class="column-title text-center" style="width: 12%"><small>Time In</small></th>
+									<th class="column-title text-center" style="width: 13%"><small>Site</small></th>
+									<th class="column-title text-center" style="width: 13%"><small>FLHA/TOOL BOX</small></th>
+									<th class="column-title text-center" style="width: 21%"><small>Description</small></th>
+									<th class="column-title text-center" style="width: 22%"><small>Machine</small></th>
+									<th class="column-title text-center" style="width: 9%"><small>Links</small></th>
 								</tr>
 							</thead>
 
@@ -188,6 +190,22 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 								<?php } ?>
 							</select>
 						</td>	
+						
+						<td>						
+							<select name="site" id="site" class="form-control" required>
+								<option value="">Select...</option>
+								<option value=1 <?php if($data["site"] == 1) { echo "selected"; }  ?>>At the yard</option>
+								<option value=2 <?php if($data["site"] == 2) { echo "selected"; }  ?>>At the site</option>
+							</select>
+						</td>
+						
+						<td>						
+							<select name="safety" id="safety" class="form-control">
+								<option value="">Select...</option>
+								<option value=1 <?php if($data["safety"] == 1) { echo "selected"; }  ?>>FLHA</option>
+								<option value=2 <?php if($data["safety"] == 2) { echo "selected"; }  ?>>Tool Box</option>
+							</select>
+						</td>
 							
 						<td>
 							<input type="text" id="description" name="description" class="form-control" placeholder="Description" value="<?php echo $data['description']; ?>" >
@@ -209,8 +227,8 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 						
 						<br><br>
 
-							<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete" title="Delete">
+									<span class="fa fa-trash-o" aria-hidden="true"> </span>
 							</a>
 
 

@@ -463,7 +463,7 @@ class General_model extends CI_Model {
 		 */
 		public function get_programming_workers($arrData) 
 		{
-			$this->db->select("U.movil, CONCAT(first_name, ' ', last_name) name, P.*, CONCAT(V.unit_number,' -----> ', V.description) as unit_description");
+			$this->db->select("U.movil, CONCAT(first_name, ' ', last_name) name, P.*, CONCAT(V.unit_number,' -----> ', V.description) as unit_description, H.hora");
 			if (array_key_exists("idUser", $arrData)) {
 				$this->db->where('P.fk_id_programming_user', $arrData["idUser"]);
 			}
@@ -476,6 +476,7 @@ class General_model extends CI_Model {
 			
 			$this->db->join('user U', 'U.id_user = P.fk_id_programming_user', 'INNER');
 			$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_machine', 'LEFT');
+			$this->db->join('param_horas H', 'H.id_hora = P.fk_id_hour', 'LEFT');
 							
 			$this->db->order_by("U.first_name, U.last_name ASC"); 
 			$query = $this->db->get("programming_worker P");
