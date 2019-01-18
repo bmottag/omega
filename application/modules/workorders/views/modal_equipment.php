@@ -42,8 +42,8 @@
 
 				<div class="form-group text-left">
 					<div id="div_other" style="display:none">
-						<label for="otherEquipment">Which : *</label>
-						<input type="text" id="otherEquipment" name="otherEquipment" class="form-control" placeholder="Which" required >
+						<label for="otherEquipment">Tools : *</label>
+						<input type="text" id="otherEquipment" name="otherEquipment" class="form-control" placeholder="Tools" required >
 					</div>
 				</div>
 
