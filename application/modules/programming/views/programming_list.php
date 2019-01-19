@@ -129,7 +129,7 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 	
 ?>
 	<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send MSM"><i class='glyphicon glyphicon-send'></i></a>
-	<a href='<?php echo base_url("programming/verificacion"); ?>' class='btn btn-purpura btn-xs' title="Verificar"><i class='glyphicon glyphicon-search'></i></a>
+	<a href='<?php echo base_url("programming/verificacion/" . $lista['date_programming']); ?>' class='btn btn-purpura btn-xs' title="Verificar"><i class='glyphicon glyphicon-search'></i></a>
 <?php
 }
 								echo "</td>";
@@ -293,13 +293,14 @@ if(($datetime1 >= $datetime2) && $informationWorker){
 
 							<thead>
 								<tr class="headings">
-									<th class="column-title" colspan="9">-- MESSAGE --</th>
+									<th class="column-title">-- MESSAGE --</th>
+									<th class="column-title">-- INSPECTIONS --</th>
 								</tr>
 							</thead>
 
 							<tbody>
 								<tr>
-									<td colspan="9">
+									<td>
 										<?php
 											echo date('F j, Y', strtotime($information[0]['date_programming']));
 											echo "<br>" . $information[0]['job_description'];
@@ -307,6 +308,11 @@ if(($datetime1 >= $datetime2) && $informationWorker){
 											echo "<br>";
 
 											echo $mensaje;
+										?>									
+									</td>
+									<td>
+										<?php
+											echo $memo;
 										?>									
 									</td>
 								</tr>
