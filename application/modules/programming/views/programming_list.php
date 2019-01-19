@@ -162,7 +162,26 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 							<tbody>
 										
 							<?php								
+								$mensaje = "";
+							
 								foreach ($informationWorker as $data):
+									$mensaje .= "<br>";
+									$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+									$mensaje .= $data['hora']; 
+
+									$mensaje .= "<br>" . $data['name']; 
+									$mensaje .= $data['description']?"<br>" . $data['description']:"";
+									$mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+									
+									if($data['safety']==1){
+										$mensaje .= "<br>Do FLHA";
+									}elseif($data['safety']==2){
+										$mensaje .= "<br>Do Tool Box";
+									}
+									
+									$mensaje .= "<br>";
+								
+								
 									echo "<tr>";
 									echo "<td ><small>$data[name]</small></td>";
 									
@@ -221,16 +240,26 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 						</td>
 																
 						<td class='text-center'>
+						
+<?php
+if(($datetime1 >= $datetime2) && $informationWorker){
+?>
 							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
-
+<?php
+}
+?>
 						</form>
 						
 						<br><br>
-
+<?php
+if(($datetime1 >= $datetime2) && $informationWorker){
+?>
 							<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete" title="Delete">
 									<span class="fa fa-trash-o" aria-hidden="true"> </span>
 							</a>
-
+<?php
+}
+?>
 
 						</td>
 									
@@ -250,26 +279,41 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 							</tbody>
 						</table>
 					</div>
+					
+					
+					<div class="table-responsive">					
+						<table id="dataTablesWorker" class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
+
+							<thead>
+								<tr class="headings">
+									<th class="column-title" colspan="9">-- MESSAGE --</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td colspan="9">
+										<?php
+											echo date('F j, Y', strtotime($information[0]['date_programming']));
+											echo "<br>" . $information[0]['job_description'];
+											echo "<br>" . $information[0]['observation'];
+											echo "<br>";
+
+											echo $mensaje;
+										?>									
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					
+					
 		<?php
 			}
 		?>
 <!-- FIN HISTORICO -->
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-
+								
 				</div>
 
 					
