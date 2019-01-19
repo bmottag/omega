@@ -253,45 +253,84 @@ class Programming extends CI_Controller {
 	public function send($idProgramming)
 	{			
 		$this->load->model("general_model");
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
 
+		//busco datos del parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		
+		
+        $client = new Twilio\Rest\Client($dato1, $dato2);
+		
+        $to = '+14034089921';
+		//$to = '+14033990160';//fabian		
+		
 		$data['informationWorker'] = FALSE;
 		$data['idProgramming'] = $idProgramming;
-						
-
+												
 		$arrParam = array("idProgramming" => $idProgramming);
 		$data['information'] = $this->general_model->get_programming($arrParam);//info programacion
 		
 		//lista de trabajadores para esta programacion
 		$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
-echo date('F j, Y', strtotime($data['information'][0]['date_programming']));
-echo "<br>" . $data['information'][0]['job_description'];
-echo "<br>" . $data['information'][0]['observation'];
-echo "<br>";
-
-if($data['informationWorker']){
-	foreach ($data['informationWorker'] as $data):
-		echo "<br>";
-		echo $data['site']==1?"At the yard - ":"At the site - ";
-		echo $data['hora']; 
-
-		echo "<br>" . $data['name']; 
-		echo $data['description']?"<br>" . $data['description']:"";
-		echo $data['unit_description']?"<br>" . $data['unit_description']:"";
+		$mensaje = "";
 		
-		if($data['safety']==1){
-			echo "<br>Do FLHA";
-		}elseif($data['safety']==2){
-			echo "<br>Do Tool Box";
+		$mensaje .= date('F j, Y', strtotime($data['information'][0]['date_programming']));
+		$mensaje .= "\n" . $data['information'][0]['job_description'];
+		$mensaje .= "\n" . $data['information'][0]['observation'];
+		$mensaje .= "\n";
+
+		if($data['informationWorker']){
+			foreach ($data['informationWorker'] as $data):
+				$mensaje .= "\n";
+				$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+				$mensaje .= $data['hora']; 
+
+				$mensaje .= "\n" . $data['name']; 
+				$mensaje .= $data['description']?"<br>" . $data['description']:"";
+				$mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+				
+				if($data['safety']==1){
+					$mensaje .= "\n Do FLHA";
+				}elseif($data['safety']==2){
+					$mensaje .= "\n Do Tool Box";
+				}
+				
+				$mensaje .= "\n";
+			endforeach;
 		}
 		
-		echo "<br>";
-	endforeach;
-}
+		
+        // Use the client to do fun stuff like send text messages!
+        $client->messages->create(
+        // the number you'd like to send the message to
+            $to,
+            array(
+                // A Twilio phone number you purchased at twilio.com/console
+                'from' => '587 600 8948',
+                'body' => $mensaje
+            )
+        );
 
 
+		$data['linkBack'] = "programming/index/" . $idProgramming;
+		$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "Se envió el mensaje";
 
-exit;
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+
 
 	}
 	
