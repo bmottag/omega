@@ -33,6 +33,9 @@ class Programming extends CI_Controller {
 			
 			$data['horas'] = $this->general_model->get_horas();//LISTA DE HORAS
 			
+			//workers list
+			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			
 		}else{
 			$arrParam = array("estado" => "ACTIVAS");
 			$data['information'] = $this->general_model->get_programming($arrParam);//info solicitudes
@@ -270,8 +273,6 @@ class Programming extends CI_Controller {
 		
         $client = new Twilio\Rest\Client($dato1, $dato2);
 		
-        $to = '+14034089921';
-		//$to = '+14033990160';//fabian		
 		
 		$data['informationWorker'] = FALSE;
 		$data['idProgramming'] = $idProgramming;
@@ -280,7 +281,7 @@ class Programming extends CI_Controller {
 		$data['information'] = $this->general_model->get_programming($arrParam);//info programacion
 		
 		//lista de trabajadores para esta programacion
-		$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+		$copiaInfoWorker = $data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
 		$mensaje = "";
 		
@@ -288,7 +289,7 @@ class Programming extends CI_Controller {
 		$mensaje .= "\n" . $data['information'][0]['job_description'];
 		$mensaje .= "\n" . $data['information'][0]['observation'];
 		$mensaje .= "\n";
-
+		
 		if($data['informationWorker']){
 			foreach ($data['informationWorker'] as $data):
 				$mensaje .= "\n";
@@ -307,20 +308,26 @@ class Programming extends CI_Controller {
 				
 				$mensaje .= "\n";
 			endforeach;
+			
+			
+			foreach ($copiaInfoWorker as $data):
+			
+				$to = '+1' . $data['movil'];
+			
+				// Use the client to do fun stuff like send text messages!
+				$client->messages->create(
+				// the number you'd like to send the message to
+					$to,
+					array(
+						// A Twilio phone number you purchased at twilio.com/console
+						'from' => '587 600 8948',
+						'body' => $mensaje
+					)
+				);
+			endforeach;
+			
 		}
 		
-		
-        // Use the client to do fun stuff like send text messages!
-        $client->messages->create(
-        // the number you'd like to send the message to
-            $to,
-            array(
-                // A Twilio phone number you purchased at twilio.com/console
-                'from' => '587 600 8948',
-                'body' => $mensaje
-            )
-        );
-
 
 		$data['linkBack'] = "programming/index/" . $idProgramming;
 		$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
@@ -436,6 +443,20 @@ class Programming extends CI_Controller {
 		$this->load->view("layout", $data);
 	}
 	
+    /**
+     * Safe one worker
+     */
+    public function safet_One_Worker_programming() 
+	{
+			$idProgramming = $this->input->post('hddId');
+
+			if ($this->programming_model->saveOneWorkerProgramming()) {
+				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+    }
 
 
 	

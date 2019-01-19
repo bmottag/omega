@@ -42,19 +42,14 @@
 		 * @since 16/1/2019
 		 */
 		public function addProgrammingWorker() 
-		{
-			$idProgramming = $this->input->post('hddId');
-			
-			//delete workers
-			$this->db->delete('programming_worker', array('fk_id_programming' => $idProgramming));
-			
+		{						
 			//add the new workers
 			$query = 1;
 			if ($workers = $this->input->post('workers')) {
 				$tot = count($workers);
 				for ($i = 0; $i < $tot; $i++) {
 					$data = array(
-						'fk_id_programming' => $idProgramming,
+						'fk_id_programming' => $this->input->post('hddId'),
 						'fk_id_programming_user' => $workers[$i],
 						'fk_id_hour' => 15, // Se coloca por defecto que ingresen a las 7 am
 						'site' => 1 // Se coloca por defecto 1 -> At the yard
@@ -173,6 +168,28 @@
 				$query = $this->db->query($sql);
 				$row = $query->row();
 				return $row->CONTEO;
+		}
+		
+		/**
+		 * Save one worker
+		 * @since 19/1/2019
+		 */
+		public function saveOneWorkerProgramming() 
+		{							
+				$data = array(
+					'fk_id_programming' => $this->input->post('hddId'),
+					'fk_id_programming_user' => $this->input->post('worker'),
+					'fk_id_hour' => 15, // Se coloca por defecto que ingresen a las 7 am
+					'site' => 1 // Se coloca por defecto 1 -> At the yard
+				);			
+
+				$query = $this->db->insert('programming_worker', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
 		}
 					
 		
