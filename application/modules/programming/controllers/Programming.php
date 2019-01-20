@@ -39,6 +39,7 @@ class Programming extends CI_Controller {
 			//si hay trabajadores reviso si ya se ha hecho la inspeccion de las maquinas
 			if($data['workersList']){
 				$data['memo'] = $this->verificacion($data['information'][0]['date_programming']);
+				$data['memo_flha'] = $this->verificacion_flha($data['information'][0]['date_programming']);
 			}
 			
 		}else{
@@ -434,13 +435,14 @@ class Programming extends CI_Controller {
 									$parametric = $this->general_model->get_basic_search($arrParam);						
 									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+									$phone = $this->encrypt->decode($parametric[5]["value"]);
 									
 									$client = new Twilio\Rest\Client($dato1, $dato2);
 
 									$to = '+1' . $dato['movil'];
 									
 									$mensaje = "APP-VCI";
-									$mensaje .= "\n No olvide hacer la inspección de la maquina:";
+									$mensaje .= "\n Do not forget to do the Inspection:";
 									$mensaje .= "\n" . $dato['unit_description'];
 								
 									// Use the client to do fun stuff like send text messages!
@@ -449,7 +451,7 @@ class Programming extends CI_Controller {
 										$to,
 										array(
 											// A Twilio phone number you purchased at twilio.com/console
-											'from' => '587 600 8948',
+											'from' => $phone,
 											'body' => $mensaje
 										)
 									);
@@ -468,10 +470,10 @@ class Programming extends CI_Controller {
 			}
 			
 			if($i != 0){
-				$memo =  "Para el día de hoy hay $i inpecciones faltantes:";
+				$memo =  "$i INSPECTIONS missing:";
 				$memo .= $nombres;
 			}else{
-				$memo = "Se hicieron todas las inspecciones asignadas en la programación.";
+				$memo = "There is no INSPECTIONS missing.";
 			}
 			
 			return $memo;
@@ -506,7 +508,7 @@ class Programming extends CI_Controller {
 	
 	/**
 	 * CRON
-	 * Verificar para la fecha actual si existen FLHA asignadas y si se hizo el FLHA
+	 * Verificar para la fecha actual si existen FLHA asignadas y si se hizo el FLHA (1) 
 	 * El CRON se corre a las 10:30 AM y las 3:30 pm de todos los dias
      * @since 17/1/2019
 	 */
@@ -531,20 +533,22 @@ class Programming extends CI_Controller {
 			if($information){
 				//para cada programacion buscar los trabajadores que tienen FLHA
 				foreach($information as $lista):
-					//lista de trabajadores para esta programacion que tiene FLHA
-					$arrParam = array("idProgramming" => $lista['id_programming'], "machine" => TRUE);
-					$informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+					//lista de trabajadores para esta programacion que tiene FLHA 
+					$arrParam = array("idProgramming" => $lista['id_programming'], "safety" => 1);
+					$informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores con FLHA
 					
 					if($informationWorker){
-						//busco para la fecha y para esa maquina si hay inspecciones
-						//si no hay inspecciones envio mensaje de alerta
+						//busco para la fecha, para ese JOB CODE si hay FLHA
+						//si no hay FLHA envio mensaje de alerta
 						foreach($informationWorker as $dato):
-							$arrParam = array("fecha" => $fechaBusqueda, "maquina" => $dato['fk_id_machine']);
-							$inspecciones = $this->general_model->get_programming_inspecciones($arrParam);//inspecciones de maquinas asignadas en una programacion
-							
+							$arrParam = array("fecha" => $fechaBusqueda, 
+											"idJob" => $lista['fk_id_job'],
+											"limit" => 30);
+							$inspecciones = $this->general_model->get_safety($arrParam);
+
 							if(!$inspecciones){
 								$i++;
-								$nombres .= "<br>" . $dato['name'] . " - " . $dato['unit_description'];
+								$nombres .= "<br>" . $dato['name'] . " - Missing FLHA";
 //ENVIO MENSAJE DE TEXTO
 								if($bandera){									
 									$this->load->library('encrypt');
@@ -559,14 +563,15 @@ class Programming extends CI_Controller {
 									$parametric = $this->general_model->get_basic_search($arrParam);						
 									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+									$phone = $this->encrypt->decode($parametric[5]["value"]);
 									
 									$client = new Twilio\Rest\Client($dato1, $dato2);
 
 									$to = '+1' . $dato['movil'];
 									
 									$mensaje = "APP-VCI";
-									$mensaje .= "\n No olvide hacer la inspección de la maquina:";
-									$mensaje .= "\n" . $dato['unit_description'];
+									$mensaje .= "\n Do not forget to do the FLHA:";
+									$mensaje .= "\n" . $lista['job_description'];
 								
 									// Use the client to do fun stuff like send text messages!
 									$message = $client->messages->create(
@@ -574,7 +579,7 @@ class Programming extends CI_Controller {
 										$to,
 										array(
 											// A Twilio phone number you purchased at twilio.com/console
-											'from' => '587 600 8948',
+											'from' => $phone,
 											'body' => $mensaje
 										)
 									);
@@ -593,10 +598,10 @@ class Programming extends CI_Controller {
 			}
 			
 			if($i != 0){
-				$memo =  "Para el día de hoy hay $i inpecciones faltantes:";
+				$memo =  "Missing FLHA:";
 				$memo .= $nombres;
 			}else{
-				$memo = "Se hicieron todas las inspecciones asignadas en la programación.";
+				$memo = "There is no FLHA missing";
 			}
 			
 			return $memo;

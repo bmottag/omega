@@ -295,6 +295,7 @@ if(($datetime1 >= $datetime2) && $informationWorker){
 								<tr class="headings">
 									<th class="column-title">-- MESSAGE --</th>
 									<th class="column-title">-- INSPECTIONS --</th>
+									<th class="column-title">-- FLHA / TOOL BOX --</th>
 								</tr>
 							</thead>
 
@@ -311,9 +312,10 @@ if(($datetime1 >= $datetime2) && $informationWorker){
 										?>									
 									</td>
 									<td>
-										<?php
-											echo $memo;
-										?>									
+										<?php echo $memo; ?>
+									</td>
+									<td>
+										<?php echo $memo_flha; ?>
 									</td>
 								</tr>
 							</tbody>

@@ -94,8 +94,6 @@ class General_model extends CI_Model {
      */
     public function get_safety($arrData) 
 	{
-        $idUser = $this->session->userdata("id");
-		
 		$this->db->select("S.*, CONCAT(first_name, ' ', last_name) name, J.job_description");
         $this->db->join('user U', 'U.id_user = S.fk_id_user', 'INNER');
 		$this->db->join('param_jobs J', 'J.id_job = S.fk_id_job', 'INNER');
@@ -103,6 +101,10 @@ class General_model extends CI_Model {
 		if (array_key_exists("idJob", $arrData)) {
 			$this->db->where('S.fk_id_job', $arrData["idJob"]);
 		}
+		if (array_key_exists("fecha", $arrData)) {
+			$fecha = $arrData["fecha"] . '%';
+			$this->db->where('S.date LIKE', $fecha);
+		}		
 				
 		$this->db->order_by('id_safety', 'desc');
 		$query = $this->db->get('safety S', $arrData["limit"]);
@@ -472,6 +474,10 @@ class General_model extends CI_Model {
 			}
 			if (array_key_exists("machine", $arrData)) {
 				$this->db->where('P.fk_id_machine is NOT NULL');
+				$this->db->where('P.fk_id_machine != 0');
+			}
+			if (array_key_exists("safety", $arrData)) {
+				$this->db->where('P.safety', $arrData["safety"]);
 			}
 			
 			$this->db->join('user U', 'U.id_user = P.fk_id_programming_user', 'INNER');
