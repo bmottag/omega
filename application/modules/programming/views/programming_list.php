@@ -315,7 +315,11 @@ if(($datetime1 >= $datetime2) && $informationWorker){
 										<?php echo $memo; ?>
 									</td>
 									<td>
-										<?php echo $memo_flha; ?>
+										<?php 
+											echo $memo_flha;
+											echo "<br><br>";
+											echo $memo_tool_box;
+										?>
 									</td>
 								</tr>
 							</tbody>

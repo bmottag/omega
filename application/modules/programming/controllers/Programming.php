@@ -40,6 +40,7 @@ class Programming extends CI_Controller {
 			if($data['workersList']){
 				$data['memo'] = $this->verificacion($data['information'][0]['date_programming']);
 				$data['memo_flha'] = $this->verificacion_flha($data['information'][0]['date_programming']);
+				$data['memo_tool_box'] = $this->verificacion_tool_box($data['information'][0]['date_programming']);
 			}
 			
 		}else{
@@ -435,7 +436,7 @@ class Programming extends CI_Controller {
 									$parametric = $this->general_model->get_basic_search($arrParam);						
 									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-									$phone = $this->encrypt->decode($parametric[5]["value"]);
+									$phone = $parametric[5]["value"];
 									
 									$client = new Twilio\Rest\Client($dato1, $dato2);
 
@@ -470,7 +471,7 @@ class Programming extends CI_Controller {
 			}
 			
 			if($i != 0){
-				$memo =  "$i INSPECTIONS missing:";
+				$memo =  "INSPECTIONS missing:";
 				$memo .= $nombres;
 			}else{
 				$memo = "There is no INSPECTIONS missing.";
@@ -509,7 +510,7 @@ class Programming extends CI_Controller {
 	/**
 	 * CRON
 	 * Verificar para la fecha actual si existen FLHA asignadas y si se hizo el FLHA (1) 
-	 * El CRON se corre a las 10:30 AM y las 3:30 pm de todos los dias
+	 * El CRON se corre a las 10:30 AM de todos los dias
      * @since 17/1/2019
 	 */
     function verificacion_flha($fecha = 'x') 
@@ -563,7 +564,7 @@ class Programming extends CI_Controller {
 									$parametric = $this->general_model->get_basic_search($arrParam);						
 									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-									$phone = $this->encrypt->decode($parametric[5]["value"]);
+									$phone = $parametric[5]["value"];
 									
 									$client = new Twilio\Rest\Client($dato1, $dato2);
 
@@ -602,6 +603,107 @@ class Programming extends CI_Controller {
 				$memo .= $nombres;
 			}else{
 				$memo = "There is no FLHA missing";
+			}
+			
+			return $memo;
+
+    }
+	
+	/**
+	 * CRON
+	 * Verificar para la fecha actual si existen TOOL BOX asignadas y si se hizo el TOOL BOX (2) 
+	 * El CRON se corre a las 10:15 AM de todos los dias
+     * @since 20/1/2019
+	 */
+    function verificacion_tool_box($fecha = 'x') 
+	{
+			$this->load->model("general_model");
+			$bandera = false;
+			
+			if ($fecha != 'x') {
+				$fechaBusqueda = $fecha;
+			}else{
+				$fechaBusqueda = date("Y-m-d");
+				$bandera = true;
+			}
+			
+			$arrParam = array("fecha" => $fechaBusqueda);
+			$information = $this->general_model->get_programming($arrParam);//info programacion
+	
+			$i = 0;
+			$nombres = "";
+	
+			if($information){
+				//para cada programacion buscar los trabajadores que tienen TOOL BOX
+				foreach($information as $lista):
+					//lista de trabajadores para esta programacion que tiene TOOL BOX
+					$arrParam = array("idProgramming" => $lista['id_programming'], "safety" => 2);
+					$informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores con TOOL BOX
+					
+					if($informationWorker){
+						//busco para la fecha, para ese JOB CODE si hay TOOL BOX
+						//si no hay TOOL BOX envio mensaje de alerta
+						foreach($informationWorker as $dato):
+							$arrParam = array("fecha" => $fechaBusqueda, 
+											"idJob" => $lista['fk_id_job']);
+							$inspecciones = $this->general_model->get_tool_box($arrParam);
+
+							if(!$inspecciones){
+								$i++;
+								$nombres .= "<br>" . $dato['name'] . " - Missing TOOL BOX";
+//ENVIO MENSAJE DE TEXTO
+								if($bandera){									
+									$this->load->library('encrypt');
+									require 'vendor/Twilio/autoload.php';
+
+									//busco datos parametricos twilio
+									$arrParam = array(
+										"table" => "parametric",
+										"order" => "id_parametric",
+										"id" => "x"
+									);
+									$parametric = $this->general_model->get_basic_search($arrParam);						
+									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+									$phone = $parametric[5]["value"];
+
+									$client = new Twilio\Rest\Client($dato1, $dato2);
+
+									$to = '+1' . $dato['movil'];
+									
+									$mensaje = "APP-VCI";
+									$mensaje .= "\n Do not forget to do the TOOL BOX:";
+									$mensaje .= "\n" . $lista['job_description'];
+								
+									// Use the client to do fun stuff like send text messages!
+									$message = $client->messages->create(
+									// the number you'd like to send the message to
+										$to,
+										array(
+											// A Twilio phone number you purchased at twilio.com/console
+											'from' => $phone,
+											'body' => $mensaje
+										)
+									);
+								}
+//FIN MENSAJE DE TEXTO
+								
+							}
+							
+	//echo $this->db->last_query(); exit;
+							
+						endforeach;
+					}
+//pr($informationWorker);
+					
+				endforeach;
+			}
+			
+			if($i != 0){
+				$memo =  "Missing TOOL BOX:";
+				$memo .= $nombres;
+			}else{
+				$memo = "There is no TOOL BOX missing";
 			}
 			
 			return $memo;

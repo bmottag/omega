@@ -2,38 +2,6 @@
 
 	class Jobs_model extends CI_Model {
 
-	
-		/**
-		 * tool_box list
-		 * para año vigente
-		 * @since 24/10/2017
-		 */
-		public function get_tool_box($arrDatos) 
-		{
-				$year = date('Y');
-				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//para filtrar solo los registros del año actual
-				
-				$this->db->select('T.*, CONCAT(U.first_name, " " , U.last_name) name, J.id_job, J.job_description');
-				$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
-				$this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
-				if (array_key_exists("idJob", $arrDatos)) {
-					$this->db->where('fk_id_job', $arrDatos["idJob"]);
-				}
-				if (array_key_exists("idToolBox", $arrDatos)) {
-					$this->db->where('id_tool_box', $arrDatos["idToolBox"]);
-				}
-				
-				//$this->db->where('T.date_tool_box >=', $firstDay);
-				
-				$this->db->order_by('id_tool_box', 'asc');
-				$query = $this->db->get('tool_box T');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
 			
 		/**
 		 * Add tool box

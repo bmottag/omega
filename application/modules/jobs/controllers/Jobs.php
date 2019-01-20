@@ -51,7 +51,7 @@ class Jobs extends CI_Controller {
 			$arrParam = array(
 				"idJob" => $idJob
 			);				
-			$data['information'] = $this->jobs_model->get_tool_box($arrParam);
+			$data['information'] = $this->general_model->get_tool_box($arrParam);
 
 			$data["view"] ='tool_box_list';
 			$this->load->view("layout", $data);
@@ -83,7 +83,7 @@ class Jobs extends CI_Controller {
 				$arrParam = array(
 					"idToolBox" => $idToolBox
 				);				
-				$data['information'] = $this->jobs_model->get_tool_box($arrParam);
+				$data['information'] = $this->general_model->get_tool_box($arrParam);
 				
 				$data['newHazards'] = $this->jobs_model->get_new_hazards($idToolBox);//new hazard list
 				$data['toolBoxWorkers'] = $this->jobs_model->get_tool_box_workers($idToolBox);//workers list
@@ -230,8 +230,9 @@ class Jobs extends CI_Controller {
 			//buscar ID del JOB
 			$arrParam = array(
 				"idToolBox" => $data["idToolBox"]
-			);				
-			$infoToolBox = $this->jobs_model->get_tool_box($arrParam);
+			);
+			$this->load->model("general_model");
+			$infoToolBox = $this->general_model->get_tool_box($arrParam);
 			$data["idJob"] = $infoToolBox[0]["fk_id_job"];
 
 			if ($this->jobs_model->saveNewHazard()) {
@@ -588,8 +589,9 @@ class Jobs extends CI_Controller {
 			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
 			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
 		
+			$this->load->model("general_model");
 			$arrParam = array("idToolBox" => $idToolBox);
-			$data['info'] = $this->jobs_model->get_tool_box($arrParam);
+			$data['info'] = $this->general_model->get_tool_box($arrParam);
 			
 			$data['newHazards'] = $this->jobs_model->get_new_hazards($idToolBox);//new hazard list
 			$data['toolBoxWorkers'] = $this->jobs_model->get_tool_box_workers($idToolBox);//workers list
