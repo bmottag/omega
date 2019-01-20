@@ -30,7 +30,7 @@ class Home {
                     }
                 }
             } else if ($this->ci->uri->segment(1) == "programming") {
-                $arrControllers = array($this->ci->uri->segment(1), "verificacion");
+                $arrControllers = array($this->ci->uri->segment(1), "verificacion", "verificacion_flha", "verificacion_tool_box");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
                     if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
                         $error = TRUE;
