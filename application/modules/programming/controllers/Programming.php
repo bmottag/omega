@@ -632,6 +632,7 @@ if($bandera){
 				$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 				$dato2 = $this->encrypt->decode($parametric[4]["value"]);
 				$phone = $parametric[5]["value"];
+				$phoneAdmin = $parametric[6]["value"];
 				
 				$client = new Twilio\Rest\Client($dato1, $dato2);
 }
@@ -656,24 +657,65 @@ if($bandera){
 								$i++;
 								$nombres .= "<br>" . $dato['name'] . " - Missing FLHA";
 //ENVIO MENSAJE DE TEXTO
-								if($bandera){							
-
-									$to = '+1' . $dato['movil'];
+								if($bandera && $dato['sms_safety'] != 2){
 									
-									$mensaje = "APP-VCI";
-									$mensaje .= "\nDo not forget to do the FLHA:";
-									$mensaje .= "\n" . $lista['job_description'];
-								
-									// Use the client to do fun stuff like send text messages!
-									$message = $client->messages->create(
-									// the number you'd like to send the message to
-										$to,
-										array(
-											// A Twilio phone number you purchased at twilio.com/console
-											'from' => $phone,
-											'body' => $mensaje
-										)
-									);
+									//buscar si ya empezo la hora laboral del trabajador
+									$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
+									
+									$datetime1 = date_create($fechaProgramacion);
+									$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									
+									//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
+									if($datetime1 < $datetime2) {
+										
+										//si no le ha enviado sms entonces lo envio
+										if($dato['sms_safety'] == 0) 
+										{
+												//actualizo la bandera sms_safety a 1
+												$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_safety", 1);
+									
+												$to = '+1' . $dato['movil'];
+												
+												$mensaje = "APP-VCI";
+												$mensaje .= "\nDo not forget to do the FLHA:";
+												$mensaje .= "\n" . $lista['job_description'];
+											
+												// Use the client to do fun stuff like send text messages!
+												$message = $client->messages->create(
+												// the number you'd like to send the message to
+													$to,
+													array(
+														// A Twilio phone number you purchased at twilio.com/console
+														'from' => $phone,
+														'body' => $mensaje
+													)
+												);
+										}
+										//si ya se le evio al trabajador entonces se envio al ADMIN
+										elseif($dato['sms_safety'] == 1) 
+										{
+												//actualizo la bandera sms_inspection a 2
+												$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_safety", 2);
+										
+												$to = '+1' . $phoneAdmin;
+												
+												$mensaje = "APP-VCI";
+												$mensaje .= "\nThe user has not done the FLHA:";
+												$mensaje .= "\n" . $dato['name'];
+												
+												// Use the client to do fun stuff like send text messages!
+												$message = $client->messages->create(
+												// the number you'd like to send the message to
+													$to,
+													array(
+														// A Twilio phone number you purchased at twilio.com/console
+														'from' => $phone,
+														'body' => $mensaje
+													)
+												);
+										}
+										
+									}
 								}
 //FIN MENSAJE DE TEXTO
 								
