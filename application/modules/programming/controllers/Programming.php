@@ -38,9 +38,9 @@ class Programming extends CI_Controller {
 			
 			//si hay trabajadores reviso si ya se ha hecho la inspeccion de las maquinas
 			if($data['workersList']){
-				$data['memo'] = $this->verificacion($data['information'][0]['date_programming']);
-				$data['memo_flha'] = $this->verificacion_flha($data['information'][0]['date_programming']);
-				$data['memo_tool_box'] = $this->verificacion_tool_box($data['information'][0]['date_programming']);
+				$data['memo'] = $this->verificacion($idProgramming, $data['information'][0]['date_programming']);
+				$data['memo_flha'] = $this->verificacion_flha($idProgramming, $data['information'][0]['date_programming']);
+				$data['memo_tool_box'] = $this->verificacion_tool_box($idProgramming, $data['information'][0]['date_programming']);
 			}
 			
 		}else{
@@ -304,13 +304,13 @@ class Programming extends CI_Controller {
 				$mensaje .= $data['hora']; 
 
 				$mensaje .= "\n" . $data['name']; 
-				$mensaje .= $data['description']?"<br>" . $data['description']:"";
-				$mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+				$mensaje .= $data['description']?"\n" . $data['description']:"";
+				$mensaje .= $data['unit_description']?"\n" . $data['unit_description']:"";
 				
 				if($data['safety']==1){
-					$mensaje .= "\n Do FLHA";
+					$mensaje .= "\nDo FLHA";
 				}elseif($data['safety']==2){
-					$mensaje .= "\n Do Tool Box";
+					$mensaje .= "\nDo Tool Box";
 				}
 				
 				$mensaje .= "\n";
@@ -387,25 +387,48 @@ class Programming extends CI_Controller {
 	 * El CRON se corre a las 10 AM y las 3 pm de todos los dias
      * @since 17/1/2019
 	 */
-    function verificacion($fecha = 'x') 
+    function verificacion($idProgramming = 'x', $fecha = 'x') 
 	{
 			$this->load->model("general_model");
 			$bandera = false;
 			
 			if ($fecha != 'x') {
 				$fechaBusqueda = $fecha;
+				$arrParam = array("idProgramming" => $idProgramming, "fecha" => $fechaBusqueda);
 			}else{
 				$fechaBusqueda = date("Y-m-d");
 				$bandera = true;
+				$arrParam = array("fecha" => $fechaBusqueda);
 			}
 			
-			$arrParam = array("fecha" => $fechaBusqueda);
 			$information = $this->general_model->get_programming($arrParam);//info programacion
 	
 			$i = 0;
 			$nombres = "";
 	
 			if($information){
+
+//inicio configuracion			
+if($bandera){
+				$this->load->library('encrypt');
+				require 'vendor/Twilio/autoload.php';
+
+				//busco datos parametricos twilio
+				$arrParam = array(
+					"table" => "parametric",
+					"order" => "id_parametric",
+					"id" => "x"
+				);
+				$parametric = $this->general_model->get_basic_search($arrParam);						
+				$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+				$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+				$phone = $parametric[5]["value"];
+				
+				$client = new Twilio\Rest\Client($dato1, $dato2);
+}
+//fin configuracion
+				
+				
 				//para cada programacion buscar los trabajadores que tienen maquinas asignadas
 				foreach($information as $lista):
 					//lista de trabajadores para esta programacion que tiene maquinas asignadas
@@ -424,26 +447,11 @@ class Programming extends CI_Controller {
 								$nombres .= "<br>" . $dato['name'] . " - " . $dato['unit_description'];
 //ENVIO MENSAJE DE TEXTO
 								if($bandera){									
-									$this->load->library('encrypt');
-									require 'vendor/Twilio/autoload.php';
-
-									//busco datos parametricos twilio
-									$arrParam = array(
-										"table" => "parametric",
-										"order" => "id_parametric",
-										"id" => "x"
-									);
-									$parametric = $this->general_model->get_basic_search($arrParam);						
-									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
-									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-									$phone = $parametric[5]["value"];
-									
-									$client = new Twilio\Rest\Client($dato1, $dato2);
 
 									$to = '+1' . $dato['movil'];
 									
 									$mensaje = "APP-VCI";
-									$mensaje .= "\n Do not forget to do the Inspection:";
+									$mensaje .= "\nDo not forget to do the Inspection:";
 									$mensaje .= "\n" . $dato['unit_description'];
 								
 									// Use the client to do fun stuff like send text messages!
@@ -513,25 +521,46 @@ class Programming extends CI_Controller {
 	 * El CRON se corre a las 10:30 AM de todos los dias
      * @since 17/1/2019
 	 */
-    function verificacion_flha($fecha = 'x') 
+    function verificacion_flha($idProgramming = 'x', $fecha = 'x') 
 	{
 			$this->load->model("general_model");
 			$bandera = false;
 			
 			if ($fecha != 'x') {
 				$fechaBusqueda = $fecha;
+				$arrParam = array("idProgramming" => $idProgramming, "fecha" => $fechaBusqueda);
 			}else{
 				$fechaBusqueda = date("Y-m-d");
 				$bandera = true;
+				$arrParam = array("fecha" => $fechaBusqueda);
 			}
-			
-			$arrParam = array("fecha" => $fechaBusqueda);
 			$information = $this->general_model->get_programming($arrParam);//info programacion
 	
 			$i = 0;
 			$nombres = "";
 	
 			if($information){
+				
+//inicio configuracion			
+if($bandera){
+				$this->load->library('encrypt');
+				require 'vendor/Twilio/autoload.php';
+
+				//busco datos parametricos twilio
+				$arrParam = array(
+					"table" => "parametric",
+					"order" => "id_parametric",
+					"id" => "x"
+				);
+				$parametric = $this->general_model->get_basic_search($arrParam);						
+				$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+				$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+				$phone = $parametric[5]["value"];
+				
+				$client = new Twilio\Rest\Client($dato1, $dato2);
+}
+//fin configuracion
+				
 				//para cada programacion buscar los trabajadores que tienen FLHA
 				foreach($information as $lista):
 					//lista de trabajadores para esta programacion que tiene FLHA 
@@ -551,27 +580,12 @@ class Programming extends CI_Controller {
 								$i++;
 								$nombres .= "<br>" . $dato['name'] . " - Missing FLHA";
 //ENVIO MENSAJE DE TEXTO
-								if($bandera){									
-									$this->load->library('encrypt');
-									require 'vendor/Twilio/autoload.php';
-
-									//busco datos parametricos twilio
-									$arrParam = array(
-										"table" => "parametric",
-										"order" => "id_parametric",
-										"id" => "x"
-									);
-									$parametric = $this->general_model->get_basic_search($arrParam);						
-									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
-									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-									$phone = $parametric[5]["value"];
-									
-									$client = new Twilio\Rest\Client($dato1, $dato2);
+								if($bandera){							
 
 									$to = '+1' . $dato['movil'];
 									
 									$mensaje = "APP-VCI";
-									$mensaje .= "\n Do not forget to do the FLHA:";
+									$mensaje .= "\nDo not forget to do the FLHA:";
 									$mensaje .= "\n" . $lista['job_description'];
 								
 									// Use the client to do fun stuff like send text messages!
@@ -615,25 +629,47 @@ class Programming extends CI_Controller {
 	 * El CRON se corre a las 10:15 AM de todos los dias
      * @since 20/1/2019
 	 */
-    function verificacion_tool_box($fecha = 'x') 
+    function verificacion_tool_box($idProgramming = 'x', $fecha = 'x') 
 	{
 			$this->load->model("general_model");
 			$bandera = false;
 			
 			if ($fecha != 'x') {
 				$fechaBusqueda = $fecha;
+				$arrParam = array("idProgramming" => $idProgramming, "fecha" => $fechaBusqueda);
 			}else{
 				$fechaBusqueda = date("Y-m-d");
 				$bandera = true;
+				$arrParam = array("fecha" => $fechaBusqueda);
 			}
 			
-			$arrParam = array("fecha" => $fechaBusqueda);
 			$information = $this->general_model->get_programming($arrParam);//info programacion
 	
 			$i = 0;
 			$nombres = "";
 	
 			if($information){
+				
+//inicio configuracion			
+if($bandera){
+				$this->load->library('encrypt');
+				require 'vendor/Twilio/autoload.php';
+
+				//busco datos parametricos twilio
+				$arrParam = array(
+					"table" => "parametric",
+					"order" => "id_parametric",
+					"id" => "x"
+				);
+				$parametric = $this->general_model->get_basic_search($arrParam);						
+				$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+				$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+				$phone = $parametric[5]["value"];
+				
+				$client = new Twilio\Rest\Client($dato1, $dato2);
+}
+//fin configuracion
+				
 				//para cada programacion buscar los trabajadores que tienen TOOL BOX
 				foreach($information as $lista):
 					//lista de trabajadores para esta programacion que tiene TOOL BOX
@@ -653,26 +689,11 @@ class Programming extends CI_Controller {
 								$nombres .= "<br>" . $dato['name'] . " - Missing TOOL BOX";
 //ENVIO MENSAJE DE TEXTO
 								if($bandera){									
-									$this->load->library('encrypt');
-									require 'vendor/Twilio/autoload.php';
-
-									//busco datos parametricos twilio
-									$arrParam = array(
-										"table" => "parametric",
-										"order" => "id_parametric",
-										"id" => "x"
-									);
-									$parametric = $this->general_model->get_basic_search($arrParam);						
-									$dato1 = $this->encrypt->decode($parametric[3]["value"]);
-									$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-									$phone = $parametric[5]["value"];
-
-									$client = new Twilio\Rest\Client($dato1, $dato2);
 
 									$to = '+1' . $dato['movil'];
 									
 									$mensaje = "APP-VCI";
-									$mensaje .= "\n Do not forget to do the TOOL BOX:";
+									$mensaje .= "\nDo not forget to do the TOOL BOX:";
 									$mensaje .= "\n" . $lista['job_description'];
 								
 									// Use the client to do fun stuff like send text messages!
