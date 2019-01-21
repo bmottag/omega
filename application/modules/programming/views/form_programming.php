@@ -11,7 +11,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-book"></i> PROGRAMMING
+					<i class="fa fa-book"></i> PLANNING
 				</div>
 				<div class="panel-body">
 
@@ -19,7 +19,7 @@
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_programming"]:""; ?>"/>
 																					
 						<div class="alert alert-info">
-							<strong>Info:</strong> Form to add or update a programming.
+							<strong>Info:</strong> Form to add or update a Planning.
 						</div>
 												
 <script>

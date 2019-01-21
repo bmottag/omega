@@ -16,12 +16,12 @@
 		<?php
 			}
 		?>
-					<i class="fa fa-list"></i> <strong>PROGRAMMING LIST </strong>
+					<i class="fa fa-list"></i> <strong>PLANNING LIST </strong>
 				</div>
 				<div class="panel-body">
 							
 					<a class='btn btn-outline btn-warning btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  New Programming
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  New Planning
 					</a>
 					
 					<br>
