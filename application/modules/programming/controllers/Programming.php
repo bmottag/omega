@@ -411,7 +411,7 @@ class Programming extends CI_Controller {
 	/**
 	 * CRON
 	 * Verificar para la fecha actual si existen maquinas asignadas y si se les hizo inspeccion
-	 * El CRON se corre a las 10 AM y las 3 pm de todos los dias
+	 * El CRON se corre cada hora pero se le sumo 3 horas mas para que nosea inmediatamente empiece
      * @since 17/1/2019
 	 */
     function verificacion($idProgramming = 'x', $fecha = 'x') 
@@ -481,7 +481,13 @@ if($bandera){
 									$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
 									
 									$datetime1 = date_create($fechaProgramacion);
-									$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									
+									
+									//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									
+
+			$ajuste = strtotime ( '-2 hour' , strtotime ( date("Y-m-d G:i") ) ) ;//le resto 2 horas a la hora actual
+			$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
 
 									//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
 									if($datetime1 < $datetime2) {
@@ -663,7 +669,11 @@ if($bandera){
 									$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
 									
 									$datetime1 = date_create($fechaProgramacion);
-									$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									
+
+			$ajuste = strtotime ( '-2 hour' , strtotime ( date("Y-m-d G:i") ) ) ;//le resto 2 horas a la hora actual
+			$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
 									
 									//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
 									if($datetime1 < $datetime2) {
@@ -813,7 +823,11 @@ if($bandera){
 									$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
 									
 									$datetime1 = date_create($fechaProgramacion);
-									$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									
+
+			$ajuste = strtotime ( '-2 hour' , strtotime ( date("Y-m-d G:i") ) ) ;//le resto 2 horas a la hora actual
+			$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
 									
 									//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
 									if($datetime1 < $datetime2) {
