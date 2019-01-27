@@ -118,6 +118,9 @@ class Inspection extends CI_Controller {
 			}else{
 				if ($idDailyInspection = $this->inspection_model->saveDailyInspection()) 
 				{
+					//actualizo seguimiento en la tabla de vehiculos, para mostrar mensaje
+					$this->inspection_model->saveSeguimiento();
+
 					/**
 					 * si es un registro nuevo entonces guardo el historial de cambio de aceite
 					 * y verifico si hay comentarios y envio correo al administrador
@@ -964,6 +967,9 @@ class Inspection extends CI_Controller {
 
 			if ($idHydrovacInspection = $this->inspection_model->saveHydrovacInspection()) 
 			{
+				//actualizo seguimiento en la tabla de vehiculos, para mostrar mensaje
+				$this->inspection_model->saveSeguimientoHydrovac();
+				
 				/**
 				 * si es un registro nuevo entonces guardo el historial de cambio de aceite
 				 * y verifico si hay comentarios y envio correo al administrador
@@ -1170,6 +1176,9 @@ class Inspection extends CI_Controller {
 
 			if ($idWatertruckInspection = $this->inspection_model->saveWatertruckInspection()) 
 			{
+				//actualizo seguimiento en la tabla de vehiculos, para mostrar mensaje
+				$this->inspection_model->saveSeguimientoWatertruck();
+				
 				/**
 				 * si es un registro nuevo entonces guardo el historial de cambio de aceite
 				 * y verifico si hay comentarios y envio correo al administrador
@@ -1300,6 +1309,7 @@ class Inspection extends CI_Controller {
 				$data["idWatertruckInspection"] = $idWatertruckInspection;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
+				
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
 				$data["idWatertruckInspection"] = "";

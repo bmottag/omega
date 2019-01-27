@@ -13,6 +13,10 @@ if($userRol==99){
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <?php } ?>
 
+<?php 	 
+	$idVehicle = $vehicleInfo[0]["id_vehicle"];
+?>
+
 <div id="page-wrapper">
 	<br>
 	<div class="row">
@@ -30,7 +34,7 @@ if($userRol==99){
 	
 <form  name="form" id="form" class="form-horizontal" method="post" >
 	<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_inspection_hydrovac"]:""; ?>"/>
-	<input type="hidden" id="hddIdVehicle" name="hddIdVehicle" value="<?php echo $vehicleInfo[0]["id_vehicle"]; ?>"/>
+	<input type="hidden" id="hddIdVehicle" name="hddIdVehicle" value="<?php echo $idVehicle; ?>"/>
 	<input type="hidden" id="oilChange" name="oilChange" value="<?php echo $vehicleInfo[0]["oil_change"]; ?>"/>
 	<input type="hidden" id="oilChange2" name="oilChange2" value="<?php echo $vehicleInfo[0]["oil_change_2"]; ?>"/>
 	<input type="hidden" id="oilChange3" name="oilChange3" value="<?php echo $vehicleInfo[0]["oil_change_3"]; ?>"/>
@@ -69,6 +73,70 @@ if ($retornoError) {
     <?php
 }
 ?> 
+
+<?php
+$heater_check = $vehicleInfo[0]["heater_check"];
+$brakes_check = $vehicleInfo[0]["brakes_check"];
+$lights_check = $vehicleInfo[0]["lights_check"];
+$steering_wheel_check = $vehicleInfo[0]["steering_wheel_check"];
+$suspension_system_check = $vehicleInfo[0]["suspension_system_check"];
+$tires_check = $vehicleInfo[0]["tires_check"];
+$wipers_check = $vehicleInfo[0]["wipers_check"];
+$air_brake_check = $vehicleInfo[0]["air_brake_check"];
+$driver_seat_check = $vehicleInfo[0]["driver_seat_check"];
+$fuel_system_check = $vehicleInfo[0]["fuel_system_check"];
+
+
+//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			A major defect has beed identified in the last inspecton, a driver is not legally permitted
+			to operate the vehicle until that defect is prepared.
+			
+<?php 
+if ($heater_check == 0) {
+	echo "<br>Heater - Fail"; 
+}
+if ($brakes_check == 0) {
+	echo "<br>Brake pedal - Fail"; 
+}
+if ($lights_check == 0) {
+	echo "<br>Lamps and reflectors - Fail"; 
+}
+if ($steering_wheel_check == 0) {
+	echo "<br>Steering wheel - Fail"; 
+}
+if ($suspension_system_check == 0) {
+	echo "<br>Suspension system - Fail"; 
+}
+if ($tires_check == 0) {
+	echo "<br>Tires/Lug Nuts/Pressure - Fail"; 
+}
+if ($wipers_check == 0) {
+	echo "<br>Wipers/Washers - Fail"; 
+}
+if ($air_brake_check == 0) {
+	echo "<br>Air brake system - Fail"; 
+}
+if ($driver_seat_check == 0) {
+	echo "<br>Driver and Passenger door - Fail"; 
+}
+if ($fuel_system_check == 0) {
+	echo "<br>Fuel system - Fail"; 
+}
+			
+?>
+			
+			
+		</div>
+	</div>
+<?php
+}
+?> 
+
 
 			<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 				<thead>
@@ -1019,6 +1087,67 @@ if($userRol==99){
 			</div>
 		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					OTHER
+				</div>
+				<div class="panel-body">
+														
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="steering_wheel">Steering wheel <small class="text-primary">(Volante)</small></label>
+						<div class="col-sm-5">
+							<label class="radio-inline">
+								<input type="radio" name="steering_wheel" id="steering_wheel1" value=0 <?php if($information && $information[0]["steering_wheel"] == 0) { echo "checked"; }  ?>>Fail
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="steering_wheel" id="steering_wheel2" value=1 <?php if($information && $information[0]["steering_wheel"] == 1) { echo "checked"; }  ?>>Pass
+							</label>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="suspension_system">Suspension system <small class="text-primary">(Sistema de suspensión)</small></label>
+						<div class="col-sm-5">
+							<label class="radio-inline">
+								<input type="radio" name="suspension_system" id="suspension_system1" value=0 <?php if($information && $information[0]["suspension_system"] == 0) { echo "checked"; }  ?>>Fail
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="suspension_system" id="suspension_system2" value=1 <?php if($information && $information[0]["suspension_system"] == 1) { echo "checked"; }  ?>>Pass
+							</label>
+						</div>
+					</div>
+										
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="air_brake">Air brake system <small class="text-primary">(Sistema de freno de aire)</small></label>
+						<div class="col-sm-5">
+							<label class="radio-inline">
+								<input type="radio" name="air_brake" id="air_brake1" value=0 <?php if($information && $information[0]["air_brake"] == 0) { echo "checked"; }  ?>>Fail
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="air_brake" id="air_brake2" value=1 <?php if($information && $information[0]["air_brake"] == 1) { echo "checked"; }  ?>>Pass
+							</label>
+						</div>
+					</div>
+										
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="fuel_system">Fuel system <small class="text-primary">(Sistema de combustible)</small></label>
+						<div class="col-sm-5">
+							<label class="radio-inline">
+								<input type="radio" name="fuel_system" id="fuel_system1" value=0 <?php if($information && $information[0]["fuel_system"] == 0) { echo "checked"; }  ?>>Fail
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="fuel_system" id="fuel_system2" value=1 <?php if($information && $information[0]["fuel_system"] == 1) { echo "checked"; }  ?>>Pass
+							</label>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>	
 
 	<div class="row">
 		<div class="col-lg-12">				

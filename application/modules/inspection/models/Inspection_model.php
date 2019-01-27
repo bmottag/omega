@@ -141,6 +141,11 @@
 					'insurance' => $this->input->post('insurance'),
 					'driver_seat' => $this->input->post('driverSeat'),
 					'registration' => $this->input->post('registration'),
+					'heater' => $this->input->post('heater'),
+					'steering_wheel' => $this->input->post('steering_wheel'),
+					'suspension_system' => $this->input->post('suspension_system'),
+					'air_brake' => $this->input->post('air_brake'),
+					'fuel_system' => $this->input->post('fuel_system'),
 					'comments' => $this->input->post('comments'),
 					'with_trailer' => $with_trailer,
 					'fk_id_trailer' => $this->input->post('trailer'),
@@ -443,6 +448,10 @@
 					'panel' => $this->input->post('panel'),
 					'foam' => $this->input->post('foam'),
 					'heater' => $this->input->post('heater'),
+					'steering_wheel' => $this->input->post('steering_wheel'),
+					'suspension_system' => $this->input->post('suspension_system'),
+					'air_brake' => $this->input->post('air_brake'),
+					'fuel_system' => $this->input->post('fuel_system'),
 					'comments' => $this->input->post('comments')
 				);
 				
@@ -521,6 +530,11 @@
 					'first_aid' => $this->input->post('aid'),
 					'emergency_kit' => $this->input->post('emergencyKit'),
 					'spill_kit' => $this->input->post('spillKit'),
+					'heater' => $this->input->post('heater'),
+					'steering_wheel' => $this->input->post('steering_wheel'),
+					'suspension_system' => $this->input->post('suspension_system'),
+					'air_brake' => $this->input->post('air_brake'),
+					'fuel_system' => $this->input->post('fuel_system'),
 					'comments' => $this->input->post('comments')
 				);
 				
@@ -569,7 +583,142 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Actualizo tabla de vehiculos con el seguimiento para mostrar mensaje si hay fallas
+		 * @since 26/1/2019
+		 */
+		public function saveSeguimiento() 
+		{
+				$idVehicle = $this->input->post('hddIdVehicle');
+				
+				//revisar luces
+				$headLamps = $this->input->post('headLamps');
+				$hazardLights = $this->input->post('hazardLights');
+				$bakeLights = $this->input->post('bakeLights');
+				$workLights = $this->input->post('workLights');
+				$turnSignals = $this->input->post('turnSignals');
+				$beaconLight = $this->input->post('beaconLight');
+				$clearanceLights = $this->input->post('clearanceLights');
+				
+				$lights = 1;
+				if($headLamps == 0 || $hazardLights == 0 || $bakeLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+					$lights = 0;
+				}
+							
+				$data = array(
+					'heater_check' => $this->input->post('heater'),
+					'brakes_check' => $this->input->post('brakePedal'),
+					'lights_check' => $lights,
+					'steering_wheel_check' => $this->input->post('steering_wheel'),
+					'suspension_system_check' => $this->input->post('suspension_system'),
+					'tires_check' => $this->input->post('nuts'),
+					'wipers_check' => $this->input->post('wipers'),
+					'air_brake_check' => $this->input->post('air_brake'),
+					'driver_seat_check' => $this->input->post('passengerDoor'),
+					'fuel_system_check' => $this->input->post('fuel_system')
+				);
+
+				$this->db->where('id_vehicle', $idVehicle);
+				$query = $this->db->update('param_vehicle', $data);
+					
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}		
 		
+		/**
+		 * Actualizo tabla de vehiculos con el seguimiento para mostrar mensaje si hay fallas
+		 * @since 26/1/2019
+		 */
+		public function saveSeguimientoHydrovac() 
+		{
+				$idVehicle = $this->input->post('hddIdVehicle');
+				
+				//revisar luces
+				$headLamps = $this->input->post('headLamps');
+				$hazardLights = $this->input->post('hazardLights');
+				$clearanceLights = $this->input->post('clearanceLights');
+				$tailLights = $this->input->post('tailLights');
+				$workLights = $this->input->post('workLights');
+				$turnSignals = $this->input->post('turnSignals');
+				$beaconLight = $this->input->post('beaconLights');
+				
+				$lights = 1;
+				if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+					$lights = 0;
+				}
+							
+				$data = array(
+					'heater_check' => $this->input->post('heater'),
+					'brakes_check' => $this->input->post('brake'),
+					'lights_check' => $lights,
+					'steering_wheel_check' => $this->input->post('steering_wheel'),
+					'suspension_system_check' => $this->input->post('suspension_system'),
+					'tires_check' => $this->input->post('tires'),
+					'wipers_check' => $this->input->post('wipers'),
+					'air_brake_check' => $this->input->post('air_brake'),
+					'driver_seat_check' => $this->input->post('door'),
+					'fuel_system_check' => $this->input->post('fuel_system')
+				);
+
+				$this->db->where('id_vehicle', $idVehicle);
+				$query = $this->db->update('param_vehicle', $data);
+					
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}		
+		
+		/**
+		 * Actualizo tabla de vehiculos con el seguimiento para mostrar mensaje si hay fallas
+		 * @since 26/1/2019
+		 */
+		public function saveSeguimientoWatertruck() 
+		{
+				$idVehicle = $this->input->post('hddIdVehicle');
+				
+				//revisar luces
+				$headLamps = $this->input->post('headLamps');
+				$hazardLights = $this->input->post('hazardLights');
+				$clearanceLights = $this->input->post('clearanceLights');
+				$tailLights = $this->input->post('tailLights');
+				$workLights = $this->input->post('workLights');
+				$turnSignals = $this->input->post('turnSignals');
+				$beaconLight = $this->input->post('beaconLights');
+				
+				$lights = 1;
+				if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+					$lights = 0;
+				}
+							
+				$data = array(
+					'heater_check' => $this->input->post('heater'),
+					'brakes_check' => $this->input->post('brake'),
+					'lights_check' => $lights,
+					'steering_wheel_check' => $this->input->post('steering_wheel'),
+					'suspension_system_check' => $this->input->post('suspension_system'),
+					'tires_check' => $this->input->post('tires'),
+					'wipers_check' => $this->input->post('wipers'),
+					'air_brake_check' => $this->input->post('air_brake'),
+					'driver_seat_check' => $this->input->post('door'),
+					'fuel_system_check' => $this->input->post('fuel_system')
+				);
+
+				$this->db->where('id_vehicle', $idVehicle);
+				$query = $this->db->update('param_vehicle', $data);
+					
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}		
+
 		
 	    
 	}
