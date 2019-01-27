@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/watertruck_inspection.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/watertruck_inspection_v2.js"); ?>"></script>
 
 <?php
 /**
