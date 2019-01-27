@@ -99,7 +99,7 @@ class Inspection extends CI_Controller {
 			$flag = true;
 			if ($idDailyInspection != '') {
 				$msj = "You have update the Inspection record!!";
-				$flag = true;
+				$flag = false;
 			}
 
 			$trailer = $this->input->post('trailer');
@@ -186,6 +186,110 @@ class Inspection extends CI_Controller {
 							//enviar correo
 							mail($to, $subjet, $mensaje, $cabeceras);
 						}
+						
+//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+$headLamps = $this->input->post('headLamps');
+$hazardLights = $this->input->post('hazardLights');
+$bakeLights = $this->input->post('bakeLights');
+$workLights = $this->input->post('workLights');
+$turnSignals = $this->input->post('turnSignals');
+$beaconLight = $this->input->post('beaconLight');
+$clearanceLights = $this->input->post('clearanceLights');
+
+$lights_check = 1;
+if($headLamps == 0 || $hazardLights == 0 || $bakeLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+	$lights_check = 0;
+}
+						
+$heater_check = $this->input->post('heater');
+$brakes_check = $this->input->post('brakePedal');
+$steering_wheel_check = $this->input->post('steering_wheel');
+$suspension_system_check = $this->input->post('suspension_system');
+$tires_check = $this->input->post('nuts');
+$wipers_check = $this->input->post('wipers');
+$air_brake_check = $this->input->post('air_brake');
+$driver_seat_check = $this->input->post('passengerDoor');
+$fuel_system_check = $this->input->post('fuel_system');
+
+//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+
+						//mensaje del correo
+						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
+						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
+						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
+						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
+						$emailMsn .= "<br>";
+
+						
+if ($heater_check == 0) {
+	$emailMsn .= "<br>Heater - Fail"; 
+}
+if ($brakes_check == 0) {
+	$emailMsn .= "<br>Brake pedal - Fail"; 
+}
+if ($lights_check == 0) {
+	$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+}
+if ($steering_wheel_check == 0) {
+	$emailMsn .= "<br>Steering wheel - Fail"; 
+}
+if ($suspension_system_check == 0) {
+	$emailMsn .= "<br>Suspension system - Fail"; 
+}
+if ($tires_check == 0) {
+	$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail"; 
+}
+if ($wipers_check == 0) {
+	$emailMsn .= "<br>Wipers/Washers - Fail"; 
+}
+if ($air_brake_check == 0) {
+	$emailMsn .= "<br>Air brake system - Fail"; 
+}
+if ($driver_seat_check == 0) {
+	$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+}
+if ($fuel_system_check == 0) {
+	$emailMsn .= "<br>Fuel system - Fail"; 
+}
+						
+						
+						//busco datos del parametricos
+						$arrParam = array(
+							"table" => "parametric",
+							"order" => "id_parametric",
+							"id" => "x"
+						);
+						$subjet = "Inspection with major defect";
+						$parametric = $this->general_model->get_basic_search($arrParam);						
+						$user = $parametric[2]["value"];
+						$to = $parametric[0]["value"];
+
+						$mensaje = "<html>
+						<head>
+						  <title> $subjet </title>
+						</head>
+						<body>
+							<p>Dear	$user:<br/>
+							</p>
+
+							<p>$emailMsn</p>
+
+							<p>Cordially,</p>
+							<p><strong>V-CONTRACTING INC</strong></p>
+						</body>
+						</html>";
+
+						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
+						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+
+						//enviar correo
+						mail($to, $subjet, $mensaje, $cabeceras);
+					
+}
 					
 						$state = 1;//Inspection
 						$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
@@ -1036,6 +1140,111 @@ class Inspection extends CI_Controller {
 						mail($to, $subjet, $mensaje, $cabeceras);
 					}
 					
+//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+$headLamps = $this->input->post('headLamps');
+$hazardLights = $this->input->post('hazardLights');
+$clearanceLights = $this->input->post('clearanceLights');
+$tailLights = $this->input->post('tailLights');
+$workLights = $this->input->post('workLights');
+$turnSignals = $this->input->post('turnSignals');
+$beaconLight = $this->input->post('beaconLights');
+
+
+$lights_check = 1;
+if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+	$lights_check = 0;
+}
+						
+$heater_check = $this->input->post('heater');
+$brakes_check = $this->input->post('brake');
+$steering_wheel_check = $this->input->post('steering_wheel');
+$suspension_system_check = $this->input->post('suspension_system');
+$tires_check = $this->input->post('tires');
+$wipers_check = $this->input->post('wipers');
+$air_brake_check = $this->input->post('air_brake');
+$driver_seat_check = $this->input->post('door');
+$fuel_system_check = $this->input->post('fuel_system');
+
+//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+
+						//mensaje del correo
+						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
+						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
+						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
+						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
+						$emailMsn .= "<br>";
+
+						
+if ($heater_check == 0) {
+	$emailMsn .= "<br>Heater - Fail"; 
+}
+if ($brakes_check == 0) {
+	$emailMsn .= "<br>Brake pedal - Fail"; 
+}
+if ($lights_check == 0) {
+	$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+}
+if ($steering_wheel_check == 0) {
+	$emailMsn .= "<br>Steering wheel - Fail"; 
+}
+if ($suspension_system_check == 0) {
+	$emailMsn .= "<br>Suspension system - Fail"; 
+}
+if ($tires_check == 0) {
+	$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail"; 
+}
+if ($wipers_check == 0) {
+	$emailMsn .= "<br>Wipers/Washers - Fail"; 
+}
+if ($air_brake_check == 0) {
+	$emailMsn .= "<br>Air brake system - Fail"; 
+}
+if ($driver_seat_check == 0) {
+	$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+}
+if ($fuel_system_check == 0) {
+	$emailMsn .= "<br>Fuel system - Fail"; 
+}
+						
+						
+						//busco datos del parametricos
+						$arrParam = array(
+							"table" => "parametric",
+							"order" => "id_parametric",
+							"id" => "x"
+						);
+						$subjet = "Inspection with major defect";
+						$parametric = $this->general_model->get_basic_search($arrParam);						
+						$user = $parametric[2]["value"];
+						$to = $parametric[0]["value"];
+
+						$mensaje = "<html>
+						<head>
+						  <title> $subjet </title>
+						</head>
+						<body>
+							<p>Dear	$user:<br/>
+							</p>
+
+							<p>$emailMsn</p>
+
+							<p>Cordially,</p>
+							<p><strong>V-CONTRACTING INC</strong></p>
+						</body>
+						</html>";
+
+						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
+						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+
+						//enviar correo
+						mail($to, $subjet, $mensaje, $cabeceras);
+					
+}
+					
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
 					
@@ -1244,6 +1453,111 @@ class Inspection extends CI_Controller {
 						//enviar correo
 						mail($to, $subjet, $mensaje, $cabeceras);
 					}
+					
+//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+$headLamps = $this->input->post('headLamps');
+$hazardLights = $this->input->post('hazardLights');
+$clearanceLights = $this->input->post('clearanceLights');
+$tailLights = $this->input->post('tailLights');
+$workLights = $this->input->post('workLights');
+$turnSignals = $this->input->post('turnSignals');
+$beaconLight = $this->input->post('beaconLights');
+
+$lights_check = 1;
+if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+	$lights_check = 0;
+}
+						
+$heater_check = $this->input->post('heater');
+$brakes_check = $this->input->post('brake');
+$steering_wheel_check = $this->input->post('steering_wheel');
+$suspension_system_check = $this->input->post('suspension_system');
+$tires_check = $this->input->post('tires');
+$wipers_check = $this->input->post('wipers');
+$air_brake_check = $this->input->post('air_brake');
+$driver_seat_check = $this->input->post('door');
+$fuel_system_check = $this->input->post('fuel_system');
+
+
+//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+
+						//mensaje del correo
+						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
+						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
+						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
+						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
+						$emailMsn .= "<br>";
+
+						
+if ($heater_check == 0) {
+	$emailMsn .= "<br>Heater - Fail"; 
+}
+if ($brakes_check == 0) {
+	$emailMsn .= "<br>Brake pedal - Fail"; 
+}
+if ($lights_check == 0) {
+	$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+}
+if ($steering_wheel_check == 0) {
+	$emailMsn .= "<br>Steering wheel - Fail"; 
+}
+if ($suspension_system_check == 0) {
+	$emailMsn .= "<br>Suspension system - Fail"; 
+}
+if ($tires_check == 0) {
+	$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail"; 
+}
+if ($wipers_check == 0) {
+	$emailMsn .= "<br>Wipers/Washers - Fail"; 
+}
+if ($air_brake_check == 0) {
+	$emailMsn .= "<br>Air brake system - Fail"; 
+}
+if ($driver_seat_check == 0) {
+	$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+}
+if ($fuel_system_check == 0) {
+	$emailMsn .= "<br>Fuel system - Fail"; 
+}
+						
+						
+						//busco datos del parametricos
+						$arrParam = array(
+							"table" => "parametric",
+							"order" => "id_parametric",
+							"id" => "x"
+						);
+						$subjet = "Inspection with major defect";
+						$parametric = $this->general_model->get_basic_search($arrParam);						
+						$user = $parametric[2]["value"];
+						$to = $parametric[0]["value"];
+
+						$mensaje = "<html>
+						<head>
+						  <title> $subjet </title>
+						</head>
+						<body>
+							<p>Dear	$user:<br/>
+							</p>
+
+							<p>$emailMsn</p>
+
+							<p>Cordially,</p>
+							<p><strong>V-CONTRACTING INC</strong></p>
+						</body>
+						</html>";
+
+						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
+						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+
+						//enviar correo
+						mail($to, $subjet, $mensaje, $cabeceras);
+					
+}
 					
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
