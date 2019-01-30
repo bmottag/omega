@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart_V2.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -65,6 +65,21 @@
 								</select>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-6 control-label" for="certify">
+									I certify to be clean for the last 8 hours of any substance such: 
+recreational cannabis, alcohol, drugs or any over the counter medicine that may or will affect 
+the fitness of my work performance.
+							</label>
+							<div class="col-sm-3">
+								<select name="certify" id="certify" class="form-control" required>
+									<option value="">Select...</option>
+									<option value=1 >Yes</option>
+									<option value=2 >No</option>
+								</select>
+							</div>
+						</div>
 												
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="taskDescription">Task/Report Description</label>
@@ -72,7 +87,7 @@
 							<textarea id="taskDescription" name="taskDescription" class="form-control" rows="3"></textarea>
 							</div>
 						</div>
-						
+												
 						<div class="row" align="center">
 							<div style="width:50%;" align="center">
 								 <button type="submit" class="btn btn-primary" id='btnSubmit' name='btnSubmit'>Submit </button>
