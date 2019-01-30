@@ -878,7 +878,8 @@ class Workorders extends CI_Controller {
 			// Print a table
 				
 			// add a page
-			$pdf->AddPage('L', 'A4');
+			//$pdf->AddPage('L', 'A4');
+			$pdf->AddPage();
 
 			$html = $this->load->view("reporte_work_order", $data, true);
 			
