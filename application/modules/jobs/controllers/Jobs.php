@@ -613,7 +613,7 @@ class Jobs extends CI_Controller {
 			// reset pointer to the last page
 			$pdf->lastPage();
 
-
+ob_end_clean();
 			//Close and output PDF document
 			$pdf->Output('tool_box_' . $idToolBox . '.pdf', 'I');
 
