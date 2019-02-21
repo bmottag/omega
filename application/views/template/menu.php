@@ -100,15 +100,19 @@
                         <li>
 							<a href="<?php echo base_url("admin/job"); ?>"><i class="fa fa-briefcase fa-fw"></i> Job Code/Name</a>
                         </li>
-						
+				
 						<li class="divider"></li>
+					<?php } ?>
+					
+					<?php if($userRol == 99 || $userRol == 1){ //If it is an ADMIN user, show an special menu ?>
+					
                         <li>
 							<a href="<?php echo base_url("programming"); ?>"><i class="fa fa-briefcase fa-fw"></i> Planning</a>
                         </li>
-						
+												
 						<li class="divider"></li>
+					
 					<?php } ?>
-						
 						
                         <li>
 							<a href="<?php echo base_url("admin/hazard"); ?>"><i class="fa fa-medkit fa-fw"></i> Hazard</a>
