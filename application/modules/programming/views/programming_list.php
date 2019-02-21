@@ -99,7 +99,7 @@ $datetime2 = date_create(date("Y-m-d"));
 			<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalWorker" id="x">
 					<i class="fa fa-user"></i>
 			</button>
-<?php }else { ?>
+<?php }elseif($lista['state'] == 1){ ?>
 			<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
 <?php } ?>
 		
