@@ -77,6 +77,14 @@ class Jobs extends CI_Controller {
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
+			$arrParam = array(
+				"table" => "param_company",
+				"order" => "company_name",
+				"column" => "company_type",
+				"id" => 2
+			);
+			$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
+			
 			//si envio el id, entonces busco la informacion 
 			if ($idToolBox != 'x') {
 				
@@ -87,6 +95,9 @@ class Jobs extends CI_Controller {
 				
 				$data['newHazards'] = $this->jobs_model->get_new_hazards($idToolBox);//new hazard list
 				$data['toolBoxWorkers'] = $this->jobs_model->get_tool_box_workers($idToolBox);//workers list
+				
+				//tool box subcontractors workers list
+				$data['toolBoxSubcontractorsWorkers'] = $this->jobs_model->get_tool_box_subcontractors_workers($idToolBox);
 				
 				//workers list
 				$data['workersList'] = $this->general_model->get_user_list();//workers list
@@ -169,6 +180,18 @@ class Jobs extends CI_Controller {
 					);
 					//enlace para regresar al formulario con ancla a la lista de trabajadores
 					$data['linkBack'] = "jobs/add_tool_box/" . $idJob . "/" . $idToolBox . "#anclaWorker";
+				}elseif($typo == "subcontractor"){
+					$name = "images/signature/tool_box/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "tool_box_workers_subcontractor",
+						"primaryKey" => "id_tool_box_subcontractor",
+						"id" => $idWorker,
+						"column" => "signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario con ancla a la lista de trabajadores		
+					$data['linkBack'] = "jobs/add_tool_box/" . $idJob . "/" . $idToolBox . "#anclaSubcontractor";
 				}
 				
 				$data_uri = $this->input->post("image");
@@ -595,6 +618,7 @@ class Jobs extends CI_Controller {
 			
 			$data['newHazards'] = $this->jobs_model->get_new_hazards($idToolBox);//new hazard list
 			$data['toolBoxWorkers'] = $this->jobs_model->get_tool_box_workers($idToolBox);//workers list
+			$data['subcontractors'] = $this->jobs_model->get_tool_box_subcontractors_workers($idToolBox);//subcontractor list
 
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
@@ -1580,8 +1604,47 @@ ob_end_clean();
 			//============================================================+
 		
 	}
-
 	
+    /**
+     * Tool box subcontractor worker
+     */
+    public function tool_box_subcontractor_Worker() 
+	{
+			$idJob= $this->input->post('hddIdJob');
+			$idToolBox= $this->input->post('hddIdToolBox');
+
+			if ($this->jobs_model->saveSubcontractorWorker()) {
+				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('jobs/add_tool_box/' . $idJob . '/' . $idToolBox), 'refresh');
+    }	
+	
+    /**
+     * Delete tool box subcontractor
+     */
+    public function deleteToolBoxSubcontractorWorker($idJob, $idToolBox, $idToolBoxSubcontractor) 
+	{
+			if (empty($idJob) || empty($idToolBox) || empty($idToolBoxSubcontractor) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			$arrParam = array(
+				"table" => "tool_box_workers_subcontractor",
+				"primaryKey" => "id_tool_box_subcontractor",
+				"id" => $idToolBoxSubcontractor
+			);
+
+			if ($this->jobs_model->deleteRecord($arrParam)) {
+				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('jobs/add_tool_box/' . $idJob . '/' . $idToolBox), 'refresh');
+    }
+
+
 	
 	
 	

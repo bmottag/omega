@@ -45,6 +45,8 @@
 				</tr>
 
 			</table>';
+
+$html.= '<br><br>';
 			
 				if(!$toolBoxWorkers){			
 						$html.= 'No data was found for workers';
@@ -102,7 +104,65 @@
 						
 						$html.= '</table>';
 				}
-					
+				
+				$html.= '<br><br>';
+				
+				if($subcontractors){			
+		
+						$html.= '<table border="1" cellspacing="0" cellpadding="5">';
+								
+						//pintar las firmas de a 4 por fila
+						$total = count($subcontractors);//contar numero de trabajadores
+						$totalFilas  = 1;
+						if($total>=4)
+						{//si es mayor 4 entonces calcular cuantas filas deben ser
+							$div = $total / 4;
+							$totalFilas = ceil($div); //redondeo hace arriba
+						}
+
+						$n = 1;
+						for($i=0;$i<$totalFilas;$i++){
+							$html.= '<tr>
+										<th align="center" width="20%"><strong><p>Initials</p></strong></th>';	
+							
+									$finish = $n * 4;
+									$star = $finish - 4;
+									if($finish > $total){
+										$finish = $total;
+									}
+									$n++;			
+																							
+									for ($j = $star; $j < $finish; $j++) {
+				
+										$html.= '<th align="center" width="20%">';
+										
+										if($subcontractors[$j]['signature']){
+											//$url = base_url($subcontractors[$j]['signature']);
+											$html.= '<img src="'.$subcontractors[$j]['signature'].'" border="0" width="70" height="70" />';
+										}
+										$html.= '</th>';
+									}
+
+							$html.= '</tr>';
+							
+							$html.= '<tr bgcolor="#337ab7" style="color:white;">
+										<th align="center"><strong>Company</strong></th>';
+										for ($j = $star; $j < $finish; $j++) {	
+											$html.= '<th align="center"><strong>' . $subcontractors[$j]['company_name'] . '</strong></th>';
+										}
+							$html.= '</tr>';
+							
+							$html.= '<tr bgcolor="#337ab7" style="color:white;">
+										<th align="center"><strong>Worker Name</strong></th>';		
+										for ($j = $star; $j < $finish; $j++) {	
+											$html.= '<th align="center"><strong>' . $subcontractors[$j]['worker_name'] . '</strong></th>';
+										}
+							$html.= '</tr>';
+						}
+						
+						$html.= '</table>';
+				}
+
 				$html.= '<br><br>';
 			
 

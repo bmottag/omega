@@ -329,7 +329,91 @@ if($data['signature']){
 <?php } ?>
 <!--FIN WORKERS -->
 
+	<!--INICIO SUBCONTRACTOR WORKER-->
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-purpura">
+				<div class="panel-heading">
+					<a name="anclaSubcontractor" ></a><strong>SUBCONTRACTOR WORKERS</strong>
+				</div>
+				<div class="panel-body">	
+										
+					<div class="col-lg-12">													
+						<button type="button" class="btn btn-purpura btn-lg btn-block" data-toggle="modal" data-target="#modalSubcontractorWorker" id="x">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Subcontractor Worker
+						</button>
+						<br>
+					</div>
 
+										
+<?php 
+	if($toolBoxSubcontractorsWorkers){
+?>
+					<table class="table table-bordered table-striped table-hover table-condensed">
+						<tr>
+							<td><p class="text-center"><strong>Name</strong></p></td>
+							<td><p class="text-center"><strong>Company</strong></p></td>
+							<td><p class="text-center"><strong>Signature</strong></p></td>
+							<td><p class="text-center"><strong>Delete</strong></p></td>
+						</tr>
+						<?php
+							foreach ($toolBoxSubcontractorsWorkers as $data):
+								echo "<tr>";					
+								echo "<td ><small>" . $data['worker_name'] . "</small></td>";
+								echo "<td ><small>" . $data['company_name'] . "</small></td>";
+								echo "<td class='text-center'><small><center>";
+$class = "btn-primary";						
+if($data['signature']){ 
+	$class = "btn-default";
+	
+?>
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_tool_box_subcontractor'] . "wModal"; ?>" id="<?php echo $data['id_tool_box_subcontractor']; ?>">
+	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+</button>
+
+<div id="<?php echo $data['id_tool_box_subcontractor'] . "wModal"; ?>" class="modal fade" role="dialog">  
+	<div class="modal-dialog">
+		<div class="modal-content">      
+			<div class="modal-header">        
+				<button type="button" class="close" data-dismiss="modal">×</button>        
+				<h4 class="modal-title">Worker Signature</h4>      </div>      
+			<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
+			<div class="modal-footer">    
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+			</div>  
+		</div>  
+	</div>
+</div>
+<?php
+}
+				?>
+					
+					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('jobs/add_signature/subcontractor/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_tool_box'] . '/' . $data['id_tool_box_subcontractor']) ?>' id="btn-delete">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
+					</a>
+					</center>
+				<?php
+						echo "</small></td>"; 
+						echo "<td class='text-center'><small>";
+						?>
+							<center>
+							<a class='btn btn-default' href='<?php echo base_url('jobs/deleteToolBoxSubcontractorWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_tool_box'] . '/' . $data['id_tool_box_subcontractor']) ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							</a>
+							</center>
+						<?php
+								echo "</small></td>";                     
+								echo "</tr>";
+							endforeach;
+						?>
+					</table>
+<?php } ?>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--FIN SUBCONTRACTOR WORKER-->
 
 
 
@@ -515,6 +599,64 @@ if($userRol==99){
 						<div class="row" align="center">
 							<div style="width:50%;" align="center">
 								<input type="submit" id="btnSubmitWorker" name="btnSubmitWorker" value="Save" class="btn btn-primary"/>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div id="div_load" style="display:none">		
+							<div class="progress progress-striped active">
+								<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+									<span class="sr-only">45% completado</span>
+								</div>
+							</div>
+						</div>
+						<div id="div_error" style="display:none">			
+							<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
+						</div>	
+					</div>
+						
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para adicionar WORKER -->
+
+<!--INICIO Modal para adicionar subcontractor WORKER -->
+<div class="modal fade text-center" id="modalSubcontractorWorker" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatos">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">ADD SUBCONTRACTOR WORKER</h4>
+			</div>
+
+			<div class="modal-body">
+				<form name="formSubcontractor" id="formSubcontractor" role="form" method="post" action="<?php echo base_url("jobs/tool_box_subcontractor_Worker") ?>" >					
+					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
+					<input type="hidden" id="hddIdToolBox" name="hddIdToolBox" value="<?php echo $information[0]["id_tool_box"]; ?>"/>
+					
+					
+					<div class="form-group text-left">
+						<label class="control-label" for="company">Company</label>
+						<select name="company" id="company" class="form-control" required>
+							<option value=''>Select...</option>
+							<?php for ($i = 0; $i < count($companyList); $i++) { ?>
+								<option value="<?php echo $companyList[$i]["id_company"]; ?>" ><?php echo $companyList[$i]["company_name"]; ?></option>	
+							<?php } ?>
+						</select>
+					</div>
+					
+					<div class="form-group text-left">
+						<label class="control-label" for="workerName">Worker Name</label>
+						<input type="text" id="workerName" name="workerName" class="form-control" placeholder="Worker Name" required >
+					</div>					
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:50%;" align="center">
+								<input type="submit" id="btnSubmitSubcontractor" name="btnSubmitSubcontractor" value="Save" class="btn btn-primary"/>
 							</div>
 						</div>
 					</div>

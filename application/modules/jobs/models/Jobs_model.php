@@ -765,6 +765,46 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				return false;
 			}
 	}
+	
+		/**
+		 * Get tool box subcontractor workers info
+		 * @since 26/2/2018
+		 */
+		public function get_tool_box_subcontractors_workers($idToolBox) 
+		{		
+				$this->db->select();
+				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
+				$this->db->where('W.fk_id_tool_box', $idToolBox); 
+				$this->db->order_by('C.company_name, W.worker_name', 'asc');
+				$query = $this->db->get('tool_box_workers_subcontractor W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}		
+		
+		/**
+		 * Save subcontractor worker
+		 * @since 26/2/2018
+		 */
+		public function saveSubcontractorWorker() 
+		{							
+				$data = array(
+					'fk_id_tool_box' => $this->input->post('hddIdToolBox'),
+					'fk_id_company' => $this->input->post('company'),
+					'worker_name' => $this->input->post('workerName')
+				);			
+
+				$query = $this->db->insert('tool_box_workers_subcontractor', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 
 		
 	    
