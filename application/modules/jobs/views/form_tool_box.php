@@ -330,6 +330,7 @@ if($data['signature']){
 <!--FIN WORKERS -->
 
 	<!--INICIO SUBCONTRACTOR WORKER-->
+<?php if($information){ ?>
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-purpura">
@@ -413,6 +414,7 @@ if($data['signature']){
 			</div>
 		</div>
 	</div>
+<?php } ?>
 	<!--FIN SUBCONTRACTOR WORKER-->
 
 
