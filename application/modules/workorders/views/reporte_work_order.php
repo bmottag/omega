@@ -8,7 +8,7 @@
 					<b>P.O. Box </b> 67037 Northland Village NW <br>
 					Calgary - Alberta - T2L2L2 <br>
 					<b>Phone:</b> 587-892-9616 / <b>Fax:</b> 403-910-0752<br>
-					<a href="http://www.v-comtracting.ca" dir="ltr">www.v-comtracting.ca</a>
+					<a href="http://www.v-contracting.ca/" dir="ltr">www.v-contracting.ca/</a>
 					</th>';
 					
 			$html.= '<th width="40%">
