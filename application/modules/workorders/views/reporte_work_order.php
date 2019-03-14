@@ -127,7 +127,7 @@
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];
 						}else{
-							$equipment = $data['unit_number'];
+							$equipment = $data['unit_number'] . " - " . $data['v_description'];
 						}
 						
 						$html.= $equipment . ' - ' . $data['description'];
