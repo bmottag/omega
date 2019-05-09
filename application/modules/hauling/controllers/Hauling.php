@@ -17,7 +17,7 @@ class Hauling extends CI_Controller {
 	{
 			$infoHauling = $this->hauling_model->get_hauling_byId($id);//info hauling
 
-			$subjet = "Haling Information";				
+			$subjet = "Hauling Information";				
 			$user = $infoHauling["contact"];
 			$to = $infoHauling["email"];
 		
@@ -357,7 +357,7 @@ class Hauling extends CI_Controller {
 	{
 			$infoHauling = $this->hauling_model->get_hauling_byId($id);//info hauling
 
-			$subjet = "Haling Information";				
+			$subjet = "Hauling Information";				
 			$user = $infoHauling["contact"];
 			$to = $infoHauling["email"];
 		
