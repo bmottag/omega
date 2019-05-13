@@ -48,12 +48,12 @@
 										if($information[0]["signature"]){ 
 											$class = "btn-default";
 									?>
-<img src="<?php echo base_url($information[0]["signature"]); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="204" height="136" /> 
+<img src="<?php echo base_url($information[0]["signature"]); ?>" class="img-rounded" alt="Meeting conducted by Signature" width="204" height="136" /> 
 
-									<br><strong>Management/Safety Advisor Signature</strong>
+									<br><strong>Meeting conducted by Signature</strong>
 									<?php
 										}else{
-											echo "<br>No Signature of the Safety Advisor";
+											echo "<br>No Signature";
 										}
 									?>
 									</div>

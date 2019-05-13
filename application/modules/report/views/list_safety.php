@@ -52,7 +52,7 @@
 										<th>Work To Be Done</th>
 										<th>Job Code/Name</th>
 										<th>Muster Point</th>
-										<th>Management/Safety Advisor</th>
+										<th>Meeting conducted by</th>
 										<th>PPE</th>
                                     </tr>
                                 </thead>

@@ -85,7 +85,7 @@ if($information){
 				<div class="col-lg-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-edit fa-fw"></i> Management/Safety Advisor Signature
+                            <i class="fa fa-edit fa-fw"></i> Meeting conducted by Signature
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -108,8 +108,8 @@ if($information){
 		<div class="modal-content">      
 			<div class="modal-header">        
 				<button type="button" class="close" data-dismiss="modal">×</button>        
-				<h4 class="modal-title">Management/Safety Advisor Signature</h4>      </div>      
-			<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["signature"]); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
+				<h4 class="modal-title">Meeting conducted by Signature</h4>      </div>      
+			<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["signature"]); ?>" class="img-rounded" alt="Meeting conducted by Signature" width="304" height="236" />   </div>      
 			<div class="modal-footer">        
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
 			</div>  
@@ -251,7 +251,7 @@ if($information){
 					<div class="modal-header">        
 						<button type="button" class="close" data-dismiss="modal">×</button>        
 						<h4 class="modal-title">Worker Signature</h4>      </div>      
-					<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
+					<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Meeting conducted by Signature" width="304" height="236" />   </div>      
 					<div class="modal-footer">    
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
 					</div>  
@@ -337,7 +337,7 @@ if($information){
 					<div class="modal-header">        
 						<button type="button" class="close" data-dismiss="modal">×</button>        
 						<h4 class="modal-title">Worker Signature</h4>      </div>      
-					<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
+					<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Meeting conducted by Signature" width="304" height="236" />   </div>      
 					<div class="modal-footer">    
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
 					</div>  

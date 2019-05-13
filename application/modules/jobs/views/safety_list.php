@@ -43,7 +43,7 @@ if(!$hazards){
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Management/Safety Advisor</th>
+								<th>Meeting conducted by</th>
 								<th>Date & Time</th>
 								<th>Work To Be Done</th>
 								<th>Job Code/Name</th>

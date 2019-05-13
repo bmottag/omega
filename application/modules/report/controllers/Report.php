@@ -546,7 +546,7 @@ class Report extends CI_Controller {
 
 				$html.= '<table border="1" cellspacing="0" cellpadding="5" width="40%">
 						<tr>
-							<th align="center" ><strong><p>Management/Safety Advisor</p></strong></th>
+							<th align="center" ><strong><p>Meeting conducted by</p></strong></th>
 							<th align="center">' . $signature . '</th>
 						</tr>
 						<tr bgcolor="#337ab7" style="color:white;">
