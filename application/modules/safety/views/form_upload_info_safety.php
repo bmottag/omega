@@ -153,9 +153,15 @@ if($information){
 				<div class="panel-heading">
 					<strong>HAZARDS</strong>
 				</div>
-				<div class="panel-body">	
-										
+				<div class="panel-body">
+				
+					<div class="col-lg-12">	
+						<a href="<?php echo base_url("safety/add_hazards_flha/" . $information[0]["fk_id_job"] . "/" . $information[0]["id_safety"]); ?>" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Hazards</a>
+						<br>
+					</div>
+														
 				<?php 
+				
 					if($safetyHazard){
 				?>
 					<table class="table table-bordered table-striped table-hover table-condensed">

@@ -36,13 +36,14 @@
 					<th colspan="3">' . $info[0]['activities']. '</th>
 				</tr>
 				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Employee Suggestions: </strong></th>
-					<th colspan="3">' . $info[0]['suggestions']. '</th>
-				</tr>
-				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Corrective Actions: </strong></th>
 					<th colspan="3">' . $info[0]['corrective_actions']. '</th>
 				</tr>
+				<tr>
+					<th bgcolor="#337ab7" style="color:white;"><strong>Employee Suggestions: </strong></th>
+					<th colspan="3">' . $info[0]['suggestions']. '</th>
+				</tr>
+
 
 			</table>';
 

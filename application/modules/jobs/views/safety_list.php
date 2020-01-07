@@ -25,7 +25,7 @@ if(!$hazards){
 ?>
 	<div class="alert alert-danger ">
 		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-		This work does not have hazards.
+		<strong>Note: </strong>This Job Code/Name does not have hazards. Add hazards in order to create or edit a FLHA.
 	</div>
 <?php	
 }
@@ -61,8 +61,13 @@ if(!$hazards){
 								echo "<td >" . $lista['job_description'] . "</td>";
 								
 								echo "<td class='text-center'>";									
+
+								$url = base_url('safety/upload_info_safety/' . $lista['id_safety']);
+								if(!$hazards){
+									$url = "#";
+								}
 						?>
-								<a class='btn btn-success btn-xs' href='<?php echo base_url('safety/upload_info_safety/' . $lista['id_safety'] ) ?>'>
+								<a class='btn btn-success btn-xs' href='<?php echo $url; ?>' <?php echo $boton; ?>>
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 								</a>
 <br>

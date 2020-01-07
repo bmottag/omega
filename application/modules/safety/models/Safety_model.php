@@ -7,7 +7,7 @@
 		 * Add SAFETY
 		 * @since 3/12/2016
 		 */
-		public function add_safety($hazards) 
+		public function add_safety() 
 		{
 			$idUser = $this->session->userdata("id");
 			$idSafety = $this->input->post('hddIdentificador');
@@ -40,20 +40,7 @@
 				
 				$query = $this->db->insert('safety', $data);
 								
-				//cuando es por primera vez que se inserta un FLHA se guarda los hazards que estan en la tabla jobs hazards
 				$idSafety = $this->db->insert_id();//ID guardado
-				
-				$tot = count($hazards);
-				for ($i = 0; $i < $tot; $i++) {
-					$data = array(
-						'fk_id_safety' => $idSafety,
-						'fk_id_hazard' => $hazards[$i]['fk_id_hazard']
-					);
-					$query = $this->db->insert('safety_hazards', $data);
-				}
-				
-
-				
 			} else {
 				$this->db->where('id_safety', $idSafety);
 				$query = $this->db->update('safety', $data);
@@ -365,6 +352,47 @@
 				}
 		}
 		
+		/**
+		 * Get activity list
+		 * @since 23/2/2017
+		 */
+		public function get_activity_list_by_job($idJob) 
+		{		
+				$this->db->select('distinct(id_hazard_activity), hazard_activity');
+				$this->db->join('param_hazard H', 'H.id_hazard = J.fk_id_hazard', 'INNER');
+				$this->db->join('param_hazard_activity A', 'A.id_hazard_activity = H.fk_id_hazard_activity', 'INNER');
+				$this->db->where('J.fk_id_job', $idJob);
+				$this->db->order_by('A.hazard_activity, H.hazard_description', 'asc');
+				$query = $this->db->get('job_hazards J');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Get hazard list
+		 * @since 17/05/2019
+		 */
+		public function get_hazard_list_by_job($idActivity, $idJob) 
+		{		
+				$this->db->select();
+				$this->db->join('param_hazard H', 'H.id_hazard = J.fk_id_hazard', 'INNER');
+				$this->db->join('param_hazard_activity A', 'A.id_hazard_activity = H.fk_id_hazard_activity', 'INNER');
+				$this->db->where('A.id_hazard_activity', $idActivity);
+				$this->db->where('J.fk_id_job', $idJob);
+				$this->db->order_by('A.hazard_activity, H.hazard_description', 'asc');
+				$query = $this->db->get('job_hazards J');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 		
 		
 		

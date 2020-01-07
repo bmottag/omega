@@ -79,15 +79,7 @@ class Safety extends CI_Controller {
 			//si envio el id, entonces busco la informacion 
 			if ($id != 'x') {
 				
-				$arrParam = array(
-					"table" => "param_hazard",
-					"order" => "id_hazard",
-					"id" => "x"
-				);
-				$data['hazardList'] = $this->general_model->get_basic_search($arrParam);//hazards´s list, para adicionar mas hazards
-				
 				//workers list
-				$this->load->model("general_model");
 				$data['workersList'] = $this->general_model->get_user_list();//workers list
 				
 				//safety_hazard list
@@ -180,16 +172,11 @@ class Safety extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 			
-			//hazards list
-			$this->load->model("general_model");
-			$idJob = $this->input->post('hddIdJob');
-			$hazards = $this->general_model->get_job_hazards($idJob);
-
-			if ($idSafety = $this->safety_model->add_safety($hazards)) {
+			if ($idSafety = $this->safety_model->add_safety()) {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idSafety"] = $idSafety;
-				$this->session->set_flashdata('retornoExito', 'You have save your FLHA record, do not forget to add Workers and signatures.');
+				$this->session->set_flashdata('retornoExito', 'You have save your FLHA record, do not forget to add Hazards, Workers and signatures.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -270,6 +257,26 @@ class Safety extends CI_Controller {
 	}
 	
 	/**
+	 * Form Add Hazards to FLHA
+	 * Muestre lista de Hazards por trabajo y los que estan asignados al FLHA estan con check
+     * @since 16/5/2019
+     * @author BMOTTAG
+	 */
+	public function add_hazards_flha($idJob, $idSafety)
+	{
+			if (empty($idJob) || empty($idSafety)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+			
+			$data['activityList'] = $this->safety_model->get_activity_list_by_job($idJob); //list de hazards para un JOB			
+			
+			$data["idJob"] = $idJob;
+			$data["idSafety"] = $idSafety;
+			$data["view"] = 'form_add_hazards_flha';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
 	 * Save hazards
      * @since 06/12/2016
 	 * @review 10/12/2016
@@ -285,7 +292,7 @@ class Safety extends CI_Controller {
 				$data["result"] = true;
 				$data["idSafety"] = $idSafety;
 				
-				$this->session->set_flashdata('retornoExito', 'You have add Hazards, remember to select the priority of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have add Hazards.');
 			} else {
 				$data["result"] = "error";
 				$data["idSafety"] = "";

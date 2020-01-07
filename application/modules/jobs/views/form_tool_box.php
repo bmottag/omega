@@ -488,6 +488,24 @@ if($userRol==99){
 			</div>
 		</div>
 	</div>
+
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<strong>Corrective actions based on today meeting: *</strong>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="col-sm-12">
+						<textarea id="correctiveActions" name="correctiveActions" class="form-control" rows="2"><?php echo $information?$information[0]["corrective_actions"]:""; ?></textarea>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+	</div>	
+
 		
 	<div class="row">
 		<div class="col-lg-12">				
@@ -506,22 +524,7 @@ if($userRol==99){
 		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col-lg-12">				
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<strong>Corrective Actions: *</strong>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="col-sm-12">
-						<textarea id="correctiveActions" name="correctiveActions" class="form-control" rows="2"><?php echo $information?$information[0]["corrective_actions"]:""; ?></textarea>
-						</div>
-					</div>				
-				</div>
-			</div>
-		</div>
-	</div>	
+
 								
 								
 

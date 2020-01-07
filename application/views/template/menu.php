@@ -23,6 +23,24 @@
  * @since  18/11/2016
  */
 		$userRol = $this->session->rol;
+		
+		if($userRol == 2){ //enlace para el perfil de WORKORDER, LE DEJAMOS VER PLANEACION
+?>
+		
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-gear fa-fw"></i>Settings <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">					
+                        <li>
+							<a href="<?php echo base_url("programming"); ?>"><i class="fa fa-briefcase fa-fw"></i> Planning</a>
+                        </li>
+					</ul>
+				</li>
+		
+		
+<?php
+		}
 		if($userRol == 99 || $userRol == 1){ //If it is an ADMIN user, show an special menu
 ?>				
 

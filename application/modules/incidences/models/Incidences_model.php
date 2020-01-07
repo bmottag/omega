@@ -18,8 +18,8 @@
 				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 				$this->db->join('param_incident_type T', 'T.id_incident_type = W.fk_incident_type', 'INNER');
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
-				$this->db->join('user X', 'X.id_user = W.fk_id_user_supervisor', 'INNER');
-				$this->db->join('user Y', 'Y.id_user = W.fk_id_user_coordinator', 'INNER');
+				$this->db->join('user X', 'X.id_user = W.manager_user', 'INNER');
+				$this->db->join('user Y', 'Y.id_user = W.safety_user', 'INNER');
 				if (array_key_exists("idNearMiss", $arrDatos)) {
 					$this->db->where('id_near_miss', $arrDatos["idNearMiss"]);
 				}
