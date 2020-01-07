@@ -32,7 +32,7 @@
 					<label class="control-label" for="order">Order: *</label>
 					<select name="order" id="order" class="form-control" required>
 						<option value='' >Select...</option>
-						<?php for ($i = 1; $i <= 20; $i++) { ?>
+						<?php for ($i = 1; $i <= 50; $i++) { ?>
 							<option value='<?php echo $i; ?>' <?php if ($information && $i == $information[0]["order"]) { echo 'selected="selected"'; } ?> ><?php echo $i; ?></option>
 						<?php } ?>									
 					</select>

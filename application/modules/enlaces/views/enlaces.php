@@ -85,7 +85,7 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['enlace_name'] . "</td>";
 									echo "<td>" . $lista['enlace'] . "</td>";
-									echo "<td>" . $lista['order'] . "</td>";
+									echo "<td class='text-center'>" . $lista['order'] . "</td>";
 									echo "<td class='text-center'>";
 									switch ($lista['enlace_estado']) {
 										case 1:
