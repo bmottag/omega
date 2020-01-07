@@ -66,8 +66,20 @@ class Report extends CI_Controller {
 					break;
 				case 'hauling':
 					$data["titulo"] = "<i class='fa fa-truck fa-fw'></i> HAULING REPORT";
-					//job list
 					$this->load->model("general_model");
+					
+					//trucklist
+					$data['truckList'] = $this->report_model->get_trucks();
+					
+					//workers list
+					$arrParam = array(
+						"table" => "user",
+						"order" => "first_name, last_name",
+						"id" => "x"
+					);
+					$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+					
+					//job list
 					$arrParam = array(
 						"table" => "param_jobs",
 						"order" => "job_description",
@@ -77,7 +89,6 @@ class Report extends CI_Controller {
 					$data['jobList'] = $this->general_model->get_basic_search($arrParam);//job list
 					
 					//company list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "param_company",
 						"order" => "company_name",
@@ -203,6 +214,10 @@ class Report extends CI_Controller {
 						$arrParam['material'] =  $this->input->post('material');
 						$arrParam['material'] = $arrParam['material']==''?'x': $arrParam['material'];
 						$data['material'] = $arrParam['material'];
+						
+						$arrParam['vehicleId'] =  $this->input->post('truck');
+						$arrParam['vehicleId'] = $arrParam['vehicleId']==''?'x': $arrParam['vehicleId'];
+						$data['vehicleId'] = $arrParam['vehicleId'];
 
 						$data['info'] = $this->report_model->get_hauling($arrParam);
 						$data["view"] = "list_hauling";						
@@ -680,7 +695,9 @@ class Report extends CI_Controller {
 						<table border="0" cellspacing="0" cellpadding="5">
 							<tr>
 								<th bgcolor="#337ab7" style="color:white;"><strong>Number: </strong></th>
-								<th colspan="3">' . $lista['id_hauling']. '</th>
+								<th>' . $lista['id_hauling']. '</th>
+								<th bgcolor="#337ab7" style="color:white;"><strong>Employee: </strong></th>
+								<th>' . $lista['name']. '</th>
 							</tr>
 							<tr>
 								<th bgcolor="#337ab7" style="color:white;"><strong>Hauling done by: </strong></th>
@@ -2314,33 +2331,35 @@ if($lista["with_trailer"] == 1){
 										->setCellValue('B2', $dateRange);
 			
 			$objPHPExcel->getActiveSheet()->setCellValue('A4', 'Hauling done by')
-										->setCellValue('B4', 'Truck - Unit Number')
-										->setCellValue('C4', 'Truck Type')
-										->setCellValue('D4', 'Plate')
-										->setCellValue('E4', 'Material Type')
-										->setCellValue('F4', 'From Site')
-										->setCellValue('G4', 'To Site')
-										->setCellValue('H4', 'Payment')
-										->setCellValue('I4', 'Date of Issue')
-										->setCellValue('J4', 'Time In')
-										->setCellValue('K4', 'Time Out')
-										->setCellValue('L4', 'Comments');
+										->setCellValue('B4', 'Employee')
+										->setCellValue('C4', 'Truck - Unit Number')
+										->setCellValue('D4', 'Truck Type')
+										->setCellValue('E4', 'Plate')
+										->setCellValue('F4', 'Material Type')
+										->setCellValue('G4', 'From Site')
+										->setCellValue('H4', 'To Site')
+										->setCellValue('I4', 'Payment')
+										->setCellValue('J4', 'Date of Issue')
+										->setCellValue('K4', 'Time In')
+										->setCellValue('L4', 'Time Out')
+										->setCellValue('M4', 'Comments');
 										
 			$j=5;
 			$total = 0;
 			foreach ($info as $data):
 					$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['company_name'])
-												  ->setCellValue('B'.$j, $data['unit_number'])
-												  ->setCellValue('C'.$j, $data['truck_type'])
-												  ->setCellValue('D'.$j, $data['plate'])
-												  ->setCellValue('E'.$j, $data['material'])
-												  ->setCellValue('F'.$j, $data['site_from'])
-												  ->setCellValue('G'.$j, $data['site_to'])
-												  ->setCellValue('H'.$j, $data['payment'])
-												  ->setCellValue('I'.$j, $data['date_issue'])
-												  ->setCellValue('J'.$j, $data['time_in'])
-												  ->setCellValue('K'.$j, $data['time_out'])
-												  ->setCellValue('L'.$j, $data['comments']);
+												  ->setCellValue('B'.$j, $data['name'])
+												  ->setCellValue('C'.$j, $data['unit_number'])
+												  ->setCellValue('D'.$j, $data['truck_type'])
+												  ->setCellValue('E'.$j, $data['plate'])
+												  ->setCellValue('F'.$j, $data['material'])
+												  ->setCellValue('G'.$j, $data['site_from'])
+												  ->setCellValue('H'.$j, $data['site_to'])
+												  ->setCellValue('I'.$j, $data['payment'])
+												  ->setCellValue('J'.$j, $data['date_issue'])
+												  ->setCellValue('K'.$j, $data['time_in'])
+												  ->setCellValue('L'.$j, $data['time_out'])
+												  ->setCellValue('M'.$j, $data['comments']);
 					$j++;
 			endforeach;         
 

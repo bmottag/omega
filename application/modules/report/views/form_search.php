@@ -120,6 +120,19 @@
 													<?php } ?>
 												</select>
 											</div>
+											
+									<?php if($truckList){ ?>		
+											<div class="col-sm-5">
+												<label for="truck">Truck <small class="danger">(This field is NOT required.)</small></label>
+												<select name="truck" id="truck" class="form-control" >
+													<option value=''>Select...</option>
+													<?php for ($i = 0; $i < count($truckList); $i++) { ?>
+														<option value="<?php echo $truckList[$i]["id_vehicle"]; ?>" ><?php echo $truckList[$i]["unit_description"]; ?></option>	
+													<?php } ?>
+												</select>
+											</div>
+									<?php } ?>
+											
 										</div>
 									<?php } ?>
 <!-- FIN FILTRO POR COMPANY PARA WORK ORDER -->

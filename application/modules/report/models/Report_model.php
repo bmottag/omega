@@ -145,6 +145,14 @@
 				$this->db->join('param_material_type M', 'M.id_material = H.fk_id_material', 'INNER');
 				$this->db->join('param_payment P', 'P.id_payment = H.fk_id_payment', 'INNER');
 				
+				if (array_key_exists("employee", $arrData) && $arrData["employee"] != 'x') {
+					$this->db->where('U.id_user', $arrData["employee"]);
+				}
+				
+				if (array_key_exists("vehicleId", $arrData) && $arrData["vehicleId"] != 'x') {
+					$this->db->where('V.id_vehicle', $arrData["vehicleId"]);
+				}
+				
 				if (array_key_exists("from", $arrData) && $arrData["from"] != 'x') {
 					$this->db->where('H.date_issue >=', $arrData["from"]);
 				}				
@@ -532,6 +540,27 @@
 				$this->db->where('O.fk_id_workorder', $idWorkorder); 
 				$this->db->order_by('C.company_name', 'asc');
 				$query = $this->db->get('workorder_ocasional O');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Trucks´list
+		 * @since 7/1/2020
+		 */
+		public function get_trucks()
+		{
+				$trucks = array();
+				$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description 
+					FROM param_vehicle 
+					WHERE type_level_2 = 4
+					ORDER BY unit_number";
+
+				$query = $this->db->query($sql);
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();

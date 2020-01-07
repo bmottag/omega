@@ -50,6 +50,7 @@
                                     <tr>
                                         <th>Number</th>
 										<th>Hauling done by</th>
+										<th>Employee</th>
 										<th>Truck - Unit Number</th>
 										<th>Truck Type</th>
 										<th>Plate</th>
@@ -70,6 +71,7 @@
 											echo "<tr>";
 											echo "<td>" . $lista['id_hauling'] . "</td>";
 											echo "<td>" . $lista['company_name'] . "</td>";
+											echo "<td>" . $lista['name'] . "</td>";
 											echo "<td>" . $lista['unit_number'] . "</td>";
 											echo "<td>" . $lista['truck_type'] . "</td>";
 											echo "<td>" . $lista['plate'] . "</td>";
