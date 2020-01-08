@@ -37,6 +37,18 @@
 									</div>
 								</div>
 								
+								<div class="form-group">
+									<div class="col-sm-5 col-sm-offset-1">
+										<label for="from">Work order number range </label>
+										<input type="text" id="workOrderNumberFrom" name="workOrderNumberFrom" class="form-control" placeholder="W.O. # From" >
+									</div>
+									
+									<div class="col-sm-5">
+										<label for="from">To </label>
+										<input type="text" id="workOrderNumberTo" name="workOrderNumberTo" class="form-control" placeholder="W.O. # To" >
+									</div>
+								</div>
+								
 <script>
 $( function() {
 var dateFormat = "mm/dd/yy",

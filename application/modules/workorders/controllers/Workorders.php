@@ -451,10 +451,12 @@ class Workorders extends CI_Controller {
 				$data["view"] = "asign_rate_list";
 			}
 			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
-			elseif($this->input->post('jobName') || $this->input->post('workOrderNumber') || $this->input->post('from'))
+			elseif($this->input->post('jobName') || $this->input->post('workOrderNumber') || $this->input->post('workOrderNumberFrom') || $this->input->post('from'))
 			{								
 				$data['jobName'] =  $this->input->post('jobName');
 				$data['workOrderNumber'] =  $this->input->post('workOrderNumber');
+				$data['workOrderNumberFrom'] =  $this->input->post('workOrderNumberFrom');
+				$data['workOrderNumberTo'] =  $this->input->post('workOrderNumberTo');
 				$data['from'] =  $this->input->post('from');
 				$data['to'] =  $this->input->post('to');
 			
@@ -468,6 +470,8 @@ class Workorders extends CI_Controller {
 				$arrParam = array(
 					"jobId" => $this->input->post('jobName'),
 					"idWorkOrder" => $this->input->post('workOrderNumber'),
+					"idWorkOrderFrom" => $this->input->post('workOrderNumberFrom'),
+					"idWorkOrderTo" => $this->input->post('workOrderNumberTo'),
 					"from" => $from,
 					"to" => $to
 				);

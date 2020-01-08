@@ -364,6 +364,12 @@
 				if (array_key_exists("idWorkOrder", $arrData) && $arrData["idWorkOrder"] != '' && $arrData["idWorkOrder"] != 0) {
 					$this->db->where('W.id_workorder', $arrData["idWorkOrder"]);
 				}
+				if (array_key_exists("idWorkOrderFrom", $arrData) && $arrData["idWorkOrderFrom"] != '' && $arrData["idWorkOrderFrom"] != 0) {
+					$this->db->where('W.id_workorder >=', $arrData["idWorkOrderFrom"]);
+				}
+				if (array_key_exists("idWorkOrderTo", $arrData) && $arrData["idWorkOrderTo"] != '' && $arrData["idWorkOrderTo"] != 0) {
+					$this->db->where('W.id_workorder <=', $arrData["idWorkOrderTo"]);
+				}
 				if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
 					$this->db->where('W.date >=', $arrData["from"]);
 				}				
