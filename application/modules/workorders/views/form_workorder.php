@@ -86,7 +86,7 @@ $(function(){
 				<div class="panel-body">
 
 					<?php
-					if($userRol == 99){ //If it is a SUPER ADMIN user, show GO BACK MENU
+					if($userRol == 99 && $information){ //If it is a SUPER ADMIN user, show GO BACK MENU
 					?>				
 					<ul class="nav nav-pills">
 						<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
