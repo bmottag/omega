@@ -283,6 +283,9 @@ class Workorders extends CI_Controller {
 				"id" => 1
 			);
 			$data['equipmentType'] = $this->general_model->get_basic_search($arrParam);//equipmentType list
+			
+			//workers list
+			$data['workersList'] = $this->general_model->get_user_list();//workers list
 
 			$this->load->view("modal_equipment", $data);
     }	

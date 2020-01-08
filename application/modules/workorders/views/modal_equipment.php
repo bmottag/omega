@@ -46,6 +46,16 @@
 						<input type="text" id="otherEquipment" name="otherEquipment" class="form-control" placeholder="Tools" required >
 					</div>
 				</div>
+				
+		<div class="form-group text-left">
+				<label for="operatedby">Operated by : *</label>
+				<select name="operatedby" id="operatedby" class="form-control" >
+					<option value=''>Select...</option>
+					<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+						<option value="<?php echo $workersList[$i]["id_user"]; ?>" ><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+					<?php } ?>
+				</select>
+		</div>
 
 		
 		<div class="row">

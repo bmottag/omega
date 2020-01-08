@@ -130,7 +130,7 @@
 							$equipment = $data['unit_number'] . " - " . $data['v_description'];
 						}
 						
-						$html.= $equipment . ' - ' . $data['description'];
+						$html.= $equipment . ' - ' . $data['description'] . ', operated by ' . $data['operatedby'];
 						
 						$html.=		'</th>
 									

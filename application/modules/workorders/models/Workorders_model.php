@@ -272,6 +272,7 @@
 					'fk_id_type_2' => $this->input->post('type'),
 					'fk_id_vehicle' => $truck,
 					'other' => $this->input->post('otherEquipment'),
+					'operatedby' => $this->input->post('operatedby'),
 					'hours' => $this->input->post('hour'),
 					'quantity' => $this->input->post('quantity'),
 					'description' => $this->input->post('description')
@@ -292,9 +293,10 @@
 		 */
 		public function get_workorder_equipment($idWorkorder) 
 		{		
-				$this->db->select('W.*, V.unit_number, V.description v_description, M.miscellaneous, T.type_2, C.*');
+				$this->db->select("W.*, V.unit_number, V.description v_description, M.miscellaneous, T.type_2, C.*, CONCAT(U.first_name,' ', U.last_name) as operatedby");
 				$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_vehicle', 'LEFT');
 				$this->db->join('param_miscellaneous M', 'M.id_miscellaneous = W.fk_id_vehicle', 'LEFT');
+				$this->db->join('user U', 'U.id_user = W.operatedby', 'LEFT');
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = W.fk_id_type_2', 'INNER');
 				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
 				$this->db->where('W.fk_id_workorder', $idWorkorder); 
