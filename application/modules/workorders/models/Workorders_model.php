@@ -486,6 +486,51 @@
 				}
 		}
 		
+		/**
+		 * Get workorder additional info
+		 * @since 11/1/2020
+		 */
+		public function get_workorder_state($idWorkorder) 
+		{		
+				$this->db->select("W.*, U.first_name");
+				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				$this->db->order_by('W.id_workorder_state', 'desc');
+				$query = $this->db->get('workorder_state W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Add workorder state
+		 * @since 11/1/2020
+		 */
+		public function add_workorder_state($arrData) 
+		{
+			$idUser = $this->session->userdata("id");
+			
+			$data = array(
+				'fk_id_workorder' => $arrData["idWorkorder"],
+				'fk_id_user' => $idUser,
+				'date_issue' => date("Y-m-d G:i:s"),
+				'observation' => $arrData["observation"],
+				'state' => $arrData["state"]
+			);
+			
+
+			$query = $this->db->insert('workorder_state', $data);
+
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
 	
 		
 		

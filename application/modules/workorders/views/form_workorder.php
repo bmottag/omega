@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v3.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v4.js"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -96,6 +96,7 @@ $(function(){
 						<li><a href="<?php echo base_url('workorders/generaWorkOrderPDF/' . $information[0]["id_workorder"]) ?>" target="_blank">Download invoice</a>
 						</li>
 					</ul>
+					<br>
 					<?php } ?>
 
 <?php
@@ -124,10 +125,41 @@ if ($retornoError) {
 }
 ?> 
 
+<?php 
+	if($information)
+	{ 
+			switch ($information[0]['state']) {
+					case 0:
+							$valor = 'On field';
+							$clase = "alert-danger";
+							break;
+					case 1:
+							$valor = 'Send to Office';
+							$clase = "alert-warning";
+							break;
+					case 2:
+							$valor = 'Send to client';
+							$clase = "alert-info";
+							break;
+					case 3:
+							$valor = 'Close';
+							$clase = "alert-success";
+							break;
+			}
+?>
+		<div class="col-lg-12">	
+			<div class="alert <?php echo $clase; ?>">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				This work order is <strong><?php echo $valor; ?></strong>
+			</div>
+		</div>
+						
+<?php } ?>
+
+
 							<form  name="form" id="form" class="form-horizontal" method="post"  >
 								<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_workorder"]:""; ?>"/>										
-																	
-																	
+																																		
 								<div class="form-group">
 <script>
 	$( function() {
@@ -137,14 +169,14 @@ if ($retornoError) {
 		});
 	});
 </script>
-									<label class="col-sm-4 control-label" for="hddTask">Date Work Order</label>
+									<label class="col-sm-4 control-label" for="hddTask">Date Work Order :</label>
 									<div class="col-sm-5">
 										<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date"]:""; ?>" placeholder="Date" required <?php echo $deshabilitar; ?> />
 									</div>
 								</div>
 								
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="taskDescription">Job Code/Name</label>
+									<label class="col-sm-4 control-label" for="taskDescription">Job Code/Name :</label>
 									<div class="col-sm-5">
 										<select name="jobName" id="jobName" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
@@ -159,7 +191,7 @@ if ($retornoError) {
 								<div class="form-group text-danger">
 									<label class="col-sm-4 control-label" for="company">Specify the client if you know it :</label>
 									<div class="col-sm-5">
-										<select name="company" id="company" class="form-control" >
+										<select name="company" id="company" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($companyList); $i++) { ?>
 												<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if($information[0]["fk_id_company"] == $companyList[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $companyList[$i]["company_name"]; ?></option>	
@@ -171,14 +203,14 @@ if ($retornoError) {
 								<div class="form-group text-danger">
 									<label class="col-sm-4 control-label" for="foreman">Foreman name : </label>
 									<div class="col-sm-5">
-										<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>">
+										<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
 									</div>
 								</div>
 
 								<div class="form-group text-danger">
 									<label class="col-sm-4 control-label" for="email">Foreman email : </label>
 									<div class="col-sm-5">
-										<input type="text" id="email" name="email" class="form-control" placeholder="Foreman email" value="<?php echo $information?$information[0]["foreman_email_wo"]:""; ?>">
+										<input type="text" id="email" name="email" class="form-control" placeholder="Foreman email" value="<?php echo $information?$information[0]["foreman_email_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
 									</div>
 								</div>
 
@@ -188,6 +220,7 @@ if ($retornoError) {
 									<textarea id="observation" name="observation" class="form-control" rows="3" <?php echo $deshabilitar; ?> placeholder="Task description"><?php echo $information?$information[0]["observation"]:""; ?></textarea>
 									</div>
 								</div>
+																
 <?php } ?>
 								
 								<?php if(!$deshabilitar){ ?>
@@ -271,6 +304,108 @@ if ($retornoError) {
 <?php 
 if($information){ 
 ?>
+
+<!--INICIO ADDITIONAL INFORMATION -->
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					ADDITIONAL INFORMATION (This field is only additional information for the office)
+				</div>
+				<div class="panel-body">
+				
+						<div class="col-lg-6">	
+							<form name="formState" id="formState" class="form-horizontal" method="post">
+								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information?$information[0]["id_workorder"]:""; ?>"/>										
+																				
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="state">State :</label>
+									<div class="col-sm-8">
+										<select name="state" id="state" class="form-control" required >
+											<option value="">Select...</option>
+											<option value=0 >On field</option>
+											<option value=1 >Send to Office</option>
+											<option value=2 >Send to client</option>
+											<option value=3 >Close</option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="information">Additional information :</label>
+									<div class="col-sm-8">
+									<textarea id="information" name="information" class="form-control" rows="3" placeholder="Additional information" required></textarea>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="row" align="center">
+										<div style="width:100%;" align="center">
+
+											<button type="button" id="btnState" name="btnState" class="btn btn-primary" >
+												Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+											</button> 
+											
+										</div>
+									</div>
+								</div>
+																
+							</form>
+							
+						</div>
+						
+						<div class="col-lg-6">	
+							<div class="alert alert-info">
+								
+<?php 
+	if($workorderState)
+	{	
+		foreach ($workorderState as $data):		
+?>
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			<strong><?php echo $data['first_name'] . ' - ' . $data['date_issue'] . ':'; ?></strong>
+			<?php 
+				echo $data['observation'];
+			
+				switch ($data['state']) {
+						case 0:
+								$valor = 'On field';
+								$clase = "text-danger";
+								break;
+						case 1:
+								$valor = 'Send to Office';
+								$clase = "text-warning";
+								break;
+						case 2:
+								$valor = 'Send to client';
+								$clase = "text-primary";
+								break;
+						case 3:
+								$valor = 'Close';
+								$clase = "text-success";
+								break;
+				}
+				echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+			?>
+			
+			<br>
+<?php
+		endforeach;
+	}
+?>
+								
+							</div>
+						</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.row -->
+<!--FIN ADDITIONAL INFORMATION -->
+
 	
 <!--INICIO PERSONAL -->
 	<!-- /.row -->
@@ -326,8 +461,7 @@ if($information){
 						</td>
 						
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
-
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
 						</form>
 						
 						<br><br>
@@ -336,8 +470,7 @@ if($information){
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
 							<?php }else{ echo "---";} ?>
-							</center>
-						</small></td>
+							</td>
 						</tr>
 				<?php
 					endforeach;
@@ -408,8 +541,8 @@ if($information){
 						</td>
 										
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
-
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
+							
 						</form>
 						
 						<br><br>
@@ -499,7 +632,8 @@ if($information){
 						</td>
 
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
+							
 						</form>			
 
 						<br><br>
@@ -587,7 +721,8 @@ if($information){
 						</td>
 
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
+							
 						</form>
 						
 						<br><br>

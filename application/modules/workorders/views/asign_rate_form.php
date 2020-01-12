@@ -117,6 +117,38 @@ if ($retornoError) {
     <?php
 }
 ?> 
+
+<?php 
+	if($information)
+	{ 
+			switch ($information[0]['state']) {
+					case 0:
+							$valor = 'On field';
+							$clase = "alert-danger";
+							break;
+					case 1:
+							$valor = 'Send to Office';
+							$clase = "alert-warning";
+							break;
+					case 2:
+							$valor = 'Send to client';
+							$clase = "alert-info";
+							break;
+					case 3:
+							$valor = 'Close';
+							$clase = "alert-success";
+							break;
+			}
+?>
+		<div class="col-lg-12">	
+			<div class="alert <?php echo $clase; ?>">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				This work order is <strong><?php echo $valor; ?></strong>
+			</div>
+		</div>
+						
+<?php } ?>
+
 					<div class="row">
 						<div class="col-lg-12">								
 							<div class="alert alert-info">
@@ -157,10 +189,12 @@ if ($retornoError) {
 										</div>
 										<div class="panel-body">
 											<div class="col-lg-12">	
-												
+			
+					<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_workorder"]; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Personal
 					</button><br>
+					<?php } ?>
 											</div>
 <?php 										
 	if(!$workorderPersonal){ 
@@ -206,15 +240,15 @@ if ($retornoError) {
 						</td>
 						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
 						</td>
 						</form>
-						<td class='text-center'><small>
-							<center>
+						<td class='text-center'>
+							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
-							</center></small>
+							<?php }else{ echo "---";} ?>
 						</td>
 						</tr>
 				<?php
@@ -242,10 +276,12 @@ if ($retornoError) {
 										</div>
 										<div class="panel-body">
 											<div class="col-lg-12">	
-												
+					
+					<?php if(!$deshabilitar){ ?>					
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials
 					</button><br>
+					<?php } ?>
 											</div>
 <?php 										
 	if(!$workorderMaterials){ 
@@ -291,15 +327,15 @@ if ($retornoError) {
 						</td>
 						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
 						</td>
 						</form>
-						<td class='text-center'><small>
-							<center>
+						<td class='text-center'>
+							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/materials/' . $data['id_workorder_materials'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
-							</center></small>
+							<?php }else{ echo "---";} ?>
 						</td>
 						</tr>
 				<?php
@@ -328,9 +364,11 @@ if ($retornoError) {
 										<div class="panel-body">
 											<div class="col-lg-12">	
 												
+					<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalEquipment" id="<?php echo 'equipment-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment
 					</button><br>
+					<?php } ?>
 											</div>
 <?php 										
 	if(!$workorderEquipment){ 
@@ -404,15 +442,15 @@ if ($retornoError) {
 						</td>
 						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
 						</td>
 						</form>			
-						<td class='text-center'><small>
-							<center>
+						<td class='text-center'>
+							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/equipment/' . $data['id_workorder_equipment'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
-							</center></small>
+							<?php }else{ echo "---";} ?>
 						</td>
 						</tr>
 				<?php
@@ -440,10 +478,12 @@ if ($retornoError) {
 										</div>
 										<div class="panel-body">
 											<div class="col-lg-12">	
-												
+								
+					<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
 					</button><br>
+					<?php } ?>
 											</div>
 <?php 										
 	if(!$workorderOcasional){ 
@@ -505,15 +545,15 @@ if ($retornoError) {
 						</td>
 						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
 						</td>
 						</form>	
-						<td class='text-center'><small>
-							<center>
+						<td class='text-center'>
+							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/ocasional/' . $data['id_workorder_ocasional'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
-							</center></small>
+							<?php }else{ echo "---";} ?>
 						</td>
 						</tr>
 				<?php
@@ -541,10 +581,12 @@ if ($retornoError) {
 										</div>
 										<div class="panel-body">
 											<div class="col-lg-12">	
-												
+								
+					<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-purpura btn-block" data-toggle="modal" data-target="#modalHoldBack" id="holdBack-<?php echo $information[0]["id_workorder"]; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Hold Back
 					</button><br>
+					<?php } ?>
 											</div>
 <?php 										
 	if(!$workorderHoldBack){ 
@@ -581,14 +623,15 @@ if ($retornoError) {
 						</td>
 
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
 						</form>
 
 						<br><br>
-
+							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/hold_back/' . $data['id_workorder_hold_back'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
+							<?php }else{ echo "---";} ?>
 						</td>
 						</tr>
 				<?php

@@ -51,7 +51,6 @@ class Workorders extends CI_Controller {
 			$data['jobs'] = $this->general_model->get_basic_search($arrParam);
 			
 			//company list
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_company",
 				"order" => "company_name",
@@ -67,6 +66,7 @@ class Workorders extends CI_Controller {
 				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
 				$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
 				$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
+				$data['workorderState'] = $this->workorders_model->get_workorder_state($id);//workorder additional information
 
 				$arrParam = array(
 					"idWorkorder" => $id
@@ -74,7 +74,7 @@ class Workorders extends CI_Controller {
 				$data['information'] = $this->workorders_model->get_workordes_by_idUser($arrParam);//info workorder
 			
 				//si esta cerrada deshabilito los botones
-				if($data['information'][0]['state'] == 2){
+				if($data['information'][0]['state'] == 3){
 					$data['deshabilitar'] = 'disabled';
 				}
 				
@@ -97,14 +97,25 @@ class Workorders extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$idWorkorder = $this->input->post('hddIdentificador');
+			$idWorkorderInicial = $this->input->post('hddIdentificador');
 			
 			$msj = "You have add a new Work Order, continue uploading the information.";
-			if ($idWorkorder != '') {
+			if ($idWorkorderInicial != '') {
 				$msj = "You have update the Work Order, continue uploading the information.";
 			}
 
-			if ($idWorkorder = $this->workorders_model->add_workorder()) {
+			if ($idWorkorder = $this->workorders_model->add_workorder()) 
+			{
+				//guardo el primer estado de la workorder
+				if(!$idWorkorderInicial){
+					$arrParam = array(
+						"idWorkorder" => $idWorkorder,
+						"observation" => "New workorder.",
+						"state" => 0
+					);					
+					$this->workorders_model->add_workorder_state($arrParam);
+				}
+				
 				$data["result"] = true;
 				$data["mensaje"] = $msj;
 				$data["idWorkorder"] = $idWorkorder;
@@ -504,6 +515,12 @@ class Workorders extends CI_Controller {
 			
 			$arrParam['idWorkOrder'] =  $id;
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+			
+			//si esta cerrada deshabilito los botones
+			$data['deshabilitar'] = '';
+			if($data['information'][0]['state'] == 3){
+				$data['deshabilitar'] = 'disabled';
+			}
 
 			$data["view"] = 'asign_rate_form';
 			$this->load->view("layout", $data);
@@ -813,6 +830,53 @@ class Workorders extends CI_Controller {
 			
 			return TRUE;
 	}	
+	
+	/**
+	 * Save workorder state
+     * @since 11/1/2020
+     * @author BMOTTAG
+	 */
+	public function save_workorder_state()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idWorkorder"] = $this->input->post('hddIdWorkOrder');
+			
+			$msj = "You have add additional information to the Work Order.";
+			
+			$arrParam = array(
+				"idWorkorder" => $this->input->post('hddIdWorkOrder'),
+				"observation" => $this->input->post('information'),
+				"state" => $this->input->post('state')
+			);
+
+			if ($this->workorders_model->add_workorder_state($arrParam)) 
+			{
+				//actualizo el estado del formulario
+				$arrParam = array(
+					"table" => "workorder",
+					"primaryKey" => "id_workorder",
+					"id" => $this->input->post('hddIdWorkOrder'),
+					"column" => "state",
+					"value" => $this->input->post('state')
+				);
+				$this->load->model("general_model");
+				
+				$this->general_model->updateRecord($arrParam);
+				
+				
+				$data["result"] = true;
+				$data["mensaje"] = $msj;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
 	
 	/**
 	 * Generate WORK ORDER Report in PDF
