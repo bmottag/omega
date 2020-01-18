@@ -51,6 +51,9 @@
 									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('more/environmental/' . $lista['id_job']) ?>'>
 										ESI <span class="glyphicon glyphicon-screenshot" aria-hidden="true">
 									</a>
+									<a class='btn btn-warning btn-xs' href='<?php echo base_url('more/confined/' . $lista['id_job']) ?>'>
+										CSEP <span class="fa fa-database" aria-hidden="true">
+									</a>
 								</div>
 
 

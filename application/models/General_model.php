@@ -560,6 +560,32 @@ class General_model extends CI_Model {
 					return false;
 				}
 		}
+		
+		/**
+		 * confined space entry permit list
+		 * @since 13/1/2020
+		 */
+		public function get_confined_space($arrDatos) 
+		{				
+				$this->db->select();
+
+				if (array_key_exists("idJob", $arrDatos)) {
+					$this->db->where('fk_id_job', $arrDatos["idJob"]);
+				}
+
+				if (array_key_exists("idConfined", $arrDatos)) {
+					$this->db->where('id_job_confined', $arrDatos["idConfined"]);
+				}
+								
+				$this->db->order_by('id_job_confined', 'asc');
+				$query = $this->db->get('job_confined C');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 
 
 

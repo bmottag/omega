@@ -644,5 +644,106 @@ class More extends CI_Controller {
 			$this->load->view("layout", $data);
 	}
 	
+	/**
+	 * confined space entry permit list
+     * @since 13/1/2020
+     * @author BMOTTAG
+	 */
+	public function confined($idJob)
+	{		
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//tool box info
+			$arrParam = array(
+				"idJob" => $idJob
+			);				
+			$data['information'] = $this->general_model->get_confined_space($arrParam);
+
+			$data["view"] ='confined_list';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Form confined space entry permit
+     * @since 14/1/2020
+     * @author BMOTTAG
+	 */
+	public function add_confined($idJob, $idConfined = 'x')
+	{
+			$data['information'] = FALSE;
+			
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+						
+			//si envio el id, entonces busco la informacion 
+			if ($idConfined != 'x') 
+			{
+				$arrParam = array(
+					"idConfined" => $idConfined
+				);				
+				$data['information'] = $this->general_model->get_confined_space($arrParam);
+				
+//				$data['newHazards'] = $this->jobs_model->get_new_hazards($idToolBox);//new hazard list
+//				$data['toolBoxWorkers'] = $this->jobs_model->get_tool_box_workers($idToolBox);//workers list
+				
+				//tool box subcontractors workers list
+//				$data['toolBoxSubcontractorsWorkers'] = $this->jobs_model->get_tool_box_subcontractors_workers($idToolBox);
+				
+				//workers list
+//				$data['workersList'] = $this->general_model->get_user_list();//workers list
+				
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_confined';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save confined space entry permit
+     * @since 13/1/2020
+     * @author BMOTTAG
+	 */
+	public function save_confined()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idRecord"] = $this->input->post('hddIdJob');
+
+			if ($idConfined = $this->more_model->add_confined()) 
+			{
+				$data["result"] = true;
+				$data["mensaje"] = "You have save the Confined Space Entry Permit, continue uploading the information.";
+				$data["idConfined"] = $idConfined;
+				$this->session->set_flashdata('retornoExito', 'You have save the Confined Space Entry Permit, continue uploading the information!!');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$data["idConfined"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			
+			echo json_encode($data);
+    }
+
+	
 	
 }

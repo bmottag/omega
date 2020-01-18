@@ -266,6 +266,65 @@
 				}
 		}
 		
+		/**
+		 * Add confined space entry permit
+		 * @since 13/1/2020
+		 */
+		public function add_confined() 
+		{
+			$idUser = $this->session->userdata("id");
+			$idConfined = $this->input->post('hddIdentificador');
+		
+			$fechaStart = $this->input->post('start_date');
+			$horaStart = $this->input->post('start_hour');
+			$minStart = $this->input->post('start_min');
+			$fechaFinish = $this->input->post('finish_date');
+			$horaFinish = $this->input->post('finish_hour');
+			$minFinish = $this->input->post('finish_min');
+			
+			$fechaStart = $fechaStart . " " . $horaStart . ":" . $minStart . ":00";
+			$fechaFinish = $fechaFinish . " " . $horaFinish . ":" . $minFinish . ":00"; 
+		
+			$data = array(
+				'location' => $this->input->post('location'),
+				'purpose' => $this->input->post('purpose'),
+				'scheduled_start' => $fechaStart,
+				'scheduled_finish' => $fechaFinish
+			);
+			
+			//solo usuarios SUPER_ADMIN pueden ingresar la fecha
+			$userRol = $this->session->rol;
+			$dateIssue = $this->input->post('date');
+			
+			//revisar si es para adicionar o editar
+			if ($idConfined == '') {
+				$data['fk_id_user'] = $idUser;
+				$data['fk_id_job'] = $this->input->post('hddIdJob');			
+				
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$data['date_confined'] = date("Y-m-d");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_confined'] = $dateIssue;
+				}
+
+				$query = $this->db->insert('job_confined', $data);	
+				$idConfined = $this->db->insert_id();				
+			} else {
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_confined'] = $dateIssue;
+				}
+				
+				$this->db->where('id_job_confined', $idConfined);
+				$query = $this->db->update('job_confined', $data);
+			}
+			
+			if ($query) {
+				return $idConfined;
+			} else {
+				return false;
+			}
+		}
+		
 
 		
 	    
