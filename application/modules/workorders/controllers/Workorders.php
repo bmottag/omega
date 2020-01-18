@@ -74,7 +74,7 @@ class Workorders extends CI_Controller {
 				$data['information'] = $this->workorders_model->get_workordes_by_idUser($arrParam);//info workorder
 			
 				//si esta cerrada deshabilito los botones
-				if($data['information'][0]['state'] == 3){
+				if($data['information'][0]['state'] == 4){
 					$data['deshabilitar'] = 'disabled';
 				}
 				
@@ -110,7 +110,7 @@ class Workorders extends CI_Controller {
 				if(!$idWorkorderInicial){
 					$arrParam = array(
 						"idWorkorder" => $idWorkorder,
-						"observation" => "New workorder.",
+						"observation" => "New work order.",
 						"state" => 0
 					);					
 					$this->workorders_model->add_workorder_state($arrParam);
@@ -518,7 +518,7 @@ class Workorders extends CI_Controller {
 			
 			//si esta cerrada deshabilito los botones
 			$data['deshabilitar'] = '';
-			if($data['information'][0]['state'] == 3){
+			if($data['information'][0]['state'] == 4){
 				$data['deshabilitar'] = 'disabled';
 			}
 

@@ -30,8 +30,34 @@
 						<tbody>							
 						<?php
 							foreach ($workOrderInfo as $lista):
+							
+									switch ($lista['state']) {
+											case 0:
+													$valor = 'On field';
+													$clase = "text-danger";
+													break;
+											case 1:
+													$valor = 'In Progress';
+													$clase = "text-warning";
+													break;
+											case 2:
+													$valor = 'Revised';
+													$clase = "text-primary";
+													break;
+											case 3:
+													$valor = 'Send to the client';
+													$clase = "text-success";
+													break;
+											case 4:
+													$valor = 'Closed';
+													$clase = "text-danger";
+													break;
+									}
+							
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['id_workorder'] . "</td>";
+									echo "<td class='text-center'>" . $lista['id_workorder'];
+									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+									echo "</td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";

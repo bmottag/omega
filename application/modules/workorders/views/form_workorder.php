@@ -134,16 +134,20 @@ if ($retornoError) {
 							$clase = "alert-danger";
 							break;
 					case 1:
-							$valor = 'Send to Office';
+							$valor = 'In Progress';
 							$clase = "alert-warning";
 							break;
 					case 2:
-							$valor = 'Send to client';
+							$valor = 'Revised';
 							$clase = "alert-info";
 							break;
 					case 3:
-							$valor = 'Close';
+							$valor = 'Send to the client';
 							$clase = "alert-success";
+							break;
+					case 4:
+							$valor = 'Closed';
+							$clase = "alert-danger";
 							break;
 			}
 ?>
@@ -325,9 +329,10 @@ if($information){
 										<select name="state" id="state" class="form-control" required >
 											<option value="">Select...</option>
 											<option value=0 >On field</option>
-											<option value=1 >Send to Office</option>
-											<option value=2 >Send to client</option>
-											<option value=3 >Close</option>
+											<option value=1 >In Progress</option>
+											<option value=2 >Revised</option>
+											<option value=3 >Send to the client</option>
+											<option value=4 >Closed</option>
 										</select>
 									</div>
 								</div>
@@ -353,6 +358,11 @@ if($information){
 																
 							</form>
 							
+							<div class="alert alert-danger ">
+								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+								Be sure you fild all the information.
+							</div>
+							
 						</div>
 						
 						<div class="col-lg-6">	
@@ -374,16 +384,20 @@ if($information){
 								$clase = "text-danger";
 								break;
 						case 1:
-								$valor = 'Send to Office';
+								$valor = 'In Progress';
 								$clase = "text-warning";
 								break;
 						case 2:
-								$valor = 'Send to client';
+								$valor = 'Revised';
 								$clase = "text-primary";
 								break;
 						case 3:
-								$valor = 'Close';
+								$valor = 'Send to the client';
 								$clase = "text-success";
+								break;
+						case 4:
+								$valor = 'Closed';
+								$clase = "text-danger";
 								break;
 				}
 				echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';

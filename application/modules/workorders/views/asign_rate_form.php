@@ -127,16 +127,20 @@ if ($retornoError) {
 							$clase = "alert-danger";
 							break;
 					case 1:
-							$valor = 'Send to Office';
+							$valor = 'In Progress';
 							$clase = "alert-warning";
 							break;
 					case 2:
-							$valor = 'Send to client';
+							$valor = 'Revised';
 							$clase = "alert-info";
 							break;
 					case 3:
-							$valor = 'Close';
+							$valor = 'Send to the client';
 							$clase = "alert-success";
+							break;
+					case 4:
+							$valor = 'Closed';
+							$clase = "alert-dager";
 							break;
 			}
 ?>

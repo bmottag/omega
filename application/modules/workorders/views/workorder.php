@@ -52,16 +52,20 @@
 													$clase = "text-danger";
 													break;
 											case 1:
-													$valor = 'Send to Office';
+													$valor = 'In Progress';
 													$clase = "text-warning";
 													break;
 											case 2:
-													$valor = 'Send to client';
+													$valor = 'Revised';
 													$clase = "text-primary";
 													break;
 											case 3:
-													$valor = 'Close';
+													$valor = 'Send to the client';
 													$clase = "text-success";
+													break;
+											case 4:
+													$valor = 'Closed';
+													$clase = "text-danger";
 													break;
 									}
 							
