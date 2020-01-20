@@ -76,6 +76,94 @@ if ($retornoError) {
 ?> 
 <p class="text-danger text-left">Fields with * are required.</p>	
 
+<!--INICIO WORKERS -->								
+<?php if($information){ ?>
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<a name="anclaWorker" ></a><strong>Worker(s) in charge of entry:</strong>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-12">	
+<?php if($confinedWorkers){ ?>
+												
+					<button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
+					</button>
+<?php }else { ?>
+					<a href="<?php echo base_url("more/add_workers_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"]); ?>" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+<?php } ?>
+											
+						<br>
+					</div>
+										
+<?php 
+	if($confinedWorkers){
+?>
+			<table class="table table-bordered table-striped table-hover table-condensed">
+				<tr>
+					<td><p class="text-center"><strong>Name</strong></p></td>
+					<td><p class="text-center"><strong>Signature</strong></p></td>
+					<td><p class="text-center"><strong>Delete</strong></p></td>
+				</tr>
+				<?php
+					foreach ($confinedWorkers as $data):
+						echo "<tr>";					
+						echo "<td ><small>" . $data['name'] . "</small></td>";
+						echo "<td class='text-center'><small><center>";
+$class = "btn-primary";						
+if($data['signature']){ 
+	$class = "btn-default";
+	
+?>
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="<?php echo $data['id_tool_box_worker']; ?>">
+	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+</button>
+
+<div id="<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" class="modal fade" role="dialog">  
+	<div class="modal-dialog">
+		<div class="modal-content">      
+			<div class="modal-header">        
+				<button type="button" class="close" data-dismiss="modal">×</button>        
+				<h4 class="modal-title">Worker Signature</h4>      </div>      
+			<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
+			<div class="modal-footer">    
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+			</div>  
+		</div>  
+	</div>
+</div>
+<?php
+}
+				?>
+					
+					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('jobs/add_signature/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_cofined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
+					</a>
+					</center>
+				<?php
+						echo "</small></td>"; 
+						echo "<td class='text-center'><small>";
+				?>
+					<center>
+					<a class='btn btn-default' href='<?php echo base_url('jobs/deleteToolBoxWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_tool_box'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+					</a>
+					</center>
+				<?php
+						echo "</small></td>";                     
+						echo "</tr>";
+					endforeach;
+				?>
+			</table>
+	<?php } ?>
+			</div>
+		</div>
+	</div>
+</div>
+<?php } ?>
+<!--FIN WORKERS -->
 
 <form  name="form" id="form" class="form-horizontal" method="post"  >
 	<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_confined"]:""; ?>"/>

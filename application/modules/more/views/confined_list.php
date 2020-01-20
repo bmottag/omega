@@ -29,8 +29,8 @@
 								<th>#</th>
 								<th>Reported by</th>
 								<th>Date</th>
-								<th>Activities of the Day</th>
-								<th>Employee Suggestions</th>
+								<th>Location</th>
+								<th>Purpose of entry</th>
 								<th>Edit</th>
 							</tr>
 						</thead>
@@ -38,15 +38,15 @@
 						<?php
 							foreach ($information as $lista):
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['id_tool_box'] . "</td>";
+									echo "<td class='text-center'>" . $lista['id_job_confined'] . "</td>";
+									echo "<td class='text-center'>" . $lista['date_confined'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
-									echo "<td class='text-center'>" . $lista['date_tool_box'] . "</td>";
-									echo "<td>" . $lista['activities'] . "</td>";
-									echo "<td>" . $lista['suggestions'] . "</td>";
+									echo "<td>" . $lista['location'] . "</td>";
+									echo "<td>" . $lista['purpose'] . "</td>";
 									
 									echo "<td class='text-center'>";									
 						?>
-									<a class='btn btn-success btn-xs' href='<?php echo base_url('jobs/add_tool_box/' . $lista['fk_id_job'] . '/' . $lista['id_tool_box'] ) ?>'>
+									<a class='btn btn-success btn-xs' href='<?php echo base_url('more/add_confined/' . $lista['fk_id_job'] . '/' . $lista['id_job_confined'] ) ?>'>
 											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</a>								
 						<?php

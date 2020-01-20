@@ -325,6 +325,66 @@
 			}
 		}
 		
+		/**
+		 * Get confined workers info
+		 * @since 20/1/2020
+		 */
+		public function get_confined_workers($idConfined) 
+		{		
+				$this->db->select("W.id_job_confined_worker, W.fk_id_job_confined, W.signature, CONCAT(first_name, ' ', last_name) name");
+				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+				$this->db->where('W.fk_id_job_confined', $idConfined); 
+				$this->db->order_by('U.first_name, U.last_name', 'asc');
+				$query = $this->db->get('job_confined_workers W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * @author BMOTTAG
+		 * @since 20/1/2020
+		 * Consulta de empleados para un confined especifico
+		 */
+		public function get_confined_byIdworker_byIdConfined($idConfined, $idWorker) {
+			$this->db->where('fk_id_job_confined', $idConfined);
+			$this->db->where('fk_id_user', $idWorker);
+			$query = $this->db->get('job_confined_workers');
+			if ($query->num_rows() == 1) {
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+		}
+		
+		/**
+		 * Add confined WORKER
+		 * @since 20/1/2020
+		 */
+		public function add_confined_worker($idConfined) 
+		{
+			//add the new workers
+			$query = 1;
+			if ($workers = $this->input->post('workers')) {
+				$tot = count($workers);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_job_confined' => $idConfined,
+						'fk_id_user' => $workers[$i]
+					);
+					$query = $this->db->insert('job_confined_workers', $data);
+				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+		
 
 		
 	    

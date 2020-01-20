@@ -567,7 +567,9 @@ class General_model extends CI_Model {
 		 */
 		public function get_confined_space($arrDatos) 
 		{				
-				$this->db->select();
+				$this->db->select('C.*, CONCAT(U.first_name, " " , U.last_name) name, J.id_job, J.job_description');
+				$this->db->join('param_jobs J', 'J.id_job = C.fk_id_job', 'INNER');
+				$this->db->join('user U', 'U.id_user = C.fk_id_user', 'INNER');
 
 				if (array_key_exists("idJob", $arrDatos)) {
 					$this->db->where('fk_id_job', $arrDatos["idJob"]);

@@ -698,14 +698,10 @@ class More extends CI_Controller {
 				);				
 				$data['information'] = $this->general_model->get_confined_space($arrParam);
 				
-//				$data['newHazards'] = $this->jobs_model->get_new_hazards($idToolBox);//new hazard list
-//				$data['toolBoxWorkers'] = $this->jobs_model->get_tool_box_workers($idToolBox);//workers list
-				
-				//tool box subcontractors workers list
-//				$data['toolBoxSubcontractorsWorkers'] = $this->jobs_model->get_tool_box_subcontractors_workers($idToolBox);
+				$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined);//workers list
 				
 				//workers list
-//				$data['workersList'] = $this->general_model->get_user_list();//workers list
+				$data['workersList'] = $this->general_model->get_user_list();//workers list
 				
 				if (!$data['information']) { 
 					show_error('ERROR!!! - You are in the wrong place.');	
@@ -743,6 +739,59 @@ class More extends CI_Controller {
 			
 			echo json_encode($data);
     }
+	
+	/**
+	 * Form Add Workers confined
+     * @since 20/1/2020
+     * @author BMOTTAG
+	 */
+	public function add_workers_confined($idJob, $idConfined)
+	{
+			if (empty($idJob) || empty($idConfined)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+			
+			//workers list
+			$this->load->model("general_model");
+			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			
+			$view = 'form_add_workers_confined';
+			$data["idConfined"] = $idConfined;
+			$data["idJob"] = $idJob;
+			
+			$data["view"] = $view;
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save worker
+     * @since 20/1/2020
+     * @author BMOTTAG
+	 */
+	public function save_confined_workers()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$idConfined = $this->input->post('hddIdConfined');
+			$idJob = $this->input->post('hddIdJob');
+			
+			$data["idRecord"] = $idJob . "/" . $idConfined;
+
+			if ($this->more_model->add_confined_worker($idConfined)) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+								
+				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }	
+	
 
 	
 	
