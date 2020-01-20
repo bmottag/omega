@@ -117,7 +117,7 @@ if($data['signature']){
 	$class = "btn-default";
 	
 ?>
-<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="<?php echo $data['id_tool_box_worker']; ?>">
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="<?php echo $data['id_job_confined_worker']; ?>">
 	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 </button>
 
@@ -138,7 +138,7 @@ if($data['signature']){
 }
 				?>
 					
-					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('jobs/add_signature/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_cofined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('more/add_signature_confined/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 					</a>
 					</center>

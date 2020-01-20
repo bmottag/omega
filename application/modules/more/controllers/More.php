@@ -832,6 +832,63 @@ class More extends CI_Controller {
 			redirect(base_url('more/add_confined/' . $idJob . "/" . $idConfined ), 'refresh');
     }
 	
+	/**
+	 * Signature
+	 * param $typo: supervisor / worker
+	 * param $idConfined: llave principal del formulario
+	 * param $idWorker: llave principal del trabajador
+     * @since 20/1/2020
+     * @author BMOTTAG
+	 */
+	public function add_signature_confined($typo, $idJob, $idConfined, $idWorker)
+	{
+			if (empty($typo) || empty($idConfined) || empty($idWorker) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			if($_POST)
+			{
+				//update signature with the name of the file
+				$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
+				
+				$arrParam = array(
+					"table" => "job_confined_workers",
+					"primaryKey" => "id_job_confined_worker",
+					"id" => $idWorker,
+					"column" => "signature",
+					"value" => $name
+				);
+				//enlace para regresar al formulario con ancla a la lista de trabajadores
+				$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaWorker";
+				
+				$data_uri = $this->input->post("image");
+				$encoded_image = explode(",", $data_uri)[1];
+				$decoded_image = base64_decode($encoded_image);
+				file_put_contents($name, $decoded_image);
+				
+				$this->load->model("general_model");
+				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
+				if ($this->general_model->updateRecord($arrParam)) {
+					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
+					
+					$data['clase'] = "alert-success";
+					$data['msj'] = "Good job, you have save your signature.";	
+				} else {
+					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+					
+					$data['clase'] = "alert-danger";
+					$data['msj'] = "Ask for help.";
+				}
+				
+				$data["view"] = 'template/answer';
+				$this->load->view("layout", $data);
+
+				//redirect("/safety/add_safety/" . $idSafety,'refresh');
+			}else{			
+				$this->load->view('template/make_signature');
+			}
+	}
+	
 
 	
 	
