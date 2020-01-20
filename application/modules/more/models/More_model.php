@@ -385,6 +385,27 @@
 			}
 		}
 		
+		/**
+		 * Save one worker CONFINED
+		 * @since 20/1/2020
+		 */
+		public function confinedSaveOneWorker() 
+		{							
+				$data = array(
+					'fk_id_job_confined' => $this->input->post('hddIdConfined'),
+					'fk_id_user' => $this->input->post('worker')
+				);			
+
+				$query = $this->db->insert('job_confined_workers', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		
 
 		
 	    

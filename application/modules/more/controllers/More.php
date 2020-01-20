@@ -816,6 +816,22 @@ class More extends CI_Controller {
 			redirect(base_url('more/add_confined/' . $idJob . '/' . $idConfined), 'refresh');
     }
 	
+    /**
+     * Safe one worker to Confined Space Entry
+     */
+    public function confined_One_Worker() 
+	{
+			$idJob = $this->input->post('hddIdJob');
+			$idConfined = $this->input->post('hddIdConfined');
+
+			if ($this->more_model->confinedSaveOneWorker()) {
+				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('more/add_confined/' . $idJob . "/" . $idConfined ), 'refresh');
+    }
+	
 
 	
 	

@@ -426,9 +426,9 @@ if($information)
 			</div>
 
 			<div class="modal-body">
-				<form name="formHazard" id="formHazard" role="form" method="post" action="<?php echo base_url("jobs/tool_box_One_Worker") ?>" >
+				<form name="formWorker" id="formWorker" role="form" method="post" action="<?php echo base_url("more/confined_One_Worker") ?>" >
 					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
-					<input type="hidden" id="hddIdToolBox" name="hddIdToolBox" value="<?php echo $information[0]["id_tool_box"]; ?>"/>
+					<input type="hidden" id="hddIdConfined" name="hddIdConfined" value="<?php echo $information[0]["id_job_confined"]; ?>"/>
 
 					<div class="form-group text-left">
 						<label class="control-label" for="worker">Worker</label>
