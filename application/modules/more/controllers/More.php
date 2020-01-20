@@ -792,6 +792,30 @@ class More extends CI_Controller {
 			echo json_encode($data);
     }	
 	
+    /**
+     * Delete confined worker
+     */
+    public function deleteConfinedWorker($idJob, $idConfined, $idConfinedWorker) 
+	{
+			if (empty($idJob) || empty($idConfined) || empty($idConfinedWorker) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			$arrParam = array(
+				"table" => "job_confined_workers",
+				"primaryKey" => "id_job_confined_worker",
+				"id" => $idConfinedWorker
+			);
+
+			$this->load->model("general_model");
+			if ($this->general_model->deleteRecord($arrParam)) {
+				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('more/add_confined/' . $idJob . '/' . $idConfined), 'refresh');
+    }
+	
 
 	
 	

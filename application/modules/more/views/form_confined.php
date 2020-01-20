@@ -147,7 +147,7 @@ if($data['signature']){
 						echo "<td class='text-center'><small>";
 				?>
 					<center>
-					<a class='btn btn-default' href='<?php echo base_url('jobs/deleteToolBoxWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_tool_box'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+					<a class='btn btn-default' href='<?php echo base_url('more/deleteConfinedWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 					</a>
 					</center>
