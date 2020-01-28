@@ -81,6 +81,7 @@ if ($retornoError) {
 ?> 
 <p class="text-danger text-left">Fields with * are required.</p>	
 
+
 <!--INICIO WORKERS -->								
 <?php if($information){ ?>
 	<div class="row">
@@ -615,6 +616,155 @@ if($information)
 			</div>
 		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<strong>Remarks on the overall condition of the confined space: </strong>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="col-sm-12">
+						<textarea id="remarks" name="remarks" class="form-control" rows="2"><?php echo $information?$information[0]["remarks"]:""; ?></textarea>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<!--INICIO FIRMAS ENCARGADOS -->								
+	<div class="row">
+
+		<div class="col-lg-6">				
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<a name="anclaSignature" ></a>
+					<strong>ENTRY AUTHORIZATION: *</strong>
+					<br>All actions and/or conditions for safety entry have been performed. 
+					<br>Person in charge of entry:
+				</div>
+				<div class="panel-body">								
+				
+					<div class="form-group">
+						<div class="col-sm-12">
+							<select name="authorization" id="authorization" class="form-control">
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+									<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_id_user_authorization"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+								<?php } ?>
+							</select>								
+						</div>
+					</div>
+
+<!-- INICIO FIRMA -->				
+<?php if($information[0]["fk_id_user_authorization"]){ //solo se muestran las firmas cuando hay informacion ?>
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:70%;" align="center">
+		<?php 
+		$class = "btn-primary";						
+		if($information[0]["authorization_signature"]){ 
+			$class = "btn-default";
+		?>
+				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" >
+					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+				</button>
+
+				<div id="myModal" class="modal fade" role="dialog">  
+					<div class="modal-dialog">
+						<div class="modal-content">      
+							<div class="modal-header">        
+								<button type="button" class="close" data-dismiss="modal">×</button>        
+								<h4 class="modal-title">ENTRY AUTHORIZATION – Signature</h4>      </div>      
+							<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["authorization_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
+							<div class="modal-footer">        
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+							</div>  
+						</div>  
+					</div>
+				</div>
+		<?php
+		}
+		?>
+
+		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_confined/authorization/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_confined"] . "/" . $information[0]["fk_id_user_authorization"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a>
+
+							</div>
+						</div>
+					</div>
+<?php } ?>
+					
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-lg-6">				
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<strong>ENTRY CANCELLATION: *</strong> 
+					<br>Entry has been completed and all entrants have left the space. 
+					<br>Person in charge of entry:
+				</div>
+				<div class="panel-body">								
+				
+					<div class="form-group">
+						<div class="col-sm-12">
+							<select name="cancellation" id="cancellation" class="form-control">
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+									<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_id_user_cancellation"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+								<?php } ?>
+							</select>								
+						</div>
+					</div>
+
+<!-- INICIO FIRMA -->
+<?php if($information[0]["fk_id_user_cancellation"]){ //solo se muestran las firmas cuando hay informacion ?>
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:70%;" align="center">								 
+			<?php 
+			$class = "btn-primary";						
+			if($information[0]["cancellation_signature"]){ 
+				$class = "btn-default";
+			?>
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myContractorModal" >
+						<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+					</button>
+
+					<div id="myContractorModal" class="modal fade" role="dialog">  
+						<div class="modal-dialog">
+							<div class="modal-content">      
+								<div class="modal-header">        
+									<button type="button" class="close" data-dismiss="modal">×</button>        
+									<h4 class="modal-title">ENTRY CANCELLATION - Signature</h4>      </div>      
+					<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["cancellation_signature"]); ?>" class="img-rounded" alt="Safety Coordinator Signature" width="304" height="236" />   </div>      
+								<div class="modal-footer">        
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+								</div>  
+							</div>  
+						</div>
+					</div>
+
+			<?php
+			}
+			?>
+			
+			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_confined/cancellation/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"] . "/" . $information[0]["fk_id_user_authorization"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a>
+
+							</div>
+						</div>
+					</div>
+<?php } ?>
+					
+				</div>
+			</div>
+		</div>
+	
+	</div>
+<!--FIN FIRMAS ENCARGADOS -->
 
 								
 								

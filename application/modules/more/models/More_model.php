@@ -324,7 +324,10 @@
 				're_explosive_limit' => $this->input->post('re_explosive_limit'),
 				're_explosive_limit_time' => $this->input->post('re_explosive_limit_time'),
 				're_toxic_atmosphere' => $this->input->post('re_toxic_atmosphere'),
-				're_instruments_used' => $this->input->post('re_instruments_used')
+				're_instruments_used' => $this->input->post('re_instruments_used'),
+				'remarks' => $this->input->post('remarks'),
+				'fk_id_user_authorization' => $this->input->post('authorization'),
+				'fk_id_user_cancellation' => $this->input->post('cancellation')
 			);
 			
 			//solo usuarios SUPER_ADMIN pueden ingresar la fecha

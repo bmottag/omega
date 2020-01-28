@@ -18,7 +18,9 @@ $( document ).ready( function () {
 			toxic_atmosphere_cond: 			{ maxlength:200},
 			instruments_used: 				{ maxlength:200},
 			re_toxic_atmosphere: 			{ maxlength:200},
-			re_instruments_used: 			{ maxlength:200}
+			re_instruments_used: 			{ maxlength:200},
+			authorization:	 			{ required: true },
+			cancellation:	 			{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

@@ -721,7 +721,7 @@ class More extends CI_Controller {
 	{			
 			header('Content-Type: application/json');
 			$data = array();
-			
+
 			$data["idRecord"] = $this->input->post('hddIdJob');
 
 			if ($idConfined = $this->more_model->add_confined()) 
@@ -729,14 +729,14 @@ class More extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the Confined Space Entry Permit, continue uploading the information.";
 				$data["idConfined"] = $idConfined;
-				$this->session->set_flashdata('retornoExito', 'You have save the Confined Space Entry Permit, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', 'You have save the Confined Space Entry Permit, continue uploading the information. Add Worker(s) in charge of entry and signatures.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
 				$data["idConfined"] = "";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			
+
 			echo json_encode($data);
     }
 	
@@ -847,19 +847,45 @@ class More extends CI_Controller {
 			}
 		
 			if($_POST)
-			{
+			{				
 				//update signature with the name of the file
-				$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
-				
-				$arrParam = array(
-					"table" => "job_confined_workers",
-					"primaryKey" => "id_job_confined_worker",
-					"id" => $idWorker,
-					"column" => "signature",
-					"value" => $name
-				);
-				//enlace para regresar al formulario con ancla a la lista de trabajadores
-				$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaWorker";
+				if($typo == "authorization"){
+					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_confined",
+						"primaryKey" => "id_job_confined",
+						"id" => $idConfined,
+						"column" => "authorization_signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario
+					$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaSignature";
+				}elseif($typo == "worker"){
+					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_confined_workers",
+						"primaryKey" => "id_job_confined_worker",
+						"id" => $idWorker,
+						"column" => "signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario con ancla a la lista de trabajadores
+					$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaWorker";
+				}elseif($typo == "cancellation"){
+					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_confined",
+						"primaryKey" => "id_job_confined",
+						"id" => $idConfined,
+						"column" => "cancellation_signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario
+					$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaSignature";
+				}
 				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
