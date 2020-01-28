@@ -1,4 +1,9 @@
 $( document ).ready( function () {
+	
+	$("#oxygen").bloquearTexto().maxlength(10);
+	$("#explosive_limit").bloquearTexto().maxlength(10);
+	$("#re_oxygen").bloquearTexto().maxlength(10);
+	$("#re_explosive_limit").bloquearTexto().maxlength(10);
 			
 	$( "#form" ).validate( {
 		rules: {
@@ -9,7 +14,11 @@ $( document ).ready( function () {
 			start_min:	 			{ required: true },
 			finish_date:			{ required: true },
 			finish_hour:	 		{ required: true },
-			finish_min:	 			{ required: true }
+			finish_min:	 			{ required: true },
+			toxic_atmosphere_cond: 			{ maxlength:200},
+			instruments_used: 				{ maxlength:200},
+			re_toxic_atmosphere: 			{ maxlength:200},
+			re_instruments_used: 			{ maxlength:200}
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

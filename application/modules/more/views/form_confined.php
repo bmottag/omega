@@ -1,5 +1,10 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/more/confined.js"); ?>"></script>
 
+<script type="text/javascript" src="<?php echo base_url("assets/timepicker/moment.min.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/timepicker/bootstrap-datetimepicker.min.js"); ?>"></script>
+
+<link rel="stylesheet" href="<?php echo base_url("assets/timepicker/bootstrap-datetimepicker.min.css"); ?>" />
+
 <?php
 /**
  * If it is an ADMIN user, show date 
@@ -372,8 +377,244 @@ if($information)
 			</div>
 		</div>
 	</div>
-
 	
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<strong>Pre-Entry Authorizartion</strong>
+				</div>
+				<div class="panel-body">								
+<p class="text-info text-left">Check those items below which are applicable to your confined space entry permit</p>						
+
+					<div class="col-lg-4">
+						<div class="form-group">
+					
+<input type="checkbox" id="oxygen_deficient" name="oxygen_deficient" value=1 <?php if($information && $information[0]["oxygen_deficient"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Oxygen-Deficient Atmosphere<br> 	
+<input type="checkbox" id="oxygen_enriched" name="oxygen_enriched" value=1 <?php if($information && $information[0]["oxygen_enriched"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Oxygen-Enriched Atmosphere<br>  	
+<input type="checkbox" id="welding" name="welding" value=1 <?php if($information && $information[0]["welding"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Welding/cutting
+						</div>
+					</div>
+					
+					<div class="col-lg-4">
+						<div class="form-group">
+					
+<input type="checkbox" id="engulfment" name="engulfment" value=1 <?php if($information && $information[0]["engulfment"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Engulfment<br>
+<input type="checkbox" id="toxic_atmosphere" name="toxic_atmosphere" value=1 <?php if($information && $information[0]["toxic_atmosphere"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Toxic Atmosphere<br>
+<input type="checkbox" id="flammable_atmosphere" name="flammable_atmosphere" value=1 <?php if($information && $information[0]["flammable_atmosphere"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Flammable Atmosphere
+							
+						</div>
+					</div>
+					
+					<div class="col-lg-4">
+						<div class="form-group">
+					
+<input type="checkbox" id="energized_equipment" name="energized_equipment" value=1 <?php if($information && $information[0]["energized_equipment"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Energized Electric Equipment<br>					
+<input type="checkbox" id="entrapment" name="entrapment" value=1 <?php if($information && $information[0]["entrapment"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Entrapment<br>		
+<input type="checkbox" id="hazardous_chemical" name="hazardous_chemical" value=1 <?php if($information && $information[0]["hazardous_chemical"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Hazardous Chemical
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<strong>SAFETY PRECAUTIONS</strong>
+				</div>
+				<div class="panel-body">								
+<p class="text-info text-left">Check those items below which are applicable to your confined space entry permit</p>						
+
+					<div class="col-lg-4">
+						<div class="form-group">
+					
+<input type="checkbox" id="breathing_apparatus" name="breathing_apparatus" value=1 <?php if($information && $information[0]["breathing_apparatus"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Self-Contained Breathing Apparatus<br> 	
+<input type="checkbox" id="line_respirator" name="line_respirator" value=1 <?php if($information && $information[0]["line_respirator"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Air-Line Respirator<br> 
+<input type="checkbox" id="resistant_clothing" name="resistant_clothing" value=1 <?php if($information && $information[0]["resistant_clothing"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Flame Resistant Clothing<br> 
+<input type="checkbox" id="ventilation" name="ventilation" value=1 <?php if($information && $information[0]["ventilation"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Ventilation<br> 
+<input type="checkbox" id="protective_gloves" name="protective_gloves" value=1 <?php if($information && $information[0]["protective_gloves"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Protective Gloves
+
+						</div>
+					</div>
+					
+					<div class="col-lg-4">
+						<div class="form-group">
+					
+<input type="checkbox" id="linelines" name="linelines" value=1 <?php if($information && $information[0]["linelines"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Linelines<br>
+<input type="checkbox" id="respirators" name="respirators" value=1 <?php if($information && $information[0]["respirators"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Respirators<br>
+<input type="checkbox" id="lockout" name="lockout" value=1 <?php if($information && $information[0]["lockout"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Lockout/Tagout<br>
+<input type="checkbox" id="fire_extinguishers" name="fire_extinguishers" value=1 <?php if($information && $information[0]["fire_extinguishers"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Fire Extinguishers<br>
+<input type="checkbox" id="barricade" name="barricade" value=1 <?php if($information && $information[0]["barricade"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Barricade Job Area
+							
+						</div>
+					</div>
+					
+					<div class="col-lg-4">
+						<div class="form-group">
+					
+<input type="checkbox" id="signs_posted" name="signs_posted" value=1 <?php if($information && $information[0]["signs_posted"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Signs Posted<br>
+<input type="checkbox" id="clearance_secured" name="clearance_secured" value=1 <?php if($information && $information[0]["clearance_secured"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Clearance Secured<br>		
+<input type="checkbox" id="lighting" name="lighting" value=1 <?php if($information && $information[0]["lighting"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Lighting<br>
+<input type="checkbox" id="interrupter" name="interrupter" value=1 <?php if($information && $information[0]["interrupter"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Ground Fault Interrupter
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<strong>ENVIRONMENTAL CONDITIONS - Test to be taken: *</strong>
+				</div>
+				<div class="panel-body">
+				
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Oxygen (%): </label>
+							<input type="text" id="oxygen" name="oxygen" class="form-control" value="<?php echo $information?$information[0]["oxygen"]:""; ?>" placeholder="Oxygen" >
+						</div>
+
+						<div class='col-sm-6'>
+							<label for="type" class="control-label">Date/Time:</label>
+							<div class="form-group">
+								<div class='input-group date' id='datetimepicker1'>
+									<input type='text' id="oxygen_time" name="oxygen_time" class="form-control" value="<?php echo $information?$information[0]["oxygen_time"]:""; ?>" placeholder="YYYY-MM-DD HH:mm:ss"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$(function () {
+								$('#datetimepicker1').datetimepicker({
+									format: 'YYYY-MM-DD HH:mm:ss'
+								});
+							});		
+						</script>
+						
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Lower Explosive Limit (%): </label>
+							<input type="text" id="explosive_limit" name="explosive_limit" class="form-control" value="<?php echo $information?$information[0]["explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" >
+						</div>
+					
+						<div class='col-sm-6'>
+							<label for="type" class="control-label">Date/Time:</label>
+							<div class="form-group">
+								<div class='input-group date' id='datetimepicker2'>
+									<input type='text' id="explosive_limit_time" name="explosive_limit_time" class="form-control" value="<?php echo $information?$information[0]["explosive_limit_time"]:""; ?>" placeholder="YYYY-MM-DD HH:mm:ss"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$(function () {
+								$('#datetimepicker2').datetimepicker({
+									format: 'YYYY-MM-DD HH:mm:ss'
+								});
+							});		
+						</script>
+						
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Toxic Atmosphere: </label>
+							<input type="text" id="toxic_atmosphere_cond" name="toxic_atmosphere_cond" class="form-control" value="<?php echo $information?$information[0]["toxic_atmosphere_cond"]:""; ?>" placeholder="Toxic Atmosphere" >
+						</div>
+						
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Instruments Used: </label>
+							<input type="text" id="instruments_used" name="instruments_used" class="form-control" value="<?php echo $information?$information[0]["instruments_used"]:""; ?>" placeholder="Instruments Used" >
+						</div>
+    
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<strong>ENVIRONMENTAL CONDITIONS - Re-Testing: *</strong>
+				</div>
+				<div class="panel-body">
+				
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Oxygen (%): </label>
+							<input type="text" id="re_oxygen" name="re_oxygen" class="form-control" value="<?php echo $information?$information[0]["re_oxygen"]:""; ?>" placeholder="Oxygen" >
+						</div>
+
+						<div class='col-sm-6'>
+							<label for="type" class="control-label">Date/Time:</label>
+							<div class="form-group">
+								<div class='input-group date' id='datetimepicker3'>
+									<input type='text' id="re_oxygen_time" name="re_oxygen_time" class="form-control" value="<?php echo $information?$information[0]["re_oxygen_time"]:""; ?>" placeholder="YYYY-MM-DD HH:mm:ss"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$(function () {
+								$('#datetimepicker3').datetimepicker({
+									format: 'YYYY-MM-DD HH:mm:ss'
+								});
+							});		
+						</script>
+						
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Lower Explosive Limit (%): </label>
+							<input type="text" id="re_explosive_limit" name="re_explosive_limit" class="form-control" value="<?php echo $information?$information[0]["re_explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" >
+						</div>
+					
+						<div class='col-sm-6'>
+							<label for="type" class="control-label">Date/Time:</label>
+							<div class="form-group">
+								<div class='input-group date' id='datetimepicker4'>
+									<input type='text' id="re_explosive_limit_time" name="re_explosive_limit_time" class="form-control" value="<?php echo $information?$information[0]["re_explosive_limit_time"]:""; ?>" placeholder="YYYY-MM-DD HH:mm:ss"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$(function () {
+								$('#datetimepicker4').datetimepicker({
+									format: 'YYYY-MM-DD HH:mm:ss'
+								});
+							});		
+						</script>
+						
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Toxic Atmosphere: </label>
+							<input type="text" id="re_toxic_atmosphere" name="re_toxic_atmosphere" class="form-control" value="<?php echo $information?$information[0]["re_toxic_atmosphere"]:""; ?>" placeholder="Toxic Atmosphere" >
+						</div>
+						
+						<div class="col-sm-6">
+							<label for="type" class="control-label">Instruments Used: </label>
+							<input type="text" id="re_instruments_used" name="re_instruments_used" class="form-control" value="<?php echo $information?$information[0]["re_instruments_used"]:""; ?>" placeholder="Instruments Used" >
+						</div>
+    
+					
+				</div>
+			</div>
+		</div>
+	</div>
 
 								
 								
