@@ -729,7 +729,7 @@ class More extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the Confined Space Entry Permit, continue uploading the information.";
 				$data["idConfined"] = $idConfined;
-				$this->session->set_flashdata('retornoExito', 'You have save the Confined Space Entry Permit, continue uploading the information. Add Worker(s) in charge of entry and signatures.');
+				$this->session->set_flashdata('retornoExito', 'You have save the Confined Space Entry Permit, continue uploading the information. Add Worker(s) in charge of entry and signatures at the end of the form.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

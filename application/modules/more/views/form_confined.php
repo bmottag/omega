@@ -86,7 +86,7 @@ if ($retornoError) {
 <?php if($information){ ?>
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<a name="anclaWorker" ></a><strong>Worker(s) in charge of entry:</strong>
 				</div>
@@ -94,11 +94,11 @@ if ($retornoError) {
 					<div class="col-lg-12">	
 <?php if($confinedWorkers){ ?>
 												
-					<button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
 					</button>
 <?php }else { ?>
-					<a href="<?php echo base_url("more/add_workers_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"]); ?>" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+					<a href="<?php echo base_url("more/add_workers_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"]); ?>" class="btn btn-info btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
 <?php } ?>
 											
 						<br>
