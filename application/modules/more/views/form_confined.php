@@ -41,7 +41,7 @@ if($userRol==99){
 								
 								echo "<br><strong>Dowloand Confined Entry Permit Form: </strong>";
 						?>
-<a href='<?php echo base_url('more/generaTemplatePDF/' . $information[0]["id_job_confined"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
+<a href='<?php echo base_url('more/generaConfinedPDF/' . $information[0]["id_job_confined"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 
 						}else{
 								echo date("Y-m-d");
@@ -391,18 +391,18 @@ if($information)
 					<div class="col-lg-4">
 						<div class="form-group">
 					
-<input type="checkbox" id="oxygen_deficient" name="oxygen_deficient" value=1 <?php if($information && $information[0]["oxygen_deficient"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Oxygen-Deficient Atmosphere<br> 	
-<input type="checkbox" id="oxygen_enriched" name="oxygen_enriched" value=1 <?php if($information && $information[0]["oxygen_enriched"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Oxygen-Enriched Atmosphere<br>  	
-<input type="checkbox" id="welding" name="welding" value=1 <?php if($information && $information[0]["welding"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Welding/cutting
+<input type="checkbox" id="oxygen_deficient" name="oxygen_deficient" value=1 <?php if($information && $information[0]["oxygen_deficient"]){echo "checked";}elseif(!$information){echo "";} ?> > Oxygen-Deficient Atmosphere<br> 	
+<input type="checkbox" id="oxygen_enriched" name="oxygen_enriched" value=1 <?php if($information && $information[0]["oxygen_enriched"]){echo "checked";}elseif(!$information){echo "";} ?> > Oxygen-Enriched Atmosphere<br>  	
+<input type="checkbox" id="welding" name="welding" value=1 <?php if($information && $information[0]["welding"]){echo "checked";}elseif(!$information){echo "";} ?> > Welding/cutting
 						</div>
 					</div>
 					
 					<div class="col-lg-4">
 						<div class="form-group">
 					
-<input type="checkbox" id="engulfment" name="engulfment" value=1 <?php if($information && $information[0]["engulfment"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Engulfment<br>
-<input type="checkbox" id="toxic_atmosphere" name="toxic_atmosphere" value=1 <?php if($information && $information[0]["toxic_atmosphere"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Toxic Atmosphere<br>
-<input type="checkbox" id="flammable_atmosphere" name="flammable_atmosphere" value=1 <?php if($information && $information[0]["flammable_atmosphere"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Flammable Atmosphere
+<input type="checkbox" id="engulfment" name="engulfment" value=1 <?php if($information && $information[0]["engulfment"]){echo "checked";}elseif(!$information){echo "";} ?> > Engulfment<br>
+<input type="checkbox" id="toxic_atmosphere" name="toxic_atmosphere" value=1 <?php if($information && $information[0]["toxic_atmosphere"]){echo "checked";}elseif(!$information){echo "";} ?> > Toxic Atmosphere<br>
+<input type="checkbox" id="flammable_atmosphere" name="flammable_atmosphere" value=1 <?php if($information && $information[0]["flammable_atmosphere"]){echo "checked";}elseif(!$information){echo "";} ?> > Flammable Atmosphere
 							
 						</div>
 					</div>
@@ -410,9 +410,9 @@ if($information)
 					<div class="col-lg-4">
 						<div class="form-group">
 					
-<input type="checkbox" id="energized_equipment" name="energized_equipment" value=1 <?php if($information && $information[0]["energized_equipment"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Energized Electric Equipment<br>					
-<input type="checkbox" id="entrapment" name="entrapment" value=1 <?php if($information && $information[0]["entrapment"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Entrapment<br>		
-<input type="checkbox" id="hazardous_chemical" name="hazardous_chemical" value=1 <?php if($information && $information[0]["hazardous_chemical"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Hazardous Chemical
+<input type="checkbox" id="energized_equipment" name="energized_equipment" value=1 <?php if($information && $information[0]["energized_equipment"]){echo "checked";}elseif(!$information){echo "";} ?> > Energized Electric Equipment<br>					
+<input type="checkbox" id="entrapment" name="entrapment" value=1 <?php if($information && $information[0]["entrapment"]){echo "checked";}elseif(!$information){echo "";} ?> > Entrapment<br>		
+<input type="checkbox" id="hazardous_chemical" name="hazardous_chemical" value=1 <?php if($information && $information[0]["hazardous_chemical"]){echo "checked";}elseif(!$information){echo "";} ?> > Hazardous Chemical
 							
 						</div>
 					</div>
@@ -434,11 +434,11 @@ if($information)
 					<div class="col-lg-4">
 						<div class="form-group">
 					
-<input type="checkbox" id="breathing_apparatus" name="breathing_apparatus" value=1 <?php if($information && $information[0]["breathing_apparatus"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Self-Contained Breathing Apparatus<br> 	
-<input type="checkbox" id="line_respirator" name="line_respirator" value=1 <?php if($information && $information[0]["line_respirator"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Air-Line Respirator<br> 
-<input type="checkbox" id="resistant_clothing" name="resistant_clothing" value=1 <?php if($information && $information[0]["resistant_clothing"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Flame Resistant Clothing<br> 
-<input type="checkbox" id="ventilation" name="ventilation" value=1 <?php if($information && $information[0]["ventilation"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Ventilation<br> 
-<input type="checkbox" id="protective_gloves" name="protective_gloves" value=1 <?php if($information && $information[0]["protective_gloves"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Protective Gloves
+<input type="checkbox" id="breathing_apparatus" name="breathing_apparatus" value=1 <?php if($information && $information[0]["breathing_apparatus"]){echo "checked";}elseif(!$information){echo "";} ?> > Self-Contained Breathing Apparatus<br> 	
+<input type="checkbox" id="line_respirator" name="line_respirator" value=1 <?php if($information && $information[0]["line_respirator"]){echo "checked";}elseif(!$information){echo "";} ?> > Air-Line Respirator<br> 
+<input type="checkbox" id="resistant_clothing" name="resistant_clothing" value=1 <?php if($information && $information[0]["resistant_clothing"]){echo "checked";}elseif(!$information){echo "";} ?> > Flame Resistant Clothing<br> 
+<input type="checkbox" id="ventilation" name="ventilation" value=1 <?php if($information && $information[0]["ventilation"]){echo "checked";}elseif(!$information){echo "";} ?> > Ventilation<br> 
+<input type="checkbox" id="protective_gloves" name="protective_gloves" value=1 <?php if($information && $information[0]["protective_gloves"]){echo "checked";}elseif(!$information){echo "";} ?> > Protective Gloves
 
 						</div>
 					</div>
@@ -446,11 +446,11 @@ if($information)
 					<div class="col-lg-4">
 						<div class="form-group">
 					
-<input type="checkbox" id="linelines" name="linelines" value=1 <?php if($information && $information[0]["linelines"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Linelines<br>
-<input type="checkbox" id="respirators" name="respirators" value=1 <?php if($information && $information[0]["respirators"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Respirators<br>
-<input type="checkbox" id="lockout" name="lockout" value=1 <?php if($information && $information[0]["lockout"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Lockout/Tagout<br>
-<input type="checkbox" id="fire_extinguishers" name="fire_extinguishers" value=1 <?php if($information && $information[0]["fire_extinguishers"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Fire Extinguishers<br>
-<input type="checkbox" id="barricade" name="barricade" value=1 <?php if($information && $information[0]["barricade"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Barricade Job Area
+<input type="checkbox" id="linelines" name="linelines" value=1 <?php if($information && $information[0]["linelines"]){echo "checked";}elseif(!$information){echo "";} ?> > Linelines<br>
+<input type="checkbox" id="respirators" name="respirators" value=1 <?php if($information && $information[0]["respirators"]){echo "checked";}elseif(!$information){echo "";} ?> > Respirators<br>
+<input type="checkbox" id="lockout" name="lockout" value=1 <?php if($information && $information[0]["lockout"]){echo "checked";}elseif(!$information){echo "";} ?> > Lockout/Tagout<br>
+<input type="checkbox" id="fire_extinguishers" name="fire_extinguishers" value=1 <?php if($information && $information[0]["fire_extinguishers"]){echo "checked";}elseif(!$information){echo "";} ?> > Fire Extinguishers<br>
+<input type="checkbox" id="barricade" name="barricade" value=1 <?php if($information && $information[0]["barricade"]){echo "checked";}elseif(!$information){echo "";} ?> > Barricade Job Area
 							
 						</div>
 					</div>
@@ -458,10 +458,10 @@ if($information)
 					<div class="col-lg-4">
 						<div class="form-group">
 					
-<input type="checkbox" id="signs_posted" name="signs_posted" value=1 <?php if($information && $information[0]["signs_posted"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Signs Posted<br>
-<input type="checkbox" id="clearance_secured" name="clearance_secured" value=1 <?php if($information && $information[0]["clearance_secured"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Clearance Secured<br>		
-<input type="checkbox" id="lighting" name="lighting" value=1 <?php if($information && $information[0]["lighting"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Lighting<br>
-<input type="checkbox" id="interrupter" name="interrupter" value=1 <?php if($information && $information[0]["interrupter"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Ground Fault Interrupter
+<input type="checkbox" id="signs_posted" name="signs_posted" value=1 <?php if($information && $information[0]["signs_posted"]){echo "checked";}elseif(!$information){echo "";} ?> > Signs Posted<br>
+<input type="checkbox" id="clearance_secured" name="clearance_secured" value=1 <?php if($information && $information[0]["clearance_secured"]){echo "checked";}elseif(!$information){echo "";} ?> > Clearance Secured<br>		
+<input type="checkbox" id="lighting" name="lighting" value=1 <?php if($information && $information[0]["lighting"]){echo "checked";}elseif(!$information){echo "";} ?> > Lighting<br>
+<input type="checkbox" id="interrupter" name="interrupter" value=1 <?php if($information && $information[0]["interrupter"]){echo "checked";}elseif(!$information){echo "";} ?> > Ground Fault Interrupter
 							
 						</div>
 					</div>

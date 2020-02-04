@@ -689,6 +689,9 @@ class More extends CI_Controller {
 				"id" => $idJob
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//workers list
+			$data['workersList'] = $this->general_model->get_user_list();//workers list
 						
 			//si envio el id, entonces busco la informacion 
 			if ($idConfined != 'x') 
@@ -699,10 +702,7 @@ class More extends CI_Controller {
 				$data['information'] = $this->general_model->get_confined_space($arrParam);
 				
 				$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined);//workers list
-				
-				//workers list
-				$data['workersList'] = $this->general_model->get_user_list();//workers list
-				
+								
 				if (!$data['information']) { 
 					show_error('ERROR!!! - You are in the wrong place.');	
 				}
@@ -914,7 +914,95 @@ class More extends CI_Controller {
 				$this->load->view('template/make_signature');
 			}
 	}
-	
+
+	/**
+	 * Generate Template Report in PDF
+	 * @param int $idConfined
+     * @since 29/1/2020
+     * @author BMOTTAG
+	 */
+	public function generaConfinedPDF($idConfined)
+	{
+			$this->load->library('Pdf');
+			
+			// create new PDF document
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor('VCI');
+			$pdf->SetTitle('Confined space entry permit report');
+			$pdf->SetSubject('TCPDF Tutorial');
+
+			// set default header data
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			
+			$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+			// set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			// set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			// set some language-dependent strings (optional)
+			if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+				require_once(dirname(__FILE__).'/lang/eng.php');
+				$pdf->setLanguageArray($l);
+			}
+
+			// ---------------------------------------------------------
+
+			// set font
+			$pdf->SetFont('dejavusans', '', 8);
+
+			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+		
+			$this->load->model("general_model");
+			$arrParam = array("idConfined" => $idConfined);
+			$data['info'] = $this->general_model->get_confined_space($arrParam);
+			
+			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined);//workers list
+
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// Print a table
+				
+			// add a page
+			$pdf->AddPage();
+
+			$html = $this->load->view("reporte_confined", $data, true);
+										
+			// output the HTML content
+			$pdf->writeHTML($html, true, false, true, false, '');
+		
+
+			// Print some HTML Cells
+
+			// reset pointer to the last page
+			$pdf->lastPage();
+
+ob_end_clean();
+			//Close and output PDF document
+			$pdf->Output('confined_' . $idConfined . '.pdf', 'I');
+
+			//============================================================+
+			// END OF FILE
+			//============================================================+
+		
+	}		
 
 	
 	
