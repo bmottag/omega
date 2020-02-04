@@ -39,8 +39,8 @@
 							foreach ($information as $lista):
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['id_job_confined'] . "</td>";
-									echo "<td class='text-center'>" . $lista['date_confined'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
+									echo "<td class='text-center'>" . $lista['date_confined'] . "</td>";
 									echo "<td>" . $lista['location'] . "</td>";
 									echo "<td>" . $lista['purpose'] . "</td>";
 									
