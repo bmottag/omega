@@ -7,6 +7,7 @@ $( document ).ready( function () {
 			
 	$( "#form" ).validate( {
 		rules: {
+			completed_flha:				{ required: true },
 			location:				{ required: true },
 			purpose:				{ required: true },
 			start_date:	 			{ required: true },

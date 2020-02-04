@@ -24,7 +24,7 @@
 			
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Done by: </strong></th>
-					<th>' . $info[0]['name']. '</th>
+					<th>' . $info[0]['name']. '<p>I Have completed a Field Level Hazard Assessment.</p></th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Date: </strong></th>
 					<th>' . $info[0]['date_confined']. '</th>
 				</tr>

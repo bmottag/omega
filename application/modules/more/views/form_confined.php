@@ -182,6 +182,8 @@ if($data['signature']){
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-sm-6">
+							<input type="checkbox" id="completed_flha" name="completed_flha" value=1 <?php if($information && $information[0]["completed_flha"]){echo "checked";}elseif(!$information){echo "";} ?> >  I Have completed a Field Level Hazard Assessment.
+							<br><br>
 							<strong>Location: *</strong> 
 						</div>
 					
@@ -203,7 +205,7 @@ if($userRol==99){
 	});
 </script>
 						<div class="col-sm-6">
-															
+								<br><br>
 								<label class="col-sm-4 control-label" for="date">Date of Issue:</label>
 								<div class="col-sm-5">
 									<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_confined"]:""; ?>" placeholder="Date of Issue" />

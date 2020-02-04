@@ -286,6 +286,7 @@
 			$fechaFinish = $fechaFinish . " " . $horaFinish . ":" . $minFinish . ":00"; 
 		
 			$data = array(
+				'completed_flha' => $this->input->post('completed_flha'),
 				'location' => $this->input->post('location'),
 				'purpose' => $this->input->post('purpose'),
 				'scheduled_start' => $fechaStart,
