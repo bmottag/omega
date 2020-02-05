@@ -106,6 +106,7 @@ if ($retornoError) {
 				<tr>
 					<td><p class="text-center"><strong>Name</strong></p></td>
 					<td><p class="text-center"><strong>Signature</strong></p></td>
+					<th class="column-title text-center"><small>Task</small></th>
 					<td><p class="text-center"><strong>Delete</strong></p></td>
 				</tr>
 				<?php
@@ -118,7 +119,7 @@ if($data['signature']){
 	$class = "btn-default";
 	
 ?>
-<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="<?php echo $data['id_job_confined_worker']; ?>">
+<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="<?php echo $data['id_job_confined_worker']; ?>">
 	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 </button>
 
@@ -139,22 +140,34 @@ if($data['signature']){
 }
 				?>
 					
-					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('more/add_signature_confined/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+					<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('more/add_signature_confined/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 					</a>
 					</center>
+					</small></td>
+
+				<form  name="worker_<?php echo $data["id_job_confined_worker"]; ?>" id="worker_<?php echo $data["id_job_confined_worker"]; ?>" method="post" action="<?php echo base_url("more/update_confined_worker"); ?>">
+					<input type="hidden" id="hddIdConfined" name="hddIdConfined" value="<?php echo $data['fk_id_job_confined']; ?>"/>
+					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>	
+					<input type="hidden" id="hddId" name="hddId" value="<?php echo $data["id_job_confined_worker"]; ?>"/>	
+					
+					<td>
+						<input type="text" id="task" name="task" class="form-control" placeholder="Task" value="<?php echo $data['task']; ?>" required>
+					</td>
+					
+					<td class='text-center'><small>
+					
+						<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
+
+						<a class='btn btn-danger btn-xs' href='<?php echo base_url('more/deleteConfinedWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+						</a>
+					
+				</form>
+				
+					</small></td>
+					</tr>
 				<?php
-						echo "</small></td>"; 
-						echo "<td class='text-center'><small>";
-				?>
-					<center>
-					<a class='btn btn-default' href='<?php echo base_url('more/deleteConfinedWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
-					</a>
-					</center>
-				<?php
-						echo "</small></td>";                     
-						echo "</tr>";
 					endforeach;
 				?>
 			</table>

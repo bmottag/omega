@@ -957,6 +957,27 @@ class More extends CI_Controller {
 	}
 	
 	/**
+	 * Update datos trabajdores
+     * @since 5/2/2020
+     * @author BMOTTAG
+	 */
+	public function update_confined_worker()
+	{					
+			$idJob = $this->input->post('hddIdJob');
+			$idConfined = $this->input->post('hddIdConfined');
+
+			if ($this->more_model->saveConfinedWorker()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the record!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('more/confined_workers/' . $idJob . "/" . $idConfined), 'refresh');
+    }
+	
+	/**
 	 * Form re testing
      * @since 4/2/2020
      * @author BMOTTAG

@@ -364,7 +364,7 @@
 		 */
 		public function get_confined_workers($idConfined) 
 		{		
-				$this->db->select("W.id_job_confined_worker, W.fk_id_job_confined, W.signature, CONCAT(first_name, ' ', last_name) name");
+				$this->db->select("W.id_job_confined_worker, W.fk_id_job_confined, W.signature, W.task, CONCAT(first_name, ' ', last_name) name");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->where('W.fk_id_job_confined', $idConfined); 
 				$this->db->order_by('U.first_name, U.last_name', 'asc');
@@ -467,6 +467,28 @@
 				}
 				if ($query) {
 					return $idRetesting;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Update confined worker
+		 * @since 5/2/2020
+		 */
+		public function saveConfinedWorker() 
+		{			
+				$hddId = $this->input->post('hddId');
+								
+				$data = array(
+					'task' => $this->input->post('task')
+				);
+				
+				$this->db->where('id_job_confined_worker', $hddId);
+				$query = $this->db->update('job_confined_workers', $data);			
+
+				if ($query) {
+					return true;
 				} else {
 					return false;
 				}
