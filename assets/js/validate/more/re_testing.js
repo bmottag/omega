@@ -1,7 +1,7 @@
 $( document ).ready( function () {
 		
-	$("#re_oxygen").bloquearTexto().maxlength(10);
-	$("#re_explosive_limit").bloquearTexto().maxlength(10);
+	$("#re_oxygen").bloquearTexto().maxlength(5);
+	$("#re_explosive_limit").bloquearTexto().maxlength(5);
 		
 	$( "#form" ).validate( {
 		rules: {

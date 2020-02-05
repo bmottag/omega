@@ -17,7 +17,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'more/cargarModalSesiones',
+				url: base_url + 'more/cargarModalRetesting',
                 data: {'idConfined': '', 'idRetesting': oID},
                 cache: false,
                 success: function (data) {
@@ -117,10 +117,12 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Company</th>
-								<th class="text-center">Contact</th>
-								<th class="text-center">Movil</th>
-								<th class="text-center">Email</th>
+								<th class="text-center">Oxygen</th>
+								<th class="text-center">Date/Time</th>
+								<th class="text-center">Lower Explosive Limit</th>
+								<th class="text-center">Date/Time</th>
+								<th class="text-center">Toxic Atmosphere</th>
+								<th class="text-center">Instruments Used</th>
 								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
@@ -128,29 +130,16 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['company_name'] . "</td>";
-									echo "<td>" . $lista['contact'] . "</td>";
-$movil = $lista["movil_number"];
-// Separa en grupos de tres 
-$count = strlen($movil); 
-	
-$num_tlf1 = substr($movil, 0, 3); 
-$num_tlf2 = substr($movil, 3, 3); 
-$num_tlf3 = substr($movil, 6, 2); 
-$num_tlf4 = substr($movil, -2); 
+									echo "<td class='text-center'>" . $lista['re_oxygen'] . " %</td>";
+									echo "<td class='text-center'>" . $lista['re_oxygen_time'] . "</td>";
+									echo "<td class='text-center'>" . $lista['re_explosive_limit'] . " %</td>";
+									echo "<td class='text-center'>" . $lista['re_explosive_limit_time'] . "</td>";
+									echo "<td>" . $lista['re_toxic_atmosphere'] . "</td>";
+									echo "<td>" . $lista['re_instruments_used'] . "</td>";
 
-if($count == 10){
-	$resultado = "$num_tlf1 $num_tlf2 $num_tlf3 $num_tlf4";  
-}else{
-	
-	$resultado = chunk_split($movil,3," "); 
-}
-								
-									echo "<td class='text-center'>" . $resultado . "</td>";
-									echo "<td>" . $lista['email'] . "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_company']; ?>" >
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job_confined_re_testing']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php
