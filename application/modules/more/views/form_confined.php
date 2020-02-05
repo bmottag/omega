@@ -38,9 +38,12 @@ if($userRol==99){
 					<ul class="nav nav-pills">
 						<li class='active'><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
 						</li>
+						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">WORKER(s) IN CHARGE OF ENTRY</a>
+						</li>
 						<li ><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - Re-Testing</a>
 						</li>
 					</ul>
+					<br>
 				<?php 
 				}
 				?>
@@ -93,96 +96,6 @@ if ($retornoError) {
 }
 ?> 
 <p class="text-danger text-left">Fields with * are required.</p>
-
-
-<!--INICIO WORKERS -->								
-<?php if($information){ ?>
-	<div class="row">
-		<div class="col-lg-12">				
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<a name="anclaWorker" ></a><strong>Worker(s) in charge of entry:</strong>
-				</div>
-				<div class="panel-body">
-					<div class="col-lg-12">	
-<?php if($confinedWorkers){ ?>
-												
-					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
-					</button>
-<?php }else { ?>
-					<a href="<?php echo base_url("more/add_workers_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"]); ?>" class="btn btn-info btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
-<?php } ?>
-											
-						<br>
-					</div>
-										
-<?php 
-	if($confinedWorkers){
-?>
-			<table class="table table-bordered table-striped table-hover table-condensed">
-				<tr>
-					<td><p class="text-center"><strong>Name</strong></p></td>
-					<td><p class="text-center"><strong>Signature</strong></p></td>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
-				</tr>
-				<?php
-					foreach ($confinedWorkers as $data):
-						echo "<tr>";					
-						echo "<td ><small>" . $data['name'] . "</small></td>";
-						echo "<td class='text-center'><small><center>";
-$class = "btn-primary";						
-if($data['signature']){ 
-	$class = "btn-default";
-	
-?>
-<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="<?php echo $data['id_job_confined_worker']; ?>">
-	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
-</button>
-
-<div id="<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" class="modal fade" role="dialog">  
-	<div class="modal-dialog">
-		<div class="modal-content">      
-			<div class="modal-header">        
-				<button type="button" class="close" data-dismiss="modal">×</button>        
-				<h4 class="modal-title">Worker Signature</h4>      </div>      
-			<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
-			<div class="modal-footer">    
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
-			</div>  
-		</div>  
-	</div>
-</div>
-<?php
-}
-				?>
-					
-					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('more/add_signature_confined/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
-					</a>
-					</center>
-				<?php
-						echo "</small></td>"; 
-						echo "<td class='text-center'><small>";
-				?>
-					<center>
-					<a class='btn btn-default' href='<?php echo base_url('more/deleteConfinedWorker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
-					</a>
-					</center>
-				<?php
-						echo "</small></td>";                     
-						echo "</tr>";
-					endforeach;
-				?>
-			</table>
-	<?php } ?>
-			</div>
-		</div>
-	</div>
-</div>
-<?php } ?>
-<!--FIN WORKERS -->
 
 <form  name="form" id="form" class="form-horizontal" method="post"  >
 	<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_confined"]:""; ?>"/>
@@ -559,79 +472,6 @@ if($information)
 		</div>
 	</div>
 
-
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<strong>ENVIRONMENTAL CONDITIONS - Re-Testing: *</strong>
-				</div>
-				<div class="panel-body">
-				
-						<div class="col-sm-6">
-							<label for="type" class="control-label">Oxygen (%): </label>
-							<input type="text" id="re_oxygen" name="re_oxygen" class="form-control" value="<?php echo $information?$information[0]["re_oxygen"]:""; ?>" placeholder="Oxygen" >
-						</div>
-
-						<div class='col-sm-6'>
-							<label for="type" class="control-label">Date/Time:</label>
-							<div class="form-group">
-								<div class='input-group date' id='datetimepicker3'>
-									<input type='text' id="re_oxygen_time" name="re_oxygen_time" class="form-control" value="<?php echo $information?$information[0]["re_oxygen_time"]:""; ?>" placeholder="YYYY-MM-DD HH:mm:ss"/>
-									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-						<script type="text/javascript">
-							$(function () {
-								$('#datetimepicker3').datetimepicker({
-									format: 'YYYY-MM-DD HH:mm:ss'
-								});
-							});		
-						</script>
-						
-						<div class="col-sm-6">
-							<label for="type" class="control-label">Lower Explosive Limit (%): </label>
-							<input type="text" id="re_explosive_limit" name="re_explosive_limit" class="form-control" value="<?php echo $information?$information[0]["re_explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" >
-						</div>
-					
-						<div class='col-sm-6'>
-							<label for="type" class="control-label">Date/Time:</label>
-							<div class="form-group">
-								<div class='input-group date' id='datetimepicker4'>
-									<input type='text' id="re_explosive_limit_time" name="re_explosive_limit_time" class="form-control" value="<?php echo $information?$information[0]["re_explosive_limit_time"]:""; ?>" placeholder="YYYY-MM-DD HH:mm:ss"/>
-									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-						<script type="text/javascript">
-							$(function () {
-								$('#datetimepicker4').datetimepicker({
-									format: 'YYYY-MM-DD HH:mm:ss'
-								});
-							});		
-						</script>
-						
-						<div class="col-sm-6">
-							<label for="type" class="control-label">Toxic Atmosphere: </label>
-							<input type="text" id="re_toxic_atmosphere" name="re_toxic_atmosphere" class="form-control" value="<?php echo $information?$information[0]["re_toxic_atmosphere"]:""; ?>" placeholder="Toxic Atmosphere" >
-						</div>
-						
-						<div class="col-sm-6">
-							<label for="type" class="control-label">Instruments Used: </label>
-							<input type="text" id="re_instruments_used" name="re_instruments_used" class="form-control" value="<?php echo $information?$information[0]["re_instruments_used"]:""; ?>" placeholder="Instruments Used" >
-						</div>
-    
-					
-				</div>
-			</div>
-		</div>
-	</div>
-	
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-warning">

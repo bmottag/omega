@@ -46,9 +46,12 @@ $(function(){
 					<ul class="nav nav-pills">
 						<li ><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
 						</li>
-						<li class='active'><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - Re-Testing</a>
+						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">WORKER(s) IN CHARGE OF ENTRY</a>
+						</li>
+						<li class='active'><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - RE-TESTING</a>
 						</li>
 					</ul>
+					<br>
 				<?php 
 				}
 				?>
@@ -80,7 +83,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> ENVIRONMENTAL CONDITIONS - RE TESTING
+					<i class="fa fa-building"></i> <strong>Environmental conditions - Re-testing</strong>
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]['id_job_confined']; ?>">

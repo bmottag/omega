@@ -30,7 +30,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "more/add_confined/" + data.idRecord;
+							var url = base_url + "more/confined_workers/" + data.idRecord;
 							$(location).attr("href", url);
 						}
 						else

@@ -741,6 +741,47 @@ class More extends CI_Controller {
     }
 	
 	/**
+	 * Form confined space entry permit WORKERS
+     * @since 5/2/2020
+     * @author BMOTTAG
+	 */
+	public function confined_workers($idJob, $idConfined)
+	{
+			$data['information'] = FALSE;
+			
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//workers list
+			$data['workersList'] = $this->general_model->get_user_list();//workers list
+						
+			//si envio el id, entonces busco la informacion 
+			if ($idConfined != 'x') 
+			{
+				$arrParam = array(
+					"idConfined" => $idConfined
+				);				
+				$data['information'] = $this->general_model->get_confined_space($arrParam);
+				
+				$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined);//workers list
+								
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_confined_workers';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
 	 * Form Add Workers confined
      * @since 20/1/2020
      * @author BMOTTAG
@@ -813,7 +854,7 @@ class More extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('more/add_confined/' . $idJob . '/' . $idConfined), 'refresh');
+			redirect(base_url('more/confined_workers/' . $idJob . '/' . $idConfined), 'refresh');
     }
 	
     /**
@@ -825,11 +866,11 @@ class More extends CI_Controller {
 			$idConfined = $this->input->post('hddIdConfined');
 
 			if ($this->more_model->confinedSaveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', "You have Add one Worker. Don't forget to sign.");
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('more/add_confined/' . $idJob . "/" . $idConfined ), 'refresh');
+			redirect(base_url('more/confined_workers/' . $idJob . "/" . $idConfined ), 'refresh');
     }
 	
 	/**
@@ -872,7 +913,7 @@ class More extends CI_Controller {
 						"value" => $name
 					);
 					//enlace para regresar al formulario con ancla a la lista de trabajadores
-					$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaWorker";
+					$data['linkBack'] = "more/confined_workers/" . $idJob . "/" . $idConfined . "#anclaWorker";
 				}elseif($typo == "cancellation"){
 					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
 					
