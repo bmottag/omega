@@ -914,6 +914,99 @@ class More extends CI_Controller {
 				$this->load->view('template/make_signature');
 			}
 	}
+	
+	/**
+	 * Form re testing
+     * @since 4/2/2020
+     * @author BMOTTAG
+	 */
+	public function re_testing($idJob, $idConfined)
+	{
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			$arrParam = array(
+				"idConfined" => $idConfined
+			);				
+			$data['information'] = $this->general_model->get_confined_space($arrParam);
+			
+			//se filtra por company_type para que solo se pueda editar los subcontratistas
+			$arrParam = array(
+				"table" => "job_confined_re_testing",
+				"order" => "id_job_confined_re_testing",
+				"column" => " 	fk_id_job_confined",
+				"id" => $idConfined
+			);
+			$data['info'] = $this->general_model->get_basic_search($arrParam);
+			
+			$data["view"] = 're_testing';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario re-testing
+     * @since 4/2/2020
+     */
+    public function cargarModalRetesting() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idConfined"] = $this->input->post("idConfined");
+			$data["idRetesting"] = $this->input->post("idRetesting");
+			
+			$this->load->model("general_model");
+			
+			if ($data["idRetesting"] != 'x') 
+			{
+				$arrParam = array(
+					"idRetesting" => $data["idRetesting"]
+				);
+				$data['information'] = $this->general_model->get_confined_re_testing($arrParam);//info re-testing
+				
+				$data["idConfined"] = $data['information'][0]['fk_id_job_confined'];
+			}
+			$arrParam = array(
+				"idConfined" => $data["idConfined"]
+			);				
+			$infoConfined = $this->general_model->get_confined_space($arrParam);
+			$data["idJob"] = $infoConfined[0]["fk_id_job"];
+			
+			$this->load->view("re_testing_modal", $data);
+    }
+	
+	/**
+	 * ADD retesting
+     * @since 4/2/2020
+	 */
+	public function save_re_testing()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idConfined = $this->input->post('hddIdConfined');
+			$idRetesting = $this->input->post('hddId');
+			$idJob = $this->input->post('hddIdJob');
+			
+			$data["idRecord"] = $idJob . "/" . $idConfined;
+									
+			if ($idRetesting = $this->more_model->saveRetesting()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have save the ENVIRONMENTAL CONDITIONS - RE TESTING");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
 
 	/**
 	 * Generate Template Report in PDF

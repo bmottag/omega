@@ -444,6 +444,41 @@
 				}
 		}
 		
+		/**
+		 * Add/Edit RETESTING
+		 * @since 4/2/2020
+		 */
+		public function saveRetesting() 
+		{
+				$idConfined = $this->input->post('hddIdConfined');
+				$idRetesting = $this->input->post('hddId');
+								
+				$data = array(
+					'fk_id_job_confined' => $idConfined,
+					're_oxygen' => $this->input->post('re_oxygen'),
+					're_oxygen_time' => $this->input->post('re_oxygen_time'),
+					're_explosive_limit' => $this->input->post('re_explosive_limit'),
+					're_explosive_limit_time' => $this->input->post('re_explosive_limit_time'),
+					're_toxic_atmosphere' => $this->input->post('re_toxic_atmosphere'),
+					're_instruments_used' => $this->input->post('re_instruments_used')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idRetesting == '') {
+					$query = $this->db->insert('job_confined_re_testing', $data);
+					$idRetesting = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_job_confined_re_testing', $idRetesting);
+					$query = $this->db->update('job_confined_re_testing', $data);
+				}
+				if ($query) {
+					return $idRetesting;
+				} else {
+					return false;
+				}
+		}
+
+		
 		
 
 		
