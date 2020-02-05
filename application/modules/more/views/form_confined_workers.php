@@ -104,10 +104,11 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr>
-					<td><p class="text-center"><strong>Name</strong></p></td>
-					<td><p class="text-center"><strong>Signature</strong></p></td>
+					<th class="column-title text-center"><small>Name</small></th>
+					<th class="column-title text-center"><small>Signature</small></th>
 					<th class="column-title text-center"><small>Task</small></th>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
+					<th class="column-title text-center"><small>Safety Watch</small></th>
+					<th class="column-title text-center"><small>Save / Delete</small></th>
 				</tr>
 				<?php
 					foreach ($confinedWorkers as $data):
@@ -153,6 +154,15 @@ if($data['signature']){
 					
 					<td>
 						<input type="text" id="task" name="task" class="form-control" placeholder="Task" value="<?php echo $data['task']; ?>" required>
+					</td>
+					
+					<td>
+						<select name="safety_watch" id="safety_watch" class="form-control" required>
+							<option value=''>Select...</option>
+							<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+								<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($data["fk_id_safety_watch_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+							<?php } ?>
+						</select>
 					</td>
 					
 					<td class='text-center'><small>
