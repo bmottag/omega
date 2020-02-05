@@ -320,12 +320,6 @@
 				'explosive_limit_time' => $this->input->post('explosive_limit_time'),
 				'toxic_atmosphere_cond' => $this->input->post('toxic_atmosphere_cond'),
 				'instruments_used' => $this->input->post('instruments_used'),
-				're_oxygen' => $this->input->post('re_oxygen'),
-				're_oxygen_time' => $this->input->post('re_oxygen_time'),
-				're_explosive_limit' => $this->input->post('re_explosive_limit'),
-				're_explosive_limit_time' => $this->input->post('re_explosive_limit_time'),
-				're_toxic_atmosphere' => $this->input->post('re_toxic_atmosphere'),
-				're_instruments_used' => $this->input->post('re_instruments_used'),
 				'remarks' => $this->input->post('remarks'),
 				'fk_id_user_authorization' => $this->input->post('authorization'),
 				'fk_id_user_cancellation' => $this->input->post('cancellation')
