@@ -105,7 +105,8 @@ if ($retornoError) {
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr>
 					<th class="column-title text-center"><small>Name</small></th>
-					<th class="column-title text-center"><small>Signature</small></th>
+					<th class="column-title text-center"><small>Signature In</small></th>
+					<th class="column-title text-center"><small>Signature Out</small></th>
 					<th class="column-title text-center"><small>Task</small></th>
 					<th class="column-title text-center"><small>Safety Watch</small></th>
 					<th class="column-title text-center"><small>Save / Delete</small></th>
@@ -129,7 +130,7 @@ if($data['signature']){
 		<div class="modal-content">      
 			<div class="modal-header">        
 				<button type="button" class="close" data-dismiss="modal">×</button>        
-				<h4 class="modal-title">Worker Signature</h4>      </div>      
+				<h4 class="modal-title">Worker Signature In</h4>      </div>      
 			<div class="modal-body text-center"><img src="<?php echo base_url($data['signature']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
 			<div class="modal-footer">    
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -142,8 +143,57 @@ if($data['signature']){
 				?>
 					
 					<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('more/add_signature_confined/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature In
 					</a>
+
+<?php
+if($data['signature'] && $data['date_time_in']){ 
+	echo "<br>" . $data['date_time_in'];
+}
+?>
+					
+					</center>
+					</small></td>
+					
+					<td class='text-center'><small><center>
+					
+<?php
+$class = "btn-primary";						
+if($data['signature_out']){ 
+	$class = "btn-default";
+	
+?>
+<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#out_<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" id="out_<?php echo $data['id_job_confined_worker']; ?>">
+	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+</button>
+
+<div id="out_<?php echo $data['id_job_confined_worker'] . "wModal"; ?>" class="modal fade" role="dialog">  
+	<div class="modal-dialog">
+		<div class="modal-content">      
+			<div class="modal-header">        
+				<button type="button" class="close" data-dismiss="modal">×</button>        
+				<h4 class="modal-title">Worker Signature Out</h4>      </div>      
+			<div class="modal-body text-center"><img src="<?php echo base_url($data['signature_out']); ?>" class="img-rounded" alt="Management/Safety Advisor Signature" width="304" height="236" />   </div>      
+			<div class="modal-footer">    
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+			</div>  
+		</div>  
+	</div>
+</div>
+<?php
+}
+				?>
+					
+					<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('more/add_signature_confined/worker_out/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_confined'] . '/' . $data['id_job_confined_worker']) ?>' id="btn-delete">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature Out
+					</a>
+					
+<?php
+if($data['signature_out'] && $data['date_time_out']){ 
+	echo "<br>" . $data['date_time_out'];
+}
+?>
+
 					</center>
 					</small></td>
 
@@ -164,7 +214,7 @@ if($data['signature']){
 							<?php } ?>
 						</select>
 					</td>
-					
+										
 					<td class='text-center'><small>
 					
 						<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>

@@ -494,6 +494,24 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * Update confined worker date and time signature
+		 * @since 6/2/2020
+		 */
+		public function updateConfinedWorkerInOut($arrDatos) 
+		{			
+				$data = array(
+					$arrDatos ["column"] => date("Y-m-d G:i:s")
+				);
+				$this->db->where('id_job_confined_worker', $arrDatos["id"]);
+				$query = $this->db->update('job_confined_workers', $data);
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 
 		
 		

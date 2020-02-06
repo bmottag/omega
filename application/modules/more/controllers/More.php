@@ -905,11 +905,37 @@ class More extends CI_Controller {
 				}elseif($typo == "worker"){
 					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
 					
+					//actualizo hora y fecha en que se firmo
+					$arrParam = array(
+						"id" => $idWorker,
+						"column" => "date_time_in"
+					);
+					$this->more_model->updateConfinedWorkerInOut($arrParam);
+					
 					$arrParam = array(
 						"table" => "job_confined_workers",
 						"primaryKey" => "id_job_confined_worker",
 						"id" => $idWorker,
 						"column" => "signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario con ancla a la lista de trabajadores
+					$data['linkBack'] = "more/confined_workers/" . $idJob . "/" . $idConfined . "#anclaWorker";
+				}elseif($typo == "worker_out"){
+					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
+					
+					//actualizo hora y fecha en que se firmo
+					$arrParam = array(
+						"id" => $idWorker,
+						"column" => "date_time_out"
+					);
+					$this->more_model->updateConfinedWorkerInOut($arrParam);
+					
+					$arrParam = array(
+						"table" => "job_confined_workers",
+						"primaryKey" => "id_job_confined_worker",
+						"id" => $idWorker,
+						"column" => "signature_out",
 						"value" => $name
 					);
 					//enlace para regresar al formulario con ancla a la lista de trabajadores
