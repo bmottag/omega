@@ -118,31 +118,31 @@ return date;
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<div class="list-group">
-						<a href="#" class="list-group-item">
+						<a href="<?php echo base_url("workorders/wo_by_state/0/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-danger"><i class="fa fa-thumb-tack fa-fw"></i><strong> On field</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noOnfield; ?></em>
 								</span>
 							</p>
 						</a>
-						<a href="#" class="list-group-item">
+						<a href="<?php echo base_url("workorders/wo_by_state/1/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-warning"><i class="fa fa-refresh fa-fw"></i><strong> In Progress</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noProgress; ?></em>
 								</span>
 							</p>
 						</a>
-						<a href="#" class="list-group-item">
+						<a href="<?php echo base_url("workorders/wo_by_state/2/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-primary"><i class="fa fa-check fa-fw"></i><strong> Revised</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noRevised; ?></em>
 								</span>
 							</p>
 						</a>
-						<a href="#" class="list-group-item">
+						<a href="<?php echo base_url("workorders/wo_by_state/3/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the client</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noSend; ?></em>
 								</span>
 							</p>
 						</a>
-						<a href="#" class="list-group-item">
+						<a href="<?php echo base_url("workorders/wo_by_state/4/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-danger"><i class="fa fa-power-off fa-fw"></i><strong> Closed</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noClosed; ?></em>
 								</span>

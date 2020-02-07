@@ -378,6 +378,9 @@
 				if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
 					$this->db->where('W.date <=', $arrData["to"]);
 				}
+				if (array_key_exists("state", $arrData) && $arrData["state"] != '') {
+					$this->db->where('W.state', $arrData["state"]);
+				}
 				
 				//$this->db->where('W.date >=', $firstDay);
 				
@@ -448,7 +451,7 @@
 		 * Add info boton go back
 		 * @since 11/11/2018
 		 */
-		public function saveInfoGoBack() 
+		public function saveInfoGoBack($arrData) 
 		{
 			$idUser = $this->session->userdata("id");
 			
@@ -457,11 +460,25 @@
 			
 			$data = array(
 				'fk_id_user' => $idUser,
-				'post_id_job' => $this->input->post('jobName'),
-				'post_id_work_order' => $this->input->post('workOrderNumber'),
-				'post_from' => $this->input->post('from'),
-				'post_to' => $this->input->post('to')
+				'post_from' => $arrData["from"],
+				'post_to' => $arrData["to"]
 			);
+
+			if (array_key_exists("jobId", $arrData)) {
+				$data['post_id_job'] = $arrData["jobId"];
+			}
+			if (array_key_exists("idWorkOrder", $arrData)) {
+				$data['post_id_work_order'] = $arrData["idWorkOrder"];
+			}
+			if (array_key_exists("idWorkOrderFrom", $arrData)) {
+				$data['post_id_wo_from'] = $arrData["idWorkOrderFrom"];
+			}
+			if (array_key_exists("idWorkOrderTo", $arrData)) {
+				$data['post_id_wo_to'] = $arrData["idWorkOrderTo"];
+			}
+			if (array_key_exists("state", $arrData)) {
+				$data['post_state'] = $arrData["state"];
+			}
 			
 			$query = $this->db->insert('workorder_go_back', $data);
 
@@ -548,7 +565,8 @@
 				if (array_key_exists("year", $arrDatos)) {
 					$year = $arrDatos["year"];
 					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año
-					$lastDay = date('Y-m-d',(mktime(0,0,0,13,1,$year)-1));//ultimo dia del año
+					//$lastDay = date('Y-m-d',(mktime(0,0,0,13,1,$year)-1));//ultimo dia del año
+					$lastDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year+1));//primer dia del siguiente año para que incluya todo el dia anterior en la consulta
 
 					$sql.= " AND date >= '$firstDay'";
 					$sql.= " AND date <= '$lastDay'";

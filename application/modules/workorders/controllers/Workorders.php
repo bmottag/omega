@@ -462,17 +462,20 @@ class Workorders extends CI_Controller {
 				
 				//le sumo un dia al dia final para que ingrese ese dia en la consulta
 				$to = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( formatear_fecha($workOrderGoBackInfo['post_to']) ) ) );
-				$from = formatear_fecha($workOrderGoBackInfo['post_from']);
+				//$from = formatear_fecha($workOrderGoBackInfo['post_from']);
 				
 				$arrParam = array(
 					"jobId" => $workOrderGoBackInfo['post_id_job'],
 					"idWorkOrder" => $workOrderGoBackInfo['post_id_work_order'],
-					"from" => $from,
-					"to" => $to
+					"idWorkOrderFrom" => $workOrderGoBackInfo['post_id_wo_from'],
+					"idWorkOrderTo" => $workOrderGoBackInfo['post_id_wo_to'],
+					"from" => $workOrderGoBackInfo['post_from'],//$from,
+					"to" => $to,
+					"state" => $workOrderGoBackInfo['post_state']
 				);
 
 				$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
-	
+
 				$data["view"] = "asign_rate_list";
 			}
 			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
@@ -485,12 +488,17 @@ class Workorders extends CI_Controller {
 				$data['from'] =  $this->input->post('from');
 				$data['to'] =  $this->input->post('to');
 			
-				//guardo la informacion en la base de datos para el boton de regresar
-				$this->workorders_model->saveInfoGoBack();
-				
 				//le sumo un dia al dia final para que ingrese ese dia en la consulta
-				$to = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( formatear_fecha($data['to']) ) ) );
-				$from = formatear_fecha($data['from']);
+				if($data['to']){
+					$to = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( formatear_fecha($data['to']) ) ) );
+				}else{
+					$to = "";
+				}
+				if($data['from']){
+					$from = formatear_fecha($data['from']);
+				}else{
+					$from = "";
+				}
 				
 				$arrParam = array(
 					"jobId" => $this->input->post('jobName'),
@@ -500,7 +508,11 @@ class Workorders extends CI_Controller {
 					"from" => $from,
 					"to" => $to
 				);
-
+				
+				//guardo la informacion en la base de datos para el boton de regresar
+				$this->workorders_model->saveInfoGoBack($arrParam);
+	
+				//informacion Work Order
 				$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 	
 				$data["view"] = "asign_rate_list";
@@ -888,6 +900,40 @@ class Workorders extends CI_Controller {
 
 			echo json_encode($data);
     }
+	
+	/**
+	 * Lista de Workorders filtrado por estado
+     * @since 22/2/2020
+     * @author BMOTTAG
+	 */
+	public function wo_by_state($state, $year="x")
+	{						
+			$from = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año
+			//$to = date('Y-m-d',(mktime(0,0,0,13,1,$year)-1));//ultimo dia del año
+			$to = date('Y-m-d', mktime(0,0,0, 1, 1, $year+1));//primer dia del siguiente año para que incluya todo el dia anterior en la consulta
+			
+			$data['jobName'] =  $this->input->post('jobName');
+			$data['workOrderNumber'] =  $this->input->post('workOrderNumber');
+			$data['workOrderNumberFrom'] =  $this->input->post('workOrderNumberFrom');
+			$data['workOrderNumberTo'] =  $this->input->post('workOrderNumberTo');
+			$data['from'] =  $this->input->post('from');
+			$data['to'] =  $this->input->post('to');
+					
+			$arrParam = array(
+				"from" => $from,
+				"to" => $to,
+				"state" => $state
+			);
+			
+			//guardo la informacion en la base de datos para el boton de regresar
+			$this->workorders_model->saveInfoGoBack($arrParam);
+
+			//informacion Work Order
+			$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
+
+			$data["view"] = "asign_rate_list";
+			$this->load->view("layout", $data);	
+	}
 	
 	/**
 	 * Generate WORK ORDER Report in PDF
