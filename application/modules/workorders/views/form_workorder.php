@@ -154,7 +154,7 @@ if ($retornoError) {
 		<div class="col-lg-12">	
 			<div class="alert <?php echo $clase; ?>">
 				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				This work order is <strong><?php echo $valor; ?></strong>
+				Actual state: <strong><?php echo $valor; ?></strong>
 			</div>
 		</div>
 						
@@ -387,22 +387,27 @@ if($information){
 					case 0:
 							$valor = 'On field';
 							$clase = "text-danger";
+							$icono = "fa-thumb-tack";
 							break;
 					case 1:
 							$valor = 'In Progress';
 							$clase = "text-warning";
+							$icono = "fa-refresh";
 							break;
 					case 2:
 							$valor = 'Revised';
 							$clase = "text-primary";
+							$icono = "fa-check";
 							break;
 					case 3:
 							$valor = 'Send to the client';
 							$clase = "text-success";
+							$icono = "fa-envelope-o";
 							break;
 					case 4:
 							$valor = 'Closed';
 							$clase = "text-danger";
+							$icono = "fa-power-off";
 							break;
 			}
 ?>
@@ -420,7 +425,7 @@ if($information){
 					<p>
 						<?php echo $data['observation']; ?>
 					</p>
-					<?php echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>'; ?>
+					<?php echo '<p class="' . $clase . '"><strong><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</strong></p>'; ?>
 				</div>
 			</li>
 <?php

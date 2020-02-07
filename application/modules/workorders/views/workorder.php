@@ -50,28 +50,33 @@
 											case 0:
 													$valor = 'On field';
 													$clase = "text-danger";
+													$icono = "fa-thumb-tack";
 													break;
 											case 1:
 													$valor = 'In Progress';
 													$clase = "text-warning";
+													$icono = "fa-refresh";
 													break;
 											case 2:
 													$valor = 'Revised';
 													$clase = "text-primary";
+													$icono = "fa-check";
 													break;
 											case 3:
 													$valor = 'Send to the client';
 													$clase = "text-success";
+													$icono = "fa-envelope-o";
 													break;
 											case 4:
 													$valor = 'Closed';
 													$clase = "text-danger";
+													$icono = "fa-power-off";
 													break;
 									}
 							
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['id_workorder'];
-									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
 									echo "</td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
