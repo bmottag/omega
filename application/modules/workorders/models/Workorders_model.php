@@ -531,6 +531,43 @@
 			}
 		}
 		
+		/**
+		 * Contar registros de workorder
+		 * Int Year
+		 * Int Estado
+		 * @author BMOTTAG
+		 * @since  7/2/2020
+		 */
+		public function countWorkorders($arrDatos)
+		{			
+				$sql = "SELECT count(id_workorder) CONTEO";
+				$sql.= " FROM workorder";
+				$sql.= " WHERE 1=1";
+				
+				//filtrar por año
+				if (array_key_exists("year", $arrDatos)) {
+					$year = $arrDatos["year"];
+					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año
+					$lastDay = date('Y-m-d',(mktime(0,0,0,13,1,$year)-1));//ultimo dia del año
+
+					$sql.= " AND date >= '$firstDay'";
+					$sql.= " AND date <= '$lastDay'";
+				}else{ //si no envia año entonces selecciono el año actual
+					$year = date('Y');
+					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año
+					$sql.= " AND date >= '$firstDay'";
+				}
+				
+				//filtrar por estado
+				if (array_key_exists("state", $arrDatos)){
+					$sql.= " AND state =" . $arrDatos["state"];
+				}
+				
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->CONTEO;
+		}
+		
 	
 		
 		

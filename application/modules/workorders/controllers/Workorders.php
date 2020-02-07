@@ -441,6 +441,17 @@ class Workorders extends CI_Controller {
 				"id" => 1
 			);
 			$data['jobList'] = $this->general_model->get_basic_search($arrParam);//job list
+
+			$arrParam = array("state" => 0);
+			$data['noOnfield'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 1);
+			$data['noProgress'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 2);
+			$data['noRevised'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 3);
+			$data['noSend'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 4);
+			$data['noClosed'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
 			
 			$data["view"] = "asign_rate_form_search";
 			
