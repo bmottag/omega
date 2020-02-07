@@ -952,6 +952,18 @@ class More extends CI_Controller {
 					);
 					//enlace para regresar al formulario
 					$data['linkBack'] = "more/add_confined/" . $idJob . "/" . $idConfined . "#anclaSignature";
+				}elseif($typo == "post_entry"){
+					$name = "images/signature/confined/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_confined",
+						"primaryKey" => "id_job_confined",
+						"id" => $idConfined,
+						"column" => "post_entry_signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario
+					$data['linkBack'] = "more/post_entry/" . $idJob . "/" . $idConfined;
 				}
 				
 				$data_uri = $this->input->post("image");
@@ -1090,6 +1102,66 @@ class More extends CI_Controller {
 				$this->session->set_flashdata('retornoExito', "You have save the ENVIRONMENTAL CONDITIONS - RE TESTING");
 			} else {
 				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Form post entry inspection
+     * @since 6/2/2020
+     * @author BMOTTAG
+	 */
+	public function post_entry($idJob, $idConfined)
+	{
+			$data['information'] = FALSE;
+			
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//workers list
+			$data['workersList'] = $this->general_model->get_user_list();//workers list
+									
+			//si envio el id, entonces busco la informacion 
+			$arrParam = array(
+				"idConfined" => $idConfined
+			);				
+			$data['information'] = $this->general_model->get_confined_space($arrParam);
+				
+			$data["view"] = 'form_post_entry';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save post entry inspection
+     * @since 6/2/2020
+     * @author BMOTTAG
+	 */
+	public function save_post_entry()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$idJob = $this->input->post('hddIdJob');
+			$idConfined = $this->input->post('hddConfined');
+			$data["idRecord"] = $idJob . "/" . $idConfined;
+
+			if ($idConfined = $this->more_model->save_post_entry()) 
+			{
+				$data["result"] = true;
+				$data["mensaje"] = "You have save the Post-entry Inspection.";
+				$this->session->set_flashdata('retornoExito', 'You have save the Post-entry Inspection.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 

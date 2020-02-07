@@ -512,6 +512,37 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * Update confined worker
+		 * @since 5/2/2020
+		 */
+		public function save_post_entry() 
+		{			
+				$idConfined = $this->input->post('hddConfined');
+								
+				$data = array(
+					'personnel_out' => $this->input->post('personnel_out'),
+					'isolation' => $this->input->post('isolation'),
+					'lockouts_removed' => $this->input->post('lockouts_removed'),
+					'tags_removed' => $this->input->post('tags_removed'),
+					'equipment_removed' => $this->input->post('equipment_removed'),
+					'ppe_cleaned' => $this->input->post('ppe_cleaned'),
+					'rescue_equipment' => $this->input->post('rescue_equipment'),
+					'permits_signed' => $this->input->post('permits_signed'),
+					'areas_notified' => $this->input->post('areas_notified'),
+					'fk_id_post_entry_user' => $this->input->post('post_entry')
+				);
+				
+				$this->db->where('id_job_confined', $idConfined);
+				$query = $this->db->update('job_confined', $data);			
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 
 		
 		

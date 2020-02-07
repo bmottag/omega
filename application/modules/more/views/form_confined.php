@@ -42,6 +42,8 @@ if($userRol==99){
 						</li>
 						<li ><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - Re-Testing</a>
 						</li>
+						<li ><a href="<?php echo base_url("more/post_entry/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">POST ENTRY INSPECTION</a>
+						</li>
 					</ul>
 					<br>
 				<?php 
