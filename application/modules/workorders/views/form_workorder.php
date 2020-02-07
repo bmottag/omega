@@ -312,14 +312,15 @@ if($information){
 <!--INICIO ADDITIONAL INFORMATION -->
 	<!-- /.row -->
 	<div class="row">
-		<div class="col-lg-12">				
+		<div class="col-lg-6">				
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					ADDITIONAL INFORMATION (This field is only additional information for the office)
+					ADDITIONAL INFORMATION <br>
+					This field is only additional information for the office.
 				</div>
 				<div class="panel-body">
 				
-						<div class="col-lg-6">	
+						<div class="col-lg-12">	
 							<form name="formState" id="formState" class="form-horizontal" method="post">
 								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information?$information[0]["id_workorder"]:""; ?>"/>										
 																				
@@ -364,58 +365,77 @@ if($information){
 							</div>
 							
 						</div>
-						
-						<div class="col-lg-6">	
-							<div class="alert alert-info">
-								
-<?php 
-	if($workorderState)
-	{	
-		foreach ($workorderState as $data):		
-?>
-			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-			<strong><?php echo $data['first_name'] . ' - ' . $data['date_issue'] . ':'; ?></strong>
-			<?php 
-				echo $data['observation'];
-			
-				switch ($data['state']) {
-						case 0:
-								$valor = 'On field';
-								$clase = "text-danger";
-								break;
-						case 1:
-								$valor = 'In Progress';
-								$clase = "text-warning";
-								break;
-						case 2:
-								$valor = 'Revised';
-								$clase = "text-primary";
-								break;
-						case 3:
-								$valor = 'Send to the client';
-								$clase = "text-success";
-								break;
-						case 4:
-								$valor = 'Closed';
-								$clase = "text-danger";
-								break;
-				}
-				echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
-			?>
-			
-			<br>
-<?php
-		endforeach;
-	}
-?>
-								
-							</div>
-						</div>
-
 
 				</div>
 			</div>
 		</div>
+		
+		<div class="col-lg-6">	
+			<div class="chat-panel panel panel-primary">
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw"></i> State history
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<ul class="chat">
+<?php 
+	if($workorderState)
+	{
+		foreach ($workorderState as $data):		
+
+			switch ($data['state']) {
+					case 0:
+							$valor = 'On field';
+							$clase = "text-danger";
+							break;
+					case 1:
+							$valor = 'In Progress';
+							$clase = "text-warning";
+							break;
+					case 2:
+							$valor = 'Revised';
+							$clase = "text-primary";
+							break;
+					case 3:
+							$valor = 'Send to the client';
+							$clase = "text-success";
+							break;
+					case 4:
+							$valor = 'Closed';
+							$clase = "text-danger";
+							break;
+			}
+?>
+			<li class="right clearfix">
+				<span class="chat-img pull-right">
+					<small class="pull-right text-muted">
+						<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['date_issue']; ?>
+					</small>
+				</span>
+				<div class="chat-body clearfix">
+					<div class="header">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						<strong class="primary-font"><?php echo $data['first_name']; ?></strong>
+					</div>
+					<p>
+						<?php echo $data['observation']; ?>
+					</p>
+					<?php echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>'; ?>
+				</div>
+			</li>
+<?php
+		endforeach;
+	}
+?>
+					</ul>
+					
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel .chat-panel -->
+		</div>
+		
+		
 	</div>
 	<!-- /.row -->
 <!--FIN ADDITIONAL INFORMATION -->
