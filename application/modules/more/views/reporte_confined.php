@@ -329,35 +329,6 @@ $html .= '<h2 align="center" style="color:#337ab7;">Environmental conditions - T
 
 $html.= '<br><br>';
 			
-$html .= '<h2 align="center" style="color:#337ab7;">Environmental conditions - Re-Testing<br></h2>';
-
-			$html.='<table border="0" cellspacing="0" cellpadding="5">
-				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Oxygen : </strong></th>
-					<th>' . $info[0]['re_oxygen'] . ' %</th>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Date/Time: </strong></th>
-					<th>' . $info[0]['re_oxygen_time'] . '</th>
-				</tr>
-			
-				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Lower Explosive Limit: </strong></th>
-					<th>' . $info[0]['re_explosive_limit'] . ' %</th>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Date/Time: </strong></th>
-					<th>' . $info[0]['re_explosive_limit_time'] . '</th>
-				</tr>
-			
-				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Toxic Atmosphere: </strong></th>
-					<th colspan="3">' . $info[0]['re_toxic_atmosphere']. '</th>
-				</tr>
-				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Instruments Used: </strong></th>
-					<th colspan="3">' . $info[0]['re_instruments_used']. '</th>
-				</tr>
-			</table>';
-
-$html.= '<br><br>';
-			
 			$html.='<table border="0" cellspacing="0" cellpadding="5">
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Remarks on the overall condition of the confined space : </strong></th>
