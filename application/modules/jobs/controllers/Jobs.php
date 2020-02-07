@@ -1045,7 +1045,7 @@ ob_end_clean();
 	{
         $config['upload_path'] = './images/locates/';
         $config['overwrite'] = false;
-        $config['allowed_types'] = 'gif|jpg|png|pdf';
+        $config['allowed_types'] = 'gif|jpg|png|pdf|jpeg';
         $config['max_size'] = '3000';
         $config['max_width'] = '3200';
         $config['max_height'] = '2400';

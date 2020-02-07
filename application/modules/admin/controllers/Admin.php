@@ -618,7 +618,7 @@ class Admin extends CI_Controller {
 	{
         $config['upload_path'] = './images/vehicle/';
         $config['overwrite'] = true;
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size'] = '3000';
         $config['max_width'] = '2024';
         $config['max_height'] = '2008';
