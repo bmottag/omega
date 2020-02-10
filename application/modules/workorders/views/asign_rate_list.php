@@ -112,7 +112,6 @@
             responsive: true,
 			 "ordering": false,
 			 paging: false,
-			"searching": false,
 			"info": false
         });
     });
