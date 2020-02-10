@@ -6,7 +6,6 @@ class Workorders extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("workorders_model");
-		$this->load->model("general_model");
     }
 	
 	/**
@@ -15,7 +14,9 @@ class Workorders extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function index()
-	{		
+	{
+			$this->load->model("general_model");
+		
 			$arrParam = array();
 			$userRol = $this->session->userdata("rol");
 			if(!$userRol){ //If it is a normal user, just show the records of the user session
@@ -39,6 +40,7 @@ class Workorders extends CI_Controller {
 			$data['workorderMaterials'] = FALSE;
 			$data['deshabilitar'] = '';
 			
+			$this->load->model("general_model");
 			//job´s list - (active´s items)
 			$arrParam = array(
 				"table" => "param_jobs",
@@ -147,6 +149,7 @@ class Workorders extends CI_Controller {
 				"column" => "state",
 				"value" => 2
 			);
+			$this->load->model("general_model");
 			
 			//actualizo el estado del formulario a cerrado(2)
 			if ($this->general_model->updateRecord($arrParam)) {
@@ -173,6 +176,7 @@ class Workorders extends CI_Controller {
 			$data["idWorkorder"] = $this->input->post("idWorkorder");
 		
 			//workers list
+			$this->load->model("general_model");
 			$data['workersList'] = $this->general_model->get_user_list();//workers list
 			
 			//employee type list
@@ -234,7 +238,7 @@ class Workorders extends CI_Controller {
 				"primaryKey" => "id_workorder_"  . $tabla,
 				"id" => $idValue
 			);
-
+			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
 				$this->session->set_flashdata('retornoExito', 'You have delete one record from <strong>'.$tabla.'</strong> table.');
 			} else {
@@ -257,6 +261,7 @@ class Workorders extends CI_Controller {
 			$data["idWorkorder"] = $porciones[1];
 		
 			//workers list
+			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_material_type",
 				"order" => "material",
@@ -280,6 +285,7 @@ class Workorders extends CI_Controller {
 			$porciones = explode("-", $idWorkorder);
 			$data["idWorkorder"] = $porciones[1];
 		
+			$this->load->model("general_model");	
 			//buscar la lista de tipo de equipmentType
 			$arrParam = array(
 				"table" => "param_vehicle_type_2",
@@ -309,6 +315,7 @@ class Workorders extends CI_Controller {
 		if($type == 8)
 		{
 			//miscellaneous list
+			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_miscellaneous",
 				"order" => "miscellaneous",
@@ -353,6 +360,7 @@ class Workorders extends CI_Controller {
         $CompanyType = $this->input->post('CompanyType');
 		
 		//company list
+		$this->load->model("general_model");
 		$arrParam = array(
 			"table" => "param_company",
 			"order" => "company_name",
@@ -383,6 +391,7 @@ class Workorders extends CI_Controller {
 			$data["idWorkorder"] = $porciones[1];
 		
 			//workers list
+			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_company",
 				"order" => "company_name",
@@ -424,6 +433,7 @@ class Workorders extends CI_Controller {
 			}
 
 			//job list
+			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_jobs",
 				"order" => "job_description",
@@ -517,7 +527,9 @@ class Workorders extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function view_workorder($id)
-	{			
+	{
+			$this->load->model("general_model");
+			
 			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($id);//workorder personal list
 			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
 			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
@@ -701,6 +713,7 @@ class Workorders extends CI_Controller {
 				$decoded_image = base64_decode($encoded_image);
 				file_put_contents($name, $decoded_image);
 				
+				$this->load->model("general_model");
 				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
 				if ($this->general_model->updateRecord($arrParam)) {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
@@ -871,6 +884,7 @@ class Workorders extends CI_Controller {
 					"column" => "state",
 					"value" => $this->input->post('state')
 				);
+				$this->load->model("general_model");
 				
 				$this->general_model->updateRecord($arrParam);
 				
@@ -1014,6 +1028,240 @@ class Workorders extends CI_Controller {
 			//============================================================+
 		
 	}	
+	
+	/**
+	 * Generate Payroll Report in XLS
+	 * @param int $jobId
+     * @since 10/02/2020
+     * @author BMOTTAG
+	 */
+	public function generaWorkOrderXLS($jobId)
+	{				
+			$arrParam = array(
+				"jobId" => $jobId
+			);
+
+			$info = $this->workorders_model->get_workorder_by_idJob($arrParam);
+
+			// Create new PHPExcel object	
+			$objPHPExcel = new PHPExcel();
+
+			// Set document properties
+			$objPHPExcel->getProperties()->setCreator("VCI APP")
+										 ->setLastModifiedBy("VCI APP")
+										 ->setTitle("Report")
+										 ->setSubject("Report")
+										 ->setDescription("VCI Report.")
+										 ->setKeywords("office 2007 openxml php")
+										 ->setCategory("Report");
+										 
+			// Create a first sheet
+			$objPHPExcel->setActiveSheetIndex(0);
+			$objPHPExcel->getActiveSheet()->setCellValue('A1', 'WORK ORDER REPORT');
+						
+			$objPHPExcel->getActiveSheet()->setCellValue('A3', 'Work Order #')
+										->setCellValue('B3', 'Supervisor')
+										->setCellValue('C3', 'Date of Issue')
+										->setCellValue('D3', 'Date Work Order')
+										->setCellValue('E3', 'Job Code/Name')
+										->setCellValue('F3', 'Task Description')
+										->setCellValue('G3', 'Description')
+										->setCellValue('H3', 'Employee Name')
+										->setCellValue('I3', 'Employee Type')
+										->setCellValue('J3', 'Material')
+										->setCellValue('K3', 'Equipment')
+										->setCellValue('L3', 'Hours')
+										->setCellValue('M3', 'Quantity')
+										->setCellValue('N3', 'Unit')
+										->setCellValue('O3', 'Unit price')
+										->setCellValue('P3', 'Line Total');
+										
+										
+			$j=4;
+			$total = 0; 
+			foreach ($info as $data):
+					
+				$idWorkOrder = $data['id_workorder'];
+				$workorderPersonal = $this->workorders_model->get_workorder_personal($idWorkOrder);//workorder personal list
+				$workorderMaterials = $this->workorders_model->get_workorder_materials($idWorkOrder);//workorder material list
+				$workorderEquipment = $this->workorders_model->get_workorder_equipment($idWorkOrder);//workorder equipment list
+				$workorderOcasional = $this->workorders_model->get_workorder_ocasional($idWorkOrder);//workorder ocasional list
+
+				$observation = $data['observation']?$data['observation']:'';
+				if($workorderPersonal){
+					foreach ($workorderPersonal as $infoP):
+						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoP['description'])
+													  ->setCellValue('H'.$j, $infoP['name'])
+													  ->setCellValue('I'.$j, $infoP['employee_type'])
+													  ->setCellValue('L'.$j, $infoP['hours'])
+													  ->setCellValue('N'.$j, 'Hours')
+													  ->setCellValue('O'.$j, $infoP['rate'])
+													  ->setCellValue('P'.$j, $infoP['value']);
+						$j++;
+					endforeach;
+				}
+
+				if($workorderMaterials){
+					foreach ($workorderMaterials as $infoM):
+						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoM['description'])
+													  ->setCellValue('J'.$j, $infoM['material'])
+													  ->setCellValue('M'.$j, $infoM['quantity'])
+													  ->setCellValue('N'.$j, $infoM['unit'])
+													  ->setCellValue('O'.$j, $infoM['rate'])
+													  ->setCellValue('P'.$j, $infoM['value']);
+						$j++;
+					endforeach;
+				}
+		
+				if($workorderEquipment){
+					foreach ($workorderEquipment as $infoE):
+									
+						//si es tipo miscellaneous -> 8, entonces la description es diferente
+						if($infoE['fk_id_type_2'] == 8){
+							$equipment = $infoE['miscellaneous'] . " - " . $infoE['other'];
+						}else{
+							$equipment = $infoE['type_2'] . " - " . $infoE['unit_number'] . " - " . $infoE['v_description'];
+						}
+						
+						$quantity = $infoE['quantity']==0?1:$infoE['quantity'];//cantidad si es cero es porque es 1
+			
+						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoE['description'])
+													  ->setCellValue('K'.$j, $equipment)
+													  ->setCellValue('L'.$j, $infoE['hours'])
+													  ->setCellValue('M'.$j, $quantity)
+													  ->setCellValue('N'.$j, 'Hours')
+													  ->setCellValue('O'.$j, $infoE['rate'])
+													  ->setCellValue('P'.$j, $infoE['value']);
+						$j++;
+					endforeach;
+				}
+			
+				if($workorderOcasional){
+					foreach ($workorderOcasional as $infoO):
+						$equipment = $infoO['company_name'] . '-' . $infoO['equipment'];
+						$hours = $infoO['hours']==0?1:$infoO['hours'];
+						
+						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoO['description'])
+													  ->setCellValue('K'.$j, $equipment)
+													  ->setCellValue('L'.$j, $hours)
+													  ->setCellValue('M'.$j, $infoO['quantity'])
+													  ->setCellValue('N'.$j, $infoO['unit'])
+													  ->setCellValue('O'.$j, $infoO['rate'])
+													  ->setCellValue('P'.$j, $infoO['value']);
+						$j++;
+					endforeach;
+				}
+				
+			endforeach;
+
+			// Set column widths							  
+			$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+
+			// Add conditional formatting
+			$objConditional1 = new PHPExcel_Style_Conditional();
+			$objConditional1->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
+							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_BETWEEN)
+							->addCondition('200')
+							->addCondition('400');
+			$objConditional1->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
+			$objConditional1->getStyle()->getFont()->setBold(true);
+			$objConditional1->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+
+			$objConditional2 = new PHPExcel_Style_Conditional();
+			$objConditional2->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
+							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_LESSTHAN)
+							->addCondition('0');
+			$objConditional2->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
+			$objConditional2->getStyle()->getFont()->setItalic(true);
+			$objConditional2->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+
+			$objConditional3 = new PHPExcel_Style_Conditional();
+			$objConditional3->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
+							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_GREATERTHANOREQUAL)
+							->addCondition('0');
+			$objConditional3->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_GREEN);
+			$objConditional3->getStyle()->getFont()->setItalic(true);
+			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+
+			$conditionalStyles = $objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles();
+			array_push($conditionalStyles, $objConditional1);
+			array_push($conditionalStyles, $objConditional2);
+			array_push($conditionalStyles, $objConditional3);
+			$objPHPExcel->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
+
+			//	duplicate the conditional styles across a range of cells
+			$objPHPExcel->getActiveSheet()->duplicateConditionalStyle(
+							$objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
+							'B3:B7'
+						  );
+
+			// Set fonts			  
+			$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+			$objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+			$objPHPExcel->getActiveSheet()->getStyle('A3:P3')->getFont()->setBold(true);
+
+			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
+			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
+			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $objPHPExcel->getProperties()->getTitle() . '&RPage &P of &N');
+
+			// Set page orientation and size
+			$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+			$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+
+			// Rename worksheet
+			$objPHPExcel->getActiveSheet()->setTitle('Work Order');
+
+			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+			$objPHPExcel->setActiveSheetIndex(0);
+
+			// redireccionamos la salida al navegador del cliente (Excel2007)
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="workorder.xlsx"');
+			header('Cache-Control: max-age=0');
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+			$objWriter->save('php://output');
+			  
+    }
 	
 	
 	
