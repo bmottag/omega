@@ -6,6 +6,7 @@ class Workorders extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("workorders_model");
+		$this->load->model("general_model");
     }
 	
 	/**
@@ -14,9 +15,7 @@ class Workorders extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function index()
-	{
-			$this->load->model("general_model");
-		
+	{		
 			$arrParam = array();
 			$userRol = $this->session->userdata("rol");
 			if(!$userRol){ //If it is a normal user, just show the records of the user session
@@ -40,7 +39,6 @@ class Workorders extends CI_Controller {
 			$data['workorderMaterials'] = FALSE;
 			$data['deshabilitar'] = '';
 			
-			$this->load->model("general_model");
 			//job´s list - (active´s items)
 			$arrParam = array(
 				"table" => "param_jobs",
@@ -149,7 +147,6 @@ class Workorders extends CI_Controller {
 				"column" => "state",
 				"value" => 2
 			);
-			$this->load->model("general_model");
 			
 			//actualizo el estado del formulario a cerrado(2)
 			if ($this->general_model->updateRecord($arrParam)) {
@@ -176,7 +173,6 @@ class Workorders extends CI_Controller {
 			$data["idWorkorder"] = $this->input->post("idWorkorder");
 		
 			//workers list
-			$this->load->model("general_model");
 			$data['workersList'] = $this->general_model->get_user_list();//workers list
 			
 			//employee type list
@@ -238,7 +234,7 @@ class Workorders extends CI_Controller {
 				"primaryKey" => "id_workorder_"  . $tabla,
 				"id" => $idValue
 			);
-			$this->load->model("general_model");
+
 			if ($this->general_model->deleteRecord($arrParam)) {
 				$this->session->set_flashdata('retornoExito', 'You have delete one record from <strong>'.$tabla.'</strong> table.');
 			} else {
@@ -261,7 +257,6 @@ class Workorders extends CI_Controller {
 			$data["idWorkorder"] = $porciones[1];
 		
 			//workers list
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_material_type",
 				"order" => "material",
@@ -285,7 +280,6 @@ class Workorders extends CI_Controller {
 			$porciones = explode("-", $idWorkorder);
 			$data["idWorkorder"] = $porciones[1];
 		
-			$this->load->model("general_model");	
 			//buscar la lista de tipo de equipmentType
 			$arrParam = array(
 				"table" => "param_vehicle_type_2",
@@ -315,7 +309,6 @@ class Workorders extends CI_Controller {
 		if($type == 8)
 		{
 			//miscellaneous list
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_miscellaneous",
 				"order" => "miscellaneous",
@@ -360,7 +353,6 @@ class Workorders extends CI_Controller {
         $CompanyType = $this->input->post('CompanyType');
 		
 		//company list
-		$this->load->model("general_model");
 		$arrParam = array(
 			"table" => "param_company",
 			"order" => "company_name",
@@ -391,7 +383,6 @@ class Workorders extends CI_Controller {
 			$data["idWorkorder"] = $porciones[1];
 		
 			//workers list
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_company",
 				"order" => "company_name",
@@ -433,7 +424,6 @@ class Workorders extends CI_Controller {
 			}
 
 			//job list
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_jobs",
 				"order" => "job_description",
@@ -527,9 +517,7 @@ class Workorders extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function view_workorder($id)
-	{
-			$this->load->model("general_model");
-			
+	{			
 			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($id);//workorder personal list
 			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
 			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
@@ -713,7 +701,6 @@ class Workorders extends CI_Controller {
 				$decoded_image = base64_decode($encoded_image);
 				file_put_contents($name, $decoded_image);
 				
-				$this->load->model("general_model");
 				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
 				if ($this->general_model->updateRecord($arrParam)) {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
@@ -884,7 +871,6 @@ class Workorders extends CI_Controller {
 					"column" => "state",
 					"value" => $this->input->post('state')
 				);
-				$this->load->model("general_model");
 				
 				$this->general_model->updateRecord($arrParam);
 				
