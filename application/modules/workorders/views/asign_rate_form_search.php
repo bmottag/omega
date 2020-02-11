@@ -214,16 +214,34 @@ return date;
 									$incomeSubcontractor = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
 									
 									$total = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor;
+
+									setlocale(LC_MONETARY, 'en_US');
 									
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td class='text-center'>" . $noWO . "</td>";
 									echo "<td class='text-center'>" . $hoursPersonal . "</td>";
-									echo "<td class='text-right'>" . $incomePersonal . "</td>";
-									echo "<td class='text-right'>" . $incomeMaterial . "</td>";
-									echo "<td class='text-right'>" . $incomeEquipment . "</td>";
-									echo "<td class='text-right'>" . $incomeSubcontractor . "</td>";
-									echo "<td class='text-right'>" . $total . "</td>";
+									
+									echo "<td class='text-right'>";
+									echo money_format('%=(#1.2n', $incomePersonal);
+									echo "</td>";
+									
+									echo "<td class='text-right'>";
+									echo money_format('%=(#1.2n', $incomeMaterial);
+									echo "</td>";
+									
+									echo "<td class='text-right'>";
+									echo money_format('%=(#1.2n', $incomeEquipment);
+									echo "</td>";
+									
+									echo "<td class='text-right'>";
+									echo money_format('%=(#1.2n', $incomeSubcontractor);
+									echo "</td>";
+									
+									echo "<td class='text-right'>";
+									echo money_format('%=(#1.2n', $total);
+									echo "</td>";
+									
 									echo "<td class='text-center'>";
 						?>
 						
@@ -254,6 +272,7 @@ return date;
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
+		"ordering": true,
 		paging: false,
 		"info": false
 	});
