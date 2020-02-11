@@ -42,6 +42,7 @@
 				
 <form  name="form" id="form" class="form-horizontal" method="post"  >
 	<input type="hidden" id="hddIdVehicle" name="hddIdVehicle" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
+	<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_maintenance"]:""; ?>"/>
 
 <script>
 	$( function() {
@@ -68,10 +69,10 @@
 						<div class="form-group">
 							<div class="col-sm-5 col-sm-offset-1">
 								<label for="from">Maintenance type </label>
-								<select name="id_maintenance" id="id_maintenance" class="form-control" >
+								<select name="id_maintenance_type" id="id_maintenance_type" class="form-control" >
 									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($jobList); $i++) { ?>
-										<option value="<?php echo $jobList[$i]["id_job"]; ?>" ><?php echo $jobList[$i]["job_description"]; ?></option>	
+									<?php for ($i = 0; $i < count($infoTypeMaintenance); $i++) { ?>
+										<option value="<?php echo $infoTypeMaintenance[$i]["id_maintenance_type"]; ?>" ><?php echo $infoTypeMaintenance[$i]["maintenance_type"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -92,7 +93,12 @@
 							
 							<div class="col-sm-5">
 								<label for="from">Revised by </label>
-								<input type="text" id="revised_by" name="revised_by" class="form-control" placeholder="Revised by" >
+								<select name="revised_by" id="revised_by" class="form-control">
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>"><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+									<?php } ?>
+								</select>
 							</div>
 						</div>
 			

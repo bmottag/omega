@@ -1,13 +1,13 @@
 $( document ).ready( function () {
 			
-	$("#amount").bloquearTexto().maxlength(10);
+	$("#amount").bloquearTexto().maxlength(5);
 	$("#done_by").convertirMayuscula();	
 			
 	$( "#form" ).validate( {
 		rules: {
 			date:					{ required: true },
-			amount:					{ required: true, minlength: 2, maxlength:10 },
-			id_maintenance:			{ required: true },
+			amount:					{ required: true, minlength: 2, maxlength:5 },
+			id_maintenance_type:	{ required: true },
 			description:			{ required: true, minlength: 5 },
 			done_by:				{ required: true, minlength: 5, maxlength:100 },
 			revised_by:				{ required: true }
@@ -91,8 +91,6 @@ $( document ).ready( function () {
 		
 				});	
 		
-		}else{
-			alert("There are missing fields.");
 		}
 	});
 	
