@@ -24,18 +24,42 @@
 			//revisar si es para adicionar o editar
 			if ($idMaintenace == '') {
 				$data['fk_id_vehicle'] = $this->input->post('hddIdVehicle');
-				$query = $this->db->insert('maintenance', $data);					
+				$query = $this->db->insert('maintenance', $data);
+				$idMaintenace = $this->db->insert_id();
 			} else {
 				$this->db->where('id_maintenance', $idMaintenace);
 				$query = $this->db->update('maintenance', $data);
 			}
 			
 			if ($query) {
-				return true;
+				return $idMaintenace;
 			} else {
 				return false;
 			}
-		}		
+		}
+		
+		/**
+		 * Maintenance list
+		 * @since 11/2/2020
+		 */
+		public function get_maintenance($arrDatos) 
+		{
+				$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name');
+				$this->db->join('maintenance_type T', 'T.id_maintenance_type = M.fk_id_maintenance_type', 'INNER');
+				$this->db->join('user U', 'U.id_user = M.fk_revised_by_user', 'INNER');
+				
+				if (array_key_exists("idMaintenance", $arrDatos)) {
+					$this->db->where('M.id_maintenance', $arrDatos["idMaintenance"]);
+				}
+				$query = $this->db->get('maintenance M');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
 		
 
 		
