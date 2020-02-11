@@ -550,6 +550,7 @@
 		
 		/**
 		 * Contar registros de workorder
+		 * Int idJob
 		 * Int Year
 		 * Int Estado
 		 * @author BMOTTAG
@@ -560,9 +561,11 @@
 				$sql = "SELECT count(id_workorder) CONTEO";
 				$sql.= " FROM workorder";
 				$sql.= " WHERE 1=1";
-				
-				//filtrar por año
-				if (array_key_exists("year", $arrDatos)) {
+
+				//filtrar por JOB ID
+				if (array_key_exists("idJob", $arrDatos)) {
+					$sql.= " AND fk_id_job = " . $arrDatos["idJob"];
+				}elseif (array_key_exists("year", $arrDatos)) {
 					$year = $arrDatos["year"];
 					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año
 					//$lastDay = date('Y-m-d',(mktime(0,0,0,13,1,$year)-1));//ultimo dia del año
@@ -585,7 +588,43 @@
 				$row = $query->row();
 				return $row->CONTEO;
 		}
+
+		/**
+		 * Sumatoria de horas de personal
+		 * Int idJob
+		 * @author BMOTTAG
+		 * @since  10/2/2020
+		 */
+		public function countHoursPersonal($arrDatos)
+		{					
+				$sql = "SELECT ROUND(SUM(hours),2) TOTAL";
+				$sql.= " FROM workorder_personal P";
+				$sql.= " INNER JOIN workorder W on W.id_workorder = P.fk_id_workorder";
+				$sql.= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
+								
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->TOTAL;
+		}
 		
+		/**
+		 * Sumatoria de valores para la WO
+		 * Int idJob
+		 * Var table
+		 * @author BMOTTAG
+		 * @since  10/2/2020
+		 */
+		public function countIncome($arrDatos)
+		{					
+				$sql = "SELECT ROUND(SUM(value),2) TOTAL";
+				$sql.= " FROM " . $arrDatos["table"] . " P";
+				$sql.= " INNER JOIN workorder W on W.id_workorder = P.fk_id_workorder";
+				$sql.= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
+								
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->TOTAL;
+		}
 	
 		
 		
