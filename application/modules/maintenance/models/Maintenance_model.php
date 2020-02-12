@@ -17,7 +17,9 @@
 				'fk_id_maintenance_type' => $this->input->post('id_maintenance_type'),
 				'maintenance_description' => $this->input->post('description'),
 				'done_by' => $this->input->post('done_by'),
-				'fk_revised_by_user' => $this->input->post('revised_by')
+				'fk_revised_by_user' => $this->input->post('revised_by'),
+				'next_hours_maintenance' => $this->input->post('next_hours_maintenance'),
+				'next_date_maintenance' => $this->input->post('next_date_maintenance')
 			);
 			
 			//revisar si es para adicionar o editar
