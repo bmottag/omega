@@ -26,14 +26,13 @@
 				$data['date_maintenance'] = date("Y-m-d");
 				$data['fk_id_vehicle'] = $this->input->post('hddIdVehicle');
 				$query = $this->db->insert('maintenance', $data);
-				$idMaintenace = $this->db->insert_id();
 			} else {
 				$this->db->where('id_maintenance', $idMaintenace);
 				$query = $this->db->update('maintenance', $data);
 			}
 			
 			if ($query) {
-				return $idMaintenace;
+				return true;
 			} else {
 				return false;
 			}
@@ -52,7 +51,11 @@
 				if (array_key_exists("idMaintenance", $arrDatos)) {
 					$this->db->where('M.id_maintenance', $arrDatos["idMaintenance"]);
 				}
-				$query = $this->db->get('maintenance M');
+				if (array_key_exists("idVehicle", $arrDatos)) {
+					$this->db->where('M.fk_id_vehicle', $arrDatos["idVehicle"]);
+				}
+				$this->db->order_by('M.id_maintenance', 'desc');
+				$query = $this->db->get('maintenance M',30);
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();

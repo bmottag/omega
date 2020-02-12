@@ -1,7 +1,36 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/maintenance/maintenance.js"); ?>"></script>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <div id="page-wrapper">
 	<br>
+
+<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-success">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			<?php echo $retornoExito ?>		
+		</div>
+	</div>
+    <?php
+}
+
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<?php echo $retornoError ?>
+		</div>
+	</div>
+    <?php
+}
+?> 
 	
 	<!-- /.row -->
 	<div class="row">
@@ -55,6 +84,28 @@
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_revised_by_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>
+							</div>
+						</div>
+
+<script>
+	$( function() {
+		$( "#next_date_maintenance" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'yy-mm-dd'
+		});
+	});
+</script>
+						
+						<div class="form-group">
+							<div class="col-sm-5 col-sm-offset-1">
+								<label for="from">Next Hours/Kilometers maintenance </label>
+								<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" value="<?php if($information){echo $information[0]["next_hours_maintenance"]?$information[0]["next_hours_maintenance"]:"";} ?>" placeholder="Next Hours/Kilometers maintenace">
+							</div>
+							
+							<div class="col-sm-5">
+								<label for="from">Next date maintenance </label>
+								<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" value="<?php echo $information?$information[0]["next_date_maintenance"]:""; ?>" placeholder="Next date maintenace">
 							</div>
 						</div>
 
@@ -114,55 +165,76 @@
 				</div>
 			</div>
 		</div>
-				
-<?php if($information){ ?>
-		<div class="col-lg-4">
+					
+	</div>
+
+<?php if($infoRecords){ ?>
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
 			<div class="panel panel-danger">
 				<div class="panel-heading">
-					<a class="btn btn-danger btn-xs" href="<?php echo base_url().'maintenance/entrance/' . $vehicleInfo[0]["id_vehicle"] . '/' . $information[0]["id_maintenance"]; ?> "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a> 
-					<i class="fa fa-flag"></i> <strong>LAST RECORD</strong>
+					<i class="fa fa-flag"></i> <strong>MAINTENANCE LIST</strong>
 				</div>
 				<div class="panel-body">
-					<strong>Date: </strong><?php echo $information[0]['date_maintenance']; ?><br>
-					<strong>Amount: </strong><?php echo $information[0]['amount']; ?><br>
-					<strong>Maintenance type: </strong><?php echo $information[0]['maintenance_type']; ?><br>
-					<strong>Description: </strong><?php echo $information[0]['maintenance_description']; ?><br>
-					<strong>Done by: </strong><?php echo $information[0]['done_by']; ?><br>
-					<strong>Revised by: </strong><?php echo $information[0]['name']; ?>
+					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<thead>
+							<tr>
+								<th class="text-center">Date</th>
+								<th class="text-center">Maintenance type</th>
+								<th class="text-center">Description</th>
+								<th class="text-center">Done by</th>
+								<th class="text-center">Revised by</th>
+								<th class="text-center">Amount</th>
+								<th class="text-center">Next Hours/Kilometers maintenance </th>
+								<th class="text-center">Next date maintenance </th>
+								<th class="text-center">Edit</th>
+							</tr>
+						</thead>
+						<tbody>							
+						<?php													
+							foreach ($infoRecords as $lista):
+									
+								$nextHoursMaintenance = $lista['next_hours_maintenance']?$lista['next_hours_maintenance']:"";
+								
+								echo "<tr>";
+								echo "<td>" . $lista['date_maintenance'] . "</td>";
+								echo "<td>" . $lista['maintenance_type'] . "</td>";
+								echo "<td>" . $lista['maintenance_description'] . "</td>";
+								echo "<td>" . $lista['done_by'] . "</td>";
+								echo "<td>" . $lista['name'] . "</td>";
+								echo "<td  class='text-right'>" . $lista['amount'] . "</td>";
+								echo "<td class='text-right'>" . $nextHoursMaintenance . "</td>";
+								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
+								echo "<td class='text-center'>";
+						?>
+						
+<a class="btn btn-danger btn-xs" href="<?php echo base_url().'maintenance/entrance/' . $vehicleInfo[0]["id_vehicle"] . '/' . $lista["id_maintenance"]; ?> "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a> 
+
+						<?php
+									echo "</td>";
+							endforeach;
+						?>
+						</tbody>
+					</table>
+
 				</div>
 			</div>
 		</div>
-<?php } ?>		
-		
-	</div>								
+	</div>		
+<?php } ?>
 	
-<?php
-$retornoExito = $this->session->flashdata('retornoExito');
-if ($retornoExito) {
-    ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
-		</div>
-	</div>
-    <?php
-}
-
-$retornoError = $this->session->flashdata('retornoError');
-if ($retornoError) {
-    ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
-		</div>
-	</div>
-    <?php
-}
-?> 
-
-
-
 </div>
 <!-- /#page-wrapper -->
+
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+	$('#dataTables').DataTable({
+		responsive: true,
+		"ordering": true,
+		paging: false,
+		"info": false
+	});
+});
+</script>

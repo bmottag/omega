@@ -1,6 +1,7 @@
 $( document ).ready( function () {
 			
 	$("#amount").bloquearTexto().maxlength(5);
+	$("#next_hours_maintenance").bloquearTexto().maxlength(10);
 	$("#done_by").convertirMayuscula();	
 			
 	$( "#form" ).validate( {
@@ -8,8 +9,9 @@ $( document ).ready( function () {
 			amount:					{ required: true, minlength: 2, maxlength:5 },
 			id_maintenance_type:	{ required: true },
 			description:			{ required: true, minlength: 5 },
-			done_by:				{ required: true, minlength: 5, maxlength:100 },
-			revised_by:				{ required: true }
+			done_by:				{ required: true, minlength: 3, maxlength:100 },
+			revised_by:				{ required: true },
+			next_hours_maintenance: 				{ number: true, minlength: 2, maxlength: 10 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -69,7 +71,7 @@ $( document ).ready( function () {
 							$("#div_guardado").css("display", "inline");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "maintenance/entrance/" + data.idRecord + "/" + data.idMaintenance;
+							var url = base_url + "maintenance/entrance/" + data.idRecord;
 							$(location).attr("href", url);
 						}
 						else

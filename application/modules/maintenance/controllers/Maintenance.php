@@ -43,6 +43,10 @@ class Maintenance extends CI_Controller {
 			);
 			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 			
+			//listado de registros para ese vehiculo
+			$arrParam = array("idVehicle" => $idVehicle);				
+			$data['infoRecords'] = $this->maintenance_model->get_maintenance($arrParam);
+			
 			//si envio el id, entonces busco la informacion 
 			if ($idMaintenance != 'x') 
 			{
@@ -70,12 +74,10 @@ class Maintenance extends CI_Controller {
 			{
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the Maintenance.";
-				$data["idMaintenance"] = $idMaintenance;
 				$this->session->set_flashdata('retornoExito', 'You have save the Maintenance!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
-				$data["idMaintenance"] = "";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
