@@ -242,7 +242,7 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
-		"ordering": true,
+		"ordering": false,
 		paging: false,
 		"info": false
 	});
