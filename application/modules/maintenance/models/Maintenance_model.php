@@ -13,7 +13,6 @@
 			$idMaintenace = $this->input->post('hddIdMaintenance');
 		
 			$data = array(
-				'date_maintenance' => $this->input->post('date'),
 				'amount' => $this->input->post('amount'),
 				'fk_id_maintenance_type' => $this->input->post('id_maintenance_type'),
 				'maintenance_description' => $this->input->post('description'),
@@ -22,7 +21,9 @@
 			);
 			
 			//revisar si es para adicionar o editar
-			if ($idMaintenace == '') {
+			if ($idMaintenace == '') 
+			{
+				$data['date_maintenance'] = date("Y-m-d");
 				$data['fk_id_vehicle'] = $this->input->post('hddIdVehicle');
 				$query = $this->db->insert('maintenance', $data);
 				$idMaintenace = $this->db->insert_id();

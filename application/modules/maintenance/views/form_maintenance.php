@@ -1,8 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/maintenance/maintenance.js"); ?>"></script>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 <div id="page-wrapper">
 	<br>
 	
@@ -20,28 +17,6 @@
 	<input type="hidden" id="hddIdVehicle" name="hddIdVehicle" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
 	<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["id_maintenance"]:""; ?>"/>
 
-<script>
-	$( function() {
-		$( "#date" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'yy-mm-dd'
-		});
-	});
-</script>
-
-						<div class="form-group">
-							<div class="col-sm-5 col-sm-offset-1">
-								<label for="from">Date </label>
-								<input type="text" id="date" name="date" class="form-control" value="<?php echo $information?$information[0]["date_maintenance"]:""; ?>" placeholder="Date" >
-							</div>
-
-							<div class="col-sm-5">
-								<label for="from">Amount </label>
-								<input type="text" id="amount" name="amount" class="form-control" value="<?php echo $information?$information[0]["amount"]:""; ?>" placeholder="Amount" >
-							</div>							
-						</div>
-						
 						<div class="form-group">
 							<div class="col-sm-5 col-sm-offset-1">
 								<label for="from">Maintenance type </label>
@@ -52,8 +27,13 @@
 									<?php } ?>
 								</select>
 							</div>
+
+							<div class="col-sm-5">
+								<label for="from">Amount </label>
+								<input type="text" id="amount" name="amount" class="form-control" value="<?php echo $information?$information[0]["amount"]:""; ?>" placeholder="Amount" >
+							</div>							
 						</div>
-						
+												
 						<div class="form-group">
 							<div class="col-sm-10 col-sm-offset-1">
 								<label for="from">Description </label>
