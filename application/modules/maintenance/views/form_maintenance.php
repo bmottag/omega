@@ -196,8 +196,13 @@ if ($retornoError) {
 							foreach ($infoRecords as $lista):
 									
 								$nextHoursMaintenance = $lista['next_hours_maintenance']?$lista['next_hours_maintenance']:"";
+
+								$class = "";
+								if($lista['maintenance_state'] == 1){
+									$class = "danger";
+								}
 								
-								echo "<tr>";
+								echo "<tr class='" . $class . "' >";
 								echo "<td>" . $lista['date_maintenance'] . "</td>";
 								echo "<td>" . $lista['maintenance_type'] . "</td>";
 								echo "<td>" . $lista['maintenance_description'] . "</td>";
@@ -206,13 +211,18 @@ if ($retornoError) {
 								echo "<td  class='text-right'>" . $lista['amount'] . "</td>";
 								echo "<td class='text-right'>" . $nextHoursMaintenance . "</td>";
 								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
+								
 								echo "<td class='text-center'>";
+									if($lista['maintenance_state'] == 1){
 						?>
 						
 <a class="btn btn-danger btn-xs" href="<?php echo base_url().'maintenance/entrance/' . $vehicleInfo[0]["id_vehicle"] . '/' . $lista["id_maintenance"]; ?> "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a> 
 
 						<?php
-									echo "</td>";
+									}else{
+										echo "-";
+									}
+								echo "</td>";
 							endforeach;
 						?>
 						</tbody>
