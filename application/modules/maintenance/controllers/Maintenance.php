@@ -69,6 +69,14 @@ class Maintenance extends CI_Controller {
 			$data = array();
 			
 			$data["idRecord"] = $this->input->post('hddIdVehicle');
+			$hddIdMaintenance = $this->input->post('hddIdMaintenance');
+
+			//para el mismo tipo de mantenimiento
+			//actualizo los estados a 2 (inactivo) si es un mantenimiento nuevo
+			if($hddIdMaintenance == '')
+			{
+				$this->maintenance_model->update_maintenance_state();
+			}
 
 			if ($idMaintenance = $this->maintenance_model->add_maintenance()) 
 			{

@@ -46,24 +46,45 @@
 		 */
 		public function get_maintenance($arrDatos) 
 		{
-				$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name');
-				$this->db->join('maintenance_type T', 'T.id_maintenance_type = M.fk_id_maintenance_type', 'INNER');
-				$this->db->join('user U', 'U.id_user = M.fk_revised_by_user', 'INNER');
-				
-				if (array_key_exists("idMaintenance", $arrDatos)) {
-					$this->db->where('M.id_maintenance', $arrDatos["idMaintenance"]);
-				}
-				if (array_key_exists("idVehicle", $arrDatos)) {
-					$this->db->where('M.fk_id_vehicle', $arrDatos["idVehicle"]);
-				}
-				$this->db->order_by('M.id_maintenance', 'desc');
-				$query = $this->db->get('maintenance M',30);
+			$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name');
+			$this->db->join('maintenance_type T', 'T.id_maintenance_type = M.fk_id_maintenance_type', 'INNER');
+			$this->db->join('user U', 'U.id_user = M.fk_revised_by_user', 'INNER');
+			
+			if (array_key_exists("idMaintenance", $arrDatos)) {
+				$this->db->where('M.id_maintenance', $arrDatos["idMaintenance"]);
+			}
+			if (array_key_exists("idVehicle", $arrDatos)) {
+				$this->db->where('M.fk_id_vehicle', $arrDatos["idVehicle"]);
+			}
+			$this->db->order_by('M.id_maintenance', 'desc');
+			$query = $this->db->get('maintenance M',30);
 
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+		
+		/**
+		 * Update maintenance update
+		 * @since 12/2/2020
+		 */
+		public function update_maintenance_state()
+		{
+			$idVehicle = $this->input->post('hddIdVehicle');
+			$idMaintenanceType = $this->input->post('id_maintenance_type');
+				
+			$sql = "UPDATE maintenance SET maintenance_state = 2";
+			$sql.= " WHERE fk_id_vehicle = $idVehicle AND fk_id_maintenance_type = $idMaintenanceType AND maintenance_state = 1;";
+		
+			$query = $this->db->query($sql);
+
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		
 		
