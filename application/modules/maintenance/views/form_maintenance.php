@@ -37,7 +37,7 @@ if ($retornoError) {
 		<div class="col-lg-8">
 			<div class="panel panel-purpura">
 				<div class="panel-heading">
-					<a class="btn btn-purpura btn-xs" href="<?php echo base_url().'admin/vehicle/'.$vehicleInfo[0]["type_level_1"]; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<a class="btn btn-purpura btn-xs" href="<?php echo base_url().'admin/vehicle/'.$vehicleInfo[0]["type_level_1"] . '/' . $vehicleInfo[0]['inspection_type']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-wrench"></i> <strong>FORM MAINTENANCE</strong>
 				</div>
 				<div class="panel-body">
@@ -162,7 +162,7 @@ if ($retornoError) {
 					<strong>Description: </strong><?php echo $vehicleInfo[0]['description']; ?><br>
 					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
 					<strong>Type: </strong><br>
-					<?php 
+					<?php
 						switch ($vehicleInfo[0]['type_level_1']) {
 							case 1:
 								$type = 'Fleet';

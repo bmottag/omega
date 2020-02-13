@@ -171,6 +171,7 @@ if($lista["inspection_type"] == 99 ){
 									echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($lista["oil_change"]);
 						?>
 									<br><a href="<?php echo base_url("admin/nextOilChange/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Oil Change</a>
+									<br><a href="<?php echo base_url("maintenance/entrance/" . $lista['id_vehicle']); ?>" class="btn btn-purpura btn-xs">Maintenance</a>
 									
 						<?php	
 									echo "</strong></p></td>";
