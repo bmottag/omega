@@ -46,8 +46,9 @@
 		 */
 		public function get_maintenance($arrDatos) 
 		{
-			$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name');
+			$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name, V.hours');
 			$this->db->join('maintenance_type T', 'T.id_maintenance_type = M.fk_id_maintenance_type', 'INNER');
+			$this->db->join('param_vehicle V', 'V.id_vehicle = M.fk_id_vehicle', 'INNER');
 			$this->db->join('user U', 'U.id_user = M.fk_revised_by_user', 'INNER');
 			
 			if (array_key_exists("idMaintenance", $arrDatos)) {
@@ -56,6 +57,14 @@
 			if (array_key_exists("idVehicle", $arrDatos)) {
 				$this->db->where('M.fk_id_vehicle', $arrDatos["idVehicle"]);
 			}
+			if (array_key_exists("maintenanceState", $arrDatos)) {
+				$this->db->where('M.maintenance_state', $arrDatos["maintenanceState"]);
+			}
+			if (array_key_exists("filtroFecha", $arrDatos)) {
+				$this->db->where('M.next_date_maintenance !=', "");
+				$this->db->where('M.next_date_maintenance <=', $arrDatos["filtroFecha"]);//filtro para dias menores a 7 dias
+			}
+			
 			$this->db->order_by('M.id_maintenance', 'desc');
 			$query = $this->db->get('maintenance M',30);
 
@@ -83,6 +92,42 @@
 			if ($query) {
 				return true;
 			} else {
+				return false;
+			}
+		}
+		
+		/**
+		 * Add Maintenance check
+		 * @since 13/2/2020
+		 */
+		public function add_maintenance_check($idMaintenace) 
+		{
+			//add the new hazards
+			$data = array(
+				'fk_id_maintenance' => $idMaintenace
+			);
+			$query = $this->db->insert('maintenance_check', $data);
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+		
+		/**
+		 * Delete Maintenance check
+		 * @since 13/2/2020
+		 */
+		public function delete_maintenance_check()
+		{
+			//delete maintenance check
+			$sql = "TRUNCATE maintenance_check";		
+			$query = $this->db->query($sql);
+
+			if ($query) {
+				return true;
+			} else{
 				return false;
 			}
 		}

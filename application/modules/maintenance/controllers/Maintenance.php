@@ -87,6 +87,30 @@ class Maintenance extends CI_Controller {
 			echo json_encode($data);
     }
 	
+	/**
+	 * Maintenance Check
+	 */
+	public function maintenance_check()
+	{				
+		$fecha = date('Y-m-d');
+		$filtroFecha = strtotime ( '+7 day' , strtotime ( $fecha ) ) ;
+
+		//listado de registros mantenimientos activos
+		$arrParam = array("maintenanceState" => 1);
+		$infoMaintenance = $this->maintenance_model->get_maintenance($arrParam);		
+
+		$this->maintenance_model->delete_maintenance_check();//elimino los registros de maintenance_check
+		//revisar cuales estan proximo a vencerse por kilometros o fechas
+		foreach ($infoMaintenance as $lista):
+			$diferencia = $lista["next_hours_maintenance"] - $lista["hours"];
+			$nextDateMaintenance = strtotime($lista["next_date_maintenance"]);
+			
+			if($diferencia <= 100 || ($lista["next_date_maintenance"] != "" && $nextDateMaintenance <= $filtroFecha)){
+				$this->maintenance_model->add_maintenance_check($lista["id_maintenance"]);
+			}
+		endforeach;
+	}
+	
 	
 	
 }
