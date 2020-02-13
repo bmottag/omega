@@ -25,15 +25,10 @@ class Maintenance extends CI_Controller {
 			$this->load->model("general_model");			
 			//worker´s list
 			$data['workersList'] = $this->general_model->get_user_list();//workers list
-			
+						
 			//busco datos del vehiculo
-			$arrParam = array(
-				"table" => "param_vehicle",
-				"order" => "id_vehicle",
-				"column" => "id_vehicle",
-				"id" => $idVehicle
-			);
-			$data['vehicleInfo'] = $this->general_model->get_basic_search($arrParam);
+			$arrParam['idVehicle'] = $idVehicle;
+			$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
 			
 			//busco tipos de mantenimiento
 			$arrParam = array(

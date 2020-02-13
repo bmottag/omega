@@ -161,7 +161,22 @@ if ($retornoError) {
 					<strong>Model: </strong><?php echo $vehicleInfo[0]['model']; ?><br>
 					<strong>Description: </strong><?php echo $vehicleInfo[0]['description']; ?><br>
 					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
-					<strong>Current Hours/Kilometers: </strong><?php echo $vehicleInfo[0]['hours']; ?>
+					<strong>Type: </strong><br>
+					<?php 
+						switch ($vehicleInfo[0]['type_level_1']) {
+							case 1:
+								$type = 'Fleet';
+								break;
+							case 2:
+								$type = 'Rental';
+								break;
+							case 99:
+								$type = 'Other';
+								break;
+						}
+						echo $type . " - " . $vehicleInfo[0]['type_2'];
+					?><br>
+					<strong>Current Hours/Kilometers: </strong><br><?php echo $vehicleInfo[0]['hours']; ?>
 				</div>
 			</div>
 		</div>
