@@ -223,8 +223,8 @@ if ($retornoError) {
 								echo "<td>" . $lista['maintenance_description'] . "</td>";
 								echo "<td>" . $lista['done_by'] . "</td>";
 								echo "<td>" . $lista['name'] . "</td>";
-								echo "<td  class='text-right'>" . $lista['amount'] . "</td>";
-								echo "<td class='text-right'>" . $nextHoursMaintenance . "</td>";
+								echo "<td  class='text-right'>" . number_format($lista['amount']) . "</td>";
+								echo "<td class='text-right'>" . number_format((float)$nextHoursMaintenance) . "</td>";
 								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
 								
 								echo "<td class='text-center'>";
@@ -239,6 +239,7 @@ if ($retornoError) {
 										echo "Inactive";
 									}
 								echo "</td>";
+								echo "</tr>";
 							endforeach;
 						?>
 						</tbody>
