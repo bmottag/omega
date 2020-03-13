@@ -33,6 +33,9 @@ class Dashboard extends CI_Controller {
 			if(!$userRol){ //If it is a normal user, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
+			
+			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
+						
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
 			

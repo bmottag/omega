@@ -13,6 +13,58 @@
 				</div>
 				<!-- /.col-lg-12 -->
             </div>
+			
+            <!-- /.row -->
+			<div class="row">
+
+				<div class="col-lg-12">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <i class="fa fa-book fa-fw"></i> Maintenance check
+                        </div>
+                        <!-- /.panel-heading -->
+						<div class="panel-body">
+<?php
+	if($infoMaintenance){ 
+?>						
+					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesMaintenance">
+						<thead>
+							<tr>
+								<th class="text-center">Unit number</th>
+								<th class="text-center">Description</th>
+								<th class="text-center">Maintenance type</th>
+								<th class="text-center">Maintenance description</th>
+								<th class="text-center">Current Hours/Kilometers</th>
+								<th class="text-center">Next Hours/Kilometers maintenance </th>
+								<th class="text-center">Next date maintenance </th>
+							</tr>
+						</thead>
+						<tbody>							
+						<?php
+							foreach ($infoMaintenance as $lista):
+								$nextHoursMaintenance = $lista['next_hours_maintenance']?$lista['next_hours_maintenance']:"";
+								
+								echo "<tr>";
+								echo "<td class='text-center'><p class='text-danger'><strong>" . $lista["unit_number"] . "</strong></p></td>";
+								echo "<td>" . $lista['description'] . "</td>";
+								echo "<td>" . $lista['maintenance_type'] . "</td>";
+								echo "<td>" . $lista['maintenance_description'] . "</td>";
+								echo "<td class='text-right'>" . number_format($lista["hours"]) . "</td>";
+								echo "<td class='text-right'>" . number_format((float)$nextHoursMaintenance) . "</td>";
+								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
+								echo "</tr>";
+							endforeach;
+						?>
+						</tbody>
+					</table>
+					<!-- /.table-responsive -->
+<?php	} ?>					
+						</div>
+						<!-- /.panel-body -->
+					</div>
+				</div>	
+			</div>
+			
 		
             <div class="row">
 				<!-- INICIO MENSAJE DEL SISTEMA si aprobaron un dayoff en los ultimos 7 dias -->
