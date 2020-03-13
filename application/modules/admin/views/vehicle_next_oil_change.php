@@ -38,7 +38,7 @@ $(function(){
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a class="btn btn-success" href=" <?php echo base_url().'admin/vehicle/'.$vehicleInfo[0]["type_level_1"]; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-automobile"></i> VEHICLE NEXT OIL CHANGE
+					<i class="fa fa-automobile"></i> VEHICLE INSPECTIONS<!--NEXT OIL CHANGE -->
 				</div>
 				<div class="panel-body">
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
@@ -50,7 +50,6 @@ $(function(){
 								<th>Description</th>
 								<th>Unit Number</th>
 								<th>Hours/Kilometers</th>
-								<th>Next Oil Change</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -110,6 +109,8 @@ $(function(){
 								
 								echo "</strong></p></td>";
 								
+/**
+SE ELIMINA ESTA OPCION
 								echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>"; 
 								
 								//si es sweeper
@@ -127,14 +128,21 @@ $(function(){
 								
 								echo "</strong></p></td>";
 								
+*/
+								
 								echo "</tr>";
 						?>
 						</tbody>
 					</table>
+
+<!--
 					
 					<button type="button" class="btn btn-purpura btn-block" data-toggle="modal" data-target="#modalOilChange" id="<?php echo $idVehicle; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Next Oil Change
 					</button><br>
+					
+-->
+
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -170,7 +178,9 @@ if ($retornoError) {
 								<th class="text-center">Date of Issue</th>
 								<th class="text-center">Employee</th>
 								<th class="text-center">Hours/Kilometers</th>
+								<!--
 								<th class="text-center">Next Oil Change</th>
+								-->
 								<th class="text-center">State</th>
 							</tr>
 						</thead>
@@ -198,6 +208,8 @@ if ($retornoError) {
 									
 									echo "</td>";
 									
+/**
+	ESTO SE ELIMINO								
 									echo "<td class='text-right'>";
 																		
 									//si es sweeper
@@ -214,11 +226,8 @@ if ($retornoError) {
 									}
 									
 									echo "</td>";
-									
-									
-									
-									
-									
+*/									
+
 									echo "<td class='text-center'>";
 									switch ($lista['state']) {
 										case 0:
@@ -231,7 +240,11 @@ if ($retornoError) {
 											echo "Oil Change";
 											break;
 									}
+									
 									echo "</td>";
+									
+									
+									echo "</tr>";
 							endforeach;
 						?>
 						</tbody>

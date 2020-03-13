@@ -116,6 +116,8 @@ class Maintenance extends CI_Controller {
 				$this->maintenance_model->add_maintenance_check($lista["id_maintenance"]);
 			}
 		endforeach;
+		
+		redirect("/dashboard","location",301);
 	}
 	
 	

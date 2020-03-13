@@ -39,6 +39,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
+					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'maintenance/maintenance_check'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Maintenance check </a> 
 					<i class="fa fa-automobile"></i> VEHICLE LIST - <?php echo $title; ?>
 				</div>
 				<div class="panel-body">
@@ -107,7 +108,6 @@ if($companyType == 2){ //si es subcontractor
 						<thead>
 							<tr>
 								<th class="text-center">Company</th>
-								<th class="text-center">Edit</th>
 								<th class="text-center">Photo</th>
 								<th class="text-center">QR code</th>
 								<th class="text-center">Make</th>
@@ -115,7 +115,6 @@ if($companyType == 2){ //si es subcontractor
 								<th class="text-center">Description</th>
 								<th class="text-center"><?php echo $labelNumber; ?></th>
 								<th class="text-center">Hours/Kilometers</th>
-								<th class="text-center">Next Oil Change</th>
 								<th class="text-center"><?php echo $labelFecha; ?></th>
 								<th class="text-center">Type</th>
 							</tr>
@@ -130,13 +129,14 @@ if($companyType == 2){ //si es subcontractor
 									}
 							
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['company_name'] . "</td>";
-									echo "<td class='text-center'>";
+									echo "<td class='text-center'>" . $lista['company_name'];
+									
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-' . $lista['id_vehicle']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php
+									
 									echo "</td>";
 									echo "<td class='text-center'>";
 						//si hay una foto la muestro
@@ -167,14 +167,16 @@ if($lista["inspection_type"] == 99 ){
 									echo "<td>" . $lista['model'] . "</td>";
 									echo "<td>" . $lista['description'] . "</td>";
 									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['unit_number'] . "</strong></p></td>";									
-									echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($lista["hours"]) . "</strong></p></td>";
-									echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($lista["oil_change"]);
+									echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($lista["hours"]) . "</strong>";
+									
 						?>
-									<br><a href="<?php echo base_url("admin/nextOilChange/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Oil Change</a>
+									<br><a href="<?php echo base_url("admin/nextOilChange/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Inspections</a>
 									<br><a href="<?php echo base_url("maintenance/entrance/" . $lista['id_vehicle']); ?>" class="btn btn-purpura btn-xs">Maintenance</a>
 									
 						<?php	
-									echo "</strong></p></td>";
+									
+									echo "</p></td>";
+
 									echo "<td class='text-center'>" . $lista['manufacturer_date'] . "</td>";
 									echo "<td class='text-center'>";
 									switch ($lista['type_level_1']) {
