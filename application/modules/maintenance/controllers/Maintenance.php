@@ -103,6 +103,13 @@ class Maintenance extends CI_Controller {
 		//revisar cuales estan proximo a vencerse por kilometros o fechas
 		foreach ($infoMaintenance as $lista):
 			$diferencia = $lista["hours"] - $lista["next_hours_maintenance"];
+			
+			if($lista["fk_id_maintenance_type"] == 8 || $lista["fk_id_maintenance_type"] == 9){
+				$diferencia = $lista["hours_2"] - $lista["next_hours_maintenance"];
+			}elseif($lista["fk_id_maintenance_type"] == 10){
+				$diferencia = $lista["hours_3"] - $lista["next_hours_maintenance"];
+			}
+				
 			$nextDateMaintenance = strtotime($lista["next_date_maintenance"]);
 			
 			if(($lista["next_hours_maintenance"] != 0 && $diferencia <= 100) || ($lista["next_date_maintenance"] != "" && $nextDateMaintenance <= $filtroFecha)){

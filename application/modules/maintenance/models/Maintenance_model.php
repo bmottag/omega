@@ -46,7 +46,7 @@
 		 */
 		public function get_maintenance($arrDatos) 
 		{
-			$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name, V.hours');
+			$this->db->select('M.*, T.*, CONCAT(U.first_name, " " , U.last_name) name, V.hours, V.hours_2, V.hours_3');
 			$this->db->join('maintenance_type T', 'T.id_maintenance_type = M.fk_id_maintenance_type', 'INNER');
 			$this->db->join('param_vehicle V', 'V.id_vehicle = M.fk_id_vehicle', 'INNER');
 			$this->db->join('user U', 'U.id_user = M.fk_revised_by_user', 'INNER');
