@@ -105,7 +105,7 @@ class Maintenance extends CI_Controller {
 			$diferencia = $lista["next_hours_maintenance"] - $lista["hours"];
 			$nextDateMaintenance = strtotime($lista["next_date_maintenance"]);
 			
-			if($diferencia <= 100 || ($lista["next_date_maintenance"] != "" && $nextDateMaintenance <= $filtroFecha)){
+			if(($lista["next_hours_maintenance"] != 0 && $diferencia <= 100) || ($lista["next_date_maintenance"] != "" && $nextDateMaintenance <= $filtroFecha)){
 				$this->maintenance_model->add_maintenance_check($lista["id_maintenance"]);
 			}
 		endforeach;
