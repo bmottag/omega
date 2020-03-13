@@ -45,8 +45,14 @@
 								$nextHoursMaintenance = $lista['next_hours_maintenance']?$lista['next_hours_maintenance']:"";
 								
 								echo "<tr>";
-								echo "<td class='text-center'><p class='text-danger'><strong>" . $lista["unit_number"] . "</strong></p></td>";
-								echo "<td>" . $lista['description'] . "</td>";
+								echo "<td class='text-center'>";
+								echo "<p class='text-danger'><strong>" . $lista["unit_number"] . "</strong></p>";
+								echo '<img src="' . base_url($lista["photo"]) . '" class="img-rounded" width="42" height="42" />';
+								echo "</td>";
+								echo "<td>";
+								echo $lista['description'];
+								echo '<a href="' . base_url("maintenance/entrance/" . $lista['id_vehicle']) . '" class="btn btn-danger btn-xs">Review</a>';
+								echo "</td>";
 								echo "<td>" . $lista['maintenance_type'] . "</td>";
 								echo "<td>" . $lista['maintenance_description'] . "</td>";
 								echo "<td class='text-right'>" . number_format($lista["hours"]) . "</td>";
