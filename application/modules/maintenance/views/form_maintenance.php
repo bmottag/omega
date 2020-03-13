@@ -176,7 +176,7 @@ if ($retornoError) {
 						}
 						echo $type . " - " . $vehicleInfo[0]['type_2'];
 					?><br>
-					<strong>Current Hours/Kilometers: </strong><br><?php echo $vehicleInfo[0]['hours']; ?>
+					<strong>Current Hours/Kilometers: </strong><br><?php echo number_format($vehicleInfo[0]['hours']); ?>
 				</div>
 			</div>
 		</div>
