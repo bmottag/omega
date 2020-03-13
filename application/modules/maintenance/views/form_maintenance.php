@@ -176,7 +176,24 @@ if ($retornoError) {
 						}
 						echo $type . " - " . $vehicleInfo[0]['type_2'];
 					?><br>
-					<strong>Current Hours/Kilometers: </strong><br><?php echo number_format($vehicleInfo[0]['hours']); ?>
+					
+					<?php
+					$tipo = $vehicleInfo[0]['type_level_2'];
+					//si es sweeper
+					if($tipo == 15){
+						echo "<strong>Truck engine current hours:</strong><br>" . number_format($vehicleInfo[0]["hours"]);
+						echo "<br><strong>Sweeper engine current hours:</strong><br>" . number_format($vehicleInfo[0]["hours_2"]);
+					//si es hydrovac
+					}elseif($tipo == 16){
+						echo "<strong>Engine current hours:</strong><br>" . number_format($vehicleInfo[0]["hours"]);
+						echo "<br><strong>Hydraulic pump current hours:</strong><br>" . number_format($vehicleInfo[0]["hours_2"]);
+						echo "<br><strong>Blower current hours:</strong><br>" . number_format($vehicleInfo[0]["hours_3"]);
+					}else{
+						echo "<strong>Current Hours/Kilometers: </strong><br>" . number_format($vehicleInfo[0]["hours"]);
+					}
+					?>
+					
+					
 				</div>
 			</div>
 		</div>
