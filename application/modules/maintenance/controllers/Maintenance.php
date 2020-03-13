@@ -102,7 +102,7 @@ class Maintenance extends CI_Controller {
 		$this->maintenance_model->delete_maintenance_check();//elimino los registros de maintenance_check
 		//revisar cuales estan proximo a vencerse por kilometros o fechas
 		foreach ($infoMaintenance as $lista):
-			$diferencia = $lista["next_hours_maintenance"] - $lista["hours"];
+			$diferencia = $lista["hours"] - $lista["next_hours_maintenance"];
 			$nextDateMaintenance = strtotime($lista["next_date_maintenance"]);
 			
 			if(($lista["next_hours_maintenance"] != 0 && $diferencia <= 100) || ($lista["next_date_maintenance"] != "" && $nextDateMaintenance <= $filtroFecha)){
