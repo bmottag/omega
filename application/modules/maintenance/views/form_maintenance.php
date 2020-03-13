@@ -187,7 +187,7 @@ if ($retornoError) {
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-danger">
+			<div class="panel panel-success">
 				<div class="panel-heading">
 					<i class="fa fa-flag"></i> <strong>MAINTENANCE LIST</strong>
 				</div>
@@ -214,7 +214,7 @@ if ($retornoError) {
 
 								$class = "";
 								if($lista['maintenance_state'] == 1){
-									$class = "danger";
+									$class = "success";
 								}
 								
 								echo "<tr class='" . $class . "' >";
@@ -234,8 +234,9 @@ if ($retornoError) {
 <a class="btn btn-danger btn-xs" href="<?php echo base_url().'maintenance/entrance/' . $vehicleInfo[0]["id_vehicle"] . '/' . $lista["id_maintenance"]; ?> "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a> 
 
 						<?php
+										echo "Active";
 									}else{
-										echo "-";
+										echo "Inactive";
 									}
 								echo "</td>";
 							endforeach;
