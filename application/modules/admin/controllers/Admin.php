@@ -719,21 +719,15 @@ class Admin extends CI_Controller {
 			if (empty($idVehicle)) {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
-			
+						
 			//busco datos del vehiculo
-			$arrParam = array(
-				"table" => "param_vehicle",
-				"order" => "id_vehicle",
-				"column" => "id_vehicle",
-				"id" => $idVehicle
-			);
-			$this->load->model("general_model");
-			$data['vehicleInfo'] = $this->general_model->get_basic_search($arrParam);
+			$arrParam['idVehicle'] = $idVehicle;
+			$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
 			
 			$data['info'] = $this->admin_model->get_vehicle_oil_change($idVehicle);//vehicle oil change history
 			
 			$data['idVehicle'] = $idVehicle;
-			$data["view"] = 'vehicle_next_oil_change';
+			$data["view"] = 'vehicle_inspections';
 			$this->load->view("layout", $data);
 	}
 

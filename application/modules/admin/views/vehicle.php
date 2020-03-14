@@ -131,7 +131,7 @@ if($companyType == 2){ //si es subcontractor
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['company_name'];
 									
-						?>
+						?>			<br>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-' . $lista['id_vehicle']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
@@ -170,9 +170,10 @@ if($lista["inspection_type"] == 99 ){
 									echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($lista["hours"]) . "</strong>";
 									
 						?>
-									<br><a href="<?php echo base_url("admin/nextOilChange/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Inspections</a>
-									<br><a href="<?php echo base_url("maintenance/entrance/" . $lista['id_vehicle']); ?>" class="btn btn-purpura btn-xs">Maintenance</a>
-									
+									<div class="btn-group">
+										<a href="<?php echo base_url("admin/nextOilChange/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Inspections</a>
+										<a href="<?php echo base_url("maintenance/entrance/" . $lista['id_vehicle']); ?>" class="btn btn-purpura btn-xs">Maintenance</a>
+									</div>									
 						<?php	
 									
 									echo "</p></td>";
