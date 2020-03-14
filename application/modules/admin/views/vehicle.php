@@ -122,11 +122,6 @@ if($companyType == 2){ //si es subcontractor
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
-									$diferencia = $lista["oil_change"] - $lista["hours"];
-									$class = "";
-									if($diferencia <= 50){
-										$class = "danger";
-									}
 							
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['company_name'];
@@ -167,7 +162,7 @@ if($lista["inspection_type"] == 99 ){
 									echo "<td>" . $lista['model'] . "</td>";
 									echo "<td>" . $lista['description'] . "</td>";
 									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['unit_number'] . "</strong></p></td>";									
-									echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($lista["hours"]) . "</strong>";
+									echo "<td class='text-right'><p><strong>" . number_format($lista["hours"]) . "</strong>";
 									
 						?>
 									<div class="btn-group">
