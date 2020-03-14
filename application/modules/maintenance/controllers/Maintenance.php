@@ -97,12 +97,12 @@ class Maintenance extends CI_Controller {
 
 		//listado de registros mantenimientos activos
 		$arrParam = array("maintenanceState" => 1);
-		$infoMaintenance = $this->maintenance_model->get_maintenance($arrParam);		
+		$infoMaintenance = $this->maintenance_model->get_maintenance($arrParam);	
 
 		$this->maintenance_model->delete_maintenance_check();//elimino los registros de maintenance_check
 		//revisar cuales estan proximo a vencerse por kilometros o fechas
 		foreach ($infoMaintenance as $lista):
-			$diferencia = $lista["hours"] - $lista["next_hours_maintenance"];
+			$diferencia = $lista["next_hours_maintenance"] - $lista["hours"];
 			
 			if($lista["fk_id_maintenance_type"] == 8 || $lista["fk_id_maintenance_type"] == 9){
 				$diferencia = $lista["hours_2"] - $lista["next_hours_maintenance"];
