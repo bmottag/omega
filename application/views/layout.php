@@ -16,6 +16,8 @@
 	<link href="<?php echo base_url("assets/bootstrap/vendor/bootstrap/css/bootstrap.min.css"); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url("assets/bootstrap/vendor/metisMenu/metisMenu.min.css"); ?>" rel="stylesheet">
+    <!-- Social Buttons CSS -->
+    <link href="<?php echo base_url("assets/bootstrap/vendor/bootstrap-social/bootstrap-social.css"); ?>" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?php echo base_url("assets/bootstrap/dist/css/sb-admin-2.css"); ?>" rel="stylesheet">
     <!-- Custom Fonts -->

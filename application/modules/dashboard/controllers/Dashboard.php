@@ -114,5 +114,20 @@ class Dashboard extends CI_Controller {
 			$this->load->view("layout", $data);
 	}
 	
+	/**
+	 * Maintenance list
+     * @since 14/3/2018
+     * @author BMOTTAG
+	 */
+	public function maintenance()
+	{		
+			$this->load->model("general_model");
+
+			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
+
+			$data["view"] ='maintenance_list';
+			$this->load->view("layout", $data);
+	}
+	
 	
 }
