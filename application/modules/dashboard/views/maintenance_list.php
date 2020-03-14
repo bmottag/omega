@@ -10,7 +10,12 @@
 					<i class="fa fa-wrench"></i> <strong>PREVENTIVE MAINTENANCE LIST </strong>
 				</div>
 				<div class="panel-body">
-												
+									
+					<div class="alert alert-danger">
+						Maintenance list which next Hours/Kilometers maintenance is less than 100 Hours/Kilometers compare with the current Hours/Kilometers. 
+						<br>Maintenance list one week before the next maintenance date.
+					</div>
+
 					<br>
 				<?php
 					if($infoMaintenance){
@@ -74,6 +79,11 @@
 							</table>
 							<!-- /.table-responsive -->
 					
+				<?php }else{ ?>
+				
+					<div class="alert alert-danger">
+						No maintenance record to expire
+					</div>
 				<?php } ?>
 
 				</div>
