@@ -130,6 +130,70 @@
 				</div>
 			</div>
 		</div>
+
+
+<?php 
+
+$heater_check = $vehicleInfo[0]['heater_check'];
+$brakes_check = $vehicleInfo[0]['brakes_check'];
+$lights_check = $vehicleInfo[0]['lights_check'];
+$steering_wheel_check = $vehicleInfo[0]['steering_wheel_check'];
+$suspension_system_check = $vehicleInfo[0]['suspension_system_check'];
+$tires_check = $vehicleInfo[0]['tires_check'];
+$wipers_check = $vehicleInfo[0]['wipers_check'];
+$air_brake_check = $vehicleInfo[0]['air_brake_check'];
+$driver_seat_check = $vehicleInfo[0]['driver_seat_check'];
+$fuel_system_check = $vehicleInfo[0]['fuel_system_check'];
+
+//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+
+?>
+					
+		<div class="col-lg-4">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<i class="fa fa-times"></i> <strong>LAST INSPECTIONS FAILS</strong>
+				</div>
+				<div class="panel-body">
+					<?php 
+						if ($heater_check == 0) {
+							echo "<br><strong>Heater:</strong> Fail"; 
+						}
+						if ($brakes_check == 0) {
+							echo "<br><strong>Brake pedal:</strong> Fail"; 
+						}
+						if ($lights_check == 0) {
+							echo "<br><strong>Lamps and reflectors:</strong> Fail"; 
+						}
+						if ($steering_wheel_check == 0) {
+							echo "<br><strong>Steering wheel:</strong> Fail"; 
+						}
+						if ($suspension_system_check == 0) {
+							echo "<br><strong>Suspension system:</strong> Fail"; 
+						}
+						if ($tires_check == 0) {
+							echo "<br><strong>Tires/Lug Nuts/Pressure:</strong> Fail"; 
+						}
+						if ($wipers_check == 0) {
+							echo "<br><strong>Wipers/Washers:</strong> Fail"; 
+						}
+						if ($air_brake_check == 0) {
+							echo "<br><strong>Air brake system:</strong> Fail"; 
+						}
+						if ($driver_seat_check == 0) {
+							echo "<br><strong>Driver and Passenger door:</strong> Fail"; 
+						}
+						if ($fuel_system_check == 0) {
+							echo "<br><strong>Fuel system:</strong> Fail"; 
+						}
+					?>
+					
+				</div>
+			</div>
+		</div>
+<?php } ?>
+		
 					
 	</div>
 	
