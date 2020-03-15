@@ -33,6 +33,30 @@
 				$query = $this->db->update('maintenance', $data);
 			}
 			
+			//ACTUALIZO EL CAMPO DE OIL CHANGE EN LA TABLA DE VEHICULOS, REVISO EL TIPO DE MANTENIMIENTO
+			$maintenanceType = $this->input->post('id_maintenance_type');
+			
+			if($maintenanceType == 1 || $maintenanceType == 8 || $maintenanceType == 9 || $maintenanceType == 10){
+			
+				if($maintenanceType == 1){//Oil change - Engine
+					$data = array(
+						'oil_change' => $this->input->post('next_hours_maintenance')
+					);
+				}elseif($maintenanceType == 8 || $maintenanceType == 9){//Oil change - Sweeper engine --- Hydraulic pump
+					$data = array(
+						'oil_change_2' => $this->input->post('next_hours_maintenance')
+					);
+				}elseif($maintenanceType == 10){//Oil change - Blower
+					$data = array(
+						'oil_change_3' => $this->input->post('next_hours_maintenance')
+					);
+				}
+				
+				$this->db->where('id_vehicle', $idVehicle);
+				$query = $this->db->update('param_vehicle', $data);
+				
+			}
+	
 			if ($query) {
 				return true;
 			} else {
