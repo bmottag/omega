@@ -10,10 +10,24 @@
 					<i class="fa fa-search"></i> <strong>LAST PICKUPS & TRUCKS INSPECTION RECORDS</strong>
 				</div>
 				<div class="panel-body">
-							
+											
 				<?php
 					if($infoDaily){
 				?>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="alert alert-danger">
+								If the record is red, it is because the inspection has comments or has some fails.
+							</div>
+						</div>
+						
+						<div class="col-lg-6">
+							<div class="alert alert-warning">
+								If the record is yellow, it is because the inspection has some fails.
+							</div>
+						</div>
+					</div>
+				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
