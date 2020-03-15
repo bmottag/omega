@@ -32,6 +32,7 @@
 						</thead>
 						<tbody>							
 						<?php
+							$tableInspection = $vehicleInfo[0]['table_inspection'];
 							foreach ($info as $lista):
 							
 									$class = "";
@@ -41,7 +42,35 @@
 									
 									echo "<tr class='" . $class . "'>";
 							
-									echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+									echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "<br>";
+									if($lista['fk_id_inspection'] != 0){ 
+										if($tableInspection == 'inspection_daily'){
+						?>
+<a href='<?php echo base_url('report/generaInsectionDailyPDF/x/x/x/x/x/' . $lista['fk_id_inspection'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+						<?php
+										}elseif($tableInspection == 'inspection_heavy'){
+						?>
+<a href='<?php echo base_url('report/generaInsectionHeavyPDF/x/x/x/x/' . $lista['fk_id_inspection'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+						<?php
+										}elseif($tableInspection == 'inspection_generator'){
+						?>
+<a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/generator/' . $lista['fk_id_inspection'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+						<?php
+										}elseif($tableInspection == 'inspection_sweeper'){
+						?>
+<a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/sweeper/' . $lista['fk_id_inspection'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+						<?php
+										}elseif($tableInspection == 'inspection_hydrovac'){
+						?>
+<a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/hydrovac/' . $lista['fk_id_inspection'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+						<?php	
+										}elseif($tableInspection == 'inspection_watertruck'){
+								?>
+<a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/watertruck/' . $lista['fk_id_inspection'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+								<?php
+										}
+									}
+									echo "</p></td>";
 									echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
 									
 									echo "<td class='text-right'><p class='text-" . $class . "'>";
