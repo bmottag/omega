@@ -1,4 +1,3 @@
-
         <div id="page-wrapper">
 
 			<br>
@@ -20,7 +19,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-							<a class="btn btn-success" href=" <?php echo base_url().'report/searchByDateRange/dailyInspection'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+							<a class="btn btn-success btn-xs" href=" <?php echo base_url().'report/searchByDateRange/dailyInspection'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
                             <i class="fa fa-search fa-fw"></i> PICKUPS & TRUCKS INSPECTION REPORT
                         </div>
                         <!-- /.panel-heading -->
@@ -47,64 +46,64 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                                 <thead>
                                     <tr>
-                                        <th>Date of Issue</th>
-										<th>Driver Name</th>
-										<th>Type</th>
-										<th>Make</th>
-										<th>Model</th>
-										<th>Unit Number</th>
-										<th>Description</th>
+                                        <th class='text-center'>Date of Issue</th>
+										<th class='text-center'>Driver Name</th>
+										<th class='text-center'>Type</th>
+										<th class='text-center'>Make</th>
+										<th class='text-center'>Model</th>
+										<th class='text-center'>Unit Number</th>
+										<th class='text-center'>Description</th>
 										
-										<th>Comments</th>
+										<th class='text-center'>Comments</th>
 										
-										<th>Belts/Hoses</th>
-										<th>Power Steering Fluid</th>
-										<th>Oil Level</th>
-										<th>Coolant Level</th>
-										<th>Coolant/Oil Leaks</th>
-										
-										
-										<th>Head Lamps</th>
-										<th>Hazard Lights</th>
-										<th>Tail Lights</th>
-										<th>Work Lights</th>
-										<th>Turn Signals</th>
-										<th>Beacon Light</th>
-										<th>Clearance Lights</th>
+										<th class='text-center'>Belts/Hoses</th>
+										<th class='text-center'>Power Steering Fluid</th>
+										<th class='text-center'>Oil Level</th>
+										<th class='text-center'>Coolant Level</th>
+										<th class='text-center'>Coolant/Oil Leaks</th>
 										
 										
-										<th>Brake Pedal</th>
-										<th>Emergency Brake</th>
-										<th>Gauges: Volt/Fuel/Temp/Oil</th>
-										<th>Electrical & Air Horn</th>
-										<th>Seatbelts</th>
-										<th>Driver & Passenger seat </th>
-										<th>Insurance Information</th>
-										<th>Registration</th>
-										<th>Clean Interior</th>
+										<th class='text-center'>Head Lamps</th>
+										<th class='text-center'>Hazard Lights</th>
+										<th class='text-center'>Tail Lights</th>
+										<th class='text-center'>Work Lights</th>
+										<th class='text-center'>Turn Signals</th>
+										<th class='text-center'>Beacon Light</th>
+										<th class='text-center'>Clearance Lights</th>
+										
+										
+										<th class='text-center'>Brake Pedal</th>
+										<th class='text-center'>Emergency Brake</th>
+										<th class='text-center'>Gauges: Volt/Fuel/Temp/Oil</th>
+										<th class='text-center'>Electrical & Air Horn</th>
+										<th class='text-center'>Seatbelts</th>
+										<th class='text-center'>Driver & Passenger seat </th>
+										<th class='text-center'>Insurance Information</th>
+										<th class='text-center'>Registration</th>
+										<th class='text-center'>Clean Interior</th>
 										
 
-										<th>Tires/Lug Nuts/Pressure</th>
-										<th>Glass (All) & Mirror</th>
-										<th>Clean Exterior</th>
-										<th>Wipers/Washers</th>
-										<th>Backup Beeper</th>
-										<th>Driver and Passenger door </th>
-										<th>Decals</th>
+										<th class='text-center'>Tires/Lug Nuts/Pressure</th>
+										<th class='text-center'>Glass (All) & Mirror</th>
+										<th class='text-center'>Clean Exterior</th>
+										<th class='text-center'>Wipers/Washers</th>
+										<th class='text-center'>Backup Beeper</th>
+										<th class='text-center'>Driver and Passenger door </th>
+										<th class='text-center'>Decals</th>
 
 
-										<th>Fire Extinguisher</th>
-										<th>First Aid</th>
-										<th>Emergency kit</th>
-										<th>Spill Kit</th>
+										<th class='text-center'>Fire Extinguisher</th>
+										<th class='text-center'>First Aid</th>
+										<th class='text-center'>Emergency kit</th>
+										<th class='text-center'>Spill Kit</th>
 										
 										
-										<th>Steering Axle</th>
-										<th>Drives Axles</th>
-										<th>Front drive shaft</th>
-										<th>Back drive shaft</th>
-										<th>Grease 5th Wheel</th>
-										<th>Box hoist & hinge</th>
+										<th class='text-center'>Steering Axle</th>
+										<th class='text-center'>Drives Axles</th>
+										<th class='text-center'>Front drive shaft</th>
+										<th class='text-center'>Back drive shaft</th>
+										<th class='text-center'>Grease 5th Wheel</th>
+										<th class='text-center'>Box hoist & hinge</th>
 										
                                     </tr>
                                 </thead>
@@ -125,17 +124,71 @@
 													break;
 											}
 											
-											echo "<tr>";
-											echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-											echo "<td >" . $lista['name'] . "</td>";
+$class = "";
+								
+//si hay errores se coloca en amarillo
+if(
+$lista['belt'] == 0
+ || $lista['power_steering'] == 0
+ || $lista['oil_level'] == 0
+ || $lista['coolant_level'] == 0
+ || $lista['water_leaks'] == 0
+ || $lista['nuts'] == 0
+ || $lista['head_lamps'] == 0
+ || $lista['hazard_lights'] == 0
+ || $lista['clearance_lights'] == 0
+ || $lista['bake_lights'] == 0
+ || $lista['work_lights'] == 0
+ || $lista['glass'] == 0
+ || $lista['clean_exterior'] == 0
+ || $lista['proper_decals'] == 0
+ || $lista['brake_pedal'] == 0
+ || $lista['emergency_brake'] == 0
+ || $lista['backup_beeper'] == 0
+ || $lista['beacon_light'] == 0
+ || $lista['gauges'] == 0
+ || $lista['horn'] == 0
+ || $lista['hoist'] == 0
+ || $lista['passenger_door'] == 0
+ || $lista['seatbelts'] == 0
+ || $lista['fire_extinguisher'] == 0
+ || $lista['emergency_reflectors'] == 0
+ || $lista['first_aid'] == 0
+ || $lista['wipers'] == 0
+ || $lista['drives_axle'] == 0
+ || $lista['grease_front'] == 0
+ || $lista['grease_end'] == 0
+ || $lista['spill_kit'] == 0
+ || $lista['grease'] == 0
+ || $lista['steering_axle'] == 0
+ || $lista['turn_signals'] == 0
+ || $lista['clean_interior'] == 0
+ || $lista['insurance'] == 0
+ || $lista['driver_seat'] == 0
+ || $lista['registration'] == 0){
+	$class = "warning";
+}
+
+//si hay comentarios se coloca en rojo
+if($lista['comments'] != ''){
+	$class = "danger";
+}
+							
+											echo "<tr class='" . $class . "'>";
+											echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "<br>";
+						?>
+<a href='<?php echo base_url('report/generaInsectionDailyPDF/x/x/x/x/x/' . $lista['id_inspection_daily'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+						<?php
+											echo "</p></td>";
+											echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
 											
-											echo "<td class='text-center'>" . $type1 . ' - ' . $lista['type_2'] . "</td>";
-											echo "<td class='text-center'>" . $lista['make'] . "</td>";
-											echo "<td class='text-center'>" . $lista['model'] . "</td>";
-											echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
-											echo "<td class='text-center'>" . $lista['description'] . "</td>";
+											echo "<td class='text-center'><p class='text-" . $class . "'>" . $type1 . ' - ' . $lista['type_2'] . "</p></td>";
+											echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
+											echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
+											echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['unit_number'] . "</p></td>";
+											echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['description'] . "</p></td>";
 											
-											echo "<td>" . $lista['comments'] . "</td>";
+											echo "<td><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 											
 											echo "<td class='text-center'>"; 
 											switch ($lista['belt']) {
@@ -663,7 +716,8 @@
     <script>
     $(document).ready(function() {
         $('#dataTables').DataTable({
-            responsive: true
+            responsive: true,
+			"pageLength": 100
         });
     });
     </script>
