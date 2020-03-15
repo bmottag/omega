@@ -186,7 +186,7 @@
 		 * Add vehicle next oil change
 		 * @since 18/1/2017
 		 */
-		public function saveVehicleNextOilChange($idVehicle, $state) 
+		public function saveVehicleNextOilChange($idVehicle, $state, $idInspection) 
 		{
 				$idUser = $this->session->userdata("id");
 				
@@ -199,7 +199,8 @@
 					'current_hours_2' => $this->input->post('hours2'),
 					'next_oil_change_2' => $this->input->post('oilChange2'),
 					'current_hours_3' => $this->input->post('hours3'),
-					'next_oil_change_3' => $this->input->post('oilChange3')
+					'next_oil_change_3' => $this->input->post('oilChange3'),
+					'fk_id_inspection' => $this->input->post('idInspection')
 				);	
 
 

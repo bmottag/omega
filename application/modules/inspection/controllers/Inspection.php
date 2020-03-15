@@ -292,7 +292,7 @@ if ($fuel_system_check == 0) {
 }
 					
 						$state = 1;//Inspection
-						$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
+						$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idDailyInspection);
 						
 						//verificar el kilometraje
 						//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
@@ -491,7 +491,7 @@ if ($fuel_system_check == 0) {
 					}
 					
 					$state = 1;//Inspection
-					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
+					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idHeavyInspection);
 					
 					//verificar el kilometraje
 					//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
@@ -738,7 +738,7 @@ if ($fuel_system_check == 0) {
 					}
 					
 					$state = 1;//Inspection
-					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
+					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idGeneratorInspection);
 					
 					//verificar el kilometraje
 					//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
@@ -936,7 +936,7 @@ if ($fuel_system_check == 0) {
 					}
 					
 					$state = 1;//Inspection
-					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
+					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idSweeperInspection);
 					
 					//verificar el kilometraje
 					//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
@@ -1246,7 +1246,7 @@ if ($fuel_system_check == 0) {
 }
 					
 					$state = 1;//Inspection
-					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
+					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idHydrovacInspection);
 					
 					//verificar el kilometraje
 					//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
@@ -1560,7 +1560,7 @@ if ($fuel_system_check == 0) {
 }
 					
 					$state = 1;//Inspection
-					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state);
+					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idWatertruckInspection);
 					
 					//verificar el kilometraje
 					//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
