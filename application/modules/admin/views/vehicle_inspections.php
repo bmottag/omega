@@ -11,6 +11,11 @@
 				</div>
 				<div class="panel-body">
 
+					<div class="alert alert-danger">
+						If the record is red is because the inspection have comments.
+						For the inspection details, click on the PDF link. <br>
+						If you want to check all inspection fails, go to Reports.
+					</div>
 				<?php
 					$tipo = $vehicleInfo[0]['type_level_2'];
 					if($info){
@@ -22,16 +27,24 @@
 								<th class="text-center">Employee</th>
 								<th class="text-center">Hours/Kilometers</th>
 								<th class="text-center">State</th>
+								<th class="text-center">Inspection comment</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
-									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-									echo "<td class='text-center'>" . $lista['name'] . "</td>";
+							
+									$class = "";
+									if($lista['comments'] != ''){
+										$class = "danger";
+									}
 									
-									echo "<td class='text-right'>";
+									echo "<tr class='" . $class . "'>";
+							
+									echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+									echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
+									
+									echo "<td class='text-right'><p class='text-" . $class . "'>";
 
 									//si es sweeper
 									if($tipo == 15){
@@ -46,9 +59,9 @@
 										echo number_format($lista["current_hours"]);
 									}
 									
-									echo "</td>";
+									echo "</p></td>";
 														
-									echo "<td class='text-center'>";
+									echo "<td class='text-center'><p class='text-" . $class . "'>";
 									switch ($lista['state']) {
 										case 0:
 											echo "First Record";
@@ -61,8 +74,8 @@
 											break;
 									}
 									
-									echo "</td>";
-									
+									echo "</p></td>";
+									echo "<td ><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 									
 									echo "</tr>";
 							endforeach;
