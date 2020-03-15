@@ -36,7 +36,6 @@ class Report extends CI_Controller {
 			$data['jobList'] = FALSE;//lista para filtrar en work order report
 			$data['vehicleList'] = FALSE;//lista para filtrar en inspection report
 			$data['trailerList'] = FALSE;//lista para filtrar en inspection report
-			$data['truckList'] = FALSE;//lista para filtrar en Hauling
 
 			switch ($modulo) {
 				case 'payroll':
@@ -1064,9 +1063,12 @@ class Report extends CI_Controller {
 							
 						$html.='</tr>';
 
-if($truck){						
+$change = '';
+if($truck){
+	$change = 'rowspan="2"';
+}
 						$html.='<tr>
-								<th colspan="3" rowspan="2"></th>';
+								<th colspan="3" ' . $change . '></th>';
 
 						$html.='<th align="center"><strong>Beacon Light:</strong></th>';
 							if($lista["beacon_light"] == 1){
@@ -1081,7 +1083,6 @@ if($truck){
 							}
 							
 						$html.='</tr>';
-}
 					
 if($truck){
 						$html.='<tr>';
