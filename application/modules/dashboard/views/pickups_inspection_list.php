@@ -7,7 +7,7 @@
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'dashboard'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-search"></i> <strong>LAST PICKUPS & TRUCKS INSPECTION REORDS</strong>
+					<i class="fa fa-search"></i> <strong>LAST PICKUPS & TRUCKS INSPECTION RECORDS</strong>
 				</div>
 				<div class="panel-body">
 							
