@@ -407,19 +407,76 @@ if ($retornoError) {
 						
 						if($infoWaterTruck){
 							foreach ($infoWaterTruck as $lista):
-								echo "<tr>";
-								echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-								echo "<td>" . $lista['name'] . "</td>";
-								echo "<td class='text-center'>" . $lista['make'] . "</td>";
-								echo "<td class='text-center'>" . $lista['model'] . "</td>";
-								echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
+							
+$class = "";
+
+//si hay errores se coloca en amarillo
+if(
+ ['belt'] == 0
+ || ['power_steering'] == 0
+ || ['oil_level'] == 0
+ || ['coolant_level'] == 0
+ || ['coolant_leaks'] == 0
+ || ['head_lamps'] == 0
+ || ['hazard_lights'] == 0
+ || ['clearance_lights'] == 0
+ || ['tail_lights'] == 0
+ || ['work_lights'] == 0
+ || ['turn_signals'] == 0
+ || ['beacon_lights'] == 0
+ || ['tires'] == 0
+ || ['mirrors'] == 0
+ || ['clean_exterior'] == 0
+ || ['wipers'] == 0
+ || ['backup_beeper'] == 0
+ || ['door'] == 0
+ || ['decals'] == 0
+ || ['sprinkelrs'] == 0
+ || ['stering_axle'] == 0
+ || ['drives_axles'] == 0
+ || ['front_drive'] == 0
+ || ['back_drive'] == 0
+ || ['water_pump'] == 0
+ || ['brake'] == 0
+ || ['emergency_brake'] == 0
+ || ['gauges'] == 0
+ || ['horn'] == 0
+ || ['seatbelt'] == 0
+ || ['seat'] == 0
+ || ['insurance'] == 0
+ || ['registration'] == 0
+ || ['clean_interior'] == 0
+ || ['fire_extinguisher'] == 0
+ || ['first_aid'] == 0
+ || ['emergency_kit'] == 0
+ || ['spill_kit'] == 0
+ || ['heater'] == 0
+ || ['steering_wheel'] == 0
+ || ['suspension_system'] == 0
+ || ['air_brake'] == 0
+ || ['fuel_system'] == 0
+){
+	$class = "warning";
+}
+
+//si hay comentarios se coloca en rojo
+if($lista['comments'] != ''){
+	$class = "danger";
+}
+							
+								echo "<tr class='" . $class . "'>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['unit_number'] . "</p></td>";
 								echo "<td class='text-center'>";
 						?>
 <a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/watertruck/' . $lista['id_inspection_watertruck'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php
 								echo "</td>";
-								echo "<td >" . $lista['description'] . "</td>";
-								echo "<td>" . $lista['comments'] . "</td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['description'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 								echo "</tr>";
 							endforeach;
 						}
@@ -463,19 +520,90 @@ if ($retornoError) {
 						
 						if($infoHydrovac){
 							foreach ($infoHydrovac as $lista):
-								echo "<tr>";
-								echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-								echo "<td>" . $lista['name'] . "</td>";
-								echo "<td class='text-center'>" . $lista['make'] . "</td>";
-								echo "<td class='text-center'>" . $lista['model'] . "</td>";
-								echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
+							
+$class = "";
+
+//si hay errores se coloca en amarillo
+if(
+ ['belt'] == 0
+ || ['power_steering'] == 0
+ || ['oil_level'] == 0
+ || ['coolant_level'] == 0
+ || ['coolant_leaks'] == 0
+ || ['head_lamps'] == 0
+ || ['hazard_lights'] == 0
+ || ['clearance_lights'] == 0
+ || ['tail_lights'] == 0
+ || ['work_lights'] == 0
+ || ['turn_signals'] == 0
+ || ['beacon_lights'] == 0
+ || ['tires'] == 0
+ || ['windows'] == 0
+ || ['clean_exterior'] == 0
+ || ['wipers'] == 0
+ || ['backup_beeper'] == 0
+ || ['door'] == 0
+ || ['decals'] == 0
+ || ['stering_wheels'] == 0
+ || ['drives'] == 0
+ || ['front_drive'] == 0
+ || ['middle_drive'] == 0
+ || ['back_drive'] == 0
+ || ['transfer'] == 0
+ || ['tail_gate'] == 0
+ || ['boom'] == 0
+ || ['lock_bar'] == 0
+ || ['brake'] == 0
+ || ['emergency_brake'] == 0
+ || ['gauges'] == 0
+ || ['horn'] == 0
+ || ['seatbelt'] == 0
+ || ['seat'] == 0
+ || ['insurance'] == 0
+ || ['registration'] == 0
+ || ['clean_interior'] == 0
+ || ['fire_extinguisher'] == 0
+ || ['first_aid'] == 0
+ || ['emergency_kit'] == 0
+ || ['spill_kit'] == 0
+ || ['cartige'] == 0
+ || ['pump'] == 0
+ || ['wash_hose'] == 0
+ || ['pressure_hose'] == 0
+ || ['pump_oil'] == 0
+ || ['hydraulic_oil'] == 0
+ || ['gear_case'] == 0
+ || ['hydraulic'] == 0
+ || ['control'] == 0
+ || ['panel'] == 0
+ || ['foam'] == 0
+ || ['heater'] == 0
+ || ['steering_wheel'] == 0
+ || ['suspension_system'] == 0
+ || ['air_brake'] == 0
+ || ['fuel_system'] == 0
+){
+	$class = "warning";
+}
+
+//si hay comentarios se coloca en rojo
+if($lista['comments'] != ''){
+	$class = "danger";
+}
+							
+								echo "<tr class='" . $class . "'>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['unit_number'] . "</p></td>";
 								echo "<td class='text-center'>";
 						?>
 <a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/hydrovac/' . $lista['id_inspection_hydrovac'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php
 								echo "</td>";
-								echo "<td >" . $lista['description'] . "</td>";
-								echo "<td>" . $lista['comments'] . "</td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['description'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 								echo "</tr>";
 							endforeach;
 						}
@@ -523,19 +651,85 @@ if ($retornoError) {
 						<?php
 						if($infoSweeper){
 							foreach ($infoSweeper as $lista):
-								echo "<tr>";
-								echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-								echo "<td>" . $lista['name'] . "</td>";
-								echo "<td class='text-center'>" . $lista['make'] . "</td>";
-								echo "<td class='text-center'>" . $lista['model'] . "</td>";
-								echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
+$class = "";
+
+//si hay errores se coloca en amarillo
+if(
+['belt'] == 0
+ || ['power_steering'] == 0
+ || ['oil_level'] == 0
+ || ['coolant_level'] == 0
+ || ['coolant_leaks'] == 0
+ || ['hydraulic'] == 0
+ || ['belt_sweeper'] == 0
+ || ['oil_level_sweeper'] == 0
+ || ['coolant_level_sweeper'] == 0
+ || ['coolant_leaks_sweeper'] == 0
+ || ['head_lamps'] == 0
+ || ['hazard_lights'] == 0
+ || ['clearance_lights'] == 0
+ || ['tail_lights'] == 0
+ || ['work_lights'] == 0
+ || ['turn_signals'] == 0
+ || ['beacon_lights'] == 0
+ || ['tires'] == 0
+ || ['windows'] == 0
+ || ['clean_exterior'] == 0
+ || ['wipers'] == 0
+ || ['backup_beeper'] == 0
+ || ['door'] == 0
+ || ['decals'] == 0
+ || ['stering_wheels'] == 0
+ || ['drives'] == 0
+ || ['front_drive'] == 0
+ || ['elevator'] == 0
+ || ['rotor'] == 0
+ || ['mixture_box'] == 0
+ || ['lf_rotor'] == 0
+ || ['elevator_sweeper'] == 0
+ || ['mixture_container'] == 0
+ || ['broom'] == 0
+ || ['right_broom'] == 0
+ || ['left_broom'] == 0
+ || ['sprinkerls'] == 0
+ || ['water_tank'] == 0
+ || ['hose'] == 0
+ || ['cam'] == 0
+ || ['brake'] == 0
+ || ['emergency_brake'] == 0
+ || ['gauges'] == 0
+ || ['horn'] == 0
+ || ['seatbelt'] == 0
+ || ['seat'] == 0
+ || ['insurance'] == 0
+ || ['registration'] == 0
+ || ['clean_interior'] == 0
+ || ['fire_extinguisher'] == 0
+ || ['first_aid'] == 0
+ || ['emergency_kit'] == 0
+ || ['spill_kit'] == 0
+){
+	$class = "warning";
+}
+
+//si hay comentarios se coloca en rojo
+if($lista['comments'] != ''){
+	$class = "danger";
+}
+							
+								echo "<tr class='" . $class . "'>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['unit_number'] . "</p></td>";
 								echo "<td class='text-center'>";
 						?>
 <a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/sweeper/' . $lista['id_inspection_sweeper'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php
 								echo "</td>";
-								echo "<td >" . $lista['description'] . "</td>";
-								echo "<td>" . $lista['comments'] . "</td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['description'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 								echo "</tr>";
 							endforeach;
 						}
@@ -578,19 +772,50 @@ if ($retornoError) {
 						<?php					
 						if($infoGenerator){
 							foreach ($infoGenerator as $lista):
-								echo "<tr>";
-								echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-								echo "<td>" . $lista['name'] . "</td>";
-								echo "<td class='text-center'>" . $lista['make'] . "</td>";
-								echo "<td class='text-center'>" . $lista['model'] . "</td>";
-								echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
+$class = "";
+
+//si hay errores se coloca en amarillo
+if(
+['belt'] == 0
+ || ['fuel_filter'] == 0
+ || ['oil_level'] == 0
+ || ['coolant_level'] == 0
+ || ['coolant_leaks'] == 0
+ || ['turn_signal'] == 0
+ || ['hazard_lights'] == 0
+ || ['tail_lights'] == 0
+ || ['flood_lights'] == 0
+ || ['boom'] == 0
+ || ['gears'] == 0
+ || ['gauges'] == 0
+ || ['pulley'] == 0
+ || ['electrical'] == 0
+ || ['brackers'] == 0
+ || ['tires'] == 0
+ || ['clean_exterior'] == 0
+ || ['decals'] == 0
+){
+	$class = "warning";
+}
+
+//si hay comentarios se coloca en rojo
+if($lista['comments'] != ''){
+	$class = "danger";
+}
+							
+								echo "<tr class='" . $class . "'>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['unit_number'] . "</p></td>";
 								echo "<td class='text-center'>";
 						?>
 <a href='<?php echo base_url('report/generaInsectionSpecialPDF/x/x/x/x/generator/' . $lista['id_inspection_generator'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php
 								echo "</td>";
-								echo "<td >" . $lista['description'] . "</td>";
-								echo "<td>" . $lista['comments'] . "</td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['description'] . "</p></td>";
+								echo "<td><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 								echo "</tr>";
 							endforeach;
 						}
