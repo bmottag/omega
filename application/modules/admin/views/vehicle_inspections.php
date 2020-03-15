@@ -112,19 +112,39 @@
 					
 					<?php
 					$tipo = $vehicleInfo[0]['type_level_2'];
+					
+					echo "<p class='text-danger'>";
 					//si es sweeper
 					if($tipo == 15){
-						echo "<strong>Truck engine current hours:</strong><br>" . number_format($vehicleInfo[0]["hours"]);
-						echo "<br><strong>Sweeper engine current hours:</strong><br>" . number_format($vehicleInfo[0]["hours_2"]);
+						echo "<strong>Truck engine current hours:</strong><br>";
+						echo "Current: " . number_format($vehicleInfo[0]["hours"]);
+						echo "<br>Next oil change: " . number_format($vehicleInfo[0]["oil_change"]);
+						
+						echo "<br><strong>Sweeper engine current hours:</strong><br>";
+						echo "Current: " . number_format($vehicleInfo[0]["hours_2"]);
+						echo "<br>Next oil change: " . number_format($vehicleInfo[0]["oil_change_2"]);
 					//si es hydrovac
 					}elseif($tipo == 16){
-						echo "<strong>Engine current hours:</strong><br>" . number_format($vehicleInfo[0]["hours"]);
-						echo "<br><strong>Hydraulic pump current hours:</strong><br>" . number_format($vehicleInfo[0]["hours_2"]);
-						echo "<br><strong>Blower current hours:</strong><br>" . number_format($vehicleInfo[0]["hours_3"]);
+						echo "<strong>Engine hours:</strong><br>";
+						echo "Current: " . number_format($vehicleInfo[0]["hours"]);
+						echo "<br>Next oil change: " . number_format($vehicleInfo[0]["oil_change"]);
+
+						echo "<br><strong>Hydraulic pump hours:</strong><br>";
+						echo "Current: " . number_format($vehicleInfo[0]["hours_2"]);
+						echo "<br>Next oil change: " . number_format($vehicleInfo[0]["oil_change_2"]);
+						
+						echo "<br><strong>Blower hours:</strong><br>";
+						echo "Current: " . number_format($vehicleInfo[0]["hours_3"]);
+						echo "<br>Next oil change: " . number_format($vehicleInfo[0]["oil_change_3"]);
 					}else{
-						echo "<strong>Current Hours/Kilometers: </strong><br>" . number_format($vehicleInfo[0]["hours"]);
+						echo "<strong>Current Hours/Kilometers: </strong><br>";
+						echo "Current: " . number_format($vehicleInfo[0]["hours"]);
+						echo "<br>Next oil change: " . number_format($vehicleInfo[0]["oil_change"]);
 					}
+					echo "</p>";
+					
 					?>
+
 					
 					
 				</div>
