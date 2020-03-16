@@ -155,7 +155,7 @@ return date;
 ?>	
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-danger">
+			<div class="panel panel-success">
 				<div class="panel-heading">
 					<i class="fa fa-briefcase"></i> JOBS INFO - INCOME<br>
 					<strong>Job Code/Name: </strong><?php echo $jobListSearch[0]['job_description']; ?>
@@ -346,4 +346,3 @@ $(document).ready(function() {
 	});
 });
 </script>
-
