@@ -16,14 +16,31 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 	$labelNumber = "Vin number";
 ?>
 		<input type="hidden" id="type1" name="type1" value=2 /><!-- Si es subcontractor entonces es RENTAL -->
-		<div class="form-group text-left">
-			<label class="control-label" for="company">Company : *</label>
-			<select name="company" id="company" class="form-control" >
-				<option value=''>Select...</option>
-				<?php for ($i = 0; $i < count($company); $i++) { ?>
-					<option value="<?php echo $company[$i]["id_company"]; ?>" <?php if($information[0]["fk_id_company"] == $company[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $company[$i]["company_name"]; ?></option>	
-				<?php } ?>
-			</select>
+		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="company">Company : *</label>
+					<select name="company" id="company" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($company); $i++) { ?>
+							<option value="<?php echo $company[$i]["id_company"]; ?>" <?php if($information[0]["fk_id_company"] == $company[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $company[$i]["company_name"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+				
+				<!-- //si es subcontractor deja activarlo o inactivarlo -->
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="state">State : *</label>
+					<select name="state" id="state" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information[0]["state"] == 1) { echo "selected"; }  ?>>Active</option>
+						<option value=2 <?php if($information[0]["state"] == 2) { echo "selected"; }  ?>>Inactive</option>
+					</select>
+				</div>
+			</div>
 		</div>
 <?php
 }else{ //si es vci carga el campo con el id de VCI
@@ -32,29 +49,40 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 ?>
 		<input type="hidden" id="company" name="company" value=1 />
 		<input type="hidden" id="type1" name="type1" value=1 /><!-- Si es VCI entonces el FLEET -->
+		<input type="hidden" id="state" name="state" value=1 /><!-- Si es VCI entonces queda activado -->
 <?php }  ?>
-				
-		<div class="form-group text-left">
-			<label class="control-label" for="type2">Type : *</label>	
-			<select name="type2" id="type2" class="form-control" >
-				<option value=''>Select...</option>
-				<?php for ($i = 0; $i < count($vehicleType); $i++) { ?>
-					<option value="<?php echo $vehicleType[$i]["id_type_2"]; ?>" <?php if($information[0]["type_level_2"] == $vehicleType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $vehicleType[$i]["type_2"]; ?></option>	
-				<?php } ?>
-			</select>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="type2">Type : *</label>	
+					<select name="type2" id="type2" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($vehicleType); $i++) { ?>
+							<option value="<?php echo $vehicleType[$i]["id_type_2"]; ?>" <?php if($information[0]["type_level_2"] == $vehicleType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $vehicleType[$i]["type_2"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="make">Make  : *</label>
+					<input type="text" id="make" name="make" class="form-control" value="<?php echo $information?$information[0]["make"]:""; ?>" placeholder="Make" required >
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group text-left">
-			<label class="control-label" for="make">Make  : *</label>
-			<input type="text" id="make" name="make" class="form-control" value="<?php echo $information?$information[0]["make"]:""; ?>" placeholder="Make" required >
-		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="model">Model : *</label>
+					<input type="text" id="model" name="model" class="form-control" value="<?php echo $information?$information[0]["model"]:""; ?>" placeholder="Model" required >
+				</div>
+			</div>
 		
-		<div class="form-group text-left">
-			<label class="control-label" for="model">Model : *</label>
-			<input type="text" id="model" name="model" class="form-control" value="<?php echo $information?$information[0]["model"]:""; ?>" placeholder="Model" required >
-		</div>
-		
-		<div class="form-group text-left">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
 <script>
 	$( function() {
 		$( "#manufacturer" ).datepicker({
@@ -65,50 +93,45 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 		});
 	});
 </script>
-			<label class="control-label" for="manufacturer"><?php echo $labelFecha; ?> : *</label>
-			<input type="text" class="form-control" id="manufacturer" name="manufacturer" value="<?php echo $information?$information[0]["manufacturer_date"]:""; ?>" placeholder="<?php echo $labelFecha; ?>" required />
+					<label class="control-label" for="manufacturer"><?php echo $labelFecha; ?> : *</label>
+					<input type="text" class="form-control" id="manufacturer" name="manufacturer" value="<?php echo $information?$information[0]["manufacturer_date"]:""; ?>" placeholder="<?php echo $labelFecha; ?>" required />
+				</div>
+			</div>
 		</div>
+		
 
 		<div class="form-group text-left">
 			<label class="control-label" for="description">Description : *</label>
 			<textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><?php echo $information?$information[0]["description"]:""; ?></textarea>
 		</div>
-		
-		<div class="form-group text-left">
-			<label class="control-label" for="unitNumber"><?php echo $labelNumber; ?></label>
-			<input type="text" id="unitNumber" name="unitNumber" class="form-control" value="<?php echo $information?$information[0]["unit_number"]:""; ?>" placeholder="<?php echo $labelNumber; ?>" required >
-		</div>
 
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="unitNumber"><?php echo $labelNumber; ?></label>
+					<input type="text" id="unitNumber" name="unitNumber" class="form-control" value="<?php echo $information?$information[0]["unit_number"]:""; ?>" placeholder="<?php echo $labelNumber; ?>" required >
+				</div>
+			</div>
 
-		<div class="form-group text-left">
-			<label class="control-label" for="hours">Hours/Kilometers : *</label>
-			<input type="text" id="hours" name="hours" class="form-control" value="<?php echo $information?$information[0]["hours"]:""; ?>" placeholder="Hours/Kilometers" required >
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="hours">Hours/Kilometers : *</label>
+					<input type="text" id="hours" name="hours" class="form-control" value="<?php echo $information?$information[0]["hours"]:""; ?>" placeholder="Hours/Kilometers" required >
+				</div>
+			</div>
 		</div>
 		
 <?php if(!$information){ ?>		
-		<div class="form-group text-left">
-			<label class="control-label" for="oilChange">Next Oil change : *</label>
-			<input type="text" id="oilChange" name="oilChange" class="form-control" value="<?php echo $information?$information[0]["oil_change"]:""; ?>" placeholder="Hours/Kilometers" required >
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="oilChange">Next Oil change : *</label>
+					<input type="text" id="oilChange" name="oilChange" class="form-control" value="<?php echo $information?$information[0]["oil_change"]:""; ?>" placeholder="Hours/Kilometers" required >
+				</div>
+			</div>
 		</div>
 <?php } ?> 
 
-<?php
-if($companyType == 2){ //si es subcontractor deja activarlo o inactivarlo
-?>
-		<div class="form-group text-left">
-			<label class="control-label" for="state">State : *</label>
-			<select name="state" id="state" class="form-control" >
-				<option value=''>Select...</option>
-				<option value=1 <?php if($information[0]["state"] == 1) { echo "selected"; }  ?>>Active</option>
-				<option value=2 <?php if($information[0]["state"] == 2) { echo "selected"; }  ?>>Inactive</option>
-			</select>
-		</div>
-<?php
-}else{ //si es vci siempre va a estar activado
-?>
-		<input type="hidden" id="state" name="state" value=1 /><!-- Si es VCI entonces queda activado -->
-<?php }  ?>
-		
 				
 		<div class="form-group">
 			<div class="row" align="center">
