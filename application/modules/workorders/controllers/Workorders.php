@@ -1035,10 +1035,12 @@ class Workorders extends CI_Controller {
      * @since 10/02/2020
      * @author BMOTTAG
 	 */
-	public function generaWorkOrderXLS($jobId)
+	public function generaWorkOrderXLS($jobId, $from = '' , $to = '')
 	{				
 			$arrParam = array(
-				"jobId" => $jobId
+				"jobId" => $jobId,
+				"from" => $from,
+				"to" => $to
 			);
 
 			$info = $this->workorders_model->get_workorder_by_idJob($arrParam);
@@ -1316,6 +1318,9 @@ class Workorders extends CI_Controller {
 					$from = "";
 				}
 				
+				$data['fromFormat'] =  $from;
+				$data['toFormat'] =  $to;
+				
 				//informacion Work Order
 				$arrParam = array(
 					"idJob" => $data['idJob'],
@@ -1347,7 +1352,7 @@ class Workorders extends CI_Controller {
 					"column" => "id_job",
 					"id" => $data['idJob']
 				);
-				$data['jobList'] = $this->general_model->get_basic_search($arrParam);//job list
+				$data['jobListSearch'] = $this->general_model->get_basic_search($arrParam);//job list
 	
 			}
 			$data["view"] = "form_search_income";
