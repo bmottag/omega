@@ -36,6 +36,7 @@ class Report extends CI_Controller {
 			$data['jobList'] = FALSE;//lista para filtrar en work order report
 			$data['vehicleList'] = FALSE;//lista para filtrar en inspection report
 			$data['trailerList'] = FALSE;//lista para filtrar en inspection report
+			$data['truckList'] = FALSE;//lista para filtrar en hauling report
 
 			switch ($modulo) {
 				case 'payroll':
