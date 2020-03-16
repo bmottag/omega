@@ -1263,6 +1263,98 @@ class Workorders extends CI_Controller {
 			  
     }
 	
+	/**
+	 * Search by JOB CODE
+     * @since 16/03/2020
+     * @author BMOTTAG
+	 */
+    public function search_income()
+	{
+			$userRol = $this->session->rol;
+			//solo es para usuarios SUPER ADMIN
+			if ($userRol!=99 && $userRol!=2) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+
+			//job list
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['jobList'] = $this->general_model->get_basic_search($arrParam);//job list
+
+			$arrParam = array("state" => 0);
+			$data['noOnfield'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 1);
+			$data['noProgress'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 2);
+			$data['noRevised'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 3);
+			$data['noSend'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			$arrParam = array("state" => 4);
+			$data['noClosed'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+			
+			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
+			if($this->input->post('jobName') && $this->input->post('from') && $this->input->post('to'))
+			{								
+				$data['idJob'] =  $this->input->post('jobName');
+				$data['from'] =  $this->input->post('from');
+				$data['to'] =  $this->input->post('to');
+			
+				//le sumo un dia al dia final para que ingrese ese dia en la consulta
+				if($data['to']){
+					$to = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( formatear_fecha($data['to']) ) ) );
+				}else{
+					$to = "";
+				}
+				if($data['from']){
+					$from = formatear_fecha($data['from']);
+				}else{
+					$from = "";
+				}
+				
+				//informacion Work Order
+				$arrParam = array(
+					"idJob" => $data['idJob'],
+					"from" => $from,
+					"to" => $to
+				);
+				$data['noWO'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+
+				$data['hoursPersonal'] = $this->workorders_model->countHoursPersonal($arrParam);//cuenta horas de personal
+
+				$arrParam['table'] = "workorder_personal";
+				$data['incomePersonal'] = $this->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+				$arrParam['table'] = "workorder_materials";
+				$data['incomeMaterial'] = $this->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+				$arrParam['table'] = "workorder_equipment";
+				$data['incomeEquipment'] = $this->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+				$arrParam['table'] = "workorder_ocasional";
+				$data['incomeSubcontractor'] = $this->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+				$data['total'] = $data['incomePersonal'] + $data['incomeMaterial'] + $data['incomeEquipment'] + $data['incomeSubcontractor'];
+				
+				//job list
+				$arrParam = array(
+					"table" => "param_jobs",
+					"order" => "job_description",
+					"column" => "id_job",
+					"id" => $data['idJob']
+				);
+				$data['jobList'] = $this->general_model->get_basic_search($arrParam);//job list
+	
+			}
+			$data["view"] = "form_search_income";
+			
+			$this->load->view("layout", $data);
+    }
+	
 	
 	
 	

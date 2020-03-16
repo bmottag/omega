@@ -338,6 +338,9 @@ se elimino desde el 22/10/2017
                                 <li>
                                     <a href="<?php echo base_url("workorders/search"); ?>"> Search</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo base_url("workorders/search_income"); ?>"> Search Income</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>						

@@ -355,7 +355,7 @@
 				//$year = date('Y');
 				//$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
 				
-				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.job_description, C.*");
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.id_job, J.job_description, C.*");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
@@ -559,7 +559,7 @@
 		public function countWorkorders($arrDatos)
 		{			
 				$sql = "SELECT count(id_workorder) CONTEO";
-				$sql.= " FROM workorder";
+				$sql.= " FROM workorder W";
 				$sql.= " WHERE 1=1";
 
 				//filtrar por JOB ID
@@ -577,6 +577,13 @@
 					$year = date('Y');
 					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año
 					$sql.= " AND date >= '$firstDay'";
+				}
+				
+				if (array_key_exists("from", $arrDatos) && $arrDatos["from"] != '') {
+					$sql.= " AND date >= '" . $arrDatos["from"] ."'";
+				}				
+				if (array_key_exists("to", $arrDatos) && $arrDatos["to"] != '' && $arrDatos["from"] != '') {
+					$sql.= " AND date <= '" . $arrDatos["to"] . "'";
 				}
 				
 				//filtrar por estado
@@ -621,6 +628,13 @@
 				$sql.= " INNER JOIN workorder W on W.id_workorder = P.fk_id_workorder";
 				$sql.= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
 								
+				if (array_key_exists("from", $arrDatos) && $arrDatos["from"] != '') {
+					$sql.= " AND date >= '" . $arrDatos["from"] ."'";
+				}				
+				if (array_key_exists("to", $arrDatos) && $arrDatos["to"] != '' && $arrDatos["from"] != '') {
+					$sql.= " AND date <= '" . $arrDatos["to"] . "'";
+				}
+
 				$query = $this->db->query($sql);
 				$row = $query->row();
 				return $row->TOTAL;
