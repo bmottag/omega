@@ -156,6 +156,10 @@
 							<a href="<?php echo base_url("admin/vehicle/2"); ?>"><i class="fa fa-automobile fa-fw"></i> Rentals</a>
                         </li>
 						
+                        <li>
+							<a href="<?php echo base_url("admin/stock"); ?>"><i class="fa fa-building fa-fw"></i> Vehicle stock</a>
+                        </li>
+						
 						<li class="divider"></li>
 						
                         <li>

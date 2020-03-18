@@ -1010,6 +1010,84 @@ class Admin extends CI_Controller {
 			
 			$this->load->view($vista, $data);
     }	
+	
+	/**
+	 * Stock List
+     * @since 17/3/2020
+     * @author BMOTTAG
+	 */
+	public function stock()
+	{
+			$this->load->model("general_model");
+			//se filtra por company_type para que solo se pueda editar los subcontratistas
+			$arrParam = array(
+				"table" => "stock",
+				"order" => "stock_description",
+				"id" => "x"
+			);
+			$data['info'] = $this->general_model->get_basic_search($arrParam);
+			
+			$data["view"] = 'stock';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario stock
+     * @since 17/3/2020
+     */
+    public function cargarModalStock() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idStock"] = $this->input->post("idStock");
+			
+			if ($data["idStock"] != 'x') {
+				$this->load->model("general_model");
+				$arrParam = array(
+					"table" => "stock",
+					"order" => "id_stock",
+					"column" => "id_stock",
+					"id" => $data["idStock"]
+				);
+				$data['information'] = $this->general_model->get_basic_search($arrParam);
+			}
+			
+			$this->load->view("stock_modal", $data);
+    }
+	
+	/**
+	 * Update stock
+     * @since 17/3/2020
+     * @author BMOTTAG
+	 */
+	public function save_stock()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idStock = $this->input->post('hddId');
+			
+			$msj = "You have add a new stock!!";
+			if ($idStock != '') {
+				$msj = "You have update a stock!!";
+			}
+
+			if ($idStock = $this->admin_model->saveStock()) {
+				$data["result"] = true;
+				$data["idRecord"] = $idStock;
+				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$data["idRecord"] = "";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
+
 
 	
 }

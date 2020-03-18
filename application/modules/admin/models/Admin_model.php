@@ -507,6 +507,35 @@
 			}
 		}
 		
+		/**
+		 * Add/Edit STOCK
+		 * @since 17/3/2020
+		 */
+		public function saveStock() 
+		{
+				$idStock = $this->input->post('hddId');
+				
+				$data = array(
+					'stock_description' => $this->input->post('stockDescription'),
+					'stock_price' => $this->input->post('price'),
+					'quantity' => $this->input->post('quantity')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idStock == '') {
+					$query = $this->db->insert('stock', $data);
+					$idStock = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_stock', $idStock);
+					$query = $this->db->update('stock', $data);
+				}
+				if ($query) {
+					return $idStock;
+				} else {
+					return false;
+				}
+		}
+		
 		
 	    
 	}
