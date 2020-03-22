@@ -10,19 +10,29 @@
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_stock"]:""; ?>"/>
 		
-		<div class="form-group text-left">
-			<label class="control-label" for="stockDescription">Stock description</label>
-			<input type="text" id="stockDescription" name="stockDescription" class="form-control" value="<?php echo $information?$information[0]["stock_description"]:""; ?>" placeholder="Stock descrition" required >
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="stockDescription">Stock description</label>
+					<input type="text" id="stockDescription" name="stockDescription" class="form-control" value="<?php echo $information?$information[0]["stock_description"]:""; ?>" placeholder="Stock descrition" required >
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group text-left">
-			<label class="control-label" for="price">Price</label>
-			<input type="text" id="price" name="price" class="form-control" value="<?php echo $information?$information[0]["stock_price"]:""; ?>" placeholder="Price" required >
-		</div>
-		
-		<div class="form-group text-left">
-			<label class="control-label" for="quantity">Quantity</label>
-			<input type="text" id="quantity" name="quantity" class="form-control" value="<?php echo $information?$information[0]["quantity"]:""; ?>" placeholder="Quantity" required >
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="price">Price</label>
+					<input type="text" id="price" name="price" class="form-control" value="<?php echo $information?$information[0]["stock_price"]:""; ?>" placeholder="Price" required >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="quantity">Quantity</label>
+					<input type="text" id="quantity" name="quantity" class="form-control" value="<?php echo $information?$information[0]["quantity"]:""; ?>" placeholder="Quantity" required >
+				</div>
+			</div>
 		</div>
 				
 		<div class="form-group">

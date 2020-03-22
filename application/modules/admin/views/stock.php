@@ -35,7 +35,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> STOCK LIST
+					<i class="fa fa-slack"></i> STOCK LIST
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
@@ -83,8 +83,8 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['stock_description'] . "</td>";
-									echo "<td>" . $lista['stock_price'] . "</td>";
-									echo "<td>" . $lista['quantity'] . "</td>";
+									echo "<td class='text-right'>" . $lista['stock_price'] . "</td>";
+									echo "<td class='text-center'>" . $lista['quantity'] . "</td>";
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_stock']; ?>" >

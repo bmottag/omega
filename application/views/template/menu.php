@@ -157,7 +157,7 @@
                         </li>
 						
                         <li>
-							<a href="<?php echo base_url("admin/stock"); ?>"><i class="fa fa-building fa-fw"></i> Vehicle stock</a>
+							<a href="<?php echo base_url("admin/stock"); ?>"><i class="fa fa-slack fa-fw"></i> Vehicle stock</a>
                         </li>
 						
 						<li class="divider"></li>
