@@ -80,6 +80,10 @@
 							<a href="https://v-contracting.ca/app/public/reportico/run.php?project=Payroll&execute_mode=MENU" target="_blank"><i class="fa fa-ambulance fa-fw"></i> Incidences Report</a>
                         </li>
 						
+                        <li>
+							<a href="https://v-contracting.ca/app/public/reportico/run.php?project=Payroll&execute_mode=MENU" target="_blank"><i class="fa fa-flag fa-fw"></i> Maintenance Report</a>
+                        </li>
+						
 						<li class="divider"></li>
 						
 						
