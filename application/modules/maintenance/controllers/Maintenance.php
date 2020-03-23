@@ -14,7 +14,32 @@ class Maintenance extends CI_Controller {
      * @since 11/2/2020
      * @author BMOTTAG
 	 */
-	public function entrance($idVehicle, $idMaintenance = 'x')
+	public function entrance($idVehicle)
+	{
+			if (empty($idVehicle)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+			
+			$this->load->model("general_model");			
+						
+			//busco datos del vehiculo
+			$arrParam['idVehicle'] = $idVehicle;
+			$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
+									
+			//listado de registros para ese vehiculo
+			$arrParam = array("idVehicle" => $idVehicle);				
+			$data['infoRecords'] = $this->maintenance_model->get_maintenance($arrParam);
+			
+			$data["view"] = 'maintenance_list';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Maintenance form
+     * @since 22/3/2020
+     * @author BMOTTAG
+	 */
+	public function maintenance_form($idVehicle, $idMaintenance = 'x')
 	{
 			if (empty($idVehicle)) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -40,11 +65,7 @@ class Maintenance extends CI_Controller {
 			
 			//busco info tabla de stock
 			$data['infoStock'] = $this->general_model->get_stock();
-			
-			//listado de registros para ese vehiculo
-			$arrParam = array("idVehicle" => $idVehicle);				
-			$data['infoRecords'] = $this->maintenance_model->get_maintenance($arrParam);
-			
+						
 			//si envio el id, entonces busco la informacion 
 			if ($idMaintenance != 'x') 
 			{
