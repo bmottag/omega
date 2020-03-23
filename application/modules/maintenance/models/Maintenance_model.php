@@ -15,6 +15,7 @@
 			$data = array(
 				'amount' => $this->input->post('amount'),
 				'fk_id_maintenance_type' => $this->input->post('id_maintenance_type'),
+				'fk_id_stock' => $this->input->post('id_stock'),
 				'maintenance_description' => $this->input->post('description'),
 				'done_by' => $this->input->post('done_by'),
 				'fk_revised_by_user' => $this->input->post('revised_by'),

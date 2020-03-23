@@ -62,6 +62,18 @@ if ($retornoError) {
 								<input type="text" id="amount" name="amount" class="form-control" value="<?php echo $information?$information[0]["amount"]:""; ?>" placeholder="Amount" >
 							</div>							
 						</div>
+						
+						<div class="form-group">
+							<div class="col-sm-5 col-sm-offset-1">
+								<label for="from">Stock </label>
+								<select name="id_stock" id="id_stock" class="form-control" >
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($infoStock); $i++) { ?>
+										<option value="<?php echo $infoStock[$i]["id_stock"]; ?>" <?php if($information[0]["fk_id_stock"] == $infoStock[$i]["id_stock"]) { echo "selected"; }  ?>><?php echo $infoStock[$i]["stock_description"] . " - $" . $infoStock[$i]["stock_price"] ; ?></option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
 												
 						<div class="form-group">
 							<div class="col-sm-10 col-sm-offset-1">

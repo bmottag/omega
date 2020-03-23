@@ -38,6 +38,9 @@ class Maintenance extends CI_Controller {
 			);
 			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 			
+			//busco info tabla de stock
+			$data['infoStock'] = $this->general_model->get_stock();
+			
 			//listado de registros para ese vehiculo
 			$arrParam = array("idVehicle" => $idVehicle);				
 			$data['infoRecords'] = $this->maintenance_model->get_maintenance($arrParam);

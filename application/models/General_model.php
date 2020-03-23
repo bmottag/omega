@@ -639,6 +639,23 @@ class General_model extends CI_Model {
 			}
 		}
 
+		/**
+		 * Stock list
+		 * @since 22/3/2020
+		 */
+		public function get_stock() 
+		{
+			$this->db->select();
+			$this->db->where('quantity >', 0);
+			$this->db->order_by('stock_description');
+			$query = $this->db->get('stock');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
 
 
 
