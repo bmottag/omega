@@ -64,8 +64,9 @@ class Maintenance extends CI_Controller {
 			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 			
 			//busco info tabla de stock
-			$data['infoStock'] = $this->general_model->get_stock();
-						
+			$arrParam = array();
+			$data['infoStock'] = $this->general_model->get_stock($arrParam);
+
 			//si envio el id, entonces busco la informacion 
 			if ($idMaintenance != 'x') 
 			{
@@ -143,6 +144,29 @@ class Maintenance extends CI_Controller {
 		
 		redirect("/dashboard/maintenance","location",301);
 	}
+	
+	/**
+	 * Stock qutitity
+     * @since 25/2/2020
+     * @author BMOTTAG
+	 */
+    public function quantityInfo() {
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+        $idStock = $this->input->post('idStock');
+				
+		//busco info tabla de stock
+		$this->load->model("general_model");
+		$arrParam = array("idStock" => $idStock);
+		$infoStock = $this->general_model->get_stock($arrParam);
+
+        echo "<option value=''>Select...</option>";
+        if ($infoStock) {
+			$quantity = $infoStock[0]['quantity'];
+			for ($i = 1; $i <= $quantity; $i++) {
+				echo "<option value='" . $i . "' >" . $i . "</option>";
+			}
+        }
+    }
 	
 	
 	

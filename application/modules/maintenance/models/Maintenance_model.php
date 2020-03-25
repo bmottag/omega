@@ -20,7 +20,8 @@
 				'done_by' => $this->input->post('done_by'),
 				'fk_revised_by_user' => $this->input->post('revised_by'),
 				'next_hours_maintenance' => $this->input->post('next_hours_maintenance'),
-				'next_date_maintenance' => $this->input->post('next_date_maintenance')
+				'next_date_maintenance' => $this->input->post('next_date_maintenance'),
+				'stock_quantity' => $this->input->post('stockQuantity')
 			);
 			
 			//revisar si es para adicionar o editar

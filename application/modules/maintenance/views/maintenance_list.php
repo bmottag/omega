@@ -38,7 +38,7 @@ if ($retornoError) {
 				<div class="panel-body">
 				
 					<a class='btn btn-success btn-block' href='<?php echo base_url('maintenance/maintenance_form/' . $vehicleInfo[0]["id_vehicle"]) ?>'>
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Maintenance
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Maintenance
 					</a><br>
 	
 <?php if($infoRecords){ ?>	

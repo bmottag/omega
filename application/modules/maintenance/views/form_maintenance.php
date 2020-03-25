@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/maintenance/maintenance.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/maintenance/ajaxStock.js"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -63,6 +64,11 @@ if ($retornoError) {
 							</div>							
 						</div>
 						
+<?php 
+	//si hay stock muestro campos
+	if($infoStock){
+?>	
+					
 						<div class="form-group">
 							<div class="col-sm-5 col-sm-offset-1">
 								<label for="from">Stock </label>
@@ -73,7 +79,32 @@ if ($retornoError) {
 									<?php } ?>
 								</select>
 							</div>
+							
+<?php 
+	$mostrar = "none";
+	if($information && $information["id_stock"]>=0){
+		$mostrar = "inline";
+	}
+?>
+
+							<div class="col-sm-5" id="div_stockQuantity" style="display:<?php echo $mostrar; ?>">
+								<label for="from">Sock quantity </label>
+								<select name="stockQuantity" id="stockQuantity" class="form-control" required>
+								
+									<?php if($information){ ?>
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($truckList); $i++) { ?>
+										<option value="<?php echo $truckList[$i]["id_vehicle"]; ?>" <?php if($information["fk_id_truck"] == $truckList[$i]["id_vehicle"]) { echo "selected"; }  ?>><?php echo $truckList[$i]["unit_number"]; ?></option>	
+									<?php }} ?>
+
+								</select>
+							</div>
+							
 						</div>
+						
+<?php 
+	}
+?>
 												
 						<div class="form-group">
 							<div class="col-sm-10 col-sm-offset-1">

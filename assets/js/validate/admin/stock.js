@@ -5,7 +5,7 @@ $( document ).ready( function () {
 	$( "#form" ).validate( {
 		rules: {
 			stockCompany:				{ required: true, minlength: 3, maxlength:50 },
-			price:						{ required: true, minlength: 3, maxlength:50 },
+			price:						{ required: true, minlength: 2, maxlength:10 },
 			quantity:					{ required: true, minlength: 1, maxlength:10 }
 			
 		},
