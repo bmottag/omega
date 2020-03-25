@@ -73,7 +73,11 @@ if ($retornoError) {
 								echo "<td>" . $lista['maintenance_description'] . "</td>";
 								echo "<td>" . $lista['done_by'] . "</td>";
 								echo "<td>" . $lista['name'] . "</td>";
-								echo "<td  class='text-right'>" . number_format($lista['amount']) . "</td>";
+								
+								setlocale(LC_MONETARY, 'en_US');
+								$amount = money_format('%=(#1.2n', $lista['amount']);
+								
+								echo "<td  class='text-right'>" . $amount . "</td>";
 								echo "<td class='text-right'>" . number_format((float)$nextHoursMaintenance) . "</td>";
 								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
 								

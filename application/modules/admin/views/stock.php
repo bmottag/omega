@@ -39,7 +39,7 @@ $(function(){
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Stock
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Stock
 					</button><br>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -73,7 +73,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Stock description</th>
-								<th class="text-center">Price</th>
+								<th class="text-center">Price by unit</th>
 								<th class="text-center">Quantity</th>
 								<th class="text-center">Edit</th>
 							</tr>
@@ -83,7 +83,11 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['stock_description'] . "</td>";
-									echo "<td class='text-right'>" . $lista['stock_price'] . "</td>";
+									
+									setlocale(LC_MONETARY, 'en_US');
+									$price = money_format('%=(#1.2n', $lista['stock_price']);
+									
+									echo "<td class='text-right'>" . $price . "</td>";
 									echo "<td class='text-center'>" . $lista['quantity'] . "</td>";
 									echo "<td class='text-center'>";
 						?>

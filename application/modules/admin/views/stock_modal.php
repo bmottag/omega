@@ -22,8 +22,8 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="price">Price</label>
-					<input type="text" id="price" name="price" class="form-control" value="<?php echo $information?$information[0]["stock_price"]:""; ?>" placeholder="Price" required >
+					<label class="control-label" for="price">Price by unit</label>
+					<input type="text" id="price" name="price" class="form-control" value="<?php echo $information?$information[0]["stock_price"]:""; ?>" placeholder="Price by unit" required >
 				</div>
 			</div>
 			
