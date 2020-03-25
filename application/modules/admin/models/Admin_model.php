@@ -318,7 +318,7 @@
 				$this->db->join("$table", "$idTable = A.fk_id_inspection", "LEFT");
 				$this->db->where('A.fk_id_vehicle', $infoVehicle[0]['id_vehicle']);
 				$this->db->order_by('id_oil_change', 'desc');
-				$query = $this->db->get('vehicle_oil_change A', 30);
+				$query = $this->db->get('vehicle_oil_change A');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
