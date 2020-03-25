@@ -12,8 +12,12 @@
 				<div class="panel-body">
 									
 					<div class="alert alert-danger">
-						Maintenance list which next Hours/Kilometers maintenance is less than 100 Hours/Kilometers compare with the current Hours/Kilometers. 
-						<br>Maintenance list one week before the next maintenance date.
+							<strong>Attention: </strong>
+							The following unit(s) are 100 hours or less to its next due maintenance cycle
+or a week before to the item's next renewal.
+ 
+							
+
 					</div>
 
 					<br>

@@ -112,12 +112,12 @@ if ($retornoError) {
 						<div class="form-group">
 							<div class="col-sm-5 col-sm-offset-1">
 								<label for="from">Next Hours/Kilometers maintenance </label>
-								<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" value="<?php if($information){echo $information[0]["next_hours_maintenance"]?$information[0]["next_hours_maintenance"]:"";} ?>" placeholder="Next Hours/Kilometers maintenace">
+								<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" value="<?php if($information){echo $information[0]["next_hours_maintenance"]?$information[0]["next_hours_maintenance"]:"";} ?>" placeholder="Insert Next Hours/Kilometers">
 							</div>
 							
 							<div class="col-sm-5">
 								<label for="from">Next date maintenance </label>
-								<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" value="<?php echo $information?$information[0]["next_date_maintenance"]:""; ?>" placeholder="Next date maintenace">
+								<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" value="<?php echo $information?$information[0]["next_date_maintenance"]:""; ?>" placeholder="Insert next due date">
 							</div>
 						</div>
 

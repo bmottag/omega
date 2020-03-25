@@ -15,15 +15,17 @@
 					if($infoDaily){
 				?>
 					<div class="row">
-						<div class="col-lg-6">
+						<div class="col-lg-12">
 							<div class="alert alert-danger">
-								If the record is red, it is because the inspection has comments or has some fails.
+								<strong>Attention: </strong>
+								The unit's inspection shows  a comment and an item "fail", please review it ASAP.
 							</div>
 						</div>
 						
-						<div class="col-lg-6">
+						<div class="col-lg-12">
 							<div class="alert alert-warning">
-								If the record is yellow, it is because the inspection has some fails.
+								<strong>Attention: </strong>
+								There is a "fail" item in today's unit inspection.
 							</div>
 						</div>
 					</div>
