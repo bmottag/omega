@@ -45,19 +45,17 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Date</th>
-								<th class="text-center">Maintenance type</th>
-								<th class="text-center">Description</th>
-								<th class="text-center">Done by</th>
-								<th class="text-center">Revised by</th>
-								<th class="text-center">Amount</th>
-								<th class="text-center">Next Hours/Kilometers maintenance </th>
+								<th class="text-center">Maintenance</th>
+								<th class="text-center">Next Hours/Km maintenance </th>
 								<th class="text-center">Next date maintenance </th>
+								<th class="text-center">Stock</th>
+								<th class="text-center">Amount</th>
+								<th class="text-center">Total</th>
 								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
 						<tbody>							
-						<?php													
+						<?php 
 							foreach ($infoRecords as $lista):
 									
 								$nextHoursMaintenance = $lista['next_hours_maintenance']?$lista['next_hours_maintenance']:"";
@@ -68,18 +66,42 @@ if ($retornoError) {
 								}
 								
 								echo "<tr class='" . $class . "' >";
-								echo "<td>" . $lista['date_maintenance'] . "</td>";
-								echo "<td>" . $lista['maintenance_type'] . "</td>";
-								echo "<td>" . $lista['maintenance_description'] . "</td>";
-								echo "<td>" . $lista['done_by'] . "</td>";
-								echo "<td>" . $lista['name'] . "</td>";
 								
-								setlocale(LC_MONETARY, 'en_US');
-								$amount = money_format('%=(#1.2n', $lista['amount']);
+								echo "<td>";
+								echo "<strong>Date:<br></strong>". $lista['date_maintenance'];
+								echo "<br><strong>Type:<br></strong>". $lista['maintenance_type'];
+								echo "<br><strong>Description:<br></strong>". $lista['maintenance_description'];
+								echo "<br><strong>Done by:<br></strong>". $lista['done_by'];
+								echo "<br><strong>Revised by:<br></strong>". $lista['name'];								
+								echo "</td>";
 								
-								echo "<td  class='text-right'>" . $amount . "</td>";
 								echo "<td class='text-right'>" . number_format((float)$nextHoursMaintenance) . "</td>";
 								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
+								
+								setlocale(LC_MONETARY, 'en_US');
+								
+								if(is_null($lista['fk_id_stock'])){
+									echo "<td class='text-center'>";
+									echo "-";
+									echo "</td>";
+									$subTotal = 0;
+								}else{
+									echo "<td>";
+									echo $lista['stock_description'];
+									$stock_price = money_format('%=(#1.2n', $lista['stock_price']);
+									echo "<br><strong>Price by unit:<br></strong>". $stock_price;
+									echo "<br><strong>Quantity:<br></strong>". $lista['stock_quantity'];
+									echo "</td>";
+									
+									$subTotal = $lista['stock_quantity'] * $lista['stock_price'];
+								}
+																
+								$amount = money_format('%=(#1.2n', $lista['amount']);
+								$total = $lista['amount'] + $subTotal;
+								$total = money_format('%=(#1.2n', $total);
+								
+								echo "<td  class='text-right'>" . $amount . "</td>";
+								echo "<td  class='text-right'>" . $total . "</td>";
 								
 								echo "<td class='text-center'>";
 									if($lista['maintenance_state'] == 1){
@@ -88,9 +110,9 @@ if ($retornoError) {
 <a class="btn btn-danger btn-xs" href="<?php echo base_url().'maintenance/maintenance_form/' . $vehicleInfo[0]["id_vehicle"] . '/' . $lista["id_maintenance"]; ?> "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a> 
 
 						<?php
-										echo "Active";
+										echo "<br>Active";
 									}else{
-										echo "Inactive";
+										echo "<br>Inactive";
 									}
 								echo "</td>";
 								echo "</tr>";
