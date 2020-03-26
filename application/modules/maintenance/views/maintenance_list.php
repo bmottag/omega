@@ -46,20 +46,17 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Maintenance</th>
-								<th class="text-center">Next Hours/Km maintenance </th>
-								<th class="text-center">Next date maintenance </th>
+								<th class="text-center">More info</th>
+								<th class="text-center">Next due maintenance </th>
 								<th class="text-center">Stock</th>
 								<th class="text-center">Amount</th>
 								<th class="text-center">Total</th>
-								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php 
 							foreach ($infoRecords as $lista):
 									
-								$nextHoursMaintenance = $lista['next_hours_maintenance']?$lista['next_hours_maintenance']:"";
-
 								$class = "";
 								if($lista['maintenance_state'] == 1){
 									$class = "success";
@@ -68,26 +65,54 @@ if ($retornoError) {
 								echo "<tr class='" . $class . "' >";
 								
 								echo "<td>";
-								echo "<strong>Date:<br></strong>". $lista['date_maintenance'];
-								echo "<br><strong>Type:<br></strong>". $lista['maintenance_type'];
+								echo "<strong>Type:<br></strong>". $lista['maintenance_type'];
 								echo "<br><strong>Description:<br></strong>". $lista['maintenance_description'];
+								echo "<br>";
+								if($lista['maintenance_state'] == 1){
+								?>
+<a href="<?php echo base_url().'maintenance/maintenance_form/' . $vehicleInfo[0]["id_vehicle"] . '/' . $lista["id_maintenance"]; ?>" class="btn btn-danger btn-xs">
+<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit <span class="badge">Active</span>
+</a>
+								<?php
+								}else{
+								?>
+<a href="#" class="btn btn-danger btn-xs" disabled>
+<span class="badge">Inactive</span>
+</a>
+								<?php
+								}
+								
+								echo "</td>";
+								
+								echo "<td>";
+								echo "<strong>Date of issue:<br></strong>". $lista['date_maintenance'];
 								echo "<br><strong>Done by:<br></strong>". $lista['done_by'];
 								echo "<br><strong>Revised by:<br></strong>". $lista['name'];								
 								echo "</td>";
 								
-								echo "<td class='text-right'>" . number_format((float)$nextHoursMaintenance) . "</td>";
-								echo "<td class='text-center'>" . $lista['next_date_maintenance'] . "</td>";
+								echo "<td class='text-right'>";
+								if($lista['next_hours_maintenance']){
+									echo "<strong>Hours/Km:<br></strong>". number_format((float)$lista['next_hours_maintenance']);
+								}
+								
+								if($lista['next_hours_maintenance'] && $lista['next_date_maintenance']){
+									echo "<br>";
+								}
+								if($lista['next_date_maintenance']){
+									echo "<strong>Date:<br></strong>". $lista['next_date_maintenance'];
+								}
+								echo "</td>";
 								
 								setlocale(LC_MONETARY, 'en_US');
 								
-								if(is_null($lista['fk_id_stock'])){
+								if(IS_NULL($lista['fk_id_stock']) || $lista['fk_id_stock'] == 0){
 									echo "<td class='text-center'>";
 									echo "-";
 									echo "</td>";
 									$subTotal = 0;
 								}else{
 									echo "<td>";
-									echo $lista['stock_description'];
+									echo "<strong>Description:<br></strong>" . $lista['stock_description'];
 									$stock_price = money_format('%=(#1.2n', $lista['stock_price']);
 									echo "<br><strong>Price by unit:<br></strong>". $stock_price;
 									echo "<br><strong>Quantity:<br></strong>". $lista['stock_quantity'];
@@ -102,19 +127,7 @@ if ($retornoError) {
 								
 								echo "<td  class='text-right'>" . $amount . "</td>";
 								echo "<td  class='text-right'>" . $total . "</td>";
-								
-								echo "<td class='text-center'>";
-									if($lista['maintenance_state'] == 1){
-						?>
-						
-<a class="btn btn-danger btn-xs" href="<?php echo base_url().'maintenance/maintenance_form/' . $vehicleInfo[0]["id_vehicle"] . '/' . $lista["id_maintenance"]; ?> "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a> 
-
-						<?php
-										echo "<br>Active";
-									}else{
-										echo "<br>Inactive";
-									}
-								echo "</td>";
+							
 								echo "</tr>";
 							endforeach;
 						?>

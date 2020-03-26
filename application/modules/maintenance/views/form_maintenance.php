@@ -64,7 +64,7 @@ if ($retornoError) {
 							</div>							
 						</div>
 						
-<?php 
+<?php
 	//si hay stock muestro campos
 	if($infoStock){
 ?>	
@@ -82,7 +82,7 @@ if ($retornoError) {
 							
 <?php 
 	$mostrar = "none";
-	if($information && $information["id_stock"]>=0){
+	if($information && !IS_NULL($information[0]["fk_id_stock"]) && $information[0]["fk_id_stock"] > 0){
 		$mostrar = "inline";
 	}
 ?>
@@ -90,13 +90,17 @@ if ($retornoError) {
 							<div class="col-sm-5" id="div_stockQuantity" style="display:<?php echo $mostrar; ?>">
 								<label for="from">Sock quantity </label>
 								<select name="stockQuantity" id="stockQuantity" class="form-control" required>
-								
-									<?php if($information){ ?>
-									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($truckList); $i++) { ?>
-										<option value="<?php echo $truckList[$i]["id_vehicle"]; ?>" <?php if($information["fk_id_truck"] == $truckList[$i]["id_vehicle"]) { echo "selected"; }  ?>><?php echo $truckList[$i]["unit_number"]; ?></option>	
-									<?php }} ?>
-
+									<?php
+									if($information){
+										echo "<option value=''>Select...</option>";
+										$quantity = $information[0]['quantity'];
+										for ($i = 1; $i <= $quantity; $i++) {
+											echo "<option value='" . $i . "' ";
+											if($information[0]["stock_quantity"] == $i) { echo "selected"; } 
+											echo ">" . $i . "</option>";
+										}
+									}
+									?>
 								</select>
 							</div>
 							
