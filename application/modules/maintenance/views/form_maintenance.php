@@ -64,13 +64,13 @@
 <?php	
 	if($information){
 ?>
-<input type="text" id="hddOldIdStock" name="hddOldIdStock" value="<?php echo $information?$information[0]["fk_id_stock"]:""; ?>"/>
-<input type="text" id="hddOldMaintenanceQuantity" name="hddOldMaintenanceQuantity" value="<?php echo $information?$information[0]["stock_quantity"]:""; ?>"/>
+<input type="hidden" id="hddOldIdStock" name="hddOldIdStock" value="<?php echo $information?$information[0]["fk_id_stock"]:""; ?>"/>
+<input type="hidden" id="hddOldMaintenanceQuantity" name="hddOldMaintenanceQuantity" value="<?php echo $information?$information[0]["stock_quantity"]:""; ?>"/>
 <?php		
 	}else{
 ?>
-<input type="text" id="hddOldIdStock" name="hddOldIdStock" value=0 />
-<input type="text" id="hddOldMaintenanceQuantity" name="hddOldMaintenanceQuantity" value=0 />	
+<input type="hidden" id="hddOldIdStock" name="hddOldIdStock" value=0 />
+<input type="hidden" id="hddOldMaintenanceQuantity" name="hddOldMaintenanceQuantity" value=0 />	
 <?php	
 	}
 ?>

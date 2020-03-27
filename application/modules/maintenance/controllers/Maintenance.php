@@ -96,6 +96,7 @@ class Maintenance extends CI_Controller {
 			
 			//para el mismo tipo de mantenimiento
 			//actualizo los estados a 2 (inactivo) si es un mantenimiento nuevo
+			$bandera = false;//se utiliza cuando se cambia de un stock a otro
 			if($hddIdMaintenance == '')
 			{
 				$this->maintenance_model->update_maintenance_state();
@@ -114,7 +115,37 @@ class Maintenance extends CI_Controller {
 				
 			}else{
 				//si envio IDSTOCK y es para actualizar mantenimiento
-				if($idStock > 0){
+				if($idStock > 0 && $OldIdStock > 0 && $OldIdStock == $idStock)
+				{	//si IDSTOCK IGUAL OLDIDSTOCK
+					$this->load->model("general_model");
+					$arrParam = array("idStock" => $idStock);
+					$infoStock = $this->general_model->get_stock($arrParam);
+					
+					$actualQuantity = $infoStock[0]['quantity'];
+					$maintenanceQuantity = $this->input->post('stockQuantity');
+					$newQuantity = $actualQuantity + $OldMaintenanceQuantity - $maintenanceQuantity;					
+				}elseif($idStock > 0 && $OldIdStock > 0 && $OldIdStock != $idStock)
+				{	//si IDSTOCK diferente OLDIDSTOCK
+					$bandera = true;
+					$this->load->model("general_model");
+					$arrParam = array("idStock" => $idStock);
+					$infoStock = $this->general_model->get_stock($arrParam);
+					
+					$actualQuantity = $infoStock[0]['quantity'];
+					$maintenanceQuantity = $this->input->post('stockQuantity');
+					$newQuantity = $actualQuantity - $maintenanceQuantity;					
+					
+					
+					$this->load->model("general_model");
+					$arrParam = array("idStock" => $OldIdStock);
+					$infoStock = $this->general_model->get_stock($arrParam);				
+					
+					$actualQuantity = $infoStock[0]['quantity'];
+
+					$OldQuantity = $actualQuantity + $OldMaintenanceQuantity;
+					
+				}elseif($idStock > 0)
+				{
 					$this->load->model("general_model");
 					$arrParam = array("idStock" => $idStock);
 					$infoStock = $this->general_model->get_stock($arrParam);
@@ -141,7 +172,18 @@ class Maintenance extends CI_Controller {
 				//si envio IDSTOCK entonces actualizo la cantidad en la tabla stock				
 				if($idStock > 0 || $OldIdStock > 0)
 				{
-					$idStock = $OldIdStock>0?$OldIdStock:$idStock;
+					if($bandera){
+						$idStock = $idStock;
+						
+						$arrParam = array(
+									"idStock" => $OldIdStock,
+									"newQuantity" => $OldQuantity
+						);	
+						$this->maintenance_model->updateStock($arrParam);
+					}else{
+						$idStock = $OldIdStock>0?$OldIdStock:$idStock;
+					}
+					
 					$arrParam = array(
 								"idStock" => $idStock,
 								"newQuantity" => $newQuantity
