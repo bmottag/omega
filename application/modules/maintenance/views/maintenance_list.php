@@ -1,6 +1,20 @@
 <div id="page-wrapper">
 	<br>
-
+	
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<a class="btn btn-success btn-xs" href="<?php echo base_url().'admin/vehicle/'.$vehicleInfo[0]["type_level_1"] . '/' . $vehicleInfo[0]['inspection_type']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-flag"></i> <strong>MAINTENANCE LIST</strong>
+				</div>
+				<div class="panel-body">
+				
+					<a class='btn btn-success btn-block' href='<?php echo base_url('maintenance/maintenance_form/' . $vehicleInfo[0]["id_vehicle"]) ?>'>
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Maintenance
+					</a><br>
+					
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -25,21 +39,7 @@ if ($retornoError) {
 	</div>
     <?php
 }
-?> 
-	
-	<!-- /.row -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<a class="btn btn-success btn-xs" href="<?php echo base_url().'admin/vehicle/'.$vehicleInfo[0]["type_level_1"] . '/' . $vehicleInfo[0]['inspection_type']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-flag"></i> <strong>MAINTENANCE LIST</strong>
-				</div>
-				<div class="panel-body">
-				
-					<a class='btn btn-success btn-block' href='<?php echo base_url('maintenance/maintenance_form/' . $vehicleInfo[0]["id_vehicle"]) ?>'>
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Maintenance
-					</a><br>
+?>
 	
 <?php if($infoRecords){ ?>	
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">

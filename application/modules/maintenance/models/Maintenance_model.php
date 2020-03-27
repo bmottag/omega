@@ -159,6 +159,28 @@
 			}
 		}
 		
+		/**
+		 * Update STOCK
+		 * @since 26/3/2020
+		 */
+		public function updateStock($arrDatos) 
+		{
+				$idStock = $this->input->post('id_stock');
+								
+				$data = array(
+					'quantity' => $arrDatos["newQuantity"]
+				);
+
+				$this->db->where('id_stock', $arrDatos["idStock"]);
+				$query = $this->db->update('stock', $data);
+
+				if ($query) {
+					return $idStock;
+				} else {
+					return false;
+				}
+		}
+		
 		
 
 		

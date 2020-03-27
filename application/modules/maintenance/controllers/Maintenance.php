@@ -90,16 +90,67 @@ class Maintenance extends CI_Controller {
 			
 			$data["idRecord"] = $this->input->post('hddIdVehicle');
 			$hddIdMaintenance = $this->input->post('hddIdMaintenance');
-
+			$idStock = $this->input->post('id_stock');
+			$OldIdStock = $this->input->post('hddOldIdStock');
+			$OldMaintenanceQuantity = $this->input->post('hddOldMaintenanceQuantity');
+			
 			//para el mismo tipo de mantenimiento
 			//actualizo los estados a 2 (inactivo) si es un mantenimiento nuevo
 			if($hddIdMaintenance == '')
 			{
 				$this->maintenance_model->update_maintenance_state();
+
+				//si envio IDSTOCK y es un mantenimiento nuevo
+				if($idStock > 0){
+					$this->load->model("general_model");
+					$arrParam = array("idStock" => $idStock);
+					$infoStock = $this->general_model->get_stock($arrParam);
+					
+					
+					$actualQuantity = $infoStock[0]['quantity'];
+					$maintenanceQuantity = $this->input->post('stockQuantity');
+					$newQuantity = $actualQuantity - $maintenanceQuantity;
+				}
+				
+			}else{
+				//si envio IDSTOCK y es para actualizar mantenimiento
+				if($idStock > 0){
+					$this->load->model("general_model");
+					$arrParam = array("idStock" => $idStock);
+					$infoStock = $this->general_model->get_stock($arrParam);
+					
+					$actualQuantity = $infoStock[0]['quantity'];
+					$maintenanceQuantity = $this->input->post('stockQuantity');
+					$newQuantity = $actualQuantity + $OldMaintenanceQuantity - $maintenanceQuantity;
+				}elseif($OldIdStock > 0){
+
+					$this->load->model("general_model");
+					$arrParam = array("idStock" => $OldIdStock);
+					$infoStock = $this->general_model->get_stock($arrParam);				
+					
+					$actualQuantity = $infoStock[0]['quantity'];
+
+					$newQuantity = $actualQuantity + $OldMaintenanceQuantity;
+					
+				}
+				
 			}
 
 			if ($idMaintenance = $this->maintenance_model->add_maintenance()) 
 			{
+				//si envio IDSTOCK entonces actualizo la cantidad en la tabla stock				
+				if($idStock > 0 || $OldIdStock > 0)
+				{
+					$idStock = $OldIdStock>0?$OldIdStock:$idStock;
+					$arrParam = array(
+								"idStock" => $idStock,
+								"newQuantity" => $newQuantity
+					);	
+					$this->maintenance_model->updateStock($arrParam);
+					
+					//en una nueva version deberia crear tabla de historial de los cambios de la tabla STOCK
+				}
+				
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the Maintenance.";
 				$this->session->set_flashdata('retornoExito', 'You have save the Maintenance!!');

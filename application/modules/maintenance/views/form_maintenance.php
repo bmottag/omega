@@ -6,32 +6,6 @@
 
 <div id="page-wrapper">
 	<br>
-
-<?php
-$retornoExito = $this->session->flashdata('retornoExito');
-if ($retornoExito) {
-    ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
-		</div>
-	</div>
-    <?php
-}
-
-$retornoError = $this->session->flashdata('retornoError');
-if ($retornoError) {
-    ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
-		</div>
-	</div>
-    <?php
-}
-?> 
 	
 	<!-- /.row -->
 	<div class="row">
@@ -84,6 +58,20 @@ if ($retornoError) {
 	$mostrar = "none";
 	if($information && !IS_NULL($information[0]["fk_id_stock"]) && $information[0]["fk_id_stock"] > 0){
 		$mostrar = "inline";
+	}
+?>
+
+<?php	
+	if($information){
+?>
+<input type="text" id="hddOldIdStock" name="hddOldIdStock" value="<?php echo $information?$information[0]["fk_id_stock"]:""; ?>"/>
+<input type="text" id="hddOldMaintenanceQuantity" name="hddOldMaintenanceQuantity" value="<?php echo $information?$information[0]["stock_quantity"]:""; ?>"/>
+<?php		
+	}else{
+?>
+<input type="text" id="hddOldIdStock" name="hddOldIdStock" value=0 />
+<input type="text" id="hddOldMaintenanceQuantity" name="hddOldMaintenanceQuantity" value=0 />	
+<?php	
 	}
 ?>
 
