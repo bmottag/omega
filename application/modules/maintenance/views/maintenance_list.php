@@ -51,6 +51,7 @@ if ($retornoError) {
 								<th class="text-center">Stock</th>
 								<th class="text-center">Amount</th>
 								<th class="text-center">Total</th>
+								<th class="text-center">Estado</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -127,7 +128,8 @@ if ($retornoError) {
 								
 								echo "<td  class='text-right'>" . $amount . "</td>";
 								echo "<td  class='text-right'>" . $total . "</td>";
-							
+								echo "<td  class='text-right'>" . $lista['maintenance_state'] . "</td>";							
+								
 								echo "</tr>";
 							endforeach;
 						?>
@@ -146,11 +148,16 @@ if ($retornoError) {
 <!-- Tables -->
 <script>
 $(document).ready(function() {
-	$('#dataTables').DataTable({
-		responsive: true,
-		"ordering": false,
+    $('#dataTables').DataTable( {
+		"order": [[ 6, "asc" ]],
 		paging: false,
-		"info": false
-	});
-});
+		"columnDefs": [
+            {
+                "targets": [ 6 ],
+                "visible": false,
+                "searchable": false
+            }
+        ]
+    } );
+} );
 </script>
