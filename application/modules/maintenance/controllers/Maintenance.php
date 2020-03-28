@@ -223,9 +223,9 @@ class Maintenance extends CI_Controller {
 			$diferencia = $lista["next_hours_maintenance"] - $lista["hours"];
 			
 			if($lista["fk_id_maintenance_type"] == 8 || $lista["fk_id_maintenance_type"] == 9){
-				$diferencia = $lista["hours_2"] - $lista["next_hours_maintenance"];
+				$diferencia = $lista["next_hours_maintenance"] - $lista["hours_2"];
 			}elseif($lista["fk_id_maintenance_type"] == 10){
-				$diferencia = $lista["hours_3"] - $lista["next_hours_maintenance"];
+				$diferencia = $lista["next_hours_maintenance"] - $lista["hours_3"];
 			}
 				
 			$nextDateMaintenance = strtotime($lista["next_date_maintenance"]);
