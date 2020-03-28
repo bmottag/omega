@@ -33,7 +33,8 @@ $dropdown_menu = array(
                         "project" => "Maintenance",
                         "title" => "Maintenance",
                         "items" => array (
-                            array ( "reportfile" => "Maintenance list.xml" )
+                            array ( "reportfile" => "Maintenance program.xml" ),
+							array ( "reportfile" => "Maintenance list.xml" )
                             )
                         ),
                 );
