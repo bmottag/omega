@@ -15,7 +15,9 @@
             </div>
 
 <?php
-	if($infoMaintenance){ 
+	$userId = $this->session->id;
+	
+	if($infoMaintenance && ($userId == 1 || $userId == 2)){ 
 ?>						
             <!-- /.row -->
 			<div class="row">

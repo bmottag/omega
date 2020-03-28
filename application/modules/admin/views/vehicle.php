@@ -171,7 +171,7 @@ if($lista["inspection_type"] == 99 ){
 										<?php
 											$userId = $this->session->id;
 											
-											if($userId == 1){ 
+											if($userId == 1 || $userId == 2){ 
 										?>
 										<a href="<?php echo base_url("maintenance/entrance/" . $lista['id_vehicle']); ?>" class="btn btn-purpura btn-xs">Maintenance</a>
 										<?php }?>
