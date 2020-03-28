@@ -6,7 +6,7 @@ $( document ).ready( function () {
 			
 	$( "#form" ).validate( {
 		rules: {
-			amount:					{ required: true, minlength: 2, maxlength:5 },
+			amount:					{ maxlength:5 },
 			id_maintenance_type:	{ required: true },
 			description:			{ required: true, minlength: 5 },
 			done_by:				{ required: true, minlength: 3, maxlength:100 },
