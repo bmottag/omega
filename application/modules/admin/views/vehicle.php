@@ -166,7 +166,13 @@ if($lista["inspection_type"] == 99 ){
 									
 						?>
 									<div class="btn-group">
+										<?php 
+										if($lista["inspection_type"] != 99 ){
+										?>
+									
 										<a href="<?php echo base_url("admin/nextOilChange/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Inspections</a>
+										<?php }?>
+										
 										
 										<?php
 											$userId = $this->session->id;
