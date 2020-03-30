@@ -6,6 +6,7 @@ class Dashboard extends CI_Controller {
     public function __construct() {
         parent::__construct();
 		$this->load->model("dashboard_model");
+		$this->load->model("general_model");
     }
 
 	/**
@@ -116,7 +117,7 @@ class Dashboard extends CI_Controller {
 	
 	/**
 	 * Maintenance list
-     * @since 14/3/2018
+     * @since 14/3/2020
      * @author BMOTTAG
 	 */
 	public function maintenance()
@@ -126,6 +127,17 @@ class Dashboard extends CI_Controller {
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 
 			$data["view"] ='maintenance_list';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * System general info
+     * @since 28/3/2020
+     * @author BMOTTAG
+	 */
+	public function info()
+	{		
+			$data["view"] ='general_info';
 			$this->load->view("layout", $data);
 	}
 	
