@@ -15,21 +15,6 @@ $admin_menu = $menu;
 
 $dropdown_menu = array(
                     array ( 
-                        "project" => "Payroll",
-                        "title" => "Payroll",
-                        "items" => array (
-							array ( "reportfile" => "General.xml" )
-                            )
-                        ),
-                    array ( 
-                        "project" => "Incidences",
-                        "title" => "Incidences",
-                        "items" => array (
-                            array ( "reportfile" => "near_miss.xml" ),
-							array ( "reportfile" => "accident.xml" )
-                            )
-                        ),
-                    array ( 
                         "project" => "Maintenance",
                         "title" => "Maintenance",
                         "items" => array (

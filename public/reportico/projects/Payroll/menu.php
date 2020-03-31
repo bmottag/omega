@@ -21,21 +21,5 @@ $dropdown_menu = array(
 							array ( "reportfile" => "General.xml" )
                             )
                         ),
-                    array ( 
-                        "project" => "Incidences",
-                        "title" => "Incidences",
-                        "items" => array (
-                            array ( "reportfile" => "near_miss.xml" ),
-							array ( "reportfile" => "accident.xml" )
-                            )
-                        ),
-                    array ( 
-                        "project" => "Maintenance",
-                        "title" => "Maintenance",
-                        "items" => array (
-							array ( "reportfile" => "Maintenance program.xml" ),
-                            array ( "reportfile" => "Maintenance list.xml" )
-                            )
-                        ),
                 );
 ?>
