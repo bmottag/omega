@@ -68,7 +68,73 @@ class Enlaces extends CI_Controller {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-//echo $this->db->last_query(); exit;
+
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Links list
+     * @since 31/3/2020
+     * @author BMOTTAG
+	 */
+	public function links()
+	{
+			$this->load->model("general_model");
+			$arrParam = array();
+			$data['info'] = $this->general_model->get_links($arrParam);
+			
+			$data["view"] = 'links';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario link
+     * @since 31/3/2020
+     */
+    public function cargarModalLink() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idLink"] = $this->input->post("idLink");	
+			
+			$this->load->model("general_model");
+			$arrParam = array("columnOrder" => "menu_name");
+			$data['menuList'] = $this->general_model->get_menu($arrParam);
+			
+			if ($data["idLink"] != 'x') {
+				$arrParam = array("idLink" => $data["idLink"]);
+				$data['information'] = $this->general_model->get_links($arrParam);
+			}
+			
+			$this->load->view("links_modal", $data);
+    }
+	
+	/**
+	 * Update link
+     * @since 31/3/2020
+     * @author BMOTTAG
+	 */
+	public function save_link()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idLink = $this->input->post('hddId');
+			
+			$msj = "You have add a new Link!!";
+			if ($idLink != '') {
+				$msj = "You have update a Link!!";
+			}
+
+			if ($this->enlaces_model->saveLink()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
 			echo json_encode($data);
     }
 	

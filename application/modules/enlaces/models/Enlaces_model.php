@@ -94,6 +94,39 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * Add/Edit LINK
+		 * @since 31/3/2020
+		 */
+		public function saveLink() 
+		{
+				$idLink = $this->input->post('hddId');
+				
+				$data = array(
+					'fk_id_menu' => $this->input->post('id_menu'),
+					'link_name' => $this->input->post('link_name'),
+					'link_url' => $this->input->post('link_url'),
+					'link_icon' => $this->input->post('link_icon'),
+					'order' => $this->input->post('order'),
+					'link_state' => $this->input->post('link_state'),
+					'link_type' => $this->input->post('link_type')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idLink == '') {
+					$data['date_issue'] = date("Y-m-d G:i:s");
+					$query = $this->db->insert('param_menu_links', $data);			
+				} else {
+					$this->db->where('id_link', $idLink);
+					$query = $this->db->update('param_menu_links', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 	
 		
 		
