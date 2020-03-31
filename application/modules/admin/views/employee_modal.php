@@ -113,13 +113,12 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="perfil">User´s rol</label>
+					<label class="control-label" for="perfil">User role</label>					
 					<select name="perfil" id="perfil" class="form-control" required>
 						<option value="">Select...</option>
-						<option value=0 <?php if($information[0]["perfil"] == 0) { echo "selected"; }  ?>>Normal User</option>
-						<option value=1 <?php if($information[0]["perfil"] == 1) { echo "selected"; }  ?>>Admin User</option>
-						<option value=2 <?php if($information[0]["perfil"] == 2) { echo "selected"; }  ?>>Workorder User</option>
-						<option value=99 <?php if($information[0]["perfil"] == 99) { echo "selected"; }  ?>>Super Admin</option>
+						<?php for ($i = 0; $i < count($roles); $i++) { ?>
+							<option value="<?php echo $roles[$i]["id_rol"]; ?>" <?php if($information[0]["perfil"] == $roles[$i]["id_rol"]) { echo "selected"; }  ?>><?php echo $roles[$i]["rol_name"]; ?></option>	
+						<?php } ?>
 					</select>
 				</div>
 			</div>

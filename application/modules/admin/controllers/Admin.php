@@ -23,12 +23,8 @@ class Admin extends CI_Controller {
 			}
 			
 			$this->load->model("general_model");
-			$arrParam = array(
-				"table" => "user",
-				"order" => "first_name, last_name",
-				"id" => "x"
-			);
-			$data['info'] = $this->general_model->get_basic_search($arrParam);
+			$arrParam = array();
+			$data['info'] = $this->general_model->get_user($arrParam);
 			
 			$data["view"] = 'employee';
 			$this->load->view("layout", $data);
@@ -45,8 +41,11 @@ class Admin extends CI_Controller {
 			$data['information'] = FALSE;
 			$data["idEmployee"] = $this->input->post("idEmployee");	
 			
+			$this->load->model("general_model");
+			$arrParam = array("filtro" => TRUE);
+			$data['roles'] = $this->general_model->get_roles($arrParam);
+
 			if ($data["idEmployee"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "user",
 					"order" => "id_user",

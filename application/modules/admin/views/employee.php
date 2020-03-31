@@ -120,25 +120,7 @@ if($count == 10){
 								
 									echo "<td class='text-center'>" . $resultado . "</td>";
 									echo "<td class='text-center'>";
-									switch ($lista['perfil']) {
-											case 0:
-													$valor = 'Normal User';
-													$clase = "text-primary";
-													break;
-											case 1:
-													$valor = 'ADMIN';
-													$clase = "text-success";
-													break;
-											case 2:
-													$valor = 'Workorder User';
-													$clase = "text-warning";
-													break;
-											case 99:
-													$valor = 'SUPER ADMIN';
-													$clase = "text-danger";
-													break;
-									}
-									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+									echo '<p class="' . $lista['estilos'] . '"><strong>' . $lista['rol_name'] . '</strong></p>';
 									echo "</td>";
 									
 									echo "<td class='text-center'>";

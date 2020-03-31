@@ -660,31 +660,72 @@ class General_model extends CI_Model {
 			}
 		}
 		
-    /**
-     * Lista de menu
-     * Modules: MENU
-     * @since 30/3/2020
-     */
-    public function get_menu($arrData) 
-	{		
-		if (array_key_exists("idMenu", $arrData)) {
-			$this->db->where('id_menu', $arrData["idMenu"]);
+		/**
+		 * Lista de menu
+		 * Modules: MENU
+		 * @since 30/3/2020
+		 */
+		public function get_menu($arrData) 
+		{		
+			if (array_key_exists("idMenu", $arrData)) {
+				$this->db->where('id_menu', $arrData["idMenu"]);
+			}
+			if (array_key_exists("menuType", $arrData)) {
+				$this->db->where('menu_type', $arrData["menuType"]);
+			}
+			
+			$this->db->order_by('menu_order', 'asc');
+			$query = $this->db->get('param_menu');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
 		}
-		if (array_key_exists("menuType", $arrData)) {
-			$this->db->where('menu_type', $arrData["menuType"]);
+
+		/**
+		 * Lista de roles
+		 * Modules: ROL
+		 * @since 30/3/2020
+		 */
+		public function get_roles($arrData) 
+		{		
+
+			if (array_key_exists("filtro", $arrData)) {
+				$this->db->where('id_rol !=', 99);
+			}
+			
+			$this->db->order_by('rol_name', 'asc');
+			$query = $this->db->get('param_rol');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
 		}
 		
-		$this->db->order_by('menu_order', 'asc');
-		$query = $this->db->get('param_menu');
+		/**
+		 * User list
+		 * @since 30/3/2020
+		 */
+		public function get_user($arrData) 
+		{			
+			$this->db->select();
+			$this->db->join('param_rol R', 'R.id_rol = U.perfil', 'INNER');
+			if (array_key_exists("state", $arrData)) {
+				$this->db->where('U.state', $arrData["state"]);
+			}
 
-		if ($query->num_rows() > 0) {
-			return $query->result_array();
-		} else {
-			return false;
+			$this->db->order_by("first_name, last_name", "ASC");
+			$query = $this->db->get("user U");
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			} else
+				return false;
 		}
-    }
-
-
 
 
 }
