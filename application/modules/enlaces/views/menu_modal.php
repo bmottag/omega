@@ -32,7 +32,7 @@
 					<label class="control-label" for="order">Order: *</label>
 					<select name="order" id="order" class="form-control" required>
 						<option value='' >Select...</option>
-						<?php for ($i = 1; $i <= 50; $i++) { ?>
+						<?php for ($i = 1; $i <= 10; $i++) { ?>
 							<option value='<?php echo $i; ?>' <?php if ($information && $i == $information[0]["menu_order"]) { echo 'selected="selected"'; } ?> ><?php echo $i; ?></option>
 						<?php } ?>									
 					</select>
@@ -51,14 +51,25 @@
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="menu_icon">Menu icon: *</label>
+					<input type="text" id="menu_icon" name="menu_icon" class="form-control" value="<?php echo $information?$information[0]["menu_icon"]:""; ?>" placeholder="Menu icon" >
+				</div> 
+			</div>
+		</div>
+				
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
 				</div>
 			</div>
 		</div>
-		
+				
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">

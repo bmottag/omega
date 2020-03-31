@@ -3,9 +3,10 @@ $( document ).ready( function () {
 	$( "#form" ).validate( {
 		rules: {
 			menu_name:					{ required: true, minlength: 3, maxlength:50 },
-			menu_url:					{ minlength: 10, maxlength:100 },
+			menu_url:					{ minlength: 4, maxlength:100 },
 			order:						{ required: true },
-			menu_type:					{ required: true }
+			menu_type:					{ required: true },
+			menu_icon:					{ required: true, minlength: 3, maxlength:50 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

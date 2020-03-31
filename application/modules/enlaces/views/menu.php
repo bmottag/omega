@@ -75,6 +75,7 @@ if ($retornoError) {
 								<th class="text-center">Menu name</th>
 								<th class="text-center">Menu type</th>
 								<th class="text-center">Menu URL</th>
+								<th class="text-center">Menu icon</th>
 								<th class="text-center">Order</th>
 								<th class="text-center">Edit</th>
 							</tr>
@@ -98,6 +99,9 @@ if ($retornoError) {
 									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
 									echo "</td>";
 									echo "<td>" . $lista['menu_url'] . "</td>";
+									echo "<td class='text-center'>";
+									echo '<button type="button" class="btn btn-default btn-circle"><i class="fa ' . $lista['menu_icon'] . '"></i>';
+									echo "</td>";
 									echo "<td class='text-center'>" . $lista['menu_order'] . "</td>";
 
 									echo "<td class='text-center'>";
@@ -141,7 +145,7 @@ $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
 		"pageLength": 50,
-		"order": [[ 2, "asc" ]]
+		"order": [[ 1, "asc" ],[ 4, "asc" ]]
 	});
 });
 </script>
