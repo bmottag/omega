@@ -15,15 +15,22 @@ class Admin extends CI_Controller {
      * @since 15/12/2016
      * @author BMOTTAG
 	 */
-	public function employee()
+	public function employee($state)
 	{
 			$userRol = $this->session->rol;
 			if ($userRol != 99 ) { 
 				show_error('ERROR!!! - You are in the wrong place.');	
 			}
 			
+			$data['state'] = $state;
+			
 			$this->load->model("general_model");
-			$arrParam = array();
+			if($state == 1){
+				$arrParam = array("filtroState" => TRUE);
+			}else{
+				$arrParam = array("state" => $state);
+			}
+			
 			$data['info'] = $this->general_model->get_user($arrParam);
 			
 			$data["view"] = 'employee';
@@ -80,7 +87,10 @@ class Admin extends CI_Controller {
 			
 			$result_user = false;
 			$result_insurance = false;
+			$data["state"] = $this->input->post('state');
 			if ($idUser == '') {
+				$data["state"] = 1;//para el direccionamiento del JS, cuando es usuario nuevo no se envia state
+				
 				//Verify if the user already exist by the user name
 				$arrParam = array(
 					"column" => "log_user",

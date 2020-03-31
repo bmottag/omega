@@ -42,6 +42,15 @@ $(function(){
 					<i class="fa fa-users"></i> EMPLOYEE LIST
 				</div>
 				<div class="panel-body">
+				
+					<ul class="nav nav-pills">
+						<li <?php if($state == 1){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/employee/1"); ?>">List of active employees</a>
+						</li>
+						<li <?php if($state == 2){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/employee/2"); ?>">List of inactive employees</a>
+						</li>
+					</ul>
+					<br>	
+
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Employee
 					</button><br>

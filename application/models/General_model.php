@@ -717,6 +717,11 @@ class General_model extends CI_Model {
 			if (array_key_exists("state", $arrData)) {
 				$this->db->where('U.state', $arrData["state"]);
 			}
+			
+			//list without inactive users
+			if (array_key_exists("filtroState", $arrData)) {
+				$this->db->where('U.state !=', 2);
+			}
 
 			$this->db->order_by("first_name, last_name", "ASC");
 			$query = $this->db->get("user U");
