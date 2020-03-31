@@ -193,6 +193,11 @@
                         </li>
 						
 					<?php } ?>
+						
+						<li class="divider"></li>
+                        <li>
+							<a href="<?php echo base_url("dashboard/info"); ?>"><i class="fa fa-hand-o-up fa-fw"></i> User acces info</a>
+                        </li>
 
                     </ul>
                 </li>

@@ -10,6 +10,69 @@ class Enlaces extends CI_Controller {
     }
 	
 	/**
+	 * Listado Menu
+     * @since 30/3/2020
+     * @author BMOTTAG
+	 */
+	public function menu()
+	{
+			$this->load->model("general_model");
+			$arrParam = array();
+			$data['info'] = $this->general_model->get_menu($arrParam);
+
+			$data["view"] = 'menu';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario menu
+     * @since 30/3/2020
+     */
+    public function cargarModalMenu() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idMenu"] = $this->input->post("idMenu");	
+			
+			if ($data["idMenu"] != 'x') {
+				$this->load->model("general_model");
+				$arrParam = array("idMenu" => $data["idMenu"]);
+				$data['information'] = $this->general_model->get_menu($arrParam);
+			}
+			
+			$this->load->view("menu_modal", $data);
+    }
+	
+	/**
+	 * Update Menu
+     * @since 30/3/2020
+     * @author BMOTTAG
+	 */
+	public function save_menu()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idEnlace = $this->input->post('hddId');
+			
+			$msj = "You have add a new Menu link!!";
+			if ($idEnlace != '') {
+				$msj = "You have update a Menu link!!";
+			}
+
+			if ($this->enlaces_model->saveMenu()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+//echo $this->db->last_query(); exit;
+			echo json_encode($data);
+    }
+	
+	/**
 	 * Listado de enlaces
      * @since 2/4/2018
      * @author BMOTTAG

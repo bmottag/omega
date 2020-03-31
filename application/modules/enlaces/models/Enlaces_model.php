@@ -64,6 +64,35 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * Add/Edit MENU
+		 * @since 30/3/2020
+		 */
+		public function saveMenu() 
+		{
+				$idMenu = $this->input->post('hddId');
+				
+				$data = array(
+					'menu_name' => $this->input->post('menu_name'),
+					'menu_url' => $this->input->post('menu_url'),
+					'menu_order' => $this->input->post('order'),
+					'menu_type' => $this->input->post('menu_type')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idMenu == '') {
+					$query = $this->db->insert('param_menu', $data);			
+				} else {
+					$this->db->where('id_menu', $idMenu);
+					$query = $this->db->update('param_menu', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 	
 		
 		
