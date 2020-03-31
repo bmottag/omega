@@ -80,7 +80,9 @@ class Safety extends CI_Controller {
 			if ($id != 'x') {
 				
 				//workers list
-				$data['workersList'] = $this->general_model->get_user_list();//workers list
+				$arrParam = array("state" => 1);
+				$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 				
 				//safety_hazard list
 				$data['safetyHazard'] = $this->safety_model->get_safety_hazard($id);
@@ -200,7 +202,9 @@ class Safety extends CI_Controller {
 			
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 			
 			$view = 'form_add_workers';
 			$data["idSafety"] = $id;

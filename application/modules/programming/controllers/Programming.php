@@ -35,7 +35,9 @@ class Programming extends CI_Controller {
 			$data['horas'] = $this->general_model->get_horas();//LISTA DE HORAS
 			
 			//workers list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 			
 			//si hay trabajadores reviso si ya se ha hecho la inspeccion de las maquinas
 			if($data['workersList']){
@@ -146,8 +148,9 @@ class Programming extends CI_Controller {
 			$data['infoProgramming'] = $this->general_model->get_programming($arrParam);//info programacion
 			
 			//workers list
-			$arrParam = array();
-			$data['workersList'] = $this->general_model->get_user_list($arrParam);//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 			
 			$data["idProgramming"] = $idProgramming;
 			$data["view"] = 'form_add_workers';

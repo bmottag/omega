@@ -100,7 +100,8 @@ class Jobs extends CI_Controller {
 				$data['toolBoxSubcontractorsWorkers'] = $this->jobs_model->get_tool_box_subcontractors_workers($idToolBox);
 				
 				//workers list
-				$data['workersList'] = $this->general_model->get_user_list();//workers list
+				$arrParam = array("state" => 1);
+				$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 				
 				if (!$data['information']) { 
 					show_error('ERROR!!! - You are in the wrong place.');	
@@ -341,7 +342,8 @@ class Jobs extends CI_Controller {
 			
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 			
 			$view = 'form_add_workers';
 			$data["idToolBox"] = $idToolBox;
@@ -426,7 +428,8 @@ class Jobs extends CI_Controller {
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//worker´s list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 						
 			//ERP info
 			$arrParam = array(
@@ -482,7 +485,8 @@ class Jobs extends CI_Controller {
 			
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 			
 			$view = 'form_add_workers_training';
 			$data["idJob"] = $id;
@@ -1152,8 +1156,8 @@ ob_end_clean();
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//workers list
-			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 
 			//JSO info
 			$arrParam = array("idJob" => $idJob);
@@ -1452,7 +1456,8 @@ ob_end_clean();
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//worker´s list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 						
 			//ERP info
 			$arrParam = array(

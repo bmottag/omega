@@ -352,23 +352,7 @@ class General_model extends CI_Model {
 				return false;
 			}
 	}
-	
-    /**
-     * Active User list
-     * @since 15/4/2017
-     */
-    public function get_user_list() 
-	{
-		$this->db->where("state", 1);
-        $this->db->order_by("first_name, last_name", "ASC");
-        $query = $this->db->get("user");
-
-        if ($query->num_rows() >= 1) {
-            return $query->result_array();
-        } else
-            return false;
-    }
-	
+		
 	/**
 	 * Get job hazard info
 	 * @since 27/11/2017

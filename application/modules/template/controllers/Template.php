@@ -109,7 +109,9 @@ class Template extends CI_Controller {
 								
 				//workers list
 				$this->load->model("general_model");
-				$data['workersList'] = $this->general_model->get_user_list();//workers list
+				$arrParam = array("state" => 1);
+				$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 				
 				//safety_workes list
 				$data['templateWorkers'] = $this->template_model->get_templates_workers($id);
@@ -133,7 +135,9 @@ class Template extends CI_Controller {
 			
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 			
 			$view = 'form_add_workers';
 			$data["idTemplate"] = $id;

@@ -177,7 +177,9 @@ class Workorders extends CI_Controller {
 		
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 			
 			//employee type list
 			$arrParam = array(
@@ -296,7 +298,9 @@ class Workorders extends CI_Controller {
 			$data['equipmentType'] = $this->general_model->get_basic_search($arrParam);//equipmentType list
 			
 			//workers list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 
 			$this->load->view("modal_equipment", $data);
     }	

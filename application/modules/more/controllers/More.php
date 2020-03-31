@@ -55,7 +55,8 @@ class More extends CI_Controller {
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//worker´s list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 			
 			//si envio el id, entonces busco la informacion 
 			if ($idEnvironmental != 'x') {
@@ -334,7 +335,8 @@ class More extends CI_Controller {
 				
 				//workers list
 				$this->load->model("general_model");
-				$data['workersList'] = $this->general_model->get_user_list();//workers list
+				$arrParam = array("state" => 1);
+				$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 				
 				if (!$data['information']) { 
 					show_error('ERROR!!! - You are in the wrong place.');	
@@ -429,7 +431,8 @@ class More extends CI_Controller {
 			
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 			
 			$data["idPPEInspection"] = $idPPEInspection;
 			
@@ -691,7 +694,8 @@ class More extends CI_Controller {
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//workers list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 						
 			//si envio el id, entonces busco la informacion 
 			if ($idConfined != 'x') 
@@ -760,7 +764,8 @@ class More extends CI_Controller {
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//workers list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 						
 			//si envio el id, entonces busco la informacion 
 			if ($idConfined != 'x') 
@@ -794,7 +799,9 @@ class More extends CI_Controller {
 			
 			//workers list
 			$this->load->model("general_model");
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 			
 			$view = 'form_add_workers_confined';
 			$data["idConfined"] = $idConfined;
@@ -1128,7 +1135,9 @@ class More extends CI_Controller {
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
 			//workers list
-			$data['workersList'] = $this->general_model->get_user_list();//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
 									
 			//si envio el id, entonces busco la informacion 
 			$arrParam = array(
