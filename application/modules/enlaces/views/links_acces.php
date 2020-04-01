@@ -24,7 +24,7 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - LINKS
+					<i class="fa fa-cogs fa-fw"></i> MANAGE SYSTEM ACCES 
 					</h4>
 				</div>
 			</div>
@@ -37,11 +37,11 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-hand-o-up"></i> LINKS ACCES
+					<i class="fa fa-puzzle-piece"></i> ROLE ACCES
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Link Acces
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Role Acces
 					</button><br>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -78,6 +78,7 @@ if ($retornoError) {
 								<th class="text-center">Link name</th>
 								<th class="text-center">Rol name</th>
 								<th class="text-center">Edit/Delete</th>
+								<th class="text-center">Menu Type</th>
 								<th class="text-center">Menu Order</th>
 								<th class="text-center">Link order</th>
 							</tr>
@@ -88,7 +89,10 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['menu_name'] . "</td>";
 									echo "<td>" . $lista['link_name'] . "</td>";
-									echo "<td>" . $lista['rol_name'] . "</td>";
+									echo "<td class='text-center'>";
+									echo '<p class="' . $lista['estilos'] . '"><strong>' . $lista['rol_name'] . '</strong></p>';
+									echo "</td>";
+									
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_permiso']; ?>" >
@@ -100,6 +104,7 @@ if ($retornoError) {
 									</button>
 						<?php
 									echo "</td>";
+									echo "<td>" . $lista['menu_type'] . "</td>";
 									echo "<td>" . $lista['menu_order'] . "</td>";
 									echo "<td>" . $lista['order'] . "</td>";
 									echo "</tr>";
@@ -134,7 +139,7 @@ if ($retornoError) {
 <script>
 $(document).ready(function() {
     $('#dataTables').DataTable( {
-		"order": [[ 4, "asc" ],[ 5, "asc" ]],
+		"order": [[ 2, "asc" ],[ 4, "asc" ],[ 5, "asc" ],[ 6, "asc" ]],
 		paging: false,
 		"columnDefs": [
             {
@@ -144,6 +149,11 @@ $(document).ready(function() {
             },
             {
                 "targets": [ 5 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 6 ],
                 "visible": false,
                 "searchable": false
             }

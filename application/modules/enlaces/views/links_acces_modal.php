@@ -3,8 +3,8 @@
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Links Acces
-	<br><small>Add/Edit Links Acces</small>
+	<h4 class="modal-title" id="exampleModalLabel">Rol Acces
+	<br><small>Add/Edit Rol Acces</small>
 	</h4>
 </div>
 

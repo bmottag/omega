@@ -754,7 +754,7 @@ class General_model extends CI_Model {
 		 */
 		public function get_links_acces($arrData) 
 		{		
-			$this->db->select('P.id_permiso, P.fk_id_menu, P.fk_id_link, P.fk_id_rol, M.menu_name, M.menu_order, L.link_name, L.order, R.rol_name');
+			$this->db->select('P.id_permiso, P.fk_id_menu, P.fk_id_link, P.fk_id_rol, M.menu_name, M.menu_order, M.menu_type, L.link_name, L.order, L.link_icon, R.rol_name, R.estilos');
 			$this->db->join('param_menu M', 'M.id_menu = P.fk_id_menu', 'INNER');
 			$this->db->join('param_menu_links L', 'L.id_link = P.fk_id_link', 'LEFT');
 			$this->db->join('param_rol R', 'R.id_rol = P.fk_id_rol', 'INNER');

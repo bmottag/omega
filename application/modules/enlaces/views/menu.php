@@ -22,7 +22,7 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - MENU
+					<i class="fa fa-cogs fa-fw"></i> MANAGE SYSTEM ACCES 
 					</h4>
 				</div>
 			</div>
@@ -35,7 +35,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-hand-o-up"></i> MENU LINKS
+					<i class="fa fa-link"></i> MENU
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
