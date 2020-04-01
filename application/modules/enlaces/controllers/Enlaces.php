@@ -139,6 +139,93 @@ class Enlaces extends CI_Controller {
     }
 	
 	/**
+	 * Acces list
+     * @since 31/3/2020
+     * @author BMOTTAG
+	 */
+	public function link_acces()
+	{
+			$this->load->model("general_model");
+			$arrParam = array();
+			$data['info'] = $this->general_model->get_links_acces($arrParam);
+
+			$data["view"] = 'links_acces';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario Acess
+     * @since 31/3/2020
+     */
+    public function cargarModalLinkAcces() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idPermiso"] = $this->input->post("idPermiso");	
+			
+			$this->load->model("general_model");
+			$arrParam = array("columnOrder" => "menu_name");
+			$data['menuList'] = $this->general_model->get_menu($arrParam);
+			
+			$arrParam = array();
+			$data['roles'] = $this->general_model->get_roles($arrParam);
+			
+			if ($data["idPermiso"] != 'x') {
+				$arrParam = array("idPermiso" => $data["idPermiso"]);
+				$data['information'] = $this->general_model->get_links_acces($arrParam);
+			}
+			
+			$this->load->view("links_acces_modal", $data);
+    }
+	
+	/**
+	 * Update acces
+     * @since 31/3/2020
+     * @author BMOTTAG
+	 */
+	public function save_link_acces()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idPermiso = $this->input->post('hddId');
+			
+			$msj = "You have add a new Acces!!";
+			if ($idPermiso != '') {
+				$msj = "You have update a Acces!!";
+			}
+			
+			//para verificar si ya existe este permiso
+			$result_access = FALSE;
+
+			$this->load->model("general_model");
+			$arrParam = array(
+				"idMenu" => $this->input->post('id_menu'),
+				"idLink" => $this->input->post('id_link'),
+				"idRol" => $this->input->post('id_rol')
+			);
+			$result_access = $this->general_model->get_links_acces($arrParam);
+			
+			if ($result_access) {
+				$data["result"] = "error";
+				$data["mensaje"] = " Error. The acces already exist.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The acces already exist.');
+			} else {
+				if ($this->enlaces_model->saveLinkAccess()) {
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', $msj);
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = " Error. Ask for help.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}
+			
+			echo json_encode($data);
+    }
+	
+	/**
 	 * Listado de enlaces
      * @since 2/4/2018
      * @author BMOTTAG
@@ -299,7 +386,27 @@ class Enlaces extends CI_Controller {
 			redirect(base_url('jobs/locates/' . $idJob), 'refresh');
     }
 
-	
+	/**
+	 * Link list by menu
+     * @since 1/4/2020
+     * @author BMOTTAG
+	 */
+    public function linkListInfo() {
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+        $idMenu = $this->input->post('idMenu');
+				
+		//busco info tabla de stock
+		$this->load->model("general_model");
+		$arrParam = array("idMenu" => $idMenu);
+		$linkList = $this->general_model->get_links($arrParam);
+
+        echo "<option value=''>Select...</option>";
+        if ($linkList) {
+            foreach ($linkList as $fila) {
+                echo "<option value='" . $fila["id_link"] . "' >" . $fila["link_name"] . "</option>";
+            }
+        }
+    }	
 	
 
 

@@ -737,9 +737,43 @@ class General_model extends CI_Model {
 				$this->db->where('id_link', $arrData["idLink"]);
 			}
 			
-			$this->db->order_by('menu_order', 'asc');
 			$this->db->order_by('M.menu_order, L.order', 'asc');
 			$query = $this->db->get('param_menu_links L');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+		
+		/**
+		 * Lista de permisos
+		 * Modules: MENU
+		 * @since 31/3/2020
+		 */
+		public function get_links_acces($arrData) 
+		{		
+			$this->db->select('P.id_permiso, P.fk_id_link, M.menu_name, M.menu_order, L.link_name, L.order, R.rol_name');
+			$this->db->join('param_menu M', 'M.id_menu = P.fk_id_menu', 'INNER');
+			$this->db->join('param_menu_links L', 'L.id_link = P.fk_id_link', 'LEFT');
+			$this->db->join('param_rol R', 'R.id_rol = P.fk_id_rol', 'INNER');
+			
+			if (array_key_exists("idPermiso", $arrData)) {
+				$this->db->where('id_permiso', $arrData["idPermiso"]);
+			}
+			if (array_key_exists("idMenu", $arrData)) {
+				$this->db->where('P.fk_id_menu', $arrData["idMenu"]);
+			}
+			if (array_key_exists("idLink", $arrData)) {
+				$this->db->where('P.fk_id_link', $arrData["idLink"]);
+			}
+			if (array_key_exists("idRol", $arrData)) {
+				$this->db->where('P.fk_id_rol', $arrData["idRol"]);
+			}
+			
+			$this->db->order_by('M.menu_order, L.order', 'asc');
+			$query = $this->db->get('param_menu_permisos P');
 
 			if ($query->num_rows() > 0) {
 				return $query->result_array();

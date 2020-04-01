@@ -127,6 +127,35 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * Add/Edit LINK ACCES
+		 * @since 1/4/2020
+		 */
+		public function saveLinkAccess() 
+		{
+				$idPermiso = $this->input->post('hddId');
+				
+				$data = array(
+					'fk_id_menu' => $this->input->post('id_menu'),
+					'fk_id_link' => $this->input->post('id_link'),
+					'fk_id_rol' => $this->input->post('id_rol')
+
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idPermiso == '') {
+					$query = $this->db->insert('param_menu_permisos', $data);			
+				} else {
+					$this->db->where('id_permiso', $idPermiso);
+					$query = $this->db->update('param_menu_permisos', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 	
 		
 		
