@@ -752,7 +752,7 @@ class General_model extends CI_Model {
 		 * Modules: MENU
 		 * @since 31/3/2020
 		 */
-		public function get_links_acces($arrData) 
+		public function get_role_access($arrData) 
 		{		
 			$this->db->select('P.id_permiso, P.fk_id_menu, P.fk_id_link, P.fk_id_rol, M.menu_name, M.menu_order, M.menu_type, L.link_name, L.order, L.link_icon, R.rol_name, R.estilos');
 			$this->db->join('param_menu M', 'M.id_menu = P.fk_id_menu', 'INNER');

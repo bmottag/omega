@@ -22,7 +22,7 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-cogs fa-fw"></i> MANAGE SYSTEM ACCES 
+					<i class="fa fa-cogs fa-fw"></i> MANAGE SYSTEM ACCESS
 					</h4>
 				</div>
 			</div>

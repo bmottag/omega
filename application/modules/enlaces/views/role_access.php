@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/links_acces.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/role_access.js"); ?>"></script>
 
 <script>
 $(function(){ 
@@ -6,7 +6,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'enlaces/cargarModalLinkAcces',
+				url: base_url + 'enlaces/cargarModalRoleAccess',
                 data: {'idPermiso': oID},
                 cache: false,
                 success: function (data) {
@@ -24,7 +24,7 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-cogs fa-fw"></i> MANAGE SYSTEM ACCES 
+					<i class="fa fa-cogs fa-fw"></i> MANAGE SYSTEM ACCESS 
 					</h4>
 				</div>
 			</div>
@@ -37,11 +37,11 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-puzzle-piece"></i> ROLE ACCES
+					<i class="fa fa-puzzle-piece"></i> ROLE ACCESS
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Role Acces
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Role Access
 					</button><br>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');

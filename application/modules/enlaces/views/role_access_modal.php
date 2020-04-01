@@ -1,10 +1,10 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/links_acces.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/role_access.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/ajaxAccessLinks.js"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Rol Acces
-	<br><small>Add/Edit Rol Acces</small>
+	<h4 class="modal-title" id="exampleModalLabel">Role Access
+	<br><small>Add/Edit Role Access</small>
 	</h4>
 </div>
 

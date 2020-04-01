@@ -139,25 +139,25 @@ class Enlaces extends CI_Controller {
     }
 	
 	/**
-	 * Acces list
+	 * Access list
      * @since 31/3/2020
      * @author BMOTTAG
 	 */
-	public function link_acces()
+	public function role_access()
 	{
 			$this->load->model("general_model");
 			$arrParam = array();
-			$data['info'] = $this->general_model->get_links_acces($arrParam);
+			$data['info'] = $this->general_model->get_role_access($arrParam);
 
-			$data["view"] = 'links_acces';
+			$data["view"] = 'role_access';
 			$this->load->view("layout", $data);
 	}
 	
     /**
-     * Cargo modal - formulario Acess
+     * Cargo modal - formulario Acesss
      * @since 31/3/2020
      */
-    public function cargarModalLinkAcces() 
+    public function cargarModalRoleAccess() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
@@ -174,31 +174,31 @@ class Enlaces extends CI_Controller {
 			
 			if ($data["idPermiso"] != 'x') {
 				$arrParam = array("idPermiso" => $data["idPermiso"]);
-				$data['information'] = $this->general_model->get_links_acces($arrParam);
+				$data['information'] = $this->general_model->get_role_access($arrParam);
 				
 				//busca lista de links para el menu guardado
 				$arrParam = array("idMenu" => $data['information'][0]['fk_id_menu']);
 				$data['linkList'] = $this->general_model->get_links($arrParam);
 			}
 			
-			$this->load->view("links_acces_modal", $data);
+			$this->load->view("role_access_modal", $data);
     }
 	
 	/**
-	 * Update acces
+	 * Update access
      * @since 31/3/2020
      * @author BMOTTAG
 	 */
-	public function save_link_acces()
+	public function save_role_access()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
 			
 			$idPermiso = $this->input->post('hddId');
 			
-			$msj = "You have add a new Acces!!";
+			$msj = "You have add a new Access!!";
 			if ($idPermiso != '') {
-				$msj = "You have update a Acces!!";
+				$msj = "You have update a Access!!";
 			}
 			
 			//para verificar si ya existe este permiso
@@ -210,14 +210,14 @@ class Enlaces extends CI_Controller {
 				"idLink" => $this->input->post('id_link'),
 				"idRol" => $this->input->post('id_rol')
 			);
-			$result_access = $this->general_model->get_links_acces($arrParam);
+			$result_access = $this->general_model->get_role_access($arrParam);
 			
 			if ($result_access) {
 				$data["result"] = "error";
-				$data["mensaje"] = " Error. The acces already exist.";
-				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The acces already exist.');
+				$data["mensaje"] = " Error. The access already exist.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The access already exist.');
 			} else {
-				if ($this->enlaces_model->saveLinkAccess()) {
+				if ($this->enlaces_model->saveRoleAccess()) {
 					$data["result"] = true;
 					$this->session->set_flashdata('retornoExito', $msj);
 				} else {
@@ -417,7 +417,7 @@ class Enlaces extends CI_Controller {
 	 * Delete link acces
      * @since 1/4/2020
 	 */
-	public function delete_link_acces()
+	public function delete_role_access()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
@@ -434,7 +434,7 @@ class Enlaces extends CI_Controller {
 			if ($this->general_model->deleteRecord($arrParam)) 
 			{
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have delete the link acces.');
+				$this->session->set_flashdata('retornoExito', 'You have delete the role access.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

@@ -129,10 +129,10 @@
 		}
 		
 		/**
-		 * Add/Edit LINK ACCES
+		 * Add/Edit LINK ACCESS
 		 * @since 1/4/2020
 		 */
-		public function saveLinkAccess() 
+		public function saveRoleAccess() 
 		{
 				$idPermiso = $this->input->post('hddId');
 				

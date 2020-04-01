@@ -27,12 +27,12 @@ $( document ).ready( function () {
 			var oID = $(this).attr("id");
 			
 			//Activa icono guardando
-			if(window.confirm('Are you sure to delete the link acces?'))
+			if(window.confirm('Are you sure to delete the link access?'))
 			{
 					$(".btn-danger").attr('disabled','-1');
 					$.ajax ({
 						type: 'POST',
-						url: base_url + 'enlaces/delete_link_acces',
+						url: base_url + 'enlaces/delete_role_access',
 						data: {'identificador': oID},
 						cache: false,
 						success: function(data){
@@ -48,7 +48,7 @@ $( document ).ready( function () {
 							{	                                                        
 								$(".btn-danger").removeAttr('disabled');
 
-								var url = base_url + "enlaces/link_acces";
+								var url = base_url + "enlaces/role_access";
 								$(location).attr("href", url);
 							}
 							else
@@ -77,7 +77,7 @@ $( document ).ready( function () {
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "enlaces/save_link_acces",	
+					url: base_url + "enlaces/save_role_access",	
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -100,7 +100,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "enlaces/link_acces";
+							var url = base_url + "enlaces/role_access";
 							$(location).attr("href", url);
 						}
 						else
