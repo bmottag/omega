@@ -162,6 +162,7 @@ class Enlaces extends CI_Controller {
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
+			$data['linkList'] = FALSE;
 			$data["idPermiso"] = $this->input->post("idPermiso");	
 			
 			$this->load->model("general_model");
@@ -174,6 +175,10 @@ class Enlaces extends CI_Controller {
 			if ($data["idPermiso"] != 'x') {
 				$arrParam = array("idPermiso" => $data["idPermiso"]);
 				$data['information'] = $this->general_model->get_links_acces($arrParam);
+				
+				//busca lista de links para el menu guardado
+				$arrParam = array("idMenu" => $data['information'][0]['fk_id_menu']);
+				$data['linkList'] = $this->general_model->get_links($arrParam);
 			}
 			
 			$this->load->view("links_acces_modal", $data);

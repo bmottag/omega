@@ -27,7 +27,7 @@
 		
 <?php 
 	$mostrar = "none";
-	if($information && !IS_NULL($information[0]["fk_id_link"]) && $information[0]["fk_id_link"] > 0){
+	if($information && !IS_NULL($information[0]["fk_id_link"]) && $information[0]["fk_id_link"] > 0 && $linkList){
 		$mostrar = "inline";
 	}
 ?>
@@ -36,7 +36,10 @@
 				<div class="form-group text-left">
 					<label class="control-label" for="perfil">Link name : *</label>
 					<select name="id_link" id="id_link" class="form-control" >
-					
+						<option value="">Select...</option>
+						<?php for ($i = 0; $i < count($linkList); $i++) { ?>
+							<option value="<?php echo $linkList[$i]["id_link"]; ?>" <?php if($information[0]["fk_id_link"] == $linkList[$i]["id_link"]) { echo "selected"; }  ?>><?php echo $linkList[$i]["link_name"]; ?></option>	
+						<?php } ?>					
 					</select>
 				</div>
 			</div>
