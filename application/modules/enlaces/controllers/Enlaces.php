@@ -413,6 +413,37 @@ class Enlaces extends CI_Controller {
         }
     }	
 	
+	/**
+	 * Delete link acces
+     * @since 1/4/2020
+	 */
+	public function delete_link_acces()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idPermiso = $this->input->post('identificador');
+			
+			$arrParam = array(
+				"table" => "param_menu_permisos",
+				"primaryKey" => "id_permiso",
+				"id" => $idPermiso
+			);
+			
+			$this->load->model("general_model");
+			if ($this->general_model->deleteRecord($arrParam)) 
+			{
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', 'You have delete the link acces.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			
+			echo json_encode($data);
+    }
+	
 
 
 	

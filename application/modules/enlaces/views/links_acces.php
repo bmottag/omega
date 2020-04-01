@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/links_acces.js"); ?>"></script>
+
 <script>
 $(function(){ 
 	$(".btn-success").click(function () {	
@@ -75,7 +77,7 @@ if ($retornoError) {
 								<th class="text-center">Menu name</th>
 								<th class="text-center">Link name</th>
 								<th class="text-center">Rol name</th>
-								<th class="text-center">Edit</th>
+								<th class="text-center">Edit/Delete</th>
 								<th class="text-center">Menu Order</th>
 								<th class="text-center">Link order</th>
 							</tr>
@@ -91,6 +93,10 @@ if ($retornoError) {
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_permiso']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									</button>
+									
+									<button type="button" id="<?php echo $lista['id_permiso']; ?>" class='btn btn-danger btn-xs' title="Delete">
+											<i class="fa fa-trash-o"></i>
 									</button>
 						<?php
 									echo "</td>";
