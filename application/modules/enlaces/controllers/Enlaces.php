@@ -208,7 +208,7 @@ class Enlaces extends CI_Controller {
 			$arrParam = array(
 				"idMenu" => $this->input->post('id_menu'),
 				"idLink" => $this->input->post('id_link'),
-				"idRol" => $this->input->post('id_rol')
+				"idRole" => $this->input->post('id_rol')
 			);
 			$result_access = $this->general_model->get_role_access($arrParam);
 			

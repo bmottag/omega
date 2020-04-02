@@ -754,7 +754,7 @@ class General_model extends CI_Model {
 		 */
 		public function get_role_access($arrData) 
 		{		
-			$this->db->select('P.id_permiso, P.fk_id_menu, P.fk_id_link, P.fk_id_rol, M.menu_name, M.menu_order, M.menu_type, L.link_name, L.order, L.link_icon, R.rol_name, R.estilos');
+			$this->db->select('P.id_permiso, P.fk_id_menu, P.fk_id_link, P.fk_id_rol, M.menu_name, M.menu_order, M.menu_type, L.link_name, L.link_url, L.order, L.link_icon, L.link_type, R.rol_name, R.estilos');
 			$this->db->join('param_menu M', 'M.id_menu = P.fk_id_menu', 'INNER');
 			$this->db->join('param_menu_links L', 'L.id_link = P.fk_id_link', 'LEFT');
 			$this->db->join('param_rol R', 'R.id_rol = P.fk_id_rol', 'INNER');
@@ -768,11 +768,42 @@ class General_model extends CI_Model {
 			if (array_key_exists("idLink", $arrData)) {
 				$this->db->where('P.fk_id_link', $arrData["idLink"]);
 			}
-			if (array_key_exists("idRol", $arrData)) {
-				$this->db->where('P.fk_id_rol', $arrData["idRol"]);
+			if (array_key_exists("idRole", $arrData)) {
+				$this->db->where('P.fk_id_rol', $arrData["idRole"]);
+			}
+			if (array_key_exists("menuType", $arrData)) {
+				$this->db->where('M.menu_type', $arrData["menuType"]);
 			}
 			
 			$this->db->order_by('M.menu_order, L.order', 'asc');
+			$query = $this->db->get('param_menu_permisos P');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+		
+		/**
+		 * menu list for a role
+		 * Modules: MENU
+		 * @since 2/4/2020
+		 */
+		public function get_role_menu($arrData) 
+		{		
+			$this->db->select();
+			$this->db->join('param_menu M', 'M.id_menu = P.fk_id_menu', 'INNER');
+
+			if (array_key_exists("idRole", $arrData)) {
+				$this->db->where('P.fk_id_rol', $arrData["idRole"]);
+			}
+			if (array_key_exists("menuType", $arrData)) {
+				$this->db->where('M.menu_type', $arrData["menuType"]);
+			}
+						
+			$this->db->group_by("P.fk_id_menu"); 
+			$this->db->order_by('M.menu_order', 'asc');
 			$query = $this->db->get('param_menu_permisos P');
 
 			if ($query->num_rows() > 0) {
