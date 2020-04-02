@@ -4,8 +4,8 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'enlaces/cargarModalEnlace',
-                data: {'idEnlace': oID},
+				url: base_url + 'enlaces/cargarModalVideoLinks',
+                data: {'idLink': oID},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -35,7 +35,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-hand-o-up"></i> LINKS TO VIDEO LIST
+					<i class="fa fa-hand-o-up"></i> VIDEOS LINKS LIST
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
@@ -73,7 +73,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Link name</th>
-								<th class="text-center">Link</th>
+								<th class="text-center">Link URL</th>
 								<th class="text-center">Order</th>
 								<th class="text-center">State</th>
 								<th class="text-center">Edit</th>
@@ -83,11 +83,11 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['enlace_name'] . "</td>";
-									echo "<td>" . $lista['enlace'] . "</td>";
-									echo "<td class='text-center'>" . $lista['order'] . "</td>";
+									echo "<td>" . $lista['link_name'] . "</td>";
+									echo "<td>" . $lista['link_url'] . "</td>";
+									echo "<td>" . $lista['order'] . "</td>";
 									echo "<td class='text-center'>";
-									switch ($lista['enlace_estado']) {
+									switch ($lista['link_state']) {
 										case 1:
 											$valor = 'Active';
 											$clase = "text-success";
@@ -101,7 +101,7 @@ if ($retornoError) {
 									echo "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_enlace']; ?>" >
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_link']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php

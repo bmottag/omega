@@ -1,27 +1,27 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/enlaces.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/enlaces/videos.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Links to video
+	<h4 class="modal-title" id="exampleModalLabel">Video link
 	<br><small>Add/Edit Links</small>
 	</h4>
 </div>
 
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
-		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_enlace"]:""; ?>"/>
+		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_link"]:""; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="enlace_name">Link name : *</label>
-					<input type="text" id="enlace_name" name="enlace_name" class="form-control" value="<?php echo $information?$information[0]["enlace_name"]:""; ?>" placeholder="Link name" required >
+					<label class="control-label" for="link_name">Link name : *</label>
+					<input type="text" id="link_name" name="link_name" class="form-control" value="<?php echo $information?$information[0]["link_name"]:""; ?>" placeholder="Link name" required >
 				</div> 
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="enlace">Link : *</label>
-					<input type="text" id="enlace" name="enlace" class="form-control" value="<?php echo $information?$information[0]["enlace"]:""; ?>" placeholder="Link" required >
+					<label class="control-label" for="link_url">Link URL : *</label>
+					<input type="text" id="link_url" name="link_url" class="form-control" value="<?php echo $information?$information[0]["link_url"]:""; ?>" placeholder="Link URL" required >
 				</div> 
 			</div>
 		</div>
@@ -41,11 +41,11 @@
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="enlace_estado">State : *</label>
-					<select name="enlace_estado" id="enlace_estado" class="form-control" required>
+					<label class="control-label" for="link_state">State : *</label>
+					<select name="link_state" id="link_state" class="form-control" required>
 						<option value=''>Select...</option>
-						<option value=1 <?php if($information[0]["enlace_estado"] == 1) { echo "selected"; }  ?>>Active</option>
-						<option value=2 <?php if($information[0]["enlace_estado"] == 2) { echo "selected"; }  ?>>Inactive</option>
+						<option value=1 <?php if($information[0]["link_state"] == 1) { echo "selected"; }  ?>>Active</option>
+						<option value=2 <?php if($information[0]["link_state"] == 2) { echo "selected"; }  ?>>Inactive</option>
 					</select>
 				</div>
 			</div>

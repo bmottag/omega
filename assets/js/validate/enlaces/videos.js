@@ -2,10 +2,10 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
-			enlace_name:				{ required: true, minlength: 3, maxlength:50 },
-			enlace:						{ required: true, minlength: 10, maxlength:150 },
-			order:						{ required: true },
-			enlace_estado:				{ required: true }
+			link_name:				{ required: true, minlength: 3, maxlength:50 },
+			link_url:				{ required: true, minlength: 4, maxlength:100 },
+			order:					{ required: true },
+			link_state:				{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -36,7 +36,7 @@ $( document ).ready( function () {
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "enlaces/save_enlace",	
+					url: base_url + "enlaces/save_video",	
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -56,7 +56,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "enlaces";
+							var url = base_url + "enlaces/videos";
 							$(location).attr("href", url);
 						}
 						else

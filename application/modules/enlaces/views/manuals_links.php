@@ -58,7 +58,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Link name</th>
-								<th class="text-center">Link</th>
+								<th class="text-center">Link URL</th>
 								<th class="text-center">Order</th>
 								<th class="text-center">State</th>
 								<th class="text-center">Edit</th>

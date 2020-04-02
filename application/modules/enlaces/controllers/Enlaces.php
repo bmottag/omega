@@ -235,13 +235,14 @@ class Enlaces extends CI_Controller {
      * @since 2/4/2018
      * @author BMOTTAG
 	 */
-	public function index()
+	public function videos()
 	{
 			$this->load->model("general_model");
-			$arrParam = array("tipoEnlace" => 1);
-			$data['info'] = $this->general_model->get_enlaces($arrParam);
 			
-			$data["view"] = 'enlaces';
+			$arrParam = array("linkType" => 4);
+			$data['info'] = $this->general_model->get_links($arrParam);
+			
+			$data["view"] = 'videos_links';
 			$this->load->view("layout", $data);
 	}
 	
@@ -249,20 +250,20 @@ class Enlaces extends CI_Controller {
      * Cargo modal - formulario enlace
      * @since 2/4/2018
      */
-    public function cargarModalEnlace() 
+    public function cargarModalVideoLinks() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
-			$data["idEnlace"] = $this->input->post("idEnlace");	
+			$this->load->model("general_model");
+			$idLink = $this->input->post("idLink");	
 			
-			if ($data["idEnlace"] != 'x') {
-				$this->load->model("general_model");
-				$arrParam = array("idEnlace" => $data["idEnlace"]);
-				$data['information'] = $this->general_model->get_enlaces($arrParam);
+			if ($idLink != 'x') {
+				$arrParam = array("idLink" => $idLink);
+				$data['information'] = $this->general_model->get_links($arrParam);
 			}
 			
-			$this->load->view("enlaces_modal", $data);
+			$this->load->view("videos_modal", $data);
     }
 	
 	/**
@@ -270,19 +271,19 @@ class Enlaces extends CI_Controller {
      * @since 2/4/2018
      * @author BMOTTAG
 	 */
-	public function save_enlace()
+	public function save_video()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$idEnlace = $this->input->post('hddId');
+			$idLink = $this->input->post('hddId');
 			
 			$msj = "You have add a new Link!!";
-			if ($idEnlace != '') {
+			if ($idLink != '') {
 				$msj = "You have update a Link!!";
 			}
 
-			if ($this->enlaces_model->saveEnlace()) {
+			if ($this->enlaces_model->saveVideo()) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
