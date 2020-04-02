@@ -104,7 +104,7 @@
 								$leftMenu .= '<a href="' . $linkURL . '" > ' . $list['link_name'] . '</a>';
 								$leftMenu .= '</li>';
 							//Complete URL
-							}elseif($list['link_type'] == 2){
+							}elseif($list['link_type'] == 2 || $list['link_type'] == 4 || $list['link_type'] == 5){
 								$linkURL = $list['link_url'];
 								
 								$leftMenu .= '<li>';
@@ -161,7 +161,7 @@
 								$topMenu .= '<a href="' . $linkURL . '" ><i class="fa ' . $list['link_icon'] . ' fa-fw"></i> ' . $list['link_name'] . '</a>';
 								$topMenu .= '</li>';
 							//Complete URL
-							}elseif($list['link_type'] == 2){
+							}elseif($list['link_type'] == 2 || $list['link_type'] == 4 || $list['link_type'] == 5){
 								$linkURL = $list['link_url'];
 								
 								$topMenu .= '<li>';

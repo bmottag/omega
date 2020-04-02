@@ -82,6 +82,8 @@
 						<option value=1 <?php if($information[0]["link_type"] == 1) { echo "selected"; }  ?>>System URL</option>
 						<option value=2 <?php if($information[0]["link_type"] == 2) { echo "selected"; }  ?>>Complete URL</option>
 						<option value=3 <?php if($information[0]["link_type"] == 3) { echo "selected"; }  ?>>Divider</option>
+						<option value=4 <?php if($information[0]["link_type"] == 4) { echo "selected"; }  ?>>Complete URL; Video</option>
+						<option value=5 <?php if($information[0]["link_type"] == 5) { echo "selected"; }  ?>>Complete URL; Manual</option>
 					</select>
 				</div>
 			</div>

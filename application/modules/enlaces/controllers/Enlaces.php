@@ -298,14 +298,14 @@ class Enlaces extends CI_Controller {
      * @since 27/4/2018
      * @author BMOTTAG
 	 */
-	public function manuales()
+	public function manuals()
 	{
 			$this->load->model("general_model");
 			
-			$arrParam = array("tipoEnlace" => 2);
-			$data['info'] = $this->general_model->get_enlaces($arrParam);
+			$arrParam = array("linkType" => 5);
+			$data['info'] = $this->general_model->get_links($arrParam);
 			
-			$data["view"] = 'enlaces_manuales';
+			$data["view"] = 'manuals_links';
 			$this->load->view("layout", $data);
 	}
 	
@@ -314,19 +314,19 @@ class Enlaces extends CI_Controller {
      * @since 27/4/2018
      * @author BMOTTAG
 	 */
-	public function manuales_form($idEnlace = 'x', $error = '')
+	public function manuals_form($idLink = 'x', $error = '')
 	{			
 			$data['information'] = FALSE;
+			$this->load->model("general_model");
 
-			if ($idEnlace != 'x' && $idEnlace != '') {
-				$this->load->model("general_model");
-				$arrParam = array("idEnlace" => $idEnlace);
-				$data['information'] = $this->general_model->get_enlaces($arrParam);
+			if ($idLink != 'x' && $idLink != '') {
+				$arrParam = array("idLink" => $idLink);
+				$data['information'] = $this->general_model->get_links($arrParam);
 			}
 			
 			$data['error'] = $error; //se usa para mostrar los errores al cargar la imagen 			
 
-			$data["view"] = "form_manuales";
+			$data["view"] = "manuals_form";
 			$this->load->view("layout", $data);
 	}
 	
@@ -336,18 +336,18 @@ class Enlaces extends CI_Controller {
     function do_upload_manual() 
 	{
         $config['upload_path'] = './files/';
-        $config['overwrite'] = false;
+        $config['overwrite'] = TRUE;
         $config['allowed_types'] = 'pdf';
         $config['max_size'] = '3000';
         $config['max_width'] = '2024';
         $config['max_height'] = '2008';
-        $idEnlace = $this->input->post("hddId");
+        $idLink = $this->input->post("hddId");
 
         $this->load->library('upload', $config);
         //SI EL ARCHIVO FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
         if (!$this->upload->do_upload()) {
             $error = $this->upload->display_errors();
-            $this->manuales_form($idEnlace,$error);
+            $this->manuals_form($idLink,$error);
         } else {
             $file_info = $this->upload->data();//subimos ARCHIVO
 			
@@ -362,8 +362,8 @@ class Enlaces extends CI_Controller {
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-						
-			redirect('enlaces/manuales');
+
+			redirect('enlaces/manuals');
         }
     }
 	

@@ -736,6 +736,9 @@ class General_model extends CI_Model {
 			if (array_key_exists("idLink", $arrData)) {
 				$this->db->where('id_link', $arrData["idLink"]);
 			}
+			if (array_key_exists("linkType", $arrData)) {
+				$this->db->where('link_type', $arrData["linkType"]);
+			}			
 			
 			$this->db->order_by('M.menu_order, L.order', 'asc');
 			$query = $this->db->get('param_menu_links L');

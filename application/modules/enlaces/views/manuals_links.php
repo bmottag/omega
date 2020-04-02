@@ -18,11 +18,11 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-hand-o-up"></i> LINKS TO MANUAL LIST
+					<i class="fa fa-hand-o-up"></i> MANUALS LINKS LIST
 				</div>
 				<div class="panel-body">
 
-					<a class='btn btn-success btn-block' href='<?php echo base_url('enlaces/manuales_form') ?>'>
+					<a class='btn btn-success btn-block' href='<?php echo base_url('enlaces/manuals_form') ?>'>
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Link 
 					</a>
 					<br>
@@ -68,11 +68,11 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['enlace_name'] . "</td>";
-									echo "<td>" . $lista['enlace'] . "</td>";
+									echo "<td>" . $lista['link_name'] . "</td>";
+									echo "<td>" . $lista['link_url'] . "</td>";
 									echo "<td>" . $lista['order'] . "</td>";
 									echo "<td class='text-center'>";
-									switch ($lista['enlace_estado']) {
+									switch ($lista['link_state']) {
 										case 1:
 											$valor = 'Active';
 											$clase = "text-success";
@@ -87,7 +87,7 @@ if ($retornoError) {
 									echo "<td class='text-center'>";
 						?>
 
-<a class='btn btn-success btn-xs' href='<?php echo base_url('enlaces/manuales_form/' . $lista['id_enlace']) ?>'>
+<a class='btn btn-success btn-xs' href='<?php echo base_url('enlaces/manuals_form/' . $lista['id_link']) ?>'>
 	Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 </a>
 						<?php

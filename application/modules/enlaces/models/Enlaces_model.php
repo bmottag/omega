@@ -40,23 +40,26 @@
 		 */
 		public function saveManual($path) 
 		{
-				$idEnlace = $this->input->post('hddId');
+				$idLink = $this->input->post('hddId');
 				
 				$data = array(
-					'enlace_name' => $this->input->post('enlace_name'),
-					'enlace' => $path,
+					'link_name' => $this->input->post('link_name'),
+					'link_url' => $path,
 					'order' => $this->input->post('order'),
-					'enlace_estado' => $this->input->post('enlace_estado'),
-					'tipo_enlace' => 2
+					'link_state' => $this->input->post('link_state')
 				);
 				
 				//revisar si es para adicionar o editar
-				if ($idEnlace == '') {
+				if ($idLink == '') {
+					$data['fk_id_menu'] = 9;//menu manuals
+					$data['link_icon'] = 'fa-hand-o-up';
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$query = $this->db->insert('enlaces', $data);			
+					$data['link_type'] = 5;//Complete URL; Manuals
+
+					$query = $this->db->insert('param_menu_links', $data);			
 				} else {
-					$this->db->where('id_enlace', $idEnlace);
-					$query = $this->db->update('enlaces', $data);
+					$this->db->where('id_link', $idLink);
+					$query = $this->db->update('param_menu_links', $data);
 				}
 				if ($query) {
 					return true;
