@@ -82,6 +82,7 @@
 					$arrParam = array(
 						"idRole" => $userRol,
 						"idMenu" => $item['fk_id_menu'],
+						"linkState" => 1,
 						"menuType" => 1
 					);
 					$links = $this->general_model->get_role_access($arrParam);		
@@ -138,6 +139,7 @@
 					$arrParam = array(
 						"idRole" => $userRol,
 						"idMenu" => $item['fk_id_menu'],
+						"linkState" => 1,
 						"menuType" => 2
 					);
 					$links = $this->general_model->get_role_access($arrParam);		

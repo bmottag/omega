@@ -774,6 +774,9 @@ class General_model extends CI_Model {
 			if (array_key_exists("menuType", $arrData)) {
 				$this->db->where('M.menu_type', $arrData["menuType"]);
 			}
+			if (array_key_exists("linkState", $arrData)) {
+				$this->db->where('L.link_state', $arrData["linkState"]);
+			}
 			
 			$this->db->order_by('M.menu_order, L.order', 'asc');
 			$query = $this->db->get('param_menu_permisos P');
