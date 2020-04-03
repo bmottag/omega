@@ -16,12 +16,7 @@ class Admin extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function employee($state)
-	{
-			$userRol = $this->session->rol;
-			if ($userRol != 99 ) { 
-				show_error('ERROR!!! - You are in the wrong place.');	
-			}
-			
+	{			
 			$data['state'] = $state;
 			
 			$this->load->model("general_model");

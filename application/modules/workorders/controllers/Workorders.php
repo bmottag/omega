@@ -430,12 +430,6 @@ class Workorders extends CI_Controller {
 	 */
     public function search($goBack = 'x') 
 	{
-			$userRol = $this->session->rol;
-			//solo es para usuarios SUPER ADMIN
-			if ($userRol!=99 && $userRol!=2) {
-				show_error('ERROR!!! - You are in the wrong place.');
-			}
-
 			//job list
 			$this->load->model("general_model");
 			$arrParam = array(
@@ -1276,12 +1270,6 @@ class Workorders extends CI_Controller {
 	 */
     public function search_income()
 	{
-			$userRol = $this->session->rol;
-			//solo es para usuarios SUPER ADMIN
-			if ($userRol!=99 && $userRol!=2) {
-				show_error('ERROR!!! - You are in the wrong place.');
-			}
-
 			//job list
 			$this->load->model("general_model");
 			$arrParam = array(
