@@ -60,20 +60,28 @@ class Login extends CI_Controller {
 			);
 			
 			$userExist = $this->general_model->get_basic_search($arrParam);
-			
-			if ($userExist) {
-			
+
+			if ($userExist)
+			{
 					$arrParam = array(
 						"login" => $login,
 						"passwd" => $passwd
 					);
 					$user = $this->login_model->validateLogin($arrParam); //brings user information from user table
-					
-					
-					if (($user["valid"] == true)) {
+
+					if(($user["valid"] == true)) 
+					{
+						$userRol = intval($user["rol"]);
+						//busco url del dashboard de acuerdo al rol del usuario
+						$arrParam = array(
+							"idRol" => $userRol
+						);
+						$rolInfo = $this->general_model->get_roles($arrParam);
+
 						$sessionData = array(
 							"auth" => "OK",
 							"id" => $user["id"],
+							"dashboardURL" => $rolInfo[0]['dashboard_url'],
 							"firstname" => $user["firstname"],
 							"lastname" => $user["lastname"],
 							"name" => $user["firstname"] . ' ' . $user["lastname"],
@@ -86,6 +94,7 @@ class Login extends CI_Controller {
 							"linkInspection" => $data['linkInspection'],
 							"formInspection" => $data['formInspection']
 						);
+												
 						$this->session->set_userdata($sessionData);
 						//cookies
 						set_cookie('user',$login, '350000'); 

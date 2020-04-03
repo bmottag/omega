@@ -679,9 +679,11 @@ class General_model extends CI_Model {
 		 */
 		public function get_roles($arrData) 
 		{		
-
 			if (array_key_exists("filtro", $arrData)) {
 				$this->db->where('id_rol !=', 99);
+			}
+			if (array_key_exists("idRol", $arrData)) {
+				$this->db->where('id_rol', $arrData["idRol"]);
 			}
 			
 			$this->db->order_by('rol_name', 'asc');

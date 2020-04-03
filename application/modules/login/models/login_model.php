@@ -52,12 +52,14 @@
 	     * @since  8/11/2016
 		 * @review  18/12/2016
 	     */
-	    public function redireccionarUsuario(){
-	    	
+	    public function redireccionarUsuario()
+		{
 			$idVehicle = $this->session->userdata("idVehicle");
 			$inspectionType = $this->session->userdata("inspectionType");
 			$linkInspection = $this->session->userdata("linkInspection");
 			$state = $this->session->userdata("state");
+			$userRol = $this->session->userdata("rol");
+			$dashboardURL = $this->session->userdata("dashboardURL");
 
 			if($idVehicle != "x"){				
 				if($inspectionType == 99 || $linkInspection == "NA"){
@@ -73,7 +75,7 @@
 	    				redirect("/employee","location",301);
 	    				break;
 	    		case 1: //ACTIVE USER
-						redirect("/dashboard","location",301);
+						redirect($dashboardURL,"location",301);
 	    				break;
 	    		case 2: //INACTIVE USER
 	    				$this->session->sess_destroy();
