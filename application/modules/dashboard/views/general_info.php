@@ -11,10 +11,21 @@
 				</div>
 				<div class="panel-body">
 					<p>
-* <strong>Dashboard:</strong> payroll solo sus registros, inspecciones solo sus inspecciones
-<br><strong>Record Task:</strong> Payroll
+* <strong>Dashboard:</strong> 
+<ul>
+<li>Own Payroll Records</li>
+<li>Own Inspections Records</li>
+<li>Last FLHA Records</li>
+</ul>
+<strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> Hauling
-<br><strong>Incidences:</strong> Near miss report
+<br>* <strong>Jobs Info:</strong> 
+<ul>
+<li>FLHA</li>
+<li>TOOL BOX</li>
+<li>CSEP</li>
+</ul>
+<strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
 <br><strong>Day off</strong> (Ask for)
 <br>----------------------------
@@ -43,9 +54,16 @@
 				</div>
 				<div class="panel-body">
 					<p>
-* <strong>Dashboard: </strong> payroll todos los registros, todas las inspecciones
-<br><strong>Record Task:</strong> Payroll
+* <strong>Dashboard: </strong>
+<ul>
+<li>Last Payroll Records</li>
+<li>Jobs Info</li>
+<li>Last Inspections Records</li>
+<li>Last FLHA Records</li>
+</ul>
+<strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> Hauling
+<br>* <strong>Jobs Info:</strong> All except JHA
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
 <br><strong>Day off</strong> (Ask for)
@@ -78,8 +96,14 @@
 				</div>
 				<div class="panel-body">
 					<p>
-* <strong>Dashboard: </strong>timestam, lashauling recors, le quito safety y le quito inspecciones 
-<br><strong>Record Task:</strong> Payroll
+* <strong>Dashboard: </strong>
+<ul>
+<li>Last Payroll Records</li>
+<li>Last FLHA Records</li>
+<li>Last Hauling Records</li>
+</ul>
+<strong>Record Task:</strong> Payroll
+<br>* <strong>Jobs info:</strong> ALL
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
 <br><strong>Day off</strong> (Ask for)
@@ -97,7 +121,9 @@
 <br><strong>Reports:</strong> Payroll Report
 <br><strong>Reports:</strong> Hauling Report
 <br><strong>Reports:</strong> Work Order Report
-----------------------------
+<br>----------------------------
+<br><strong>Settings:</strong> Job Code/Name
+<br>----------------------------
 <br><strong>Manuals</strong>
 					</p>
 				</div>
@@ -119,13 +145,17 @@
 				</div>
 				<div class="panel-body">
 					<p>
-* <strong>Dashboard: </strong>Le muestro notificaciones de futuros mantenimientos
-<br><strong>Record Task:</strong> Payroll
+* <strong>Dashboard: </strong>
+<ul>
+<li>Maintenance Program</li>
+<li>Own Payroll Records</li>
+<li>Jobs Info</li>
+<li>Last Inspections Records</li>
+<li>Last FLHA Records</li>
+</ul>
+<strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> PPE inspection
-<br>* <strong>Jobs info</strong>
-<br>----------------------------
-<br>En jha solo dar permisos a safety
-<br>----------------------------
+<br>* <strong>Jobs info:</strong> All
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
 <br><strong>Day off</strong> (Ask for)
@@ -155,6 +185,7 @@
 <br><strong>Settings:</strong> Hazard activity
 <br><strong>Settings:</strong> Vehicles
 <br><strong>Settings:</strong> Rentals
+<br><strong>Settings:</strong> Vechicle stock
 <br><strong>Settings:</strong> Link to videos
 <br><strong>Settings:</strong> Link to manuals
 <br>----------------------------
@@ -175,8 +206,13 @@
 				</div>
 				<div class="panel-body">
 					<p>
-* <strong>Dashboard: </strong>timestam, lashauling recors, le quito safety y le quito inspecciones
-<br><strong>Record Task:</strong> Payroll
+* <strong>Dashboard: </strong>
+<ul>
+<li>Last Payroll Records</li>
+<li>Last Hauling Records</li>
+<li>Last FLHA Records</li>
+</ul>
+<strong>Record Task:</strong> Payroll
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
 <br>----------------------------
@@ -199,6 +235,7 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
+<br><strong>Settings:</strong> Employee ---> solo puede ver, no puede modificar
 <br><strong>Settings:</strong> Company
 <br>* <strong>Settings:</strong> Vehicles ---> solo puede ver, no puede modificar
 <br>* <strong>Settings:</strong> Rentals ---> solo puede ver, no puede modificar
@@ -220,8 +257,13 @@
 				</div>
 				<div class="panel-body">
 					<p>
-* <strong>Dashboard: </strong>timestam, lashauling recors, le quito safety y le quito inspecciones
-<br><strong>Record Task:</strong> Hauling
+* <strong>Dashboard: </strong>
+<ul>
+<li>Last Payroll Records</li>
+<li>Last Hauling Records</li>
+<li>Last Inspections Records</li>
+</ul>
+<strong>Record Task:</strong> Hauling
 <br>----------------------------
 <br>* <strong>Work order:</strong>
 <ul>
