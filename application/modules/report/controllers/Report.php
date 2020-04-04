@@ -29,6 +29,7 @@ class Report extends CI_Controller {
 			if (empty($modulo) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
+			$this->load->model("general_model");
 			
 			$data['workersList'] = FALSE;//lista para filtrar e el payroll report de ADMIN
 			$data['companyList'] = FALSE;//lista para filtrar en el hauling report
@@ -45,7 +46,6 @@ class Report extends CI_Controller {
 				case 'payrollByAdmin':
 					$data["titulo"] = "<i class='fa fa-book fa-fw'></i> PAYROLL REPORT";
 					//workers list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "user",
 						"order" => "first_name, last_name",
@@ -55,7 +55,6 @@ class Report extends CI_Controller {
 					break;
 				case 'safety':
 					//job list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "param_jobs",
 						"order" => "job_description",
@@ -67,7 +66,6 @@ class Report extends CI_Controller {
 					break;
 				case 'hauling':
 					$data["titulo"] = "<i class='fa fa-truck fa-fw'></i> HAULING REPORT";
-					$this->load->model("general_model");
 					
 					//trucklist
 					$data['truckList'] = $this->report_model->get_trucks();
@@ -107,7 +105,6 @@ class Report extends CI_Controller {
 					break;
 				case 'dailyInspection':
 					//workers list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "user",
 						"order" => "first_name, last_name",
@@ -124,7 +121,6 @@ class Report extends CI_Controller {
 					break;
 				case 'heavyInspection':
 					//workers list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "user",
 						"order" => "first_name, last_name",
@@ -138,7 +134,6 @@ class Report extends CI_Controller {
 					break;
 				case 'specialInspection':
 					//workers list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "user",
 						"order" => "first_name, last_name",
@@ -152,7 +147,6 @@ class Report extends CI_Controller {
 					break;
 				case 'workorder':
 					//job list
-					$this->load->model("general_model");
 					$arrParam = array(
 						"table" => "param_jobs",
 						"order" => "job_description",

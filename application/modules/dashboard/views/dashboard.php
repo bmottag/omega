@@ -360,7 +360,7 @@ if ($retornoError) {
 					</table>
 					
 					<!-- /.table-responsive -->
-					<a href="<?php echo base_url("report/searchByDateRange/payroll"); ?>" class="btn btn-default btn-block">View more</a>
+					<a href="<?php echo base_url("report/searchByDateRange/payroll"); ?>" class="btn btn-default btn-block">View more own records</a>
 <?php	} ?>					
 				</div>
 				<!-- /.panel-body -->

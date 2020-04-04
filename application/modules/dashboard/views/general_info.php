@@ -158,10 +158,8 @@
 <br>* <strong>Work order:</strong>
 <ul>
 <li>Add/Edit</li>
-<li>Pueden solo crear workorders y ver las que crearon</li>
-<li>No puede cambiar estado de la work order</li>
-<li>Quitar boton save and send to the client</li>
-<li>Quitar boton asign rate ----perfil work order y acounting</li>
+<li>This user can edit their own work orders if it is ON FIELD.</li>
+<li>This user cannot change the status of the work order.</li>
 </ul>
 ----------------------------
 <br><strong>Manage Day off: </strong> New Day Off
@@ -204,8 +202,8 @@
 * <strong>Dashboard: </strong>
 <ul>
 <li>Last Payroll Records</li>
-<li>Last Hauling Records</li>
 <li>Last FLHA Records</li>
+<li>Last Hauling Records</li>
 </ul>
 <strong>Record Task:</strong> Payroll
 <br><strong>Incidences:</strong> Near miss report
@@ -218,7 +216,7 @@
 <li>Search Income</li>
 <li>Asign rate</li>
 <li>Download invoice</li>
-<li>Solo puede editar work orders que estan en revised, sento to the client y close, de resto solo las ve</li>
+<li>This role can edit work orders that are Revised and Send to the client.</li>
 </ul>
 ----------------------------
 <br><strong>Reports:</strong> Payroll Report
