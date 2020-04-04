@@ -51,9 +51,21 @@ $(function(){
 					</ul>
 					<br>	
 
+<?php
+	//DESHABILITAR EDICION
+	$deshabilitar = '';
+	$userRol = $this->session->rol;
+	
+	if($userRol != 99){
+		$deshabilitar = 'disabled';
+	}
+?>
+				<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Employee
 					</button><br>
+				<?php } ?>
+					
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -92,8 +104,11 @@ if ($retornoError) {
 								<th class="text-center">Movil</th>
 								<th class="text-center">Rol</th>
 								<th class="text-center">State</th>
+								
+								<?php if(!$deshabilitar){ ?>
 								<th class="text-center">Edit</th>
 								<th class="text-center">Password</th>
+								<?php } ?>
 								
 								<th class="text-center">Email</th>
 								<th class="text-center">Date of birth</th>
@@ -149,6 +164,10 @@ if($count == 10){
 									}
 									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
 									echo "</td>";
+									
+									
+									if(!$deshabilitar){ 
+									
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" >
@@ -166,6 +185,8 @@ if($count == 10){
 									
 							<?php
 									echo "</td>";
+									}
+									
 									echo "<td>" . $lista['email'] . "</td>";
 									echo "<td>" . $lista['birthdate'] . "</td>";
 									
