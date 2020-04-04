@@ -14,15 +14,16 @@
 * <strong>Dashboard:</strong> 
 <ul>
 <li>Own Payroll Records</li>
-<li>Own Inspections Records</li>
 <li>Last FLHA Records</li>
+<li>Last Hauling Records</li>
+<li>Own Inspections Records</li>
 </ul>
 <strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> Hauling
 <br>* <strong>Jobs Info:</strong> 
 <ul>
-<li>FLHA</li>
 <li>TOOL BOX</li>
+<li>FLHA</li>
 <li>CSEP</li>
 </ul>
 <strong>Incidences:</strong> Near miss report
@@ -32,10 +33,8 @@
 <br>* <strong>Work order:</strong>
 <ul>
 <li>Add/Edit</li>
-<li>Pueden solo crear workorders y ver las que crearon</li>
-<li>No puede cambiar estado de la work order</li>
-<li>Quitar boton save and send to the client</li>
-<li>Quitar boton asign rate ----perfil work order y acounting</li>
+<li>This user can edit their own work orders. If it is ON FIELD.</li>
+<li>This user cannot change the status of the work order.</li>
 </ul>
 ----------------------------
 <br><strong>Manuals</strong>
@@ -72,10 +71,8 @@
 <ul>
 <li>Add/Edit</li>
 <li>Search</li>
-<li>Puede editar cualquiera simpere y cuando este en on field</li>
-<li>Si esta en otro estado solo la puede ver no la puede editar</li>
-<li>No puede aign rate</li>
-<li>No pueden descargar invoice</li>
+<li>This user can edit any work orders. If it is ON FIELD.</li>
+<li>This user cannot change the status of the work order.</li>
 </ul>
 ----------------------------
 <br><strong>Settings:</strong> Planning
@@ -113,9 +110,7 @@
 <li>Add/Edit</li>
 <li>Search</li>
 <li>Search Income</li>
-<li>CAMBIA ESTADO A REVISADA</li>
-<li>Workorders el estado solo puede cambiar de on field a in progress y de in progress a revised</li>
-<li>Si esta revisada solo la puede ver no la puede editar</li>
+<li>This role can edit all work orders except those that are closed.</li>
 </ul>
 ----------------------------
 <br><strong>Reports:</strong> Payroll Report
@@ -221,7 +216,8 @@
 <li>Add/Edit</li>
 <li>Search</li>
 <li>Search Income</li>
-<li>Todo work orders</li>
+<li>Asign rate</li>
+<li>Download invoice</li>
 <li>Solo puede editar work orders que estan en revised, sento to the client y close, de resto solo las ve</li>
 </ul>
 ----------------------------
@@ -260,17 +256,21 @@
 * <strong>Dashboard: </strong>
 <ul>
 <li>Last Payroll Records</li>
+<li>Jobs Info</li>
 <li>Last Hauling Records</li>
 <li>Last Inspections Records</li>
+<li>Last FLHA Records</li>
 </ul>
 <strong>Record Task:</strong> Hauling
+<br>* <strong>Jobs info:</strong> All
 <br>----------------------------
 <br>* <strong>Work order:</strong>
 <ul>
 <li>Add/Edit</li>
 <li>Search</li>
 <li>Search Income</li>
-<li>Todo work orders</li>
+<li>Asign rate</li>
+<li>Download invoice</li>
 <li>Solo puede editar work orders que estan en revised, sento to the client y close, de resto solo las ve</li>
 </ul>
 ----------------------------

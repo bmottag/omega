@@ -61,6 +61,7 @@ class Dashboard extends CI_Controller {
 	{		
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
 			if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
@@ -82,6 +83,7 @@ class Dashboard extends CI_Controller {
 	{		
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
 			if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
@@ -103,6 +105,7 @@ class Dashboard extends CI_Controller {
 	{		
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
 			if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
@@ -123,6 +126,7 @@ class Dashboard extends CI_Controller {
 	public function maintenance()
 	{		
 			$this->load->model("general_model");
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 
@@ -314,18 +318,15 @@ class Dashboard extends CI_Controller {
 	{	
 			$this->load->model("general_model");
 			
-			$data['noSafety'] = FALSE;
-			$data['noJobs'] = FALSE;
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
-			$data['infoSafety'] = FALSE;
 			
 			//cuenta payroll para el usuario 
 			$arrParam["task"] = 1;//buscar por timestap
 			$data['noTareas'] = $this->general_model->countTask($arrParam);
 			
-			//$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			//$data['noJobs'] = $this->dashboard_model->countJobs();//cuenta registros de Jobs
+			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
+			$data['noJobs'] = $this->dashboard_model->countJobs();//cuenta registros de Jobs
 			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
 			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
 			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
@@ -339,7 +340,7 @@ class Dashboard extends CI_Controller {
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
 			
-			//$data['infoSafety'] = $this->general_model->get_safety($arrParam);//info de safety
+			$data['infoSafety'] = $this->general_model->get_safety($arrParam);//info de safety
 			
 			$arrParam["limit"] = 6;//Limite de registros para la consulta
 			$data['infoWaterTruck'] = $this->general_model->get_special_inspection_water_truck($arrParam);//info de water truck

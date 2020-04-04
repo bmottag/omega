@@ -13,10 +13,12 @@
 				</div>
 				<!-- /.col-lg-12 -->
             </div>
-			
+						
+<?php
+	if($infoMaintenance){ 
+?>	
             <!-- /.row -->
 			<div class="row">
-
 				<div class="col-lg-12">
 						
 					<a class="btn btn-block btn-social btn-pinterest" href="<?php echo base_url('dashboard/maintenance'); ?>">
@@ -25,6 +27,9 @@
 					<br>
 				</div>	
 			</div>
+<?php
+	}
+?>	
 		
             <div class="row">
 				<!-- INICIO MENSAJE DEL SISTEMA si aprobaron un dayoff en los ultimos 7 dias -->
