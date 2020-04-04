@@ -76,7 +76,7 @@ $(function(){
 				
 					<?php
 					$userRol = $this->session->rol;
-					if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5 || $userRol == 6){ //If it is a SUPER ADMIN user, show GO BACK MENU
+					if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ //If it is a SUPER ADMIN user, show GO BACK MENU
 					?>
 					<a class="btn btn-default btn-xs" href=" <?php echo base_url().'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<?php } ?>

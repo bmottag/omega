@@ -19,7 +19,8 @@ class Workorders extends CI_Controller {
 		
 			$arrParam = array();
 			$userRol = $this->session->userdata("rol");
-			if($userRol == 7){ //If it is a BASIC user, just show the records of the user session
+			//If it is a BASIC ROLE OR SAFETY&MAINTENACE ROLE, just show the records of the user session
+			if($userRol == 7 || $userRol == 4){ 
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
 			$data['workOrderInfo'] = $this->workorders_model->get_workordes_by_idUser($arrParam);
