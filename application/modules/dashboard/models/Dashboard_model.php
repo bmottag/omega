@@ -19,7 +19,7 @@
 				$sql = "SELECT count(id_safety) CONTEO";
 				$sql.= " FROM safety";
 				$sql.= " WHERE date >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}
 
@@ -88,7 +88,7 @@
 				$sql = "SELECT count(id_hauling) CONTEO";
 				$sql.= " FROM hauling";
 				$sql.= " WHERE date_issue >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}			
 
@@ -114,7 +114,7 @@
 				$sql = "SELECT count(id_inspection_daily) CONTEO";
 				$sql.= " FROM inspection_daily";
 				$sql.= " WHERE date_issue >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}			
 
@@ -140,7 +140,7 @@
 				$sql = "SELECT count(id_inspection_heavy) CONTEO";
 				$sql.= " FROM inspection_heavy";
 				$sql.= " WHERE date_issue >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}			
 
@@ -166,7 +166,7 @@
 				$sql = "SELECT count(id_inspection_generator) CONTEO";
 				$sql.= " FROM inspection_generator";
 				$sql.= " WHERE date_issue >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}			
 
@@ -177,7 +177,7 @@
 				$sql = "SELECT count(id_inspection_hydrovac) CONTEO";
 				$sql.= " FROM inspection_hydrovac";
 				$sql.= " WHERE date_issue >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}			
 
@@ -189,7 +189,7 @@
 				$sql = "SELECT count(id_inspection_sweeper) CONTEO";
 				$sql.= " FROM inspection_sweeper";
 				$sql.= " WHERE date_issue >= '$firstDay'";
-				if(!$userRol){ //If it is a normal user, just show the records of the user session
+				if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 					$sql.= " AND fk_id_user = $idUser";
 				}			
 

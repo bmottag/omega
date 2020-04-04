@@ -76,7 +76,7 @@ class General_model extends CI_Model {
 			$sql.= " WHERE fk_id_operation = $idOperation";
 		}
 		
-		if(!$userRol){ //If it is a normal user, just show the records of the user session
+		if($userRol == 7){ //If it is a normal user, just show the records of the user session
 			$sql.= " AND fk_id_user = $idUser";
 		}
 		$sql.= " AND start >= '$firstDay'";

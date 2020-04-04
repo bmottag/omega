@@ -62,7 +62,7 @@ class Dashboard extends CI_Controller {
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 
-			if(!$userRol){ //If it is a normal user, just show the records of the user session
+			if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
@@ -83,7 +83,7 @@ class Dashboard extends CI_Controller {
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 
-			if(!$userRol){ //If it is a normal user, just show the records of the user session
+			if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
@@ -104,7 +104,7 @@ class Dashboard extends CI_Controller {
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 
-			if(!$userRol){ //If it is a normal user, just show the records of the user session
+			if($userRol == 7){ //If it is a BASIC USER, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
@@ -240,9 +240,7 @@ class Dashboard extends CI_Controller {
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
 	
-			if(!$userRol){ //If it is a normal user, just show the records of the user session
-				$arrParam["idEmployee"] = $this->session->userdata("id");
-			}
+			$arrParam["idEmployee"] = $this->session->userdata("id");
 			
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 						

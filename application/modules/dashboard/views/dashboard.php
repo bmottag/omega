@@ -13,12 +13,7 @@
 				</div>
 				<!-- /.col-lg-12 -->
             </div>
-
-<?php
-	$userId = $this->session->id;
-	
-	if($infoMaintenance && ($userId == 1 || $userId == 2)){ 
-?>						
+			
             <!-- /.row -->
 			<div class="row">
 
@@ -30,7 +25,6 @@
 					<br>
 				</div>	
 			</div>
-<?php	} ?>			
 		
             <div class="row">
 				<!-- INICIO MENSAJE DEL SISTEMA si aprobaron un dayoff en los ultimos 7 dias -->
