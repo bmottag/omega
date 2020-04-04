@@ -39,7 +39,20 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'maintenance/maintenance_check'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Maintenance check </a> 
+				
+<?php
+	//DESHABILITAR EDICION
+	$deshabilitar = 'disabled';
+	$userRol = $this->session->rol;
+	
+	if($userRol == 99 || $userRol == 4){
+		$deshabilitar = '';
+	}
+?>			
+					<?php if(!$deshabilitar){ ?>
+					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'maintenance/maintenance_check'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Maintenance check </a> 					
+					<?php } ?>
+					
 					<i class="fa fa-automobile"></i> VEHICLE LIST - <?php echo $title; ?>
 				</div>
 				<div class="panel-body">
@@ -64,9 +77,12 @@ $(function(){
 					}
 				?>
 				
+
+				<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-x'; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Vehicle
 					</button><br>
+				<?php } ?>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -126,21 +142,26 @@ if($companyType == 2){ //si es subcontractor
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['company_name'];
 									
+									if(!$deshabilitar){
 						?>			<br>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-' . $lista['id_vehicle']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php
-									
+									}
 									echo "</td>";
 									echo "<td class='text-center'>";
 						//si hay una foto la muestro
 						if($lista["photo"]){
 						?>
 							<img src="<?php echo base_url($lista["photo"]); ?>" class="img-rounded" width="42" height="42" />
-						<?php } ?>
+						<?php } 
+						
+									if(!$deshabilitar){
+						?>
 									<a href="<?php echo base_url("admin/photo/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">Photo</a>
 						<?php
+									}
 									echo "</td>";
 									
 									echo "<td class='text-center'>";
@@ -152,9 +173,12 @@ if($lista["inspection_type"] == 99 ){
 						if($lista["qr_code"]){
 						?>
 							<img src="<?php echo base_url($lista["qr_code"]); ?>" class="img-rounded" width="32" height="32" />
-						<?php } ?>
+						<?php } 
+									if(!$deshabilitar){
+						?>
 									<a href="<?php echo base_url("admin/qr_code/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">QR code</a>
 						<?php
+									}
 }
 									echo "</td>";
 
@@ -175,9 +199,7 @@ if($lista["inspection_type"] == 99 ){
 										
 										
 										<?php
-											$userId = $this->session->id;
-											
-											if($userId == 1 || $userId == 2){ 
+											if(!$deshabilitar){
 										?>
 										<a href="<?php echo base_url("maintenance/entrance/" . $lista['id_vehicle']); ?>" class="btn btn-purpura btn-xs">Maintenance</a>
 										<?php }?>

@@ -229,10 +229,10 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
-<br><strong>Settings:</strong> Employee ---> solo puede ver, no puede modificar
+<br>* <strong>Settings:</strong> Employee ---> can only see list
 <br><strong>Settings:</strong> Company
-<br>* <strong>Settings:</strong> Vehicles ---> solo puede ver, no puede modificar
-<br>* <strong>Settings:</strong> Rentals ---> solo puede ver, no puede modificar
+<br>* <strong>Settings:</strong> Vehicles ---> can only see list
+<br>* <strong>Settings:</strong> Rentals ---> can only see list
 <br>----------------------------
 <br><strong>Manuals</strong>
 					</p>
@@ -269,7 +269,7 @@
 <li>Search Income</li>
 <li>Asign rate</li>
 <li>Download invoice</li>
-<li>Solo puede editar work orders que estan en revised, sento to the client y close, de resto solo las ve</li>
+<li>This role can edit work orders that are Revised and Send to the client.</li>
 </ul>
 ----------------------------
 <br><strong>Reports:</strong> Payroll Report
@@ -282,12 +282,12 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
-<br>* <strong>Settings:</strong> Employee ---> solo puede ver, no puede modificar
+<br>* <strong>Settings:</strong> Employee ---> can only see list
 <br><strong>Settings:</strong> Job Code/Name
 <br><strong>Settings:</strong> Planning
 <br><strong>Settings:</strong> Company
-<br>* <strong>Settings:</strong> Vehicles ---> solo puede ver, no puede modificar
-<br>* <strong>Settings:</strong> Rentals ---> solo puede ver, no puede modificar
+<br>* <strong>Settings:</strong> Vehicles ---> can only see list
+<br>* <strong>Settings:</strong> Rentals ---> can only see list
 <br>----------------------------
 <br><strong>Manuals</strong>
 					</p>
