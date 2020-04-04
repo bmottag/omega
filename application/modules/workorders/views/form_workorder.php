@@ -86,7 +86,12 @@ $(function(){
 				<div class="panel-body">
 
 					<?php
-					if($information && ($userRol == 99 || $userRol == 2 || $userRol == 3)){ //If it is a SUPER ADMIN user, show GO BACK MENU
+					/**
+					 * If it is:
+					 * SUPER ADMIN, MANAGEMENT OR ACCOUNTING ROLES
+					 * They have acces to asign rate and dowloadinvoice
+					 */
+					if($information && ($userRol == 99 || $userRol == 2 || $userRol == 3)){ 
 					?>				
 					<ul class="nav nav-pills">
 						<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>

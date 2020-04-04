@@ -74,17 +74,25 @@
 									<a class='btn btn-success btn-xs' href='<?php echo base_url('workorders/add_workorder/' . $lista['id_workorder']) ?>'>
 											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</a>								
-									
-									<a class='btn btn-warning btn-xs' href='<?php echo base_url('workorders/view_workorder/' . $lista['id_workorder']) ?>'>
-											Asign Rate <span class="glyphicon glyphicon-usd" aria-hidden="true">
-									</a>
 
+						<?php 
+									/**
+									 * If it is:
+									 * SUPER ADMIN, MANAGEMENT OR ACCOUNTING ROLES
+									 * They have acces to asign rate and dowloadinvoice
+									 */
+									$userRol = $this->session->userdata("rol");
+									if($userRol == 99 || $userRol == 2 || $userRol == 3){ 
+						?>
+										<a class='btn btn-warning btn-xs' href='<?php echo base_url('workorders/view_workorder/' . $lista['id_workorder']) ?>'>
+												Asign Rate <span class="glyphicon glyphicon-usd" aria-hidden="true">
+										</a>
 
-									<a class='btn btn-purpura btn-xs' target="_blank" href='<?php echo base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) ?>'>
-											Download invoice <span class="glyphicon glyphicon-cloud-download" aria-hidden="true">
-									</a>									
-
+										<a class='btn btn-purpura btn-xs' target="_blank" href='<?php echo base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) ?>'>
+												Download invoice <span class="glyphicon glyphicon-cloud-download" aria-hidden="true">
+										</a>
 						<?php
+									}
 									echo "</td>";
 							endforeach;
 						?>
