@@ -76,7 +76,7 @@ $(function(){
 				
 					<?php
 					$userRol = $this->session->rol;
-					if($userRol == 99){ //If it is a SUPER ADMIN user, show GO BACK MENU
+					if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5 || $userRol == 6){ //If it is a SUPER ADMIN user, show GO BACK MENU
 					?>
 					<a class="btn btn-default btn-xs" href=" <?php echo base_url().'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<?php } ?>
@@ -86,7 +86,7 @@ $(function(){
 				<div class="panel-body">
 
 					<?php
-					if($userRol == 99 && $information){ //If it is a SUPER ADMIN user, show GO BACK MENU
+					if($information && ($userRol == 99 || $userRol == 2 || $userRol == 3)){ //If it is a SUPER ADMIN user, show GO BACK MENU
 					?>				
 					<ul class="nav nav-pills">
 						<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
@@ -238,13 +238,13 @@ if ($retornoError) {
 
 <?php if($information){ ?>
 
-<?php if($information[0]["fk_id_company"] != "" && $information[0]["fk_id_company"] != 0 && $workorderEquipment) { ?>
-
+<?php //if($information[0]["fk_id_company"] != "" && $information[0]["fk_id_company"] != 0 && $workorderEquipment) { ?>
+<!-- SE QUITA OPCION DE ENVIAR CORREO A LA EMPRESA DESDE ABRIL DE 2020
 											<button type="button" id="btnEmail" name="btnEmail" class="btn btn-danger" >
 												Save & Send Email <span class="glyphicon glyphicon-send" aria-hidden="true">
 											</button>
-											
-<?php } ?>
+-->										
+<?php //} ?>
 											
 <?php if($information[0]['signature_wo']){ ?>
 
@@ -279,7 +279,7 @@ if ($retornoError) {
 									</div>
 								</div>
 								<?php } ?>
-								
+<!-- SE QUITA OPCION DE ENVIAR CORREO A LA EMPRESA DESDE ABRIL DE 2020								
 						<div class="col-lg-12">	
 							<div class="alert alert-danger ">
 								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -288,7 +288,7 @@ if ($retornoError) {
 								An email copy of this WO will be sent to the client, the foreman's email (when provided) and also to <strong>hugo@v-contracting.com</strong>.
 							</div>
 						</div>
-								
+-->
 							</form>
 								
 
@@ -310,6 +310,10 @@ if($information){
 ?>
 
 <!--INICIO ADDITIONAL INFORMATION -->
+<?php
+	$userRol = $this->session->userdata("rol");
+	if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ //ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER ROLES can change the status of the work order.
+?>
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-6">				
@@ -327,7 +331,7 @@ if($information){
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="state">State :</label>
 									<div class="col-sm-8">
-										<select name="state" id="state" class="form-control" required >
+										<select name="state" id="state" class="form-control" required <?php echo $deshabilitar; ?>>
 											<option value="">Select...</option>
 											<option value=0 >On field</option>
 											<option value=1 >In Progress</option>
@@ -341,22 +345,24 @@ if($information){
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="information">Additional information :</label>
 									<div class="col-sm-8">
-									<textarea id="information" name="information" class="form-control" rows="3" placeholder="Additional information" required></textarea>
+									<textarea id="information" name="information" class="form-control" rows="3" placeholder="Additional information" required <?php echo $deshabilitar; ?>></textarea>
 									</div>
 								</div>
 								
+								<?php if(!$deshabilitar){ ?>
 								<div class="form-group">
 									<div class="row" align="center">
 										<div style="width:100%;" align="center">
 
 											<button type="button" id="btnState" name="btnState" class="btn btn-primary" >
-												Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+												Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" />
 											</button> 
 											
 										</div>
 									</div>
 								</div>
-																
+								<?php } ?>
+															
 							</form>
 							
 							<div class="alert alert-danger ">
@@ -443,6 +449,9 @@ if($information){
 		
 	</div>
 	<!-- /.row -->
+<?php
+	}
+?>
 <!--FIN ADDITIONAL INFORMATION -->
 
 	
@@ -492,11 +501,11 @@ if($information){
 						<input type="hidden" id="quantity" name="quantity" value=1 >
 						
 						<td>
-						<textarea id="description" name="description" class="form-control" rows="3" required><?php echo $data['description']; ?></textarea>
+						<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 						</td>
 						
 						<td>
-						<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required >
+						<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
 						</td>
 						
 						<td class='text-center'>
@@ -568,15 +577,15 @@ if($information){
 							<input type="hidden" id="hours" name="hours" value=1 >						
 							
 						<td>
-							<textarea id="description" name="description" class="form-control" rows="3" required><?php echo $data['description']; ?></textarea>
+							<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 						</td>
 							
 						<td>
-							<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required >		
+							<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>		
 						</td>
 						
 						<td>
-							<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required >		
+							<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>		
 						</td>
 										
 						<td class='text-center'>
@@ -660,14 +669,14 @@ if($information){
 							<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
 							
 						<td>
-							<textarea id="description" name="description" class="form-control" rows="3" required><?php echo $data['description']; ?></textarea>
+							<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 						</td>
 							
 						<td>
-							<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required >
+							<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
 						</td>
 						<td>
-							<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required >
+							<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
 						</td>
 
 						<td class='text-center'>
@@ -744,19 +753,19 @@ if($information){
 							<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
 						
 						<td>
-							<textarea id="description" name="description" class="form-control" rows="3" required><?php echo $data['description']; ?></textarea>
+							<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 						</td>
 						
 						<td>
-							<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required >
+							<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
 						</td>
 
 						<td>
-							<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required >
+							<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
 						</td>
 				
 						<td>
-							<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required >
+							<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
 						</td>
 
 						<td class='text-center'>

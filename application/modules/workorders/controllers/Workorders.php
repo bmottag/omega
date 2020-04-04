@@ -19,7 +19,7 @@ class Workorders extends CI_Controller {
 		
 			$arrParam = array();
 			$userRol = $this->session->userdata("rol");
-			if(!$userRol){ //If it is a normal user, just show the records of the user session
+			if($userRol == 7){ //If it is a BASIC user, just show the records of the user session
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
 			$data['workOrderInfo'] = $this->workorders_model->get_workordes_by_idUser($arrParam);
@@ -41,7 +41,7 @@ class Workorders extends CI_Controller {
 			$data['deshabilitar'] = '';
 			
 			$this->load->model("general_model");
-			//job´s list - (active´s items)
+			//job list - (active items)
 			$arrParam = array(
 				"table" => "param_jobs",
 				"order" => "job_description",
@@ -73,9 +73,18 @@ class Workorders extends CI_Controller {
 				);
 				$data['information'] = $this->workorders_model->get_workordes_by_idUser($arrParam);//info workorder
 			
+				//DESHABILITAR WORK ORDER
+				$userRol = $this->session->rol;
+				$workorderState = $data['information'][0]['state'];
 				//si esta cerrada deshabilito los botones
-				if($data['information'][0]['state'] == 4){
-					$data['deshabilitar'] = 'disabled';
+				if($userRol != 99){
+					if($workorderState == 4){
+						$data['deshabilitar'] = 'disabled';
+					}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ //If it is ON FILD and ROLE is SUPERVISOR OR BASIC
+						$data['deshabilitar'] = 'disabled';
+					}elseif($workorderState < 2 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
+						$data['deshabilitar'] = 'disabled';
+					}
 				}
 				
 				if (!$data['information']) { 

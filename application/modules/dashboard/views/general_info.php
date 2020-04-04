@@ -33,7 +33,7 @@
 <br>* <strong>Work order:</strong>
 <ul>
 <li>Add/Edit</li>
-<li>This user can edit their own work orders. If it is ON FIELD.</li>
+<li>This user can edit their own work orders if it is ON FIELD.</li>
 <li>This user cannot change the status of the work order.</li>
 </ul>
 ----------------------------
@@ -71,7 +71,7 @@
 <ul>
 <li>Add/Edit</li>
 <li>Search</li>
-<li>This user can edit any work orders. If it is ON FIELD.</li>
+<li>This user can edit any work orders if it is ON FIELD.</li>
 <li>This user cannot change the status of the work order.</li>
 </ul>
 ----------------------------
