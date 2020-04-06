@@ -559,6 +559,21 @@ class Admin extends CI_Controller {
 				if($flag){ //si es un registro nuevo entonces guardo el historial de cambio de aceite
 					$state = 0;//primer registro
 					$this->admin_model->saveVehicleNextOilChange($idVehicle, $state);
+					
+					//si es un registro nuevo genero el codigo QR y subo la imagen
+					//INCIO - genero imagen con la libreria y la subo 
+					$this->load->library('ciqrcode');
+
+					$valorQRcode = base_url("login/index/" . $idVehicle . $pass);
+					$rutaImagen = "images/vehicle/" . $idVehicle . "_qr_code.png";
+					
+					$params['data'] = $valorQRcode;
+					$params['level'] = 'H';
+					$params['size'] = 10;
+					$params['savename'] = FCPATH.$rutaImagen;
+									
+					$this->ciqrcode->generate($params);
+					//FIN - genero imagen con la libreria y la subo
 				}
 				
 				$data["result"] = true;		

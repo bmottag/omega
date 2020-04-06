@@ -201,9 +201,10 @@
 					
 					//actualizo la url del codigo QR
 					$path = $idVehicle . $pass;
+					$rutaQRcode = "images/vehicle/" . $idVehicle . "_qr_code.png";
 			
 					//actualizo campo con el path encriptado
-					$sql = "UPDATE param_vehicle SET encryption = '$path' WHERE id_vehicle = $idVehicle";
+					$sql = "UPDATE param_vehicle SET encryption = '$path',qr_code = '$rutaQRcode'  WHERE id_vehicle = $idVehicle";
 					$query = $this->db->query($sql);
 				} else {
 					$this->db->where('id_vehicle', $idVehicle);

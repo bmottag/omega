@@ -173,12 +173,13 @@ if($lista["inspection_type"] == 99 ){
 						if($lista["qr_code"]){
 						?>
 							<img src="<?php echo base_url($lista["qr_code"]); ?>" class="img-rounded" width="32" height="32" />
-						<?php } 
+						<?php  
 									if(!$deshabilitar){
 						?>
 									<a href="<?php echo base_url("admin/qr_code/" . $lista['id_vehicle']); ?>" class="btn btn-primary btn-xs">QR code</a>
 						<?php
 									}
+						}
 }
 									echo "</td>";
 
