@@ -82,7 +82,7 @@
 									 * They have acces to asign rate and dowloadinvoice
 									 */
 									$userRol = $this->session->userdata("rol");
-									if($userRol == 99 || $userRol == 2 || $userRol == 3){ 
+									if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ 
 						?>
 										<a class='btn btn-warning btn-xs' href='<?php echo base_url('workorders/view_workorder/' . $lista['id_workorder']) ?>'>
 												Asign Rate <span class="glyphicon glyphicon-usd" aria-hidden="true">

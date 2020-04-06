@@ -110,6 +110,8 @@
 <li>Add/Edit</li>
 <li>Search</li>
 <li>Search Income</li>
+<li>Asign rate</li>
+<li>Download invoice</li>
 <li>This role can edit all work orders except those that are closed.</li>
 </ul>
 ----------------------------

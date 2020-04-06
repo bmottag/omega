@@ -91,7 +91,7 @@ $(function(){
 					 * SUPER ADMIN, MANAGEMENT OR ACCOUNTING ROLES
 					 * They have acces to asign rate and dowloadinvoice
 					 */
-					if($information && ($userRol == 99 || $userRol == 2 || $userRol == 3)){ 
+					if($information && ($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5)){ 
 					?>				
 					<ul class="nav nav-pills">
 						<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
