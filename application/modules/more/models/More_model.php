@@ -568,6 +568,51 @@
 					return false;
 				}
 		}
+		
+		
+		/**
+		 * Add Task Control
+		 * @since 8/4/2020
+		 */
+		public function add_task_control() 
+		{
+			$idUser = $this->session->userdata("id");
+			$idEnvironmental = $this->input->post('hddIdentificador');
+		
+			$data = array(
+				'work_location' => $this->input->post('work_location'),
+				'crew_size' => $this->input->post('crew_size'),
+				'task' => $this->input->post('task'),
+				'distancing' => $this->input->post('distancing'),
+				'distancing_comments' => $this->input->post('distancing_comments'),
+				'sharing_tools' => $this->input->post('sharing_tools'),
+				'sharing_tools_comments' => $this->input->post('sharing_tools_comments'),
+				'required_ppe' => $this->input->post('required_ppe'),
+				'required_ppe_comments' => $this->input->post('required_ppe_comments'),
+				'symptoms' => $this->input->post('symptoms'),
+				'symptoms_comments' => $this->input->post('symptoms_comments'),
+				'protocols' => $this->input->post('protocols'),
+				'protocols_comments' => $this->input->post('protocols_comments')
+			);
+			
+			//revisar si es para adicionar o editar
+			if ($idEnvironmental == '') {
+				$data['fk_id_user'] = $idUser;
+				$data['fk_id_job'] = $this->input->post('hddIdJob');
+				$data['date_task_control'] = date("Y-m-d");
+				$query = $this->db->insert('job_task_control', $data);	
+				$idEnvironmental = $this->db->insert_id();				
+			} else {
+				$this->db->where('id_job_task_control', $idEnvironmental);
+				$query = $this->db->update('job_task_control', $data);
+			}
+			
+			if ($query) {
+				return $idEnvironmental;
+			} else {
+				return false;
+			}
+		}		
 
 		
 		

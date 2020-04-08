@@ -198,53 +198,48 @@ if ($retornoError) {
 
 
 	<div class="row">
-		<div class="col-lg-12">				
+		<div class="col-lg-5">
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<strong>EMERGENCY PHONE NUMBERS</strong>
+					<strong>Genral Information</strong>
 				</div>
 				<div class="panel-body">								
+											
+					<div class="col-sm-12">
+						<label for="type" class="control-label">Work Location: *</label>
+						<textarea id="work_location" name="work_location" placeholder="Work Location"  class="form-control" rows="2"><?php echo $information?$information[0]["work_location"]:""; ?></textarea>
+					</div>
 					
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="work_location">Work Location: *</label>
-							<div class="col-sm-5">
-							<textarea id="work_location" name="work_location" placeholder="Work Location"  class="form-control" rows="2"><?php echo $information?$information[0]["work_location"]:""; ?></textarea>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="crew_size">Crew Size: *</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" id="crew_size" name="crew_size" value="<?php echo $information?$information[0]["crew_size"]:""; ?>" placeholder="Crew Size" required />
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="task">Task: *</label>
-							<div class="col-sm-5">
-							<textarea id="task" name="task" placeholder="Task"  class="form-control" rows="2"><?php echo $information?$information[0]["task"]:""; ?></textarea>
-							</div>
-						</div>
-
+					<div class="col-sm-12">
+						<label for="type" class="control-label">Crew Size: *</label>
+						<select name="crew_size" id="crew_size" class="form-control" required>
+							<option value='' >Select...</option>
+							<?php for ($i = 1; $i <= 15; $i++) { ?>
+								<option value='<?php echo $i; ?>' <?php if ($information && $i == $information[0]["crew_size"]) { echo 'selected="selected"'; } ?> ><?php echo $i; ?></option>
+							<?php } ?>									
+						</select>
+					</div>
+					
+					<div class="col-sm-12">
+						<label for="type" class="control-label">Task: *</label>
+						<textarea id="task" name="task" placeholder="Task"  class="form-control" rows="2"><?php echo $information?$information[0]["task"]:""; ?></textarea>
+					</div>						
+					
 				</div>
 			</div>
 		</div>
-	</div>
-	
 
-
-	<div class="row">
-		<div class="col-lg-12">				
+		<div class="col-lg-7">				
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<strong>Questions must be answered prior to performing work</strong>
 				</div>
 				<div class="panel-body">
-									
-					<div class="form-group">
-						<label class="col-sm-4 control-label" for="distancing">Can 6ft distancing be maintained between workers during the
-task? </label>
-						<div class="col-sm-3">
+														
+					<div class="col-sm-12">
+						<label for="type" class="control-label">Can 6ft distancing be maintained between workers during the
+task?</label>
+						<div class="col-sm-4">
 							<label class="radio-inline">
 								<input type="radio" name="distancing" id="distancing1" value=1 <?php if($information && $information[0]["distancing"] == 1) { echo "checked"; }  ?>>Yes
 							</label>
@@ -253,15 +248,15 @@ task? </label>
 							</label>
 						</div>
 						
-						<div class="col-sm-5">
+						<div class="col-sm-8">
 							<textarea id="distancing_comments" name="distancing_comments" placeholder="Comments"  class="form-control" rows="1"><?php echo $information?$information[0]["distancing_comments"]:""; ?></textarea>
 						</div>
-					</div>
+					</div>			
 					
-					<div class="form-group">
-						<label class="col-sm-4 control-label" for="sharing_tools">Workers can perform their tasks without sharing tools or
+					<div class="col-sm-12">
+						<label for="type" class="control-label"><br>Workers can perform their tasks without sharing tools or
 equipment? </label>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<label class="radio-inline">
 								<input type="radio" name="sharing_tools" id="sharing_tools1" value=1 <?php if($information && $information[0]["sharing_tools"] == 1) { echo "checked"; }  ?>>Yes
 							</label>
@@ -270,15 +265,15 @@ equipment? </label>
 							</label>
 						</div>
 						
-						<div class="col-sm-5">
+						<div class="col-sm-8">
 							<textarea id="sharing_tools_comments" name="sharing_tools_comments" placeholder="Comments"  class="form-control" rows="1"><?php echo $information?$information[0]["sharing_tools_comments"]:""; ?></textarea>
 						</div>
 					</div>
 					
-					<div class="form-group">
-						<label class="col-sm-4 control-label" for="required_ppe">All workers have the required PPE to safely perform their work?
-<br>GLOVES ARE MANDATORY. </label>
-						<div class="col-sm-3">
+					<div class="col-sm-12">
+						<label for="type" class="control-label"><br>All workers have the required PPE to safely perform their work?
+GLOVES ARE MANDATORY. </label>
+						<div class="col-sm-4">
 							<label class="radio-inline">
 								<input type="radio" name="required_ppe" id="required_ppe1" value=1 <?php if($information && $information[0]["required_ppe"] == 1) { echo "checked"; }  ?>>Yes
 							</label>
@@ -287,15 +282,15 @@ equipment? </label>
 							</label>
 						</div>
 						
-						<div class="col-sm-5">
+						<div class="col-sm-8">
 							<textarea id="required_ppe_comments" name="required_ppe_comments" placeholder="Comments"  class="form-control" rows="1"><?php echo $information?$information[0]["required_ppe_comments"]:""; ?></textarea>
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-4 control-label" for="symptoms">All workers have no signs or symptoms of being ill (i.e.: Sore throat,
+
+					<div class="col-sm-12">
+						<label for="type" class="control-label"><br>All workers have no signs or symptoms of being ill (i.e.: Sore throat,
 fever, dry cough, shortness of breath)? </label>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<label class="radio-inline">
 								<input type="radio" name="symptoms" id="symptoms1" value=1 <?php if($information && $information[0]["symptoms"] == 1) { echo "checked"; }  ?>>Yes
 							</label>
@@ -304,15 +299,15 @@ fever, dry cough, shortness of breath)? </label>
 							</label>
 						</div>
 						
-						<div class="col-sm-5">
+						<div class="col-sm-8">
 							<textarea id="symptoms_comments" name="symptoms_comments" placeholder="Comments"  class="form-control" rows="1"><?php echo $information?$information[0]["symptoms_comments"]:""; ?></textarea>
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-4 control-label" for="protocols">Crew is aware of site COVID protocols for breaks, lunchrooms,
+						
+					<div class="col-sm-12">
+						<label for="type" class="control-label"><br>Crew is aware of site COVID protocols for breaks, lunchrooms,
 washrooms, elevator use, etc. and practices for hygiene? </label>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<label class="radio-inline">
 								<input type="radio" name="protocols" id="protocols1" value=1 <?php if($information && $information[0]["protocols"] == 1) { echo "checked"; }  ?>>Yes
 							</label>
@@ -321,11 +316,11 @@ washrooms, elevator use, etc. and practices for hygiene? </label>
 							</label>
 						</div>
 						
-						<div class="col-sm-5">
+						<div class="col-sm-8">
 							<textarea id="protocols_comments" name="protocols_comments" placeholder="Comments"  class="form-control" rows="1"><?php echo $information?$information[0]["protocols_comments"]:""; ?></textarea>
 						</div>
 					</div>
-					
+										
 				</div>
 			</div>
 		</div>

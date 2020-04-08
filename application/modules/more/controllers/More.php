@@ -1341,16 +1341,16 @@ ob_end_clean();
 			
 			$data["idRecord"] = $this->input->post('hddIdJob');
 
-			if ($idEnvironmental = $this->more_model->add_environmental()) 
+			if ($idTaskControl = $this->more_model->add_task_control()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Environmental Site Inspection, continue uploading the information.";
-				$data["idEnvironmental"] = $idEnvironmental;
-				$this->session->set_flashdata('retornoExito', 'You have save the Environmental Site Inspection, continue uploading the information!!');
+				$data["mensaje"] = "You have save the Task Assessment and Control, continue uploading the information.";
+				$data["idTaskControl"] = $idTaskControl;
+				$this->session->set_flashdata('retornoExito', 'You have save the Task Assessment and Control, continue uploading the information!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
-				$data["idEnvironmental"] = "";
+				$data["idTaskControl"] = "";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 			
