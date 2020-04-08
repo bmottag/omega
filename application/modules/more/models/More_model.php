@@ -543,6 +543,31 @@
 					return false;
 				}
 		}
+		
+		/**
+		 * task control list
+		 * @since 7/4/2020
+		 */
+		public function get_task_control($arrDatos) 
+		{
+				$this->db->select('T.*, CONCAT(U.first_name, " " , U.last_name) supervisor, J.id_job, J.job_description');
+				$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
+				$this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
+				
+				if (array_key_exists("idJob", $arrDatos)) {
+					$this->db->where('T.fk_id_job', $arrDatos["idJob"]);
+				}
+				if (array_key_exists("idTaskControl", $arrDatos)) {
+					$this->db->where('T.id_job_task_control', $arrDatos["idTaskControl"]);
+				}
+				$query = $this->db->get('job_task_control T');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 
 		
 		

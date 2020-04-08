@@ -1265,6 +1265,155 @@ ob_end_clean();
 			//============================================================+
 		
 	}		
+	
+	/**
+	 * TASK CONTROL list
+     * @since 7/4/2020
+     * @author BMOTTAG
+	 */
+	public function task_control($idJob)
+	{		
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//environmental info
+			$arrParam = array("idJob" => $idJob);				
+			$data['information'] = $this->more_model->get_task_control($arrParam);
+
+			$data["view"] ='task_control_list';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form task control
+     * @since 7/4/2020
+     * @author BMOTTAG
+	 */
+	public function add_task_control($idJob, $idTaskControl = 'x')
+	{
+			$data['information'] = FALSE;
+			
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//worker´s list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+			
+			//si envio el id, entonces busco la informacion 
+			if ($idTaskControl != 'x') {
+				
+				$arrParam = array("idTaskControl" => $idTaskControl);				
+				$data['information'] = $this->more_model->get_task_control($arrParam);
+				
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_task_control';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * save _task_control
+     * @since 7/4/2020
+     * @author BMOTTAG
+	 */
+	public function save_task_control()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idRecord"] = $this->input->post('hddIdJob');
+
+			if ($idEnvironmental = $this->more_model->add_environmental()) 
+			{
+				$data["result"] = true;
+				$data["mensaje"] = "You have save the Environmental Site Inspection, continue uploading the information.";
+				$data["idEnvironmental"] = $idEnvironmental;
+				$this->session->set_flashdata('retornoExito', 'You have save the Environmental Site Inspection, continue uploading the information!!');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$data["idEnvironmental"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Signature
+	 * param $typo: supervisor / manager
+	 * param $idEnvironmental: llave principal del formulario
+	 * param $idJob: llave principal de trabajo
+     * @since 7/4/2020
+     * @author BMOTTAG
+	 */
+	public function add_signature_task_control($typo, $idJob, $idEnvironmental)
+	{
+			if (empty($typo) || empty($idJob) || empty($idEnvironmental) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			if($_POST){
+				
+				//update signature with the name of the file
+				$name = "images/signature/esi/" . $typo . "_" . $idEnvironmental . ".png";
+				
+				$arrParam = array(
+					"table" => "job_environmental",
+					"primaryKey" => "id_job_environmental",
+					"id" => $idEnvironmental,
+					"column" => $typo . "_signature",
+					"value" => $name
+				);
+				//enlace para regresar al formulario
+				$data['linkBack'] = "more/add_environmental/" . $idJob . "/" . $idEnvironmental;
+				
+				$data_uri = $this->input->post("image");
+				$encoded_image = explode(",", $data_uri)[1];
+				$decoded_image = base64_decode($encoded_image);
+				file_put_contents($name, $decoded_image);
+				
+				$this->load->model("general_model");
+				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
+				if ($this->general_model->updateRecord($arrParam)) {
+					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
+					
+					$data['clase'] = "alert-success";
+					$data['msj'] = "Good job, you have save your signature.";	
+				} else {
+					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+					
+					$data['clase'] = "alert-danger";
+					$data['msj'] = "Ask for help.";
+				}
+				
+				$data["view"] = 'template/answer';
+				$this->load->view("layout", $data);
+
+				//redirect("/safety/add_safety/" . $idSafety,'refresh');
+			}else{			
+				$this->load->view('template/make_signature');
+			}
+	}
+
 
 	
 	
