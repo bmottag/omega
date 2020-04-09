@@ -216,7 +216,7 @@ if ($retornoError) {
 			<?php
 			}
 			?>
-			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/superintendent/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Superintendent Signature </a>
+			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_tac/superintendent/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Superintendent Signature </a>
 
 							</div>
 						</div>

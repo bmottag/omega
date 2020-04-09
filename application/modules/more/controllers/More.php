@@ -1359,32 +1359,32 @@ ob_end_clean();
 	
 	/**
 	 * Signature
-	 * param $typo: supervisor / manager
-	 * param $idEnvironmental: llave principal del formulario
+	 * param $typo: supervisor / Superintendent
+	 * param $idTaskControl: llave principal del formulario
 	 * param $idJob: llave principal de trabajo
-     * @since 7/4/2020
+     * @since 8/4/2020
      * @author BMOTTAG
 	 */
-	public function add_signature_task_control($typo, $idJob, $idEnvironmental)
+	public function add_signature_tac($typo, $idJob, $idTaskControl)
 	{
-			if (empty($typo) || empty($idJob) || empty($idEnvironmental) ) {
+			if (empty($typo) || empty($idJob) || empty($idTaskControl) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
 		
 			if($_POST){
 				
 				//update signature with the name of the file
-				$name = "images/signature/esi/" . $typo . "_" . $idEnvironmental . ".png";
+				$name = "images/signature/tac/" . $typo . "_" . $idTaskControl . ".png";
 				
 				$arrParam = array(
-					"table" => "job_environmental",
-					"primaryKey" => "id_job_environmental",
-					"id" => $idEnvironmental,
+					"table" => "job_task_control",
+					"primaryKey" => "id_job_task_control",
+					"id" => $idTaskControl,
 					"column" => $typo . "_signature",
 					"value" => $name
 				);
 				//enlace para regresar al formulario
-				$data['linkBack'] = "more/add_environmental/" . $idJob . "/" . $idEnvironmental;
+				$data['linkBack'] = "more/add_task_control/" . $idJob . "/" . $idTaskControl;
 				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
