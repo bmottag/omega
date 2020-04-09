@@ -961,7 +961,7 @@ class Admin extends CI_Controller {
 			$confirm = $this->input->post("inputConfirm");
 			$passwd = str_replace(array("<",">","[","]","*","^","-","'","="),"",$newPassword); 
 			
-			$data['linkBack'] = "admin/employee/";
+			$data['linkBack'] = "admin/employee/1";
 			$data['titulo'] = "<i class='fa fa-unlock fa-fw'></i>CHANGE PASSWORD";
 			
 			if($newPassword == $confirm)
