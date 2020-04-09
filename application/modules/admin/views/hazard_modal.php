@@ -15,7 +15,7 @@
 			<select name="activity" id="activity" class="form-control" >
 				<option value=''>Select...</option>
 				<?php for ($i = 0; $i < count($activityList); $i++) { ?>
-					<option value="<?php echo $activityList[$i]["id_hazard_activity"]; ?>" <?php if($information[0]["fk_id_hazard_activity"] == $activityList[$i]["id_hazard_activity"]) { echo "selected"; }  ?>><?php echo $activityList[$i]["hazard_activity"]; ?></option>	
+					<option value="<?php echo $activityList[$i]["id_hazard_activity"]; ?>" <?php if($information && $information[0]["fk_id_hazard_activity"] == $activityList[$i]["id_hazard_activity"]) { echo "selected"; }  ?>><?php echo $activityList[$i]["hazard_activity"]; ?></option>	
 				<?php } ?>
 			</select>
 		</div>
@@ -35,7 +35,7 @@
 			<select name="priority" id="priority" class="form-control" >
 				<option value=''>Select...</option>
 				<?php for ($i = 0; $i < count($priorityList); $i++) { ?>
-					<option value="<?php echo $priorityList[$i]["id_priority"]; ?>" <?php if($information[0]["fk_id_priority"] == $priorityList[$i]["id_priority"]) { echo "selected"; }  ?>><?php echo $priorityList[$i]["priority_description"]; ?></option>	
+					<option value="<?php echo $priorityList[$i]["id_priority"]; ?>" <?php if($information && $information[0]["fk_id_priority"] == $priorityList[$i]["id_priority"]) { echo "selected"; }  ?>><?php echo $priorityList[$i]["priority_description"]; ?></option>	
 				<?php } ?>
 			</select>
 		</div>

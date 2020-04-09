@@ -24,7 +24,7 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 					<select name="company" id="company" class="form-control" >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($company); $i++) { ?>
-							<option value="<?php echo $company[$i]["id_company"]; ?>" <?php if($information[0]["fk_id_company"] == $company[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $company[$i]["company_name"]; ?></option>	
+							<option value="<?php echo $company[$i]["id_company"]; ?>" <?php if($information && $information[0]["fk_id_company"] == $company[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $company[$i]["company_name"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>
@@ -59,7 +59,7 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 					<select name="type2" id="type2" class="form-control" >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($vehicleType); $i++) { ?>
-							<option value="<?php echo $vehicleType[$i]["id_type_2"]; ?>" <?php if($information[0]["type_level_2"] == $vehicleType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $vehicleType[$i]["type_2"]; ?></option>	
+							<option value="<?php echo $vehicleType[$i]["id_type_2"]; ?>" <?php if($information && $information[0]["type_level_2"] == $vehicleType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $vehicleType[$i]["type_2"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>

@@ -220,8 +220,8 @@ if($userRol==99){
 							<div class="col-sm-5">
 								<select name="CompanyType" id="CompanyType" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 <?php if($information["company_type"] == 1) { echo "selected"; }  ?>>VCI</option>
-									<option value=2 <?php if($information["company_type"] == 2) { echo "selected"; }  ?>>Subcontractor</option>
+									<option value=1 <?php if($information && $information["company_type"] == 1) { echo "selected"; }  ?>>VCI</option>
+									<option value=2 <?php if($information && $information["company_type"] == 2) { echo "selected"; }  ?>>Subcontractor</option>
 								</select>
 							</div>
 						</div>
@@ -232,7 +232,7 @@ if($userRol==99){
 								<select name="company" id="company" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($companyList); $i++) { ?>
-										<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if($information["fk_id_company"] == $companyList[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $companyList[$i]["company_name"]; ?></option>	
+										<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if($information && $information["fk_id_company"] == $companyList[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $companyList[$i]["company_name"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -254,7 +254,7 @@ if($userRol==99){
 									<?php if($information){ ?>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($truckList); $i++) { ?>
-										<option value="<?php echo $truckList[$i]["id_vehicle"]; ?>" <?php if($information["fk_id_truck"] == $truckList[$i]["id_vehicle"]) { echo "selected"; }  ?>><?php echo $truckList[$i]["unit_number"]; ?></option>	
+										<option value="<?php echo $truckList[$i]["id_vehicle"]; ?>" <?php if($information && $information["fk_id_truck"] == $truckList[$i]["id_vehicle"]) { echo "selected"; }  ?>><?php echo $truckList[$i]["unit_number"]; ?></option>	
 									<?php }} ?>
 
 								</select>
@@ -267,7 +267,7 @@ if($userRol==99){
 								<select name="truckType" id="truckType" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($truckTypeList); $i++) { ?>
-										<option value="<?php echo $truckTypeList[$i]["id_truck_type"]; ?>" <?php if($information["fk_id_truck_type"] == $truckTypeList[$i]["id_truck_type"]) { echo "selected"; }  ?>><?php echo $truckTypeList[$i]["truck_type"]; ?></option>	
+										<option value="<?php echo $truckTypeList[$i]["id_truck_type"]; ?>" <?php if($information && $information["fk_id_truck_type"] == $truckTypeList[$i]["id_truck_type"]) { echo "selected"; }  ?>><?php echo $truckTypeList[$i]["truck_type"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -286,7 +286,7 @@ if($userRol==99){
 								<select name="materialType" id="materialType" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($materialTypeList); $i++) { ?>
-										<option value="<?php echo $materialTypeList[$i]["id_material"]; ?>" <?php if($information["fk_id_material"] == $materialTypeList[$i]["id_material"]) { echo "selected"; }  ?>><?php echo $materialTypeList[$i]["material"]; ?></option>	
+										<option value="<?php echo $materialTypeList[$i]["id_material"]; ?>" <?php if($information && $information["fk_id_material"] == $materialTypeList[$i]["id_material"]) { echo "selected"; }  ?>><?php echo $materialTypeList[$i]["material"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -298,7 +298,7 @@ if($userRol==99){
 								<select name="fromSite" id="fromSite" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information["fk_id_site_from"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information["fk_id_site_from"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -310,7 +310,7 @@ if($userRol==99){
 								<select name="toSite" id="toSite" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information["fk_id_site_to"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information["fk_id_site_to"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -388,7 +388,7 @@ if($userRol==99){
 								<select name="payment" id="payment" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($paymentList); $i++) { ?>
-										<option value="<?php echo $paymentList[$i]["id_payment"]; ?>" <?php if($information["fk_id_payment"] == $paymentList[$i]["id_payment"]) { echo "selected"; }  ?>><?php echo $paymentList[$i]["payment"]; ?></option>	
+										<option value="<?php echo $paymentList[$i]["id_payment"]; ?>" <?php if($information && $information["fk_id_payment"] == $paymentList[$i]["id_payment"]) { echo "selected"; }  ?>><?php echo $paymentList[$i]["payment"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>

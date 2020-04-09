@@ -17,7 +17,7 @@
 					<select name="id_menu" id="id_menu" class="form-control" required>
 						<option value="">Select...</option>
 						<?php for ($i = 0; $i < count($menuList); $i++) { ?>
-							<option value="<?php echo $menuList[$i]["id_menu"]; ?>" <?php if($information[0]["fk_id_menu"] == $menuList[$i]["id_menu"]) { echo "selected"; }  ?>><?php echo $menuList[$i]["menu_name"]; ?></option>	
+							<option value="<?php echo $menuList[$i]["id_menu"]; ?>" <?php if($information && $information[0]["fk_id_menu"] == $menuList[$i]["id_menu"]) { echo "selected"; }  ?>><?php echo $menuList[$i]["menu_name"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>

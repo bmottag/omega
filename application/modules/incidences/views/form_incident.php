@@ -177,7 +177,7 @@ if($information[0]["coordinator_signature"]){
 								<select name="incidentType" id="incidentType" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($incidentType); $i++) { ?>
-										<option value="<?php echo $incidentType[$i]["id_incident_type"]; ?>" <?php if($information && $information[0]["fk_incident_type"] == $incidentType[$i]["id_incident_type"]) { echo "selected"; }  ?>><?php echo $incidentType[$i]["incident_type"]; ?></option>	
+										<option value="<?php echo $incidentType[$i]["id_incident_type"]; ?>" <?php if($information && $information && $information[0]["fk_incident_type"] == $incidentType[$i]["id_incident_type"]) { echo "selected"; }  ?>><?php echo $incidentType[$i]["incident_type"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>

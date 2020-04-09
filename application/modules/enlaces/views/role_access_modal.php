@@ -19,7 +19,7 @@
 					<select name="id_menu" id="id_menu" class="form-control" required>
 						<option value="">Select...</option>
 						<?php for ($i = 0; $i < count($menuList); $i++) { ?>
-							<option value="<?php echo $menuList[$i]["id_menu"]; ?>" <?php if($information[0]["fk_id_menu"] == $menuList[$i]["id_menu"]) { echo "selected"; }  ?>><?php echo $menuList[$i]["menu_name"]; ?></option>	
+							<option value="<?php echo $menuList[$i]["id_menu"]; ?>" <?php if($information && $information[0]["fk_id_menu"] == $menuList[$i]["id_menu"]) { echo "selected"; }  ?>><?php echo $menuList[$i]["menu_name"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>
@@ -38,7 +38,7 @@
 					<select name="id_link" id="id_link" class="form-control" >
 						<option value="">Select...</option>
 						<?php for ($i = 0; $i < count($linkList); $i++) { ?>
-							<option value="<?php echo $linkList[$i]["id_link"]; ?>" <?php if($information[0]["fk_id_link"] == $linkList[$i]["id_link"]) { echo "selected"; }  ?>><?php echo $linkList[$i]["link_name"]; ?></option>	
+							<option value="<?php echo $linkList[$i]["id_link"]; ?>" <?php if($information && $information[0]["fk_id_link"] == $linkList[$i]["id_link"]) { echo "selected"; }  ?>><?php echo $linkList[$i]["link_name"]; ?></option>	
 						<?php } ?>					
 					</select>
 				</div>
@@ -52,7 +52,7 @@
 					<select name="id_rol" id="id_rol" class="form-control" required>
 						<option value="">Select...</option>
 						<?php for ($i = 0; $i < count($roles); $i++) { ?>
-							<option value="<?php echo $roles[$i]["id_rol"]; ?>" <?php if($information[0]["fk_id_rol"] == $roles[$i]["id_rol"]) { echo "selected"; }  ?>><?php echo $roles[$i]["rol_name"]; ?></option>	
+							<option value="<?php echo $roles[$i]["id_rol"]; ?>" <?php if($information && $information[0]["fk_id_rol"] == $roles[$i]["id_rol"]) { echo "selected"; }  ?>><?php echo $roles[$i]["rol_name"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>

@@ -117,7 +117,7 @@
 					<select name="perfil" id="perfil" class="form-control" required>
 						<option value="">Select...</option>
 						<?php for ($i = 0; $i < count($roles); $i++) { ?>
-							<option value="<?php echo $roles[$i]["id_rol"]; ?>" <?php if($information[0]["perfil"] == $roles[$i]["id_rol"]) { echo "selected"; }  ?>><?php echo $roles[$i]["rol_name"]; ?></option>	
+							<option value="<?php echo $roles[$i]["id_rol"]; ?>" <?php if($information && $information[0]["perfil"] == $roles[$i]["id_rol"]) { echo "selected"; }  ?>><?php echo $roles[$i]["rol_name"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>
