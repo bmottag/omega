@@ -27,7 +27,7 @@
 								<select name="id_maintenance_type" id="id_maintenance_type" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($infoTypeMaintenance); $i++) { ?>
-										<option value="<?php echo $infoTypeMaintenance[$i]["id_maintenance_type"]; ?>" <?php if($information[0]["fk_id_maintenance_type"] == $infoTypeMaintenance[$i]["id_maintenance_type"]) { echo "selected"; }  ?>><?php echo $infoTypeMaintenance[$i]["maintenance_type"]; ?></option>
+										<option value="<?php echo $infoTypeMaintenance[$i]["id_maintenance_type"]; ?>" <?php if($information && $information[0]["fk_id_maintenance_type"] == $infoTypeMaintenance[$i]["id_maintenance_type"]) { echo "selected"; }  ?>><?php echo $infoTypeMaintenance[$i]["maintenance_type"]; ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -49,7 +49,7 @@
 								<select name="id_stock" id="id_stock" class="form-control" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($infoStock); $i++) { ?>
-										<option value="<?php echo $infoStock[$i]["id_stock"]; ?>" <?php if($information[0]["fk_id_stock"] == $infoStock[$i]["id_stock"]) { echo "selected"; }  ?>><?php echo $infoStock[$i]["stock_description"] . " - $" . $infoStock[$i]["stock_price"] ; ?></option>
+										<option value="<?php echo $infoStock[$i]["id_stock"]; ?>" <?php if($information && $information[0]["fk_id_stock"] == $infoStock[$i]["id_stock"]) { echo "selected"; }  ?>><?php echo $infoStock[$i]["stock_description"] . " - $" . $infoStock[$i]["stock_price"] ; ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -116,7 +116,7 @@
 								<select name="revised_by" id="revised_by" class="form-control">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_revised_by_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_revised_by_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>

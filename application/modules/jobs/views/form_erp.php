@@ -125,7 +125,7 @@ if ($retornoError) {
 								<select name="responsible" id="responsible" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["responsible_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["responsible_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>								
 							</div>
@@ -137,7 +137,7 @@ if ($retornoError) {
 								<select name="coordinator" id="coordinator" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["coordinator_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["coordinator_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>								
 							</div>
@@ -260,7 +260,7 @@ required assistance prior to the arrival of the professional medical help:</p>
 								<select name="contact1" id="contact1" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["emergency_user_1"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["emergency_user_1"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>								
 							</div>
@@ -272,7 +272,7 @@ required assistance prior to the arrival of the professional medical help:</p>
 								<select name="contact2" id="contact2" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["emergency_user_2"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["emergency_user_2"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>								
 							</div>

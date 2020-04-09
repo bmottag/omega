@@ -230,7 +230,7 @@ if ($retornoError) {
 							<select name="post_entry" id="post_entry" class="form-control">
 								<option value=''>Select...</option>
 								<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-									<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_id_post_entry_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+									<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_post_entry_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 								<?php } ?>
 							</select>								
 						</div>

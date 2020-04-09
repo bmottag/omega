@@ -1102,7 +1102,7 @@ if($idVehicle == 5 || $idVehicle == 11 || $idVehicle == 12){
 							<select name="trailer" id="trailer" class="form-control" >
 								<option value=''>Select...</option>
 								<?php for ($i = 0; $i < count($trailerList); $i++) { ?>
-									<option value="<?php echo $trailerList[$i]["id_vehicle"]; ?>" <?php if($information[0]["fk_id_trailer"] == $trailerList[$i]["id_vehicle"]) { echo "selected"; }  ?>><?php echo $trailerList[$i]["unit_number"] . ' -----> ' . $trailerList[$i]["description"]; ?></option>	
+									<option value="<?php echo $trailerList[$i]["id_vehicle"]; ?>" <?php if($information && $information[0]["fk_id_trailer"] == $trailerList[$i]["id_vehicle"]) { echo "selected"; }  ?>><?php echo $trailerList[$i]["unit_number"] . ' -----> ' . $trailerList[$i]["description"]; ?></option>	
 								<?php } ?>
 							</select>
 						</div>

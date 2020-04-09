@@ -190,7 +190,7 @@ if ($retornoError) {
 										<select name="jobName" id="jobName" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-												<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+												<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 											<?php } ?>
 										</select>								
 									</div>
@@ -203,7 +203,7 @@ if ($retornoError) {
 										<select name="company" id="company" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($companyList); $i++) { ?>
-												<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if($information[0]["fk_id_company"] == $companyList[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $companyList[$i]["company_name"]; ?></option>	
+												<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if($information && $information[0]["fk_id_company"] == $companyList[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $companyList[$i]["company_name"]; ?></option>	
 											<?php } ?>
 										</select>							
 									</div>

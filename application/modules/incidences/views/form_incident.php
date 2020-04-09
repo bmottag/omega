@@ -177,7 +177,7 @@ if($information[0]["coordinator_signature"]){
 								<select name="incidentType" id="incidentType" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($incidentType); $i++) { ?>
-										<option value="<?php echo $incidentType[$i]["id_incident_type"]; ?>" <?php if($information[0]["fk_incident_type"] == $incidentType[$i]["id_incident_type"]) { echo "selected"; }  ?>><?php echo $incidentType[$i]["incident_type"]; ?></option>	
+										<option value="<?php echo $incidentType[$i]["id_incident_type"]; ?>" <?php if($information && $information[0]["fk_incident_type"] == $incidentType[$i]["id_incident_type"]) { echo "selected"; }  ?>><?php echo $incidentType[$i]["incident_type"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -361,7 +361,7 @@ if($information[0]["coordinator_signature"]){
 								<select name="manager" id="manager" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["manager_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["manager_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>								
 							</div>
@@ -373,7 +373,7 @@ if($information[0]["coordinator_signature"]){
 								<select name="coordinator" id="coordinator" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["safety_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["safety_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>								
 							</div>
