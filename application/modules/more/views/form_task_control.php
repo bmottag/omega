@@ -18,11 +18,11 @@
 						<?php 
 						if($information){
 								echo "<br><strong>Date review: </strong>";
-								echo $information[0]["date_environmental"]; 
+								echo $information[0]["date_task_control"]; 
 								
-								echo "<br><strong>Dowloand ESI: </strong>";
+								echo "<br><strong>Dowloand TAC: </strong>";
 						?>
-<a href='<?php echo base_url('more/generaEnvironmentalPDF/' . $jobInfo[0]['id_job'] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
+<a href='<?php echo base_url('more/generaTaskControlPDF/' . $information[0]["id_job_task_control"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 
 						}
 						?>
@@ -65,33 +65,82 @@ if ($retornoError) {
 
 
 <!-- INICIO FIRMA -->
-<?php if($information){ //solo se muestran las firmas cuando hay informacion ?> 						
+<?php if($information){ //solo se muestran las firmas cuando hay informacion 
+			
+			$bandera =	FALSE;
+			if($information[0]["distancing"] == 2 || $information[0]["sharing_tools"] == 2 || $information[0]["required_ppe"] == 2 || $information[0]["symptoms"] == 2 || $information[0]["protocols"] == 2)
+			{
+				$bandera =	TRUE;
+			}
+
+			if($bandera){
+?>
+
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="alert alert-danger">
+				<strong>Attention: </strong>
+				<p>
+					If you have selected "NO" to any of the questions, STOP!<br>
+					You must not start work until you have:
+					<ul>
+						<li>Developed additional mitigation strategies;</li>
+						<li>Reviewed the mitigation strategies and they have been approved by the PCL Superintendent.</li>
+						<li>Ensured you are in compliance with Alberta OH&S regarding "Right to refuse dangerous work".</li>
+					</ul>
+				</p>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="alert alert-success">
+				<strong>Sample Mitigation Strategies: </strong>
+				<p>
+					The mitigation strategies can include, but are not limited, to items such as…<br>
+					You must not start work until you have:
+					<ul>
+						<li>Splitting crew sizes</li>
+						<li>Providing respirators and full-faceshields when distance cannot be maintained</li>
+						<li>Utilizing additional equipment to maintain distancing</li>
+						<li>Providing shielding to provide a barrier between workers</li>
+						<li>Staggering breaks to prevent exposure</li>
+						<li>Disinfecting tools that must be shared</li>
+						<li>Cleaning offices lunch rooms and other common areas as per COVID-19 Cleaning schedule</li>
+						<li>Social distancing of 6 feet required</li>
+					</ul>
+				</p>
+			</div>
+		</div>
+	
+		<div class="col-lg-4">
+			<div class="alert alert-success">
+				<strong>Mitigation Plan: </strong>
+				<p>
+					Where an additional mitigation plan is required, it must be approved by the PCL Superintendent and Project
+					Manager. This includes where items have been highlighted for example splitting crews, adjusting task,
+					additional disinfectant steps, barriers, face shields, etc.
+				</p>
+			</div>
+		</div>
+	</div>
+	
+			<?php } ?>
 	
 	<div class="row">
 		<div class="col-lg-6">				
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<strong>Site inspector: *</strong>
+					<strong>Supervisor: </strong> <?php echo $information[0]["supervisor"]; ?>
 				</div>
 				<div class="panel-body">								
 				
 					<div class="form-group">
-						<div class="col-sm-12">
-							<select name="inspector" id="inspector" class="form-control" required>
-								<option value=''>Select...</option>
-								<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-									<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_id_user_inspector"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
-								<?php } ?>
-							</select>								
-						</div>
-					</div>
-
-					<div class="form-group">
 						<div class="row" align="center">
 							<div style="width:70%;" align="center">
+
 		<?php 
 		$class = "btn-primary";						
-		if($information[0]["inspector_signature"]){ 
+		if($information[0]["supervisor_signature"]){ 
 			$class = "btn-default";
 		?>
 				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" >
@@ -103,8 +152,8 @@ if ($retornoError) {
 						<div class="modal-content">      
 							<div class="modal-header">        
 								<button type="button" class="close" data-dismiss="modal">×</button>        
-								<h4 class="modal-title">VCI Inspector Signature</h4>      </div>      
-							<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["inspector_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
+								<h4 class="modal-title">Supervisor Signature</h4>      </div>      
+							<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["supervisor_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
 							<div class="modal-footer">        
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
 							</div>  
@@ -115,7 +164,7 @@ if ($retornoError) {
 		}
 		?>
 
-		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/inspector/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_environmental"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Inspector Signature </a>
+		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_tac/supervisor/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Supervisor Signature </a>
 
 							</div>
 						</div>
@@ -125,30 +174,25 @@ if ($retornoError) {
 			</div>
 		</div>
 	
+<?php if($bandera){  ?>
 		<div class="col-lg-6">				
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<strong>Manager: *</strong>
+					<strong>Project Superintendent: </strong><?php echo $information[0]["superintendent"]; ?>
 				</div>
 				<div class="panel-body">								
-				
-					<div class="form-group">
-						<div class="col-sm-12">
-							<select name="manager" id="manager" class="form-control" required>
-								<option value=''>Select...</option>
-								<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-									<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information[0]["fk_id_user_manager"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
-								<?php } ?>
-							</select>								
-						</div>
-					</div>
 
+					<div class="col-sm-12">
+						<label for="superintendent" class="control-label">Superintendent name: *</label>
+						<input type="text" class="form-control" id="superintendent" name="superintendent" value="<?php echo $information[0]["superintendent"]; ?>" />
+					</div>
+				<br><br><br><br>
 					<div class="form-group">
 						<div class="row" align="center">
 							<div style="width:70%;" align="center">								 
 			<?php 
 			$class = "btn-primary";						
-			if($information[0]["manager_signature"]){ 
+			if($information[0]["superintendent_signature"]){ 
 				$class = "btn-default";
 			?>
 					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myContractorModal" >
@@ -160,8 +204,8 @@ if ($retornoError) {
 							<div class="modal-content">      
 								<div class="modal-header">        
 									<button type="button" class="close" data-dismiss="modal">×</button>        
-									<h4 class="modal-title">VCI Manager Signature</h4>      </div>      
-					<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["manager_signature"]); ?>" class="img-rounded" alt="Safety Coordinator Signature" width="304" height="236" />   </div>      
+									<h4 class="modal-title">Project Superintendent Signature</h4>      </div>      
+					<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["superintendent_signature"]); ?>" class="img-rounded" alt="Safety Coordinator Signature" width="304" height="236" />   </div>
 								<div class="modal-footer">        
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
 								</div>  
@@ -172,7 +216,7 @@ if ($retornoError) {
 			<?php
 			}
 			?>
-			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/manager/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_environmental"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Manager Signature </a>
+			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/superintendent/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Superintendent Signature </a>
 
 							</div>
 						</div>
@@ -181,6 +225,9 @@ if ($retornoError) {
 				</div>
 			</div>
 		</div>	
+<?php } ?>
+		
+		
 	</div>
 	
 						<div class="form-group">
@@ -201,7 +248,7 @@ if ($retornoError) {
 		<div class="col-lg-5">
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<strong>Genral Information</strong>
+					<strong>General Information</strong>
 				</div>
 				<div class="panel-body">								
 											
@@ -326,58 +373,6 @@ washrooms, elevator use, etc. and practices for hygiene? </label>
 		</div>
 	</div>
 	
-	
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="alert alert-danger">
-				<strong>Attention: </strong>
-				<p>
-					If you have selected "NO" to any of the above questions, STOP!<br>
-					You must not start work until you have:
-					<ul>
-						<li>Developed additional mitigation strategies;</li>
-						<li>Reviewed the mitigation strategies and they have been approved by the PCL Superintendent.</li>
-						<li>Ensured you are in compliance with Alberta OH&S regarding "Right to refuse dangerous work".</li>
-					</ul>
-				</p>
-			</div>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="alert alert-success">
-				<strong>Sample Mitigation Strategies: </strong>
-				<p>
-					The mitigation strategies can include, but are not limited, to items such as…<br>
-					You must not start work until you have:
-					<ul>
-						<li>Splitting crew sizes</li>
-						<li>Providing respirators and full-faceshields when distance cannot be maintained</li>
-						<li>Utilizing additional equipment to maintain distancing</li>
-						<li>Providing shielding to provide a barrier between workers</li>
-						<li>Staggering breaks to prevent exposure</li>
-						<li>Disinfecting tools that must be shared</li>
-						<li>Cleaning offices lunch rooms and other common areas as per COVID-19 Cleaning schedule</li>
-						<li>Social distancing of 6 feet required</li>
-					</ul>
-				</p>
-			</div>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="alert alert-success">
-				<strong>Mitigation Plan: </strong>
-				<p>
-					Where an additional mitigation plan is required, it must be approved by the PCL Superintendent and Project
-					Manager. This includes where items have been highlighted for example splitting crews, adjusting task,
-					additional disinfectant steps, barriers, face shields, etc.
-				</p>
-			</div>
-		</div>
-	</div>
 
 								
 <?php if(!$information){ ?>

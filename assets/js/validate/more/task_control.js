@@ -4,7 +4,13 @@ $( document ).ready( function () {
 		rules: {
 			work_location:		{ required: true },
 			crew_size:			{ required: true },
-			task:				{ required: true }
+			task:				{ required: true },
+			distancing:			{ required: true },
+			sharing_tools:		{ required: true },
+			required_ppe:		{ required: true },
+			symptoms:			{ required: true },
+			protocols:			{ required: true }
+
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -66,7 +72,7 @@ $( document ).ready( function () {
 							$("#div_guardado").css("display", "inline");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "more/task_control/" + data.idRecord + "/" + data.idToolBox;
+							var url = base_url + "more/add_task_control/" + data.idRecord + "/" + data.idTaskControl;
 							$(location).attr("href", url);
 						}
 						else

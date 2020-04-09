@@ -1344,9 +1344,9 @@ ob_end_clean();
 			if ($idTaskControl = $this->more_model->add_task_control()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Task Assessment and Control, continue uploading the information.";
+				$data["mensaje"] = "You have save the Task Assessment and Control, don't forget to sign..";
 				$data["idTaskControl"] = $idTaskControl;
-				$this->session->set_flashdata('retornoExito', 'You have save the Task Assessment and Control, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', "You have save the Task Assessment and Control, don't forget to sign.!!");
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

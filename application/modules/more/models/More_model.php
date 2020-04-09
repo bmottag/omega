@@ -580,6 +580,7 @@
 			$idEnvironmental = $this->input->post('hddIdentificador');
 		
 			$data = array(
+				'superintendent' => $this->input->post('superintendent'),
 				'work_location' => $this->input->post('work_location'),
 				'crew_size' => $this->input->post('crew_size'),
 				'task' => $this->input->post('task'),
