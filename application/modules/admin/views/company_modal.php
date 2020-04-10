@@ -10,30 +10,34 @@
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_company"]:""; ?>"/>
 		
-		<div class="form-group text-left">
-			<label class="control-label" for="company">Company name</label>
-			<input type="text" id="company" name="company" class="form-control" value="<?php echo $information?$information[0]["company_name"]:""; ?>" placeholder="Company name" required >
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="company">Company name</label>
+					<input type="text" id="company" name="company" class="form-control" value="<?php echo $information?$information[0]["company_name"]:""; ?>" placeholder="Company name" required >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="contact">Contact</label>
+					<input type="text" id="contact" name="contact" class="form-control" value="<?php echo $information?$information[0]["contact"]:""; ?>" placeholder="Contact" required >
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group text-left">
-			<label class="control-label" for="contact">Contact</label>
-			<input type="text" id="contact" name="contact" class="form-control" value="<?php echo $information?$information[0]["contact"]:""; ?>" placeholder="Contact" required >
-		</div>
-		
-		<div class="form-group text-left">
-			<label class="control-label" for="movilNumber">Movil number</label>
-			<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["movil_number"]:""; ?>" placeholder="Movil Number" required >
-		</div>
-		
-		<div class="form-group text-left">
-			<label class="control-label" for="email">Email</label>
-			<input type="text" class="form-control" id="email" name="email" value="<?php echo $information?$information[0]["email"]:""; ?>" placeholder="Email" />
-		</div>
-		
-		<div class="form-group">
-			<div class="row" align="center">
-				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="movilNumber">Movil number</label>
+					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["movil_number"]:""; ?>" placeholder="Movil Number" required >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="email">Email</label>
+					<input type="text" class="form-control" id="email" name="email" value="<?php echo $information?$information[0]["email"]:""; ?>" placeholder="Email" />
 				</div>
 			</div>
 		</div>
@@ -49,6 +53,16 @@
 			<div id="div_error" style="display:none">			
 				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
 			</div>	
+		</div>
+
+		<div class="form-group">
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 			
 	</form>
