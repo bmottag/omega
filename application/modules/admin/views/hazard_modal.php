@@ -10,40 +10,56 @@
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_hazard"]:""; ?>"/>
 		
-		<div class="form-group text-left">
-			<label class="control-label" for="activity">Activity</label>
-			<select name="activity" id="activity" class="form-control" >
-				<option value=''>Select...</option>
-				<?php for ($i = 0; $i < count($activityList); $i++) { ?>
-					<option value="<?php echo $activityList[$i]["id_hazard_activity"]; ?>" <?php if($information && $information[0]["fk_id_hazard_activity"] == $activityList[$i]["id_hazard_activity"]) { echo "selected"; }  ?>><?php echo $activityList[$i]["hazard_activity"]; ?></option>	
-				<?php } ?>
-			</select>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="activity">Activity: *</label>
+					<select name="activity" id="activity" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($activityList); $i++) { ?>
+							<option value="<?php echo $activityList[$i]["id_hazard_activity"]; ?>" <?php if($information && $information[0]["fk_id_hazard_activity"] == $activityList[$i]["id_hazard_activity"]) { echo "selected"; }  ?>><?php echo $activityList[$i]["hazard_activity"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="priority">Priority: *</label>
+					<select name="priority" id="priority" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($priorityList); $i++) { ?>
+							<option value="<?php echo $priorityList[$i]["id_priority"]; ?>" <?php if($information && $information[0]["fk_id_priority"] == $priorityList[$i]["id_priority"]) { echo "selected"; }  ?>><?php echo $priorityList[$i]["priority_description"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
 		</div>
-		
-		<div class="form-group text-left">
-			<label class="control-label" for="hazardName">Hazard</label>
-			<input type="text" id="hazardName" name="hazardName" class="form-control" value="<?php echo $information?$information[0]["hazard_description"]:""; ?>" placeholder="Hazard" required >
+			
+		<div class="row">
+			<div class="col-sm-12">				
+				<div class="form-group text-left">
+					<label class="control-label" for="hazardName">Hazard: *</label>
+					<input type="text" id="hazardName" name="hazardName" class="form-control" value="<?php echo $information?$information[0]["hazard_description"]:""; ?>" placeholder="Hazard" required >
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group text-left">
-			<label class="control-label" for="solution">Solution</label>
-			<textarea id="solution" name="solution" class="form-control" rows="3"><?php echo $information?$information[0]["solution"]:""; ?></textarea>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="solution">Solution: *</label>
+					<textarea id="solution" name="solution" class="form-control" rows="3"><?php echo $information?$information[0]["solution"]:""; ?></textarea>
+				</div>
+			</div>
 		</div>
-		
-		<div class="form-group text-left">
-			<label class="control-label" for="priority">Priority</label>
-			<select name="priority" id="priority" class="form-control" >
-				<option value=''>Select...</option>
-				<?php for ($i = 0; $i < count($priorityList); $i++) { ?>
-					<option value="<?php echo $priorityList[$i]["id_priority"]; ?>" <?php if($information && $information[0]["fk_id_priority"] == $priorityList[$i]["id_priority"]) { echo "selected"; }  ?>><?php echo $priorityList[$i]["priority_description"]; ?></option>	
-				<?php } ?>
-			</select>
-		</div>
-		
+				
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
 				</div>
 			</div>
 		</div>

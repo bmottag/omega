@@ -4,7 +4,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/admin/cargarModalHazard',
+				url: base_url + 'admin/cargarModalHazard',
                 data: {'idHazard': oID},
                 cache: false,
                 success: function (data) {

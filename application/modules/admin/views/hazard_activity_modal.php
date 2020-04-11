@@ -9,15 +9,22 @@
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_hazard_activity"]:""; ?>"/>
-		<div class="form-group text-left">
-				<label for="type" class="control-label">Hazard Activity : *</label>
-				<input type="text" id="hazardActivity" name="hazardActivity" class="form-control" value="<?php echo $information?$information[0]["hazard_activity"]:""; ?>" placeholder="Hazard Activity" required >
-		</div> 
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+						<label for="type" class="control-label">Hazard Activity : *</label>
+						<input type="text" id="hazardActivity" name="hazardActivity" class="form-control" value="<?php echo $information?$information[0]["hazard_activity"]:""; ?>" placeholder="Hazard Activity" required >
+				</div>
+			</div>
+		</div>
 		
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
 				</div>
 			</div>
 		</div>
