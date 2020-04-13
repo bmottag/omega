@@ -6,6 +6,7 @@ class Workorders extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("workorders_model");
+		$this->load->library('PHPExcel.php');
     }
 	
 	/**
