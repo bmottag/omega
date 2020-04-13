@@ -15,18 +15,6 @@ if($userRol==99){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-edit fa-fw"></i>	RECORD TASK(S)
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 <form  name="form" id="form" class="form-horizontal" method="post" >
 	<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_inspection_sweeper"]:""; ?>"/>
@@ -37,9 +25,9 @@ if($userRol==99){
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-danger">
 				<div class="panel-heading">
-					<i class="fa fa-search"></i> INSPECTION - STREET SWEEPER DAILY INSPECTION - #3
+					<i class="fa fa-search"></i> <strong> STREET SWEEPER INSPECTION - III</strong><!-- #3 -->
 				</div>
 				<div class="panel-body">
 
@@ -69,48 +57,23 @@ if ($retornoError) {
 }
 ?> 
 
-			<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
-				<thead>
-					<tr>
-						<th>Photo</th>
-						<th>Description</th>
-						<th>Unit Number</th>
-						<th>Hours</th>
-						<th>Next Oil Change</th>
-					</tr>
-				</thead>
-				<tbody>							
-				<?php
-						echo "<tr>";
-						echo "<td class='text-center'>";
-						if($vehicleInfo[0]["photo"]){
-				?>
-				<img src="<?php echo base_url($vehicleInfo[0]["photo"]); ?>" class="img-rounded" width="50" height="50" />
-				<?php
-						}else{
-							echo "---";
-						}
-						echo "</td>";
-						echo "<td>" . $vehicleInfo[0]["description"] . "</td>";
-						echo "<td class='text-center'>" . $vehicleInfo[0]["unit_number"] . "</td>";
-						echo "<td class='text-right'>";
+					<?php if($vehicleInfo[0]["photo"]){ ?>
+						<div class="form-group">
+							<div class="row" align="center">
+								<img src="<?php echo base_url($vehicleInfo[0]["photo"]); ?>" class="img-rounded" alt="Vehicle Photo" />
+							</div>
+						</div>
+					<?php } ?>
+				
+					<strong>Description: </strong><?php echo $vehicleInfo[0]['description']; ?><br>
+					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
+					<p class='text-danger'>
+						<strong>Truck engine current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
+						<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change"]); ?> hours
 						
-						echo "Truck engine current hours: " . number_format($vehicleInfo[0]["hours"]);
-						echo "<br>Sweeper engine current hours: " . number_format($vehicleInfo[0]["hours_2"]);
-						
-						echo "</td>";
-						
-						echo "<td class='text-right'>";
-						
-						echo number_format($vehicleInfo[0]["oil_change"]);
-						echo "<br>" . number_format($vehicleInfo[0]["oil_change_2"]);
-						
-						echo "</td>";
-						
-						echo "</tr>";
-				?>
-				</tbody>
-			</table>
+						<br><strong>Sweeper engine current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_2"]); ?> hours
+						<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change_2"]); ?> hours
+					</p>
 					
 <!-- INICIO Firma del conductor -->					
 <?php if($information){ 
@@ -191,7 +154,7 @@ if ($retornoError) {
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					HOURS
+					<strong>HOURS</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -243,7 +206,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					ENGINE VEHICLE
+					<strong>ENGINE VEHICLE</strong>
 				</div>
 				<div class="panel-body">
 									
@@ -346,7 +309,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					ENGINE SWEEPER
+					<strong>ENGINE SWEEPER</strong>
 				</div>
 				<div class="panel-body">
 									
@@ -419,7 +382,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					LIGHTS
+					<strong>LIGHTS</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -537,7 +500,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">						
-					EXTERIOR
+					<strong>EXTERIOR</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -655,7 +618,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					GREASING
+					<strong>GREASING</strong>
 				</div>
 				<div class="panel-body">
 
@@ -773,7 +736,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					SWEEPER
+					<strong>SWEEPER</strong>
 				</div>
 				<div class="panel-body">
 									
@@ -921,7 +884,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">						
-					SERVICE
+					<strong>SERVICE</strong>
 				</div>
 				<div class="panel-body">
 
@@ -1069,7 +1032,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					SAFETY
+					<strong>SAFETY</strong>
 				</div>
 				<div class="panel-body">
 					
@@ -1142,7 +1105,7 @@ if($userRol==99){
 		<div class="col-lg-12">				
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					COMMENTS
+					<strong>COMMENTS</strong>
 				</div>
 				<div class="panel-body">
 													
@@ -1158,54 +1121,34 @@ if($userRol==99){
 		</div>
 	</div>
 
-						<div class="form-group">
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
-									<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
-								</div>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<div class="row" align="center">
-								<div style="width:80%;" align="center">
-									<div id="div_load" style="display:none">		
-										<div class="progress progress-striped active">
-											<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-												<span class="sr-only">45% completado</span>
-											</div>
-										</div>
-									</div>
-									<div id="div_error" style="display:none">			
-										<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					<!-- /.row (nested) -->
-				</div>
-				<!-- /.panel-body -->
+	<div class="form-group">
+		<div class="row" align="center">
+			<div style="width:50%;" align="center">
+				<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+					Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+				</button> 
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
+						
+	<div class="form-group">
+		<div class="row" align="center">
+			<div style="width:80%;" align="center">
+				<div id="div_load" style="display:none">		
+					<div class="progress progress-striped active">
+						<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+							<span class="sr-only">45% completado</span>
+						</div>
+					</div>
+				</div>
+				<div id="div_error" style="display:none">			
+					<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </form>
 	
 </div>
 <!-- /#page-wrapper -->
-
-    <!-- Tables -->
-    <script>
-    $(document).ready(function() {
-        $('#dataTables').DataTable({
-            responsive: true,
-			 "ordering": false,
-			 paging: false,
-			"searching": false,
-			"info": false
-        });
-    });
-    </script>

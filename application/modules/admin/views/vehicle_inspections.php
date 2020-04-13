@@ -12,7 +12,7 @@
 				<div class="panel-body">
 
 					<div class="alert alert-danger">
-						If the record is red is because the inspection have comments.
+						If the record is red is because the inspection have comments.<br>
 						For the inspection details, click on the PDF link. <br>
 						If you want to check all inspection fails, go to Reports.
 					</div>
