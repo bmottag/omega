@@ -179,32 +179,30 @@ return date;
 							</tr>
 						</thead>
 						<tbody>							
-						<?php						
-							setlocale(LC_MONETARY, 'en_US');
-							
+						<?php													
 							echo "<tr>";
 							echo "<td>" . $jobListSearch[0]['job_description'] . "</td>";
 							echo "<td class='text-center'>" . $noWO . "</td>";
 							echo "<td class='text-center'>" . $hoursPersonal . "</td>";
 							
-							echo "<td class='text-right'>";
-							echo money_format('%=(#1.2n', $incomePersonal);
+							echo "<td class='text-right'>";							
+							echo '$' . number_format($incomePersonal, 2);
 							echo "</td>";
 							
 							echo "<td class='text-right'>";
-							echo money_format('%=(#1.2n', $incomeMaterial);
+							echo '$' . number_format($incomeMaterial, 2);
 							echo "</td>";
 							
 							echo "<td class='text-right'>";
-							echo money_format('%=(#1.2n', $incomeEquipment);
+							echo '$' . number_format($incomeEquipment, 2);
 							echo "</td>";
 							
 							echo "<td class='text-right'>";
-							echo money_format('%=(#1.2n', $incomeSubcontractor);
+							echo '$' . number_format($incomeSubcontractor, 2);
 							echo "</td>";
 							
 							echo "<td class='text-right'>";
-							echo money_format('%=(#1.2n', $total);
+							echo '$' . number_format($total, 2);
 							echo "</td>";
 							
 							echo "<td class='text-center'>";
@@ -281,8 +279,6 @@ return date;
 									$incomeSubcontractor = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
 									
 									$total = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor;
-
-									setlocale(LC_MONETARY, 'en_US');
 									
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
@@ -290,23 +286,23 @@ return date;
 									echo "<td class='text-center'>" . $hoursPersonal . "</td>";
 									
 									echo "<td class='text-right'>";
-									echo money_format('%=(#1.2n', $incomePersonal);
+									echo '$' . number_format($incomePersonal, 2);
 									echo "</td>";
 									
 									echo "<td class='text-right'>";
-									echo money_format('%=(#1.2n', $incomeMaterial);
+									echo '$' . number_format($incomeMaterial, 2);
 									echo "</td>";
 									
 									echo "<td class='text-right'>";
-									echo money_format('%=(#1.2n', $incomeEquipment);
+									echo '$' . number_format($incomeEquipment, 2);
 									echo "</td>";
 									
 									echo "<td class='text-right'>";
-									echo money_format('%=(#1.2n', $incomeSubcontractor);
+									echo '$' . number_format($incomeSubcontractor, 2);
 									echo "</td>";
 									
 									echo "<td class='text-right'>";
-									echo money_format('%=(#1.2n', $total);
+									echo '$' . number_format($total, 2);
 									echo "</td>";
 									
 									echo "<td class='text-center'>";

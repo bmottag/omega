@@ -103,9 +103,7 @@ if ($retornoError) {
 									echo "<strong>Date:<br></strong>". $lista['next_date_maintenance'];
 								}
 								echo "</td>";
-								
-								setlocale(LC_MONETARY, 'en_US');
-								
+																
 								if(IS_NULL($lista['fk_id_stock']) || $lista['fk_id_stock'] == 0){
 									echo "<td class='text-center'>";
 									echo "-";
@@ -114,7 +112,8 @@ if ($retornoError) {
 								}else{
 									echo "<td>";
 									echo "<strong>Description:<br></strong>" . $lista['stock_description'];
-									$stock_price = money_format('%=(#1.2n', $lista['stock_price']);
+									
+									$stock_price = '$' . number_format($lista['stock_price'], 2);
 									echo "<br><strong>Price by unit:<br></strong>". $stock_price;
 									echo "<br><strong>Quantity:<br></strong>". $lista['stock_quantity'];
 									echo "</td>";
@@ -122,9 +121,9 @@ if ($retornoError) {
 									$subTotal = $lista['stock_quantity'] * $lista['stock_price'];
 								}
 																
-								$amount = money_format('%=(#1.2n', $lista['amount']);
+								$amount = '$' . number_format($lista['amount'], 2);
 								$total = $lista['amount'] + $subTotal;
-								$total = money_format('%=(#1.2n', $total);
+								$total = '$' . number_format($total, 2);
 								
 								echo "<td  class='text-right'>" . $amount . "</td>";
 								echo "<td  class='text-right'>" . $total . "</td>";

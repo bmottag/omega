@@ -84,8 +84,7 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['stock_description'] . "</td>";
 									
-									setlocale(LC_MONETARY, 'en_US');
-									$price = money_format('%=(#1.2n', $lista['stock_price']);
+									$price = '$' . number_format($lista['stock_price'], 2);
 									
 									echo "<td class='text-right'>" . $price . "</td>";
 									echo "<td class='text-center'>" . $lista['quantity'] . "</td>";
