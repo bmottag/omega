@@ -65,22 +65,27 @@
 									<a class='btn btn-info btn-xs' href='<?php echo base_url('jobs/jso/' . $lista['id_job']) ?>'>
 										JSO <span class="fa fa-bullhorn" aria-hidden="true">
 									</a>
-									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/locates/' . $lista['id_job']) ?>'>
-										Locates <span class="fa fa-image" aria-hidden="true">
-									</a>
 									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('more/environmental/' . $lista['id_job']) ?>'>
 										ESI <span class="glyphicon glyphicon-screenshot" aria-hidden="true">
 									</a>
 						<?php
 								}
 						?>
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/locates/' . $lista['id_job']) ?>'>
+										Locates <span class="fa fa-image" aria-hidden="true">
+									</a>
 									<a class='btn btn-warning btn-xs' href='<?php echo base_url('more/confined/' . $lista['id_job']) ?>'>
 										CSEP <span class="fa fa-database" aria-hidden="true">
 									</a>
-									
+						<?php
+								if($userRol == 99){ //solo SUPER ADMIN
+						?>									
 									<a class='btn btn-success primary btn-xs' href='<?php echo base_url('more/task_control/' . $lista['id_job']) ?>'>
 										COVID <span class="fa fa-bug" aria-hidden="true">
 									</a>
+						<?php
+								}
+						?>
 									
 								</div>
 

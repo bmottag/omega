@@ -24,6 +24,7 @@
 <ul>
 <li>TOOL BOX</li>
 <li>FLHA</li>
+<li>Locates</li>
 <li>CSEP</li>
 </ul>
 <strong>Incidences:</strong> Near miss report
