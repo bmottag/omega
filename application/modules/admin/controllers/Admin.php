@@ -475,7 +475,9 @@ class Admin extends CI_Controller {
 			
 			$arrParam = array(
 				"companyType" => $companyType,
-				"vehicleType" => $vehicleType
+				"vehicleType" => $vehicleType,
+				"vehicleState" => 1
+				
 			);
 			$data['info'] = $this->admin_model->get_vehicle_info_by($arrParam);//vehicle list
 			$data["view"] = 'vehicle';
