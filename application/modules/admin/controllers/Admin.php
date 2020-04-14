@@ -467,18 +467,22 @@ class Admin extends CI_Controller {
 	 * @review 5/5/2017
      * @author BMOTTAG
 	 */
-	public function vehicle($companyType, $vehicleType=1)
+	public function vehicle($companyType, $vehicleType=1, $vehicleState=1)
 	{
 			$data['companyType'] = $companyType;
 			$data['vehicleType'] = $vehicleType;
+			$data['vehicleState'] = $vehicleState;
 			$data['title'] = $companyType==1?"VCI":"RENTALS";
-			
+
 			$arrParam = array(
 				"companyType" => $companyType,
-				"vehicleType" => $vehicleType,
-				"vehicleState" => 1
-				
+				"vehicleState" => $vehicleState
 			);
+			//si es estado en 1 entonces envio el tipo de vehiculo
+			if($vehicleState==1){
+				$arrParam['vehicleType'] = $vehicleType;
+			}
+			
 			$data['info'] = $this->admin_model->get_vehicle_info_by($arrParam);//vehicle list
 			$data["view"] = 'vehicle';
 			$this->load->view("layout", $data);
