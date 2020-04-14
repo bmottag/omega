@@ -213,7 +213,7 @@
 				$trucks = array();
 				$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description
 					FROM param_vehicle 
-					WHERE fk_id_company = $idCompany AND type_level_2 = $type
+					WHERE fk_id_company = $idCompany AND type_level_2 = $type AND state = 1
 					ORDER BY unit_number";
 				
 				$query = $this->db->query($sql);

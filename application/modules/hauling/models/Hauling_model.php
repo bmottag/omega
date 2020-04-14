@@ -76,6 +76,7 @@
 					FROM param_vehicle 
 					WHERE fk_id_company = $idCompany
 					AND type_level_2 = 4
+					AND state = 1
 					ORDER BY unit_number";
 				//pr($sql); exit;
 				$query = $this->db->query($sql);
