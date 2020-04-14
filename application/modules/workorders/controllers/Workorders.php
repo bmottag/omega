@@ -78,11 +78,14 @@ class Workorders extends CI_Controller {
 				//DESHABILITAR WORK ORDER
 				$userRol = $this->session->rol;
 				$workorderState = $data['information'][0]['state'];
-				//si esta cerrada deshabilito los botones
-				if($userRol != 99){
+				//si es diferente al rol de SUPER ADMIN
+				if($userRol != 99)
+				{
+					//si esta cerrada deshabilito los botones
 					if($workorderState == 4){
 						$data['deshabilitar'] = 'disabled';
-					}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ //If it is ON FILD and ROLE is SUPERVISOR OR BASIC
+					//If it is DIFERRENT THAN ON FILD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
+					}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ 
 						$data['deshabilitar'] = 'disabled';
 					}elseif($workorderState < 2 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
 						$data['deshabilitar'] = 'disabled';

@@ -315,10 +315,6 @@ if($information){
 ?>
 
 <!--INICIO ADDITIONAL INFORMATION -->
-<?php
-	$userRol = $this->session->userdata("rol");
-	if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ //ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER ROLES can change the status of the work order.
-?>
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-6">				
@@ -331,8 +327,18 @@ if($information){
 				
 						<div class="col-lg-12">	
 							<form name="formState" id="formState" class="form-horizontal" method="post">
-								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information?$information[0]["id_workorder"]:""; ?>"/>										
-																				
+								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information?$information[0]["id_workorder"]:""; ?>"/>
+		
+<?php
+	/**
+	 * Estado work order
+     * Solo se puede editar por los siguientes ROLES
+	 * SUPER ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER ROLES
+	 */
+	$userRol = $this->session->userdata("rol");
+	if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5)
+	{ 
+?>
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="state">State :</label>
 									<div class="col-sm-8">
@@ -346,6 +352,9 @@ if($information){
 										</select>
 									</div>
 								</div>
+	<?php }else{  ?>
+	<input type="hidden" id="state" name="state" value=0 />
+	<?php }  ?>
 								
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="information">Additional information :</label>
@@ -450,13 +459,9 @@ if($information){
 			</div>
 			<!-- /.panel .chat-panel -->
 		</div>
-		
-		
+				
 	</div>
 	<!-- /.row -->
-<?php
-	}
-?>
 <!--FIN ADDITIONAL INFORMATION -->
 
 	
