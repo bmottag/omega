@@ -200,7 +200,7 @@
 					'next_oil_change_2' => $this->input->post('oilChange2'),
 					'current_hours_3' => $this->input->post('hours3'),
 					'next_oil_change_3' => $this->input->post('oilChange3'),
-					'fk_id_inspection' => $this->input->post('idInspection')
+					'fk_id_inspection' => $idInspection
 				);	
 
 
