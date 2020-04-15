@@ -1656,7 +1656,7 @@ if ($fuel_system_check == 0) {
 		
 		if(strlen($vinNumber) < 5){			
 			echo "<div class='alert alert-danger'>";
-			echo "Please enter at least 5 characters.";
+			echo "Enter at least 5 consecutive characters if the VIN number.";
 			echo "</div>";
 		}
 		else
@@ -1732,13 +1732,13 @@ if ($fuel_system_check == 0) {
 					echo "</div>";
 				}else{
 					echo "<a class='btn btn-info btn-block' href='" . base_url('inspection/set_vehicle/' . $vehicleInfo[0]['id_vehicle']) . "'>";
-					echo "Do Inspection <span class='fa fa-wrench' aria-hidden='true'>";
+					echo "Rental Inspection <span class='fa fa-wrench' aria-hidden='true'>";
 					echo "</a>";
 				}
 				
 			}else{				
 				echo "<div class='alert alert-danger'>";
-				echo "There are no records with that number.";
+				echo "There are no records with that VIN number.";
 				echo "</div>";
 			}
 		}

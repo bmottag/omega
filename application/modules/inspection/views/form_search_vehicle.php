@@ -12,12 +12,12 @@
 		<div class="col-lg-6">
 			<div class="panel panel-purpura">
 				<div class="panel-heading">
-					<i class="fa fa-wrench"></i> <strong>FORM TO SEARCH VEHICLE BY VIN NUMBER</strong>
+					<i class="fa fa-wrench"></i> <strong>Form to search vehicle by VIN Number</strong>
 				</div>
 				<div class="panel-body">
 									
 					<div class="alert alert-danger">
-						Enter at least 5 characters of the Vin Number.
+						Enter at least 5 consecutive characters if the VIN number
 					</div>
 									
 					<div class="form-group">
@@ -39,8 +39,6 @@
 				<div class="panel-body" id="div_vehicle_info">
 				
 
-					
-					
 				</div>
 			</div>
 		</div>
