@@ -113,7 +113,7 @@
 				$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description 
 						FROM param_vehicle V 
 						INNER JOIN param_vehicle_type_2 T ON T.id_type_2 = V.type_level_2 
-						WHERE fk_id_company = 1 AND T.link_inspection != 'NA' AND V.id_vehicle NOT IN(41,42,43,44,61,62) 
+						WHERE fk_id_company = 1 AND T.link_inspection != 'NA' AND V.id_vehicle NOT IN(41,42,43,44,61,62) AND V.state = 1
 						ORDER BY unit_number";
 				
 				$query = $this->db->query($sql);
