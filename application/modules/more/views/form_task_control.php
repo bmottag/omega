@@ -85,7 +85,7 @@ if ($retornoError) {
 					You must not start work until you have:
 					<ul>
 						<li>Developed additional mitigation strategies;</li>
-						<li>Reviewed the mitigation strategies and they have been approved by the PCL Superintendent.</li>
+						<li>Reviewed the mitigation strategies and they have been approved by the Superintendent.</li>
 						<li>Ensured you are in compliance with Alberta OH&S regarding "Right to refuse dangerous work".</li>
 					</ul>
 				</p>
@@ -116,8 +116,8 @@ if ($retornoError) {
 			<div class="alert alert-success">
 				<strong>Mitigation Plan: </strong>
 				<p>
-					Where an additional mitigation plan is required, it must be approved by the PCL Superintendent and Project
-					Manager. This includes where items have been highlighted for example splitting crews, adjusting task,
+					Where an additional mitigation plan is required, it must be approved by the Superintendent(s) and Project
+					Manager(s). This includes where items have been highlighted for example splitting crews, adjusting task,
 					additional disinfectant steps, barriers, face shields, etc.
 				</p>
 			</div>
@@ -181,12 +181,6 @@ if ($retornoError) {
 					<strong>Project Superintendent: </strong><?php echo $information[0]["superintendent"]; ?>
 				</div>
 				<div class="panel-body">								
-
-					<div class="col-sm-12">
-						<label for="superintendent" class="control-label">Superintendent name: *</label>
-						<input type="text" class="form-control" id="superintendent" name="superintendent" value="<?php echo $information[0]["superintendent"]; ?>" />
-					</div>
-				<br><br><br><br>
 					<div class="form-group">
 						<div class="row" align="center">
 							<div style="width:70%;" align="center">								 
@@ -271,6 +265,11 @@ if ($retornoError) {
 						<label for="type" class="control-label">Task: *</label>
 						<textarea id="task" name="task" placeholder="Task"  class="form-control" rows="2"><?php echo $information?$information[0]["task"]:""; ?></textarea>
 					</div>						
+					
+					<div class="col-sm-12">
+						<label for="superintendent" class="control-label">Superintendent name: *</label>
+						<input type="text" class="form-control" id="superintendent" name="superintendent" value="<?php echo $information?$information[0]["superintendent"]:""; ?>" />
+					</div>	
 					
 				</div>
 			</div>
@@ -371,6 +370,7 @@ washrooms, elevator use, etc. and practices for hygiene? </label>
 				</div>
 			</div>
 		</div>
+				
 	</div>
 	
 

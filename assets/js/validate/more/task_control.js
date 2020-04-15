@@ -1,10 +1,13 @@
 $( document ).ready( function () {
 			
+	$("#superintendent").bloquearNumeros().maxlength(50);
+			
 	$( "#form" ).validate( {
 		rules: {
 			work_location:		{ required: true },
 			crew_size:			{ required: true },
 			task:				{ required: true },
+			superintendent: 	{ required: true, minlength: 3, maxlength:50 },
 			distancing:			{ required: true },
 			sharing_tools:		{ required: true },
 			required_ppe:		{ required: true },
