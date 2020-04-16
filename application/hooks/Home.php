@@ -40,6 +40,16 @@ class Home {
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
 					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
+            } else if ($this->ci->uri->segment(1) == "jobs") {
+                $arrControllers = array("generaERPPDF", "generaTemplatePDF");
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
+            } else if ($this->ci->uri->segment(1) == "more") {
+                $arrControllers = array("generaEnvironmentalPDF", "generaPPEInspectionPDF", "generaConfinedPDF", "generaTaskControlPDF");
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
             } else {
                 if ($this->ci->session->userdata('id') == FALSE) {
                     $error = TRUE;
