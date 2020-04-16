@@ -16,9 +16,7 @@
 				</div>
 				<div class="panel-body">
 									
-					<div class="alert alert-danger">
-						Enter at least 5 consecutive characters if the VIN number
-					</div>
+					<p class='text-default'>Enter at least 5 consecutive characters of the<strong> VIN number</strong></p>
 									
 					<div class="form-group">
 						<div class="col-sm-10 col-sm-offset-1">
