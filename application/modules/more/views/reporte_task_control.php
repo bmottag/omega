@@ -141,6 +141,7 @@
 
 	$html.= '<br><br>';
 	$signature = "";
+	$superintendentSignature = "";
 
 	if($info[0]['supervisor_signature']){
 		//$urlAdvisor = base_url($lista['signature']);

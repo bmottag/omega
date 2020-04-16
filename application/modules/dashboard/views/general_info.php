@@ -20,6 +20,7 @@
 </ul>
 <strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> Hauling
+<br><strong>Record Task:</strong> Rental Inspection
 <br>* <strong>Jobs Info:</strong> 
 <ul>
 <li>TOOL BOX</li>
@@ -63,6 +64,7 @@
 </ul>
 <strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> Hauling
+<br><strong>Record Task:</strong> Rental Inspection
 <br>* <strong>Jobs Info:</strong> All except JHA
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
@@ -153,6 +155,7 @@
 </ul>
 <strong>Record Task:</strong> Payroll
 <br><strong>Record Task:</strong> PPE inspection
+<br><strong>Record Task:</strong> Rental Inspection
 <br>* <strong>Jobs info:</strong> All
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
@@ -209,6 +212,7 @@
 <li>Last Hauling Records</li>
 </ul>
 <strong>Record Task:</strong> Payroll
+<br><strong>Record Task:</strong> Rental Inspection
 <br><strong>Incidences:</strong> Near miss report
 <br><strong>Incidences:</strong> Incident/Accident report
 <br>----------------------------
@@ -263,6 +267,7 @@
 <li>Last FLHA Records</li>
 </ul>
 <strong>Record Task:</strong> Hauling
+<br><strong>Record Task:</strong> Rental Inspection
 <br>* <strong>Jobs info:</strong> All
 <br>----------------------------
 <br>* <strong>Work order:</strong>
