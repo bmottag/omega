@@ -245,7 +245,17 @@ if ($retornoError) {
 					<strong>General Information</strong>
 				</div>
 				<div class="panel-body">								
-											
+						
+					<div class="col-sm-12">
+						<label for="company" class="control-label">Company: *</label>
+						<select name="company" id="company" class="form-control" >
+							<option value=''>Select...</option>
+							<?php for ($i = 0; $i < count($companyList); $i++) { ?>
+								<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if($information && $information[0]["fk_id_company"] == $companyList[$i]["id_company"]) { echo "selected"; }  ?>><?php echo $companyList[$i]["company_name"]; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+						
 					<div class="col-sm-12">
 						<label for="type" class="control-label">Work Location: *</label>
 						<textarea id="work_location" name="work_location" placeholder="Work Location"  class="form-control" rows="2"><?php echo $information?$information[0]["work_location"]:""; ?></textarea>

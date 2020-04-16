@@ -27,6 +27,7 @@
 						<thead>
 							<tr>
 								<th>#</th>
+								<th>Company</th>
 								<th>Reported by</th>
 								<th>Date</th>
 								<th>Work location</th>
@@ -39,6 +40,7 @@
 							foreach ($information as $lista):
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['id_job_task_control'] . "</td>";
+									echo "<td>" . $lista['company_name'] . "</td>";
 									echo "<td>" . $lista['supervisor'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_task_control'] . "</td>";
 									echo "<td>" . $lista['work_location'] . "</td>";

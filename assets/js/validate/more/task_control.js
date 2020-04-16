@@ -4,6 +4,7 @@ $( document ).ready( function () {
 			
 	$( "#form" ).validate( {
 		rules: {
+			company:			{ required: true },
 			work_location:		{ required: true },
 			crew_size:			{ required: true },
 			task:				{ required: true },

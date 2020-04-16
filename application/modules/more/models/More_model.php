@@ -550,8 +550,9 @@
 		 */
 		public function get_task_control($arrDatos) 
 		{
-				$this->db->select('T.*, CONCAT(U.first_name, " " , U.last_name) supervisor, J.id_job, J.job_description');
+				$this->db->select('T.*, CONCAT(U.first_name, " " , U.last_name) supervisor, J.id_job, J.job_description, C.company_name');
 				$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
+				$this->db->join('param_company C', 'C.id_company = T.fk_id_company', 'INNER');
 				$this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
 				
 				if (array_key_exists("idJob", $arrDatos)) {
@@ -581,6 +582,7 @@
 		
 			$data = array(
 				'superintendent' => $this->input->post('superintendent'),
+				'fk_id_company' => $this->input->post('company'),
 				'work_location' => $this->input->post('work_location'),
 				'crew_size' => $this->input->post('crew_size'),
 				'task' => $this->input->post('task'),

@@ -7,6 +7,7 @@ class More extends CI_Controller {
         parent::__construct();
         $this->load->model("more_model");
 		$this->load->helper('form');
+		$this->load->library("validarsesion");
     }
 	
 	/**
@@ -1283,7 +1284,7 @@ ob_end_clean();
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
-			//environmental info
+			//Task Control list
 			$arrParam = array("idJob" => $idJob);				
 			$data['information'] = $this->more_model->get_task_control($arrParam);
 
@@ -1310,9 +1311,14 @@ ob_end_clean();
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
-			//worker´s list
-			$arrParam = array("state" => 1);
-			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+			//company list
+			$arrParam = array(
+				"table" => "param_company",
+				"order" => "company_name",
+				"column" => "company_type",
+				"id" => 2
+			);
+			$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
 			
 			//si envio el id, entonces busco la informacion 
 			if ($idTaskControl != 'x') {
@@ -1412,6 +1418,91 @@ ob_end_clean();
 			}else{			
 				$this->load->view('template/make_signature');
 			}
+	}
+	
+	/**
+	 * Generate Task Control Report in PDF
+	 * @param int $idTaskControl
+     * @since 14/4/2020
+     * @author BMOTTAG
+	 */
+	public function generaTaskControlPDF($idTaskControl)
+	{
+			$this->load->library('Pdf');
+			
+			// create new PDF document
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor('VCI');
+			$pdf->SetTitle('Task Control Report');
+			$pdf->SetSubject('TCPDF Tutorial');
+
+			// set default header data
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			
+			$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+			// set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			// set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			// set some language-dependent strings (optional)
+			if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+				require_once(dirname(__FILE__).'/lang/eng.php');
+				$pdf->setLanguageArray($l);
+			}
+
+			// ---------------------------------------------------------
+
+			// set font
+			$pdf->SetFont('dejavusans', '', 8);
+
+			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+		
+			$arrParam = array("idTaskControl" => $idTaskControl);				
+			$data['info'] = $this->more_model->get_task_control($arrParam);
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// Print a table
+				
+			// add a page
+			$pdf->AddPage();
+
+			$html = $this->load->view("reporte_task_control", $data, true);
+			
+			// output the HTML content
+			$pdf->writeHTML($html, true, false, true, false, '');
+			
+			// Print some HTML Cells
+
+			// reset pointer to the last page
+			$pdf->lastPage();
+
+
+			//Close and output PDF document
+			$pdf->Output('tac_' . $idTaskControl . '.pdf', 'I');
+
+			//============================================================+
+			// END OF FILE
+			//============================================================+
+		
 	}
 
 

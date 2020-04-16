@@ -77,15 +77,10 @@
 									<a class='btn btn-warning btn-xs' href='<?php echo base_url('more/confined/' . $lista['id_job']) ?>'>
 										CSEP <span class="fa fa-database" aria-hidden="true">
 									</a>
-						<?php
-								if($userRol == 99){ //solo SUPER ADMIN
-						?>									
+											
 									<a class='btn btn-success primary btn-xs' href='<?php echo base_url('more/task_control/' . $lista['id_job']) ?>'>
 										COVID <span class="fa fa-bug" aria-hidden="true">
 									</a>
-						<?php
-								}
-						?>
 									
 								</div>
 
