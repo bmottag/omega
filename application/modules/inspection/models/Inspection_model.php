@@ -13,7 +13,6 @@
 				$idHeavyInspection = $this->input->post('hddId');
 		
 				$data = array(
-					'fk_id_user' => $idUser,
 					'fk_id_vehicle' => $this->input->post('hddIdVehicle'),
 					'belt' => $this->input->post('belt'),
 					'oil_level' => $this->input->post('oil'),
@@ -64,16 +63,20 @@
 					'comments' => $this->input->post('comments')
 				);
 				
-				//revisar si es para adicionar o editar
-				if ($idHeavyInspection == '') {
-					//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-					$userRol = $this->session->rol;
-					$dateIssue = $this->input->post('date');
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
+				$hora = date("G:i:s");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_issue'] = $dateIssue . " " . $hora;
+				}else{
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$hora = date("G:i:s");
-					if($userRol==99 && $dateIssue!=""){
-						$data['date_issue'] = $dateIssue . " " . $hora;
-					}
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idHeavyInspection == '') 
+				{
+					$data['fk_id_user'] = $idUser;
 					
 					$query = $this->db->insert('inspection_heavy', $data);
 					$idHeavyInspection = $this->db->insert_id();
@@ -101,7 +104,6 @@
 				$with_trailer = $trailer==''?2:1;//Para indicar si se deligencio o no el formulario de trailer
 		
 				$data = array(
-					'fk_id_user' => $idUser,
 					'fk_id_vehicle' => $this->input->post('hddIdVehicle'),
 					'belt' => $this->input->post('belt'),
 					'power_steering' => $this->input->post('powerSteering'),
@@ -158,16 +160,20 @@
 					'trailer_comments' => $this->input->post('trailerComments')
 				);
 				
-				//revisar si es para adicionar o editar
-				if ($idDailyInspection == '') {
-					//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-					$userRol = $this->session->rol;
-					$dateIssue = $this->input->post('date');
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
+				$hora = date("G:i:s");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_issue'] = $dateIssue . " " . $hora;
+				}else{
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$hora = date("G:i:s");
-					if($userRol==99 && $dateIssue!=""){
-						$data['date_issue'] = $dateIssue . " " . $hora;
-					}
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idDailyInspection == '') 
+				{
+					$data['fk_id_user'] = $idUser;
 					
 					$query = $this->db->insert('inspection_daily', $data);
 					$idDailyInspection = $this->db->insert_id();
@@ -266,17 +272,20 @@
 					'comments' => $this->input->post('comments')
 				);
 				
-				//revisar si es para adicionar o editar
-				if ($idDailyInspection == '') {
-					$data['fk_id_user'] = $idUser;
-					//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-					$userRol = $this->session->rol;
-					$dateIssue = $this->input->post('date');
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
+				$hora = date("G:i:s");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_issue'] = $dateIssue . " " . $hora;
+				}else{
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$hora = date("G:i:s");
-					if($userRol==99 && $dateIssue!=""){
-						$data['date_issue'] = $dateIssue . " " . $hora;
-					}
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idDailyInspection == '') 
+				{
+					$data['fk_id_user'] = $idUser;
 					
 					$query = $this->db->insert('inspection_generator', $data);
 					$idDailyInspection = $this->db->insert_id();
@@ -359,17 +368,20 @@
 					'comments' => $this->input->post('comments')
 				);
 				
-				//revisar si es para adicionar o editar
-				if ($idDailyInspection == '') {
-					$data['fk_id_user'] = $idUser;
-					//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-					$userRol = $this->session->rol;
-					$dateIssue = $this->input->post('date');
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
+				$hora = date("G:i:s");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_issue'] = $dateIssue . " " . $hora;
+				}else{
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$hora = date("G:i:s");
-					if($userRol==99 && $dateIssue!=""){
-						$data['date_issue'] = $dateIssue . " " . $hora;
-					}
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idDailyInspection == '') 
+				{
+					$data['fk_id_user'] = $idUser;
 
 					$query = $this->db->insert('inspection_sweeper', $data);
 					$idDailyInspection = $this->db->insert_id();
@@ -456,17 +468,20 @@
 					'comments' => $this->input->post('comments')
 				);
 				
-				//revisar si es para adicionar o editar
-				if ($idDailyInspection == '') {
-					$data['fk_id_user'] = $idUser;
-					//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-					$userRol = $this->session->rol;
-					$dateIssue = $this->input->post('date');
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
+				$hora = date("G:i:s");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_issue'] = $dateIssue . " " . $hora;
+				}else{
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$hora = date("G:i:s");
-					if($userRol==99 && $dateIssue!=""){
-						$data['date_issue'] = $dateIssue . " " . $hora;
-					}
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idDailyInspection == '') 
+				{
+					$data['fk_id_user'] = $idUser;
 					
 					$query = $this->db->insert('inspection_hydrovac', $data);
 					$idDailyInspection = $this->db->insert_id();
@@ -539,17 +554,20 @@
 					'comments' => $this->input->post('comments')
 				);
 				
-				//revisar si es para adicionar o editar
-				if ($idDailyInspection == '') {
-					$data['fk_id_user'] = $idUser;
-					//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-					$userRol = $this->session->rol;
-					$dateIssue = $this->input->post('date');
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
+				$hora = date("G:i:s");
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_issue'] = $dateIssue . " " . $hora;
+				}else{
 					$data['date_issue'] = date("Y-m-d G:i:s");
-					$hora = date("G:i:s");
-					if($userRol==99 && $dateIssue!=""){
-						$data['date_issue'] = $dateIssue . " " . $hora;
-					}
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idDailyInspection == '') 
+				{
+					$data['fk_id_user'] = $idUser;
 					
 					$query = $this->db->insert('inspection_watertruck', $data);
 					$idDailyInspection = $this->db->insert_id();

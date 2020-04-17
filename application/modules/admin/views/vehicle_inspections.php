@@ -97,6 +97,12 @@
 											break;
 										case 1:
 											echo "Inspection";
+//boton para editar la inspeccion
+$linkInspection = $vehicleInfo[0]['link_inspection'] . "/". $lista['fk_id_inspection'];
+echo "<br><a class='btn btn-success btn-xs' href='" . base_url($linkInspection) . "'>
+		Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'>
+</a>";
+
 											break;
 										case 2:
 											echo "Oil Change";
