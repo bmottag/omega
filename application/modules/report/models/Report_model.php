@@ -190,6 +190,7 @@
 		{								
 				$this->db->select();
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
+				$this->db->where('V.state', 1);//filtro por activos
 				if (array_key_exists("tipo", $arrData) && $arrData["tipo"] == "daily") {			
 					$where = "T.inspection_type IN (1,3)";
 					$this->db->where($where);
@@ -558,6 +559,7 @@
 				$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description 
 					FROM param_vehicle 
 					WHERE type_level_2 = 4
+					AND state = 1
 					ORDER BY unit_number";
 
 				$query = $this->db->query($sql);

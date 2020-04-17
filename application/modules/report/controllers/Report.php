@@ -69,14 +69,10 @@ class Report extends CI_Controller {
 					
 					//trucklist
 					$data['truckList'] = $this->report_model->get_trucks();
-					
+										
 					//workers list
-					$arrParam = array(
-						"table" => "user",
-						"order" => "first_name, last_name",
-						"id" => "x"
-					);
-					$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+					$arrParam = array("state" => 1);
+					$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 					
 					//job list
 					$arrParam = array(
@@ -103,14 +99,10 @@ class Report extends CI_Controller {
 					);
 					$data['materialList'] = $this->general_model->get_basic_search($arrParam);//material list
 					break;
-				case 'dailyInspection':
+				case 'dailyInspection':					
 					//workers list
-					$arrParam = array(
-						"table" => "user",
-						"order" => "first_name, last_name",
-						"id" => "x"
-					);
-					$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+					$arrParam = array("state" => 1);
+					$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 					
 					$arrParam["tipo"] = "daily";
 					$data['vehicleList'] = $this->report_model->get_vehicle_by_type($arrParam);//vehicle's list
@@ -121,12 +113,8 @@ class Report extends CI_Controller {
 					break;
 				case 'heavyInspection':
 					//workers list
-					$arrParam = array(
-						"table" => "user",
-						"order" => "first_name, last_name",
-						"id" => "x"
-					);
-					$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+					$arrParam = array("state" => 1);
+					$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 					
 					$arrParam["tipo"] = "heavy";
 					$data['vehicleList'] = $this->report_model->get_vehicle_by_type($arrParam);//vehicle's list
@@ -134,12 +122,8 @@ class Report extends CI_Controller {
 					break;
 				case 'specialInspection':
 					//workers list
-					$arrParam = array(
-						"table" => "user",
-						"order" => "first_name, last_name",
-						"id" => "x"
-					);
-					$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+					$arrParam = array("state" => 1);
+					$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 					
 					$arrParam["tipo"] = "special";
 					$data['vehicleList'] = $this->report_model->get_vehicle_by_type($arrParam);//vehicle's list
