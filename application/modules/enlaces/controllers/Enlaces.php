@@ -166,7 +166,10 @@ class Enlaces extends CI_Controller {
 			$data["idPermiso"] = $this->input->post("idPermiso");	
 			
 			$this->load->model("general_model");
-			$arrParam = array("columnOrder" => "menu_name");
+			$arrParam = array(
+				"columnOrder" => "menu_name",
+				"menuState" => 1
+			);
 			$data['menuList'] = $this->general_model->get_menu($arrParam);
 			
 			$arrParam = array();
