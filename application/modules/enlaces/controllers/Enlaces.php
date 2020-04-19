@@ -403,7 +403,10 @@ class Enlaces extends CI_Controller {
 				
 		//busco info tabla de stock
 		$this->load->model("general_model");
-		$arrParam = array("idMenu" => $idMenu);
+		$arrParam = array(
+			"idMenu" => $idMenu,
+			"linkState" => 1
+		);
 		$linkList = $this->general_model->get_links($arrParam);
 
         echo "<option value=''>Select...</option>";
