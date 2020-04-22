@@ -7,7 +7,6 @@ class Workorders extends CI_Controller {
         parent::__construct();
         $this->load->model("workorders_model");
 		$this->load->library('PHPExcel.php');
-		$this->load->library("validarsesion");
     }
 	
 	/**
