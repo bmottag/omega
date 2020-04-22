@@ -236,7 +236,7 @@ class Maintenance extends CI_Controller {
 			}
 		endforeach;
 		
-		redirect("/dashboard/maintenance","location",301);
+		return true;
 	}
 	
 	/**

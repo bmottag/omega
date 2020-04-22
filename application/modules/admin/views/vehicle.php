@@ -7,7 +7,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/admin/cargarModalVehicle',
+				url: base_url + 'admin/cargarModalVehicle',
                 data: {'idVehicle': oID},
                 cache: false,
                 success: function (data) {
@@ -49,9 +49,6 @@ $(function(){
 		$deshabilitar = '';
 	}
 ?>			
-					<?php if(!$deshabilitar){ ?>
-					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'maintenance/maintenance_check'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Maintenance check </a> 					
-					<?php } ?>
 					
 					<i class="fa fa-automobile"></i> VEHICLE LIST - <?php echo $title; ?>
 				</div>
