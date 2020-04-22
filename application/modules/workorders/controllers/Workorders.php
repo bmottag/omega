@@ -7,6 +7,7 @@ class Workorders extends CI_Controller {
         parent::__construct();
         $this->load->model("workorders_model");
 		$this->load->library('PHPExcel.php');
+		$this->load->library("validarsesion");
     }
 	
 	/**
@@ -406,19 +407,22 @@ class Workorders extends CI_Controller {
 			$idWorkorder = $this->input->post("idWorkorder");
 			//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
 			$porciones = explode("-", $idWorkorder);
-			$data["idWorkorder"] = $porciones[1];
-		
-			//workers list
-			$this->load->model("general_model");
-			$arrParam = array(
-				"table" => "param_company",
-				"order" => "company_name",
-				"column" => "company_type",
-				"id" => 2
-			);
-			$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
 
-			$this->load->view("modal_ocasional", $data);
+			if(count($porciones) > 1){
+				$data["idWorkorder"] = $porciones[1];
+			
+				//workers list
+				$this->load->model("general_model");
+				$arrParam = array(
+					"table" => "param_company",
+					"order" => "company_name",
+					"column" => "company_type",
+					"id" => 2
+				);
+				$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
+
+				$this->load->view("modal_ocasional", $data);
+			}
     }
 	
     /**
