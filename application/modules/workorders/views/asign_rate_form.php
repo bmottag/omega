@@ -5,7 +5,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/workorders/cargarModalPersonal',
+				url: base_url + 'workorders/cargarModalPersonal',
                 data: {'idWorkorder': oID},
                 cache: false,
                 success: function (data) {
@@ -18,7 +18,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/workorders/cargarModalMaterials',
+				url: base_url + 'workorders/cargarModalMaterials',
                 data: {'idWorkorder': oID},
                 cache: false,
                 success: function (data) {
@@ -31,7 +31,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/workorders/cargarModalEquipment',
+				url: base_url + 'workorders/cargarModalEquipment',
                 data: {'idWorkorder': oID},
                 cache: false,
                 success: function (data) {
@@ -44,7 +44,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/workorders/cargarModalOcasional',
+				url: base_url + 'workorders/cargarModalOcasional',
                 data: {'idWorkorder': oID},
                 cache: false,
                 success: function (data) {
@@ -57,7 +57,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/workorders/cargarModalHoldBack',
+				url: base_url + 'workorders/cargarModalHoldBack',
                 data: {'idWorkorder': oID},
                 cache: false,
                 success: function (data) {
@@ -140,7 +140,7 @@ if ($retornoError) {
 							break;
 					case 4:
 							$valor = 'Closed';
-							$clase = "alert-dager";
+							$clase = "alert-danger";
 							break;
 			}
 ?>

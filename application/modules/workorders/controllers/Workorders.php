@@ -87,7 +87,7 @@ class Workorders extends CI_Controller {
 					//If it is DIFERRENT THAN ON FILD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
 					}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ 
 						$data['deshabilitar'] = 'disabled';
-					}elseif($workorderState < 2 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
+					}elseif($workorderState == 1 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
 						$data['deshabilitar'] = 'disabled';
 					}
 				}
