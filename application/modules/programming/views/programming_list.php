@@ -19,12 +19,23 @@
 					<i class="fa fa-list"></i> <strong>PLANNING LIST </strong>
 				</div>
 				<div class="panel-body">
-							
+
+<?php
+	//DESHABILITAR PROGRAMACION, si es SAFETY
+	$deshabilitar = '';
+	$userRol = $this->session->rol;
+
+	if($userRol == 4)
+	{
+		$deshabilitar = 'disabled';
+	}
+?>
+			<?php if(!$deshabilitar){ ?>
 					<a class='btn btn-outline btn-warning btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  New Planning
 					</a>
-					
 					<br>
+			<?php } ?>
 					
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -92,6 +103,8 @@ $datetime2 = date_create(date("Y-m-d"));
 			}
 ?>
 
+		<?php if(!$deshabilitar){ ?>
+
 			<a href='<?php echo base_url("programming/add_programming/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
 
 
@@ -103,11 +116,13 @@ $datetime2 = date_create(date("Y-m-d"));
 			<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
 <?php } ?>
 		
+
 			<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs' title="Delete">
 					<i class="fa fa-trash-o"></i>
 			</button>
 			
 <?php
+		}
 		}
 ?>
 
@@ -124,7 +139,7 @@ $datetime2 = date_create(date("Y-m-d"));
 //revisar que exista al menos un trabajador
 //se actualiza el estado de la programacion
 //se envia mensaje
-if(($datetime1 >= $datetime2) && $informationWorker)
+if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 {
 	
 ?>
@@ -248,7 +263,7 @@ if(($datetime1 >= $datetime2) && $informationWorker)
 						<td class='text-center'>
 						
 <?php
-if(($datetime1 >= $datetime2) && $informationWorker){
+if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 ?>
 							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs"/>
 <?php
@@ -258,7 +273,7 @@ if(($datetime1 >= $datetime2) && $informationWorker){
 						
 						<br><br>
 <?php
-if(($datetime1 >= $datetime2) && $informationWorker){
+if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 ?>
 							<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete" title="Delete">
 									<span class="fa fa-trash-o" aria-hidden="true"> </span>

@@ -180,6 +180,7 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Special Equipment Inspection Report
 <br>----------------------------
+<br>* <strong>Settings:</strong> Planning ---> can only see list
 <br><strong>Settings:</strong> Hazard
 <br><strong>Settings:</strong> Hazard activity
 <br><strong>Settings:</strong> Vehicles
