@@ -58,8 +58,9 @@ class Payroll extends CI_Controller {
             } else {
                 $this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
             }
-
-			redirect("/dashboard",'refresh');
+			
+			$dashboard = $this->session->userdata("dashboardURL");
+			redirect($dashboard,'refresh');
 	}
 	
 	/**
@@ -89,7 +90,8 @@ class Payroll extends CI_Controller {
                 $this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
             }
 
-			redirect("/dashboard",'refresh');
+			$dashboard = $this->session->userdata("dashboardURL");
+			redirect($dashboard,'refresh');
 	}
 	
 	/**
