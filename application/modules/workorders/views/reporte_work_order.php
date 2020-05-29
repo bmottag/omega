@@ -88,8 +88,8 @@
 									<th>' . $data['employee_type'] . ' - ' . $data['description'] . '</th>
 									<th align="center">Hours</th>
 									<th align="center">' . $data['hours'] . '</th>
-									<th align="right">$ ' . $data['rate'] . '</th>
-									<th align="right">$ ' . $data['value'] . '</th>';
+									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
 			}
@@ -106,8 +106,8 @@
 									<th>' . $data['description'] . ' - ' . $data['material'] . '</th>
 									<th align="center">' . $data['unit'] . '</th>
 									<th align="center">' . $data['quantity'] . '</th>
-									<th align="right">$ ' . $data['rate'] . '</th>
-									<th align="right">$ ' . $data['value'] . '</th>';
+									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
 			}
@@ -136,8 +136,8 @@
 									
 									<th align="center">Hours</th>
 									<th align="center">' . $data['hours'] . '</th>
-									<th align="right">$ ' . $data['rate'] . '</th>
-									<th align="right">$ ' . $data['value'] . '</th>';
+									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
 			}
@@ -154,8 +154,8 @@
 									<th>' . $data['description'] . '</th>
 									<th align="center">' . $data['unit'] . '</th>
 									<th align="center">' . $data['hours'] . '</th>
-									<th align="right">$ ' . $data['rate'] . '</th>
-									<th align="right">$ ' . $data['value'] . '</th>';
+									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
 			}
@@ -173,7 +173,7 @@
 									<th align="center">-</th>
 									<th align="center">-</th>
 									<th align="right">-</th>
-									<th align="right">$ ' . $data['value'] . '</th>';
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
 			}
@@ -181,7 +181,7 @@
 
 						$html.=		'<tr>
 									<th colspan="5" align="right" bgcolor="#337ab7" style="color:white;"><b>Subtotal :</b></th>
-									<th align="right">$ ' . $total . '</th>';
+									<th align="right">$ ' . number_format($total, 2) . '</th>';
 						$html.= '</tr>';						
 
 
