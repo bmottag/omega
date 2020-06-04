@@ -106,7 +106,6 @@ if ($retornoError) {
 								<th class="text-center">State</th>
 								
 								<?php if(!$deshabilitar){ ?>
-								<th class="text-center">Edit</th>
 								<th class="text-center">Password</th>
 								<?php } ?>
 								
@@ -123,7 +122,18 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['id_user'] . "</td>";
-									echo "<td>" . $lista['first_name'] . "</td>";
+									echo "<td>" . $lista['first_name'];
+				
+									if(!$deshabilitar){ 					
+						?>
+									<br>
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" >
+										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									</button>
+						<?php
+									}
+									
+									echo "</td>";
 									echo "<td>" . $lista['last_name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['log_user'] . "</td>";
 $movil = $lista["movil"];
@@ -166,15 +176,9 @@ if($count == 10){
 									echo "</td>";
 									
 									
-									if(!$deshabilitar){ 
-									
-									echo "<td class='text-center'>";
-						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" >
-										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-									</button>
-						<?php
-									echo "</td>";
+									if(!$deshabilitar)
+									{ 
+
 									echo "<td class='text-center'>";
 							?>
 									<!-- 
