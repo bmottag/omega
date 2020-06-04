@@ -32,7 +32,11 @@
 					<?php } ?>
 					
 					<div class="alert alert-danger">
-						<?php echo base_url("login/index/" . $vehicleInfo[0]["encryption"] );?>
+						
+<a href="<?php echo base_url("login/index/" . $vehicleInfo[0]["encryption"]) ?>" class="btn btn-danger btn-block">
+<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Inspection URL 
+</a>
+						
 					</div>
 					
 				</div>
