@@ -67,8 +67,9 @@ if ($retornoError) {
 <br><strong>Specify PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>
 <?php } ?>
 
-<a class="btn btn-success btn-sm" href="<?php echo base_url("safety/add_safety/" . $information[0]["fk_id_job"] . "/" . $information[0]["id_safety"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a>
+<a class="btn btn-success btn-xs" href="<?php echo base_url("safety/add_safety/" . $information[0]["fk_id_job"] . "/" . $information[0]["id_safety"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a>
 
+<br><strong>Date & Time: </strong><?php echo $information?$information[0]["date"]:""; ?>
 <?php 
 if($information){ 	
 	echo "<br><strong>Dowloand FLHA: </strong>";
