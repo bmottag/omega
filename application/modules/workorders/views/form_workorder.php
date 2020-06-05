@@ -91,19 +91,32 @@ $(function(){
 					 * SUPER ADMIN, MANAGEMENT OR ACCOUNTING ROLES
 					 * They have acces to asign rate and dowloadinvoice
 					 */
-					if($information && ($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5)){ 
-					?>				
-					<ul class="nav nav-pills">
-						<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
-						</li>
-						<li><a href="<?php echo base_url('workorders/view_workorder/' . $information[0]["id_workorder"]) ?>">Asign rate</a>
-						</li>
-						<li><a href="<?php echo base_url('workorders/generaWorkOrderPDF/' . $information[0]["id_workorder"]) ?>" target="_blank">Download invoice</a>
-						</li>
-					</ul>
-					<br>
-					<?php } ?>
-
+					if($information){
+						
+						if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ 
+						?>				
+						<ul class="nav nav-pills">
+							<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
+							</li>
+							<li><a href="<?php echo base_url('workorders/view_workorder/' . $information[0]["id_workorder"]) ?>">Asign rate</a>
+							</li>
+							<li><a href="<?php echo base_url('workorders/generaWorkOrderPDF/' . $information[0]["id_workorder"]) ?>" target="_blank">Download invoice</a>
+							</li>
+							<li><a href="<?php echo base_url('workorders/foreman_view/' . $information[0]["id_workorder"]) ?>" >Foreman view</a>
+							</li>
+						</ul>
+						<?php }else{ ?>
+						<ul class="nav nav-pills">
+							<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
+							</li>
+							<li><a href="<?php echo base_url('workorders/foreman_view/' . $information[0]["id_workorder"]) ?>" >Foreman view</a>
+							</li>
+						</ul>
+						<?php }
+						echo "<br>";
+					}
+					?>
+					
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -213,6 +226,13 @@ if ($retornoError) {
 									<label class="col-sm-4 control-label" for="foreman">Foreman name : </label>
 									<div class="col-sm-5">
 										<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
+									</div>
+								</div>
+								
+								<div class="form-group text-danger">
+									<label class="col-sm-4 control-label" for="email">Foreman movil number : </label>
+									<div class="col-sm-5">
+										<input type="text" id="movilNumber" name="movilNumber" class="form-control" placeholder="Foreman movil number" value="<?php echo $information?$information[0]["foreman_movil_number_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
 									</div>
 								</div>
 

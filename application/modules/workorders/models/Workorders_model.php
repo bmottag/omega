@@ -50,6 +50,7 @@
 				'date' => $this->input->post('date'),
 				'fk_id_company' => $this->input->post('company'),
 				'foreman_name_wo' => $this->input->post('foreman'),
+				'foreman_movil_number_wo' => $this->input->post('movilNumber'),
 				'foreman_email_wo' => $this->input->post('email'),
 				'observation' => $this->input->post('observation'),
 				'state' => 0
@@ -638,6 +639,34 @@
 				$query = $this->db->query($sql);
 				$row = $query->row();
 				return $row->TOTAL;
+		}
+		
+		/**
+		 * Informacion del foreman
+		 * @since 4/6/2020
+		 */
+		public function info_foreman($idForeman) 
+		{
+			
+			$data = array(
+				'foreman_name' => $this->input->post('foreman'),
+				'foreman_movil_number' => $this->input->post('movilNumber'),
+				'foreman_email' => $this->input->post('email')
+			);
+			
+			//revisar si es para adicionar o editar
+			if ($idForeman == '') {
+				$data['fk_id_param_company'] = $this->input->post('company');
+				$query = $this->db->insert('param_company_foreman', $data);
+			} else {
+				$this->db->where('id_company_foreman', $idForeman);
+				$query = $this->db->update('param_company_foreman', $data);
+			}
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	
 		

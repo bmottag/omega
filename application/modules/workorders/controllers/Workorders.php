@@ -120,6 +120,35 @@ class Workorders extends CI_Controller {
 
 			if ($idWorkorder = $this->workorders_model->add_workorder()) 
 			{
+				$nameForeman = $this->input->post('foreman');
+				
+				if($nameForeman != '')
+				{
+					//INICIO 
+					//codigo para revisar si se actuliza o se adiciona informacion del foreman
+					$this->load->model("general_model");
+					$idCompany = $this->input->post('company');
+					
+					//reviso si hay formean para esa empresa
+					$arrParam = array(
+						"table" => "param_company_foreman",
+						"order" => "id_company_foreman ",
+						"column" => "fk_id_param_company",
+						"id" => $idCompany
+					);
+					$infoForeman = $this->general_model->get_basic_search($arrParam);
+					
+					if($infoForeman){//actualizo informacion del foreman
+						$idForeman = $infoForeman[0]["id_company_foreman"];
+					}else{//adiciono informacion del foreman
+						$idForeman = '';
+					}
+					
+					//guardo datos de foreman
+					$this->workorders_model->info_foreman($idForeman);
+					//FIN
+				}
+				
 				//guardo el primer estado de la workorder
 				if(!$idWorkorderInicial){
 					$arrParam = array(
@@ -720,7 +749,7 @@ class Workorders extends CI_Controller {
 					"value" => $name
 				);
 				//enlace para regresar al formulario
-				$data['linkBack'] = "workorders/add_workorder/" . $idWorkOrder;
+				$data['linkBack'] = "workorders/foreman_view/" . $idWorkOrder;
 
 				
 				$data_uri = $this->input->post("image");
@@ -1369,16 +1398,27 @@ class Workorders extends CI_Controller {
 			$this->load->view("layout", $data);
     }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Foreman workorder view to sign
+     * @since 4/6/2020
+     * @author BMOTTAG
+	 */
+	public function foreman_view($id)
+	{
+			$this->load->model("general_model");
+						
+			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($id);//workorder personal list
+			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
+			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
+			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
+			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
+			
+			$arrParam['idWorkOrder'] =  $id;
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+			
+			$data["view"] = 'foreman_view';
+			$this->load->view("layout", $data);
+	}	
 	
 	
 	

@@ -45,6 +45,17 @@ class Home {
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
 					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
+            } else if ($this->ci->uri->segment(1) == "workorders") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
+                $arrControllers = array($this->ci->uri->segment(1), "foreman_view", "add_signature");
+                if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
+                    if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
+                        $error = TRUE;
+                    }
+                }
+				
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
             } else {
 				//si no hay session entonces los redireciono al login
                 if ($this->ci->session->userdata('id') == FALSE) {
