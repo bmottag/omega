@@ -132,7 +132,7 @@
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];
 						}else{
-							$equipment = $data['unit_number'] . " - " . $data['v_description'];
+							$equipment = $data['unit_number'] . " - " . $data['make'] . " - " . $data['model'];
 						}
 						
 						$html.= $equipment . ' - ' . $data['description'] . ', operated by ' . $data['operatedby'];
