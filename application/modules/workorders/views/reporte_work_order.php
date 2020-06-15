@@ -43,11 +43,16 @@
 						<th width="50%" bgcolor="#337ab7" style="color:white;" colspan="2"><strong>CLIENT INFORMATION </strong></th>
 					</tr>';
 			
+			$movil = $info[0]['movil_number'];
+			if($info[0]['foreman_movil_number_wo'] != ''){
+				$movil = $info[0]['foreman_movil_number_wo'];
+			}
+			
 			$html.= '<tr>
 						<th>' . $info[0]['observation'] . '</th>
 						<th><strong>Company name: </strong>' . $info[0]['company_name'] . '<br>
 						<strong>Representative: </strong>' . $info[0]['foreman_name_wo'] . '<br>
-						<strong>Phone number: </strong>' . $info[0]['movil_number'] . '<br>
+						<strong>Phone number: </strong>' . $movil . '<br>
 						<strong>E-Mail: </strong>' . $info[0]['foreman_email_wo'] . '</th>';
 						
 			$html.= '<th align="center">';
