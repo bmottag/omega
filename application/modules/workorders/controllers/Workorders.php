@@ -1420,6 +1420,104 @@ class Workorders extends CI_Controller {
 			$this->load->view("layout", $data);
 	}	
 	
+	/**
+	 * Foreman info
+     * @since 25/2/2020
+     * @author BMOTTAG
+	 */
+    public function foremanInfo()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idCompany = $this->input->post('idCompany');
+					
+			//busco info tabla de param_company_foreman
+			$this->load->model("general_model");
+
+			//reviso si hay formean para esa empresa
+			$arrParam = array(
+				"table" => "param_company_foreman",
+				"order" => "id_company_foreman ",
+				"column" => "fk_id_param_company",
+				"id" => $idCompany
+			);
+			$infoForeman = $this->general_model->get_basic_search($arrParam);
+
+			$data["result"] = true;
+			$data["foreman_name"] = "";
+			$data["foreman_movil"] = "";
+			$data["foreman_email"] = "";
+			if($infoForeman){
+				$data["foreman_name"] = $infoForeman[0]["foreman_name"];
+				$data["foreman_movil"] = $infoForeman[0]["foreman_movil_number"];
+				$data["foreman_email"] = $infoForeman[0]["foreman_email"];
+			}
+			
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Envio de mensaje
+     * @since 4/6/2020
+     * @author BMOTTAG
+	 */
+	public function sendSMSForeman($idWorkOrder)
+	{			
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		
+        $client = new Twilio\Rest\Client($dato1, $dato2);
+						
+		$arrParam['idWorkOrder'] =  $idWorkOrder;
+		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+		
+		$mensaje = "";
+		
+		$mensaje .= date('F j, Y', strtotime($data['information'][0]['date']));
+		$mensaje .= "\n" . $data['information'][0]['job_description'];
+		$mensaje .= "\n" . $data['information'][0]['observation'];
+		$mensaje .= "\n";
+		$mensaje .= "Click the following link to review W.O. " . $idWorkOrder;
+		$mensaje .= "\n";
+		$mensaje .= "\n";
+		$mensaje .= base_url("workorders/foreman_view/" . $idWorkOrder);
+
+		$to = '+1' . $data['information'][0]['foreman_movil_number_wo'];
+	
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		// the number you'd like to send the message to
+			$to,
+			array(
+				// A Twilio phone number you purchased at twilio.com/console
+				'from' => '587 600 8948',
+				'body' => $mensaje
+			)
+		);
+
+		$data['linkBack'] = "workorders/add_workorder/" . $idWorkOrder;
+		$data['titulo'] = "<i class='fa fa-list'></i>WORK ORDER";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "We have send the SMS to the foreman to sign the Work Order No." . $idWorkOrder;
+
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+
+
+	}
 	
 	
 	

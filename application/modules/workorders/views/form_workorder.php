@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v4.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v5.js"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -222,12 +222,21 @@ if ($retornoError) {
 									</div>
 								</div>
 								
-								<div class="form-group text-danger">
-									<label class="col-sm-4 control-label" for="foreman">Foreman name : </label>
-									<div class="col-sm-5">
-										<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
-									</div>
-								</div>
+								
+								
+								
+
+<div class="form-group text-danger" id="div_stockQuantity">
+	<label class="col-sm-4 control-label" for="foreman">Foreman name : </label>
+	<div class="col-sm-5">
+		<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
+	</div>
+</div>
+								
+								
+								
+								
+								
 								
 								<div class="form-group text-danger">
 									<label class="col-sm-4 control-label" for="email">Foreman movil number : </label>
@@ -297,7 +306,15 @@ if ($retornoError) {
 <a href="<?php echo base_url("workorders/add_signature/" . $information[0]['id_workorder']); ?>" class="btn btn-default"> 
 	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature
 </a>
-											
+		
+
+<!-- enlace para enviar mensaje de texto al foreman -->
+<?php if($information[0]['foreman_movil_number_wo']){ ?>
+<a href="<?php echo base_url("workorders/sendSMSForeman/" . $information[0]['id_workorder']); ?>" class="btn btn-default"> 
+	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to foreman
+</a>
+<?php } ?>
+		
 <?php } ?>
 											
 										</div>
