@@ -19,7 +19,10 @@
 				$task =  addslashes($task);
 				$latitude =  $this->input->post('latitud');
 				$longitude =  $this->input->post('longitud');
-				$address =  $this->input->post('address');
+				
+				$address =  $this->security->xss_clean($this->input->post('address'));
+				$address =  addslashes($address);
+								
 				$fecha = date("Y-m-d G:i:s");
 				
 				$sql = "INSERT INTO task";
@@ -47,7 +50,10 @@
 				$observation =  addslashes($observation);
 				$latitude =  $this->input->post('latitud');
 				$longitude =  $this->input->post('longitud');
-				$address =  $this->input->post('address');
+				
+				$address =  $this->security->xss_clean($this->input->post('address'));
+				$address =  addslashes($address);
+								
 				$fecha = date("Y-m-d G:i:s");
 
 				$sql = "UPDATE task";
@@ -189,23 +195,6 @@
 				} else {
 					return false;
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 
 				//revisar si es para adicionar o editar
 				if ($idJobJsoWorker == '') {			
