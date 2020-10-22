@@ -1120,7 +1120,8 @@ class Workorders extends CI_Controller {
 										->setCellValue('M3', 'Quantity')
 										->setCellValue('N3', 'Unit')
 										->setCellValue('O3', 'Unit price')
-										->setCellValue('P3', 'Line Total');
+										->setCellValue('P3', 'Operated by')
+										->setCellValue('Q3', 'Line Total');
 										
 										
 			$j=4;
@@ -1148,7 +1149,7 @@ class Workorders extends CI_Controller {
 													  ->setCellValue('L'.$j, $infoP['hours'])
 													  ->setCellValue('N'.$j, 'Hours')
 													  ->setCellValue('O'.$j, $infoP['rate'])
-													  ->setCellValue('P'.$j, $infoP['value']);
+													  ->setCellValue('Q'.$j, $infoP['value']);
 						$j++;
 					endforeach;
 				}
@@ -1166,7 +1167,7 @@ class Workorders extends CI_Controller {
 													  ->setCellValue('M'.$j, $infoM['quantity'])
 													  ->setCellValue('N'.$j, $infoM['unit'])
 													  ->setCellValue('O'.$j, $infoM['rate'])
-													  ->setCellValue('P'.$j, $infoM['value']);
+													  ->setCellValue('Q'.$j, $infoM['value']);
 						$j++;
 					endforeach;
 				}
@@ -1195,7 +1196,8 @@ class Workorders extends CI_Controller {
 													  ->setCellValue('M'.$j, $quantity)
 													  ->setCellValue('N'.$j, 'Hours')
 													  ->setCellValue('O'.$j, $infoE['rate'])
-													  ->setCellValue('P'.$j, $infoE['value']);
+													  ->setCellValue('P'.$j, $infoE['operatedby'])
+													  ->setCellValue('Q'.$j, $infoE['value']);
 						$j++;
 					endforeach;
 				}
@@ -1217,7 +1219,7 @@ class Workorders extends CI_Controller {
 													  ->setCellValue('M'.$j, $infoO['quantity'])
 													  ->setCellValue('N'.$j, $infoO['unit'])
 													  ->setCellValue('O'.$j, $infoO['rate'])
-													  ->setCellValue('P'.$j, $infoO['value']);
+													  ->setCellValue('Q'.$j, $infoO['value']);
 						$j++;
 					endforeach;
 				}
@@ -1241,6 +1243,7 @@ class Workorders extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
 			$objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
 			$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
 
 			// Add conditional formatting
 			$objConditional1 = new PHPExcel_Style_Conditional();
@@ -1283,7 +1286,7 @@ class Workorders extends CI_Controller {
 			// Set fonts			  
 			$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 			$objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A3:P3')->getFont()->setBold(true);
+			$objPHPExcel->getActiveSheet()->getStyle('A3:Q3')->getFont()->setBold(true);
 
 			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
 			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
