@@ -392,7 +392,8 @@
 				$idEmployeeType = $this->input->post('hddId');
 				
 				$data = array(
-					'employee_type' => $this->input->post('employeeType')
+					'employee_type' => $this->input->post('employeeType'),
+					'employee_type_unit_price' => $this->input->post('unit_price')
 				);
 				
 				//revisar si es para adicionar o editar

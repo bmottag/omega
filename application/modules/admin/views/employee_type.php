@@ -73,6 +73,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Employee Type</th>
+								<th class="text-center">Unit Price</th>
 								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
@@ -81,6 +82,11 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['employee_type'] . "</td>";
+									
+									$unitPrice = $lista['employee_type_unit_price'];
+									$unitPrice = $unitPrice?$unitPrice:0;
+									echo "<td class='text-right'>$ " . $unitPrice . "</td>";
+									
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_employee_type']; ?>" >
