@@ -486,11 +486,15 @@
 		 * Update jobs state
 		 * @since 12/1/2019
 		 */
-		public function updateJobsState() 
+		public function updateJobsState($state) 
 		{
-			//update all states to inactive
-			$data['state'] = 2;
-			$query = $this->db->update('param_jobs', $data);
+			//if it comes from the active view, then inactive everything
+			//else do nothing and continue with the activation
+			if($state == 1){
+				//update all states to inactive
+				$data['state'] = 2;
+				$query = $this->db->update('param_jobs', $data);
+			}
 
 			//update states
 			$query = 1;

@@ -394,13 +394,16 @@ class Admin extends CI_Controller {
      * @since 15/12/2016
      * @author BMOTTAG
 	 */
-	public function job()
+	public function job($state)
 	{
+			$data['state'] = $state;
+		
 			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_jobs",
-				"order" => "job_description",
-				"id" => "x"
+				"order" => "job_description",				
+				"column" => "state",
+				"id" => $state
 			);
 			$data['info'] = $this->general_model->get_basic_search($arrParam);
 			
@@ -995,9 +998,9 @@ class Admin extends CI_Controller {
      * @since 12/1/2019
      * @author BMOTTAG
 	 */
-	public function jobs_state()
+	public function jobs_state($state)
 	{	
-			if ($this->admin_model->updateJobsState()) {
+			if ($this->admin_model->updateJobsState($state)) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have update the state!!");
 			} else {
@@ -1005,7 +1008,7 @@ class Admin extends CI_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url('admin/job'), 'refresh');
+			redirect(base_url('admin/job/1'), 'refresh');
 	}
 	
     /**

@@ -54,6 +54,15 @@ function deseleccionar_todo(){
 					<i class="fa fa-briefcase"></i> JOB CODE/NAME LIST
 				</div>
 				<div class="panel-body">
+				
+					<ul class="nav nav-pills">
+						<li <?php if($state == 1){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/job/1"); ?>">List of active Job Code/Name</a>
+						</li>
+						<li <?php if($state == 2){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/job/2"); ?>">List of inactive Job Code/Name</a>
+						</li>
+					</ul>
+					<br>	
+				
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Job Code/Name
 					</button><br>
@@ -87,7 +96,7 @@ if ($retornoError) {
 					if($info){
 				?>	
 
-<form  name="jobs_state" id="jobs_state" method="post" action="<?php echo base_url("admin/jobs_state"); ?>">
+<form  name="jobs_state" id="jobs_state" method="post" action="<?php echo base_url("admin/jobs_state/$state"); ?>">
 
 	
 <a href="javascript:seleccionar_todo()">Check all</a> |

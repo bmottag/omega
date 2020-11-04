@@ -54,7 +54,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "admin/job";
+							var url = base_url + "admin/job/1";
 							$(location).attr("href", url);
 						}
 						else
