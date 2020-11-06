@@ -34,7 +34,35 @@
 			}
 		}	
 
-		
+		/**
+		 * Update job employee type prices
+		 * @since 6/11/2020
+		 */
+		public function updateEmployeeTypePrice() 
+		{
+			//update states
+			$query = 1;
+			
+			$employeeType = $this->input->post('form');
+			if ($employeeType) {
+				$tot = count($employeeType['id']);
+				
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$data = array(
+						'job_employee_type_unit_price' => $employeeType['price'][$i]
+					);
+					$this->db->where('id_employee_type_price', $employeeType['id'][$i]);
+					$query = $this->db->update('job_employee_type_price', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}		
 		
 
 		

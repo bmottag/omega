@@ -71,12 +71,19 @@ if ($retornoError) {
 						
 					</div>
 					
+<form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_employee_type_price"); ?>">
+
+					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]['id_job']; ?>"/>
+					
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
 								<th class="text-center">Employee Type</th>
-								<th class="text-center">Unit Price</th>
-								<th class="text-center">Edit</th>
+								<th class="text-center">Unit Price
+								<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
+									Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
+								</button>
+								</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -85,17 +92,22 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['employee_type'] . "</td>";
 									
-									$unitPrice = $lista['employee_type_unit_price'];
+									$unitPrice = $lista['job_employee_type_unit_price'];
 									$unitPrice = $unitPrice?$unitPrice:0;
-									echo "<td class='text-right'>$ " . $unitPrice . "</td>";
-									
-									echo "<td class='text-center'>";
-
+									echo "<td class='text-right'>";
+						?>
+						<input type="hidden" id="price" name="form[id][]" value="<?php echo $lista['id_employee_type_price']; ?>"/>
+						<input type="text" id="price" name="form[price][]" class="form-control" placeholder="Unit Price" value="<?php echo $unitPrice; ?>" >
+						<?php
 									echo "</td>";
+									echo "</tr>";
+
 							endforeach;
 						?>
 						</tbody>
 					</table>
+					
+</form>
 					<?php } ?>
 					<!--FIN HAZARDS -->
 					
