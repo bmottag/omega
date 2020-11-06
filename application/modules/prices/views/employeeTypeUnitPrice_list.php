@@ -12,46 +12,23 @@
 					<i class="fa fa-flag"></i> <strong>JOB - EMPLOYEE TYPE UNIT PRICE</strong>
 				</div>
 				<div class="panel-body">
+	
+					<!-- /.row -->	
+					<div class="row">
+						<div class="col-lg-12">	
+							<div class="alert alert-danger">
+								<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 
-	<!-- /.row -->
-	<div class="row">
-
-		<div class="col-lg-4">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<strong>Job Code/Name:</strong>
-				</div>
-				<div class="panel-body">
-				
-<?php echo $jobInfo[0]['job_description']; ?>
-
-
-				</div>
-				
-			</div>
-		</div>
-		<!-- /.col-lg-4 -->		
-
-		<div class="col-lg-4">
-			<div class="panel panel-danger">
-				<div class="panel-heading">
-					<strong>Load Data</strong>
-				</div>
-				<div class="panel-body">
-If you need to load the general configuration data, please click the following button.
-					
-					<button type="button" id="<?php echo $jobInfo[0]['id_job']; ?>" class='btn btn-danger btn-xs' title="Delete">
-							Load Data <i class="fa fa-trash-o"></i>
-					</button>				
-
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-4 -->
-
-	</div>
-	<!-- /.row -->
-
+								<br><br>
+								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+								Load the employee type price for this <strong>Job Code</strong> from the following button.
+								<button type="button" id="<?php echo $jobInfo[0]['id_job']; ?>" class='btn btn-danger btn-xs' title="Delete">
+										Load Data <i class="fa fa-upload"></i>
+								</button>
+							</div>
+						</div>				
+					</div>
+					<!-- /.row -->
 				
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -85,9 +62,10 @@ if ($retornoError) {
 					
 					<div class="row">
 						<div class="col-lg-12">
-							<div class="alert alert-danger">
+							<div class="alert alert-success">
+								<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
 								<strong>Attention: </strong>
-								The following table is the unit price list by employee type for this Job Code/Name.
+								The following table is the unit price list by employee type for this <strong>Job Code/Name</strong>.
 							</div>
 						</div>
 						
