@@ -842,6 +842,25 @@ class General_model extends CI_Model {
 				return false;
 			}
 		}
+		
+		/**
+		 * Get job hazard info
+		 * @since 27/11/2017
+		 */
+		public function get_job_employee_type_unit_price($idJob) 
+		{		
+				$this->db->select();
+				$this->db->join('param_employee_type PE', 'PE.id_employee_type = JE.fk_id_employee_type ', 'INNER');
+				$this->db->where('JE.fk_id_job', $idJob); 
+				$this->db->order_by('PE.employee_type', 'asc');
+				$query = $this->db->get('job_employee_type_price JE');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 
 
 }

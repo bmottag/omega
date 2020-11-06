@@ -156,6 +156,11 @@ if ($retornoError) {
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
+									
+									<a class='btn btn-danger btn-xs' href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
+										Employee Type <span class="fa fa-flag" aria-hidden="true">
+									</a>
+									
 						<?php
 									echo "</td>";
 							endforeach;

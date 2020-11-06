@@ -1,0 +1,134 @@
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/prices/employeeTypeUnitPrice.js"); ?>"></script>
+
+<div id="page-wrapper">
+	<br>
+	
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<a class="btn btn-danger btn-xs" href=" <?php echo base_url().'admin/job/1'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-flag"></i> <strong>JOB - EMPLOYEE TYPE UNIT PRICE</strong>
+				</div>
+				<div class="panel-body">
+
+	<!-- /.row -->
+	<div class="row">
+
+		<div class="col-lg-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<strong>Job Code/Name:</strong>
+				</div>
+				<div class="panel-body">
+				
+<?php echo $jobInfo[0]['job_description']; ?>
+
+
+				</div>
+				
+			</div>
+		</div>
+		<!-- /.col-lg-4 -->		
+
+		<div class="col-lg-4">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<strong>Load Data</strong>
+				</div>
+				<div class="panel-body">
+If you need to load the general configuration data, please click the following button.
+					
+					<button type="button" id="<?php echo $jobInfo[0]['id_job']; ?>" class='btn btn-danger btn-xs' title="Delete">
+							Load Data <i class="fa fa-trash-o"></i>
+					</button>				
+
+				</div>
+			</div>
+		</div>
+		<!-- /.col-lg-4 -->
+
+	</div>
+	<!-- /.row -->
+
+				
+<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-success ">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			<?php echo $retornoExito ?>		
+		</div>
+	</div>
+    <?php
+}
+
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<?php echo $retornoError ?>
+		</div>
+	</div>
+    <?php
+}
+?> 
+					<!--INICIO HAZARDS -->								
+					<?php 
+						if($employeeTypeUnitPrice){
+					?>
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-danger">
+								<strong>Attention: </strong>
+								The following table is the unit price list by employee type for this Job Code/Name.
+							</div>
+						</div>
+						
+					</div>
+					
+					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<thead>
+							<tr>
+								<th class="text-center">Employee Type</th>
+								<th class="text-center">Unit Price</th>
+								<th class="text-center">Edit</th>
+							</tr>
+						</thead>
+						<tbody>							
+						<?php
+							foreach ($employeeTypeUnitPrice as $lista):
+									echo "<tr>";
+									echo "<td>" . $lista['employee_type'] . "</td>";
+									
+									$unitPrice = $lista['employee_type_unit_price'];
+									$unitPrice = $unitPrice?$unitPrice:0;
+									echo "<td class='text-right'>$ " . $unitPrice . "</td>";
+									
+									echo "<td class='text-center'>";
+
+									echo "</td>";
+							endforeach;
+						?>
+						</tbody>
+					</table>
+					<?php } ?>
+					<!--FIN HAZARDS -->
+					
+					<!-- /.row (nested) -->
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
