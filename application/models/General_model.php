@@ -896,11 +896,12 @@ class General_model extends CI_Model {
 		 * Param int $vehicleType -> 1: Pickup; 2: Construction Equipment; 3: Trucks; 4: Special Equipment; 99: Otros
 		 * @since 6/11/2020
 		 */
-		public function get_equipment_price($arrData) 
+		public function get_equipment_price($idJob) 
 		{		
 				$this->db->select('JE.*, id_vehicle, make, unit_number,model, type_2');
 				$this->db->join('param_vehicle A', 'A.id_vehicle = JE.fk_id_equipment', 'INNER');
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = A.type_level_2', 'INNER');
+				$this->db->where('JE.fk_id_job', $idJob); 
 				
 				$this->db->order_by('T.inspection_type, A.unit_number', 'asc');
 				$query = $this->db->get('job_equipment_price JE');

@@ -157,7 +157,7 @@ if ($retornoError) {
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 									
-									<a class='btn btn-danger btn-xs' href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
+									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
 										Employee Type <span class="fa fa-flag" aria-hidden="true">
 									</a>
 									

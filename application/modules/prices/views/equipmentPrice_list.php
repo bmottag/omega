@@ -6,9 +6,9 @@
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-danger">
+			<div class="panel panel-purpura">
 				<div class="panel-heading">
-					<a class="btn btn-danger btn-xs" href=" <?php echo base_url().'admin/job/1'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<a class="btn btn-purpura btn-xs" href=" <?php echo base_url().'admin/job/1'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-flag"></i> <strong>JOB - EQUIPMENT UNIT PRICE</strong>
 				</div>
 				<div class="panel-body">
@@ -29,6 +29,37 @@
 						</div>				
 					</div>
 					<!-- /.row -->
+				</div>
+			</div>
+		</div>
+		<!-- /.col-lg-12 -->				
+	</div>
+					
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<i class="fa fa-flag"></i> <strong>Unit Hour Price</strong> list by Equipment for this <strong>Job Code/Name</strong>.
+				</div>
+				<div class="panel-body">
+
+					<?php 
+						if(!$equipmentUnitPrice){
+					?>
+					<!-- /.row -->	
+					<div class="row">
+						<div class="col-lg-12">	
+							<div class="alert alert-danger">
+								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+								There are no prices for this project, load the general prices from the <strong>Load Data</strong> button.
+							</div>
+						</div>				
+					</div>
+					<!-- /.row -->					
+					<?php
+						}
+					?>
 				
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -55,21 +86,11 @@ if ($retornoError) {
     <?php
 }
 ?> 
-					<!--INICIO HAZARDS -->								
+					<!--INICIO -->								
 					<?php 
 						if($equipmentUnitPrice){
 					?>
 					
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-success">
-								<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-								<strong>Attention: </strong>
-								The following table is the Unit Price list by Equipment for this <strong>Job Code/Name</strong>.
-							</div>
-						</div>
-						
-					</div>
 					
 <form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_job_equipment_price"); ?>">
 
@@ -112,7 +133,7 @@ if ($retornoError) {
 					
 </form>
 					<?php } ?>
-					<!--FIN HAZARDS -->
+					<!--FIN -->
 					
 					<!-- /.row (nested) -->
 				</div>
