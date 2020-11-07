@@ -71,7 +71,7 @@ if ($retornoError) {
 						
 					</div>
 					
-<form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_employee_type_price"); ?>">
+<form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_job_equipment_price"); ?>">
 
 					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]['id_job']; ?>"/>
 					
@@ -125,3 +125,13 @@ if ($retornoError) {
 	<!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
+
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+	$('#dataTables').DataTable({
+		responsive: true,
+		"pageLength": 100
+	});
+});
+</script>

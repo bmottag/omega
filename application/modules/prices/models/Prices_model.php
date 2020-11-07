@@ -126,6 +126,36 @@
 			}
 		}	
 		
+		/**
+		 * Update Job Equipment prices
+		 * @since 7/11/2020
+		 */
+		public function updateJobEquipmentPrice() 
+		{
+			//update states
+			$query = 1;
+			
+			$equipment = $this->input->post('form');
+			if ($equipment) {
+				$tot = count($equipment['id']);
+				
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$data = array(
+						'job_equipment_unit_price' => $equipment['price'][$i]
+					);
+					$this->db->where('id_equipment_price  ', $equipment['id'][$i]);
+					$query = $this->db->update('job_equipment_price', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+		
 
 		
 	    
