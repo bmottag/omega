@@ -62,7 +62,37 @@
 			} else{
 				return false;
 			}
-		}		
+		}	
+
+		/**
+		 * Update Equipment prices
+		 * @since 6/11/2020
+		 */
+		public function updateEquipmentPrice() 
+		{
+			//update states
+			$query = 1;
+			
+			$equipment = $this->input->post('form');
+			if ($equipment) {
+				$tot = count($equipment['id']);
+				
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$data = array(
+						'equipment_unit_price' => $equipment['price'][$i]
+					);
+					$this->db->where('id_vehicle ', $equipment['id'][$i]);
+					$query = $this->db->update('param_vehicle', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
 		
 
 		
