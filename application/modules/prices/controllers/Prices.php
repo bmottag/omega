@@ -98,7 +98,6 @@ class Prices extends CI_Controller {
 	{
 			$data['companyType'] = $companyType;
 			$data['vehicleState'] = 1;
-			$data['title'] = $companyType==1?"VCI":"RENTALS";
 
 			$this->load->model("general_model");
 			$arrParam = array(
@@ -128,6 +127,69 @@ class Prices extends CI_Controller {
 
 			redirect(base_url("prices/equipmentList"), 'refresh');
 	}
+	
+	/**
+	 * Lista de precios de quipos por hora para un proyecto
+     * @since 5/11/2020
+     * @author BMOTTAG
+	 */
+	public function equipmentUnitPrice($idJob)
+	{
+			$this->load->model("general_model");
+			$data['information'] = FALSE;
+
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+			//job_employee_type_unit_price list
+			$data['equipmentUnitPrice'] = $this->general_model->get_equipment_price($idJob);				
+
+			$data["view"] = "equipmentPrice_list";
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Load equipment
+     * @since 7/11/2020
+     * @author BMOTTAG
+	 */
+	public function load_equipment($companyType = 1)
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$data["idJob"] = $this->input->post('identificador');
+				
+			$data['companyType'] = $companyType;
+			$data['vehicleState'] = 1;
+
+			$this->load->model("general_model");
+			$arrParam = array(
+				"companyType" => $companyType,
+				"vehicleState" => $data['vehicleState']
+			);	
+			$equipmentUnitPrice = $this->general_model->get_equipment_info_by($arrParam);//vehicle list
+
+//falta cargar historial de estos cambios
+
+			if ($this->prices_model->add_equipment($equipmentUnitPrice)) 
+			{				
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', 'You have load the data.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}				
+
+			echo json_encode($data);
+    }
 
 	
 	

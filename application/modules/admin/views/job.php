@@ -161,6 +161,10 @@ if ($retornoError) {
 										Employee Type <span class="fa fa-flag" aria-hidden="true">
 									</a>
 									
+									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('prices/equipmentUnitPrice/' . $lista['id_job']) ?>'>
+										Equipment <span class="fa fa-flag" aria-hidden="true">
+									</a>
+									
 						<?php
 									echo "</td>";
 							endforeach;

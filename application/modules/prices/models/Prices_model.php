@@ -94,6 +94,38 @@
 			}
 		}
 		
+		/**
+		 * Add JOB EQUIPMENT PRICES
+		 * @since 7/11/2020
+		 */
+		public function add_equipment($equipmentList) 
+		{
+			$idJob = $this->input->post('identificador');
+			
+			//delete employee types 
+			$this->db->delete('job_equipment_price', array('fk_id_job' => $idJob));
+
+			//add the new employee types
+			$query = 1;
+			if ($equipmentList) {
+				$tot = count($equipmentList);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_job' => $idJob,
+						'fk_id_equipment' => $equipmentList[$i]['id_vehicle'],
+						'job_equipment_unit_price' => $equipmentList[$i]['equipment_unit_price']
+					);
+					$query = $this->db->insert('job_equipment_price', $data);
+				}
+			}
+
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}	
+		
 
 		
 	    
