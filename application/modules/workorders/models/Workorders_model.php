@@ -668,8 +668,54 @@
 				return false;
 			}
 		}
-	
 		
+		/**
+		 * Get Prices for workorder personal
+		 * @since 13/1/2017
+		 */
+		public function get_workorder_personal_prices($idWorkorder, $idJob) 
+		{		
+				$this->db->select("W.*, T.job_employee_type_unit_price");
+				$this->db->join('job_employee_type_price T', 'T.fk_id_employee_type = W.fk_id_employee_type', 'INNER');
+				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				$this->db->where('T.fk_id_job ', $idJob); 
+				$query = $this->db->get('workorder_personal W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+	
+		/**
+		 * Update WO personal rate
+		 * @since 7/11/2020
+		 */
+		public function update_wo_personal_rate($workorderPersonalRate) 
+		{
+			$idWO = $this->input->post('identificador');
+			
+			//add the new employee types
+			$query = 1;
+			if ($workorderPersonalRate) {
+				$tot = count($workorderPersonalRate);
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$data = array(
+						'rate' => $workorderPersonalRate[$i]['job_employee_type_unit_price']
+					);
+					$this->db->where('id_workorder_personal  ', $workorderPersonalRate[$i]['id_workorder_personal']);
+					$query = $this->db->update('workorder_personal', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}	
 		
 		
 	    

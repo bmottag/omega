@@ -1,5 +1,48 @@
 <script>
 $(function(){ 
+
+	$(".btn-default").click(function () {	
+			var oID = $(this).attr("id");
+			
+			//Activa icono guardando
+			if(window.confirm('Are you sure you want to load the general configuration data?'))
+			{
+					$(".btn-default").attr('disabled','-1');
+					$.ajax ({
+						type: 'POST',
+						url: base_url + 'workorders/load_prices_wo',
+						data: {'identificador': oID},
+						cache: false,
+						success: function(data){
+												
+							if( data.result == "error" )
+							{
+								alert(data.mensaje);
+								$(".btn-default").removeAttr('disabled');							
+								return false;
+							} 
+											
+							if( data.result )//true
+							{	                                                        
+								$(".btn-default").removeAttr('disabled');
+
+								var url = base_url + "workorders/view_workorder/" + data.idWO
+								$(location).attr("href", url);
+							}
+							else
+							{
+								alert('Error. Reload the web page.');
+								$(".btn-default").removeAttr('disabled');
+							}	
+						},
+						error: function(result) {
+							alert('Error. Reload the web page.');
+							$(".btn-default").removeAttr('disabled');
+						}
+
+					});
+			}
+	});
 	
 	$(".btn-warning").click(function () {	
 			var oID = $(this).attr("id");
@@ -161,6 +204,13 @@ if ($retornoError) {
 								<br><strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
 								<br><strong>Supervisor: </strong><?php echo $information[0]["name"]; ?>
 								<br><strong>Observation: </strong><?php echo $information[0]["observation"]; ?>
+								
+								<br><br>
+								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+								Update rates from the following button.
+								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-default btn-xs' title="Update">
+										Update Rates <i class="fa fa-refresh"></i>
+								</button>
 							</div>
 						</div>
 					</div>

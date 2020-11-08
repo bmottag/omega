@@ -1522,6 +1522,37 @@ class Workorders extends CI_Controller {
 
 	}
 	
+	/**
+	 * Load prices WO
+     * @since 7/11/2020
+     * @author BMOTTAG
+	 */
+	public function load_prices_wo()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$data["idWO"] = $idWO = $this->input->post('identificador');
+			
+			$arrParam['idWorkOrder'] =  $idWO;
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+			$idJob = $data['information'][0]['fk_id_job'];
+				
+			$workorderPersonalRate = $this->workorders_model->get_workorder_personal_prices($idWO, $idJob);//workorder personal list
+
+			if ($this->workorders_model->update_wo_personal_rate($workorderPersonalRate)) 
+			{				
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', 'You have load the data.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}				
+
+			echo json_encode($data);
+    }
+	
 	
 	
 }
