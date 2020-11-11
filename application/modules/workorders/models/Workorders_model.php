@@ -702,8 +702,13 @@
 				$tot = count($workorderPersonalRate);
 				for ($i = 0; $i < $tot; $i++) 
 				{					
+					$rate = $workorderPersonalRate[$i]['job_employee_type_unit_price'];
+					$hours = $workorderPersonalRate[$i]['hours'];
+					$value = $rate * $hours;
+					
 					$data = array(
-						'rate' => $workorderPersonalRate[$i]['job_employee_type_unit_price']
+						'rate' => $rate,
+						'value' => $value
 					);
 					$this->db->where('id_workorder_personal  ', $workorderPersonalRate[$i]['id_workorder_personal']);
 					$query = $this->db->update('workorder_personal', $data);
