@@ -689,7 +689,7 @@
 		}
 	
 		/**
-		 * Update WO personal rate
+		 * Update WO personal rate and value
 		 * @since 7/11/2020
 		 */
 		public function update_wo_personal_rate($workorderPersonalRate) 
@@ -721,6 +721,63 @@
 				return false;
 			}
 		}	
+		
+		/**
+		 * Get Prices for workorder equipment
+		 * @since 10/11/2020
+		 */
+		public function get_workorder_equipment_prices($idWorkorder, $idJob)
+		{		
+				$this->db->select("W.*, T.job_equipment_unit_price");
+				$this->db->join('job_equipment_price T', 'T.fk_id_equipment = W.fk_id_vehicle', 'INNER');				
+				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				$this->db->where('T.fk_id_job ', $idJob); 
+				$query = $this->db->get('workorder_equipment W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Update WO equipment rate and value
+		 * @since 10/11/2020
+		 */
+		public function update_wo_equipment_rate($workorderEquipmentRate) 
+		{
+			$idWO = $this->input->post('identificador');
+			
+			//add the new employee types
+			$query = 1;
+			if ($workorderEquipmentRate) {
+				$tot = count($workorderEquipmentRate);
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$rate = $workorderEquipmentRate[$i]['job_equipment_unit_price'];
+					$hours = $workorderEquipmentRate[$i]['hours'];
+					
+					$quantity = $workorderEquipmentRate[$i]['quantity'];
+					$quantity = $quantity==0?1:$quantity;
+					
+					$value = $rate * $quantity * $hours;
+					
+					$data = array(
+						'rate' => $rate,
+						'value' => $value
+					);
+					$this->db->where('id_workorder_equipment', $workorderEquipmentRate[$i]['id_workorder_equipment']);
+					$query = $this->db->update('workorder_equipment', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
 		
 		
 	    
