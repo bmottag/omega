@@ -589,7 +589,7 @@ class Workorders extends CI_Controller {
 				$data['deshabilitar'] = 'disabled';
 			}
 
-			$data["view"] = 'asign_rate_form';
+			$data["view"] = 'asign_rate_form_v2';
 			$this->load->view("layout", $data);
 	}	
 	
