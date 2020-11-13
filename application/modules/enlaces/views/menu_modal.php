@@ -44,8 +44,8 @@
 					<label class="control-label" for="menu_type">Menu type : *</label>
 					<select name="menu_type" id="menu_type" class="form-control" required>
 						<option value=''>Select...</option>
-						<option value=1 <?php if($information[0]["menu_type"] == 1) { echo "selected"; }  ?>>Left</option>
-						<option value=2 <?php if($information[0]["menu_type"] == 2) { echo "selected"; }  ?>>Top</option>
+						<option value=1 <?php if($information && $information[0]["menu_type"] == 1) { echo "selected"; }  ?>>Left</option>
+						<option value=2 <?php if($information && $information[0]["menu_type"] == 2) { echo "selected"; }  ?>>Top</option>
 					</select>
 				</div>
 			</div>
