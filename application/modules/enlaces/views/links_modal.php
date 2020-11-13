@@ -59,8 +59,8 @@
 					<label class="control-label" for="link_state">State : *</label>
 					<select name="link_state" id="link_state" class="form-control" required>
 						<option value=''>Select...</option>
-						<option value=1 <?php if($information[0]["link_state"] == 1) { echo "selected"; }  ?>>Active</option>
-						<option value=2 <?php if($information[0]["link_state"] == 2) { echo "selected"; }  ?>>Inactive</option>
+						<option value=1 <?php if($information && $information[0]["link_state"] == 1) { echo "selected"; }  ?>>Active</option>
+						<option value=2 <?php if($information && $information[0]["link_state"] == 2) { echo "selected"; }  ?>>Inactive</option>
 					</select>
 				</div>
 			</div>
