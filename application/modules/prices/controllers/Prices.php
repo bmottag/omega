@@ -210,6 +210,24 @@ class Prices extends CI_Controller {
 
 			redirect(base_url("prices/equipmentUnitPrice/$idJob"), 'refresh');
 	}
+	
+	/**
+	 * Update the price of each field
+     * @since 13/11/2020
+     * @author BMOTTAG
+	 */
+	public function update_general_employee_type_price()
+	{	
+			if ($this->prices_model->updateGeneralEmployeeTypePrice()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the Employee Type Unit Price!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url("admin/employeeType"), 'refresh');
+	}
 
 	
 	

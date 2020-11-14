@@ -117,7 +117,7 @@ if ($retornoError) {
 									echo "<td class='text-right'>";
 						?>
 						<input type="hidden" id="price" name="form[id][]" value="<?php echo $lista['id_employee_type_price']; ?>"/>
-						<input type="text" id="price" name="form[price][]" class="form-control" placeholder="Unit Price" value="<?php echo $unitPrice; ?>" >
+						$ <input type="text" id="price" name="form[price][]" class="form-control" placeholder="Unit Price" value="<?php echo $unitPrice; ?>" >
 						<?php
 									echo "</td>";
 									echo "</tr>";

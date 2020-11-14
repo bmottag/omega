@@ -68,12 +68,19 @@ if ($retornoError) {
 ?> 
 				<?php
 					if($info){
-				?>				
+				?>
+
+<form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_general_employee_type_price"); ?>">
+				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
 								<th class="text-center">Employee Type</th>
-								<th class="text-center">Unit Price</th>
+								<th class="text-center">Unit Price
+								<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
+									Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
+								</button>
+								</th>
 								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
@@ -85,7 +92,12 @@ if ($retornoError) {
 									
 									$unitPrice = $lista['employee_type_unit_price'];
 									$unitPrice = $unitPrice?$unitPrice:0;
-									echo "<td class='text-right'>$ " . $unitPrice . "</td>";
+									echo "<td class='text-right'>";
+						?>
+						<input type="hidden" id="price" name="form[id][]" value="<?php echo $lista['id_employee_type']; ?>"/>
+						$ <input type="text" id="price" name="form[price][]" class="form-control" placeholder="Unit Price" value="<?php echo $unitPrice; ?>" >
+						<?php
+									echo "</td>";
 									
 									echo "<td class='text-center'>";
 						?>
@@ -98,6 +110,8 @@ if ($retornoError) {
 						?>
 						</tbody>
 					</table>
+					
+</form>
 				<?php } ?>
 				</div>
 				<!-- /.panel-body -->
