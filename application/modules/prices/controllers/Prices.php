@@ -137,7 +137,7 @@ class Prices extends CI_Controller {
      * @since 5/11/2020
      * @author BMOTTAG
 	 */
-	public function equipmentUnitPrice($idJob)
+	public function equipmentUnitPrice($idJob, $companyType)
 	{
 			$this->load->model("general_model");
 			$data['information'] = FALSE;
@@ -151,8 +151,17 @@ class Prices extends CI_Controller {
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 
-			//job_employee_type_unit_price list
-			$data['equipmentUnitPrice'] = $this->general_model->get_equipment_price($idJob);				
+			//job_equipment unit price list			
+			$data['vehicleState'] = 1;
+			$data['companyType'] = $companyType;
+			$data['title'] = $companyType==1?"VCI":"RENTALS";
+
+			$arrParam = array(
+				"companyType" => $companyType,
+				"vehicleState" => $data['vehicleState'],
+				"idJob" => $idJob
+			);
+			$data['equipmentUnitPrice'] = $this->general_model->get_equipment_price($arrParam);				
 
 			$data["view"] = "equipmentPrice_list";
 			$this->load->view("layout", $data);
@@ -163,19 +172,17 @@ class Prices extends CI_Controller {
      * @since 7/11/2020
      * @author BMOTTAG
 	 */
-	public function load_equipment($companyType = 1)
+	public function load_equipment()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
 
 			$data["idJob"] = $this->input->post('identificador');
 				
-			$data['companyType'] = $companyType;
 			$data['vehicleState'] = 1;
 
 			$this->load->model("general_model");
 			$arrParam = array(
-				"companyType" => $companyType,
 				"vehicleState" => $data['vehicleState']
 			);	
 			$equipmentUnitPrice = $this->general_model->get_equipment_info_by($arrParam);//vehicle list
@@ -203,6 +210,7 @@ class Prices extends CI_Controller {
 	public function update_job_equipment_price()
 	{	
 			$idJob = $this->input->post('hddIdJob');
+			$companyType = $this->input->post('hddIdCompanyType');
 	
 			if ($this->prices_model->updateJobEquipmentPrice()) {
 				$data["result"] = true;
@@ -212,7 +220,7 @@ class Prices extends CI_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url("prices/equipmentUnitPrice/$idJob"), 'refresh');
+			redirect(base_url("prices/equipmentUnitPrice/$idJob/$companyType"), 'refresh');
 	}
 	
 	/**

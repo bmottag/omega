@@ -25,7 +25,7 @@ $( document ).ready( function () {
 							{	                                                        
 								$(".btn-danger").removeAttr('disabled');
 
-								var url = base_url + "prices/equipmentUnitPrice/" + data.idJob;
+								var url = base_url + "prices/equipmentUnitPrice/" + data.idJob + "/1";
 								$(location).attr("href", url);
 							}
 							else

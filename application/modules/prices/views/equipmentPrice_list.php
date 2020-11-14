@@ -22,7 +22,8 @@
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
 								Load Equipment Unit Price for this <strong>Job Code</strong> from the following button.
-								<button type="button" id="<?php echo $jobInfo[0]['id_job']; ?>" class='btn btn-danger btn-xs' title="Load">
+								<?php $idJob = $jobInfo[0]['id_job']; ?>
+								<button type="button" id="<?php echo $idJob; ?>" class='btn btn-danger btn-xs' title="Load">
 										Load Data <i class="fa fa-upload"></i>
 								</button>
 							</div>
@@ -43,7 +44,14 @@
 					<i class="fa fa-flag"></i> <strong>Unit Hour Price</strong> list by Equipment for this <strong>Job Code/Name</strong>.
 				</div>
 				<div class="panel-body">
-
+				
+					<ul class="nav nav-pills">
+						<li <?php if($companyType == 1){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentUnitPrice/$idJob/1"); ?>">VCI EQUIPMENT</a>
+						</li>
+						<li <?php if($companyType == 2){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentUnitPrice/$idJob/2"); ?>">RENTAL EQUIPMENT</a>
+						</li>
+					</ul>
+<br>
 					<?php 
 						if(!$equipmentUnitPrice){
 					?>
@@ -95,6 +103,7 @@ if ($retornoError) {
 <form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_job_equipment_price"); ?>">
 
 					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]['id_job']; ?>"/>
+					<input type="hidden" id="hddIdCompanyType" name="hddIdCompanyType" value="<?php echo $companyType; ?>"/>
 					
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
