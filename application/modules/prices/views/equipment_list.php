@@ -18,9 +18,17 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-flag-o"></i> GENERAL EQUIPMENT UNIT PRICES BY HOUR
+					<i class="fa fa-flag-o"></i> GENERAL EQUIPMENT UNIT PRICES BY HOUR - <?php echo $title; ?>
 				</div>
 				<div class="panel-body">
+				
+					<ul class="nav nav-pills">
+						<li <?php if($companyType == 1){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentList/1"); ?>">VCI EQUIPMENT</a>
+						</li>
+						<li <?php if($companyType == 2){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentList/2"); ?>">RENTAL EQUIPMENT</a>
+						</li>
+					</ul>
+<br>
 
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -52,6 +60,8 @@ if ($retornoError) {
 				?>		
 
 <form  name="employee_type_prices" id="employee_type_prices" method="post" action="<?php echo base_url("prices/update_equipment_price"); ?>">
+
+					<input type="hidden" id="hddIdCompanyType" name="hddIdCompanyType" value="<?php echo $companyType; ?>"/>
 				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>

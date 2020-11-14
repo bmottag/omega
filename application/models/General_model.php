@@ -865,7 +865,6 @@ class General_model extends CI_Model {
 		/**
 		 * Get equipment list
 		 * Param int $companyType -> 1: VCI; 2: Subcontractor
-		 * Param int $vehicleType -> 1: Pickup; 2: Construction Equipment; 3: Trucks; 4: Special Equipment; 99: Otros
 		 * @since 6/11/2020
 		 */
 		public function get_equipment_info_by($arrData) 
@@ -878,6 +877,9 @@ class General_model extends CI_Model {
 				}
 				if (array_key_exists("vehicleState", $arrData)) {
 					$this->db->where('A.state', $arrData["vehicleState"]);
+				}
+				if (array_key_exists("companyType", $arrData)) {
+					$this->db->where('A.type_level_1', $arrData["companyType"]);
 				}
 
 				$this->db->order_by('T.inspection_type, A.unit_number', 'asc');

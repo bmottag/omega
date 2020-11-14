@@ -94,10 +94,11 @@ class Prices extends CI_Controller {
      * @since 6/11/2020
      * @author BMOTTAG
 	 */
-	public function equipmentList($companyType = 1)
+	public function equipmentList($companyType)
 	{
-			$data['companyType'] = $companyType;
 			$data['vehicleState'] = 1;
+			$data['companyType'] = $companyType;
+			$data['title'] = $companyType==1?"VCI":"RENTALS";
 
 			$this->load->model("general_model");
 			$arrParam = array(
@@ -106,6 +107,7 @@ class Prices extends CI_Controller {
 			);
 			
 			$data['info'] = $this->general_model->get_equipment_info_by($arrParam);//vehicle list
+			
 			$data["view"] = 'equipment_list';
 			$this->load->view("layout", $data);
 	}
@@ -117,6 +119,8 @@ class Prices extends CI_Controller {
 	 */
 	public function update_equipment_price()
 	{	
+			$companyType = $this->input->post('hddIdCompanyType');
+			
 			if ($this->prices_model->updateEquipmentPrice()) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have update the Equipment Unit Price!!");
@@ -125,7 +129,7 @@ class Prices extends CI_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url("prices/equipmentList"), 'refresh');
+			redirect(base_url("prices/equipmentList/$companyType"), 'refresh');
 	}
 	
 	/**

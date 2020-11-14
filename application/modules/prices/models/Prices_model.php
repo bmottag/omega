@@ -82,7 +82,7 @@
 					$data = array(
 						'equipment_unit_price' => $equipment['price'][$i]
 					);
-					$this->db->where('id_vehicle ', $equipment['id'][$i]);
+					$this->db->where('id_vehicle', $equipment['id'][$i]);
 					$query = $this->db->update('param_vehicle', $data);
 				}
 			}
