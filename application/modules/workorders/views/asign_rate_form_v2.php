@@ -208,7 +208,7 @@ if ($retornoError) {
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
 								Update rates from the following button.
-								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-default btn-xs' title="Update">
+								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-default btn-xs' title="Update" <?php echo $deshabilitar; ?>>
 										Update Rates <i class="fa fa-refresh"></i>
 								</button>
 							</div>
@@ -426,6 +426,7 @@ if ($retornoError) {
 
 					<td><p class="text-center"><strong>Rate</strong></p></td>
 					<td><p class="text-center"><strong>Value</strong></p></td>
+					<td><p class="text-center"><strong>Save</strong></p></td>
 					<td><p class="text-center"><strong>Delete</strong></p></td>
 				</tr>
 				<?php
@@ -465,9 +466,30 @@ if ($retornoError) {
 						
 						$idRecord = $data['id_workorder_equipment'];
 				?>
+						<form  name="equipment_<?php echo $idRecord ?>" id="equipment_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
+						
+						<td>
+				
+						<input type="hidden" id="formType" name="formType" value="equipment"/>
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+						<input type="hidden" id="hours" name="hours" value="<?php echo $data['hours']; ?>"/>
+						<input type="hidden" id="quantity" name="quantity" value="<?php echo $quantity; ?>" />
+						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 
-						<td class='text-right'><small>$ <?php echo $data['rate']; ?></small></td>
+						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
+		
+						</td>
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
+						<td class='text-center'>
+
+							
+					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
+						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+							
+						</td>
+						</form>									
 
 						<td class='text-center'>
 							<?php if(!$deshabilitar){ ?>
