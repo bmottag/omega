@@ -265,6 +265,7 @@ if ($retornoError) {
 					<td><p class="text-center"><strong>Task Description</strong></p></td>
 					<td><p class="text-center"><strong>Rate</strong></p></td>
 					<td><p class="text-center"><strong>Value</strong></p></td>
+					<td><p class="text-center"><strong>Save</strong></p></td>
 					<td><p class="text-center"><strong>Delete</strong></p></td>
 				</tr>
 				<?php
@@ -276,10 +277,29 @@ if ($retornoError) {
 						echo "<td ><small>" . $data['description'] . "</small></td>";
 												
 						$idRecord = $data['id_workorder_personal'];
-				?>					
-						<td class='text-right'><small>$ <?php echo $data['rate']; ?></small></td>
+				?>
+						<form  name="personal_<?php echo $idRecord ?>" id="personal_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
+						
+						<td>
+				
+						<input type="hidden" id="formType" name="formType" value="personal"/>
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+						<input type="hidden" id="hours" name="hours" value="<?php echo $data['hours']; ?>"/>
+						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
+						<input type="hidden" id="quantity" name="quantity" value=1 >
+						
+						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
+		
+						</td>
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
-
+						<td class='text-center'>
+					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
+						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+						</td>
+						</form>
+						
 						<td class='text-center'>
 							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
