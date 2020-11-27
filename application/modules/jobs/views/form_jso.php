@@ -289,7 +289,7 @@ if($data['signature']){
 	$class = "btn-default";
 	
 ?>
-<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_job_jso_worker'] . "wModal"; ?>" id="<?php echo "worker-" . $data['id_job_jso_worker']; ?>">
+<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#<?php echo $data['id_job_jso_worker'] . "wModal"; ?>" id="<?php echo "worker-" . $data['id_job_jso_worker']; ?>">
 	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 </button>
 
@@ -309,8 +309,14 @@ if($data['signature']){
 <?php
 }
 				?>
-					
-					<a class='btn <?php echo $class; ?>' href='<?php echo base_url('jobs/add_signature_jso/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_jso'] . '/' . $data['id_job_jso_worker']) ?>' id="btn-delete">
+<!-- enlace para enviar mensaje de texto al foreman -->
+<?php if($data['works_phone_number']){ ?>
+<a href="<?php echo base_url("jobs/sendSMSworkerJSO/" . $data['id_job_jso_worker']); ?>" class="btn btn-default btn-xs"> 
+	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to Worker
+</a>
+<?php } ?>
+
+					<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('jobs/add_signature_jso/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_jso'] . '/' . $data['id_job_jso_worker']) ?>' id="btn-delete">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 					</a>
 					</center>

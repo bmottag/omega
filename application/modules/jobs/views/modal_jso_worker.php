@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/jso_workers.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/jso_workers_v2.js"); ?>"></script>
 
 <script>
 $(document).ready(function () {
@@ -47,7 +47,7 @@ $(document).ready(function () {
 	});
 </script>
 					<label class="control-label" for="birth">Birth Date:</label>
-					<input type="text" class="form-control" id="birth" name="birth" value="<?php echo $information?$information[0]["birth_date"]:""; ?>" placeholder="Birth Date" required />
+					<input type="text" class="form-control" id="birth" name="birth" value="<?php echo $information?$information[0]["birth_date"]:""; ?>" placeholder="Birth Date" />
 				</div>
 			</div>
 		</div>
@@ -56,14 +56,14 @@ $(document).ready(function () {
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="city">City : *</label>
-					<input type="text" id="city" name="city" class="form-control" value="<?php echo $information?$information[0]["city"]:""; ?>" placeholder="City" required >
+					<input type="text" id="city" name="city" class="form-control" value="<?php echo $information?$information[0]["city"]:""; ?>" placeholder="City" >
 				</div>
 			</div>
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="rh_factor">RH factor : *</label>
-					<input type="text" id="rh_factor" name="rh_factor" class="form-control" value="<?php echo $information?$information[0]["rh"]:""; ?>" placeholder="RH factor" required >
+					<input type="text" id="rh_factor" name="rh_factor" class="form-control" value="<?php echo $information?$information[0]["rh"]:""; ?>" placeholder="RH factor" >
 				</div>
 			</div>
 		</div>
@@ -72,14 +72,14 @@ $(document).ready(function () {
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="worksfor">Works for : *</label>
-					<input type="text" id="worksfor" name="worksfor" class="form-control" value="<?php echo $information?$information[0]["works_for"]:""; ?>" placeholder="Works for" required >
+					<input type="text" id="worksfor" name="worksfor" class="form-control" value="<?php echo $information?$information[0]["works_for"]:""; ?>" placeholder="Works for" >
 				</div>
 			</div>
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="position">Position : *</label>
-					<input type="text" id="position" name="position" class="form-control" value="<?php echo $information?$information[0]["position"]:""; ?>" placeholder="Position" required >
+					<input type="text" id="position" name="position" class="form-control" value="<?php echo $information?$information[0]["position"]:""; ?>" placeholder="Position" >
 				</div>
 			</div>
 		</div>
@@ -95,7 +95,7 @@ $(document).ready(function () {
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="emergency_contact">Emergency Contact/Phone number : *</label>
-					<input type="text" id="emergency_contact" name="emergency_contact" class="form-control" value="<?php echo $information?$information[0]["emergency_contact"]:""; ?>" placeholder="Emergency Contact" required >
+					<input type="text" id="emergency_contact" name="emergency_contact" class="form-control" value="<?php echo $information?$information[0]["emergency_contact"]:""; ?>" placeholder="Emergency Contact" >
 				</div>
 			</div>
 		</div>
@@ -125,7 +125,7 @@ $(document).ready(function () {
 			<div class="col-sm-6" id="div_licencia" style="display: <?php echo $mostrar; ?>">
 				<div class="form-group text-left">
 					<label for="license_number">Driver license number : *</label>
-					<input type="text" id="license_number" name="license_number" class="form-control" value="<?php echo $information?$information[0]["license_number"]:""; ?>" placeholder="Driver license number" required >
+					<input type="text" id="license_number" name="license_number" class="form-control" value="<?php echo $information?$information[0]["license_number"]:""; ?>" placeholder="Driver license number" >
 				</div>
 			</div>
 		</div>

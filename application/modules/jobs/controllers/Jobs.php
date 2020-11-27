@@ -1252,6 +1252,18 @@ ob_end_clean();
 					);
 					//enlace para regresar al formulario con ancla a la lista de trabajadores
 					$data['linkBack'] = "jobs/jso/" . $idJob;
+				}elseif($typo == "externalWorker"){
+					$name = "images/signature/jso/worker_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_jso_workers",
+						"primaryKey" => "id_job_jso_worker",
+						"id" => $idWorker,
+						"column" => "signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario con ancla a la lista de trabajadores
+					$data['linkBack'] = "jobs/jso_worker_view/" . $idWorker;
 				}
 				
 				$data_uri = $this->input->post("image");
@@ -1648,6 +1660,95 @@ ob_end_clean();
 			}
 			redirect(base_url('jobs/add_tool_box/' . $idJob . '/' . $idToolBox), 'refresh');
     }
+	
+	/**
+	 * Envio de mensaje
+     * @since 26/11/2020
+     * @author BMOTTAG
+	 */
+	public function sendSMSworkerJSO($idJSOworker)
+	{			
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		
+        $client = new Twilio\Rest\Client($dato1, $dato2);
+		
+		//Worker info		
+		$arrParam = array("idJobJsoWorker" => $idJSOworker);
+		$data['information'] = $this->jobs_model->get_jso_workers($arrParam);//info bloques
+
+		//JSO info
+		$idJobJso = $data['information'][0]['fk_id_job_jso'];
+		$arrParam = array("idJobJso" => $idJobJso);
+		$data['JSOInfo'] = $this->jobs_model->get_jso($arrParam);
+		
+		$idJob = $data['JSOInfo'][0]['id_job'];
+		
+		$mensaje = "";
+		
+		$mensaje .= date('F j, Y', strtotime($data['JSOInfo'][0]['date_issue_jso']));
+		$mensaje .= "\n" . $data['JSOInfo'][0]['job_description'];
+		$mensaje .= "\n";
+		$mensaje .= "Click the following link to review the JSO.";
+		$mensaje .= "\n";
+		$mensaje .= "\n";
+		$mensaje .= base_url("jobs/jso_worker_view/" . $idJSOworker);
+
+		$to = '+1' . $data['information'][0]['works_phone_number'];
+	
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		// the number you'd like to send the message to
+			$to,
+			array(
+				// A Twilio phone number you purchased at twilio.com/console
+				'from' => '587 600 8948',
+				'body' => $mensaje
+			)
+		);
+
+		$data['linkBack'] = "jobs/jso/" . $idJob;
+		$data['titulo'] = "<i class='fa fa-list'></i> JSO";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "We have send the SMS to the Worker to sign the JSO." . $idJSOworker;
+
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+
+
+	}
+	
+	/**
+	 * JSO workorder view to sign
+     * @since 26/11/2020
+     * @author BMOTTAG
+	 */
+	public function jso_worker_view($idJSOworker)
+	{
+			//Worker info		
+			$arrParam = array("idJobJsoWorker" => $idJSOworker);
+			$data['information'] = $this->jobs_model->get_jso_workers($arrParam);//info bloques
+
+			//JSO info
+			$idJobJso = $data['information'][0]['fk_id_job_jso'];
+			$arrParam = array("idJobJso" => $idJobJso);
+			$data['JSOInfo'] = $this->jobs_model->get_jso($arrParam);
+						
+			$data["view"] = 'jso_worker_view';
+			$this->load->view("layout", $data);
+	}	
 
 
 	
