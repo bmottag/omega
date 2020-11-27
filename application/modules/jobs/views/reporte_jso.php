@@ -617,6 +617,39 @@ $html .= '<h2 align="center" style="color:#337ab7;">CERTIFICATIONS REQUIRED ON T
 				$html.= '</tr>';
 				
 			$html.='</table><br><br>';
+			
+			
+		if($info[0]["potential_hazards"] != '')
+		{
+			$html .= '<h3 align="left" style="color:#337ab7;">Potential hazards: (Refer to Job hazard analysis)</h3>';
+				
+			$html .= $info[0]["potential_hazards"];
+
+			$html.='<br>';
+		}
+		
+			//INICIO COVID
+			$html .= '<h3 align="left" style="color:#337ab7;">Additional hazards related to COVID-19</h3>';
+				
+			$html .= 'If you answer "YES" to any of the following questions, you are not permitted to attend work at this time and you must self-isolate.';
+			
+			$html .= '<ul>';
+			$html .= '<li>Do you have any of the following symptoms which are new or worsened if associated with
+allergies, chronic or pre-existing conditions: fever, cough, shortness of breath, difficulty
+breathing, sore throat, and/or runny nose?</li>';
+			$html .= '<li>Have you returned to Canada from outside the country (including USA) in the past 14 days?</li>';
+			$html .= '<li>Did you have close contact* with a person who has a probable** or confirmed case of COVID-19?</li>';
+			$html .= '<li>Did you have close contact* with a person who had an acute respiratory illness that started within
+14 days of their close contact* to someone with a probable** or confirmed case of COVID-19?</li>';
+			$html .= '<li>Did you have close contact* with a person who had an acute respiratory illness who returned from
+travel outside of Canada in the 14 days before they became sick?</li>';
+			$html .= '<li>Did you have a laboratory exposure to biological material (i.e. primary clinical specimens, virus
+culture isolates) known to contain COVID-19?</li>';
+			$html .= '</ul>';
+
+			$html.='<br><br><br><br>';
+			//FIN COVID
+		
 
 //FIRMAS SUPERVISOR Y MANAGER
 			$html.= '<table border="0" cellspacing="0" cellpadding="5">';
