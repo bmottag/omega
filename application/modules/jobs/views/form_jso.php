@@ -60,7 +60,7 @@ $(function(){
 								echo "<br><strong>Date: </strong>";
 								echo $information[0]["date_issue_jso"]; 
 								
-								echo "<br><strong>Dowloand JSO: </strong>";
+								echo "<br><strong>Download JSO: </strong>";
 						?>
 <a href='<?php echo base_url('jobs/generaJSOPDF/' . $information[0]["id_job_jso"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php 

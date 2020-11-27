@@ -20,7 +20,7 @@
 								echo "<br><strong>Date review: </strong>";
 								echo $information[0]["date_task_control"]; 
 								
-								echo "<br><strong>Dowloand TAC: </strong>";
+								echo "<br><strong>Download TAC: </strong>";
 						?>
 <a href='<?php echo base_url('more/generaTaskControlPDF/' . $information[0]["id_job_task_control"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 
