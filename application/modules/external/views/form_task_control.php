@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/more/task_control_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/external/task_control.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -8,7 +8,6 @@
 		<div class="col-lg-12">
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'more/task_control/' . $jobInfo[0]['id_job']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-bug"></i> <strong>COVID-19 | PSI SUPPLEMENT | TASK ASSESSMENT AND CONTROL</strong>
 				</div>
 				<div class="panel-body">
@@ -130,7 +129,14 @@ if ($retornoError) {
 		<div class="col-lg-6">				
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<strong>Supervisor: </strong> <?php echo $information[0]["supervisor"]; ?>
+					<strong>Supervisor: </strong> 
+					<?php 
+						if($information[0]["supervisor"] =! ''){
+							echo $information[0]["name"]; 
+						}else{
+							echo $information[0]["supervisor"]; 
+						}
+					?>
 				</div>
 				<div class="panel-body">								
 				
@@ -164,7 +170,7 @@ if ($retornoError) {
 		}
 		?>
 
-		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_tac/supervisor/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Supervisor Signature </a>
+		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("external/add_signature_tac/supervisor/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Supervisor Signature </a>
 
 							</div>
 						</div>
@@ -210,7 +216,7 @@ if ($retornoError) {
 			<?php
 			}
 			?>
-			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_tac/superintendent/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Superintendent Signature </a>
+			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("external/add_signature_tac/superintendent/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_task_control"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Superintendent Signature </a>
 
 							</div>
 						</div>
@@ -244,7 +250,7 @@ if ($retornoError) {
 				<div class="panel-heading">
 					<strong>General Information</strong>
 				</div>
-				<div class="panel-body">	
+				<div class="panel-body">		
 
 					<div class="col-sm-12">
 						<label for="company" class="control-label">Name: *</label>
@@ -254,17 +260,6 @@ if ($retornoError) {
 					<div class="col-sm-12">
 						<label for="company" class="control-label">Phone number: *</label>
 						<input type="text" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["contact_phone_number"]:""; ?>" placeholder="Works phone number" required >
-
-
-<!-- enlace para enviar mensaje de texto al foreman -->
-<?php if($information && $information[0]["contact_phone_number"] != '' ){ ?>
-<a href="<?php echo base_url("external/sendSMSWorker/" . $jobInfo[0]['id_job'] . "/" . $information[0]["id_job_task_control"]); ?>" class="btn btn-default btn-xs"> 
-	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to Worker
-</a>
-<?php } ?>
-
-
-
 					</div>					
 						
 					<div class="col-sm-12">
@@ -284,7 +279,7 @@ if ($retornoError) {
 					
 					<div class="col-sm-12">
 						<label for="type" class="control-label">Crew Size: *</label>
-						<select name="crew_size" id="crew_size" class="form-control">
+						<select name="crew_size" id="crew_size" class="form-control" required>
 							<option value='' >Select...</option>
 							<?php for ($i = 1; $i <= 15; $i++) { ?>
 								<option value='<?php echo $i; ?>' <?php if ($information && $i == $information[0]["crew_size"]) { echo 'selected="selected"'; } ?> ><?php echo $i; ?></option>

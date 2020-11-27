@@ -15,7 +15,7 @@ class Home {
     public function check_login() {
         $error = FALSE;
 		$flag = TRUE;
-        $arrModules = array("login", "ieredirect");
+        $arrModules = array("login", "ieredirect", "external");
         if (!in_array($this->ci->uri->segment(1), $arrModules)) {
             if ($this->ci->uri->segment(1) == "menu") {
                 if(($this->ci->uri->segment(2) . '/' . $this->ci->uri->segment(3)) != 'menu/salir') {
@@ -47,6 +47,17 @@ class Home {
                 }
             } else if ($this->ci->uri->segment(1) == "workorders") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
                 $arrControllers = array($this->ci->uri->segment(1), "foreman_view", "add_signature");
+                if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
+                    if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
+                        $error = TRUE;
+                    }
+                }
+				
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
+            } else if ($this->ci->uri->segment(1) == "jobs") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
+                $arrControllers = array($this->ci->uri->segment(1), "jso_worker_view", "add_signature_jso");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
                     if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
                         $error = TRUE;
