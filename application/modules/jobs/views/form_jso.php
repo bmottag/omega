@@ -587,7 +587,7 @@ as well as by operating any equipment. All equipment orientation must be recorde
 						
 						<div class="form-group">
 							<div class="col-sm-12">
-							<textarea id="potential_hazards" name="potential_hazards" placeholder="Potential hazards"  class="form-control" rows="2"><?php echo $information?$information[0]["potential_hazards"]:""; ?></textarea>
+							<textarea id="potential_hazards" name="potential_hazards" placeholder="Potential hazards"  class="form-control" rows="6"><?php echo $information?$information[0]["potential_hazards"]:""; ?></textarea>
 							</div>
 						</div>						
 
