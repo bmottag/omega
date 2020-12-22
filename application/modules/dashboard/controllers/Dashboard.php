@@ -389,6 +389,119 @@ class Dashboard extends CI_Controller {
 			$data["view"] = "dashboard";
 			$this->load->view("layout", $data);
 	}
+
+
+	/**
+	 * Calendario
+     * @since 18/12/2020
+     * @author BMOTTAG
+	 */
+	public function calendar()
+	{
+			$data["view"] = 'calendar';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Consulta desde el calendario
+     * @since 21/12/2020
+     * @author BMOTTAG
+	 */
+    public function consulta() 
+    {
+	        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$start = $this->input->post('start');
+			$end = $this->input->post('end');
+			$start = substr($start,0,10);
+			$end = substr($end,0,10);
+
+			$arrParam = array(
+				"from" => $start,
+				"to" => $end
+			);
+			
+			//informacion Work Order
+			$workOrderInfo = $this->general_model->get_workorder_info($arrParam);
+
+			//informacion Planning
+			$planningInfo = $this->general_model->get_programming_info($arrParam);
+
+			//Informacion de Payroll
+			$payrollInfo = $this->general_model->get_task($arrParam);
+
+			echo  '[';
+			if($workOrderInfo)
+			{
+				$longitud = count($workOrderInfo);
+				$i=1;
+				foreach ($workOrderInfo as $data):
+					echo  '{
+						      "title": "W.O. #: ' . $data['id_workorder'] . ' - Job Code/Name: ' . $data['job_description'] . '",
+						      "start": "' . $data['date'] . '",
+						      "end": "' . $data['date'] . '",
+						      "color": "blue",
+						      "url": "' . base_url("programming/index/") . '"
+						    }';
+
+					if($i<$longitud){
+							echo ',';
+					}
+					$i++;
+				endforeach;
+			}
+
+			if($workOrderInfo && $planningInfo){
+				echo ',';
+			}
+
+			if($planningInfo)
+			{
+				$longitud = count($planningInfo);
+				$i=1;
+				foreach ($planningInfo as $data):
+					echo  '{
+						      "title": "Planning. #: ' . $data['id_programming'] . ' - Job Code/Name: ' . $data['job_description'] . '",
+						      "start": "' . $data['date_programming'] . '",
+						      "end": "' . $data['date_programming'] . '",
+						      "color": "green",
+						      "url": "' . base_url("programming/index/") . '"
+						    }';
+
+					if($i<$longitud){
+							echo ',';
+					}
+					$i++;
+				endforeach;
+			}
+
+			if(($workOrderInfo || $planningInfo) && $payrollInfo){
+				echo ',';
+			}
+
+			if($payrollInfo)
+			{
+				$longitud = count($payrollInfo);
+				$i=1;
+				foreach ($payrollInfo as $data):
+					echo  '{
+						      "title": "Job Code/Name: ' . $data['job_start'] . ' - Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' - Working Hours: ' . $data['working_hours'] . '",
+						      "start": "' . $data['start']. '",
+						      "end": "' . $data['finish'] . '",
+						      "color": "yellow",
+						      "url": "' . base_url("programming/index/") . '"
+						    }';
+
+					if($i<$longitud){
+							echo ',';
+					}
+					$i++;
+				endforeach;
+			}
+
+			echo  ']';
+
+    }
 	
 	
 }
