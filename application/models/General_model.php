@@ -43,9 +43,22 @@ class General_model extends CI_Model {
         if (array_key_exists("idEmployee", $arrData)) {
             $this->db->where('U.id_user', $arrData["idEmployee"]);
         }
+
+		if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+			$this->db->where('T.start >=', $arrData["from"]);
+		}				
+		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+			$this->db->where('T.start <=', $arrData["to"]);
+		}
 		
 		$this->db->order_by('id_task', 'desc');
-		$query = $this->db->get('task T', $arrData["limit"]);
+		
+        if (array_key_exists("limit", $arrData)) {
+            $query = $this->db->get('task T', $arrData["limit"]);
+        }else{
+        	$query = $this->db->get('task T');
+        }
+
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
@@ -919,6 +932,93 @@ class General_model extends CI_Model {
 				} else {
 					return false;
 				}
+		}
+
+		/**
+		 * Work Order
+		 * @since 21/12/2020
+		 */
+		public function get_workorder_info($arrData) 
+		{										
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.id_job, J.job_description, C.*");
+				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
+				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
+				
+				if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
+					$this->db->where('W.fk_id_job', $arrData["jobId"]);
+				}
+				if (array_key_exists("idWorkOrder", $arrData) && $arrData["idWorkOrder"] != '' && $arrData["idWorkOrder"] != 0) {
+					$this->db->where('W.id_workorder', $arrData["idWorkOrder"]);
+				}
+				if (array_key_exists("idWorkOrderFrom", $arrData) && $arrData["idWorkOrderFrom"] != '' && $arrData["idWorkOrderFrom"] != 0) {
+					$this->db->where('W.id_workorder >=', $arrData["idWorkOrderFrom"]);
+				}
+				if (array_key_exists("idWorkOrderTo", $arrData) && $arrData["idWorkOrderTo"] != '' && $arrData["idWorkOrderTo"] != 0) {
+					$this->db->where('W.id_workorder <=', $arrData["idWorkOrderTo"]);
+				}
+				if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+					$this->db->where('W.date >=', $arrData["from"]);
+				}				
+				if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+					$this->db->where('W.date <=', $arrData["to"]);
+				}
+				if (array_key_exists("state", $arrData) && $arrData["state"] != '') {
+					$this->db->where('W.state', $arrData["state"]);
+				}
+				
+				//$this->db->where('W.date >=', $firstDay);
+				
+				$this->db->order_by('W.id_workorder', 'desc');
+				$query = $this->db->get('workorder W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Lista de programacion
+		 * @since 21/12/2020
+		 */
+		public function get_programming_info($arrData) 
+		{			
+			$this->db->select("P.*, X.id_job, X.job_description, U.id_user, CONCAT(U.first_name, ' ', U.last_name) name");
+			$this->db->join('user U', 'U.id_user = P.fk_id_user', 'INNER');
+			$this->db->join('param_jobs X', 'X.id_job = P.fk_id_job', 'INNER');
+			
+			if (array_key_exists("idUser", $arrData)) {
+				$this->db->where('P.fk_id_user', $arrData["idUser"]);
+			}
+			if (array_key_exists("idProgramming", $arrData)) {
+				$this->db->where('P.id_programming', $arrData["idProgramming"]);
+			}
+			if (array_key_exists("fecha", $arrData)) {
+				$this->db->where('P.date_programming', $arrData["fecha"]);
+			}
+			if (array_key_exists("estado", $arrData)) {
+				if($arrData["estado"] == "ACTIVAS"){
+					$this->db->where('P.state !=', 3);
+				}else{
+					$this->db->where('P.state', $arrData["estado"]);
+				}
+			}
+			if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+				$this->db->where('P.date_programming >=', $arrData["from"]);
+			}				
+			if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+				$this->db->where('P.date_programming <=', $arrData["to"]);
+			}
+										
+			$this->db->order_by("P.date_programming DESC"); 
+			$query = $this->db->get("programming P");
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			} else
+				return false;
 		}
 
 
