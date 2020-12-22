@@ -1,8 +1,11 @@
 $( document ).ready( function () {
+
+	$("#markup").bloquearTexto().maxlength(2);
 	
 	$( "#form" ).validate( {
 		rules: {
 			jobName: 			{ required: true, minlength: 4, maxlength:100 },
+			markup: 			{ required: true, minlength: 1, maxlength:2 },
 			stateJob: 			{ required: true }
 		},
 		errorElement: "em",
@@ -13,10 +16,10 @@ $( document ).ready( function () {
 
 		},
 		highlight: function ( element, errorClass, validClass ) {
-			$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
 		},
 		unhighlight: function (element, errorClass, validClass) {
-			$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
 		},
 		submitHandler: function (form) {
 			return true;

@@ -108,6 +108,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Job Code/Name</th>
+								<th class="text-center">Markup</th>
 								<th class="text-center">State 
 
 <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
@@ -123,6 +124,7 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
+									echo "<td class='text-center'>" . $lista['markup'] . " %</td>";
 									echo "<td class='text-center'>";
 									switch ($lista['state']) {
 										case 1:

@@ -9,7 +9,7 @@
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_job"]:""; ?>"/>
-		
+
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
@@ -20,7 +20,14 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="markup">Markup</label>
+					<input type="text" id="markup" name="markup" class="form-control" value="<?php echo $information?$information[0]["markup"]:"0"; ?>" placeholder="Markup" required >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="stateJob">State</label>
 					<select name="stateJob" id="stateJob" class="form-control" >
@@ -31,15 +38,7 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="form-group">
-			<div class="row" align="center">
-				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
-				</div>
-			</div>
-		</div>
-		
+						
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">
@@ -51,6 +50,16 @@
 			<div id="div_error" style="display:none">			
 				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
 			</div>	
+		</div>
+
+		<div class="form-group">
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 			
 	</form>
