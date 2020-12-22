@@ -1540,6 +1540,7 @@ class Workorders extends CI_Controller {
 				
 			$workorderPersonalRate = $this->workorders_model->get_workorder_personal_prices($idWO, $idJob);//workorder personal list
 			$workorderEquipmentRate = $this->workorders_model->get_workorder_equipment_prices($idWO, $idJob);//workorder equipment list
+			$workorderMaterialRate = $this->workorders_model->get_workorder_material_prices($idWO);//workorder material list
 
 			if($workorderPersonalRate)
 			{
@@ -1559,6 +1560,21 @@ class Workorders extends CI_Controller {
 			if($workorderEquipmentRate)
 			{
 				if ($this->workorders_model->update_wo_equipment_rate($workorderEquipmentRate)) 
+				{				
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}else{
+				$data["result"] = true;
+			}
+
+			if($workorderMaterialRate)
+			{
+				if ($this->workorders_model->update_wo_material_rate($workorderMaterialRate)) 
 				{				
 					$data["result"] = true;
 					$this->session->set_flashdata('retornoExito', 'You have load the data.');

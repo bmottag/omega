@@ -386,13 +386,15 @@ if ($retornoError) {
 						</td>
 						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
+					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
+						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
 						</td>
 						</form>
 						<td class='text-center'>
 							<?php if(!$deshabilitar){ ?>
-							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/materials/' . $data['id_workorder_materials'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/materials/' . $data['id_workorder_materials'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
+									<i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 						</td>

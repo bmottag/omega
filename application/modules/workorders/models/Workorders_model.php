@@ -778,6 +778,58 @@
 				return false;
 			}
 		}
+
+		/**
+		 * Get Prices for workorder material
+		 * @since 16/12/2020
+		 */
+		public function get_workorder_material_prices($idWorkorder)
+		{		
+				$this->db->select("W.*, T.material_price");
+				$this->db->join('param_material_type T', 'T.id_material = W.fk_id_material', 'INNER');				
+				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				$query = $this->db->get('workorder_materials W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Update WO material rate and value
+		 * @since 18/12/2020
+		 */
+		public function update_wo_material_rate($workorderMaterialRate) 
+		{
+			$idWO = $this->input->post('identificador');
+			
+			//calcular valor y actualizar campos
+			$query = 1;
+			if ($workorderMaterialRate) {
+				$tot = count($workorderMaterialRate);
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$rate = $workorderMaterialRate[$i]['material_price'];
+					$quantity = $workorderMaterialRate[$i]['quantity'];
+					$value = $rate * $quantity;
+					
+					$data = array(
+						'rate' => $rate,
+						'value' => $value
+					);
+					$this->db->where('id_workorder_materials  ', $workorderMaterialRate[$i]['id_workorder_materials']);
+					$query = $this->db->update('workorder_materials', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}	
 		
 		
 	    
