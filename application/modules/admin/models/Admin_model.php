@@ -68,6 +68,7 @@
 				
 				$data = array(
 					'job_description' => $this->input->post('jobName'),
+					'markup' => $this->input->post('markup'),
 					'state' => $this->input->post('stateJob')
 				);			
 
@@ -154,7 +155,8 @@
 				$idMaterial = $this->input->post('hddId');
 				
 				$data = array(
-					'material' => $this->input->post('material')
+					'material' => $this->input->post('material'),
+					'material_price' => $this->input->post('unit_price')
 				);
 				
 				//revisar si es para adicionar o editar

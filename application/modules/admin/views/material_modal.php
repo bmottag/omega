@@ -9,15 +9,19 @@
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_material"]:""; ?>"/>
-		<div class="form-group text-left">
-				<label for="type" class="control-label">Material Type : *</label>
-				<input type="text" id="material" name="material" class="form-control" value="<?php echo $information?$information[0]["material"]:""; ?>" placeholder="Material Type" required >
-		</div> 
-		
-		<div class="form-group">
-			<div class="row" align="center">
-				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Material Type : *</label>
+					<input type="text" id="material" name="material" class="form-control" value="<?php echo $information?$information[0]["material"]:""; ?>" placeholder="Material Type" required >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="unit_price">Price : *</label>
+					<input type="text" id="unit_price" name="unit_price" class="form-control" value="<?php echo $information?$information[0]["material_price"]:""; ?>" placeholder="Price" required >
 				</div>
 			</div>
 		</div>
@@ -33,6 +37,16 @@
 			<div id="div_error" style="display:none">			
 				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
 			</div>	
+		</div>
+
+		<div class="form-group">
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 			
 	</form>
