@@ -186,6 +186,35 @@
 			}
 		}
 		
+		/**
+		 * Update material prices
+		 * @since 18/12/2020
+		 */
+		public function updateGeneralMaterialPrice() 
+		{
+			//update states
+			$query = 1;
+			
+			$material = $this->input->post('form');
+			if ($material) {
+				$tot = count($material['id']);
+				
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$data = array(
+						'material_price' => $material['price'][$i]
+					);
+					$this->db->where('id_material', $material['id'][$i]);
+					$query = $this->db->update('param_material_type', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
 
 		
 	    

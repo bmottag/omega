@@ -68,11 +68,18 @@ if ($retornoError) {
 ?> 
 				<?php
 					if($info){
-				?>				
+				?>	
+<form  name="material_prices" id="material_prices" method="post" action="<?php echo base_url("prices/update_general_material_price"); ?>">
+
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
 								<th class="text-center">Material Type</th>
+								<th class="text-center">Price
+								<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
+									Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
+								</button>
+								</th>
 								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
@@ -81,6 +88,16 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['material'] . "</td>";
+
+									$unitPrice = $lista['material_price'];
+									$unitPrice = $unitPrice?$unitPrice:0;
+									echo "<td class='text-right'>";
+						?>
+						<input type="hidden" id="price" name="form[id][]" value="<?php echo $lista['id_material']; ?>"/>
+						$ <input type="text" id="price" name="form[price][]" class="form-control" placeholder="Price" value="<?php echo $unitPrice; ?>" >
+						<?php
+									echo "</td>";
+
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_material']; ?>" >
@@ -92,6 +109,7 @@ if ($retornoError) {
 						?>
 						</tbody>
 					</table>
+</form>
 				<?php } ?>
 				</div>
 				<!-- /.panel-body -->

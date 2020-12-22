@@ -241,6 +241,24 @@ class Prices extends CI_Controller {
 			redirect(base_url("admin/employeeType"), 'refresh');
 	}
 
+	/**
+	 * Update the price of each field - Material
+     * @since 18/12/2020
+     * @author BMOTTAG
+	 */
+	public function update_general_material_price()
+	{	
+			if ($this->prices_model->updateGeneralMaterialPrice()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the Material Price!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url("admin/material"), 'refresh');
+	}
+
 	
 	
 }
