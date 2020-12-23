@@ -396,10 +396,12 @@ class Dashboard extends CI_Controller {
      * @since 18/12/2020
      * @author BMOTTAG
 	 */
-	public function calendar()
+	public function calendar($datoFecha = '')
 	{
+			$data['datoFecha'] = $datoFecha;
+
 			$data["view"] = 'calendar';
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
 	}
 
 	/**
@@ -431,6 +433,16 @@ class Dashboard extends CI_Controller {
 			$payrollInfo = $this->general_model->get_task($arrParam);
 
 			echo  '[';
+			if($workOrderInfo || $planningInfo || $payrollInfo){
+					echo  '{
+						      "title": "Check the full information of the day.",
+						      "start": "' . $start . '",
+						      "end": "' . $start . '",
+						      "color": "red",
+						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
+						    },';
+			}
+
 			if($workOrderInfo)
 			{
 				$longitud = count($workOrderInfo);
@@ -440,7 +452,7 @@ class Dashboard extends CI_Controller {
 						      "title": "W.O. #: ' . $data['id_workorder'] . ' - Job Code/Name: ' . $data['job_description'] . '",
 						      "start": "' . $data['date'] . '",
 						      "end": "' . $data['date'] . '",
-						      "color": "blue",
+						      "color": "green",
 						      "url": "' . base_url("programming/index/") . '"
 						    }';
 
@@ -464,7 +476,7 @@ class Dashboard extends CI_Controller {
 						      "title": "Planning. #: ' . $data['id_programming'] . ' - Job Code/Name: ' . $data['job_description'] . '",
 						      "start": "' . $data['date_programming'] . '",
 						      "end": "' . $data['date_programming'] . '",
-						      "color": "green",
+						      "color": "yellow",
 						      "url": "' . base_url("programming/index/") . '"
 						    }';
 
@@ -488,7 +500,7 @@ class Dashboard extends CI_Controller {
 						      "title": "Job Code/Name: ' . $data['job_start'] . ' - Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' - Working Hours: ' . $data['working_hours'] . '",
 						      "start": "' . $data['start']. '",
 						      "end": "' . $data['finish'] . '",
-						      "color": "yellow",
+						      "color": "blue",
 						      "url": "' . base_url("programming/index/") . '"
 						    }';
 
@@ -502,6 +514,31 @@ class Dashboard extends CI_Controller {
 			echo  ']';
 
     }
+
+	/**
+	 * Consulta desde el calendario
+     * @since 22/12/2020
+     * @author BMOTTAG
+	 */
+	public function info_by_day($infoDate)
+	{	
+			$data['fecha'] = $infoDate;
+			$arrParam = array(
+				"fecha" => $infoDate
+			);
+
+			//informacion Planning
+			$data['planningInfo'] = $this->general_model->get_programming_info($arrParam);
+
+			//Informacion de Payroll
+			$data['payrollInfo'] = $this->general_model->get_task($arrParam);
+			
+			//informacion Work Order
+			$data['workOrderInfo'] = $this->general_model->get_workorder_info($arrParam);
+
+			$data["view"] = "info_by_day";
+			$this->load->view("layout_calendar", $data);
+	}
 	
 	
 }

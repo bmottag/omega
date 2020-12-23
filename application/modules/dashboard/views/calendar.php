@@ -22,7 +22,7 @@
 
 			buttonText: { today:    'Today' },
 			firstDay: 1, //para iniciar en lunes
-
+			 
 			initialView: 'listDay',
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
@@ -46,20 +46,7 @@
 </script>
 
 <div id="page-wrapper">
-	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - EMPLOYEE
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
-	
+	<br>	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">

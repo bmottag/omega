@@ -48,7 +48,10 @@ class General_model extends CI_Model {
 			$this->db->where('T.start >=', $arrData["from"]);
 		}				
 		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
-			$this->db->where('T.start <=', $arrData["to"]);
+			$this->db->where('T.start <', $arrData["to"]);
+		}
+		if (array_key_exists("fecha", $arrData)) {
+			$this->db->like('T.start', $arrData["fecha"]); 
 		}
 		
 		$this->db->order_by('id_task', 'desc');
@@ -961,10 +964,13 @@ class General_model extends CI_Model {
 					$this->db->where('W.date >=', $arrData["from"]);
 				}				
 				if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
-					$this->db->where('W.date <=', $arrData["to"]);
+					$this->db->where('W.date <', $arrData["to"]);
 				}
 				if (array_key_exists("state", $arrData) && $arrData["state"] != '') {
 					$this->db->where('W.state', $arrData["state"]);
+				}
+				if (array_key_exists("fecha", $arrData)) {
+					$this->db->where('W.date', $arrData["fecha"]);
 				}
 				
 				//$this->db->where('W.date >=', $firstDay);
@@ -1009,7 +1015,7 @@ class General_model extends CI_Model {
 				$this->db->where('P.date_programming >=', $arrData["from"]);
 			}				
 			if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
-				$this->db->where('P.date_programming <=', $arrData["to"]);
+				$this->db->where('P.date_programming <', $arrData["to"]);
 			}
 										
 			$this->db->order_by("P.date_programming DESC"); 
@@ -1017,8 +1023,9 @@ class General_model extends CI_Model {
 
 			if ($query->num_rows() >= 1) {
 				return $query->result_array();
-			} else
+			} else {
 				return false;
+			}
 		}
 
 
