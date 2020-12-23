@@ -1748,10 +1748,41 @@ ob_end_clean();
 						
 			$data["view"] = 'jso_worker_view';
 			$this->load->view("layout", $data);
-	}	
+	}
+
+	/**
+	 * Informacion detallada del proyecto
+     * @since 23/12/2020
+     * @author BMOTTAG
+	 */
+	public function detail($idJob)
+	{	
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+		
+			$arrParam = array(
+				"jobId" => $idJob
+			);
+
+			//informacion Work Order
+			$data['workOrderInfo'] = $this->general_model->get_workorder_info($arrParam);
 
 
-	
+
+
+
+			$data["view"] = "job_detail";
+			$this->load->view("layout_calendar", $data);
+	}
+
+
 	
 	
 }

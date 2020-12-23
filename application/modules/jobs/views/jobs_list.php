@@ -24,7 +24,11 @@
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['job_description'] . "</td>";
+									echo "<td>";
+echo "<a href='" . base_url('jobs/detail/' . $lista['id_job']) . "'>" . $lista['job_description'] . "</a>";
+									echo "</td>";
+
+
 									echo "<td class='text-center'>";
 									
 									$userRol = $this->session->rol;
