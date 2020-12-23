@@ -538,6 +538,9 @@ class Dashboard extends CI_Controller {
 
 			//Informacion de Hauling
 			$data['haulingInfo'] = $this->general_model->get_hauling($arrParam);
+			
+			//Informacion de FLHA
+			$data['safetyInfo'] = $this->general_model->get_safety($arrParam);//info de safety
 
 			$data["view"] = "info_by_day";
 			$this->load->view("layout_calendar", $data);

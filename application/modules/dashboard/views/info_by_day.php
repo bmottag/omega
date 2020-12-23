@@ -16,6 +16,7 @@
                     $noPayroll = 0;
                     $noWorkOrder= 0;
                     $noHauling= 0;
+                    $noFLHA= 0;
                     if($planningInfo){
                             $noPlanning = count($planningInfo);
                     }
@@ -25,8 +26,11 @@
                     if($workOrderInfo){
                             $noWorkOrder = count($workOrderInfo);
                     }
-                    if($workOrderInfo){
+                    if($haulingInfo){
                             $noHauling = count($haulingInfo);
+                    }
+                    if($safetyInfo){
+                            $noFLHA = count($safetyInfo);
                     }
                 ?>
 
@@ -53,6 +57,12 @@
                         <a href="#" class="list-group-item">
                             <p class="text-warning"><i class="fa fa-truck fa-fw"></i><strong> Hauling Records</strong>
                                 <span class="pull-right text-muted small"><em><?php echo $noHauling ; ?></em>
+                                </span>
+                            </p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <p class="text-info"><i class="fa fa-life-saver fa-fw"></i><strong> FLHA Records</strong>
+                                <span class="pull-right text-muted small"><em><?php echo $noFLHA ; ?></em>
                                 </span>
                             </p>
                         </a>
@@ -246,7 +256,6 @@
                     </table>                    
                     <!-- /.table-responsive -->
 
-
                 </div>
                 <!-- /.panel-body -->
             </div>
@@ -306,11 +315,53 @@
                     </table>                    
                     <!-- /.table-responsive -->
 
+                </div>
+                <!-- /.panel-body -->
+            </div>
+<?php   } ?>
+
+<?php
+    if($safetyInfo){ 
+?>   
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <i class="fa fa-life-saver fa-fw"></i> <strong>FLHA RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                   
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th class='text-center'>Job Code/Name</th>
+                                <th class='text-center'>Meeting conducted by</th>
+                                <th class='text-center'>Work To Be Done</th>
+                                <th class='text-center'>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>                         
+                        <?php
+                            foreach ($safetyInfo as $lista):
+                                echo "<tr>";
+                                echo "<td>" . $lista['job_description'] . "</td>";
+                                echo "<td>" . $lista['name'] . "</td>";
+                                echo "<td>" . $lista['work'] . "</td>";
+                                echo "<td class='text-center'>";
+                        ?>
+<a href='<?php echo base_url('report/generaSafetyPDF/x/x/x/' . $lista['id_safety'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+                        <?php
+                                echo "</td>";
+                                echo "</tr>";
+                            endforeach;
+                        ?>
+                        </tbody>
+                    </table>                    
+                    <!-- /.table-responsive -->
 
                 </div>
                 <!-- /.panel-body -->
             </div>
-<?php   } ?>     
+<?php   } ?>  
 
         </div>
     </div>      

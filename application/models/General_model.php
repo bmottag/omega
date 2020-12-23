@@ -123,8 +123,13 @@ class General_model extends CI_Model {
 		}		
 				
 		$this->db->order_by('id_safety', 'desc');
-		$query = $this->db->get('safety S', $arrData["limit"]);
 
+        if (array_key_exists("limit", $arrData)) {
+            $query = $this->db->get('safety S', $arrData["limit"]);
+        }else{
+        	$query = $this->db->get('safety S');
+        }
+		
         if ($query->num_rows() > 0) {
             return $query->result_array();
         } else {
