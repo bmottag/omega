@@ -922,16 +922,11 @@ class Workorders extends CI_Controller {
 			{
 				//actualizo el estado del formulario
 				$arrParam = array(
-					"table" => "workorder",
-					"primaryKey" => "id_workorder",
-					"id" => $this->input->post('hddIdWorkOrder'),
-					"column" => "state",
-					"value" => $this->input->post('state')
-				);
-				$this->load->model("general_model");
-				
-				$this->general_model->updateRecord($arrParam);
-				
+					"idWorkorder" => $this->input->post('hddIdWorkOrder'),
+					"state" => $this->input->post('state'),
+					"lastMessage" => $this->input->post('information')
+				);				
+				$this->workorders_model->update_workorder($arrParam);
 				
 				$data["result"] = true;
 				$data["mensaje"] = $msj;

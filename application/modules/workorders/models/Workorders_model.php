@@ -52,14 +52,15 @@
 				'foreman_name_wo' => $this->input->post('foreman'),
 				'foreman_movil_number_wo' => $this->input->post('movilNumber'),
 				'foreman_email_wo' => $this->input->post('email'),
-				'observation' => $this->input->post('observation'),
-				'state' => 0
+				'observation' => $this->input->post('observation')
 			);
 			
 			//revisar si es para adicionar o editar
 			if ($idWorkorder == '') {
 				$data['fk_id_user'] = $idUser;
 				$data['date_issue'] = date("Y-m-d G:i:s");
+				$data['state'] = 0;
+				$data['last_message'] = 'New work order.';
 				$query = $this->db->insert('workorder', $data);
 				$idWorkorder = $this->db->insert_id();
 			} else {
@@ -539,7 +540,6 @@
 				'state' => $arrData["state"]
 			);
 			
-
 			$query = $this->db->insert('workorder_state', $data);
 
 			if ($query) {
@@ -830,6 +830,26 @@
 				return false;
 			}
 		}	
+		
+		/**
+		 * Update state and last message
+		 * @since 23/12/2020
+		 */
+		public function update_workorder($arrData)
+		{			
+			$data = array(
+				'state' => $arrData["state"],
+				'last_message' => $arrData["lastMessage"]
+			);			
+			$this->db->where('id_workorder', $arrData["idWorkorder"]);
+			$query = $this->db->update('workorder', $data);
+
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		
 		
 	    
