@@ -17,6 +17,7 @@
                     $noWorkOrder= 0;
                     $noHauling= 0;
                     $noFLHA= 0;
+                    $noToolBox= 0;
                     if($planningInfo){
                             $noPlanning = count($planningInfo);
                     }
@@ -31,6 +32,9 @@
                     }
                     if($safetyInfo){
                             $noFLHA = count($safetyInfo);
+                    }
+                    if($toolBoxInfo){
+                            $noToolBox = count($toolBoxInfo);
                     }
                 ?>
 
@@ -63,6 +67,12 @@
                         <a href="#" class="list-group-item">
                             <p class="text-info"><i class="fa fa-life-saver fa-fw"></i><strong> FLHA Records</strong>
                                 <span class="pull-right text-muted small"><em><?php echo $noFLHA ; ?></em>
+                                </span>
+                            </p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <p class="text-warning"><i class="fa fa-cube fa-fw"></i><strong> Tool Box Records</strong>
+                                <span class="pull-right text-muted small"><em><?php echo $noToolBox ; ?></em>
                                 </span>
                             </p>
                         </a>
@@ -361,7 +371,52 @@
                 </div>
                 <!-- /.panel-body -->
             </div>
-<?php   } ?>  
+<?php   } ?>
+
+<?php
+    if($toolBoxInfo){ 
+?>   
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <i class="fa fa-life-saver fa-fw"></i> <strong>FLHA RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                   
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th class='text-center'>Job Code/Name</th>
+                                <th class='text-center'>Reported by</th>
+                                <th class='text-center'>Activities of the Day</th>
+                                <th class='text-center'>Employee Suggestions</th>
+                                <th class='text-center'>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>                         
+                        <?php
+                            foreach ($toolBoxInfo as $lista):
+                                echo "<tr>";
+                                echo "<td>" . $lista['job_description'] . "</td>";
+                                echo "<td>" . $lista['name'] . "</td>";
+                                echo "<td>" . $lista['activities'] . "</td>";
+                                echo "<td>" . $lista['suggestions'] . "</td>";
+                                echo "<td class='text-center'>";
+                        ?>
+<a href='<?php echo base_url('jobs/generaTemplatePDF/' . $lista['id_tool_box'] ); ?>' target="_blank"><img src='<?php echo base_url_images('pdf.png'); ?>' ></a>   
+                        <?php
+                                echo "</td>";
+                                echo "</tr>";
+                            endforeach;
+                        ?>
+                        </tbody>
+                    </table>                    
+                    <!-- /.table-responsive -->
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+<?php   } ?> 
 
         </div>
     </div>      

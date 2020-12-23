@@ -542,6 +542,9 @@ class Dashboard extends CI_Controller {
 			//Informacion de FLHA
 			$data['safetyInfo'] = $this->general_model->get_safety($arrParam);//info de safety
 
+			//Informacion de TOOL BOX
+			$data['toolBoxInfo'] = $this->general_model->get_tool_box($arrParam);//info de safety
+
 			$data["view"] = "info_by_day";
 			$this->load->view("layout_calendar", $data);
 	}
