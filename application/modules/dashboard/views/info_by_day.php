@@ -73,7 +73,7 @@
 							<tr>
                                 <th class='text-center'>Job Code/Name</th>
                                 <th class='text-center'>Observation</th>
-                                <th class='text-center'>Done by</th>
+                                <th class='text-center'>Message</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -82,7 +82,36 @@
 								echo "<tr>";
                                 echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
                                 echo "<td>" . $lista['observation'] . "</td>";
-                                echo "<td class='text-center'>" . $lista['name'] . "</td>";
+                                echo "<td>";
+
+                                //Buscar lista de trabajadores para esta programacion
+                                $ci = &get_instance();
+                                $ci->load->model("general_model");
+                                
+                                $arrParam = array("idProgramming" => $lista['id_programming']);
+                                $informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+
+                                $mensaje = "";                            
+                                foreach ($informationWorker as $data):
+                                    $mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+                                    $mensaje .= $data['hora']; 
+
+                                    $mensaje .= "<br>" . $data['name']; 
+                                    $mensaje .= $data['description']?"<br>" . $data['description']:"";
+                                    $mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+                                    
+                                    if($data['safety']==1){
+                                        $mensaje .= "<br>Do FLHA";
+                                    }elseif($data['safety']==2){
+                                        $mensaje .= "<br>Do Tool Box";
+                                    }
+                                    
+                                    $mensaje .= "<br><br>";
+                                endforeach;
+
+                                echo $mensaje;
+
+                                echo "</td>";
 								echo "</tr>";
 							endforeach;
 						?>
@@ -107,17 +136,47 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
                         <thead>
                             <tr>
-                                <th class='text-center'>Job Code/Name</th>
                                 <th class='text-center'>Work Order #</th>
+                                <th class='text-center'>Job Code/Name</th>
                                 <th class='text-center'>Observation</th>
                             </tr>
                         </thead>
                         <tbody>                         
                         <?php
                             foreach ($workOrderInfo as $lista):
+                                switch ($lista['state']) {
+                                        case 0:
+                                                $valor = 'On field';
+                                                $clase = "text-danger";
+                                                $icono = "fa-thumb-tack";
+                                                break;
+                                        case 1:
+                                                $valor = 'In Progress';
+                                                $clase = "text-warning";
+                                                $icono = "fa-refresh";
+                                                break;
+                                        case 2:
+                                                $valor = 'Revised';
+                                                $clase = "text-primary";
+                                                $icono = "fa-check";
+                                                break;
+                                        case 3:
+                                                $valor = 'Send to the client';
+                                                $clase = "text-success";
+                                                $icono = "fa-envelope-o";
+                                                break;
+                                        case 4:
+                                                $valor = 'Closed';
+                                                $clase = "text-danger";
+                                                $icono = "fa-power-off";
+                                                break;
+                                }
+
                                 echo "<tr>";
+                                echo "<td class='text-center'>" . $lista['id_workorder'];
+                                echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
+                                echo "</td>";
                                 echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
-                                echo "<td class='text-center'>" . $lista['id_workorder'] . "</td>";
                                 echo "<td class='text-center'>" . $lista['observation'] . "</td>";
                                 echo "</tr>";
                             endforeach;

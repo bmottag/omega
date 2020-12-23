@@ -396,7 +396,7 @@ class Dashboard extends CI_Controller {
      * @since 18/12/2020
      * @author BMOTTAG
 	 */
-	public function calendar($datoFecha = '')
+	public function calendar()
 	{
 			$data['datoFecha'] = $datoFecha;
 
