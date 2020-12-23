@@ -536,6 +536,9 @@ class Dashboard extends CI_Controller {
 			//informacion Work Order
 			$data['workOrderInfo'] = $this->general_model->get_workorder_info($arrParam);
 
+			//Informacion de Hauling
+			$data['haulingInfo'] = $this->general_model->get_hauling($arrParam);
+
 			$data["view"] = "info_by_day";
 			$this->load->view("layout_calendar", $data);
 	}

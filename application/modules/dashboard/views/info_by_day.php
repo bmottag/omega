@@ -7,7 +7,7 @@
         <div class="col-lg-3">
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i> SUMMARY - <?php echo date('F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-bell fa-fw"></i> <strong>SUMMARY</strong> - <?php echo date('F j, Y', strtotime($fecha)); ?>
                 </div>
                 <!-- /.panel-heading -->
 
@@ -15,6 +15,7 @@
                     $noPlanning = 0;
                     $noPayroll = 0;
                     $noWorkOrder= 0;
+                    $noHauling= 0;
                     if($planningInfo){
                             $noPlanning = count($planningInfo);
                     }
@@ -23,6 +24,9 @@
                     }
                     if($workOrderInfo){
                             $noWorkOrder = count($workOrderInfo);
+                    }
+                    if($workOrderInfo){
+                            $noHauling = count($haulingInfo);
                     }
                 ?>
 
@@ -46,6 +50,12 @@
                                 </span>
                             </p>
                         </a>
+                        <a href="#" class="list-group-item">
+                            <p class="text-warning"><i class="fa fa-truck fa-fw"></i><strong> Hauling Records</strong>
+                                <span class="pull-right text-muted small"><em><?php echo $noHauling ; ?></em>
+                                </span>
+                            </p>
+                        </a>
                     </div>
                     <!-- /.list-group -->
 
@@ -63,7 +73,7 @@
 ?>  
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-list fa-fw"></i> PLANNING RECORDS - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-list fa-fw"></i> <strong>PLANNING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -122,13 +132,18 @@
 				<!-- /.panel-body -->
 			</div>
 <?php   } ?>
+        </div>
+    </div>
 
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
 <?php
     if($workOrderInfo){ 
 ?>  
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <i class="fa fa-money fa-fw"></i> WORK ORDER RECORDS - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -139,6 +154,7 @@
                                 <th class='text-center'>Work Order #</th>
                                 <th class='text-center'>Job Code/Name</th>
                                 <th class='text-center'>Observation</th>
+                                <th class='text-center'>Last Message</th>
                             </tr>
                         </thead>
                         <tbody>                         
@@ -178,6 +194,7 @@
                                 echo "</td>";
                                 echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
                                 echo "<td class='text-center'>" . $lista['observation'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['last_message'] . "</td>";
                                 echo "</tr>";
                             endforeach;
                         ?>
@@ -194,15 +211,13 @@
 
     <!-- /.row -->
     <div class="row">
-            
         <div class="col-lg-12">
-
 <?php
     if($payrollInfo){ 
 ?>   
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <i class="fa fa-book fa-fw"></i> PAYROLL RECORDS - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -235,7 +250,68 @@
                 </div>
                 <!-- /.panel-body -->
             </div>
-<?php   } ?>            
+<?php   } ?>  
+
+<?php
+    if($haulingInfo){ 
+?>   
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <i class="fa fa-truck fa-fw"></i> <strong>HAULING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                   
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th class='text-center'>#</th>
+                                <th class='text-center'>Report done by</th>
+                                <th class='text-center'>Download</th>
+                                <th class='text-center'>Hauling done by</th>
+                                <th class='text-center'>Truck - Unit Number</th>
+                                <th class='text-center'>Truck Type</th>
+                                <th class='text-center'>Material Type</th>
+                                <th class='text-center'>From Site</th>
+                                <th class='text-center'>To Site</th>
+                                <th class='text-center'>Payment</th>
+                                <th class='text-center'>Time In</th>
+                                <th class='text-center'>Time Out</th>
+                            </tr>
+                        </thead>
+                        <tbody>                         
+                        <?php
+                            foreach ($haulingInfo as $lista):
+                                echo "<tr>";
+                                echo "<td class='text-center'>" . $lista['id_hauling'] . "</td>";
+                                echo "<td>" . $lista['name'] . "</td>";
+                                echo "<td class='text-center'>";
+                        ?>
+<a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
+                        <?php
+                                echo "</td>";
+                                echo "<td class='text-center'>" . $lista['company_name'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
+                                echo "<td>" . $lista['truck_type'] . "</td>";
+                                echo "<td >" . $lista['material'] . "</td>";
+                                echo "<td >" . $lista['site_from'] . "</td>";
+                                echo "<td >" . $lista['site_to'] . "</td>";
+                                echo "<td >" . $lista['payment'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['time_in'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['time_out'] . "</td>";
+                                echo "</tr>";
+                            endforeach;
+                        ?>
+                        </tbody>
+                    </table>                    
+                    <!-- /.table-responsive -->
+
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+<?php   } ?>     
+
         </div>
     </div>      
 

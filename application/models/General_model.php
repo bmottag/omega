@@ -152,9 +152,17 @@ class General_model extends CI_Model {
 		if (array_key_exists("idEmployee", $arrData)) {
 			$this->db->where('U.id_user', $arrData["idEmployee"]);
 		}
+		if (array_key_exists("fecha", $arrData)) {
+			$this->db->where('H.date_issue', $arrData["fecha"]);
+		}
 		
 		$this->db->order_by('H.id_hauling', 'desc');
-		$query = $this->db->get('hauling H', $arrData["limit"]);
+
+        if (array_key_exists("limit", $arrData)) {
+            $query = $this->db->get('hauling H', $arrData["limit"]);
+        }else{
+        	$query = $this->db->get('hauling H');
+        }
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();
