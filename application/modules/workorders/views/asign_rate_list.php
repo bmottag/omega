@@ -18,13 +18,13 @@
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th>Work Order #</th>
-								<th>Job Code/Name</th>
-								<th>Supervisor</th>
-								<th>Date of Issue</th>
-								<th>Date work order</th>
-								<th>Observation</th>
-								<th>Links</th>
+								<th class='text-center'>W.O. #</th>
+								<th class='text-center'>Job Code/Name</th>
+								<th class='text-center'>Supervisor</th>
+								<th class='text-center'>Date of Issue</th>
+								<th class='text-center'>Date W.O.</th>
+								<th class='text-center'>Task Description</th>
+								<th class='text-center'>Links</th>
 							</tr>
 						</thead>
 						<tbody>							

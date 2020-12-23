@@ -173,7 +173,7 @@
                             <tr>
                                 <th class='text-center'>Work Order #</th>
                                 <th class='text-center'>Job Code/Name</th>
-                                <th class='text-center'>Observation</th>
+                                <th class='text-center'>Task Description</th>
                                 <th class='text-center'>Last Message</th>
                             </tr>
                         </thead>

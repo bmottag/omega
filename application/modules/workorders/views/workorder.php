@@ -1,24 +1,12 @@
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-money fa-fw"></i>	WORK ORDERS
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-success">
 				<div class="panel-heading">
-					<i class="fa fa-money"></i> WORK ORDERS
+					<i class="fa fa-money"></i> <strong>WORK ORDERS</strong>
 				</div>
 				<div class="panel-body">
 					
@@ -33,13 +21,13 @@
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th>Work Order #</th>
-								<th>Job Code/Name</th>
-								<th>Supervisor</th>
-								<th>Date of Issue</th>
-								<th>Date work order</th>
-								<th>Observation</th>
-								<th>Edit</th>
+								<th class='text-center'>W.O. #</th>
+								<th class='text-center'>Job Code/Name</th>
+								<th class='text-center'>Supervisor</th>
+								<th class='text-center'>Date of Issue</th>
+								<th class='text-center'>Date W.O.</th>
+								<th class='text-center'>Task Description</th>
+								<th class='text-center'>Edit</th>
 							</tr>
 						</thead>
 						<tbody>							
