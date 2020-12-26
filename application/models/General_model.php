@@ -160,6 +160,12 @@ class General_model extends CI_Model {
 		if (array_key_exists("fecha", $arrData)) {
 			$this->db->where('H.date_issue', $arrData["fecha"]);
 		}
+		if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+			$this->db->where('H.date_issue >=', $arrData["from"]);
+		}				
+		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+			$this->db->where('H.date_issue <', $arrData["to"]);
+		}
 		
 		$this->db->order_by('H.id_hauling', 'desc');
 

@@ -398,8 +398,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function calendar()
 	{
-			$data['datoFecha'] = $datoFecha;
-
 			$data["view"] = 'calendar';
 			$this->load->view("layout_calendar", $data);
 	}
@@ -432,16 +430,10 @@ class Dashboard extends CI_Controller {
 			//Informacion de Payroll
 			$payrollInfo = $this->general_model->get_task($arrParam);
 
+			//Informacion de Hauling
+			$haulingInfo = $this->general_model->get_hauling($arrParam);
+
 			echo  '[';
-			if($workOrderInfo || $planningInfo || $payrollInfo){
-					echo  '{
-						      "title": "Check the full information of the day.",
-						      "start": "' . $start . '",
-						      "end": "' . $start . '",
-						      "color": "red",
-						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
-						    },';
-			}
 
 			if($workOrderInfo)
 			{
@@ -453,7 +445,7 @@ class Dashboard extends CI_Controller {
 						      "start": "' . $data['date'] . '",
 						      "end": "' . $data['date'] . '",
 						      "color": "green",
-						      "url": "' . base_url("programming/index/") . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
 						    }';
 
 					if($i<$longitud){
@@ -477,7 +469,7 @@ class Dashboard extends CI_Controller {
 						      "start": "' . $data['date_programming'] . '",
 						      "end": "' . $data['date_programming'] . '",
 						      "color": "yellow",
-						      "url": "' . base_url("programming/index/") . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
 						    }';
 
 					if($i<$longitud){
@@ -487,7 +479,31 @@ class Dashboard extends CI_Controller {
 				endforeach;
 			}
 
-			if(($workOrderInfo || $planningInfo) && $payrollInfo){
+			if(($workOrderInfo || $planningInfo) && $haulingInfo){
+				echo ',';
+			}
+
+			if($haulingInfo)
+			{
+				$longitud = count($haulingInfo);
+				$i=1;
+				foreach ($haulingInfo as $data):
+					echo  '{
+						      "title": "Hauling. #: ' . $data['id_hauling'] . ' - Report done by: ' . $data['name'] . ' - Hauling done by: ' . $data['company_name'] . '  - From Site: ' . $data['site_from'] . ' - To Site: ' . $data['site_to'] . ' - Truck - Unit Number: ' . $data['unit_number'] . ' - Material Type: ' . $data['material'] . '",
+						      "start": "' . $data['date_issue'] . ' ' . $data['time_in'] . '",
+						      "end": "' . $data['date_issue'] . ' ' . $data['time_out'] . '",
+						      "color": "red",
+						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
+						    }';
+
+					if($i<$longitud){
+							echo ',';
+					}
+					$i++;
+				endforeach;
+			}
+
+			if(($workOrderInfo || $planningInfo || $haulingInfo) && $payrollInfo){
 				echo ',';
 			}
 
@@ -497,11 +513,11 @@ class Dashboard extends CI_Controller {
 				$i=1;
 				foreach ($payrollInfo as $data):
 					echo  '{
-						      "title": "Job Code/Name: ' . $data['job_start'] . ' - Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' - Working Hours: ' . $data['working_hours'] . '",
+						      "title": "Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' Job Code/Name: ' . $data['job_start'] . ' - Working Hours: ' . $data['working_hours'] . '",
 						      "start": "' . $data['start']. '",
 						      "end": "' . $data['finish'] . '",
 						      "color": "blue",
-						      "url": "' . base_url("programming/index/") . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
 						    }';
 
 					if($i<$longitud){
@@ -538,7 +554,7 @@ class Dashboard extends CI_Controller {
 
 			//Informacion de Hauling
 			$data['haulingInfo'] = $this->general_model->get_hauling($arrParam);
-			
+		
 			//Informacion de FLHA
 			$data['safetyInfo'] = $this->general_model->get_safety($arrParam);//info de safety
 

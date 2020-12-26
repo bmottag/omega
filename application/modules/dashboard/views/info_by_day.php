@@ -47,14 +47,14 @@
                             </p>
                         </a>
                         <a href="#" class="list-group-item">
-                            <p class="text-primary"><i class="fa fa-book fa-fw"></i><strong> Payroll Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noPayroll; ?></em>
+                            <p class="text-success"><i class="fa fa-money fa-fw"></i><strong> Work Orders Records</strong>
+                                <span class="pull-right text-muted small"><em><?php echo $noWorkOrder ; ?></em>
                                 </span>
                             </p>
                         </a>
                         <a href="#" class="list-group-item">
-                            <p class="text-success"><i class="fa fa-money fa-fw"></i><strong> Work Orders Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noWorkOrder ; ?></em>
+                            <p class="text-primary"><i class="fa fa-book fa-fw"></i><strong> Payroll Records</strong>
+                                <span class="pull-right text-muted small"><em><?php echo $noPayroll; ?></em>
                                 </span>
                             </p>
                         </a>
@@ -378,7 +378,7 @@
 ?>   
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-life-saver fa-fw"></i> <strong>FLHA RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-cube fa-fw"></i> <strong>TOOL BOX RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">

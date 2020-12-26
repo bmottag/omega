@@ -23,7 +23,7 @@
 			buttonText: { today:    'Today' },
 			firstDay: 1, //para iniciar en lunes
 			 
-			initialView: 'listDay',
+			initialView: 'listWeek',
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			dayMaxEvents: true, // allow "more" link when too many events
