@@ -850,6 +850,54 @@
 				return false;
 			}
 		}
+
+		/**
+		 * Get workorder invoice info
+		 * @since 4/1/2021
+		 */
+		public function get_workorder_invoice($idWorkorder) 
+		{		
+				$this->db->select();
+				$this->db->where('O.fk_id_workorder', $idWorkorder); 
+				$this->db->order_by('O.place', 'asc');
+				$query = $this->db->get('workorder_invoice O');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add Invoice
+		 * @since 4/1/2021
+		 */
+		public function saveInvoice() 
+		{
+				$idWOInvoice = $this->input->post('hddId');
+				
+				$data = array(
+					'place' => $this->input->post('place'),
+					'price' => $this->input->post('price'),
+					'description' => $this->input->post('description')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idWOInvoice == '') {
+					$data['fk_id_workorder'] = $this->input->post('hddidWorkorder');
+					$query = $this->db->insert('workorder_invoice', $data);
+				} else {
+					$this->db->where('id_workorder_invoice', $idWOInvoice);
+					$query = $this->db->update('workorder_invoice', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 		
 		
 	    

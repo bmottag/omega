@@ -60,6 +60,19 @@ $(function(){
 					}
 				});
 			}
+	});
+
+	$(".btn-violeta").click(function () {	
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'workorders/cargarModalInvoice',
+                data: {'idWorkorder': oID},
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatos').html(data);
+                }
+            });
 	});	
 
 });
@@ -526,11 +539,11 @@ if($information){
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="warning">
-					<td><p class="text-center"><strong>Employee Name</strong></p></td>
-					<td><p class="text-center"><strong>Employee Type</strong></p></td>
-					<td><p class="text-center"><strong>Task Description</strong></p></td>
-					<td><p class="text-center"><strong>Hours</strong></p></td>
-					<td><p class="text-center"><strong>Links</strong></p></td>
+					<th class="text-center">Employee Name</th>
+					<th class="text-center">Employee Type</th>
+					<th class="text-center">Task Description</th>
+					<th class="text-center">Hours</th>
+					<th class="text-center">Links</th>
 				</tr>
 				<?php
 					foreach ($workorderPersonal as $data):
@@ -603,11 +616,11 @@ if($information){
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="success">
-					<td><p class="text-center"><strong>Info. Material</strong></p></td>
-					<td><p class="text-center"><strong>Description</strong></p></td>
-					<td><p class="text-center"><strong>Quantity</strong></p></td>
-					<td><p class="text-center"><strong>Unit</strong></p></td>
-					<td><p class="text-center"><strong>Links</strong></p></td>
+					<th class="text-center">Info. Material</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Unit</th>
+					<th class="text-center">Links</th>
 				</tr>
 				<?php
 					foreach ($workorderMaterials as $data):
@@ -662,6 +675,79 @@ if($information){
 	<!-- /.row -->
 <!--FIN MATERIALS -->
 
+<!--INICIO INVOICE -->
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-violeta">
+				<div class="panel-heading">
+					INVOICE
+				</div>
+				<div class="panel-body">
+				
+				<?php if(!$deshabilitar){ ?>
+					<div class="col-lg-12">	
+												
+					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_workorder"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Invoice
+					</button><br>
+					</div>
+				<?php } ?>
+
+<?php 
+	if($workorderInvoice){
+?>
+			<table class="table table-bordered table-striped table-hover table-condensed">
+				<tr class="danger">
+					<th class="text-center">Place</th>
+					<th class="text-center">Price</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Links</th>
+				</tr>
+				<?php
+					foreach ($workorderInvoice as $data):
+						echo "<tr>";											
+						$idRecord = $data['id_workorder_invoice'];
+				?>				
+						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_invoice"); ?>">
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+												
+						<td>
+						<input type="text" id="place" name="place" class="form-control" placeholder="Place" value="<?php echo $data['place']; ?>" required <?php echo $deshabilitar; ?>>
+						</td>
+
+						<td>
+						<input type="text" id="price" name="price" class="form-control" placeholder="Price" value="<?php echo $data['price']; ?>" required <?php echo $deshabilitar; ?>>
+						</td>
+
+						<td>
+							<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
+						</td>
+						
+						<td class='text-center'>
+							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
+						</form>
+						
+						<br><br>
+							<?php if(!$deshabilitar){ ?>
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/invoice/' . $data['id_workorder_invoice'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							</a>
+							<?php }else{ echo "---";} ?>
+							</td>
+						</tr>
+				<?php
+					endforeach;
+				?>
+			</table>
+	<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.row -->
+<!--FIN INVOICE -->
 
 <!--INICIO EQUIPMENT -->
 	<!-- /.row -->
@@ -686,11 +772,11 @@ if($information){
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="info">
-					<td><p class="text-center"><strong>Info. Equipment</strong></p></td>
-					<td><p class="text-center"><strong>Description</strong></p></td>
-					<td><p class="text-center"><strong>Hours</strong></p></td>
-					<td><p class="text-center"><strong>Quantity</strong></p></td>
-					<td><p class="text-center"><strong>Links</strong></p></td>
+					<th class="text-center">Info. Equipment</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Hours</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Links</th>
 				</tr>
 				<?php
 					foreach ($workorderEquipment as $data):
@@ -778,12 +864,12 @@ if($information){
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="primary">
-					<td><p class="text-center"><strong>Info. Subcontractor</strong></p></td>
-					<td><p class="text-center"><strong>Description</strong></p></td>
-					<td><p class="text-center"><strong>Quantity</strong></p></td>
-					<td><p class="text-center"><strong>Unit</strong></p></td>
-					<td><p class="text-center"><strong>Hours</strong></p></td>
-					<td><p class="text-center"><strong>Links</strong></p></td>
+					<th class="text-center">Info. Subcontractor</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Unit</th>
+					<th class="text-center">Hours</th>
+					<th class="text-center">Links</th>
 				</tr>
 				<?php
 					foreach ($workorderOcasional as $data):
@@ -898,3 +984,13 @@ if($information){
 	</div>
 </div>                       
 <!--FIN Modal para OCASIONAL -->
+
+<!--INICIO Modal para INVOICE-->
+<div class="modal fade text-center" id="modalInvoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosInvoice">
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para INVOICE -->

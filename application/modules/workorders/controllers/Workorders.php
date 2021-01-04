@@ -68,6 +68,7 @@ class Workorders extends CI_Controller {
 				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
 				$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
 				$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
+				$data['workorderInvoice'] = $this->workorders_model->get_workorder_invoice($id);//workorder invoice list
 				$data['workorderState'] = $this->workorders_model->get_workorder_state($id);//workorder additional information
 
 				$arrParam = array(
@@ -1583,6 +1584,39 @@ class Workorders extends CI_Controller {
 			}
 
 			echo json_encode($data);
+    }
+
+    /**
+     * Cargo modal- formulario de captura Invoice
+     * @since 4/1/2021
+     */
+    public function cargarModalInvoice() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$data["idWorkorder"] = $this->input->post("idWorkorder");
+		
+			$this->load->view("modal_invoice", $data);
+    }
+
+	/**
+	 * Actualizar info de invoice
+     * @since 4/1/2021
+     * @author BMOTTAG
+	 */
+	public function update_invoice()
+	{					
+			$idWorkorder = $this->input->post('hddIdWorkOrder');
+
+			if ($this->workorders_model->saveInvoice()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the information!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('workorders/add_workorder/' . $idWorkorder), 'refresh');
     }
 	
 	
