@@ -564,6 +564,25 @@ class Dashboard extends CI_Controller {
 			$data["view"] = "info_by_day";
 			$this->load->view("layout_calendar", $data);
 	}
+
+	/**
+	 * General info
+     * @since 26/12/2020
+     * @author BMOTTAG
+	 */
+	public function settings()
+	{		
+			//busco datos parametricos
+			$arrParam = array(
+				"table" => "parametric",
+				"order" => "id_parametric",
+				"id" => "x"
+			);
+			$data['parametric'] = $this->general_model->get_basic_search($arrParam);	
+
+			$data["view"] ='settings';
+			$this->load->view("layout", $data);
+	}
 	
 	
 }
