@@ -27,7 +27,6 @@
 								<th class='text-center'>Date of Issue</th>
 								<th class='text-center'>Date W.O.</th>
 								<th class='text-center'>Task Description</th>
-								<th class='text-center'>Edit</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -63,21 +62,17 @@
 									}
 							
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['id_workorder'];
+									echo "<td class='text-center'>";
+									echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'];
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-									echo "</td>";
+									echo "<strong>Last Message:</strong><br>" . $lista['last_message'];
+									echo "</a></td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date'] . "</td>";
 									echo "<td>" . $lista['observation'] . "</td>";
-									echo "<td class='text-center'>";									
-						?>
-									<a class='btn btn-success btn-xs' href='<?php echo base_url('workorders/add_workorder/' . $lista['id_workorder']) ?>'>
-											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-									</a>								
-						<?php
-									echo "</td>";
+									echo "</tr>";
 							endforeach;
 						?>
 						</tbody>
