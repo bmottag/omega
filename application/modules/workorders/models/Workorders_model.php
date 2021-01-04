@@ -357,7 +357,7 @@
 				//$year = date('Y');
 				//$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
 				
-				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.id_job, J.job_description, C.*");
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.*, C.*");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
@@ -876,7 +876,7 @@
 		public function saveInvoice() 
 		{
 				$idWOInvoice = $this->input->post('hddId');
-				
+
 				$data = array(
 					'place' => $this->input->post('place'),
 					'price' => $this->input->post('price'),
@@ -886,8 +886,19 @@
 				//revisar si es para adicionar o editar
 				if ($idWOInvoice == '') {
 					$data['fk_id_workorder'] = $this->input->post('hddidWorkorder');
+					$data['markup'] = 0;
 					$query = $this->db->insert('workorder_invoice', $data);
 				} else {
+					$price = $this->input->post('price');
+					$markup = $this->input->post('markup');
+					
+					$price = $price/1.05;//quitar el 5% de GST
+					$value = $price + ($price*$markup/100);//valor con el markup
+
+					$valueGST = $value*1.05;
+
+					$data['markup'] = $markup;
+					$data['value'] = $valueGST;
 					$this->db->where('id_workorder_invoice', $idWOInvoice);
 					$query = $this->db->update('workorder_invoice', $data);
 				}

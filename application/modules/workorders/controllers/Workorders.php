@@ -580,6 +580,7 @@ class Workorders extends CI_Controller {
 			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
 			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
+			$data['workorderInvoice'] = $this->workorders_model->get_workorder_invoice($id);//workorder invoice list
 			
 			$arrParam['idWorkOrder'] =  $id;
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
@@ -1607,6 +1608,7 @@ class Workorders extends CI_Controller {
 	public function update_invoice()
 	{					
 			$idWorkorder = $this->input->post('hddIdWorkOrder');
+			$view = $this->input->post('view');
 
 			if ($this->workorders_model->saveInvoice()) {
 				$data["result"] = true;
@@ -1616,7 +1618,7 @@ class Workorders extends CI_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url('workorders/add_workorder/' . $idWorkorder), 'refresh');
+			redirect(base_url('workorders/' . $view . '/' . $idWorkorder), 'refresh');
     }
 	
 	

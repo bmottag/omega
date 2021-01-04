@@ -712,6 +712,8 @@ if($information){
 						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_invoice"); ?>">
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+						<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>"/>
+						<input type="hidden" id="view" name="view" value="add_workorder"/>
 												
 						<td>
 						<input type="text" id="place" name="place" class="form-control" placeholder="Place" value="<?php echo $data['place']; ?>" required <?php echo $deshabilitar; ?>>

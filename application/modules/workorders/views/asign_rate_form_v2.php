@@ -202,6 +202,7 @@ if ($retornoError) {
 								<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?>
 								<br><strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?>
 								<br><strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
+								<br><strong>Markup: </strong><?php echo $information[0]["markup"] . '%'; ?>
 								<br><strong>Supervisor: </strong><?php echo $information[0]["name"]; ?>
 								<br><strong>Observation: </strong><?php echo $information[0]["observation"]; ?>
 								
@@ -412,7 +413,91 @@ if ($retornoError) {
 								
 <!--FIN MATERIALS -->
 
-	
+<!--INICIO INVOICE -->
+	<!-- /.row -->
+	<div class="row">
+								<div class="col-lg-12">				
+									<div class="panel panel-violeta">
+										<div class="panel-heading">
+											INVOICE
+										</div>
+										<div class="panel-body">
+											<div class="col-lg-12">	
+					
+					<?php if(!$deshabilitar){ ?>					
+					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modalInvoice" id="<?php echo 'invoice-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Invoice
+					</button><br>
+					<?php } ?>
+											</div>
+<?php 										
+	if(!$workorderInvoice){ 
+		echo '<div class="col-lg-12">
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+			</div>';
+	}else{
+?>
+			<table class="table table-bordered table-striped table-hover table-condensed">
+				<tr class="danger">
+					<th class="text-center">Place</th>
+					<th class="text-center">Price</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Markup</th>
+					<th class="text-center">Total Value</th>
+					<th class="text-center">Save</th>
+					<th class="text-center">Delete</th>
+				</tr>
+				<?php
+					foreach ($workorderInvoice as $data):
+						echo "<tr>";					
+						echo "<td ><small>" . $data['place'] . "</small></td>";
+						echo "<td >" . $data['price'] . "</td>";
+						echo "<td >" . $data['description'] . "</td>";
+						
+						$idRecord = $data['id_workorder_invoice'];
+				?>
+
+						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_invoice"); ?>">
+						
+						<td>
+				
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+						<input type="hidden" id="place" name="place" value="<?php echo $data['place']; ?>"/>
+						<input type="hidden" id="price" name="price" value="<?php echo $data['price']; ?>"/>
+						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
+						<input type="hidden" id="view" name="view" value="view_workorder"/>
+
+						<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" value="<?php echo $data['markup']; ?>" required >
+		
+						</td>
+						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
+						<td class='text-center'>
+					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
+						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+						</td>
+						</form>
+						<td class='text-center'>
+							<?php if(!$deshabilitar){ ?>
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/invoice/' . $data['id_workorder_invoice'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
+									<i class="fa fa-trash-o"></i> 
+							</a>
+							<?php }else{ echo "---";} ?>
+						</td>
+						</tr>
+				<?php
+					endforeach;
+				?>
+			</table>
+<?php } ?>
+										</div>
+									</div>
+								</div>
+	</div>
+	<!-- /.row -->				
+<!--FIN INVOICE -->
+
 <!--INICIO EQUIPMENT -->
 
 	<!-- /.row -->
