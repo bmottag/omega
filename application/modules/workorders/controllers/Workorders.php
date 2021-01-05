@@ -1620,6 +1620,41 @@ class Workorders extends CI_Controller {
 
 			redirect(base_url('workorders/' . $view . '/' . $idWorkorder), 'refresh');
     }
+
+	/**
+	 * Load markup WO
+     * @since 4/1/2021
+     * @author BMOTTAG
+	 */
+	public function load_markup_wo()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$data["idWO"] = $idWO = $this->input->post('identificador');
+			
+			$arrParam['idWorkOrder'] =  $idWO;
+			$infoWO = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+
+			$workorderInvoice = $this->workorders_model->get_workorder_invoice($idWO);//workorder invoice list
+
+			if($workorderInvoice)
+			{
+				if ($this->workorders_model->update_wo_invoice_markup($workorderInvoice, $infoWO[0]['markup'])) 
+				{				
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}else{
+				$data["result"] = true;
+			}
+
+			echo json_encode($data);
+    }
 	
 	
 	

@@ -44,6 +44,49 @@ $(function(){
 			}
 	});
 	
+	$(".btn-amarello").click(function () {	
+			var oID = $(this).attr("id");
+			
+			//Activa icono guardando
+			if(window.confirm('Are you sure you want to load the Markup?'))
+			{
+					$(".btn-amarello").attr('disabled','-1');
+					$.ajax ({
+						type: 'POST',
+						url: base_url + 'workorders/load_markup_wo',
+						data: {'identificador': oID},
+						cache: false,
+						success: function(data){
+												
+							if( data.result == "error" )
+							{
+								alert(data.mensaje);
+								$(".btn-default").removeAttr('disabled');							
+								return false;
+							} 
+											
+							if( data.result )//true
+							{	                                                        
+								$(".btn-default").removeAttr('disabled');
+
+								var url = base_url + "workorders/view_workorder/" + data.idWO
+								$(location).attr("href", url);
+							}
+							else
+							{
+								alert('Error. Reload the web page.');
+								$(".btn-default").removeAttr('disabled');
+							}	
+						},
+						error: function(result) {
+							alert('Error. Reload the web page.');
+							$(".btn-default").removeAttr('disabled');
+						}
+
+					});
+			}
+	});
+
 	$(".btn-warning").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
@@ -208,10 +251,19 @@ if ($retornoError) {
 								
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-								Update rates from the following button.
+								Update rates from the following button. <small>(Update the rate field on Personal, Material and Equipment) </small>
 								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-default btn-xs' title="Update" <?php echo $deshabilitar; ?>>
 										Update Rates <i class="fa fa-refresh"></i>
 								</button>
+
+								<?php if($information[0]["markup"] > 0){ ?>
+								<br><br>
+								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+								Update markup button.
+								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-amarello btn-xs' title="Update" <?php echo $deshabilitar; ?>>
+										Update Markup <i class="fa fa-refresh"></i>
+								</button>
+								<?php } ?>
 							</div>
 						</div>
 					</div>
@@ -450,9 +502,9 @@ if ($retornoError) {
 				<?php
 					foreach ($workorderInvoice as $data):
 						echo "<tr>";					
-						echo "<td ><small>" . $data['place'] . "</small></td>";
-						echo "<td >" . $data['price'] . "</td>";
-						echo "<td >" . $data['description'] . "</td>";
+						echo "<td><small>" . $data['place'] . "</small></td>";
+						echo "<td class='text-right'><small>$ " . $data['price'] . "</small></td>";
+						echo "<td><small>" . $data['description'] . "</small></td>";
 						
 						$idRecord = $data['id_workorder_invoice'];
 				?>
@@ -471,7 +523,7 @@ if ($retornoError) {
 						<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" value="<?php echo $data['markup']; ?>" required >
 		
 						</td>
-						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
+						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
 					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
 						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
@@ -490,6 +542,15 @@ if ($retornoError) {
 					endforeach;
 				?>
 			</table>
+
+			<div class="col-lg-12">
+				<small>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Total Value: </strong>
+					Take 5% GST out of the price, then apply the markup and finally apply the GST.
+				</p>
+			</small>
+			</div>
+
 <?php } ?>
 										</div>
 									</div>

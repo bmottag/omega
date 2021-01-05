@@ -909,6 +909,42 @@
 				}
 		}
 
+		/**
+		 * Update WO INVOICE markup and value
+		 * @since 4/1/2021
+		 */
+		public function update_wo_invoice_markup($workorderInvoice, $markup) 
+		{			
+			//calcular valor y actualizar campos
+			$query = 1;
+			if ($workorderInvoice) {
+				$tot = count($workorderInvoice);
+				for ($i = 0; $i < $tot; $i++) 
+				{
+					$price = $workorderInvoice[$i]['price'];
+
+					$price = $price/1.05;//quitar el 5% de GST
+					$value = $price + ($price*$markup/100);//valor con el markup
+
+					$valueGST = $value*1.05;
+					
+					$data = array(
+						'markup' => $markup,
+						'value' => $valueGST
+					);
+					$this->db->where('id_workorder_invoice  ', $workorderInvoice[$i]['id_workorder_invoice']);
+					$query = $this->db->update('workorder_invoice', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}	
+		
+
 		
 		
 	    
