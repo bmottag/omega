@@ -24,7 +24,6 @@
 								<th class='text-center'>Date of Issue</th>
 								<th class='text-center'>Date W.O.</th>
 								<th class='text-center'>Task Description</th>
-								<th class='text-center'>Links</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -60,40 +59,18 @@
 									}
 							
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['id_workorder'];
+
+									echo "<td class='text-center'>";
+									echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'];
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-									echo "</td>";
+									echo "<strong>Last Message:</strong><br>" . $lista['last_message'];
+									echo "</a></td>";
+
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date'] . "</td>";
 									echo "<td>" . $lista['observation'] . "</td>";
-									echo "<td class='text-center'>";									
-						?>
-									
-									<a class='btn btn-success btn-xs' href='<?php echo base_url('workorders/add_workorder/' . $lista['id_workorder']) ?>'>
-											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-									</a>								
-
-						<?php 
-									/**
-									 * If it is:
-									 * SUPER ADMIN, MANAGEMENT OR ACCOUNTING ROLES
-									 * They have acces to asign rate and dowloadinvoice
-									 */
-									$userRol = $this->session->userdata("rol");
-									if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ 
-						?>
-										<a class='btn btn-warning btn-xs' href='<?php echo base_url('workorders/view_workorder/' . $lista['id_workorder']) ?>'>
-												Asign Rate <span class="glyphicon glyphicon-usd" aria-hidden="true">
-										</a>
-
-										<a class='btn btn-purpura btn-xs' target="_blank" href='<?php echo base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) ?>'>
-												Download invoice <span class="glyphicon glyphicon-cloud-download" aria-hidden="true">
-										</a>
-						<?php
-									}
-									echo "</td>";
 							endforeach;
 						?>
 						</tbody>
@@ -120,7 +97,8 @@
             responsive: true,
 			 "ordering": false,
 			 paging: false,
-			"info": false
+			"info": false,
+			"searching": false
         });
     });
     </script>

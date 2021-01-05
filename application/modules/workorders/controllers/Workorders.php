@@ -20,11 +20,20 @@ class Workorders extends CI_Controller {
 		
 			$arrParam = array();
 			$userRol = $this->session->userdata("rol");
+			$idUser = $this->session->userdata("id");
 			//If it is a BASIC ROLE OR SAFETY&MAINTENACE ROLE, just show the records of the user session
 			if($userRol == 7 || $userRol == 4){ 
 				$arrParam["idEmployee"] = $this->session->userdata("id");
 			}
 			$data['workOrderInfo'] = $this->workorders_model->get_workordes_by_idUser($arrParam);
+
+			//delete records for button go back from the search form
+			$arrParam = array(
+				"table" => "workorder_go_back",
+				"primaryKey" => "fk_id_user",
+				"id" => $idUser
+			);
+			$this->general_model->deleteRecord($arrParam);
 
 			$data["view"] ='workorder';
 			$this->load->view("layout", $data);
@@ -506,24 +515,28 @@ class Workorders extends CI_Controller {
 			if($goBack == 'y')
 			{
 				$workOrderGoBackInfo = $this->workorders_model->get_workorder_go_back();
-				
-				//le sumo un dia al dia final para que ingrese ese dia en la consulta
-				$to = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( formatear_fecha($workOrderGoBackInfo['post_to']) ) ) );
-				//$from = formatear_fecha($workOrderGoBackInfo['post_from']);
-				
-				$arrParam = array(
-					"jobId" => $workOrderGoBackInfo['post_id_job'],
-					"idWorkOrder" => $workOrderGoBackInfo['post_id_work_order'],
-					"idWorkOrderFrom" => $workOrderGoBackInfo['post_id_wo_from'],
-					"idWorkOrderTo" => $workOrderGoBackInfo['post_id_wo_to'],
-					"from" => $workOrderGoBackInfo['post_from'],//$from,
-					"to" => $to,
-					"state" => $workOrderGoBackInfo['post_state']
-				);
 
-				$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
+				if(!$workOrderGoBackInfo){
+					redirect(base_url('workorders'), 'refresh');
+				}else{	
+					//le sumo un dia al dia final para que ingrese ese dia en la consulta
+					$to = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( formatear_fecha($workOrderGoBackInfo['post_to']) ) ) );
+					//$from = formatear_fecha($workOrderGoBackInfo['post_from']);
+					
+					$arrParam = array(
+						"jobId" => $workOrderGoBackInfo['post_id_job'],
+						"idWorkOrder" => $workOrderGoBackInfo['post_id_work_order'],
+						"idWorkOrderFrom" => $workOrderGoBackInfo['post_id_wo_from'],
+						"idWorkOrderTo" => $workOrderGoBackInfo['post_id_wo_to'],
+						"from" => $workOrderGoBackInfo['post_from'],//$from,
+						"to" => $to,
+						"state" => $workOrderGoBackInfo['post_state']
+					);
 
-				$data["view"] = "asign_rate_list";
+					$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
+
+					$data["view"] = "asign_rate_list";
+				}
 			}
 			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
 			elseif($this->input->post('jobName') || $this->input->post('workOrderNumber') || $this->input->post('workOrderNumberFrom') || $this->input->post('from'))
