@@ -306,7 +306,9 @@ if ($retornoError) {
 <?php 										
 	if(!$workorderPersonal){ 
 		echo '<div class="col-lg-12">
+				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+				</small>
 			</div>';
 	}else{
 ?>
@@ -365,6 +367,13 @@ if ($retornoError) {
 					endforeach;
 				?>
 			</table>
+			<div class="col-lg-12">
+				<small>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
+					Hours X Rate
+				</p>
+			</small>
+			</div>
 <?php } ?>
 										</div>
 									</div>
@@ -396,7 +405,9 @@ if ($retornoError) {
 <?php 										
 	if(!$workorderMaterials){ 
 		echo '<div class="col-lg-12">
+				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+				</small>
 			</div>';
 	}else{
 ?>
@@ -406,6 +417,7 @@ if ($retornoError) {
 					<th class="text-center">Quantity</th>
 					<th class="text-center">Unit</th>
 					<th class="text-center">Rate</th>
+					<th class="text-center">Markup</th>
 					<th class="text-center">Value</th>
 					<th class="text-center">Save</th>
 					<th class="text-center">Delete</th>
@@ -437,7 +449,12 @@ if ($retornoError) {
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
 		
 						</td>
-						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
+
+						<td>
+						<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" value="<?php echo $data['markup']; ?>" required >
+						</td>
+
+						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
 					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
 						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
@@ -456,6 +473,13 @@ if ($retornoError) {
 					endforeach;
 				?>
 			</table>
+			<div class="col-lg-12">
+				<small>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
+					Quantity X Rate X (Markup + 100)/100
+				</p>
+			</small>
+			</div>
 <?php } ?>
 										</div>
 									</div>
@@ -485,7 +509,9 @@ if ($retornoError) {
 <?php 										
 	if(!$workorderInvoice){ 
 		echo '<div class="col-lg-12">
+				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+				</small>
 			</div>';
 	}else{
 ?>
@@ -495,7 +521,7 @@ if ($retornoError) {
 					<th class="text-center">Price</th>
 					<th class="text-center">Description</th>
 					<th class="text-center">Markup</th>
-					<th class="text-center">Total Value</th>
+					<th class="text-center">Value</th>
 					<th class="text-center">Save</th>
 					<th class="text-center">Delete</th>
 				</tr>
@@ -545,7 +571,7 @@ if ($retornoError) {
 
 			<div class="col-lg-12">
 				<small>
-				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Total Value: </strong>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
 					Take 5% GST out of the price, then apply the markup and finally apply the GST.
 				</p>
 			</small>
@@ -580,7 +606,9 @@ if ($retornoError) {
 <?php 										
 	if(!$workorderEquipment){ 
 		echo '<div class="col-lg-12">
+				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+				</small>
 			</div>';
 	}else{
 ?>
@@ -648,7 +676,6 @@ if ($retornoError) {
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
 
-							
 					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
 						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
@@ -699,7 +726,9 @@ if ($retornoError) {
 <?php 										
 	if(!$workorderOcasional){ 
 		echo '<div class="col-lg-12">
+				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+				</small>
 			</div>';
 	}else{
 ?>
@@ -746,15 +775,19 @@ if ($retornoError) {
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
 		
 						</td>
-						<td class='text-right'><small><?php echo $data['value']; ?></small></td>
+						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary" <?php echo $deshabilitar; ?>/>
+
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
+								 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
+
 						</td>
 						</form>	
 						<td class='text-center'>
 							<?php if(!$deshabilitar){ ?>
-							<a class='btn btn-danger' href='<?php echo base_url('workorders/deleteRecord/ocasional/' . $data['id_workorder_ocasional'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/ocasional/' . $data['id_workorder_ocasional'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
+									<i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 						</td>
@@ -794,7 +827,9 @@ if ($retornoError) {
 <?php 										
 	if(!$workorderHoldBack){ 
 		echo '<div class="col-lg-12">
+				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
+				</small>
 			</div>';
 	}else{
 ?>

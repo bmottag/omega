@@ -423,6 +423,12 @@
 						$data['hours'] = $hours;
 						break;
 					case "materials":
+						$markup = $this->input->post('markup');
+
+						$value = $value * ($markup+100)/100;
+
+						$data['markup'] = $markup;
+						$data['value'] = $value;
 						$data['quantity'] = $quantity;
 						$data['unit'] = $unit;
 						break;
@@ -934,6 +940,41 @@
 					);
 					$this->db->where('id_workorder_invoice  ', $workorderInvoice[$i]['id_workorder_invoice']);
 					$query = $this->db->update('workorder_invoice', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
+		/**
+		 * Update WO MATERIAL markup and value
+		 * @since 5/1/2021
+		 */
+		public function update_wo_material_markup($workorderMaterials, $markup) 
+		{			
+			//calcular valor y actualizar campos
+			$query = 1;
+			if ($workorderMaterials) {
+				$tot = count($workorderMaterials);
+				for ($i = 0; $i < $tot; $i++) 
+				{
+					$rate = $workorderMaterials[$i]['rate'];
+					$quantity = $workorderMaterials[$i]['quantity'];
+
+					$value = $rate * $quantity;
+
+					$value = $value * ($markup+100)/100;
+					
+					$data = array(
+						'markup' => $markup,
+						'value' => $value
+					);
+					$this->db->where('id_workorder_materials', $workorderMaterials[$i]['id_workorder_materials']);
+					$query = $this->db->update('workorder_materials', $data);
 				}
 			}
 			

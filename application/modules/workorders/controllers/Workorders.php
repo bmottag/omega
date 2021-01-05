@@ -1663,10 +1663,26 @@ class Workorders extends CI_Controller {
 			$infoWO = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 
 			$workorderInvoice = $this->workorders_model->get_workorder_invoice($idWO);//workorder invoice list
+			$workorderMaterials = $this->workorders_model->get_workorder_materials($idWO);//workorder material list
 
 			if($workorderInvoice)
 			{
 				if ($this->workorders_model->update_wo_invoice_markup($workorderInvoice, $infoWO[0]['markup'])) 
+				{				
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}else{
+				$data["result"] = true;
+			}
+
+			if($workorderMaterials)
+			{
+				if ($this->workorders_model->update_wo_material_markup($workorderMaterials, $infoWO[0]['markup'])) 
 				{				
 					$data["result"] = true;
 					$this->session->set_flashdata('retornoExito', 'You have load the data.');
