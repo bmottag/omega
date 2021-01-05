@@ -904,7 +904,7 @@ class General_model extends CI_Model {
 		 */
 		public function get_equipment_info_by($arrData) 
 		{		
-				$this->db->select('id_vehicle, make, unit_number,model, type_2, equipment_unit_price');
+				$this->db->select('id_vehicle, make, unit_number,model, type_2, equipment_unit_price, equipment_unit_cost');
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = A.type_level_2', 'INNER');
 				
 				if (array_key_exists("idVehicle", $arrData)) {

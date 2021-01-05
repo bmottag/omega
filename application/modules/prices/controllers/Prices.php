@@ -123,7 +123,7 @@ class Prices extends CI_Controller {
 			
 			if ($this->prices_model->updateEquipmentPrice()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Equipment Unit Price!!");
+				$this->session->set_flashdata('retornoExito', "You have update the Equipment Prices!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');

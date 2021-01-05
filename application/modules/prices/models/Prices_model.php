@@ -80,6 +80,7 @@
 				for ($i = 0; $i < $tot; $i++) 
 				{					
 					$data = array(
+						'equipment_unit_cost' => $equipment['cost'][$i],
 						'equipment_unit_price' => $equipment['price'][$i]
 					);
 					$this->db->where('id_vehicle', $equipment['id'][$i]);
