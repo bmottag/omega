@@ -101,7 +101,7 @@ $(function(){
 					<?php
 					/**
 					 * If it is:
-					 * SUPER ADMIN, MANAGEMENT OR ACCOUNTING ROLES
+					 * SUPER ADMIN, MANAGEMENT, ACCOUNTING ROLES and WORK ORDER USER
 					 * They have acces to asign rate and dowloadinvoice
 					 */
 					if($information){

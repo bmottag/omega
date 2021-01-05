@@ -115,7 +115,7 @@
 <li>Search Income</li>
 <li>Asign rate</li>
 <li>Download invoice</li>
-<li>This role can edit all work orders except those that are closed.</li>
+<li>This role can edit work orders that are On field and In Progress.</li>
 </ul>
 ----------------------------
 <br><strong>Reports:</strong> Payroll Report

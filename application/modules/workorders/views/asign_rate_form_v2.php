@@ -312,14 +312,14 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="warning">
-					<td><p class="text-center"><strong>Employee Name</strong></p></td>
-					<td><p class="text-center"><strong>Employee Type</strong></p></td>
-					<td><p class="text-center"><strong>Hours</strong></p></td>
-					<td><p class="text-center"><strong>Task Description</strong></p></td>
-					<td><p class="text-center"><strong>Rate</strong></p></td>
-					<td><p class="text-center"><strong>Value</strong></p></td>
-					<td><p class="text-center"><strong>Save</strong></p></td>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
+					<th class="text-center">Employee Name</th>
+					<th class="text-center">Employee Type</th>
+					<th class="text-center">Hours</th>
+					<th class="text-center">Task Description</th>
+					<th class="text-center">Rate</th>
+					<th class="text-center">Value</th>
+					<th class="text-center">Save</th>
+					<th class="text-center">Delete</th>
 				</tr>
 				<?php
 					foreach ($workorderPersonal as $data):
@@ -402,13 +402,13 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="success">
-					<td><p class="text-center"><strong>Info. Material</strong></p></td>
-					<td><p class="text-center"><strong>Quantity</strong></p></td>
-					<td><p class="text-center"><strong>Unit</strong></p></td>
-					<td><p class="text-center"><strong>Rate</strong></p></td>
-					<td><p class="text-center"><strong>Value</strong></p></td>
-					<td><p class="text-center"><strong>Save</strong></p></td>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
+					<th class="text-center">Info. Material</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Unit</th>
+					<th class="text-center">Rate</th>
+					<th class="text-center">Value</th>
+					<th class="text-center">Save</th>
+					<th class="text-center">Delete</th>
 				</tr>
 				<?php
 					foreach ($workorderMaterials as $data):
@@ -586,16 +586,13 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="info">
-					<td><p class="text-center"><strong>Info. Equipment</strong></p></td>
-					
-
-					<td><p class="text-center"><strong>Hours</strong></p></td>
-					<td><p class="text-center"><strong>Quantity</strong></p></td>
-
-					<td><p class="text-center"><strong>Rate</strong></p></td>
-					<td><p class="text-center"><strong>Value</strong></p></td>
-					<td><p class="text-center"><strong>Save</strong></p></td>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
+					<th class="text-center">Info. Equipment</th>
+					<th class="text-center">Hours</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Rate</th>
+					<th class="text-center">Value</th>
+					<th class="text-center">Save</th>
+					<th class="text-center">Delete</th>
 				</tr>
 				<?php
 					foreach ($workorderEquipment as $data):
@@ -708,19 +705,14 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="primary">
-					<td><p class="text-center"><strong>Info. Subcontractor</strong></p></td>
-					
-				
-				
-					<td><p class="text-center"><strong>Quantity</strong></p></td>
-					<td><p class="text-center"><strong>Unit</strong></p></td>
-					<td><p class="text-center"><strong>Hours</strong></p></td>
-		
-		
-					<td><p class="text-center"><strong>Rate</strong></p></td>
-					<td><p class="text-center"><strong>Value</strong></p></td>
-					<td><p class="text-center"><strong>Save</strong></p></td>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
+					<th class="text-center">Info. Subcontractor</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-center">Unit</th>
+					<th class="text-center">Hours</th>
+					<th class="text-center">Rate</th>
+					<th class="text-center">Value</th>
+					<th class="text-center">Save</th>
+					<th class="text-center">Delete</th>
 				</tr>
 				<?php
 					foreach ($workorderOcasional as $data):
@@ -730,20 +722,15 @@ if ($retornoError) {
 						echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small>";
 						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small></td>";
 						
-						
-						
-						
+
 						echo "<td class='text-right'><small>" . $data['quantity'] . "</small></td>";
 						echo "<td ><small>" . $data['unit'] . "</small></td>";
 						$hours = $data['hours']==0?1:$data['hours'];
 						echo "<td class='text-right'><small>" . $hours . "</small></td>";
 					
-					
-						
 						$idRecord = $data['id_workorder_ocasional'];
 				?>
 
-						
 						<form  name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
 						
 						<td>
@@ -813,9 +800,9 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="warning">
-					<td><p class="text-center"><strong>Description</strong></p></td>
-					<td><p class="text-center"><strong>Value</strong></p></td>
-					<td><p class="text-center"><strong>Links</strong></p></td>
+					<th class="text-center">Description</th>
+					<th class="text-center">Value</th>
+					<th class="text-center">Links</th>
 				</tr>
 				<?php
 					foreach ($workorderHoldBack as $data):
@@ -824,7 +811,6 @@ if ($retornoError) {
 						$idRecord = $data['id_workorder_hold_back'];
 				?>
 
-						
 						<form  name="hold_back_<?php echo $idRecord ?>" id="hold_back_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
 						<input type="hidden" id="formType" name="formType" value="hold_back"/>
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>

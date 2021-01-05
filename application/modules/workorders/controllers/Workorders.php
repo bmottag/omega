@@ -88,6 +88,8 @@ class Workorders extends CI_Controller {
 					//If it is DIFERRENT THAN ON FILD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
 					}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ 
 						$data['deshabilitar'] = 'disabled';
+					}elseif(($workorderState == 2 || $workorderState == 3) && $userRol == 5){ //WORK ORDER  USER
+						$data['deshabilitar'] = 'disabled';
 					}elseif($workorderState == 1 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
 						$data['deshabilitar'] = 'disabled';
 					}
@@ -584,10 +586,21 @@ class Workorders extends CI_Controller {
 			
 			$arrParam['idWorkOrder'] =  $id;
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
-			
-			//si esta cerrada deshabilito los botones
+						
+			//DESHABILITAR WORK ORDER
+			$userRol = $this->session->rol;
+			$workorderState = $data['information'][0]['state'];
 			$data['deshabilitar'] = '';
-			if($data['information'][0]['state'] == 4){
+
+			//si esta cerrada deshabilito los botones
+			if($workorderState == 4){
+				$data['deshabilitar'] = 'disabled';
+			//If it is DIFERRENT THAN ON FILD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
+			}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ 
+				$data['deshabilitar'] = 'disabled';
+			}elseif(($workorderState == 2 || $workorderState == 3) && $userRol == 5){ //WORK ORDER  USER
+				$data['deshabilitar'] = 'disabled';
+			}elseif($workorderState == 1 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
 				$data['deshabilitar'] = 'disabled';
 			}
 
