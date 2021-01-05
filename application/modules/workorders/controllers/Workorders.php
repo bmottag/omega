@@ -1664,6 +1664,7 @@ class Workorders extends CI_Controller {
 
 			$workorderInvoice = $this->workorders_model->get_workorder_invoice($idWO);//workorder invoice list
 			$workorderMaterials = $this->workorders_model->get_workorder_materials($idWO);//workorder material list
+			$workorderOcasional = $this->workorders_model->get_workorder_ocasional($idWO);//workorder ocasional list
 
 			if($workorderInvoice)
 			{
@@ -1683,6 +1684,21 @@ class Workorders extends CI_Controller {
 			if($workorderMaterials)
 			{
 				if ($this->workorders_model->update_wo_material_markup($workorderMaterials, $infoWO[0]['markup'])) 
+				{				
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}else{
+				$data["result"] = true;
+			}
+
+			if($workorderOcasional)
+			{
+				if ($this->workorders_model->update_wo_ocasional_markup($workorderOcasional, $infoWO[0]['markup'])) 
 				{				
 					$data["result"] = true;
 					$this->session->set_flashdata('retornoExito', 'You have load the data.');

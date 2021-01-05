@@ -251,7 +251,7 @@ if ($retornoError) {
 								
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-								Update rates from the following button. <small>(Update the rate field on Personal, Material and Equipment) </small>
+								Update Rates from the following button. <small>(Update the rate field on Personal, Material and Equipment) </small>
 								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-default btn-xs' title="Update" <?php echo $deshabilitar; ?>>
 										Update Rates <i class="fa fa-refresh"></i>
 								</button>
@@ -259,7 +259,7 @@ if ($retornoError) {
 								<?php if($information[0]["markup"] > 0){ ?>
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-								Update markup button.
+								Update Job Code/Name Markup button. <small>(Update the Markup field on Material, Invoice and Ocasional) </small>
 								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-amarello btn-xs' title="Update" <?php echo $deshabilitar; ?>>
 										Update Markup <i class="fa fa-refresh"></i>
 								</button>
@@ -739,6 +739,7 @@ if ($retornoError) {
 					<th class="text-center">Unit</th>
 					<th class="text-center">Hours</th>
 					<th class="text-center">Rate</th>
+					<th class="text-center">Markup</th>
 					<th class="text-center">Value</th>
 					<th class="text-center">Save</th>
 					<th class="text-center">Delete</th>
@@ -775,6 +776,9 @@ if ($retornoError) {
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
 		
 						</td>
+						<td>
+						<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" value="<?php echo $data['markup']; ?>" required >
+						</td>
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
 
@@ -796,6 +800,13 @@ if ($retornoError) {
 					endforeach;
 				?>
 			</table>
+			<div class="col-lg-12">
+				<small>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
+					Quantity X Hours X Rate X (Markup + 100)/100
+				</p>
+			</small>
+			</div>
 <?php } ?>
 										</div>
 									</div>

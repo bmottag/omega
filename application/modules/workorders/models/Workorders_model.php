@@ -424,7 +424,6 @@
 						break;
 					case "materials":
 						$markup = $this->input->post('markup');
-
 						$value = $value * ($markup+100)/100;
 
 						$data['markup'] = $markup;
@@ -437,6 +436,12 @@
 						$data['quantity'] = $quantity;
 						break;
 					case "ocasional":
+						$markup = $this->input->post('markup');
+						$value = $value * ($markup+100)/100;
+
+						$data['markup'] = $markup;
+						$data['value'] = $value;
+
 						$data['hours'] = $hours;
 						$data['quantity'] = $quantity;
 						$data['unit'] = $unit;
@@ -975,6 +980,42 @@
 					);
 					$this->db->where('id_workorder_materials', $workorderMaterials[$i]['id_workorder_materials']);
 					$query = $this->db->update('workorder_materials', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
+		/**
+		 * Update WO OCASIONAL markup and value
+		 * @since 5/1/2021
+		 */
+		public function update_wo_ocasional_markup($workorderOcasional, $markup) 
+		{			
+			//calcular valor y actualizar campos
+			$query = 1;
+			if ($workorderOcasional) {
+				$tot = count($workorderOcasional);
+				for ($i = 0; $i < $tot; $i++) 
+				{
+					$quantity = $workorderOcasional[$i]['quantity'];
+					$hours = $workorderOcasional[$i]['hours'];
+					$rate = $workorderOcasional[$i]['rate'];
+					
+					$value = $rate * $quantity * $hours;
+
+					$value = $value * ($markup+100)/100;
+					
+					$data = array(
+						'markup' => $markup,
+						'value' => $value
+					);
+					$this->db->where('id_workorder_ocasional', $workorderOcasional[$i]['id_workorder_ocasional']);
+					$query = $this->db->update('workorder_ocasional', $data);
 				}
 			}
 			
