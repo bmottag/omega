@@ -115,6 +115,7 @@
 					$data = array(
 						'fk_id_job' => $idJob,
 						'fk_id_equipment' => $equipmentList[$i]['id_vehicle'],
+						'job_equipment_without_driver' => $equipmentList[$i]['equipment_unit_price_without_driver'],
 						'job_equipment_unit_price' => $equipmentList[$i]['equipment_unit_price']
 					);
 					$query = $this->db->insert('job_equipment_price', $data);
@@ -144,6 +145,7 @@
 				for ($i = 0; $i < $tot; $i++) 
 				{					
 					$data = array(
+						'job_equipment_without_driver' => $equipment['priceWithoutDriver'][$i],
 						'job_equipment_unit_price' => $equipment['price'][$i]
 					);
 					$this->db->where('id_equipment_price  ', $equipment['id'][$i]);
