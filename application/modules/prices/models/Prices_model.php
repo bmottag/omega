@@ -81,6 +81,7 @@
 				{					
 					$data = array(
 						'equipment_unit_cost' => $equipment['cost'][$i],
+						'equipment_unit_price_without_driver' => $equipment['priceWithoutDriver'][$i],
 						'equipment_unit_price' => $equipment['price'][$i]
 					);
 					$this->db->where('id_vehicle', $equipment['id'][$i]);

@@ -69,6 +69,7 @@ if ($retornoError) {
 								<th class="text-center">Equipment Type</th>
 								<th class="text-center">Equipment</th>
 								<th class="text-center">Unit Cost</th>
+								<th class="text-center">Unit Price Without Driver</th>
 								<th class="text-center">Unit Price
 								<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
 									Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
@@ -87,12 +88,21 @@ if ($retornoError) {
 									$unitCost = $lista['equipment_unit_cost'];
 									$unitCost = $unitCost?$unitCost:0;
 
+									$unitPriceWithoutDriver = $lista['equipment_unit_price_without_driver'];
+									$unitPriceWithoutDriver = $unitPriceWithoutDriver?$unitPriceWithoutDriver:0;
+
 									$unitPrice = $lista['equipment_unit_price'];
 									$unitPrice = $unitPrice?$unitPrice:0;
 									echo "<td class='text-right'>";
 						?>
 						<input type="hidden" id="price" name="form[id][]" value="<?php echo $lista['id_vehicle']; ?>"/>
 						<input type="text" id="price" name="form[cost][]" class="form-control" placeholder="Unit Cost" value="<?php echo $unitCost; ?>" >
+						<?php
+									echo "</td>";
+
+									echo "<td class='text-right'>";
+						?>
+						<input type="text" id="price" name="form[priceWithoutDriver][]" class="form-control" placeholder="Without Driver" value="<?php echo $unitPriceWithoutDriver; ?>" >
 						<?php
 									echo "</td>";
 
