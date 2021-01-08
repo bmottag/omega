@@ -218,14 +218,34 @@ class Programming extends CI_Controller {
 	 */
 	public function update_worker()
 	{					
+			$this->load->model("general_model");
 			$idProgramming = $this->input->post('hddIdProgramming');
+			$idProgrammingWorker = $this->input->post('hddId');
 
-			if ($this->programming_model->saveWorker()) {
-				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the record!!");
-			} else {
-				$data["result"] = "error";
-				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			$arrParam = array("idProgramming" => $idProgramming);
+			$infoProgramming = $this->general_model->get_programming($arrParam);//info programacion
+			$fechaProgramming = $infoProgramming[0]['date_programming'];
+			$idMachine = $this->input->post('machine');
+
+			//buscar si existe programacion para este mismo dia para esa maquina
+			$arrParam = array(
+				'idProgrammingWorker' => $idProgrammingWorker,
+				'fechaProgramming' => $fechaProgramming,
+				'maquina' => $idMachine
+			);
+			$inspecciones = $this->general_model->get_programming_machine_vs_date_programming($arrParam);
+
+			if($inspecciones){
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', 'This Equiment has already been used');
+			}else{
+				if ($this->programming_model->saveWorker()) {
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', "You have update the record!!");
+				} else {
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
 			}
 
 			redirect(base_url('programming/index/' . $idProgramming), 'refresh');

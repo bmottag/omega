@@ -33,14 +33,14 @@
 	});
 </script>
 						<div class="form-group">									
-							<label class="col-sm-4 control-label" for="date">Date</label>
+							<label class="col-sm-4 control-label" for="date">Date:</label>
 							<div class="col-sm-5">
 								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="Date" />
 							</div>
 						</div>			
 												
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="jobName">Job Code/Name</label>
+							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
 							<div class="col-sm-5">
 								<select name="jobName" id="jobName" class="form-control" >
 									<option value=''>Select...</option>
@@ -52,7 +52,7 @@
 						</div>
 																		
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="observation">Observation</label>
+							<label class="col-sm-4 control-label" for="observation">Observation:</label>
 							<div class="col-sm-5">
 							<textarea id="observation" name="observation" class="form-control" rows="3"><?php echo $information?$information[0]["observation"]:""; ?></textarea>
 							</div>

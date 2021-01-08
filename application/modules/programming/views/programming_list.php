@@ -175,7 +175,7 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 									<th class="column-title text-center" style="width: 13%"><small>Site</small></th>
 									<th class="column-title text-center" style="width: 13%"><small>FLHA/TOOL BOX</small></th>
 									<th class="column-title text-center" style="width: 21%"><small>Description</small></th>
-									<th class="column-title text-center" style="width: 22%"><small>Machine</small></th>
+									<th class="column-title text-center" style="width: 22%"><small>Equipment</small></th>
 									<th class="column-title text-center" style="width: 9%"><small>Links</small></th>
 								</tr>
 							</thead>

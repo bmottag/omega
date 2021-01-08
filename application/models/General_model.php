@@ -1047,5 +1047,32 @@ class General_model extends CI_Model {
 			}
 		}
 
+		/**
+		 * Verificacion si existe maquina programada para una fecha
+		 * @since 8/1/2021
+		 */
+		public function get_programming_machine_vs_date_programming($arrData) 
+		{
+			$this->db->select();			
+			$this->db->join('programming P', 'P.id_programming = W.fk_id_programming ', 'INNER');
+
+			if (array_key_exists("idProgrammingWorker", $arrData)) {
+				$this->db->where('W.id_programming_worker !=', $arrData["idProgrammingWorker"]);
+			}	
+			if (array_key_exists("fechaProgramming", $arrData)) {
+				$this->db->where('P.date_programming', $arrData["fechaProgramming"]);
+			}
+			if (array_key_exists("maquina", $arrData)) {
+				$this->db->where('W.fk_id_machine', $arrData["maquina"]);
+			}
+							
+			$query = $this->db->get("programming_worker W");
+
+			if ($query->num_rows() >= 1) {
+				return true;
+			} else
+				return false;
+		}
+
 
 }
