@@ -127,12 +127,19 @@
 					$transformation = 1;
 				}
 				$workingHours = $justHours + $transformation;
+				$overtimeHours = 0;
+				if($workingHours>8){
+					$regularHours = 8;
+					$overtimeHours = $workingHours - 8;
+				}else{
+					$regularHours = $workingHours;
+				}
 				//FINISH hours calculation
 				
 				$idTask =  $this->input->post('hddIdentificador');
 
 				$sql = "UPDATE task";
-				$sql.= " SET working_time='$workingTime', working_hours =  $workingHours";
+				$sql.= " SET working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 				$sql.= " WHERE id_task=$idTask";
 
 				$query = $this->db->query($sql);

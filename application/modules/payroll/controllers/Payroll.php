@@ -190,7 +190,7 @@ class Payroll extends CI_Controller {
 			$data = array();
 						
 			$idTask = $this->input->post('hddIdentificador');
-			$data["result"] = $idTask;
+			$data["idRecord"] = $idTask;
 
 			if ($this->payroll_model->savePayrollHour()) {
 				$data["result"] = true;
