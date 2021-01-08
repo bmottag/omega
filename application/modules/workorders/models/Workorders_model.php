@@ -746,7 +746,7 @@
 		 */
 		public function get_workorder_equipment_prices($idWorkorder, $idJob)
 		{		
-				$this->db->select("W.*, T.job_equipment_unit_price");
+				$this->db->select("W.*, T.job_equipment_unit_price, T.job_equipment_without_driver");
 				$this->db->join('job_equipment_price T', 'T.fk_id_equipment = W.fk_id_vehicle', 'INNER');				
 				$this->db->where('W.fk_id_workorder', $idWorkorder); 
 				$this->db->where('T.fk_id_job ', $idJob); 
@@ -773,7 +773,14 @@
 				$tot = count($workorderEquipmentRate);
 				for ($i = 0; $i < $tot; $i++) 
 				{					
-					$rate = $workorderEquipmentRate[$i]['job_equipment_unit_price'];
+					//verificar si esta en STANBY para saber que rate coger
+					$standby = $workorderEquipmentRate[$i]['standby'];
+					if($standby == 1){
+						$rate = $workorderEquipmentRate[$i]['job_equipment_without_driver'];
+					}else{
+						$rate = $workorderEquipmentRate[$i]['job_equipment_unit_price'];	
+					}
+
 					$hours = $workorderEquipmentRate[$i]['hours'];
 					
 					$quantity = $workorderEquipmentRate[$i]['quantity'];
