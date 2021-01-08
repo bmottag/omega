@@ -25,9 +25,11 @@ class Jobs extends CI_Controller {
 				"id" => 1
 			);
 			$data['info'] = $this->general_model->get_basic_search($arrParam);
+
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 			
 			$data["view"] = 'jobs_list';			
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
 	}
 	
 	/**
@@ -1755,7 +1757,7 @@ ob_end_clean();
      * @since 23/12/2020
      * @author BMOTTAG
 	 */
-	public function detail($idJob)
+	public function bitacora($idJob)
 	{	
 			$this->load->model("general_model");
 			//job info
@@ -1775,11 +1777,8 @@ ob_end_clean();
 			$data['workOrderInfo'] = $this->general_model->get_workorder_info($arrParam);
 
 
-
-
-
-			$data["view"] = "job_detail";
-			$this->load->view("layout_calendar", $data);
+			$data["view"] = "job_bitacora";
+			$this->load->view("layout", $data);
 	}
 
 

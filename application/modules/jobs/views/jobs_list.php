@@ -6,6 +6,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
 					<i class="fa fa-briefcase"></i> JOBS INFO
 				</div>
 				<div class="panel-body">
@@ -82,8 +83,12 @@ echo "<a href='" . base_url('jobs/detail/' . $lista['id_job']) . "'>" . $lista['
 										CSEP <span class="fa fa-database" aria-hidden="true">
 									</a>
 											
-									<a class='btn btn-success primary btn-xs' href='<?php echo base_url('more/task_control/' . $lista['id_job']) ?>'>
+									<a class='btn btn-success btn-xs' href='<?php echo base_url('more/task_control/' . $lista['id_job']) ?>'>
 										COVID <span class="fa fa-bug" aria-hidden="true">
+									</a>
+
+									<a class='btn btn-violeta btn-xs' href='<?php echo base_url('jobs/bitacora/' . $lista['id_job']) ?>'>
+										Bitacora <span class="fa fa-umbrella" aria-hidden="true">
 									</a>
 									
 								</div>
