@@ -16,7 +16,7 @@
 					</p>
 				</div>
 				<div class="panel-footer">
-					* Specific modifications to the module
+					<strong>Movil number: </strong>Used to send SMS of a new Day Off requests. </br>
 				</div>
 			</div>
 		</div>
@@ -32,11 +32,9 @@
 					</p>
 				</div>
 				<div class="panel-footer">
-					<ul>
-						<li>Used to send email of a new Day Off requests. </li>
-						<li>Used to send email of a new Incidence requests. </li>
-						<li>Used to send email when an Inspection has comments. </li>
-					</ul>
+					<strong>Email: </strong>Used to send email of a new Day Off requests. </br>
+					<strong>Email: </strong>Used to send email of a new Incidence requests. </br>
+					<strong>Email: </strong>Used to send email when an Inspection has comments.
 				</div>
 			</div>
 		</div>

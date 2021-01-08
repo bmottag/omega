@@ -71,8 +71,12 @@ class Dayoff extends CI_Controller {
 				$data["result"] = "error";
 				$data["mensaje"] = $msj;
 			} else {			
-					if ($idDayoff = $this->dayoff_model->add_dayoff()) {
-						
+					if ($idDayoff = $this->dayoff_model->add_dayoff()) 
+					{
+						//envio memsaje de texto al administrador
+						$this->load->library('encrypt');
+						require 'vendor/Twilio/autoload.php';
+
 						//enviar correo al administrador
 						$arrParam["idDayoff"] = $idDayoff;
 						$dayoffInfo = $this->dayoff_model->get_day_off($arrParam);
@@ -92,6 +96,14 @@ class Dayoff extends CI_Controller {
 						$emailMsn .= "<br><strong>Date of dayoff: </strong>" . $dayoffInfo[0]["date_dayoff"];
 						$emailMsn .= "<br><strong>Observation: </strong>" . $dayoffInfo[0]["observation"];
 						$emailMsn .= "<p>Please go to the system to Approved or Denied the Day Off.</p>";
+						
+						//mensaje de texto
+						$mensajeSMS = "APP-VCI";
+						$mensajeSMS .= "\nThere is a new request for a Day Off:";
+						$mensajeSMS .= "\nEmployee: " . $dayoffInfo[0]["name"];
+						$mensajeSMS .= "\nType: " . $tipo;
+						$mensajeSMS .= "\nDate of dayoff: " . $dayoffInfo[0]["date_dayoff"];
+						$mensajeSMS .= "\nObservation: " . $dayoffInfo[0]["observation"];
 
 						//busco datos del parametricos
 						$arrParam = array(
@@ -104,7 +116,24 @@ class Dayoff extends CI_Controller {
 						$parametric = $this->general_model->get_basic_search($arrParam);						
 						$user = $parametric[2]["value"];
 						$to = $parametric[0]["value"];
-
+						
+						//datos para el mensaje de texto
+						$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+						$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+						
+						$client = new Twilio\Rest\Client($dato1, $dato2);
+						$toPhone = '+1' . $parametric[6]['value'];
+					
+						// Use the client to do fun stuff like send text messages!
+						$client->messages->create(
+						// the number you'd like to send the message to
+							$toPhone,
+							array(
+								// A Twilio phone number you purchased at twilio.com/console
+								'from' => '587 600 8948',
+								'body' => $mensajeSMS
+							)
+						);
 
 						$mensaje = "<html>
 						<head>
