@@ -269,6 +269,12 @@
 				if($type == 8){
 					$truck = 5;
 				}
+				//si es diferente a Pickup entonces colocar que Stanby = NO
+				if($type != 3){
+					$standby = 2;
+				}else{
+					$standby = $this->input->post('standby');
+				}
 				$data = array(
 					'fk_id_workorder' => $this->input->post('hddidWorkorder'),
 					'fk_id_type_2' => $this->input->post('type'),
@@ -277,6 +283,7 @@
 					'operatedby' => $this->input->post('operatedby'),
 					'hours' => $this->input->post('hour'),
 					'quantity' => $this->input->post('quantity'),
+					'standby' => $standby,
 					'description' => $this->input->post('description')
 				);
 

@@ -1,11 +1,9 @@
 $( document ).ready( function () {
 
-	
 	$( "#formEquipment" ).validate( {
 		rules: {
 			type: 				{ required: true },
 			truck: 				{ required: true },
-			operatedby: 		{ required: true },
 			hour: 				{ required: true, number: true, maxlength:10 },
 			quantity: 			{ number: true, maxlength:10 },
 			description: 		{ required: true }

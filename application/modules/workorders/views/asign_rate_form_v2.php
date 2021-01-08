@@ -635,7 +635,11 @@ if ($retornoError) {
 						}
 						
 						echo "<br><small><strong>Equipment</strong><br>" . $equipment . "</small>";
-						echo "<br><small><strong>Operated by</strong><br>" . $data['operatedby'] . "</small>";
+						if($data['standby'] == 1){
+							echo "<br><small><strong>Standby?</strong> Yes</small>";
+						}else{
+							echo "<br><small><strong>Operated by</strong><br>" . $data['operatedby'] . "</small>";
+						}
 						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small>";
 						
 						if($data['company_name']){
