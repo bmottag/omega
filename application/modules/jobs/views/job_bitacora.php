@@ -23,7 +23,7 @@
 						<thead>
 							<tr>
                                 <th class='text-center'>Work Order #</th>
-                                <th class='text-center'>Job Code/Name</th>
+                                <th class='text-center'>Date W.O.</th>
                                 <th class='text-center'>Task Description</th>
 							</tr>
 						</thead>
@@ -32,7 +32,7 @@
                             foreach ($workOrderInfo as $lista):
                                 echo "<tr>";
                                 echo "<td class='text-center'>" . $lista['id_workorder'] . "</td>";
-                                echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['date'] . "</td>";
                                 echo "<td class='text-center'>" . $lista['observation'] . "</td>";
                                 echo "</tr>";
                             endforeach;
