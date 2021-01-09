@@ -152,6 +152,19 @@ $(function(){
             });
 	});
 
+	$(".btn-violeta").click(function () {	
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'workorders/cargarModalReceipts',
+                data: {'idWorkorder': oID},
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatosReceipt').html(data);
+                }
+            });
+	});	
+
 });
 </script>
 
@@ -495,19 +508,19 @@ if ($retornoError) {
 								<div class="col-lg-12">				
 									<div class="panel panel-violeta">
 										<div class="panel-heading">
-											INVOICE
+											RECEIPT
 										</div>
 										<div class="panel-body">
 											<div class="col-lg-12">	
 					
 					<?php if(!$deshabilitar){ ?>					
-					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modalInvoice" id="<?php echo 'invoice-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Invoice
+					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Receipt
 					</button><br>
 					<?php } ?>
 											</div>
 <?php 										
-	if(!$workorderInvoice){ 
+	if(!$workorderReceipt){ 
 		echo '<div class="col-lg-12">
 				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> No data was found.</p>
@@ -526,16 +539,16 @@ if ($retornoError) {
 					<th class="text-center">Delete</th>
 				</tr>
 				<?php
-					foreach ($workorderInvoice as $data):
+					foreach ($workorderReceipt as $data):
 						echo "<tr>";					
 						echo "<td><small>" . $data['place'] . "</small></td>";
 						echo "<td class='text-right'><small>$ " . $data['price'] . "</small></td>";
 						echo "<td><small>" . $data['description'] . "</small></td>";
 						
-						$idRecord = $data['id_workorder_invoice'];
+						$idRecord = $data['id_workorder_receipt'];
 				?>
 
-						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_invoice"); ?>">
+						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_receipt"); ?>">
 						
 						<td>
 				
@@ -558,7 +571,7 @@ if ($retornoError) {
 						</form>
 						<td class='text-center'>
 							<?php if(!$deshabilitar){ ?>
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/invoice/' . $data['id_workorder_invoice'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/receipt/' . $data['id_workorder_receipt'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
 									<i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
@@ -957,3 +970,13 @@ if ($retornoError) {
 	</div>
 </div>                       
 <!--FIN Modal para OCASIONAL -->
+
+<!--INICIO Modal para RECEIPT-->
+<div class="modal fade text-center" id="modalReceipt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosReceipt">
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para RECEIPT -->

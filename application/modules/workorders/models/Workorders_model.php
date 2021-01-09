@@ -877,15 +877,15 @@
 		}
 
 		/**
-		 * Get workorder invoice info
+		 * Get workorder Receipt info
 		 * @since 4/1/2021
 		 */
-		public function get_workorder_invoice($idWorkorder) 
+		public function get_workorder_receipt($idWorkorder) 
 		{		
 				$this->db->select();
 				$this->db->where('O.fk_id_workorder', $idWorkorder); 
 				$this->db->order_by('O.place', 'asc');
-				$query = $this->db->get('workorder_invoice O');
+				$query = $this->db->get('workorder_receipt O');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
@@ -898,9 +898,9 @@
 		 * Add Invoice
 		 * @since 4/1/2021
 		 */
-		public function saveInvoice() 
+		public function saveReceipt() 
 		{
-				$idWOInvoice = $this->input->post('hddId');
+				$idWOReceipt = $this->input->post('hddId');
 
 				$data = array(
 					'place' => $this->input->post('place'),
@@ -909,10 +909,10 @@
 				);
 				
 				//revisar si es para adicionar o editar
-				if ($idWOInvoice == '') {
+				if ($idWOReceipt == '') {
 					$data['fk_id_workorder'] = $this->input->post('hddidWorkorder');
 					$data['markup'] = 0;
-					$query = $this->db->insert('workorder_invoice', $data);
+					$query = $this->db->insert('workorder_receipt', $data);
 				} else {
 					$price = $this->input->post('price');
 					$markup = $this->input->post('markup');
@@ -924,8 +924,8 @@
 
 					$data['markup'] = $markup;
 					$data['value'] = $valueGST;
-					$this->db->where('id_workorder_invoice', $idWOInvoice);
-					$query = $this->db->update('workorder_invoice', $data);
+					$this->db->where('id_workorder_receipt', $idWOReceipt);
+					$query = $this->db->update('workorder_receipt', $data);
 				}
 				if ($query) {
 					return true;
@@ -938,15 +938,15 @@
 		 * Update WO INVOICE markup and value
 		 * @since 4/1/2021
 		 */
-		public function update_wo_invoice_markup($workorderInvoice, $markup) 
+		public function update_wo_invoice_markup($workorderReceipt, $markup) 
 		{			
 			//calcular valor y actualizar campos
 			$query = 1;
-			if ($workorderInvoice) {
-				$tot = count($workorderInvoice);
+			if ($workorderReceipt) {
+				$tot = count($workorderReceipt);
 				for ($i = 0; $i < $tot; $i++) 
 				{
-					$price = $workorderInvoice[$i]['price'];
+					$price = $workorderReceipt[$i]['price'];
 
 					$price = $price/1.05;//quitar el 5% de GST
 					$value = $price + ($price*$markup/100);//valor con el markup
@@ -957,8 +957,8 @@
 						'markup' => $markup,
 						'value' => $valueGST
 					);
-					$this->db->where('id_workorder_invoice  ', $workorderInvoice[$i]['id_workorder_invoice']);
-					$query = $this->db->update('workorder_invoice', $data);
+					$this->db->where('id_workorder_receipt  ', $workorderReceipt[$i]['id_workorder_receipt']);
+					$query = $this->db->update('workorder_receipt', $data);
 				}
 			}
 			

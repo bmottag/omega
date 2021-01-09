@@ -66,11 +66,11 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'workorders/cargarModalInvoice',
+				url: base_url + 'workorders/cargarModalReceipts',
                 data: {'idWorkorder': oID},
                 cache: false,
                 success: function (data) {
-                    $('#tablaDatos').html(data);
+                    $('#tablaDatosReceipt').html(data);
                 }
             });
 	});	
@@ -675,27 +675,27 @@ if($information){
 	<!-- /.row -->
 <!--FIN MATERIALS -->
 
-<!--INICIO INVOICE -->
+<!--INICIO Receipt -->
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-violeta">
 				<div class="panel-heading">
-					INVOICE
+					RECEIPT
 				</div>
 				<div class="panel-body">
 				
 				<?php if(!$deshabilitar){ ?>
 					<div class="col-lg-12">	
 												
-					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_workorder"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Invoice
+					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Receipt
 					</button><br>
 					</div>
 				<?php } ?>
 
 <?php 
-	if($workorderInvoice){
+	if($workorderReceipt){
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="danger">
@@ -705,11 +705,11 @@ if($information){
 					<th class="text-center">Links</th>
 				</tr>
 				<?php
-					foreach ($workorderInvoice as $data):
+					foreach ($workorderReceipt as $data):
 						echo "<tr>";											
-						$idRecord = $data['id_workorder_invoice'];
+						$idRecord = $data['id_workorder_receipt'];
 				?>				
-						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_invoice"); ?>">
+						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_receipt"); ?>">
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 						<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>"/>
@@ -733,7 +733,7 @@ if($information){
 						
 						<br><br>
 							<?php if(!$deshabilitar){ ?>
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/invoice/' . $data['id_workorder_invoice'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/receipt/' . $data['id_workorder_receipt'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
 							<?php }else{ echo "---";} ?>
@@ -749,7 +749,7 @@ if($information){
 		</div>
 	</div>
 	<!-- /.row -->
-<!--FIN INVOICE -->
+<!--FIN Receipt -->
 
 <!--INICIO EQUIPMENT -->
 	<!-- /.row -->
@@ -993,12 +993,12 @@ if($information){
 </div>                       
 <!--FIN Modal para OCASIONAL -->
 
-<!--INICIO Modal para INVOICE-->
-<div class="modal fade text-center" id="modalInvoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+<!--INICIO Modal para RECEIPT-->
+<div class="modal fade text-center" id="modalReceipt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
 	<div class="modal-dialog" role="document">
-		<div class="modal-content" id="tablaDatosInvoice">
+		<div class="modal-content" id="tablaDatosReceipt">
 
 		</div>
 	</div>
 </div>                       
-<!--FIN Modal para INVOICE -->
+<!--FIN Modal para RECEIPT -->

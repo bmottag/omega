@@ -77,7 +77,7 @@ class Workorders extends CI_Controller {
 				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
 				$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
 				$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
-				$data['workorderInvoice'] = $this->workorders_model->get_workorder_invoice($id);//workorder invoice list
+				$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($id);//workorder invoice list
 				$data['workorderState'] = $this->workorders_model->get_workorder_state($id);//workorder additional information
 
 				$arrParam = array(
@@ -257,7 +257,7 @@ class Workorders extends CI_Controller {
 	{			
 			header('Content-Type: application/json');
 			$data = array();
-			
+		
 			$data["idRecord"] = $this->input->post('hddidWorkorder');
 
 			if ($this->workorders_model->$modalToUse()) {
@@ -595,7 +595,7 @@ class Workorders extends CI_Controller {
 			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
 			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
-			$data['workorderInvoice'] = $this->workorders_model->get_workorder_invoice($id);//workorder invoice list
+			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($id);//workorder invoice list
 			
 			$arrParam['idWorkOrder'] =  $id;
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
@@ -1617,13 +1617,16 @@ class Workorders extends CI_Controller {
      * Cargo modal- formulario de captura Invoice
      * @since 4/1/2021
      */
-    public function cargarModalInvoice() 
+    public function cargarModalReceipts() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
-			$data["idWorkorder"] = $this->input->post("idWorkorder");
+			$idWorkorder = $this->input->post("idWorkorder");
+			//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
+			$porciones = explode("-", $idWorkorder);
+			$data["idWorkorder"] = $porciones[1];
 		
-			$this->load->view("modal_invoice", $data);
+			$this->load->view("modal_receipt", $data);
     }
 
 	/**
@@ -1631,12 +1634,12 @@ class Workorders extends CI_Controller {
      * @since 4/1/2021
      * @author BMOTTAG
 	 */
-	public function update_invoice()
+	public function update_receipt()
 	{					
 			$idWorkorder = $this->input->post('hddIdWorkOrder');
 			$view = $this->input->post('view');
 
-			if ($this->workorders_model->saveInvoice()) {
+			if ($this->workorders_model->saveReceipt()) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have update the information!!");
 			} else {
@@ -1662,13 +1665,13 @@ class Workorders extends CI_Controller {
 			$arrParam['idWorkOrder'] =  $idWO;
 			$infoWO = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 
-			$workorderInvoice = $this->workorders_model->get_workorder_invoice($idWO);//workorder invoice list
+			$workorderReceipt = $this->workorders_model->get_workorder_receipt($idWO);//workorder invoice list
 			$workorderMaterials = $this->workorders_model->get_workorder_materials($idWO);//workorder material list
 			$workorderOcasional = $this->workorders_model->get_workorder_ocasional($idWO);//workorder ocasional list
 
-			if($workorderInvoice)
+			if($workorderReceipt)
 			{
-				if ($this->workorders_model->update_wo_invoice_markup($workorderInvoice, $infoWO[0]['markup'])) 
+				if ($this->workorders_model->update_wo_invoice_markup($workorderReceipt, $infoWO[0]['markup'])) 
 				{				
 					$data["result"] = true;
 					$this->session->set_flashdata('retornoExito', 'You have load the data.');

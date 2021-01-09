@@ -1,7 +1,6 @@
 $( document ).ready( function () {
 
-	
-	$( "#formInvoice" ).validate( {
+	$( "#formReceipt" ).validate( {
 		rules: {
 			place: 				{ required: true, minlength:4, maxlength:100 },
 			price:	 			{ required: true, number: true, minlength:2, maxlength:5 },
@@ -25,19 +24,19 @@ $( document ).ready( function () {
 		}
 	});
 	
-	$("#btnSubmitInvoie").click(function(){		
+	$("#btnSubmitReceipt").click(function(){		
 	
-		if ($("#formInvoice").valid() == true){
+		if ($("#formReceipt").valid() == true){
 		
 				//Activa icono guardando
-				$('#btnSubmitInvoie').attr('disabled','-1');
+				$('#btnSubmitReceipt').attr('disabled','-1');
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "workorders/save/saveInvoice",	
-					data: $("#formInvoice").serialize(),
+					url: base_url + "workorders/save/saveReceipt",	
+					data: $("#formReceipt").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
@@ -47,14 +46,14 @@ $( document ).ready( function () {
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
-							$('#btnSubmitInvoie').removeAttr('disabled');							
+							$('#btnSubmitReceipt').removeAttr('disabled');							
 							return false;
 						} 
 
 						if( data.result )//true
 						{	                                                        
 							$("#div_load").css("display", "none");
-							$('#btnSubmitOcasional').removeAttr('disabled');
+							$('#btnSubmitReceipt').removeAttr('disabled');
 
 							var url = base_url + "workorders/" + data.controlador + "/" + data.idRecord;
 							$(location).attr("href", url);
@@ -64,14 +63,14 @@ $( document ).ready( function () {
 							alert('Error. Reload the web page.');
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
-							$('#btnSubmitOcasional').removeAttr('disabled');
+							$('#btnSubmitReceipt').removeAttr('disabled');
 						}	
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
 						$("#div_load").css("display", "none");
 						$("#div_error").css("display", "inline");
-						$('#btnSubmitOcasional').removeAttr('disabled');
+						$('#btnSubmitReceipt').removeAttr('disabled');
 					}
 					
 		

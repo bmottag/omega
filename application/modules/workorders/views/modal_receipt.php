@@ -1,15 +1,15 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/invoice.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/receipt.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">INVOICE
+	<h4 class="modal-title" id="exampleModalLabel">RECEIPT
 	<br><small>
-				Add an Invoice for the Work Order
+				Add a Receipt for the Work Order
 	</small>
 	</h4>
 </div>
 
 <div class="modal-body">
-	<form  name="formInvoice" id="formInvoice" role="form" method="post" >
+	<form  name="formReceipt" id="formReceipt" role="form" method="post" >
 		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
 		<input type="hidden" id="hddId" name="hddId" value=""/>
 				
@@ -50,7 +50,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmitInvoie" name="btnSubmitInvoie" class="btn btn-primary" >
+					<button type="button" id="btnSubmitReceipt" name="btnSubmitReceipt" class="btn btn-primary" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>
