@@ -7,6 +7,7 @@ class Workorders extends CI_Controller {
         parent::__construct();
         $this->load->model("workorders_model");
 		$this->load->library('PHPExcel.php');
+        $this->load->helper('form');
     }
 	
 	/**
@@ -536,6 +537,7 @@ class Workorders extends CI_Controller {
 					$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 
 					$data["view"] = "asign_rate_list";
+					$this->load->view("layout_calendar", $data);
 				}
 			}
 			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
@@ -576,9 +578,10 @@ class Workorders extends CI_Controller {
 				$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 	
 				$data["view"] = "asign_rate_list";
+				$this->load->view("layout_calendar", $data);
+			}else{
+				$this->load->view("layout", $data);
 			}
-			
-			$this->load->view("layout", $data);
     }
 	
 	/**
@@ -1716,6 +1719,34 @@ class Workorders extends CI_Controller {
 
 			echo json_encode($data);
     }
+
+	/**
+	 * Cambio de estado de las WO
+     * @since 12/1/2021
+     * @author BMOTTAG
+	 */
+	public function update_wo_state()
+	{	
+			header('Content-Type: application/json');
+			$data = array();
+
+			$wo = $this->input->post('wo');
+			if($wo){
+				if ($this->workorders_model->updateWOState()) {
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', "You have update the state!!");
+				} else {
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}else{
+					$data["result"] = "error";
+					$data["mensaje"] = " You have to select a W.O.";
+					$this->session->set_flashdata('retornoError', 'You have to select a W.O.');
+			}
+			echo json_encode($data);
+
+	}
 	
 	
 	

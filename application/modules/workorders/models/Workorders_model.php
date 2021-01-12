@@ -1038,7 +1038,50 @@
 			} else{
 				return false;
 			}
-		}	
+		}
+
+		/**
+		 * Update WO state
+		 * @since 12/1/2021
+		 */
+		public function updateWOState() 
+		{
+			$idUser = $this->session->userdata("id");
+			$state = $this->input->post('state');
+			$information = $this->input->post('information');
+
+			//update states
+			$query = 1;
+			if ($wo = $this->input->post('wo')) {
+				$tot = count($wo);
+				for ($i = 0; $i < $tot; $i++) 
+				{
+					$data = array(
+						'fk_id_workorder' => $wo[$i],
+						'fk_id_user' => $idUser,
+						'date_issue' => date("Y-m-d G:i:s"),
+						'observation' => $information,
+						'state' => $state
+					);
+					
+					$query = $this->db->insert('workorder_state', $data);
+
+
+					//actualizo la tabla de WO
+					$data = array(
+						'state' => $state,
+						'last_message' => $information
+					);			
+					$this->db->where('id_workorder', $wo[$i]);
+					$query = $this->db->update('workorder', $data);
+				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
 		
 
 		
