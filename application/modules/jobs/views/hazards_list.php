@@ -41,22 +41,22 @@ if ($retornoError) {
     <?php
 }
 ?> 
-					<!--INICIO HAZARDS -->								
-					<div class="col-lg-12">	
-						<a href="<?php echo base_url("jobs/add_hazards/" . $jobInfo[0]['id_job']); ?>" class="btn btn-danger btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Hazards</a>
-						<br>
-					</div>
-
+					<!--INICIO HAZARDS -->													
+					<a class='btn btn-danger btn-block' href='<?php echo base_url('jobs/add_hazards/' . $jobInfo[0]['id_job']) ?>'>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"> </span>  Add Hazards
+					</a>
+					<br>
+					
 					<?php 
 						if($hazards){
 					?>
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<tr class="dafault">
-							<td><p class="text-center"><strong>Activity</strong></p></td>
-							<td><p class="text-center"><strong>Hazard</strong></p></td>
-							<td><p class="text-center"><strong>Solution</strong></p></td>
-							<td><p class="text-center"><strong>Priority</strong></p></td>
-							<td><p class="text-center"><strong>Delete</strong></p></td>
+							<th class="text-center">Activity</th>
+							<th class="text-center">Hazard</th>
+							<th class="text-center">Solution</th>
+							<th class="text-center">Priority</th>
+							<th class="text-center">Delete</th>
 						</tr>
 						<?php
 							foreach ($hazards as $data):
@@ -82,7 +82,7 @@ if ($retornoError) {
 								echo "<td class='text-center'><small>";
 						?>
 							<center>
-							<a class='btn btn-danger' href='<?php echo base_url('jobs/deleteJobHazard/' . $data['id_job_hazard'] . '/' . $data['fk_id_job']) ?>' id="btn-delete">
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/deleteJobHazard/' . $data['id_job_hazard'] . '/' . $data['fk_id_job']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
 							</a>
 							</center>
