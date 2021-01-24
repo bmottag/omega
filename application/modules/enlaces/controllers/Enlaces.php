@@ -199,9 +199,9 @@ class Enlaces extends CI_Controller {
 			
 			$idPermiso = $this->input->post('hddId');
 			
-			$msj = "You have add a new Access!!";
+			$msj = "You have added a new access!";
 			if ($idPermiso != '') {
-				$msj = "You have update a Access!!";
+				$msj = "You have updated an access!";
 			}
 			
 			//para verificar si ya existe este permiso

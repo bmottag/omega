@@ -72,7 +72,7 @@
                                     </label>
                                 </div>
 -->
-								<button type="submit" class="btn btn-lg btn-success btn-block" id='btnSubmit' name='btnSubmit'>Login </button>
+								<button type="submit" class="btn btn-lg btn-success btn-block" id='btnSubmit' name='btnSubmit'>Log In </button>
 
 								
 								
