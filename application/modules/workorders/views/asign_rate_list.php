@@ -20,7 +20,7 @@
 
 	<div class="row">
 
-<form name="formState" id="formState" class="form-horizontal" method="post">
+		<form name="formState" id="formState" class="form-horizontal" method="post">
 
 		<div class="col-lg-4">				
 			<div class="panel panel-primary">
@@ -29,13 +29,13 @@
 				</div>
 				<div class="panel-body">
 				
-						<div class="col-lg-12">	
+					<div class="col-lg-12">	
 
-							<small>
-								<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> 
-									Change the status of multiple work orders at the same time, select the W.O. you want to change status.
-								</p>
-							</small>
+						<small>
+							<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> 
+								Change the status of multiple work orders at the same time, select the W.O. you want to change status.
+							</p>
+						</small>
 		
 <?php
 	/**
@@ -44,66 +44,70 @@
 	 * SUPER ADMIN, MANAGEMENT, ACCOUNTING
 	 */
 	$userRol = $this->session->userdata("rol");
+	$deshabilitar = 'disabled';
 	if($userRol == 99 || $userRol == 2 || $userRol == 3)
-	{ 
+	{
+		$deshabilitar = '';
+	}
 ?>
 
-								<div class="form-group">
-									<label for="state">State :</label>
-										<select name="state" id="state" class="form-control" required>
-											<option value="">Select...</option>
-											<option value=0 >On field</option>
-											<option value=1 >In Progress</option>
-											<option value=2 >Revised</option>
-											<option value=3 >Send to the client</option>
-											<option value=4 >Closed</option>
-										</select>
-								</div>
-	<?php }else{  ?>
-	<input type="hidden" id="state" name="state" value=0 />
-	<?php }  ?>
+						<div class="form-group">
+							<label for="state">State :</label>
+								<select name="state" id="state" class="form-control" required <?php echo $deshabilitar; ?>>
+									<option value="">Select...</option>
+									<option value=0 >On field</option>
+									<option value=1 >In Progress</option>
+									<option value=2 >Revised</option>
+									<option value=3 >Send to the client</option>
+									<option value=4 >Closed</option>
+								</select>
+						</div>
 								
-								<div class="form-group">
-									<label for="information">Additional information :</label>
-									<textarea id="information" name="information" class="form-control" rows="3" placeholder="Additional information" required></textarea>
-								</div>
+						<div class="form-group">
+							<label for="information">Additional information :</label>
+							<textarea id="information" name="information" class="form-control" rows="3" placeholder="Additional information" required <?php echo $deshabilitar; ?>></textarea>
+						</div>
 								
-								<div class="form-group">
-<a href="javascript:seleccionar_todo()">Check all</a> |
-<a href="javascript:deseleccionar_todo()">Uncheck all</a>
+						<div class="form-group">
+
+						<?php if(!$deshabilitar){ ?>
+							<a href="javascript:seleccionar_todo()">Check all</a> |
+							<a href="javascript:deseleccionar_todo()">Uncheck all</a>
+						<?php } ?>
 
 
-		<div class="form-group">
-			<div id="div_load" style="display:none">		
-				<div class="progress progress-striped active">
-					<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-						<span class="sr-only">45% completado</span>
-					</div>
-				</div>
-			</div>
-			<div id="div_msj" style="display:none">			
-				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
-			</div>	
-		</div>
-
-									<div class="row" align="center">
-										<div style="width:100%;" align="center">
-
-<button type="button" class="btn btn-primary btn-xs" id="btnState" name="btnState" >
-	Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
-</button>
-
+							<div class="form-group">
+								<div id="div_load" style="display:none">		
+									<div class="progress progress-striped active">
+										<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+											<span class="sr-only">45% completado</span>
 										</div>
 									</div>
 								</div>
-							
-							<small>
-								<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> 
-									Be sure you fild all the information.
-								</p>
-							</small>
+								<div id="div_msj" style="display:none">			
+									<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
+								</div>	
+							</div>
+						<?php if(!$deshabilitar){ ?>
+							<div class="row" align="center">
+								<div style="width:100%;" align="center">
 
+									<button type="button" class="btn btn-primary btn-xs" id="btnState" name="btnState" >
+										Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									</button>
+
+								</div>
+							</div>
+						<?php } ?>
 						</div>
+							
+						<small>
+							<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> 
+								Be sure you fild all the information.
+							</p>
+						</small>
+
+					</div>
 
 				</div>
 			</div>
@@ -196,14 +200,16 @@ if ($retornoError) {
 
 									echo "<td class='text-center'>";
 
-									$data = array(
-										'name' => 'wo[]',
-										'id' => 'wo',
-										'value' => $lista['id_workorder'],
-										'checked' => False,
-										'style' => 'margin:10px'
-									);
-									echo form_checkbox($data);
+									if(!$deshabilitar){
+										$data = array(
+											'name' => 'wo[]',
+											'id' => 'wo',
+											'value' => $lista['id_workorder'],
+											'checked' => False,
+											'style' => 'margin:10px'
+										);
+										echo form_checkbox($data);
+									}
 
 									echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'];
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
@@ -231,22 +237,22 @@ if ($retornoError) {
 			<!-- /.panel -->
 		</div>
 		<!-- /.col-lg-12 -->
-</form>
+		</form>
 
 	</div>
 	<!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
 
-    <!-- Tables -->
-    <script>
-    $(document).ready(function() {
-        $('#dataTables').DataTable({
-            responsive: true,
-			 "ordering": false,
-			 paging: false,
-			"info": false,
-			"searching": false
-        });
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+    $('#dataTables').DataTable({
+        responsive: true,
+		 "ordering": false,
+		 paging: false,
+		"info": false,
+		"searching": false
     });
-    </script>
+});
+</script>
