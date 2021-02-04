@@ -970,6 +970,9 @@ class General_model extends CI_Model {
 				if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
 					$this->db->where('W.fk_id_job', $arrData["jobId"]);
 				}
+				if (array_key_exists("idClaim", $arrData)) {
+					$this->db->where('W.fk_id_claim', $arrData["idClaim"]);
+				}
 				if (array_key_exists("idWorkOrder", $arrData) && $arrData["idWorkOrder"] != '' && $arrData["idWorkOrder"] != 0) {
 					$this->db->where('W.id_workorder', $arrData["idWorkOrder"]);
 				}
