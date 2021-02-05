@@ -93,7 +93,7 @@ class Claims extends CI_Controller {
 			$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
 			
 			$data["view"] = 'form_upload_info_claim';
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
 	}
 
 	/**
@@ -110,7 +110,10 @@ class Claims extends CI_Controller {
 			
 			 //list de WO para un JOB que no estan asignadas
 			$this->load->model("general_model");
-			$arrParam = array('jobId' => $idJob);
+			$arrParam = array(
+				'jobId' => $idJob,
+				'idClaim' => 0
+			);
 			$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
 
 			$arrParam = array(
@@ -124,7 +127,7 @@ class Claims extends CI_Controller {
 			$data["idJob"] = $idJob;
 			$data["idClaim"] = $idClaim;
 			$data["view"] = 'form_add_wo';
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
 	}
 
 	/**
@@ -141,7 +144,7 @@ class Claims extends CI_Controller {
 			if($wo){
 				if ($this->claims_model->saveClaimWO()) {
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', "Work orders assigned!!");
+					$this->session->set_flashdata('retornoExito', "Work orders assigned to the claim!!");
 				} else {
 					$data["result"] = "error";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -154,6 +157,42 @@ class Claims extends CI_Controller {
 			echo json_encode($data);
 
 	}
+
+	/**
+	 * Delete WO de Claims
+     * @since 4/2/2021
+	 */
+	public function delete_wo_from_claim()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$this->load->model("general_model");
+
+			$idCompuesto = $this->input->post("identificador");
+			$porciones = explode('-', $idCompuesto);
+
+			$idWO = $porciones[0];
+			$data['idRecord'] = $porciones[1];
+			
+			$arrParam = array(
+				"table" => "workorder",
+				"primaryKey" => "id_workorder",
+				"id" => $idWO,
+				"column" => "fk_id_claim",
+				"value" => 0
+			);
+			if ($this->general_model->updateRecord($arrParam)) 
+			{				
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', 'You have delete the W.O. from the claim.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}				
+
+			echo json_encode($data);
+    }
 		
 	
 	

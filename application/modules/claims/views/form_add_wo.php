@@ -14,6 +14,18 @@
 					Job Code/Name:</strong> <?php echo $jobInfo[0]['job_description']; ?>
 				</div>
 				<div class="panel-body">
+					<?php
+					    if(!$WOList){ 
+					?>
+					        <div class="col-lg-12">
+					            <small>
+					                <p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> There are no records in the database without claims for this Job Code/Name.</p>
+					            </small>
+					        </div>
+					<?php
+					    }else{
+					?> 
+
 					<div class="alert alert-danger">
 						<strong>Select </strong> all work orders to be assigned.
 					</div>
@@ -25,12 +37,95 @@
 								<th class="text-center">Check</th>
 								<th class="text-center">W.O. #</th>
 								<th class="text-center">Supervisor</th>
-								<th class="text-center">Date of Issue</th>
 								<th class="text-center">Date W.O.</th>
-								<th class="text-center">Task Description</th>
+								<th class="text-center">More information</th>
+								<th class="text-center">Subtotal</th>
                             </tr>
                             <?php
-                            foreach ($WOList as $lista):							
+							//se va a consultar registros de la WO
+							$ci = &get_instance();
+							$ci->load->model("workorders/workorders_model");
+
+                            foreach ($WOList as $lista):
+                            	//buscar informacion por submodulo para sacar el subtotal
+								$workorderPersonal = $this->workorders_model->get_workorder_personal($lista['id_workorder']);//workorder personal list
+								$workorderMaterials = $this->workorders_model->get_workorder_materials($lista['id_workorder']);//workorder material list
+								$workorderEquipment = $this->workorders_model->get_workorder_equipment($lista['id_workorder']);//workorder equipment list
+								$workorderOcasional = $this->workorders_model->get_workorder_ocasional($lista['id_workorder']);//workorder ocasional list
+								$workorderHoldBack = $this->workorders_model->get_workorder_hold_back($lista['id_workorder']);//workorder ocasional
+
+								$totalPersonal = 0;
+								$totalMaterial = 0;
+								$totalEquipment = 0;
+								$totalOcasional = 0;
+								$totalHoldBack = 0;
+								$total = 0;
+								// INICIO PERSONAL
+								if($workorderPersonal)
+								{ 
+									foreach ($workorderPersonal as $data):
+											$totalPersonal = $data['value'] + $totalPersonal;
+									endforeach;
+								}
+								// INICIO MATERIAL
+								if($workorderMaterials)
+								{ 
+									foreach ($workorderMaterials as $data):
+											$totalMaterial = $data['value'] + $totalMaterial;
+									endforeach;
+								}								
+								// INICIO EQUIPMENT
+								if($workorderEquipment)
+								{ 
+									foreach ($workorderEquipment as $data):
+											$totalEquipment = $data['value'] + $totalEquipment;
+									endforeach;
+								}							
+								// INICIO SUBCONTRATISTAS OCASIONALES
+								if($workorderOcasional)
+								{ 
+									foreach ($workorderOcasional as $data):
+											$totalOcasional = $data['value'] + $totalOcasional;
+									endforeach;
+								}									
+								// INICIO HOLD BACK
+								if($workorderHoldBack)
+								{ 
+									foreach ($workorderHoldBack as $data):
+											$totalHoldBack = $data['value'] + $totalHoldBack;
+									endforeach;
+								}
+
+								$total = $totalPersonal + $totalMaterial + $totalEquipment + $totalOcasional + $totalHoldBack;
+
+								//estado
+								switch ($lista['state']) {
+										case 0:
+												$valor = 'On field';
+												$clase = "text-danger";
+												$icono = "fa-thumb-tack";
+												break;
+										case 1:
+												$valor = 'In Progress';
+												$clase = "text-warning";
+												$icono = "fa-refresh";
+												break;
+										case 2:
+												$valor = 'Revised';
+												$clase = "text-primary";
+												$icono = "fa-check";
+												break;
+										case 3:
+												$valor = 'Send to the client';
+												$clase = "text-success";
+												$icono = "fa-envelope-o";
+												break;
+										case 4:
+												$valor = 'Closed';
+												$clase = "text-danger";
+												$icono = "fa-power-off";
+												break;
+								}
                                 echo '<tr>';
                                 echo '<td class="text-center">';
                                 $data = array(
@@ -41,11 +136,37 @@
                                 );
                                 echo form_checkbox($data);
                                 echo '</td>';
-								echo '<td class="text-center">' . $lista["id_workorder"] . "</td>";
+								echo "<td class='text-center'>";
+								echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'] . "</a>";
+								echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
+								echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "' class='btn btn-warning btn-xs' title='Review' target='_blanck'>Review W.O.</a>";
+								echo '</td>';
 								echo '<td>' . $lista['name'] . '</td>';
-								echo '<td class="text-center">' . $lista['date_issue'] . '</td>';
 								echo '<td class="text-center">' . $lista['date'] . '</td>';
-								echo '<td>' . $lista['observation'] . '</td>';
+								echo '<td>';
+								echo '<strong>Task Description:</strong><br>' . $lista['observation'];
+								echo '<br><strong>Additional information last message:</strong><br>' . $lista['last_message'];
+								echo '</td>';
+								echo '<td class="text-right">';
+								echo "<p class='text-info'>";
+								if($totalPersonal>0){
+									echo "<strong>Personal: </strong>$ " . number_format($totalPersonal, 2) . "</br>";
+								}
+								if($totalMaterial>0){
+									echo "<strong>Material: </strong>$ " . number_format($totalMaterial, 2) . "</br>";
+								}
+								if($totalEquipment>0){
+									echo "<strong>Equipment: </strong>$ " . number_format($totalEquipment, 2) . "</br>";
+								}
+								if($totalOcasional>0){
+									echo "<strong>Ocasional: </strong>$ " . number_format($totalOcasional, 2) . "</br>";
+								}
+								if($totalHoldBack>0){
+									echo "<strong>Hold Back: </strong>$ " . number_format($totalHoldBack, 2) . "</br>";
+								}
+								echo "</p>";
+								echo "<p class='text-danger'><strong>Subtotal: </strong>$ " . number_format($total, 2) . "</p>";
+								echo '</td>';
                                 echo "</tr>";
                             endforeach
                             ?>
@@ -79,7 +200,9 @@
 						</div>
 						
 					</form>
-
+					<?php
+					    }
+					?> 
 					<!-- /.row (nested) -->
 				</div>
 				<!-- /.panel-body -->

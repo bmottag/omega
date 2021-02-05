@@ -42,7 +42,7 @@ $(function(){
 								<th class='text-center'>Job Code/Name</th>
 								<th class='text-center'>User</th>
 								<th class='text-center'>Date of Issue</th>
-								<th class='text-center'>Observation</th>
+								<th class='text-center'>More information</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -74,14 +74,17 @@ $(function(){
 							
 									echo "<tr>";
 									echo "<td class='text-center'>";
-									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "'>" . $lista['id_claim'];
+									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "'>" . $lista['id_claim'] . "</a>";
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-									echo "<strong>Last Message:</strong><br>" . $lista['last_message_claim'];
-									echo "</a></td>";
+									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "' class='btn btn-info btn-xs' title='View'>Review Claim</a>";
+									echo "</td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue_claim'] . "</td>";
-									echo "<td>" . $lista['observation_claim'] . "</td>";
+									echo '<td>';
+									echo '<strong>Observation:</strong><br>' . $lista['observation_claim'];
+									echo '<br><strong>Additional information last message:</strong><br>' . $lista['last_message_claim'];
+									echo '</td>';
 									echo "</tr>";
 							endforeach;
 						?>

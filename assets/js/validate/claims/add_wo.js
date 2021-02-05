@@ -30,7 +30,7 @@ $( document ).ready( function () {
 					$("#div_load").css("display", "none");
 					$('#btnSubmit').removeAttr('disabled');
 
-					var url = base_url + "claims/add_wo/" + data.idRecord;
+					var url = base_url + "claims/upload_wo/" + data.idRecord;
 					$(location).attr("href", url);
 				}
 				else
