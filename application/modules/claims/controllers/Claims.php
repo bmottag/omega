@@ -97,6 +97,9 @@ class Claims extends CI_Controller {
 			//Claim info
 			$arrParam = array('idClaim' => $idClaim);
 			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
+
+			//Claim State histiry
+			$data['claimsHistory'] = $this->claims_model->get_claims_history($arrParam);
 											
 			//WO list
 			$this->load->model("general_model");

@@ -112,6 +112,27 @@
 			}
 		}
 
+		/**
+		 * Claims list History
+		 * @since 5/2/2021
+		 */
+		public function get_claims_history($arrDatos) 
+		{							
+				$this->db->select('C.*, U.first_name');
+				$this->db->join('user U', 'U.id_user = C.fk_id_user_claim', 'INNER');
+				if (array_key_exists("idClaim", $arrDatos)) {
+					$this->db->where('C.fk_id_claim', $arrDatos["idClaim"]);
+				}								
+				$this->db->order_by('id_claim_state', 'desc');
+				$query = $this->db->get('claim_state C');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 	
 	    
 	}

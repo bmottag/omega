@@ -29,6 +29,76 @@
 				<!-- /.panel-body -->
 			</div>
 			<!-- /.panel -->
+			<div class="list-group">
+				<a href="<?php echo base_url('equipos/detalle/' . $claimsInfo[0]['id_claim']); ?>" class="btn btn-outline btn-success btn-block">
+					<i class="fa fa-bomb"></i> Additional Information
+				</a>
+			</div>
+
+			<!-- /.panel .chat-panel -->
+			<div class="chat-panel panel panel-success">
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw"></i> State history
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<ul class="chat">
+<?php 
+	if($claimsHistory)
+	{
+		foreach ($claimsHistory as $data):		
+
+			switch ($data['state_claim']) {
+					case 1:
+							$valor = 'New Claim';
+							$clase = "text-warning";
+							$icono = "fa-refresh";
+							break;
+					case 2:
+							$valor = 'Revised';
+							$clase = "text-primary";
+							$icono = "fa-check";
+							break;
+					case 3:
+							$valor = 'Send to the client';
+							$clase = "text-success";
+							$icono = "fa-envelope-o";
+							break;
+					case 4:
+							$valor = 'Closed';
+							$clase = "text-danger";
+							$icono = "fa-power-off";
+							break;
+			}
+?>
+			<li class="right clearfix">
+				<span class="chat-img pull-right">
+					<small class="pull-right text-muted">
+						<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['date_issue_claim_state']; ?>
+					</small>
+				</span>
+				<div class="chat-body clearfix">
+					<div class="header">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						<strong class="primary-font"><?php echo $data['first_name']; ?></strong>
+					</div>
+					<p>
+						<?php echo $data['message_claim']; ?>
+					</p>
+					<?php echo '<p class="' . $clase . '"><strong><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</strong></p>'; ?>
+				</div>
+			</li>
+<?php
+		endforeach;
+	}
+?>
+					</ul>
+					
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel .chat-panel -->
+
 		</div>
 		<!-- /.col-lg-12 -->
 	
