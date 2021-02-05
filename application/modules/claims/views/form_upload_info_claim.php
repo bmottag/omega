@@ -1,4 +1,20 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js"); ?>"></script>
+<script>
+$(function(){
+	$(".btn-success").click(function () {
+		var oID = $(this).attr("id");
+        $.ajax ({
+            type: 'POST',
+			url: base_url + 'claims/cargarModalClaimState',
+			data: {'idClaim': oID},
+            cache: false,
+            success: function (data) {
+                $('#tablaDatos').html(data);
+            }
+        });
+	});
+});
+</script>
 
 <div id="page-wrapper">
 	<br>
@@ -29,15 +45,13 @@
 				<!-- /.panel-body -->
 			</div>
 			<!-- /.panel -->
-			<div class="list-group">
-				<a href="<?php echo base_url('equipos/detalle/' . $claimsInfo[0]['id_claim']); ?>" class="btn btn-outline btn-success btn-block">
-					<i class="fa fa-bomb"></i> Additional Information
-				</a>
-			</div>
 
 			<!-- /.panel .chat-panel -->
 			<div class="chat-panel panel panel-success">
 				<div class="panel-heading">
+					<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $claimsInfo[0]['id_claim']; ?>" >
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Info
+					</button>
 					<i class="fa fa-comments fa-fw"></i> State history
 				</div>
 				<!-- /.panel-heading -->
@@ -292,3 +306,13 @@ if ($retornoError) {
 	
 </div>
 <!-- /#page-wrapper -->
+
+<!--INICIO Modal para adicionar ESTADO -->
+<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatos">
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para adicionar ESTADO -->

@@ -206,6 +206,53 @@ class Claims extends CI_Controller {
 
 			echo json_encode($data);
     }
+
+	/**
+     * Cargo modal - formulario Estado Claim
+     * @since 5/02/2021
+     * @author BMOTTAG
+     */
+    public function cargarModalClaimState() 
+	{
+			header("Content-Type: text/plain; charset=utf-8");
+			$data['idClaim'] = $this->input->post("idClaim");
+
+			$this->load->view("claim_state_modal", $data);
+    }
+
+	/**
+	 * Guardar orden de trabajo estado
+	 * @since 29/1/2021
+     * @author BMOTTAG
+	 */
+	public function save_claim_state()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data['idRecord'] = $this->input->post("hddIdClaim");
+				
+			$msj = "Se guardo la información!";
+
+			$arrParam = array(
+				"idClaim" => $data['idRecord'],
+				"message" => $this->input->post("message"),
+				"state" => $this->input->post("state")
+			);		
+			if ($this->claims_model->add_claim_state($arrParam)) 
+			{
+				//actualizar estado actual en CLAIM
+				$this->claims_model->update_claim($arrParam);
+
+				$data["result"] = true;		
+				$this->session->set_flashdata('retornoExito', '<strong>You have update the information!</strong> ' . $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!</strong> Ask for help');
+			}
+		
+			echo json_encode($data);
+    }
 		
 	
 	

@@ -133,6 +133,26 @@
 				}
 		}
 
+		/**
+		 * Update Claim current state and last message
+		 * @since 5/2/2021
+		 */
+		public function update_claim($arrData)
+		{			
+			$data = array(
+				'current_state_claim' => $arrData["state"],
+				'last_message_claim' => $arrData["message"]
+			);			
+			$this->db->where('id_claim', $arrData["idClaim"]);
+			$query = $this->db->update('claim', $data);
+
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 	
 	    
 	}
