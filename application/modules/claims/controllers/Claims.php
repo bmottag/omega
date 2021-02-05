@@ -57,15 +57,25 @@ class Claims extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$idClaim = $this->input->post('hddId');
+			$idClaimInicial = $this->input->post('hddId');
 		
 			$msj = "You have add a Claim, continue uploading the information.";
-			if ($idClaim != '') {
+			if ($idClaimInicial != '') {
 				$msj = "You have update the Claim, continue uploading the information.";
 			}
 			
 			if ($idClaim = $this->claims_model->guardarClaim()) 
 			{
+				//guardo el primer estado del claim
+				if(!$idClaimInicial){
+					$arrParam = array(
+						"idClaim" => $idClaim,
+						"message" => "New Claim.",
+						"state" => 1
+					);					
+					$this->claims_model->add_claim_state($arrParam);
+				}
+
 				$data["idRecord"] = $idClaim;
 				$data["result"] = true;		
 				$this->session->set_flashdata('retornoExito', '<strong>Correcto!</strong> ' . $msj);

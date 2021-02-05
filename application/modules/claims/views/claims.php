@@ -49,7 +49,7 @@ $(function(){
 						<?php
 							foreach ($claimsInfo as $lista):
 							
-									switch ($lista['state_claim']) {
+									switch ($lista['current_state_claim']) {
 											case 1:
 													$valor = 'New';
 													$clase = "text-warning";

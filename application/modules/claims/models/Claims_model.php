@@ -43,7 +43,7 @@
 				//revisar si es para adicionar o editar
 				if ($idClaim == '') 
 				{	
-					$data['state_claim'] = 1;
+					$data['current_state_claim'] = 1;
 					$data['date_issue_claim'] = date("Y-m-d G:i:s");
 					$query = $this->db->insert('claim', $data);
 					$idClaim = $this->db->insert_id();
@@ -87,6 +87,30 @@
 			}
 		}
 
+		/**
+		 * Add Claim state
+		 * @since 5/2/2021
+		 */
+		public function add_claim_state($arrData) 
+		{
+			$idUser = $this->session->userdata("id");
+			
+			$data = array(
+				'fk_id_claim' => $arrData["idClaim"],
+				'fk_id_user_claim' => $idUser,
+				'date_issue_claim_state' => date("Y-m-d G:i:s"),
+				'message_claim' => $arrData["message"],
+				'state_claim' => $arrData["state"]
+			);
+			
+			$query = $this->db->insert('claim_state', $data);
+
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 
 	
 	    
