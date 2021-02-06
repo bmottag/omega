@@ -177,6 +177,7 @@ if ($retornoError) {
 							$ci = &get_instance();
 							$ci->load->model("workorders/workorders_model");
 
+							$Total = 0;
 							foreach ($WOList as $lista):
                             	//buscar informacion por submodulo para sacar el subtotal
 								$workorderPersonal = $this->workorders_model->get_workorder_personal($lista['id_workorder']);//workorder personal list
@@ -190,7 +191,7 @@ if ($retornoError) {
 								$totalEquipment = 0;
 								$totalOcasional = 0;
 								$totalHoldBack = 0;
-								$total = 0;
+								$Subtotal = 0;
 								// INICIO PERSONAL
 								if($workorderPersonal)
 								{ 
@@ -227,7 +228,8 @@ if ($retornoError) {
 									endforeach;
 								}
 
-								$total = $totalPersonal + $totalMaterial + $totalEquipment + $totalOcasional + $totalHoldBack;
+								$Subtotal = $totalPersonal + $totalMaterial + $totalEquipment + $totalOcasional + $totalHoldBack;
+								$Total = $Subtotal + $Total;
 
 								//estado
 								switch ($lista['state']) {
@@ -288,7 +290,7 @@ if ($retornoError) {
 									echo "<strong>Hold Back: </strong>$ " . number_format($totalHoldBack, 2) . "</br>";
 								}
 								echo "</p>";
-								echo "<p class='text-danger'><strong>Subtotal: </strong>$ " . number_format($total, 2) . "</p>";
+								echo "<p class='text-danger'><strong>Subtotal: </strong>$ " . number_format($Subtotal, 2) . "</p>";
 								echo '</td>';
 								echo "<td class='text-center'>";
 								?>
@@ -297,8 +299,14 @@ if ($retornoError) {
 								</button>
 								<?php
 								echo '</td>';
-								echo "</tr>";
+								echo '</tr>';
 							endforeach;
+								echo '<tr>';
+								echo "<td class='text-right' colspan='5'>";
+								echo "<p class='text-danger'><strong>Total: </strong>$ " . number_format($Total, 2) . "</p>";
+								echo '</td>';
+								echo '<td></td>';
+								echo '</tr>';
 						?>
 					</table>
 				<?php } ?>
