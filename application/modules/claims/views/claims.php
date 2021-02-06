@@ -53,12 +53,12 @@ $(function(){
 											case 1:
 													$valor = 'New Claim';
 													$clase = "text-info";
-													$icono = "fa-thumb-tack";
+													$icono = "fa-flag";
 													break;
 											case 2:
 													$valor = 'Send to the client';
 													$clase = "text-primary";
-													$icono = "fa-envelope-o";
+													$icono = "fa-share";
 													break;
 											case 3:
 													$valor = 'Hold Back';

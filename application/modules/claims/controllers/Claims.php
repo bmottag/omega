@@ -78,7 +78,7 @@ class Claims extends CI_Controller {
 
 				$data["idRecord"] = $idClaim;
 				$data["result"] = true;		
-				$this->session->set_flashdata('retornoExito', '<strong>Correcto!</strong> ' . $msj);
+				$this->session->set_flashdata('retornoExito', '<strong>Right!</strong> ' . $msj);
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
