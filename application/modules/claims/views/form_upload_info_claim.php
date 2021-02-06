@@ -260,9 +260,9 @@ if ($retornoError) {
 
 								echo "<tr>";					
 								echo "<td class='text-center'>";
-								echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'] . "</a>";
+								echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "' target='_blanck'>" . $lista['id_workorder'] . "</a>";
 								echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-								echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "' class='btn btn-warning btn-xs' title='Review' target='_blanck'>Review W.O.</a>";
+								echo "<a href='" . base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) . "' target='_blanck'><img src='" . base_url_images('pdf.png') . "' ></a>";
 								echo '</td>';
 								echo '<td>' . $lista['name'] . '</td>';
 								echo "<td class='text-center'>" . $lista['date'] . "</td>";
