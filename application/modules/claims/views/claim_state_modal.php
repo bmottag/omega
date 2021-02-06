@@ -15,9 +15,10 @@
 					<label class="control-label" for="state">State: *</label>
 					<select name="state" id="state" class="form-control" required>
 						<option value=''>Seleccione...</option>
-						<option value=1 >Asignada</option>
-						<option value=2 >Solucionada</option>
-						<option value=3 >Cancelada</option>
+						<option value=2 >Send to Client</option>
+						<option value=3 >Hold Back</option>
+						<option value=4 >Short Payment</option>
+						<option value=5 >Paid</option>
 					</select>
 				</div>
 			</div>

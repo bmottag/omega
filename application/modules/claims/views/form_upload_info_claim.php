@@ -65,23 +65,28 @@ $(function(){
 			switch ($data['state_claim']) {
 					case 1:
 							$valor = 'New Claim';
-							$clase = "text-warning";
-							$icono = "fa-refresh";
+							$clase = "text-info";
+							$icono = "fa-thumb-tack";
 							break;
 					case 2:
-							$valor = 'Revised';
-							$clase = "text-primary";
-							$icono = "fa-check";
-							break;
-					case 3:
 							$valor = 'Send to the client';
-							$clase = "text-success";
+							$clase = "text-primary";
 							$icono = "fa-envelope-o";
 							break;
+					case 3:
+							$valor = 'Hold Back';
+							$clase = "text-warning";
+							$icono = "fa-bullhorn";
+							break;
 					case 4:
-							$valor = 'Closed';
+							$valor = 'Short Payment';
 							$clase = "text-danger";
-							$icono = "fa-power-off";
+							$icono = "fa-thumbs-o-down";
+							break;
+					case 5:
+							$valor = 'Paid';
+							$clase = "text-success";
+							$icono = "fa-bomb";
 							break;
 			}
 ?>
