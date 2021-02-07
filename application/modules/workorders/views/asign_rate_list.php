@@ -211,17 +211,19 @@ if ($retornoError) {
 										echo form_checkbox($data);
 									}
 
-									echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'];
+									echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'] . "</a>";
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-									echo "<strong>Last Message:</strong><br>" . $lista['last_message'];
-									echo "</a>";
+									echo "<a class='btn btn-success btn-xs' href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'> Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></a>";
 									echo "</td>";
-
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date'] . "</td>";
-									echo "<td>" . $lista['observation'] . "</td>";
+									echo '<td>';
+									echo '<strong>Task Description:</strong><br>' . $lista['observation'];
+									echo '<p class="text-info"><strong>Last message:</strong><br>' . $lista['last_message'] . '</p>';
+									echo '</td>';
+									echo '</tr>';
 							endforeach;
 						?>
 						</tbody>
