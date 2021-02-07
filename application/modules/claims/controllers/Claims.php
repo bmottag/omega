@@ -19,8 +19,35 @@ class Claims extends CI_Controller {
 			$arrParam = array();
 			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
 
+			//job list - (active items)
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['jobs'] = $this->general_model->get_basic_search($arrParam);
+
+			if(!$_POST)
+			{
+				$data['tituloListado'] = 'LIST OF LAST 50 RECORDS';
+				//busco los ultimos 50 REGISTROS
+				$arrParam = array('limit' => 50);
+			}elseif($this->input->post('id_job') || $this->input->post('state') || $this->input->post('id_Claim'))
+			{
+				$data['tituloListado'] = 'LIST OF CLAIMS THAT MATCHES YOUR SEARCH';
+										
+				$arrParam = array(
+					"idJob" => $this->input->post('id_job'),
+					"state" => $this->input->post('state'),
+					"idClaim" => $this->input->post('id_Claim')
+				);		
+			}
+			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
+
 			$data["view"] ='claims';
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
 	}
 
     /**

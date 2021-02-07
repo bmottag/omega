@@ -12,11 +12,22 @@
 				$this->db->select('C.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name');
 				$this->db->join('param_jobs J', 'J.id_job = C.fk_id_job_claim', 'INNER');
 				$this->db->join('user U', 'U.id_user = C.fk_id_user_claim', 'INNER');
-				if (array_key_exists("idClaim", $arrDatos)) {
+				if (array_key_exists("idClaim", $arrDatos) && $arrDatos["idClaim"] != '') {
 					$this->db->where('id_claim', $arrDatos["idClaim"]);
-				}								
+				}
+				if (array_key_exists("idJob", $arrDatos) && $arrDatos["idJob"] != '') {
+					$this->db->where('fk_id_job_claim', $arrDatos["idJob"]);
+				}
+				if (array_key_exists("state", $arrDatos) && $arrDatos["state"] != '' ) {
+					$this->db->where('current_state_claim', $arrDatos["state"]);
+				}
 				$this->db->order_by('id_claim', 'desc');
-				$query = $this->db->get('claim C', 50);
+				
+				if (array_key_exists("limit", $arrDatos)) {
+					$query = $this->db->get('claim C', $arrDatos["limit"]);
+				}else{
+					$query = $this->db->get('claim C');
+				}
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
