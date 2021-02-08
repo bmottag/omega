@@ -917,13 +917,11 @@
 					$price = $this->input->post('price');
 					$markup = $this->input->post('markup');
 					
-					$price = $price/1.05;//quitar el 5% de GST
-					$value = $price + ($price*$markup/100);//valor con el markup
-
-					$valueGST = $value*1.05;
+					//Price x (0.01 x Markup + 1) 
+					$value = $price * (0.01*$markup + 1);//valor con el markup
 
 					$data['markup'] = $markup;
-					$data['value'] = $valueGST;
+					$data['value'] = $value;
 					$this->db->where('id_workorder_receipt', $idWOReceipt);
 					$query = $this->db->update('workorder_receipt', $data);
 				}

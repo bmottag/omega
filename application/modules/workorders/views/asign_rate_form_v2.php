@@ -264,7 +264,7 @@ if ($retornoError) {
 								
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-								Update Rates from the following button. <small>(Update the rate field on Personal, Material and Equipment) </small>
+								Update Rates from the following button. <small>(Update the rate field on PERSONAL, MATERIALS and EQUIPMENT) </small>
 								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-default btn-xs' title="Update" <?php echo $deshabilitar; ?>>
 										Update Rates <i class="fa fa-refresh"></i>
 								</button>
@@ -272,7 +272,7 @@ if ($retornoError) {
 								<?php if($information[0]["markup"] > 0){ ?>
 								<br><br>
 								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-								Update Job Code/Name Markup button. <small>(Update the Markup field on Material, Invoice and Ocasional) </small>
+								Update Job Code/Name Markup button. <small>(Update the Markup field on MATERIALS, RECEIPT and OCASIONAL) </small>
 								<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-amarello btn-xs' title="Update" <?php echo $deshabilitar; ?>>
 										Update Markup <i class="fa fa-refresh"></i>
 								</button>
@@ -382,7 +382,7 @@ if ($retornoError) {
 			</table>
 			<div class="col-lg-12">
 				<small>
-				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value = </strong>
 					Hours X Rate
 				</p>
 			</small>
@@ -488,7 +488,7 @@ if ($retornoError) {
 			</table>
 			<div class="col-lg-12">
 				<small>
-				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value = </strong>
 					Quantity X Rate X (Markup + 100)/100
 				</p>
 			</small>
@@ -541,24 +541,24 @@ if ($retornoError) {
 				<?php
 					foreach ($workorderReceipt as $data):
 						echo "<tr>";					
-						echo "<td><small>" . $data['place'] . "</small></td>";
-						echo "<td class='text-right'><small>$ " . $data['price'] . "</small></td>";
-						echo "<td><small>" . $data['description'] . "</small></td>";
-						
+						echo "<td><small>" . $data['place'] . "</small></td>";						
 						$idRecord = $data['id_workorder_receipt'];
 				?>
 
 						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_receipt"); ?>">
 						
 						<td>
-				
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 						<input type="hidden" id="place" name="place" value="<?php echo $data['place']; ?>"/>
-						<input type="hidden" id="price" name="price" value="<?php echo $data['price']; ?>"/>
 						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 						<input type="hidden" id="view" name="view" value="view_workorder"/>
-
+						<input type="text" id="price" name="price" class="form-control" placeholder="Rate" value="<?php echo $data['price']; ?>" required >
+						</td>
+				<?php
+						echo "<td><small>" . $data['description'] . "</small></td>";
+				?>						
+						<td>
 						<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" value="<?php echo $data['markup']; ?>" required >
 		
 						</td>
@@ -584,8 +584,8 @@ if ($retornoError) {
 
 			<div class="col-lg-12">
 				<small>
-				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
-					Take 5% GST out of the price, then apply the markup and finally apply the GST.
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value = </strong>
+					Price x (0.01 x Markup + 1)
 				</p>
 			</small>
 			</div>
@@ -819,7 +819,7 @@ if ($retornoError) {
 			</table>
 			<div class="col-lg-12">
 				<small>
-				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value: </strong>
+				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value = </strong>
 					Quantity X Hours X Rate X (Markup + 100)/100
 				</p>
 			</small>

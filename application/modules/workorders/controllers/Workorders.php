@@ -1002,7 +1002,7 @@ class Workorders extends CI_Controller {
 			$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 
 			$data["view"] = "asign_rate_list";
-			$this->load->view("layout", $data);	
+			$this->load->view("layout_calendar", $data);	
 	}
 	
 	/**
