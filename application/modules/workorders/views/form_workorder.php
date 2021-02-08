@@ -599,14 +599,14 @@ if($information){
 		<div class="col-lg-12">				
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					MATERIALS
+					MATERIALS VCI
 				</div>
 				<div class="panel-body">
 				<?php if(!$deshabilitar){ ?>
 					<div class="col-lg-12">	
 												
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials VCI
 					</button><br>
 					</div>
 				<?php } ?>
