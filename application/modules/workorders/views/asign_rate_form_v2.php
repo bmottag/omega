@@ -553,7 +553,7 @@ if ($retornoError) {
 						<input type="hidden" id="place" name="place" value="<?php echo $data['place']; ?>"/>
 						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 						<input type="hidden" id="view" name="view" value="view_workorder"/>
-						<input type="text" id="price" name="price" class="form-control" placeholder="Rate" value="<?php echo $data['price']; ?>" required >
+						<input type="text" id="price" name="price" class="form-control" placeholder="Price" value="<?php echo $data['price']; ?>" required >
 						</td>
 				<?php
 						echo "<td><small>" . $data['description'] . "</small></td>";

@@ -901,10 +901,14 @@
 		public function saveReceipt() 
 		{
 				$idWOReceipt = $this->input->post('hddId');
+				$price = $this->input->post('price');
+				if(!$price){
+					$price = 0;
+				}
 
 				$data = array(
 					'place' => $this->input->post('place'),
-					'price' => $this->input->post('price'),
+					'price' => $price,
 					'description' => $this->input->post('description')
 				);
 				
@@ -914,7 +918,6 @@
 					$data['markup'] = 0;
 					$query = $this->db->insert('workorder_receipt', $data);
 				} else {
-					$price = $this->input->post('price');
 					$markup = $this->input->post('markup');
 					
 					//Price x (0.01 x Markup + 1) 
