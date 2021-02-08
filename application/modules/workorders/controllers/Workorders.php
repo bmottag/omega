@@ -1070,8 +1070,8 @@ class Workorders extends CI_Controller {
 			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($idWorkOrder);//workorder material list
 			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($idWorkOrder);//workorder equipment list
 			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($idWorkOrder);//workorder ocasional list
+			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($idWorkOrder);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($idWorkOrder);//workorder ocasional list
-
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
 				

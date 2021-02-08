@@ -70,8 +70,8 @@
 			$html.= '<table border="0" cellspacing="0" cellpadding="4">';
 
 			$html.= '<tr>
-						<th align="center" width="5%" bgcolor="#337ab7" style="color:white;"><strong>ITEM </strong></th>
-						<th align="center" width="60%" bgcolor="#337ab7" style="color:white;"><strong>DESCRIPTION </strong></th>
+						<th align="center" width="6%" bgcolor="#337ab7" style="color:white;"><strong>ITEM </strong></th>
+						<th align="center" width="59%" bgcolor="#337ab7" style="color:white;"><strong>DESCRIPTION </strong></th>
 						<th align="center" width="9%" bgcolor="#337ab7" style="color:white;"><strong>UNIT </strong></th>
 						<th align="center" width="5%" bgcolor="#337ab7" style="color:white;"><strong>QTY </strong></th>
 						<th align="center" width="10%" bgcolor="#337ab7" style="color:white;"><strong>UNIT PRICE </strong></th>
@@ -106,12 +106,40 @@
 						$items++;
 						$total = $data['value'] + $total;
 
+						$description = $data['description'] . ' - ' . $data['material'];
+						if($data['markup'] > 0){
+							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+						}
+
 						$html.=		'<tr>
 									<th align="center">' . $items . '</th>
-									<th>' . $data['description'] . ' - ' . $data['material'] . '</th>
+									<th>' . $description . '</th>
 									<th align="center">' . $data['unit'] . '</th>
 									<th align="center">' . $data['quantity'] . '</th>
 									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
+						$html.= '</tr>';
+				endforeach;
+			}
+
+// INICIO RECEIPT
+			if($workorderReceipt)
+			{ 
+				foreach ($workorderReceipt as $data):
+						$items++;
+						$total = $data['value'] + $total;
+
+						$description = $data['description'] . ' - ' . $data['place'];
+						if($data['markup'] > 0){
+							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+						}
+
+						$html.=		'<tr>
+									<th align="center">' . $items . '</th>
+									<th>' . $description . '</th>
+									<th align="center"> Receipt </th>
+									<th align="center"> - </th>
+									<th align="right">$ ' . number_format($data['price'], 2) . '</th>
 									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
@@ -154,9 +182,14 @@
 						$items++;
 						$total = $data['value'] + $total;
 
+						$description = $data['description'];
+						if($data['markup'] > 0){
+							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+						}
+
 						$html.=		'<tr>
 									<th align="center">' . $items . '</th>
-									<th>' . $data['description'] . '</th>
+									<th>' . $description . '</th>
 									<th align="center">' . $data['unit'] . '</th>
 									<th align="center">' . $data['hours'] . '</th>
 									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>

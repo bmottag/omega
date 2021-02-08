@@ -2472,7 +2472,7 @@ if($lista["with_trailer"] == 1){
 										->setCellValue('C4', 'Date of Issue')
 										->setCellValue('D4', 'Date Work Order')
 										->setCellValue('E4', 'Job Code/Name')
-										->setCellValue('F4', 'Observation')
+										->setCellValue('F4', 'Task Description')
 										->setCellValue('G4', 'Employee Name')
 										->setCellValue('H4', 'Employee Type')
 										->setCellValue('I4', 'Material')
@@ -2482,7 +2482,7 @@ if($lista["with_trailer"] == 1){
 										->setCellValue('M4', 'Unit')
 										->setCellValue('N4', 'Rate')
 										->setCellValue('O4', 'Value')
-										->setCellValue('P4', 'Task Description');
+										->setCellValue('P4', 'Observation');
 										
 			$j=5;
 			$total = 0; 
@@ -2493,6 +2493,7 @@ if($lista["with_trailer"] == 1){
 				$workorderMaterials = $this->report_model->get_workorder_materials($idWorkOrder);//workorder material list
 				$workorderEquipment = $this->report_model->get_workorder_equipment($idWorkOrder);//workorder equipment list
 				$workorderOcasional = $this->report_model->get_workorder_ocasional($idWorkOrder);//workorder ocasional list
+				$workorderReceipt = $this->workorders_model->get_workorder_receipt($idWorkOrder);//workorder ocasional list
 
 				$observation = $data['observation']?$data['observation']:'';
 				if($workorderPersonal){
@@ -2528,6 +2529,27 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('N'.$j, $infoM['rate'])
 													  ->setCellValue('O'.$j, $infoM['value'])
 													  ->setCellValue('P'.$j, $infoM['description']);
+						$j++;
+					endforeach;
+				}
+				
+				if($workorderReceipt){
+					foreach ($workorderReceipt as $infoR):
+
+						$description = $data['description'] . ' - ' . $data['place'];
+						if($data['markup'] > 0){
+							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+						}
+					
+						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('N'.$j, $infoM['price'])
+													  ->setCellValue('O'.$j, $infoM['value'])
+													  ->setCellValue('P'.$j, $description);
 						$j++;
 					endforeach;
 				}
