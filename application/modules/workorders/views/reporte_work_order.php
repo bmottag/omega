@@ -227,20 +227,20 @@
 			$html.= '</table><br><br>';	
 			
 //tabla inferior			
-			$html.= '<table border="0" cellpadding="2" cellspacing="2">
+			$html.= '<table border="0" cellspacing="0" cellpadding="4">
 					<thead>
 						<tr style="background-color:#BCB5B5">
-							<td width="520"><b>Other comments or special instructions</b></td>
+							<td width="100%"><b>Other comments or special instructions</b></td>
 						</tr>
 					</thead>
 					<tr>
-						<td width="520">
+						<td width="100%">
 							1. All Work Orders will be attached to an Invoice otherwise can be deemed as an Invoice<br>
 							2. Please refer to the W.O. # in all your correspondence<br>
-							3. Please send correspondence regarding this work order to:<br>
+							3. Please send correspondence regarding this work order to:<br><br>
 							<b>Hugo Villamil</b><br>
 							<a href="mailto:hugo@v-contracting.com">hugo@v-contracting.com</a><br>
-							<b>Ph:</b>(587)-892-9616<br>
+							<b>Ph:</b>(587)-892-9616<br><br>
 							<b>Signature VCI Rep:</b> <br>
 							<img src="http://v-contracting.ca/app/images/employee/signature/hugo_boss.png" width="150" height="150" border="0" />
 						</td>
