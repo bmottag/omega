@@ -26,7 +26,7 @@
 								<th class='text-center'>Supervisor</th>
 								<th class='text-center'>Date of Issue</th>
 								<th class='text-center'>Date W.O.</th>
-								<th class='text-center'>More information</th>
+								<th class='text-center'>More Information</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -71,7 +71,6 @@
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date'] . "</td>";
-									echo "<td>" . $lista['observation'] . "</td>";
 									echo '<td>';
 									echo '<strong>Task Description:</strong><br>' . $lista['observation'];
 									echo '<p class="text-info"><strong>Last message:</strong><br>' . $lista['last_message'] . '</p>';

@@ -161,7 +161,7 @@ if ($retornoError) {
 								<th class='text-center'>Supervisor</th>
 								<th class='text-center'>Date of Issue</th>
 								<th class='text-center'>Date W.O.</th>
-								<th class='text-center'>Task Description</th>
+								<th class='text-center'>More Information</th>
 							</tr>
 						</thead>
 						<tbody>							
