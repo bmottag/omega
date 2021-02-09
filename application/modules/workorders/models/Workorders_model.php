@@ -416,13 +416,21 @@
 				$rate = $this->input->post('rate');
 				$quantity = $this->input->post('quantity');
 				$hours = $this->input->post('hours');
+				$checkPDF = $this->input->post('check_pdf');
+
+				if($checkPDF){
+					$checkPDF = 1;
+				}else{
+					$checkPDF = 2;
+				}
 				
 				$value = $rate * $quantity * $hours;
 				
 				$data = array(
 					'description' => $description,
 					'rate' => $rate,
-					'value' => $value
+					'value' => $value,
+					'view_pdf' => $checkPDF
 				);
 				
 				switch ($formType) {
@@ -902,6 +910,14 @@
 		{
 				$idWOReceipt = $this->input->post('hddId');
 				$price = $this->input->post('price');
+				$checkPDF = $this->input->post('check_pdf');
+
+				if($checkPDF){
+					$checkPDF = 1;
+				}else{
+					$checkPDF = 2;
+				}
+
 				if(!$price){
 					$price = 0;
 				}
@@ -916,6 +932,7 @@
 				if ($idWOReceipt == '') {
 					$data['fk_id_workorder'] = $this->input->post('hddidWorkorder');
 					$data['markup'] = 0;
+					$data['view_pdf'] = 1;
 					$query = $this->db->insert('workorder_receipt', $data);
 				} else {
 					$markup = $this->input->post('markup');
@@ -925,6 +942,7 @@
 
 					$data['markup'] = $markup;
 					$data['value'] = $value;
+					$data['view_pdf'] = $checkPDF;
 					$this->db->where('id_workorder_receipt', $idWOReceipt);
 					$query = $this->db->update('workorder_receipt', $data);
 				}

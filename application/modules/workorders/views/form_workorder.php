@@ -563,6 +563,7 @@ if($information){
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 						<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
+						<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>"/>
 						<input type="hidden" id="quantity" name="quantity" value=1 >
 						
 						<td>
@@ -639,6 +640,8 @@ if($information){
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 							<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 							<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
+							<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>"/>
+							<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>"/>
 							<input type="hidden" id="hours" name="hours" value=1 >						
 							
 						<td>
@@ -718,6 +721,7 @@ if($information){
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 						<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>"/>
+						<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>"/>
 						<input type="hidden" id="view" name="view" value="add_workorder"/>
 												
 						<td>
@@ -813,6 +817,7 @@ if($information){
 							<input type="hidden" id="formType" name="formType" value="equipment"/>
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 							<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+							<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>"/>
 							<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
 							
 						<td>
@@ -898,6 +903,8 @@ if($information){
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 							<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 							<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
+							<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>"/>
+							<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>"/>
 						
 						<td>
 							<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>

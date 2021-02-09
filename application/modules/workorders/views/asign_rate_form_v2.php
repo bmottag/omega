@@ -333,6 +333,7 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="warning">
+					<th class="text-center">PDF</th>
 					<th class="text-center">Employee Name</th>
 					<th class="text-center">Employee Type</th>
 					<th class="text-center">Hours</th>
@@ -345,26 +346,33 @@ if ($retornoError) {
 				<?php
 					foreach ($workorderPersonal as $data):
 						echo "<tr>";					
-						echo "<td ><small>" . $data['name'] . "</small></td>";
-						echo "<td ><small>" . $data['employee_type'] . "</small></td>";
-						echo "<td class='text-center'><small>" . $data['hours'] . "</small></td>";
-						echo "<td ><small>" . $data['description'] . "</small></td>";
-												
 						$idRecord = $data['id_workorder_personal'];
 				?>
 						<form  name="personal_<?php echo $idRecord ?>" id="personal_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
-						
-						<td>
-				
 						<input type="hidden" id="formType" name="formType" value="personal"/>
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 						<input type="hidden" id="hours" name="hours" value="<?php echo $data['hours']; ?>"/>
 						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 						<input type="hidden" id="quantity" name="quantity" value=1 >
-						
+				<?php
+						echo "<td class='text-center'>";
+						$checkPerso = '';
+						if($data['view_pdf'] == 1 ){
+							$checkPerso = 'checked';
+						}
+				?>
+						<input type="checkbox" id="check_pdf" name="check_pdf" <?php echo $checkPerso; ?>>
+				<?php
+						echo "</td>";
+						echo "<td>";
+						echo '<small>' . $data['name'] . '</small></td>';
+						echo "<td ><small>" . $data['employee_type'] . "</small></td>";
+						echo "<td class='text-center'><small>" . $data['hours'] . "</small></td>";
+						echo "<td ><small>" . $data['description'] . "</small></td>";
+				?>
+						<td>
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
-		
 						</td>
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
@@ -432,6 +440,7 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="success">
+					<th class="text-center">PDF</th>
 					<th class="text-center">Info. Material</th>
 					<th class="text-center">Quantity</th>
 					<th class="text-center">Unit</th>
@@ -443,20 +452,10 @@ if ($retornoError) {
 				</tr>
 				<?php
 					foreach ($workorderMaterials as $data):
-						echo "<tr>";					
-						echo "<td ><small><strong>Material</strong><br>" . $data['material'] . "</small>";
-						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small></td>";
-						echo "<td class='text-right'><small>" . $data['quantity'] . "</small></td>";
-						echo "<td ><small>" . $data['unit'] . "</small></td>";
-						
+						echo "<tr>";
 						$idRecord = $data['id_workorder_materials'];
 				?>
-
-						
 						<form  name="material_<?php echo $idRecord ?>" id="material_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
-						
-						<td>
-				
 						<input type="hidden" id="formType" name="formType" value="materials"/>
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
@@ -464,9 +463,23 @@ if ($retornoError) {
 						<input type="hidden" id="hours" name="hours" value=1 />
 						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 						<input type="hidden" id="unit" name="unit" value="<?php echo $data['unit']; ?>"/>
-
+				<?php
+						echo "<td class='text-center'>";
+						$checkMaterial = '';
+						if($data['view_pdf'] == 1 ){
+							$checkMaterial = 'checked';
+						}
+				?>
+						<input type="checkbox" id="check_pdf" name="check_pdf" <?php echo $checkMaterial; ?>>
+				<?php
+						echo "</td>";
+						echo "<td ><small><strong>Material</strong><br>" . $data['material'] . "</small>";
+						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small></td>";
+						echo "<td class='text-right'><small>" . $data['quantity'] . "</small></td>";
+						echo "<td ><small>" . $data['unit'] . "</small></td>";
+				?>
+						<td>
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
-		
 						</td>
 
 						<td>
@@ -536,6 +549,7 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="danger">
+					<th class="text-center">PDF</th>
 					<th class="text-center">Place</th>
 					<th class="text-center">Price</th>
 					<th class="text-center">Description</th>
@@ -546,19 +560,28 @@ if ($retornoError) {
 				</tr>
 				<?php
 					foreach ($workorderReceipt as $data):
-						echo "<tr>";					
-						echo "<td><small>" . $data['place'] . "</small></td>";						
+						echo "<tr>";
 						$idRecord = $data['id_workorder_receipt'];
 				?>
-
 						<form  name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_receipt"); ?>">
-						
-						<td>
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
 						<input type="hidden" id="place" name="place" value="<?php echo $data['place']; ?>"/>
 						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 						<input type="hidden" id="view" name="view" value="view_workorder"/>
+				<?php
+						echo "<td class='text-center'>";
+						$checkReceipt = '';
+						if($data['view_pdf'] == 1 ){
+							$checkReceipt = 'checked';
+						}
+				?>
+						<input type="checkbox" id="check_pdf" name="check_pdf" <?php echo $checkReceipt; ?>>
+				<?php
+						echo "</td>";
+						echo "<td><small>" . $data['place'] . "</small></td>";						
+				?>
+						<td>
 						<input type="text" id="price" name="price" class="form-control" placeholder="Price" value="<?php echo $data['price']; ?>" required >
 						</td>
 				<?php
@@ -633,6 +656,7 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="info">
+					<th class="text-center">PDF</th>
 					<th class="text-center">Info. Equipment</th>
 					<th class="text-center">Hours</th>
 					<th class="text-center">Quantity</th>
@@ -644,6 +668,27 @@ if ($retornoError) {
 				<?php
 					foreach ($workorderEquipment as $data):
 						echo "<tr>";
+						$idRecord = $data['id_workorder_equipment'];
+						$quantity = $data['quantity']==0?1:$data['quantity'];
+				?>
+						<form  name="equipment_<?php echo $idRecord ?>" id="equipment_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
+						<input type="hidden" id="formType" name="formType" value="equipment"/>
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+						<input type="hidden" id="hours" name="hours" value="<?php echo $data['hours']; ?>"/>
+						<input type="hidden" id="quantity" name="quantity" value="<?php echo $quantity; ?>" />
+						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
+				<?php
+						echo "<td class='text-center'>";
+						$checkReceipt = '';
+						if($data['view_pdf'] == 1 ){
+							$checkReceipt = 'checked';
+						}
+				?>
+						<input type="checkbox" id="check_pdf" name="check_pdf" <?php echo $checkReceipt; ?>>
+				<?php
+						echo "</td>";
+
 						echo "<td ><small><strong>Type</strong><br>" . $data['type_2'] . "</small>";
 						//si es tipo miscellaneous -> 8, entonces la description es diferente
 						if($data['fk_id_type_2'] == 8){
@@ -672,29 +717,13 @@ if ($retornoError) {
 						if($data['foreman_email']){
 							echo "<br><small><strong>Foreman email</strong><br>" . $data['foreman_email'] . "</small> ";
 						}
-
 						echo "</td>";
 						
 						echo "<td class='text-right'><small>" . $data['hours'] . "</small></td>";
-						$quantity = $data['quantity']==0?1:$data['quantity'];
 						echo "<td class='text-right'><small>" . $quantity . "</small></td>";
-
-						
-						$idRecord = $data['id_workorder_equipment'];
 				?>
-						<form  name="equipment_<?php echo $idRecord ?>" id="equipment_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
-						
 						<td>
-				
-						<input type="hidden" id="formType" name="formType" value="equipment"/>
-						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
-						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
-						<input type="hidden" id="hours" name="hours" value="<?php echo $data['hours']; ?>"/>
-						<input type="hidden" id="quantity" name="quantity" value="<?php echo $quantity; ?>" />
-						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
-
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
-		
 						</td>
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
@@ -757,6 +786,7 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="primary">
+					<th class="text-center">PDF</th>
 					<th class="text-center">Info. Subcontractor</th>
 					<th class="text-center">Quantity</th>
 					<th class="text-center">Unit</th>
@@ -768,26 +798,12 @@ if ($retornoError) {
 					<th class="text-center">Delete</th>
 				</tr>
 				<?php
-					foreach ($workorderOcasional as $data):
+					foreach ($workorderOcasional as $data):						
 						echo "<tr>";
-						echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
-						echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
-						echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small>";
-						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small></td>";
-						
-
-						echo "<td class='text-right'><small>" . $data['quantity'] . "</small></td>";
-						echo "<td ><small>" . $data['unit'] . "</small></td>";
 						$hours = $data['hours']==0?1:$data['hours'];
-						echo "<td class='text-right'><small>" . $hours . "</small></td>";
-					
 						$idRecord = $data['id_workorder_ocasional'];
 				?>
-
 						<form  name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_rate"); ?>">
-						
-						<td>
-				
 						<input type="hidden" id="formType" name="formType" value="ocasional"/>
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
 						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
@@ -795,9 +811,26 @@ if ($retornoError) {
 						<input type="hidden" id="hours" name="hours" value="<?php echo $hours; ?>"/>
 						<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>"/>
 						<input type="hidden" id="unit" name="unit" value="<?php echo $data['unit']; ?>"/>
-
+				<?php
+						echo "<td class='text-center'>";
+						$checkReceipt = '';
+						if($data['view_pdf'] == 1 ){
+							$checkReceipt = 'checked';
+						}
+				?>
+						<input type="checkbox" id="check_pdf" name="check_pdf" <?php echo $checkReceipt; ?>>
+				<?php
+						echo "</td>";
+						echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
+						echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
+						echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small>";
+						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small></td>";
+						echo "<td class='text-right'><small>" . $data['quantity'] . "</small></td>";
+						echo "<td ><small>" . $data['unit'] . "</small></td>";
+						echo "<td class='text-right'><small>" . $hours . "</small></td>";					
+				?>
+						<td>
 						<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required >
-		
 						</td>
 						<td>
 						<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" value="<?php echo $data['markup']; ?>" required >
