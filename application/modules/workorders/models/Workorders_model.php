@@ -76,14 +76,19 @@
 		
 		/**
 		 * Get workorder personal info
-		 * @since 13/1/2017
+		 * @since 9/2/2021
 		 */
-		public function get_workorder_personal($idWorkorder) 
-		{		
+		public function get_workorder_personal($arrData) 
+		{
 				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, T.employee_type");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->join('param_employee_type T', 'T.id_employee_type = W.fk_id_employee_type', 'INNER');
-				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("view_pdf", $arrData)) {
+					$this->db->where('W.view_pdf', 1);
+				}
 				$this->db->order_by('U.first_name, U.last_name', 'asc');
 				$query = $this->db->get('workorder_personal W');
 
@@ -121,11 +126,16 @@
 		 * Get workorder materials info
 		 * @since 13/1/2017
 		 */
-		public function get_workorder_materials($idWorkorder) 
+		public function get_workorder_materials($arrData) 
 		{		
 				$this->db->select();
 				$this->db->join('param_material_type M', 'M.id_material = W.fk_id_material', 'INNER');
-				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("view_pdf", $arrData)) {
+					$this->db->where('W.view_pdf', 1);
+				}
 				$this->db->order_by('M.material', 'asc');
 				$query = $this->db->get('workorder_materials W');
 
@@ -300,7 +310,7 @@
 		 * Get workorder equipment info
 		 * @since 25/1/2017
 		 */
-		public function get_workorder_equipment($idWorkorder) 
+		public function get_workorder_equipment($arrData) 
 		{		
 				$this->db->select("W.*, V.make, V.model, V.unit_number, V.description v_description, M.miscellaneous, T.type_2, C.*, CONCAT(U.first_name,' ', U.last_name) as operatedby");
 				$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_vehicle', 'LEFT');
@@ -308,7 +318,12 @@
 				$this->db->join('user U', 'U.id_user = W.operatedby', 'LEFT');
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = W.fk_id_type_2', 'INNER');
 				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
-				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("view_pdf", $arrData)) {
+					$this->db->where('W.view_pdf', 1);
+				}
 				$query = $this->db->get('workorder_equipment W');
 
 				if ($query->num_rows() > 0) {
@@ -322,11 +337,16 @@
 		 * Get workorder ocasional info
 		 * @since 20/2/2017
 		 */
-		public function get_workorder_ocasional($idWorkorder) 
+		public function get_workorder_ocasional($arrData) 
 		{		
 				$this->db->select('O.*, C.company_name');
 				$this->db->join('param_company C', 'C.id_company = O.fk_id_company', 'INNER');
-				$this->db->where('O.fk_id_workorder', $idWorkorder); 
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('O.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("view_pdf", $arrData)) {
+					$this->db->where('O.view_pdf', 1);
+				}
 				$this->db->order_by('C.company_name', 'asc');
 				$query = $this->db->get('workorder_ocasional O');
 
@@ -888,10 +908,15 @@
 		 * Get workorder Receipt info
 		 * @since 4/1/2021
 		 */
-		public function get_workorder_receipt($idWorkorder) 
+		public function get_workorder_receipt($arrData) 
 		{		
 				$this->db->select();
-				$this->db->where('O.fk_id_workorder', $idWorkorder); 
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('O.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("view_pdf", $arrData)) {
+					$this->db->where('O.view_pdf', 1);
+				}
 				$this->db->order_by('O.place', 'asc');
 				$query = $this->db->get('workorder_receipt O');
 

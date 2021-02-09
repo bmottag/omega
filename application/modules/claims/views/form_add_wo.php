@@ -48,10 +48,11 @@
 
                             foreach ($WOList as $lista):
                             	//buscar informacion por submodulo para sacar el subtotal
-								$workorderPersonal = $this->workorders_model->get_workorder_personal($lista['id_workorder']);//workorder personal list
-								$workorderMaterials = $this->workorders_model->get_workorder_materials($lista['id_workorder']);//workorder material list
-								$workorderEquipment = $this->workorders_model->get_workorder_equipment($lista['id_workorder']);//workorder equipment list
-								$workorderOcasional = $this->workorders_model->get_workorder_ocasional($lista['id_workorder']);//workorder ocasional list
+								$arrParam = array('idWorkOrder' =>$lista['id_workorder']);
+								$workorderPersonal = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
+								$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+								$workorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+								$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 								$workorderHoldBack = $this->workorders_model->get_workorder_hold_back($lista['id_workorder']);//workorder ocasional
 
 								$totalPersonal = 0;

@@ -74,16 +74,14 @@ class Workorders extends CI_Controller {
 			//si envio el id, entonces busco la informacion 
 			if ($id != 'x') 
 			{
-				$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($id);//workorder personal list
-				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
-				$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
-				$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
-				$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($id);//workorder invoice list
+				$arrParam = array('idWorkOrder' =>$id);
+				$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
+				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+				$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);//workorder invoice list
+				$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+				$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 				$data['workorderState'] = $this->workorders_model->get_workorder_state($id);//workorder additional information
 
-				$arrParam = array(
-					"idWorkorder" => $id
-				);
 				$data['information'] = $this->workorders_model->get_workordes_by_idUser($arrParam);//info workorder
 			
 				//DESHABILITAR WORK ORDER
@@ -593,14 +591,14 @@ class Workorders extends CI_Controller {
 	{
 			$this->load->model("general_model");
 			
-			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($id);//workorder personal list
-			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
-			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
-			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
+			$arrParam = array('idWorkOrder' =>$id);
+			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
+			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);//workorder invoice list
+			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
-			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($id);//workorder invoice list
 			
-			$arrParam['idWorkOrder'] =  $id;
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 						
 			//DESHABILITAR WORK ORDER
@@ -672,10 +670,10 @@ class Workorders extends CI_Controller {
 	 */
 	public function email($id)
 	{	
-			$arrParam['idWorkOrder'] =  $id;
+			$arrParam = array('idWorkOrder' =>$id);
 			$infoWorkorder = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 			
-			$infoWorkorderEquipment = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
+			$infoWorkorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
 			
 			foreach ($infoWorkorderEquipment as $lista) {
 				$nota = "";
@@ -844,7 +842,7 @@ class Workorders extends CI_Controller {
 	 */
 	public function email_v2($id)
 	{	
-			$arrParam['idWorkOrder'] =  $id;
+			$arrParam = array('idWorkOrder' =>$id);
 			$infoWorkorder = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 			
 			$subjet = "Workorder Information";
@@ -867,7 +865,7 @@ class Workorders extends CI_Controller {
 				$msj .= "<br><strong>Observation: </strong>" . $infoWorkorder[0]["observation"];
 			}
 			
-			$infoWorkorderEquipment = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
+			$infoWorkorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
 			
 			if($infoWorkorderEquipment){
 			
@@ -1066,11 +1064,12 @@ class Workorders extends CI_Controller {
 			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
 			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
 			
-			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($idWorkOrder);//workorder personal list
-			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($idWorkOrder);//workorder material list
-			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($idWorkOrder);//workorder equipment list
-			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($idWorkOrder);//workorder ocasional list
-			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($idWorkOrder);//workorder ocasional list
+			$arrParam['view_pdf'] = True;
+			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list			
+			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);//workorder ocasional list
+			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($idWorkOrder);//workorder ocasional list
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
@@ -1154,11 +1153,11 @@ class Workorders extends CI_Controller {
 			$total = 0; 
 			foreach ($info as $data):
 					
-				$idWorkOrder = $data['id_workorder'];
-				$workorderPersonal = $this->workorders_model->get_workorder_personal($idWorkOrder);//workorder personal list
-				$workorderMaterials = $this->workorders_model->get_workorder_materials($idWorkOrder);//workorder material list
-				$workorderEquipment = $this->workorders_model->get_workorder_equipment($idWorkOrder);//workorder equipment list
-				$workorderOcasional = $this->workorders_model->get_workorder_ocasional($idWorkOrder);//workorder ocasional list
+				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
+				$workorderPersonal = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
+				$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+				$workorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+				$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 
 				$observation = $data['observation']?$data['observation']:'';
 				if($workorderPersonal){
@@ -1435,14 +1434,14 @@ class Workorders extends CI_Controller {
 	public function foreman_view($id)
 	{
 			$this->load->model("general_model");
-						
-			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($id);//workorder personal list
-			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($id);//workorder material list
-			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($id);//workorder equipment list
-			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($id);//workorder ocasional list
+
+			$arrParam = array('idWorkOrder' =>$id);
+			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
+			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
 			
-			$arrParam['idWorkOrder'] =  $id;
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 			
 			$data["view"] = 'foreman_view';
@@ -1665,12 +1664,12 @@ class Workorders extends CI_Controller {
 
 			$data["idWO"] = $idWO = $this->input->post('identificador');
 			
-			$arrParam['idWorkOrder'] =  $idWO;
+			$arrParam = array('idWorkOrder' =>$idWO);
 			$infoWO = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 
-			$workorderReceipt = $this->workorders_model->get_workorder_receipt($idWO);//workorder invoice list
-			$workorderMaterials = $this->workorders_model->get_workorder_materials($idWO);//workorder material list
-			$workorderOcasional = $this->workorders_model->get_workorder_ocasional($idWO);//workorder ocasional list
+			$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+			$workorderReceipt = $this->workorders_model->get_workorder_receipt($arrParam);//workorder invoice list
+			$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 
 			if($workorderReceipt)
 			{
