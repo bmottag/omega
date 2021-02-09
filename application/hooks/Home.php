@@ -57,7 +57,7 @@ class Home {
 					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
             } else if ($this->ci->uri->segment(1) == "jobs") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
-                $arrControllers = array($this->ci->uri->segment(1), "jso_worker_view", "add_signature_jso");
+                $arrControllers = array($this->ci->uri->segment(1), "jso_worker_view", "add_signature_jso", "saveJSOWorker");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
                     if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
                         $error = TRUE;

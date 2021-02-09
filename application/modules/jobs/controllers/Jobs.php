@@ -1336,10 +1336,11 @@ ob_end_clean();
 			$infoJSO = $this->jobs_model->get_jso($arrParam);
 			
 			$data["idRecord"] = $infoJSO[0]['fk_id_job'];
+			$data["idRecordExternal"] = $idJobWorker;
 
 			$msj = "You have add a new worker.";
 			if ($idJobWorker != '') {
-				$msj = "You have edit the worker.";
+				$msj = "You have edit the information.";
 			}
 
 			if ($this->jobs_model->saveJSOWorker()) {
