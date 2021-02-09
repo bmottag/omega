@@ -46,12 +46,12 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 			$html.= '<tr>
 						<th bgcolor="#337ab7" style="color:white;"><strong>City:</strong></th>
 						<th><strong>' . $data['city'] . '</strong></th>
-						<th bgcolor="#337ab7" style="color:white;"><strong>RH factor: </strong></th>
-						<th><strong>' . $data['rh'] . '</strong></th>';
+						<th bgcolor="#337ab7" style="color:white;"><strong></strong></th>
+						<th><strong></strong></th>';
 			$html.= '</tr>';
 			
 			$html.= '<tr>
-						<th bgcolor="#337ab7" style="color:white;"><strong>Works for:</strong></th>
+						<th bgcolor="#337ab7" style="color:white;"><strong>Company Name:</strong></th>
 						<th><strong>' . $data['works_for'] . '</strong></th>
 						<th bgcolor="#337ab7" style="color:white;"><strong>Position: </strong></th>
 						<th><strong>' . $data['position'] . '</strong></th>';

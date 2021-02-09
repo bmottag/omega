@@ -61,18 +61,15 @@ $(document).ready(function () {
 			</div>
 		
 			<div class="col-sm-6">		
-				<div class="form-group text-left">
-					<label for="rh_factor">RH factor : *</label>
-					<input type="text" id="rh_factor" name="rh_factor" class="form-control" value="<?php echo $information?$information[0]["rh"]:""; ?>" placeholder="RH factor" >
-				</div>
+
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="worksfor">Works for : *</label>
-					<input type="text" id="worksfor" name="worksfor" class="form-control" value="<?php echo $information?$information[0]["works_for"]:""; ?>" placeholder="Works for" >
+					<label for="worksfor">Company Name: *</label>
+					<input type="text" id="worksfor" name="worksfor" class="form-control" value="<?php echo $information?$information[0]["works_for"]:""; ?>" placeholder="Company Name" >
 				</div>
 			</div>
 		

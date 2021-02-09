@@ -670,7 +670,6 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				$data = array(
 					'fk_id_job_jso' => $this->input->post('hddidJobJso'),
 					'name' => $this->input->post('name'),
-					'rh' => $this->input->post('rh_factor'),
 					'position' => $this->input->post('position'),
 					'birth_date' => $this->input->post('birth'),
 					'emergency_contact' => $this->input->post('emergency_contact'),
