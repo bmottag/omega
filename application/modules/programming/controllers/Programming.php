@@ -524,7 +524,7 @@ if($bandera){
 																						
 												$to = '+1' . $dato['movil'];
 												
-												$mensaje = "APP-VCI";
+												$mensaje = "INSPECTION APP-VCI";
 												$mensaje .= "\nDo not forget to do the Inspection:";
 												$mensaje .= "\n" . $dato['unit_description'];
 											
@@ -548,7 +548,7 @@ if($bandera){
 										
 												$to = '+1' . $phoneAdmin;
 												
-												$mensaje = "APP-VCI";
+												$mensaje = "INSPECTION APP-VCI";
 												$mensaje .= "\nThe user has not done the Inspection:";
 												$mensaje .= "\n" . $dato['name'] . " - " . $dato['unit_description'];
 												
@@ -710,7 +710,7 @@ if($bandera){
 									
 												$to = '+1' . $dato['movil'];
 												
-												$mensaje = "APP-VCI";
+												$mensaje = "FLHA APP-VCI";
 												$mensaje .= "\nDo not forget to do the FLHA:";
 												$mensaje .= "\n" . $lista['job_description'];
 											
@@ -733,7 +733,7 @@ if($bandera){
 										
 												$to = '+1' . $phoneAdmin;
 												
-												$mensaje = "APP-VCI";
+												$mensaje = "FLHA APP-VCI";
 												$mensaje .= "\nThe user has not done the FLHA:";
 												$mensaje .= "\n" . $dato['name'];
 												
@@ -864,7 +864,7 @@ if($bandera){
 
 												$to = '+1' . $dato['movil'];
 												
-												$mensaje = "APP-VCI";
+												$mensaje = "TOOL BOX APP-VCI";
 												$mensaje .= "\nDo not forget to do the TOOL BOX:";
 												$mensaje .= "\n" . $lista['job_description'];
 											
@@ -887,7 +887,7 @@ if($bandera){
 										
 												$to = '+1' . $phoneAdmin;
 												
-												$mensaje = "APP-VCI";
+												$mensaje = "TOOL BOX APP-VCI";
 												$mensaje .= "\nThe user has not done the TOOL BOX:";
 												$mensaje .= "\n" . $dato['name'];
 												

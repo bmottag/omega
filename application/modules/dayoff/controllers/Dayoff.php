@@ -98,7 +98,7 @@ class Dayoff extends CI_Controller {
 						$emailMsn .= "<p>Please go to the system to Approved or Denied the Day Off.</p>";
 						
 						//mensaje de texto
-						$mensajeSMS = "APP-VCI";
+						$mensajeSMS = "DAY OFF APP-VCI";
 						$mensajeSMS .= "\nThere is a new request for a Day Off:";
 						$mensajeSMS .= "\nEmployee: " . $dayoffInfo[0]["name"];
 						$mensajeSMS .= "\nType: " . $tipo;
