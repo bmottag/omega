@@ -17,8 +17,8 @@
 				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 
-				if (array_key_exists("idWorkorder", $arrDatos)) {
-					$this->db->where('id_workorder', $arrDatos["idWorkorder"]);
+				if (array_key_exists("idWorkOrder", $arrDatos)) {
+					$this->db->where('id_workorder', $arrDatos["idWorkOrder"]);
 				}
 				if (array_key_exists("idEmployee", $arrDatos)) {
 					$this->db->where('fk_id_user', $arrDatos["idEmployee"]);
