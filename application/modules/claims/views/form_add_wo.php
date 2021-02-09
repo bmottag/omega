@@ -51,15 +51,15 @@
 								$arrParam = array('idWorkOrder' =>$lista['id_workorder']);
 								$workorderPersonal = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
 								$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+								$workorderReceipt = $this->workorders_model->get_workorder_receipt($arrParam);//workorder ocasional list
 								$workorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
 								$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
-								$workorderHoldBack = $this->workorders_model->get_workorder_hold_back($lista['id_workorder']);//workorder ocasional
 
 								$totalPersonal = 0;
 								$totalMaterial = 0;
+								$totalReceipt = 0;
 								$totalEquipment = 0;
 								$totalOcasional = 0;
-								$totalHoldBack = 0;
 								$total = 0;
 								// INICIO PERSONAL
 								if($workorderPersonal)
@@ -74,7 +74,14 @@
 									foreach ($workorderMaterials as $data):
 											$totalMaterial = $data['value'] + $totalMaterial;
 									endforeach;
-								}								
+								}		
+								// INICIO RECEIPT
+								if($workorderReceipt)
+								{ 
+									foreach ($workorderReceipt as $data):
+											$totalReceipt = $data['value'] + $totalReceipt;
+									endforeach;
+								}
 								// INICIO EQUIPMENT
 								if($workorderEquipment)
 								{ 
@@ -89,15 +96,8 @@
 											$totalOcasional = $data['value'] + $totalOcasional;
 									endforeach;
 								}									
-								// INICIO HOLD BACK
-								if($workorderHoldBack)
-								{ 
-									foreach ($workorderHoldBack as $data):
-											$totalHoldBack = $data['value'] + $totalHoldBack;
-									endforeach;
-								}
 
-								$total = $totalPersonal + $totalMaterial + $totalEquipment + $totalOcasional + $totalHoldBack;
+								$total = $totalPersonal + $totalMaterial + $totalReceipt + $totalOcasional + $totalEquipment;
 
 								//estado
 								switch ($lista['state']) {
@@ -156,14 +156,14 @@
 								if($totalMaterial>0){
 									echo "<strong>Material: </strong>$ " . number_format($totalMaterial, 2) . "</br>";
 								}
+								if($totalReceipt>0){
+									echo "<strong>Receipt: </strong>$ " . number_format($totalReceipt, 2) . "</br>";
+								}
 								if($totalEquipment>0){
 									echo "<strong>Equipment: </strong>$ " . number_format($totalEquipment, 2) . "</br>";
 								}
 								if($totalOcasional>0){
 									echo "<strong>Ocasional: </strong>$ " . number_format($totalOcasional, 2) . "</br>";
-								}
-								if($totalHoldBack>0){
-									echo "<strong>Hold Back: </strong>$ " . number_format($totalHoldBack, 2) . "</br>";
 								}
 								echo "</p>";
 								echo "<p class='text-danger'><strong>Subtotal: </strong>$ " . number_format($total, 2) . "</p>";
