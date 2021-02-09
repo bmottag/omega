@@ -157,6 +157,53 @@ return date;
 			</div>
 			<!-- /.panel -->
 
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<?php $year = date("Y") - 1; ?>
+					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Word Orders <?php echo $year; ?>
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<div class="list-group">
+						<a href="<?php echo base_url('workorders/wo_by_state/0/' . $year); ?>" class="list-group-item">
+							<p class="text-danger"><i class="fa fa-thumb-tack fa-fw"></i><strong> On field</strong>
+								<span class="pull-right text-muted small"><em><?php echo $noOnfieldLastYear; ?></em>
+								</span>
+							</p>
+						</a>
+						<a href="<?php echo base_url('workorders/wo_by_state/1/' . $year); ?>" class="list-group-item">
+							<p class="text-warning"><i class="fa fa-refresh fa-fw"></i><strong> In Progress</strong>
+								<span class="pull-right text-muted small"><em><?php echo $noProgressLastYear; ?></em>
+								</span>
+							</p>
+						</a>
+						<a href="<?php echo base_url('workorders/wo_by_state/2/' . $year); ?>" class="list-group-item">
+							<p class="text-primary"><i class="fa fa-check fa-fw"></i><strong> Revised</strong>
+								<span class="pull-right text-muted small"><em><?php echo $noRevisedLastYear; ?></em>
+								</span>
+							</p>
+						</a>
+						<a href="<?php echo base_url('workorders/wo_by_state/3/' . $year); ?>" class="list-group-item">
+							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the client</strong>
+								<span class="pull-right text-muted small"><em><?php echo $noSendLastYear; ?></em>
+								</span>
+							</p>
+						</a>
+						<a href="<?php echo base_url('workorders/wo_by_state/4/' . $year); ?>" class="list-group-item">
+							<p class="text-danger"><i class="fa fa-power-off fa-fw"></i><strong> Closed</strong>
+								<span class="pull-right text-muted small"><em><?php echo $noClosedLastYear; ?></em>
+								</span>
+							</p>
+						</a>
+
+					</div>
+					<!-- /.list-group -->
+
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+
 		</div>
 		<!-- /.col-lg-4 -->
 
