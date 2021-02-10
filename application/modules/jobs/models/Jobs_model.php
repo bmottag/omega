@@ -669,15 +669,15 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			
 				$data = array(
 					'fk_id_job_jso' => $this->input->post('hddidJobJso'),
-					'name' => $this->input->post('name'),
-					'position' => $this->input->post('position'),
-					'birth_date' => $this->input->post('birth'),
-					'emergency_contact' => $this->input->post('emergency_contact'),
-					'driver_license_required' => $this->input->post('license'),
-					'license_number' => $this->input->post('license_number'),
-					'city' => $this->input->post('city'),
-					'works_for' => $this->input->post('worksfor'),
-					'works_phone_number' => $this->input->post('phone_number')
+					'name' => $this->security->xss_clean($this->input->post("name")),
+					'position' => $this->security->xss_clean($this->input->post('position')),
+					'birth_date' => $this->security->xss_clean($this->input->post('birth')),
+					'emergency_contact' => $this->security->xss_clean($this->input->post('emergency_contact')),
+					'driver_license_required' => $this->security->xss_clean($this->input->post('license')),
+					'license_number' => $this->security->xss_clean($this->input->post('license_number')),
+					'city' => $this->security->xss_clean($this->input->post('city')),
+					'works_for' => $this->security->xss_clean($this->input->post('worksfor')),
+					'works_phone_number' => $this->security->xss_clean($this->input->post('phone_number'))
 				);
 
 				//revisar si es para adicionar o editar
