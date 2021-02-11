@@ -445,7 +445,7 @@ class Dashboard extends CI_Controller {
 						      "start": "' . $data['date'] . '",
 						      "end": "' . $data['date'] . '",
 						      "color": "green",
-						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $data['date']) . '"
 						    }';
 
 					if($i<$longitud){
@@ -469,7 +469,7 @@ class Dashboard extends CI_Controller {
 						      "start": "' . $data['date_programming'] . '",
 						      "end": "' . $data['date_programming'] . '",
 						      "color": "yellow",
-						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $data['date_programming']) . '"
 						    }';
 
 					if($i<$longitud){
@@ -493,7 +493,7 @@ class Dashboard extends CI_Controller {
 						      "start": "' . $data['date_issue'] . ' ' . $data['time_in'] . '",
 						      "end": "' . $data['date_issue'] . ' ' . $data['time_out'] . '",
 						      "color": "red",
-						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $data['date_issue']) . '"
 						    }';
 
 					if($i<$longitud){
@@ -512,12 +512,13 @@ class Dashboard extends CI_Controller {
 				$longitud = count($payrollInfo);
 				$i=1;
 				foreach ($payrollInfo as $data):
+					$startPayroll = substr($data['start'],0,10);
 					echo  '{
 						      "title": "Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' Job Code/Name: ' . $data['job_start'] . ' - Working Hours: ' . $data['working_hours'] . '",
-						      "start": "' . $data['start']. '",
+						      "start": "' . $data['start'] . '",
 						      "end": "' . $data['finish'] . '",
 						      "color": "blue",
-						      "url": "' . base_url("dashboard/info_by_day/" . $start) . '"
+						      "url": "' . base_url("dashboard/info_by_day/" . $startPayroll) . '"
 						    }';
 
 					if($i<$longitud){
