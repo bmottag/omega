@@ -61,13 +61,13 @@ $(function(){
 							if( data.result == "error" )
 							{
 								alert(data.mensaje);
-								$(".btn-default").removeAttr('disabled');							
+								$(".btn-amarello").removeAttr('disabled');							
 								return false;
 							} 
 											
 							if( data.result )//true
 							{	                                                        
-								$(".btn-default").removeAttr('disabled');
+								$(".btn-amarello").removeAttr('disabled');
 
 								var url = base_url + "workorders/view_workorder/" + data.idWO
 								$(location).attr("href", url);
@@ -75,12 +75,12 @@ $(function(){
 							else
 							{
 								alert('Error. Reload the web page.');
-								$(".btn-default").removeAttr('disabled');
+								$(".btn-amarello").removeAttr('disabled');
 							}	
 						},
 						error: function(result) {
 							alert('Error. Reload the web page.');
-							$(".btn-default").removeAttr('disabled');
+							$(".btn-amarello").removeAttr('disabled');
 						}
 
 					});
@@ -176,7 +176,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">									
-					<a class="btn btn-default btn-xs" href=" <?php echo base_url().'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<a class="btn btn-gris btn-xs" href=" <?php echo base_url().'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-money"></i> <strong>WORK ORDERS</strong>
 				</div>
 				<div class="panel-body">
