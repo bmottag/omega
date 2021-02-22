@@ -227,13 +227,16 @@ class Programming extends CI_Controller {
 			$fechaProgramming = $infoProgramming[0]['date_programming'];
 			$idMachine = $this->input->post('machine');
 
-			//buscar si existe programacion para este mismo dia para esa maquina
-			$arrParam = array(
-				'idProgrammingWorker' => $idProgrammingWorker,
-				'fechaProgramming' => $fechaProgramming,
-				'maquina' => $idMachine
-			);
-			$inspecciones = $this->general_model->get_programming_machine_vs_date_programming($arrParam);
+			//si envia maquina entonces buscar si existe programacion para este mismo dia para esa maquina
+			$inspecciones = false;
+			if($idMachine != ''){
+				$arrParam = array(
+					'idProgrammingWorker' => $idProgrammingWorker,
+					'fechaProgramming' => $fechaProgramming,
+					'maquina' => $idMachine
+				);
+				$inspecciones = $this->general_model->get_programming_machine_vs_date_programming($arrParam);
+			}
 
 			if($inspecciones){
 					$data["result"] = "error";
