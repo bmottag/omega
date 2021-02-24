@@ -26,6 +26,15 @@
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
+					<label class="control-label" for="claimNumber">Claim Number: *</label>
+					<input type="text" id="claimNumber" name="claimNumber" class="form-control" value="<?php echo $information?$information[0]["claim_number"]:""; ?>" placeholder="Claim Number" required >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">	
+			<div class="col-sm-6">
+				<div class="form-group text-left">
 					<label class="control-label" for="observation">Observation: </label>
 					<textarea id="observation" name="observation" placeholder="Observation" class="form-control" rows="3"><?php echo $information?$information[0]["observation_claim"]:""; ?></textarea>
 				</div>

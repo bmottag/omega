@@ -34,14 +34,14 @@ class Claims extends CI_Controller {
 				$data['tituloListado'] = 'LIST OF LAST 50 RECORDS';
 				//busco los ultimos 50 REGISTROS
 				$arrParam = array('limit' => 50);
-			}elseif($this->input->post('id_job') || $this->input->post('state') || $this->input->post('id_Claim'))
+			}elseif($this->input->post('id_job') || $this->input->post('state') || $this->input->post('claimNumber'))
 			{
 				$data['tituloListado'] = 'LIST OF CLAIMS THAT MATCHES YOUR SEARCH';
 										
 				$arrParam = array(
 					"idJob" => $this->input->post('id_job'),
 					"state" => $this->input->post('state'),
-					"idClaim" => $this->input->post('id_Claim')
+					"claimNumber" => $this->input->post('claimNumber')
 				);		
 			}
 			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);

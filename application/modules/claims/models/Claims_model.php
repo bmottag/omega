@@ -15,6 +15,9 @@
 				if (array_key_exists("idClaim", $arrDatos) && $arrDatos["idClaim"] != '') {
 					$this->db->where('id_claim', $arrDatos["idClaim"]);
 				}
+				if (array_key_exists("claimNumber", $arrDatos) && $arrDatos["claimNumber"] != '') {
+					$this->db->where('claim_number', $arrDatos["claimNumber"]);
+				}
 				if (array_key_exists("idJob", $arrDatos) && $arrDatos["idJob"] != '') {
 					$this->db->where('fk_id_job_claim', $arrDatos["idJob"]);
 				}
@@ -47,6 +50,7 @@
 				
 				$data = array(
 					'fk_id_user_claim' => $idUser,
+					'claim_number' => $this->input->post('claimNumber'),
 					'fk_id_job_claim' => $this->input->post('id_job'),
 					'observation_claim' => $this->input->post('observation')
 				);	

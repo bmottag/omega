@@ -32,7 +32,7 @@ $(function(){
 					<div class="row">
 						<div class="col-lg-12">								
 							<div class="alert alert-info">
-								<strong>Claim #: </strong><?php echo $claimsInfo?$claimsInfo[0]["id_claim"]:""; ?>
+								<strong>Claim Number: </strong><?php echo $claimsInfo?$claimsInfo[0]["claim_number"]:""; ?>
 								<br><strong>Job Code/Name: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["job_description"]:""; ?>
 								<br><strong>Date Issue: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["date_issue_claim"]:""; ?>
 								<br><strong>Observation: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["observation_claim"]:""; ?>

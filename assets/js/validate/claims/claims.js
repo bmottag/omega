@@ -1,8 +1,11 @@
 $( document ).ready( function () {
+
+	$("#claimNumber").maxlength(10);
 	
 	$( "#form" ).validate( {
 		rules: {
 			id_job: 			{ required: true },
+			claimNumber: 		{ required: true, minlength: 1, maxlength:10 },
 			observation: 		{ required: true }
 		},
 		errorElement: "em",

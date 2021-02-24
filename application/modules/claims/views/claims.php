@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/search.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/search_v2.js"); ?>"></script>
 <script>
 $(function(){ 
 	$(".btn-violeta").click(function () {	
@@ -69,7 +69,7 @@ $(function(){
 
 						<div class="form-group">	
 							<div class="col-sm-12">
-								<input type="text" id="id_Claim" name="id_Claim" class="form-control" placeholder="Claim #" value="<?php echo $_POST?$this->input->post('id_Claim'):""; ?>">
+								<input type="text" id="claimNumber" name="claimNumber" class="form-control" placeholder="Claim Number" value="<?php echo $_POST?$this->input->post('claimNumber'):""; ?>">
 							</div>
 						</div>
 						
@@ -160,7 +160,7 @@ $(function(){
 							
 									echo "<tr>";
 									echo "<td class='text-center'>";
-									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "'>" . $lista['id_claim'] . "</a>";
+									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "'>" . $lista['claim_number'] . "</a>";
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
 									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "' class='btn btn-success btn-xs' title='View'>Review Claim</a>";
 									echo "</td>";
