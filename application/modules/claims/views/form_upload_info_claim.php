@@ -35,7 +35,7 @@ $(function(){
 								<strong>Claim #: </strong><?php echo $claimsInfo?$claimsInfo[0]["id_claim"]:""; ?>
 								<br><strong>Job Code/Name: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["job_description"]:""; ?>
 								<br><strong>Date Issue: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["date_issue_claim"]:""; ?>
-								<br><strong>Obsservation: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["observation_claim"]:""; ?>
+								<br><strong>Observation: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["observation_claim"]:""; ?>
 							</div>
 						</div>
 					</div>
@@ -65,27 +65,32 @@ $(function(){
 			switch ($data['state_claim']) {
 					case 1:
 							$valor = 'New Claim';
-							$clase = "text-info";
+							$clase = "text-violeta";
 							$icono = "fa-flag";
 							break;
 					case 2:
-							$valor = 'Send to the client';
-							$clase = "text-primary";
+							$valor = 'Send to client';
+							$clase = "text-success";
 							$icono = "fa-share";
 							break;
 					case 3:
+							$valor = 'Partial Payment';
+							$clase = "text-primary";
+							$icono = "fa-star-half-empty";
+							break;
+					case 4:
 							$valor = 'Hold Back';
 							$clase = "text-warning";
 							$icono = "fa-bullhorn";
 							break;
-					case 4:
+					case 5:
 							$valor = 'Short Payment';
-							$clase = "text-danger";
+							$clase = "text-warning";
 							$icono = "fa-thumbs-o-down";
 							break;
-					case 5:
-							$valor = 'Paid';
-							$clase = "text-success";
+					case 6:
+							$valor = 'Final Payment';
+							$clase = "text-danger";
 							$icono = "fa-bomb";
 							break;
 			}

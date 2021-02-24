@@ -1,7 +1,7 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/search.js"); ?>"></script>
 <script>
 $(function(){ 
-	$(".btn-danger").click(function () {	
+	$(".btn-violeta").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -57,11 +57,12 @@ $(function(){
 								<label for="state">State:</label>
 								<select name="state" id="state" class="form-control">
 									<option value=''>Seleccione...</option>
-									<option value=1 <?php if($_POST && $_POST["state"] == 1) { echo "selected"; }  ?>>New Claim</option>
-									<option value=2 <?php if($_POST && $_POST["state"] == 2) { echo "selected"; }  ?>>Send to Client</option>
-									<option value=3 <?php if($_POST && $_POST["state"] == 3) { echo "selected"; }  ?>>Hold Back</option>
-									<option value=4 <?php if($_POST && $_POST["state"] == 4) { echo "selected"; }  ?>>Short Payment</option>
-									<option value=5 <?php if($_POST && $_POST["state"] == 5) { echo "selected"; }  ?>>Paid</option>
+									<option value=1 <?php if($_POST && $_POST["state"] == 1) { echo "selected"; }  ?>>1. New Claim</option>
+									<option value=2 <?php if($_POST && $_POST["state"] == 2) { echo "selected"; }  ?>>2. Send to Client</option>
+									<option value=3 <?php if($_POST && $_POST["state"] == 3) { echo "selected"; }  ?>>3. Partial Payment</option>
+									<option value=4 <?php if($_POST && $_POST["state"] == 4) { echo "selected"; }  ?>>4. Hold Back</option>
+									<option value=5 <?php if($_POST && $_POST["state"] == 5) { echo "selected"; }  ?>>5. Short Payment</option>
+									<option value=6 <?php if($_POST && $_POST["state"] == 6) { echo "selected"; }  ?>>6. Final Payment</option>
 								</select>
 							</div>
 						</div>
@@ -93,13 +94,13 @@ $(function(){
 		<!-- /.col-lg-3 -->
 
 		<div class="col-lg-9">
-			<div class="panel panel-danger">
+			<div class="panel panel-violeta">
 				<div class="panel-heading">
 					<i class="fa fa-bomb"></i> <strong><?php echo $tituloListado; ?></strong>
 				</div>
 				<div class="panel-body">
 					
-					<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Claim
 					</button>					
 					<br>
@@ -127,27 +128,32 @@ $(function(){
 									switch ($lista['current_state_claim']) {
 											case 1:
 													$valor = 'New Claim';
-													$clase = "text-info";
+													$clase = "text-violeta";
 													$icono = "fa-flag";
 													break;
 											case 2:
-													$valor = 'Send to the client';
-													$clase = "text-primary";
+													$valor = 'Send to client';
+													$clase = "text-success";
 													$icono = "fa-share";
 													break;
 											case 3:
+													$valor = 'Partial Payment';
+													$clase = "text-primary";
+													$icono = "fa-star-half-empty";
+													break;
+											case 4:
 													$valor = 'Hold Back';
 													$clase = "text-warning";
 													$icono = "fa-bullhorn";
 													break;
-											case 4:
+											case 5:
 													$valor = 'Short Payment';
-													$clase = "text-danger";
+													$clase = "text-warning";
 													$icono = "fa-thumbs-o-down";
 													break;
-											case 5:
-													$valor = 'Paid';
-													$clase = "text-success";
+											case 6:
+													$valor = 'Final Payment';
+													$clase = "text-danger";
 													$icono = "fa-bomb";
 													break;
 									}
@@ -156,14 +162,14 @@ $(function(){
 									echo "<td class='text-center'>";
 									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "'>" . $lista['id_claim'] . "</a>";
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "' class='btn btn-info btn-xs' title='View'>Review Claim</a>";
+									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "' class='btn btn-success btn-xs' title='View'>Review Claim</a>";
 									echo "</td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue_claim'] . "</td>";
 									echo '<td>';
 									echo '<strong>Observation:</strong><br>' . $lista['observation_claim'];
-									echo '<br><strong>Additional information last message:</strong><br>' . $lista['last_message_claim'];
+									echo '<p class="text-info"><strong>Additional information last message:</strong><br>' . $lista['last_message_claim'] . '</p>';
 									echo '</td>';
 									echo "</tr>";
 							endforeach;
