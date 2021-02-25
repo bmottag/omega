@@ -259,7 +259,7 @@ class Claims extends CI_Controller {
 			
 			$idClaim = $data['idRecord'] = $this->input->post("hddIdClaim");
 				
-			$msj = "Se guardo la información!";
+			$msj = "You have update the information!";
 
 			$claimState = $this->input->post("state");
 
@@ -277,6 +277,12 @@ class Claims extends CI_Controller {
 				//busco listado de WO del claim, si es 2. Send to Client o 6. Final Payment
 				if($claimState == 2 || $claimState == 6)
 				{
+					if($claimState == 2){
+						$stateMSJ = 'Send to Client';
+					}else{
+						$stateMSJ = 'Closed';
+					}
+					$msj .= ' And Word Order state changed to <strong>' . $stateMSJ . '</strong>.';
 					$this->load->model("general_model");
 					$arrParam = array('idClaim' => $idClaim);
 					$WOList = $this->general_model->get_workorder_info($arrParam);	
@@ -287,7 +293,7 @@ class Claims extends CI_Controller {
 				} 
 
 				$data["result"] = true;		
-				$this->session->set_flashdata('retornoExito', '<strong>You have update the information!</strong> ' . $msj);
+				$this->session->set_flashdata('retornoExito', '<strong>	Right!</strong> ' . $msj);
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!</strong> Ask for help');
