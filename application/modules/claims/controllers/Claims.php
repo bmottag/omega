@@ -125,7 +125,7 @@ class Claims extends CI_Controller {
 			$arrParam = array('idClaim' => $idClaim);
 			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
 
-			//Claim State histiry
+			//Claim State history
 			$data['claimsHistory'] = $this->claims_model->get_claims_history($arrParam);
 											
 			//WO list
@@ -257,19 +257,34 @@ class Claims extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$data['idRecord'] = $this->input->post("hddIdClaim");
+			$idClaim = $data['idRecord'] = $this->input->post("hddIdClaim");
 				
 			$msj = "Se guardo la información!";
 
+			$claimState = $this->input->post("state");
+
 			$arrParam = array(
-				"idClaim" => $data['idRecord'],
+				"idClaim" => $idClaim,
 				"message" => $this->input->post("message"),
-				"state" => $this->input->post("state")
+				"state" => $claimState
 			);		
 			if ($this->claims_model->add_claim_state($arrParam)) 
 			{
 				//actualizar estado actual en CLAIM
 				$this->claims_model->update_claim($arrParam);
+
+				$WOList = FALSE;
+				//busco listado de WO del claim, si es 2. Send to Client o 6. Final Payment
+				if($claimState == 2 || $claimState == 6)
+				{
+					$this->load->model("general_model");
+					$arrParam = array('idClaim' => $idClaim);
+					$WOList = $this->general_model->get_workorder_info($arrParam);	
+					//si el estado es igual a 2. Send to Client o 6. Final Payment, entonces actualizo todos los estados de las WO automaticamente
+					if($WOList){
+						$this->claims_model->updateWOStateFromClaimChange($WOList);
+					}
+				} 
 
 				$data["result"] = true;		
 				$this->session->set_flashdata('retornoExito', '<strong>You have update the information!</strong> ' . $msj);

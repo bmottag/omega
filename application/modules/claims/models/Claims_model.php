@@ -168,6 +168,54 @@
 			}
 		}
 
+		/**
+		 * Update WO state
+		 * @since 12/1/2021
+		 */
+		public function updateWOStateFromClaimChange($WOList) 
+		{
+			$idUser = $this->session->userdata("id");
+			$claimState = $this->input->post('state');
+			$information = $this->input->post("message");
+
+			if($claimState == 2){
+				$claimWO = 3;
+			}elseif($claimState == 6){
+				$claimWO = 4;
+			}
+			//update states
+			$query = 1;
+
+			$tot = count($WOList);
+			for ($i = 0; $i < $tot; $i++) 
+			{
+				$data = array(
+					'fk_id_workorder' => $WOList[$i]['id_workorder'],
+					'fk_id_user' => $idUser,
+					'date_issue' => date("Y-m-d G:i:s"),
+					'observation' => $information,
+					'state' => $claimWO
+				);
+				
+				$query = $this->db->insert('workorder_state', $data);
+
+
+				//actualizo la tabla de WO
+				$data = array(
+					'state' => $claimWO,
+					'last_message' => $information
+				);			
+				$this->db->where('id_workorder', $WOList[$i]['id_workorder']);
+				$query = $this->db->update('workorder', $data);
+			}
+
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
 	
 	    
 	}
