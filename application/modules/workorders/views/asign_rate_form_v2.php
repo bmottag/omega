@@ -614,7 +614,7 @@ if ($retornoError) {
 			<div class="col-lg-12">
 				<small>
 				<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value = </strong>
-					Price x (0.01 x Markup + 1)
+					Price/1.05 X (Markup + 100)/100) 
 				</p>
 			</small>
 			</div>
