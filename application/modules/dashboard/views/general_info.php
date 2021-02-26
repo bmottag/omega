@@ -238,6 +238,7 @@
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
 <br>* <strong>Settings:</strong> Employee ---> can only see list
+<br><strong>Settings:</strong> Job Code/Name
 <br><strong>Settings:</strong> Company
 <br>* <strong>Settings:</strong> Vehicles ---> can only see list
 <br>* <strong>Settings:</strong> Rentals ---> can only see list
