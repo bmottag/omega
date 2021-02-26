@@ -116,7 +116,7 @@
 		<div class="col-lg-8">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<a class="btn btn-info btn-xs" href=" <?php echo base_url('workorders/search'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Search </a> 
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url('workorders/search'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to Search W.O.</a> 
 					<i class="fa fa-money"></i> <strong>WORK ORDERS</strong>
 				</div>
 				<div class="panel-body">
