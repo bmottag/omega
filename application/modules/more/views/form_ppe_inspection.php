@@ -1,4 +1,16 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/more/ppe_inspection.js"); ?>"></script>
+<?php
+/**
+ * If it is an ADMIN user, show date 
+ * @author BMOTTAG
+ * @since  11/5/2017
+ */
+$userRol = $this->session->rol;
+if($userRol==99){
+?>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<?php } ?>
 
 <div id="page-wrapper">
 	<br>
@@ -16,11 +28,36 @@
 				<div class="panel-body">
 					<div class="col-lg-6">
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="aire_acondicionado">Observation : </label>
+							<label class="col-sm-4 control-label" for="aire_acondicionado">Observation: </label>
 							<div class="col-sm-8">
 								<textarea id="observation" name="observation" class="form-control" rows="2"><?php echo $information?$information[0]["observation"]:""; ?></textarea>
 							</div>
 						</div>
+
+<?php
+/**
+ * If it is an ADMIN user, show date 
+ * @author BMOTTAG
+ * @since  11/5/2017
+ */
+if($userRol==99){
+?>				
+<script>
+	$( function() {
+		$( "#date" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'yy-mm-dd'
+		});
+	});
+</script>
+						<div class="form-group">									
+							<label class="col-sm-4 control-label" for="date">Date of Issue:</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_ppe_inspection"]:""; ?>" placeholder="Date of Issue" />
+							</div>
+						</div>
+<?php } ?>
 						
 						<div class="form-group">
 							<div class="row" align="center">
@@ -154,11 +191,11 @@ if ($retornoError) {
 					<div class="col-lg-12">	
 <?php if($ppeInspectionWorkers){ ?>
 												
-					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+					<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
 					</button>
 <?php }else { ?>
-					<a href="<?php echo base_url("more/add_workers_ppe_inspection/" . $information[0]["id_ppe_inspection"]); ?>" class="btn btn-info btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+					<a href="<?php echo base_url("more/add_workers_ppe_inspection/" . $information[0]["id_ppe_inspection"]); ?>" class="btn btn-info btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
 												
 <?php } ?>
 											

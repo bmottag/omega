@@ -140,14 +140,24 @@
 				$data = array(
 					'observation' => $this->input->post('observation')
 				);
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$userRol = $this->session->rol;
+				$dateIssue = $this->input->post('date');
 				
 				//revisar si es para adicionar o editar
 				if ($idPPEInspection == '') {
 					$data['fk_id_user'] = $this->session->userdata("id");
-					$data['date_ppe_inspection'] = date("Y-m-d");
+					if($userRol==99 && $dateIssue!=""){
+						$data['date_ppe_inspection'] = $dateIssue;
+					}else{
+						$data['date_ppe_inspection'] = date("Y-m-d");
+					}
 					$query = $this->db->insert('ppe_inspection', $data);
 					$idPPEInspection = $this->db->insert_id();				
 				} else {
+					if($userRol==99 && $dateIssue!=""){
+						$data['date_ppe_inspection'] = $dateIssue;
+					}
 					$this->db->where('id_ppe_inspection', $idPPEInspection);
 					$query = $this->db->update('ppe_inspection', $data);
 				}
