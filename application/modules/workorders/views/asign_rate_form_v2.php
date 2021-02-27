@@ -551,7 +551,7 @@ if ($retornoError) {
 				<tr class="danger">
 					<th class="text-center">PDF</th>
 					<th class="text-center">Place</th>
-					<th class="text-center">Price</th>
+					<th class="text-center">Price with GST</th>
 					<th class="text-center">Description</th>
 					<th class="text-center">Markup</th>
 					<th class="text-center">Value</th>

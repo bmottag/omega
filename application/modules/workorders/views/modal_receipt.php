@@ -23,8 +23,8 @@
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="price">Price: </label>
-					<input type="text" id="price" name="price" class="form-control" placeholder="Price" >
+					<label class="control-label" for="price">Price with GST: </label>
+					<input type="text" id="price" name="price" class="form-control" placeholder="Price with GST" >
 				</div>
 			</div>
 		</div>
