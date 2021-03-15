@@ -514,7 +514,7 @@ class Dashboard extends CI_Controller {
 				foreach ($payrollInfo as $data):
 					$startPayroll = substr($data['start'],0,10);
 					echo  '{
-						      "title": "Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' Job Code/Name: ' . $data['job_start'] . ' - Working Hours: ' . $data['working_hours'] . '",
+						      "title": "Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' Job Code/Name: ' . $data['job_start'] . ' - Working Hours: ' . $data['working_hours'] . ' - Task description: ' . $data['task_description'] . '",
 						      "start": "' . $data['start'] . '",
 						      "end": "' . $data['finish'] . '",
 						      "color": "blue",

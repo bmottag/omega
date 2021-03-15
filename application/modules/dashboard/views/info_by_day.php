@@ -254,6 +254,8 @@
                                 <th class="text-center">Working Hours</th>
                                 <th class="text-center">Job Code/Name - Start</th>
                                 <th class="text-center">Job Code/Name - Finish</th>
+                                <th>Task description</th>
+                                <th>Observation</th>
                             </tr>
                         </thead>
                         <tbody>                         
@@ -264,6 +266,8 @@
                                 echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
                                 echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
                                 echo "<td class='text-center'>" . $lista['job_finish'] . "</td>";
+                                echo "<td class='text-right'>" . $lista['task_description'] . "</td>";
+                                echo "<td class='text-right'>" . $lista['observation'] . "</td>";
                                 echo "</tr>";
                             endforeach;
                         ?>
