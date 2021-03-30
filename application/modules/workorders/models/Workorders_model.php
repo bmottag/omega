@@ -777,6 +777,7 @@
 				$this->db->select("W.*, T.job_equipment_unit_price, T.job_equipment_without_driver");
 				$this->db->join('job_equipment_price T', 'T.fk_id_equipment = W.fk_id_vehicle', 'INNER');				
 				$this->db->where('W.fk_id_workorder', $idWorkorder); 
+				$this->db->where('W.fk_id_type_2 !=', 8); //los equipos tipo miscelaneo no se les coloca precio
 				$this->db->where('T.fk_id_job ', $idJob); 
 				$query = $this->db->get('workorder_equipment W');
 
