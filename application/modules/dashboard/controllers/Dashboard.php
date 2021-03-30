@@ -506,15 +506,23 @@ class Dashboard extends CI_Controller {
 			if(($workOrderInfo || $planningInfo || $haulingInfo) && $payrollInfo){
 				echo ',';
 			}
-
+			
 			if($payrollInfo)
 			{
 				$longitud = count($payrollInfo);
 				$i=1;
 				foreach ($payrollInfo as $data):
 					$startPayroll = substr($data['start'],0,10);
+					$payrollInfo = "Payroll: " . $data['first_name'] . ' ' . $data['last_name'];
+					$payrollInfo .=	" Job Code/Name: " . $data['job_start'];
+					$payrollInfo .= " - Working Hours: " . $data['working_hours'];
+
+					if($data['task_description']){
+						$taskDescription = trim(preg_replace('/\s+/', ' ', $data['task_description']));
+						$payrollInfo .= " - Task description: " . $taskDescription;
+					}
 					echo  '{
-						      "title": "Payroll: ' . $data['first_name'] . ' ' . $data['last_name'] . ' Job Code/Name: ' . $data['job_start'] . ' - Working Hours: ' . $data['working_hours'] . ' - Task description: ' . $data['task_description'] . '",
+						      "title": "' . $payrollInfo . '",
 						      "start": "' . $data['start'] . '",
 						      "end": "' . $data['finish'] . '",
 						      "color": "blue",
