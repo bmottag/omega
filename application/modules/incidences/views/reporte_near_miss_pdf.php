@@ -130,7 +130,7 @@
 			</tr>
 			
 			<tr bgcolor="#337ab7" style="color:white;">
-				<th align="center"><strong>Supervisor<br>' . $info[0]['supervisor']. '</strong></th>
+				<th align="center"><strong>Employee<br>' . $info[0]['supervisor']. '</strong></th>
 				<th ></th>
 				<th align="center"><strong>Coordinator<br>' . $info[0]['coordinator']. '</strong></th>
 			</tr>

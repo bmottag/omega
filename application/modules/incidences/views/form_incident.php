@@ -66,7 +66,7 @@ if ($retornoError) {
 				<div class="col-lg-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-edit fa-fw"></i> V-Contracting Supervisor
+                            <i class="fa fa-edit fa-fw"></i> Employee
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -90,7 +90,7 @@ if($information[0]["supervisor_signature"]){
 			<div class="modal-content">      
 				<div class="modal-header">        
 					<button type="button" class="close" data-dismiss="modal">×</button>        
-					<h4 class="modal-title">VCI Supervisor Signature</h4>      </div>      
+					<h4 class="modal-title">Employee Signature</h4>      </div>      
 				<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["supervisor_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
 				<div class="modal-footer">        
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -103,7 +103,7 @@ if($information[0]["supervisor_signature"]){
 	}
 	?>
 
-	<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/incident/supervisor/" . $information[0]["id_incident"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Supervisor Signature </a>
+	<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/incident/supervisor/" . $information[0]["id_incident"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Employee Signature </a>
 
 									</div>
 								</div>
@@ -356,7 +356,7 @@ if($information[0]["coordinator_signature"]){
 				</div>
 				<div class="panel-body">								
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="manager">Manager or Supervisor: *</label>
+							<label class="col-sm-4 control-label" for="manager">Employee: *</label>
 							<div class="col-sm-5">
 								<select name="manager" id="manager" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
