@@ -1488,6 +1488,26 @@ ob_end_clean();
 			$data["view"] = 'form_erp_personnel';
 			$this->load->view("layout", $data);
 	}
+
+	/**
+	 * Update infor personal
+     * @since 11/4/2021
+     * @author BMOTTAG
+	 */
+	public function update_erp_personnel()
+	{					
+			$idJob = $this->input->post('hddIdERP');
+
+			if ($this->jobs_model->updateERPWorker()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have save the Worker Information!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('jobs/erp_personnel/' . $idJob), 'refresh');
+    }
 	
 	/**
 	 * Form ERP - MAP

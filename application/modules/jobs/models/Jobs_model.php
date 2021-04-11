@@ -305,7 +305,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		 */
 		public function get_erp_training_workers($idJob) 
 		{		
-				$this->db->select("W.id_erp_training_worker, CONCAT(first_name, ' ', last_name) name, U.*");
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, U.*");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->where('W.fk_id_job', $idJob); 
 				$this->db->order_by('U.first_name, U.last_name', 'asc');
@@ -346,6 +346,29 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				);			
 
 				$query = $this->db->insert('erp_training_workers', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Update Rate
+		 * @since 11/4/2021
+		 */
+		public function updateERPWorker() 
+		{			
+				$idWorkerErp = $this->input->post('hddId');
+							
+				$data = array(
+					'title' => $this->input->post('title'),
+					'responsability' => $this->input->post('responsability')
+				);
+				
+				$this->db->where('id_erp_training_worker', $idWorkerErp);
+				$query = $this->db->update('erp_training_workers', $data);			
 
 				if ($query) {
 					return true;

@@ -24,10 +24,10 @@ emergency evacuation of other employees:<p></p>
 			<table border="0" cellspacing="0" cellpadding="5">
 	
 				<tr>
-					<th bgcolor="#337ab7" style="color:white;" width="35%"><strong>Name </strong></th>
-					<th bgcolor="#337ab7" style="color:white;" width="25%"><strong>Title </strong></th>
-					<th bgcolor="#337ab7" style="color:white;" width="25%"><strong>Responsability </strong></th>
-					<th bgcolor="#337ab7" style="color:white;" width="15%"><strong>Date </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="30%"><strong>Name </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="20%"><strong>Movil Number </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="20%"><strong>Title </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="30%"><strong>Responsability </strong></th>
 				</tr>';
 				
 			if($trainingWorkers){
@@ -35,6 +35,8 @@ emergency evacuation of other employees:<p></p>
 					$html .= "<tr>";					
 					$html .= "<th >" . $data['name'] . "</th>";
 					$html .= "<th >" . $data['movil'] . "</th>";
+					$html .= "<th >" . $data['title'] . "</th>";
+					$html .= "<th >" . $data['responsability'] . "</th>";
 					$html .= "</tr>";
 				endforeach;
 			}

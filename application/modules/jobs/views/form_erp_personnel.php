@@ -101,22 +101,43 @@ if ($retornoError) {
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr>
 					<th class='text-center'>Name</th>
+					<th class='text-center'>Title</th>
+					<th class='text-center'>Responsability</th>
+					<th class='text-center'>Save</th>
 					<th class='text-center'>Delete</th>
 				</tr>
 				<?php
 					foreach ($trainingWorkers as $data):
 						echo "<tr>";					
 						echo "<td ><small>" . $data['name'] . "</small></td>";
-						echo "<td class='text-center'><small>";
+
+						$idRecord = $data['id_erp_training_worker'];
 				?>
-					<center>
-					<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/deleteERPTRAINGINWorker/' . $jobInfo[0]["id_job"] . '/' . $data['id_erp_training_worker']) ?>' id="btn-delete">
-							<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>  
-					</a>
-					</center>
+						<form  name="workers_<?php echo $idRecord ?>" id="workers_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("jobs/update_erp_personnel"); ?>">
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdERP" name="hddIdERP" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
+						<td>
+						<input type="text" id="title" name="title" class="form-control" placeholder="Title" value="<?php echo $data['title']; ?>" maxlength="50" required >
+						</td>
+						<td>
+						<textarea id="responsability" name="responsability" class="form-control" rows="3" required><?php echo $data['responsability']; ?></textarea>
+						</td>
+						<td class='text-center'>
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update">
+								 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
+						</td>
+						</form>	
+
+						<td class='text-center'><small>
+						<center>
+						<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/deleteERPTRAINGINWorker/' . $jobInfo[0]["id_job"] . '/' . $data['id_erp_training_worker']) ?>' id="btn-delete">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>  
+						</a>
+						</center>
+						</small></td>
+						</tr>
 				<?php
-						echo "</small></td>";                     
-						echo "</tr>";
 					endforeach;
 				?>
 			</table>
