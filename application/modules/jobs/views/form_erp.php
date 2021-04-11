@@ -343,11 +343,25 @@ if($information)
 <p class="text-success text-left">Upon being notified about the fire emergency, occupants must assemble in the designated area :</p>
 						
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="location">Specify location : </label>
+							<label class="col-sm-4 control-label" for="location">Specify location 1: </label>
 							<div class="col-sm-5">
 								<input type="text" id="location" name="location" class="form-control" value="<?php echo $information?$information[0]["location"]:""; ?>" placeholder="Specify location" >
 							</div>
 						</div>	
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="location2">Specify location 2: </label>
+							<div class="col-sm-5">
+								<input type="text" id="location2" name="location2" class="form-control" value="<?php echo $information?$information[0]["location2"]:""; ?>" placeholder="Specify location" >
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="location3">Specify location 3: </label>
+							<div class="col-sm-5">
+								<input type="text" id="location3" name="location3" class="form-control" value="<?php echo $information?$information[0]["location3"]:""; ?>" placeholder="Specify location" >
+							</div>
+						</div>
 						
 
 				</div>

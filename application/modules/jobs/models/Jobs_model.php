@@ -83,6 +83,8 @@
 				'other' => $this->input->post('other'),
 				'specify' => $this->input->post('specify'),
 				'location' => $this->input->post('location'),
+				'location2' => $this->input->post('location2'),
+				'location3' => $this->input->post('location3'),
 				'directions' => $this->input->post('directions')
 
 			);
