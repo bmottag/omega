@@ -740,7 +740,7 @@ set_time_limit(60);
 						</tr>
 						
 						<tr bgcolor="#337ab7" style="color:white;">
-							<th align="center"><strong>VCI Supervisor<br>' . $lista['name']. '</strong></th>
+							<th align="center"><strong>VCI Representative<br>' . $lista['name']. '</strong></th>
 							<th ></th>
 							<th align="center"><strong>Contractor</strong></th>
 						</tr>
@@ -758,7 +758,7 @@ set_time_limit(60);
 
 
 			//Close and output PDF document
-			$pdf->Output('hauling.pdf', 'I');
+			$pdf->Output('hauling_' . $idHauling . '.pdf', 'I');
 
 			//============================================================+
 			// END OF FILE
