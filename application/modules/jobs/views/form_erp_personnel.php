@@ -37,15 +37,16 @@
 						?>
 					</div>
 					
-
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -54,15 +55,17 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
 }
-?> 
+?>
 														
 				</div>
 			</div>
@@ -81,11 +84,11 @@ if ($retornoError) {
 											<div class="col-lg-12">	
 <?php if($trainingWorkers){ ?>
 												
-					<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
 					</button>
 <?php }else { ?>
-					<a href="<?php echo base_url("jobs/add_workers_training/" . $jobInfo[0]["id_job"]); ?>" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+					<a href="<?php echo base_url("jobs/add_workers_training/" . $jobInfo[0]["id_job"]); ?>" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
 												
 <?php } ?>
 											
@@ -97,8 +100,8 @@ if ($retornoError) {
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr>
-					<td><p class="text-center"><strong>Name</strong></p></td>
-					<td><p class="text-center"><strong>Delete</strong></p></td>
+					<th class='text-center'>Name</th>
+					<th class='text-center'>Delete</th>
 				</tr>
 				<?php
 					foreach ($trainingWorkers as $data):
@@ -107,8 +110,8 @@ if ($retornoError) {
 						echo "<td class='text-center'><small>";
 				?>
 					<center>
-					<a class='btn btn-danger' href='<?php echo base_url('jobs/deleteERPTRAINGINWorker/' . $jobInfo[0]["id_job"] . '/' . $data['id_erp_training_worker']) ?>' id="btn-delete">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+					<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/deleteERPTRAINGINWorker/' . $jobInfo[0]["id_job"] . '/' . $data['id_erp_training_worker']) ?>' id="btn-delete">
+							<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>  
 					</a>
 					</center>
 				<?php

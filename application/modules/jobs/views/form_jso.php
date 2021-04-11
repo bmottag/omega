@@ -265,12 +265,12 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 ?>
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<tr class="primary">
-					<td><p class="text-center"><strong>Name</strong></p></td>
-					<td><p class="text-center"><strong>Position</strong></p></td>
-					<td><p class="text-center"><strong>Emergency contact</strong></p></td>
-					<td><p class="text-center"><strong>Works for</strong></p></td>
-					<td><p class="text-center"><strong>Edit</strong></p></td>
-					<td><p class="text-center"><strong>Signature</strong></p></td>
+					<th class='text-center'>Name</th>
+					<th class='text-center'>Position</th>
+					<th class='text-center'>Emergency contact</th>
+					<th class='text-center'>Works for</th>
+					<th class='text-center'>Edit</th>
+					<th class='text-center'>Signature</th>
 				</tr>
 				<?php
 					foreach ($infoWorkers as $data):
