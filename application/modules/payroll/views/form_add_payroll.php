@@ -1,35 +1,19 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart_V2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart_V3.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-edit fa-fw"></i>	RECORD TASK(S)
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-book"></i> PAYROLL - START
+					<i class="fa fa-book"></i> <strong>RECORD TASK(S) - PAYROLL</strong>
+					<br><small>Time Stamp - Start</small>
 				</div>
 				<div class="panel-body">
 					<form  name="form" id="form" class="form-horizontal" method="post" action="<?php echo base_url("payroll/savePayroll"); ?>" >
-																					
-						<div class="alert alert-info">
-							<strong>Task: </strong>Time Stamp<br>
-							<strong>Time: </strong>Start
-						</div>
-						
+																											
 						<!-- Task : Time Stamp  -->
 						<input type="hidden" id="hddTask" name="hddTask" value="1"/>
 						
@@ -80,6 +64,66 @@ the fitness of my work performance.
 								</select>
 							</div>
 						</div>
+
+	<div class="row">
+		<div class="col-lg-12">	
+            <div class="panel panel-default">
+                
+                <div class="panel-body">
+                	<div class="row">
+                		<div class="col-lg-12">	
+                			<p class="text-danger"><strong>COVID-19 screening questions</strong></p>
+                		</div>
+                	</div>
+                	<small>
+	                    <p class="text-danger">Please help us prevent spread. Read the following information carefully.</p>
+
+	                    <p class="text-danger">
+						VCI is currently taking measures to ensure our staff and others' safety by limiting exposure risk. Please help us prevent the spread of COVID-19; read carefully and answer the questions below.
+						</p>
+
+				    	<strong class="text-danger">1. Are you experiencing any of these symptoms?</strong>
+					    <ul>
+					    	<li class="text-danger">New or worsening cough.</li>
+					        <li class="text-danger">Shortness of breath or difficulty breathing.</li>
+					        <li class="text-danger">Temperature equal to or over 38&deg;C.</li>
+					        <li class="text-danger">Feeling feverish.</li>
+					        <li class="text-danger">Chills.</li>
+					        <li class="text-danger">Fatigue or weakness.</li>
+					        <li class="text-danger">Muscle or body aches.</li>
+					        <li class="text-danger">Headache.</li>
+					        <li class="text-danger">New loss of smell or taste.</li>
+					        <li class="text-danger">Gastrointestinal symptoms (abdominal pain, diarrhea, vomiting).</li>
+					        <li class="text-danger">Feeling very unwell.</li>
+						</ul>
+			
+				    	<strong class="text-danger">2. Has anyone in your household experienced any of these symptoms in the past 14 days? </strong>
+				    	<br>
+						<strong class="text-danger">3. In the past 14 days, have you been identified as a close contact of someone with suspected or confirmed COVID-19?</strong>
+						<br>
+						<strong class="text-danger">4. Have you travelled outside Canada in the past 14 days or been in contact with anyone who has travelled outside Canada in the past 14 days?</strong> 
+						<br><br>
+						<p class="text-danger">* Please act accordingly to the previous screening questions.</p>
+					</small>
+					<div class="form-group">
+						<label class="col-sm-6 control-label text-danger" for="covid">
+							  If the answer to any of the questions from 1-4 is "Yes."  Please do not enter any VCI site or our main office. Immediately contact your manager and the local public health authority at 1-833-415-9179.
+						</label>
+						<div class="col-sm-3">
+							<select name="covid" id="covid" class="form-control" required>
+								<option value="">Select...</option>
+								<option value=1 >Yes</option>
+								<option value=2 >No</option>
+							</select>
+						</div>
+					</div>
+					
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+	</div>
 												
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="taskDescription">Task/Report Description</label>

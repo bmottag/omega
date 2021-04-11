@@ -8,12 +8,22 @@ jQuery.validator.addMethod("revisar", function(value, element, param) {
 		return true;
 	}
 }, "You must certify to be clean.");
+
+jQuery.validator.addMethod("revisarCovid", function(value, element, param) {
+
+	if(value == 1){
+		return false;
+	}else{
+		return true;
+	}
+}, "Do not enter any VCI site.");
 			
 			$( "#form" ).validate( {
 				ignore: "input[type='text']:hidden",
 				rules: {
 					jobName: 			{ required: true },
 					certify: 			{ required: true, revisar: true },
+					covid: 				{ required: true, revisarCovid: true },
 					address: 			{ required: true }
 				},
 				errorElement: "em",
