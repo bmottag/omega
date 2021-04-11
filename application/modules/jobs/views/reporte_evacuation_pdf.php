@@ -20,7 +20,7 @@
 	
 	if($info[0]["evacuation_map"]){ 
 		//$html .= '<img src="http://v-contracting.ca/app/' . $info[0]["evacuation_map"] . '" />';
-		$html .= '<a href="http://v-contracting.ca/app/' . $info[0]["evacuation_map"] . '" target="_blank" /><strong>Link to the map</strong></a>';
+		$html .= '<a href="http://v-contracting.ca/app/' . $info[0]["evacuation_map"] . '" target="_blank" /><strong>Link to the ERP map</strong></a>';
 	}
 	
 			// create some HTML content
