@@ -16,10 +16,12 @@
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -28,10 +30,12 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
@@ -41,10 +45,12 @@ if ($retornoError) {
 <?php 
 	if($safetyClose){
 ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			This safety form is close.
+	<div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				This safety form is close.
+			</div>
 		</div>
 	</div>
 <?php		
@@ -61,7 +67,10 @@ if ($retornoError) {
 ?>
 <strong>Task(s)to be done: </strong><br><?php echo $information?$information[0]["work"]:""; ?>
 <br><strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?>
-<br><strong>Muster point: </strong><?php echo $information?$information[0]["muster_point"]:""; ?>
+<br><strong>Primary muster point: </strong><?php echo $information?$information[0]["muster_point"]:""; ?>
+<?php if($information[0]["muster_point_2"]){ ?>
+<br><strong>Secondary muster point: </strong><?php echo $information?$information[0]["muster_point_2"]:""; ?>
+<?php } ?>
 <br><strong>PPE (Basic): </strong><?php echo $ppe; ?>
 <?php if($information[0]["specify_ppe"]){ ?>
 <br><strong>Specify PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>

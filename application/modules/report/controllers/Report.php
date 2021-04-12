@@ -367,13 +367,13 @@ set_time_limit(60);
 							</style>
 							<table cellspacing="0" cellpadding="5">
 								<tr>
-									<th bgcolor="#337ab7" style="color:white;"><strong>Task(s) To Be Done: </strong></th>
+									<th bgcolor="#337ab7" style="color:white;"><strong>Task(s) to be done: </strong></th>
 									<th >' . $lista['work']. '</th>
 									<th bgcolor="#337ab7" style="color:white;"><strong>Date: </strong></th>
 									<th >' . $lista['date']. '</th>
 								</tr>
 								<tr>
-									<th bgcolor="#337ab7" style="color:white;"><strong>PPE Inspected: </strong></th>
+									<th bgcolor="#337ab7" style="color:white;"><strong>PPE inspected: </strong></th>
 									<th >' . $ppe. '</th>
 									<th bgcolor="#337ab7" style="color:white;"><strong>Job Code/Name: </strong></th>
 									<th >' . $lista['job_description']. '</th>
@@ -387,10 +387,16 @@ set_time_limit(60);
 				}
 
 				$html .= '<tr>
-									<th bgcolor="#337ab7" style="color:white;"><strong>Muster Point: </strong></th>
+									<th bgcolor="#337ab7" style="color:white;"><strong>Primary muster point: </strong></th>
 									<th colspan="3" >' . $lista['muster_point']. '</th>
-								</tr>
-							</table>';
+								</tr>';
+				if($lista['muster_point_2']){
+					$html .= '<tr>
+								<th bgcolor="#337ab7" style="color:white;"><strong>Secondary muster point: </strong></th>
+								<th colspan="3" >' . $lista['muster_point_2']. '</th>
+							</tr>';
+				}
+				$html .= '</table>';
 						
 				$html .= '<table border="1" cellspacing="0" cellpadding="5">
 						<tr>

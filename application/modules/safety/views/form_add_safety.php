@@ -66,17 +66,23 @@ if(!$hazards){
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="work">Task(s) to be done</label>
 							<div class="col-sm-5">
-							<textarea id="work" name="work" class="form-control" placeholder="Work To Be Done" rows="3"><?php echo $information?$information[0]["work"]:""; ?></textarea>
-							</div>
-						</div>
-														
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="musterPoint">Muster point</label>
-							<div class="col-sm-5">
-							<textarea id="musterPoint" name="musterPoint" placeholder="Muster Point" class="form-control" rows="3"><?php echo $information?$information[0]["muster_point"]:""; ?></textarea>
+							<textarea id="work" name="work" class="form-control" placeholder="Task(s) to be done" rows="3"><?php echo $information?$information[0]["work"]:""; ?></textarea>
 							</div>
 						</div>
 						
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="musterPoint">Primary muster point</label>
+							<div class="col-sm-5">
+							<input type="text" id="musterPoint" name="musterPoint" class="form-control" value="<?php echo $information?$information[0]["muster_point"]:""; ?>" placeholder="Primary muster point" required >
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="musterPoint">Secondary muster point</label>
+							<div class="col-sm-5">
+							<input type="text" id="musterPoint2" name="musterPoint2" class="form-control" value="<?php echo $information?$information[0]["muster_point_2"]:""; ?>" placeholder="Secondary muster point" >
+							</div>
+						</div>						
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="ppe">PPE (Basic)</label>

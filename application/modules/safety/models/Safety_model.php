@@ -18,6 +18,7 @@
 				'work' => $this->input->post('work'),
 				'fk_id_job' => $idJob,
 				'muster_point' => $this->input->post('musterPoint'),
+				'muster_point_2' => $this->input->post('musterPoint2'),
 				'specify_ppe' => $this->input->post('specify')
 			);
 			
