@@ -989,6 +989,7 @@ ob_end_clean();
 			$arrParam = array("idJob" => $idJob);
 			$data['info'] = $this->jobs_model->get_hazards_logs($arrParam);
 			
+			$data["idJob"] = $idJob;
 			$data["view"] = 'hazards_logs';
 			$this->load->view("layout", $data);
 	}

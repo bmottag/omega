@@ -28,6 +28,16 @@
 							<textarea id="observation" name="observation" placeholder="Observation"  class="form-control" rows="2"></textarea>
 							</div>
 						</div>						
+
+            			<p class="text-right text-danger">
+            				<small>* For line break use: 
+							<button type="button" class="btn btn-danger btn-xs"><strong>&lt;br&gt;</strong></i></button>
+            				, if you want to use bold use 
+            				<button type="button" class="btn btn-danger btn-xs"><strong>&lt;strong&gt;</strong></i></button>
+            				at the beginning and 
+            				<button type="button" class="btn btn-danger btn-xs"><strong>&lt;/strong&gt;</strong></i></button>
+            				at the end. </small>
+            			</p>
 					
 					<?php
 						foreach ($activityList as $lista):

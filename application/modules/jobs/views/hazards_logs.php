@@ -18,6 +18,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
+					<a class="btn btn-default btn-xs" href=" <?php echo base_url().'jobs/hazards/' . $idJob; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<i class="fa fa-eye"></i> LOGS
 				</div>
 				<div class="panel-body">
