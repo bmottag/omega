@@ -64,7 +64,7 @@ if(!$hazards){
 
 														
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="work">Work to be done</label>
+							<label class="col-sm-4 control-label" for="work">Task(s) to be done</label>
 							<div class="col-sm-5">
 							<textarea id="work" name="work" class="form-control" placeholder="Work To Be Done" rows="3"><?php echo $information?$information[0]["work"]:""; ?></textarea>
 							</div>
@@ -79,11 +79,11 @@ if(!$hazards){
 						
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="ppe">PPE</label>
+							<label class="col-sm-4 control-label" for="ppe">PPE (Basic)</label>
 							<div class="col-sm-5">
 							   <div class="checkbox">
 									<label>
-										<input type="checkbox" id="ppe" name="ppe" <?php if($information[0]["ppe"] == 1) { echo "checked"; }  ?> />
+										<input type="checkbox" id="ppe" name="ppe" <?php if($information && $information[0]["ppe"] == 1) { echo "checked"; }  ?> />
 									</label>
 								</div>
 							</div>

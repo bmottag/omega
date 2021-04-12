@@ -59,10 +59,10 @@ if ($retornoError) {
 <?php
 	$ppe=$information[0]['ppe']==1?"Yes":"No";
 ?>
-<strong>Work to be done: </strong><?php echo $information?$information[0]["work"]:""; ?>
+<strong>Task(s)to be done: </strong><br><?php echo $information?$information[0]["work"]:""; ?>
 <br><strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?>
 <br><strong>Muster point: </strong><?php echo $information?$information[0]["muster_point"]:""; ?>
-<br><strong>PPE: </strong><?php echo $ppe; ?>
+<br><strong>PPE (Basic): </strong><?php echo $ppe; ?>
 <?php if($information[0]["specify_ppe"]){ ?>
 <br><strong>Specify PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>
 <?php } ?>
@@ -72,7 +72,7 @@ if ($retornoError) {
 <br><strong>Date & Time: </strong><?php echo $information?$information[0]["date"]:""; ?>
 <?php 
 if($information){ 	
-	echo "<br><strong>Dowloand FLHA: </strong>";
+	echo "<br><strong>Download FLHA: </strong>";
 ?>
 <a href='<?php echo base_url('report/generaSafetyPDF/x/x/x/' . $information[0]["id_safety"] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 <?php 
@@ -157,7 +157,7 @@ if($information){
 				<div class="panel-body">
 				
 					<div class="col-lg-12">	
-						<a href="<?php echo base_url("safety/add_hazards_flha/" . $information[0]["fk_id_job"] . "/" . $information[0]["id_safety"]); ?>" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Hazards</a>
+						<a href="<?php echo base_url("safety/add_hazards_flha/" . $information[0]["fk_id_job"] . "/" . $information[0]["id_safety"]); ?>" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Hazards</a>
 						<br>
 					</div>
 														
@@ -217,11 +217,11 @@ if($information){
 					<div class="col-lg-12">	
 <?php if($safetyWorkers){ ?>
 												
-					<button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+					<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
 					</button>
 <?php }else { ?>
-					<a href="<?php echo base_url("safety/add_workers/" . $information[0]["id_safety"]); ?>" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+					<a href="<?php echo base_url("safety/add_workers/" . $information[0]["id_safety"]); ?>" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
 												
 <?php } ?>
 											
@@ -306,7 +306,7 @@ if($information){
 				<div class="panel-body">	
 										
 					<div class="col-lg-12">													
-						<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#modalSubcontractorWorker" id="x">
+						<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalSubcontractorWorker" id="x">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Subcontractor Worker
 						</button>
 						<br>

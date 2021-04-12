@@ -854,7 +854,7 @@ if($lista['comments'] != ''){
                     <div class="panel panel-info">
 						
                         <div class="panel-heading">
-                            <i class="fa fa-life-saver fa-fw"></i> <strong>LAST FIELD LEVEL HAZARD ASSESSMENT RECORDS</strong>
+                            <i class="fa fa-life-saver fa-fw"></i> <strong>LAST FLHA - FIELD LEVEL HAZARD ASSESSMENT RECORDS</strong>
                         </div>
 						
                         <div class="panel-body">
@@ -866,7 +866,7 @@ if($lista['comments'] != ''){
 									<tr>
 										<th>Meeting conducted by</th>
 										<th>Date & Time</th>
-										<th>Work To Be Done</th>
+										<th>Task(s) To Be Done</th>
 										<th>Job Code/Name</th>
 										<th>View</th>
 									</tr>

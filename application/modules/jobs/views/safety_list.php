@@ -45,7 +45,7 @@ if(!$hazards){
 								<th>#</th>
 								<th>Meeting conducted by</th>
 								<th>Date & Time</th>
-								<th>Work To Be Done</th>
+								<th>Task(s) To Be Done</th>
 								<th>Job Code/Name</th>
 								<th>Edit</th>
 							</tr>

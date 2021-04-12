@@ -330,6 +330,9 @@ set_time_limit(60);
 			);
 			
 			$info = $this->report_model->get_safety($arrParam);			
+			$idSafety = $info[0]['id_safety'];
+			$job_description = $info[0]['job_description'];
+			$fileName = 'flha_' . $job_description . '_' . $idSafety . '.pdf';
 
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
@@ -364,7 +367,7 @@ set_time_limit(60);
 							</style>
 							<table cellspacing="0" cellpadding="5">
 								<tr>
-									<th bgcolor="#337ab7" style="color:white;"><strong>Work To Be Done: </strong></th>
+									<th bgcolor="#337ab7" style="color:white;"><strong>Task(s) To Be Done: </strong></th>
 									<th >' . $lista['work']. '</th>
 									<th bgcolor="#337ab7" style="color:white;"><strong>Date: </strong></th>
 									<th >' . $lista['date']. '</th>
@@ -374,12 +377,16 @@ set_time_limit(60);
 									<th >' . $ppe. '</th>
 									<th bgcolor="#337ab7" style="color:white;"><strong>Job Code/Name: </strong></th>
 									<th >' . $lista['job_description']. '</th>
-								</tr>
-								<tr>
-									<th bgcolor="#337ab7" style="color:white;"><strong>Specify PPE: </strong></th>
-									<th colspan="3" >' . $lista['specify_ppe']. '</th>
-								</tr>
-								<tr>
+								</tr>';
+
+				if($lista['specify_ppe']){
+					$html .= '<tr>
+								<th bgcolor="#337ab7" style="color:white;"><strong>Specify PPE: </strong></th>
+								<th colspan="3" >' . $lista['specify_ppe']. '</th>
+							</tr>';
+				}
+
+				$html .= '<tr>
 									<th bgcolor="#337ab7" style="color:white;"><strong>Muster Point: </strong></th>
 									<th colspan="3" >' . $lista['muster_point']. '</th>
 								</tr>
@@ -560,7 +567,7 @@ set_time_limit(60);
 			// ---------------------------------------------------------
 
 			//Close and output PDF document
-			$pdf->Output('flha.pdf', 'I');
+			$pdf->Output($fileName, 'I');
 
 			//============================================================+
 			// END OF FILE
@@ -2713,14 +2720,6 @@ if($lista["with_trailer"] == 1){
 			
 			$this->load->view("layout", $data);
     }
-	
-
-	
-	
-	
-	
-	
-	
 	
 
 	

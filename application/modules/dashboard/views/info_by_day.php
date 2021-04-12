@@ -354,7 +354,7 @@
                             <tr>
                                 <th class='text-center'>Job Code/Name</th>
                                 <th class='text-center'>Meeting conducted by</th>
-                                <th class='text-center'>Work To Be Done</th>
+                                <th class='text-center'>Task(s) To Be Done</th>
                                 <th class='text-center'>Download</th>
                             </tr>
                         </thead>
