@@ -257,7 +257,7 @@ if($information){
 			$class = "btn-default";
 			
 		?>
-		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_safety_worker'] . "wModal"; ?>" id="<?php echo $data['id_safety_worker']; ?>">
+		<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#<?php echo $data['id_safety_worker'] . "wModal"; ?>" id="<?php echo $data['id_safety_worker']; ?>">
 			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 		</button>
 
@@ -278,7 +278,7 @@ if($information){
 		}
 						?>
 							
-							<a class='btn <?php echo $class; ?>' href='<?php echo base_url('safety/add_signature/worker/' . $data['fk_id_safety'] . '/' . $data['id_safety_worker']) ?>' id="btn-delete">
+							<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('safety/add_signature/worker/' . $data['fk_id_safety'] . '/' . $data['id_safety_worker']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
 							</center>
@@ -287,8 +287,8 @@ if($information){
 								echo "<td class='text-center'><small>";
 						?>
 							<center>
-							<a class='btn btn-danger' href='<?php echo base_url('safety/deleteSafetyWorker/' . $data['id_safety_worker'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('safety/deleteSafetyWorker/' . $data['id_safety_worker'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span> 
 							</a>
 							</center>
 						<?php
@@ -343,7 +343,7 @@ if($information){
 			$class = "btn-default";
 			
 		?>
-		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $data['id_safety_subcontractor'] . "SubcontractorModal"; ?>" id="<?php echo $data['id_safety_subcontractor']; ?>">
+		<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#<?php echo $data['id_safety_subcontractor'] . "SubcontractorModal"; ?>" id="<?php echo $data['id_safety_subcontractor']; ?>">
 			<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 		</button>
 
@@ -364,7 +364,7 @@ if($information){
 		}
 						?>
 							
-							<a class='btn <?php echo $class; ?>' href='<?php echo base_url('safety/add_signature/subcontractor/' . $data['fk_id_safety'] . '/' . $data['id_safety_subcontractor']) ?>' id="btn-delete">
+							<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('safety/add_signature/subcontractor/' . $data['fk_id_safety'] . '/' . $data['id_safety_subcontractor']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
 							</center>
@@ -373,8 +373,8 @@ if($information){
 								echo "<td class='text-center'><small>";
 						?>
 							<center>
-							<a class='btn btn-danger' href='<?php echo base_url('safety/deleteSafetySubcontractor/' . $data['id_safety_subcontractor'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('safety/deleteSafetySubcontractor/' . $data['id_safety_subcontractor'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
 							</a>
 							</center>
 						<?php
