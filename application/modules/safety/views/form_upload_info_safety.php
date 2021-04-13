@@ -176,10 +176,10 @@ if($information){
 				?>
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<tr class="dafault">
-							<td><p class="text-center"><strong>Activity</strong></p></td>
-							<td><p class="text-center"><strong>Hazard</strong></p></td>
-							<td><p class="text-center"><strong>Solution</strong></p></td>
-							<td><p class="text-center"><strong>Priority</strong></p></td>
+							<th class='text-center'>Activity</th>
+							<th class='text-center'>Hazard</th>
+							<th class='text-center'>Solution</th>
+							<th class='text-center'>Priority</th>
 						</tr>
 						<?php
 							foreach ($safetyHazard as $data):
@@ -243,9 +243,9 @@ if($information){
 ?>
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<tr>
-							<td><p class="text-center"><strong>Name</strong></p></td>
-							<td><p class="text-center"><strong>Signature</strong></p></td>
-							<td><p class="text-center"><strong>Delete</strong></p></td>
+							<th class='text-center'>Name</th>
+							<th class='text-center'>Signature</th>
+							<th class='text-center'>Delete</th>
 						</tr>
 						<?php
 							foreach ($safetyWorkers as $data):
@@ -327,16 +327,18 @@ if($information){
 ?>
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<tr>
-							<td><p class="text-center"><strong>Name</strong></p></td>
-							<td><p class="text-center"><strong>Company</strong></p></td>
-							<td><p class="text-center"><strong>Signature</strong></p></td>
-							<td><p class="text-center"><strong>Delete</strong></p></td>
+							<th class='text-center'>Name</th>
+							<th class='text-center'>Company</th>
+							<th class='text-center'>Movil number</th>
+							<th class='text-center'>Signature</th>
+							<th class='text-center'>Delete</th>
 						</tr>
 						<?php
 							foreach ($safetySubcontractorsWorkers as $data):
 								echo "<tr>";					
 								echo "<td ><small>" . $data['worker_name'] . "</small></td>";
 								echo "<td ><small>" . $data['company_name'] . "</small></td>";
+								echo "<td class='text-center'><small>" . $data['worker_movil_number'] . "</small></td>";
 								echo "<td class='text-center'><small><center>";
 		$class = "btn-primary";						
 		if($data['signature']){ 
@@ -460,20 +462,38 @@ if($information){
 				<form name="formSubcontractor" id="formSubcontractor" role="form" method="post" action="<?php echo base_url("safety/safet_subcontractor_Worker") ?>" >
 					<input type="hidden" id="hddId" name="hddId" value="<?php echo $information[0]["id_safety"]; ?>"/>
 					
-					<div class="form-group text-left">
-						<label class="control-label" for="company">Company</label>
-						<select name="company" id="company" class="form-control" required>
-							<option value=''>Select...</option>
-							<?php for ($i = 0; $i < count($companyList); $i++) { ?>
-								<option value="<?php echo $companyList[$i]["id_company"]; ?>" ><?php echo $companyList[$i]["company_name"]; ?></option>	
-							<?php } ?>
-						</select>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group text-left">
+								<label class="control-label" for="company">Company: *</label>
+								<select name="company" id="company" class="form-control" required>
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($companyList); $i++) { ?>
+										<option value="<?php echo $companyList[$i]["id_company"]; ?>" ><?php echo $companyList[$i]["company_name"]; ?></option>	
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group text-left">
+								<label class="control-label" for="workerName">Worker Name: *</label>
+								<input type="text" id="workerName" name="workerName" class="form-control" placeholder="Worker Name" required >
+							</div>
+						</div>
 					</div>
-					
-					<div class="form-group text-left">
-						<label class="control-label" for="workerName">Worker Name</label>
-						<input type="text" id="workerName" name="workerName" class="form-control" placeholder="Worker Name" required >
-					</div>					
+
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group text-left">
+								<label for="phone_number">Worker movil number:</label>
+								<input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Worker movil number" maxlength="12">
+							</div>
+						</div>
+						<div class="col-sm-6">
+
+						</div>
+					</div>
+
 					<div class="form-group">
 						<div class="row" align="center">
 							<div style="width:50%;" align="center">

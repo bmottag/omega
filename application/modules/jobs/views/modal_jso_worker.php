@@ -75,7 +75,7 @@ $(document).ready(function () {
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="position">Position : *</label>
+					<label for="position">Position: *</label>
 					<input type="text" id="position" name="position" class="form-control" value="<?php echo $information?$information[0]["position"]:""; ?>" placeholder="Position" >
 				</div>
 			</div>
@@ -84,14 +84,14 @@ $(document).ready(function () {
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="phone_number">Works phone number : *</label>
-					<input type="text" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["works_phone_number"]:""; ?>" placeholder="Works phone number" required >
+					<label for="phone_number">Worker movil number: *</label>
+					<input type="text" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["works_phone_number"]:""; ?>" placeholder="Worker movil number" required >
 				</div>
 			</div>
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="emergency_contact">Emergency Contact/Phone number : *</label>
+					<label for="emergency_contact">Emergency Contact/Phone number: *</label>
 					<input type="text" id="emergency_contact" name="emergency_contact" class="form-control" value="<?php echo $information?$information[0]["emergency_contact"]:""; ?>" placeholder="Emergency Contact" >
 				</div>
 			</div>

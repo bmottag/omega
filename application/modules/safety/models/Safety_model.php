@@ -282,7 +282,8 @@
 				$data = array(
 					'fk_id_safety' => $this->input->post('hddId'),
 					'fk_id_company' => $this->input->post('company'),
-					'worker_name' => $this->input->post('workerName')
+					'worker_name' => $this->input->post('workerName'),
+					'worker_movil_number' => $this->input->post('phone_number')
 				);			
 
 				$query = $this->db->insert('safety_workers_subcontractor', $data);
