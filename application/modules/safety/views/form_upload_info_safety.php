@@ -183,11 +183,6 @@ if($information){
 						</tr>
 						<?php
 							foreach ($safetyHazard as $data):
-								echo "<tr>";					
-								echo "<td ><small>" . $data['hazard_activity'] . "</small></td>";
-								echo "<td ><small>" . $data['hazard_description'] . "</small></td>";
-								echo "<td ><small>" . $data['solution']  . "</small></td>";
-								
 								$priority = $data['priority_description'];
 								
 								if($priority == 1 || $priority == 2) {
@@ -199,7 +194,11 @@ if($information){
 								}elseif($priority == 7 || $priority == 8) {
 									$class = "danger";
 								}
-												
+
+								echo "<tr>";					
+								echo "<td class='text-" . $class . " " . $class . "'><small>" . $data['hazard_activity'] . "</small></td>";
+								echo "<td class='text-" . $class . " " . $class . "'><small>" . $data['hazard_description'] . "</small></td>";
+								echo "<td class='text-" . $class . " " . $class . "'><small>" . $data['solution']  . "</small></td>";
 								echo "<td class='text-center " . $class . "'><p class='text-" . $class . "'><strong>" . $data['priority_description'] . "</strong></p></td>";
 								                    
 								echo "</tr>";
