@@ -143,7 +143,7 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 {
 	
 ?>
-	<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send MSM"><i class='glyphicon glyphicon-send'></i></a>
+	<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
 <?php
 }
 								echo "</td>";

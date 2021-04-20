@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/safety/safety.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/safety/safety_v2.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -16,15 +16,36 @@
 					<div class="alert alert-info">
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>
+				<?php 
+					if($information){
+				?>
+					<ul class="nav nav-tabs">
+						<li class='active'><a href="<?php echo base_url('safety/add_safety_v2/' . $information[0]['fk_id_job'] . '/' . $information[0]['id_safety']); ?>">Main Form</a>
+						</li>
+						<li><a href="<?php echo base_url('safety/upload_info_safety_v2/' . $information[0]['id_safety']); ?>">Hazards</a>
+						</li>
+						<li><a href="<?php echo base_url('safety/upload_covid/' . $information[0]['id_safety']); ?>">COVID Form</a>
+						</li>
+						<li><a href="<?php echo base_url('safety/upload_workers/' . $information[0]['id_safety']); ?>">Workers</a>
+						</li>
+						<li><a href="<?php echo base_url('safety/review_flha/' . $information[0]['id_safety']); ?>">Review and Sign</a>
+						</li>
+					</ul>
+					<br>
+				<?php
+					}
+				?>
 
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -33,10 +54,12 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
@@ -47,9 +70,11 @@ if ($retornoError) {
 //verificar si el JOB CODE tiene asignados hazards
 if(!$hazards){
 ?>
-	<div class="alert alert-danger ">
-		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-		This work does not have hazards.
+	<div class="row">
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			This Job Code/Name does not have hazards.
+		</div>
 	</div>
 <?php	
 }else{

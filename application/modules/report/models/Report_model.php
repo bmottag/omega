@@ -571,15 +571,24 @@
 				}
 		}
 
+
+		/**
+		 * Get safety COVID
+		 * @since 15/4/2021
+		 */
+		public function get_safety_covid($idSafety) 
+		{		
+				$this->db->select();
+				$this->db->where('W.fk_id_safety', $idSafety); 
+				$query = $this->db->get('safety_covid W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-	    
 	}

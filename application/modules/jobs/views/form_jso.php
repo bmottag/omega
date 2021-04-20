@@ -591,10 +591,18 @@ as well as by operating any equipment. All equipment orientation must be recorde
 						
 						<div class="form-group">
 							<div class="col-sm-12">
-							<textarea id="potential_hazards" name="potential_hazards" placeholder="Potential hazards"  class="form-control" rows="6"><?php echo $information?$information[0]["potential_hazards"]:""; ?></textarea>
+							<textarea id="potential_hazards" name="potential_hazards" placeholder="Potential hazards"  class="form-control" rows="7"><?php echo $information?$information[0]["potential_hazards"]:""; ?></textarea>
 							</div>
 						</div>						
-
+            			<p class="text-right text-danger">
+            				<small>* For line break use: 
+							<button type="button" class="btn btn-danger btn-xs"><strong>&lt;br&gt;</strong></i></button>
+            				, if you want to use bold use 
+            				<button type="button" class="btn btn-danger btn-xs"><strong>&lt;strong&gt;</strong></i></button>
+            				at the beginning and 
+            				<button type="button" class="btn btn-danger btn-xs"><strong>&lt;/strong&gt;</strong></i></button>
+            				at the end. </small>
+            			</p>
 				</div>
 			</div>
 		</div>

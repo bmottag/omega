@@ -339,6 +339,7 @@ set_time_limit(60);
 			foreach ($info as $lista):
 				
 				$hazards = $this->report_model->get_safety_hazard($lista['id_safety']);
+				$safetyCovid = $this->report_model->get_safety_covid($idSafety);//safety covid
 				$workers = $this->report_model->get_safety_workers($lista['id_safety']);
 				$subcontractors = $this->report_model->get_safety_subcontractors($lista['id_safety']);
 
@@ -426,6 +427,92 @@ set_time_limit(60);
 						endforeach;
 					}
 				$html.= "</table><br><br><br><br>";
+
+				if($safetyCovid)
+				{
+						$html .= '<table border="1" cellspacing="0" cellpadding="5">
+								<tr bgcolor="#337ab7" style="color:white;">
+									<th width="40%" align="center"><strong>Questions must be answered prior to performing work</strong></th>
+									<th width="10%" align="center"><strong>Yes</strong></th>
+									<th width="10%" align="center"><strong>No</strong></th>
+									<th width="40%" align="center"><strong>Comments</strong></th>
+								</tr>';
+						$html.= '<tr>';					
+						$html.= '<th >Can 6ft distancing be maintained between workers during the task?</th>';					
+						if($safetyCovid[0]['distancing'] == 1){
+							$html.= '<th align="center"><strong>X</strong></th>
+									 <th align="center"><strong></strong></th>';
+						}else{
+							$html.='<th align="center"><strong></strong></th>
+									 <th align="center"><strong>X</strong></th>';													
+						}
+						$html.= '<th >' . $safetyCovid[0]['distancing_comments']  . '</th>';
+						$html.= '</tr>';
+
+						$html.= '<tr>';					
+						$html.= '<th >Workers can perform their tasks without sharing tools or equipment?</th>';					
+						if($safetyCovid[0]['sharing_tools'] == 1){
+							$html.= '<th align="center"><strong>X</strong></th>
+									 <th align="center"><strong></strong></th>';
+						}else{
+							$html.='<th align="center"><strong></strong></th>
+									 <th align="center"><strong>X</strong></th>';													
+						}
+						$html.= '<th >' . $safetyCovid[0]['sharing_tools_comments'] . '</th>';
+						$html.= '</tr>';
+
+						$html.= '<tr>';					
+						$html.= '<th >All workers have the required PPE to safely perform their work? GLOVES ARE MANDATORY.</th>';
+						if($safetyCovid[0]['required_ppe'] == 1){
+							$html.= '<th align="center"><strong>X</strong></th>
+									 <th align="center"><strong></strong></th>';
+						}else{
+							$html.='<th align="center"><strong></strong></th>
+									 <th align="center"><strong>X</strong></th>';													
+						}
+						$html.= '<th >' . $safetyCovid[0]['required_ppe_comments'] . '</th>';
+						$html.= '</tr>';
+
+						$html.= '<tr>';					
+						$html.= '<th >All workers have no signs or symptoms of being ill (i.e.: Sore throat, fever, dry cough, shortness of breath)?</th>';
+						if($safetyCovid[0]['symptoms'] == 1){
+							$html.= '<th align="center"><strong>X</strong></th>
+									 <th align="center"><strong></strong></th>';
+						}else{
+							$html.='<th align="center"><strong></strong></th>
+									 <th align="center"><strong>X</strong></th>';													
+						}
+						$html.= '<th >' . $safetyCovid[0]['symptoms_comments'] . '</th>';
+						$html.= '</tr>';
+
+						$html.= '<tr>';					
+						$html.= '<th >Crew is aware of site COVID protocols for breaks, lunchrooms, washrooms, elevator use, etc. and practices for hygiene? </th>';
+						if($safetyCovid[0]['protocols'] == 1){
+							$html.= '<th align="center"><strong>X</strong></th>
+									 <th align="center"><strong></strong></th>';
+						}else{
+							$html.='<th align="center"><strong></strong></th>
+									 <th align="center"><strong>X</strong></th>';													
+						}
+						$html.= '<th >' . $safetyCovid[0]['protocols_comments']  . '</th>';
+						$html.= '</tr>';									
+						$html.= "</table>";
+						
+						$html.= '<p><h4>Sample Mitigation Strategies</h4>';
+						$html.= 'The mitigation strategies can include, but are not limited, to items such as…<br>
+							You must not start work until you have:		
+							<ul>
+								<li>Splitting crew sizes</li>
+								<li>Providing respirators and full-faceshields when distance cannot be maintained</li>
+								<li>Utilizing additional equipment to maintain distancing</li>
+								<li>Providing shielding to provide a barrier between workers</li>
+								<li>Staggering breaks to prevent exposure</li>
+								<li>Disinfecting tools that must be shared</li>
+								<li>Cleaning offices lunch rooms and other common areas as per COVID-19 Cleaning schedule</li>
+								<li>Social distancing of 6 feet required</li>
+							</ul>
+						</p>';
+				}
 				
 				if(!$workers){			
 						$html.= 'No data was found for workers';

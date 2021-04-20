@@ -114,6 +114,9 @@ class General_model extends CI_Model {
         $this->db->join('user U', 'U.id_user = S.fk_id_user', 'INNER');
 		$this->db->join('param_jobs J', 'J.id_job = S.fk_id_job', 'INNER');
 		
+		if (array_key_exists("idSafety", $arrData)) {
+			$this->db->where('S.id_safety', $arrData["idSafety"]);
+		}
 		if (array_key_exists("idJob", $arrData)) {
 			$this->db->where('S.fk_id_job', $arrData["idJob"]);
 		}
@@ -136,6 +139,31 @@ class General_model extends CI_Model {
             return false;
         }
     }
+	
+		/**
+		 * Get safety subcontractor workers info
+		 * @since 26/2/2016
+		 */
+		public function get_safety_subcontractors_workers($arrData) 
+		{		
+				$this->db->select();
+				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
+				if (array_key_exists("idSafety", $arrData)) {
+					$this->db->where('W.fk_id_safety', $arrData["idSafety"]);
+				}
+				if (array_key_exists("movilNumber", $arrData)) {
+					$where = "W.worker_movil_number != ''";
+					$this->db->where($where);
+				}
+				$this->db->order_by('C.company_name, W.worker_name', 'asc');
+				$query = $this->db->get('safety_workers_subcontractor W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 	
     /**
      * Hauling list

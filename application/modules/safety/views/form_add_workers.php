@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/safety/workers.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/safety/workers_v2.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>

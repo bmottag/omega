@@ -207,6 +207,74 @@ class External extends CI_Controller {
 
 
 	}
+	
+	/**
+	 * Envio de mensaje para firmar FLHA
+     * @since 14/4/2021
+     * @author BMOTTAG
+	 */
+	public function sendSMSFLHAWorker($idSafety)
+	{			
+		$this->load->model("general_model");
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		
+		
+        $client = new Twilio\Rest\Client($dato1, $dato2);
+		
+		
+		$data['informationWorker'] = FALSE;
+		$data['idSafety'] = $idSafety;
+														
+		$arrParam = array(
+			"idSafety" => $idSafety,
+			"movilNumber" => true
+		);
+		$data['infoSafety'] = $this->general_model->get_safety($arrParam);
+
+		//lista de subcontratistas para este FLHA
+		$data['informationWorker'] = $this->general_model->get_safety_subcontractors_workers($arrParam);//info safety workers
+
+		$mensaje = "";
+		$mensaje .= "VCI FLHA - " . date('F j, Y', strtotime($data['infoSafety'][0]['date']));
+		$mensaje .= "\n" . $data['infoSafety'][0]['job_description'];
+		$mensaje .= "\nFollow the link, read the FLHA and sign.";
+		$mensaje .= "\n";
+		$mensaje .= "\n";
+		$mensaje .= base_url("external/add_task_control/" . $idSafety);
+
+		if($data['informationWorker']){
+			foreach ($data['informationWorker'] as $data):
+				$to = '+1' . $data['worker_movil_number'];		
+				$client->messages->create(
+					$to,
+					array(
+						'from' => '587 600 8948',
+						'body' => $mensaje
+					)
+				);
+			endforeach;
+		}
+		$data['linkBack'] = "safety/upload_workers/" . $idSafety;
+		$data['titulo'] = "<i class='fa fa-list'></i>FLHA - SMS";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "You have send the SMS to Subcontractors";
+
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+	}
 
 	
 	

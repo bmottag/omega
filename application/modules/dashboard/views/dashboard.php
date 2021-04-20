@@ -881,7 +881,7 @@ if($lista['comments'] != ''){
 										echo "<td >" . $lista['job_description'] . "</td>";
 										echo "<td class='text-center'>";
 								?>
-<a class='btn btn-info btn-xs' href='<?php echo base_url('safety/upload_info_safety/' . $lista['id_safety']) ?>'>
+<a class='btn btn-info btn-xs' href='<?php echo base_url('safety/review_flha/' . $lista['id_safety']) ?>'>
 	View <span class="fa fa-life-saver" aria-hidden="true">
 </a>
 								<?php

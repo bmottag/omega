@@ -163,26 +163,6 @@
 		}
 		
 		/**
-		 * Get safety subcontractor workers info
-		 * @since 26/2/2016
-		 */
-		public function get_safety_subcontractors_workers($idSafety) 
-		{		
-				$this->db->select();
-				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
-				$this->db->where('W.fk_id_safety', $idSafety); 
-				$this->db->order_by('C.company_name, W.worker_name', 'asc');
-				$query = $this->db->get('safety_workers_subcontractor W');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}		
-		
-
-		/**
 		 * @author BMOTTAG
 		 * @since 10/12/2016
 		 * Consulta de empleados para un safety especifico
@@ -393,6 +373,60 @@
 				} else {
 					return false;
 				}
+		}
+
+		/**
+		 * Get safety COVID
+		 * @since 14/4/2021
+		 */
+		public function get_safety_covid($idSafety) 
+		{		
+				$this->db->select();
+				$this->db->where('W.fk_id_safety', $idSafety); 
+				$query = $this->db->get('safety_covid W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add COVID
+		 * @since 14/4/2021
+		 */
+		public function add_covid() 
+		{
+			$idSafetyCovid = $this->input->post('hddIdentificador');			
+
+			$data = array(
+				'fk_id_safety' => $this->input->post('hddIdSafety'),
+				'distancing' => $this->input->post('hddDistancing'),
+				'distancing_comments' => $this->input->post('distancing_comments'),
+				'sharing_tools' => $this->input->post('hddSharingTools'),
+				'sharing_tools_comments' => $this->input->post('sharing_tools_comments'),
+				'required_ppe' => $this->input->post('hddRequiredPPE'),
+				'required_ppe_comments' => $this->input->post('required_ppe_comments'),
+				'symptoms' => $this->input->post('hddSymptoms'),
+				'symptoms_comments' => $this->input->post('symptoms_comments'),
+				'protocols' => $this->input->post('hddProtocols'),
+				'protocols_comments' => $this->input->post('protocols_comments'),
+				'crew_size' => $this->input->post('crew_size')
+			);
+						
+			//revisar si es para adicionar o editar
+			if ($idSafetyCovid == '') {	
+				$query = $this->db->insert('safety_covid', $data);								
+			} else {
+				$this->db->where('id_safety_covid', $idSafetyCovid);
+				$query = $this->db->update('safety_covid', $data);
+			}
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		

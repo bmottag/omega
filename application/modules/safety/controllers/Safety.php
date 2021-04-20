@@ -89,7 +89,8 @@ class Safety extends CI_Controller {
 				//safety_workes list
 				$data['safetyWorkers'] = $this->safety_model->get_safety_workers($id);
 				//safety subcontractors workers list
-				$data['safetySubcontractorsWorkers'] = $this->safety_model->get_safety_subcontractors_workers($id);
+				$arrParam = array('idSafety' => $id);
+				$data['safetySubcontractorsWorkers'] = $this->general_model->get_safety_subcontractors_workers($arrParam);//safety 
 
 				$data['information'] = $this->safety_model->get_safety_by_id($id);//info safety
 				
@@ -205,10 +206,8 @@ class Safety extends CI_Controller {
 			$arrParam = array("state" => 1);
 			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 
-			
-			$view = 'form_add_workers';
 			$data["idSafety"] = $id;
-			$data["view"] = $view;
+			$data["view"] = 'form_add_workers';
 			$this->load->view("layout", $data);
 	}
 	
@@ -386,7 +385,7 @@ class Safety extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('safety/upload_info_safety/' . $idSafety), 'refresh');
+			redirect(base_url('safety/upload_workers/' . $idSafety), 'refresh');
     }
 	
     /**
@@ -409,7 +408,7 @@ class Safety extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('safety/upload_info_safety/' . $idSafety), 'refresh');
+			redirect(base_url('safety/upload_workers/' . $idSafety), 'refresh');
     }
 	
 	/**
@@ -436,8 +435,6 @@ class Safety extends CI_Controller {
 						"column" => "signature",
 						"value" => $name
 					);
-					//enlace para regresar al formulario
-					$data['linkBack'] = "safety/upload_info_safety/" . $idSafety;
 				}elseif($typo == "worker"){
 					$name = "images/signature/safety/" . $typo . "_" . $idWorker . ".png";
 					
@@ -448,8 +445,6 @@ class Safety extends CI_Controller {
 						"column" => "signature",
 						"value" => $name
 					);
-					//enlace para regresar al formulario con ancla a la lista de trabajadores
-					$data['linkBack'] = "safety/upload_info_safety/" . $idSafety . "#anclaWorker";
 				}elseif($typo == "subcontractor"){
 					$name = "images/signature/safety/" . $typo . "_" . $idWorker . ".png";
 					
@@ -460,9 +455,9 @@ class Safety extends CI_Controller {
 						"column" => "signature",
 						"value" => $name
 					);
-					//enlace para regresar al formulario con ancla a la lista de trabajadores
-					$data['linkBack'] = "safety/upload_info_safety/" . $idSafety . "#anclaSubcontractor";					
 				}
+				//enlace para regresar al formulario
+				$data['linkBack'] = "safety/review_flha/" . $idSafety;
 				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
@@ -519,7 +514,7 @@ class Safety extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('safety/upload_info_safety/' . $idSafety), 'refresh');
+			redirect(base_url('safety/upload_workers/' . $idSafety), 'refresh');
     }
 	
     /**
@@ -534,7 +529,192 @@ class Safety extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('safety/upload_info_safety/' . $idSafety), 'refresh');
+			redirect(base_url('safety/upload_workers/' . $idSafety), 'refresh');
     }	
+
+	/**
+	 * Form Add Safety
+     * @since 13/4/2021
+     * @author BMOTTAG
+	 */
+	public function add_safety_v2($idJob, $idSafety = 'x')
+	{
+			$this->load->model("general_model");
+			$data['information'] = FALSE;
+			
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+											
+			//hazards list
+			$data['hazards'] = $this->general_model->get_job_hazards($idJob);
+
+			//si envio el idSafety, entonces busco la informacion 
+			if ($idSafety != 'x') {
+				$data['information'] = $this->safety_model->get_safety_by_id($idSafety);//info safety
+			}			
+
+			$data["view"] = 'form_add_safety_v2';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save safety
+     * @since 14/4/2021
+     * @author BMOTTAG
+	 */
+	public function save_safety_v2()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			if ($idSafety = $this->safety_model->add_safety()) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+				$data["idSafety"] = $idSafety;
+				$this->session->set_flashdata('retornoExito', 'You have save your FLHA record, do not forget to add Hazards, Workers and signatures.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				$data["idSafety"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+
+	/**
+	 * Form Upload safety info
+     * @since 15/4/2021
+     * @author BMOTTAG
+	 */
+	public function upload_info_safety_v2($id = 'x')
+	{
+			$this->load->model("general_model");
+			$data['information'] = FALSE;
+			$data['safetyClose'] = FALSE;			
+			$view = 'form_upload_info_safety_v2';
+			//si envio el id, entonces busco la informacion 
+			if ($id != 'x') 
+			{
+				$data['information'] = $this->safety_model->get_safety_by_id($id);//info safety
+				$data['safetyHazard'] = $this->safety_model->get_safety_hazard($id);//safety_hazard list
+				//consultar si esta cerrado
+				if($data['information'][0]['state'] == 2){
+					$data['safetyClose'] = TRUE;
+					$view = 'view_safety';
+				}
+			}			
+			$data['view'] = $view;
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form Upload workers to safety
+     * @since 15/4/2021
+     * @author BMOTTAG
+	 */
+	public function upload_workers($idSafety = 'x')
+	{
+			$this->load->model("general_model");
+			$data['information'] = FALSE;
+			$data['safetyClose'] = FALSE;					
+			//si envio el id, entonces busco la informacion 
+			if ($idSafety != 'x') 
+			{
+				$data['information'] = $this->safety_model->get_safety_by_id($idSafety);//info safety
+				$arrParam = array(
+					"table" => "param_company",
+					"order" => "company_name",
+					"column" => "company_type",
+					"id" => 2
+				);
+				$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
+				//workers list
+				$arrParam = array("state" => 1);
+				$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+				$data['safetyWorkers'] = $this->safety_model->get_safety_workers($idSafety);//safety_worker list
+				$arrParam = array('idSafety' => $idSafety);
+				$data['safetySubcontractorsWorkers'] = $this->general_model->get_safety_subcontractors_workers($arrParam);//safety subcontractors workers list
+			}			
+			$data['view'] = 'form_upload_safety_workers';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form COVID to safety
+     * @since 15/4/2021
+     * @author BMOTTAG
+	 */
+	public function upload_covid($idSafety = 'x')
+	{
+			$this->load->model("general_model");
+			$data['information'] = FALSE;
+			$data['safetyClose'] = FALSE;					
+			//si envio el id, entonces busco la informacion 
+			if ($idSafety != 'x') 
+			{
+				$data['information'] = $this->safety_model->get_safety_by_id($idSafety);//info safety
+				$data['safetyCovid'] = $this->safety_model->get_safety_covid($idSafety);//safety covid
+			}			
+			$data['view'] = 'form_upload_safety_covid';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save safety
+     * @since 14/4/2021
+     * @author BMOTTAG
+	 */
+	public function save_covid()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$idSafety = $this->input->post('hddIdSafety');
+	
+			if ($this->safety_model->add_covid()) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+				$data["idSafety"] = $idSafety;
+				$this->session->set_flashdata('retornoExito', 'You have save the COVID Form Information, do not forget to add Workers and signatures.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				$data["idSafety"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+
+	/**
+	 * Subcontractors view to sign
+     * @since 15/4/2021
+     * @author BMOTTAG
+	 */
+	public function review_flha($idSafety)
+	{
+			$this->load->model("general_model");
+
+			$data['information'] = $this->safety_model->get_safety_by_id($idSafety);
+
+			//safety_hazard list
+			$data['safetyHazard'] = $this->safety_model->get_safety_hazard($idSafety);
+			//safety_workes list
+			$data['safetyWorkers'] = $this->safety_model->get_safety_workers($idSafety);
+			//safety subcontractors workers list
+			$arrParam = array('idSafety' => $idSafety);
+			$data['safetySubcontractorsWorkers'] = $this->general_model->get_safety_subcontractors_workers($arrParam);//safety 
+
+			$data["view"] = 'review_flha';
+			$this->load->view("layout_calendar", $data);
+	}
+
+
 	
 }
