@@ -408,7 +408,9 @@ if($information[0]["coordinator_signature"]){
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:100%;" align="center">
-									<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+									<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+										Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									</button>
 								</div>
 							</div>
 						</div>
