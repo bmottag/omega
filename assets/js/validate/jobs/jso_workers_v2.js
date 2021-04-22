@@ -10,11 +10,14 @@ jQuery.validator.addMethod("campoNit", function(value, element, param) {
 }, "This field is required.");
 
 
+	$("#phone_number").bloquearTexto().maxlength(10);
+	$("#emergency_contact").bloquearTexto().maxlength(10);
 	
 	$( "#formWorker" ).validate( {
 		rules: {
 			name:	 				{ required: true, minlength:2, maxlength:100 },
-			phone_number:	 		{ required: true, minlength:2, maxlength:20 }
+			phone_number:	 		{ required: true, minlength:10, maxlength:10 },
+			emergency_contact:	 	{ minlength:10, maxlength:10 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -65,7 +68,7 @@ jQuery.validator.addMethod("campoNit", function(value, element, param) {
 							$("#div_load").css("display", "none");
 							$('#btnSubmitWorker').removeAttr('disabled');
 
-							var url = base_url + "jobs/jso/" + data.idRecord;
+							var url = base_url + "jobs/add_jso/" + data.idRecord + "/" + data.idJSO;
 							$(location).attr("href", url);
 						}
 						else

@@ -126,7 +126,7 @@ class Jobs extends CI_Controller {
 			
 			$data["idRecord"] = $this->input->post('hddIdJob');
 
-			if ($idToolBox = $this->jobs_model->add_tool_box()) 
+			if ($idToolBox = $this->jobs_model->add_TOOLBOX()) 
 			{
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the Tool Box, continue uploading the information.";
@@ -1136,13 +1136,36 @@ ob_end_clean();
 			$data["view"] ='safety_list';
 			$this->load->view("layout", $data);
 	}
+
+	/**
+	 * tool_box list
+     * @since 24/10/2017
+     * @author BMOTTAG
+	 */
+	public function jso($idJob)
+	{		
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			//jso info
+			$arrParam = array('idJob' => $idJob);				
+			$data['information'] = $this->jobs_model->get_jso($arrParam);
+			$data["view"] ='jso_list';
+			$this->load->view("layout", $data);
+	}
 	
 	/**
 	 * Form JSO
      * @since 3/1/2018
      * @author BMOTTAG
 	 */
-	public function jso($idJob)
+	public function add_jso($idJob, $idJobJso = 'x')
 	{
 			$data['information'] = FALSE;
 			$data['trainingWorkers'] = FALSE;
@@ -1162,14 +1185,23 @@ ob_end_clean();
 			$arrParam = array("state" => 1);
 			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 
-			//JSO info
-			$arrParam = array("idJob" => $idJob);
-			$data['information'] = $this->jobs_model->get_jso($arrParam);
-			
-			$data['infoWorkers'] = "";
-			if($data['information']){
-				$arrParam = array("idJobJso" => $data['information'][0]['id_job_jso']);
-				$data['infoWorkers'] = $this->jobs_model->get_jso_workers($arrParam);
+			//si envio el id, entonces busco la informacion 
+			if ($idJobJso != 'x') 
+			{
+				//JSO info
+				$arrParam = array("idJobJso" => $idJobJso);
+				$data['information'] = $this->jobs_model->get_jso($arrParam);
+				
+				//workers list
+				$data['infoWorkers'] = "";
+				if($data['information']){
+					$arrParam = array("idJobJso" => $idJobJso);
+					$data['infoWorkers'] = $this->jobs_model->get_jso_workers($arrParam);
+				}
+				
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
 			}
 
 			$data["view"] = 'form_jso';
@@ -1188,14 +1220,16 @@ ob_end_clean();
 			
 			$data["idRecord"] = $this->input->post('hddIdJob');
 
-			if ($this->jobs_model->add_jso()) 
+			if ($idJSO = $this->jobs_model->addJSO()) 
 			{
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the JSO.";
+				$data["idJSO"] = $idJSO;
 				$this->session->set_flashdata('retornoExito', 'You have save the JSO!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
+				$data["idJSO"] = "";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
@@ -1230,7 +1264,7 @@ ob_end_clean();
 						"value" => $name
 					);
 					//enlace para regresar al formulario
-					$data['linkBack'] = "jobs/jso/" . $idJob;
+					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
 				}elseif($typo == "manager"){
 					$name = "images/signature/jso/" . $typo . "_" . $idJSO . ".png";
 					
@@ -1242,7 +1276,7 @@ ob_end_clean();
 						"value" => $name
 					);
 					//enlace para regresar al formulario
-					$data['linkBack'] = "jobs/jso/" . $idJob;
+					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
 				}elseif($typo == "worker"){
 					$name = "images/signature/jso/" . $typo . "_" . $idWorker . ".png";
 					
@@ -1254,7 +1288,7 @@ ob_end_clean();
 						"value" => $name
 					);
 					//enlace para regresar al formulario con ancla a la lista de trabajadores
-					$data['linkBack'] = "jobs/jso/" . $idJob;
+					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
 				}elseif($typo == "externalWorker"){
 					$name = "images/signature/jso/worker_" . $idWorker . ".png";
 					
@@ -1337,6 +1371,7 @@ ob_end_clean();
 			$infoJSO = $this->jobs_model->get_jso($arrParam);
 			
 			$data["idRecord"] = $infoJSO[0]['fk_id_job'];
+			$data["idJSO"] = $idJobJso;
 			$data["idRecordExternal"] = $idJobWorker;
 
 			$msj = "You have add a new worker.";
@@ -1724,7 +1759,7 @@ ob_end_clean();
 		$mensaje .= date('F j, Y', strtotime($data['JSOInfo'][0]['date_issue_jso']));
 		$mensaje .= "\n" . $data['JSOInfo'][0]['job_description'];
 		$mensaje .= "\n";
-		$mensaje .= "Click the following link to review the JSO.";
+		$mensaje .= "Click the link below to sign the JOB SITE ORIENTATION.";
 		$mensaje .= "\n";
 		$mensaje .= "\n";
 		$mensaje .= base_url("jobs/jso_worker_view/" . $idJSOworker);

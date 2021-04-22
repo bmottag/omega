@@ -39,15 +39,8 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 			$html.= '<tr>
 						<th bgcolor="#337ab7" style="color:white;"><strong>Name:</strong></th>
 						<th><strong>' . $data['name'] . '</strong></th>
-						<th bgcolor="#337ab7" style="color:white;"><strong>Birth Date:</strong></th>
-						<th><strong>' . $data['birth_date'] . '</strong></th>';
-			$html.= '</tr>';
-
-			$html.= '<tr>
 						<th bgcolor="#337ab7" style="color:white;"><strong>City:</strong></th>
-						<th><strong>' . $data['city'] . '</strong></th>
-						<th bgcolor="#337ab7" style="color:white;"><strong></strong></th>
-						<th><strong></strong></th>';
+						<th><strong>' . $data['city'] . '</strong></th>';
 			$html.= '</tr>';
 			
 			$html.= '<tr>

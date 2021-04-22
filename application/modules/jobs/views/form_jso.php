@@ -3,7 +3,7 @@
 <script>
 $(function(){ 
 	
-	$(".btn-primary").click(function () {	
+	$(".btn-amarello").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -46,7 +46,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<a class="btn btn-info btn-xs" href=" <?php echo base_url().'jobs'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url('jobs/jso/' . $jobInfo[0]["id_job"]); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-fire-extinguisher "></i> <strong>JSO - JOB SITE ORIENTATION</strong>
 				</div>
 				<div class="panel-body">
@@ -176,7 +176,7 @@ if ($retornoError) {
 		<div class="col-lg-6">				
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<strong>Manager</strong>
+					<strong>Manager: *</strong>
 				</div>
 				<div class="panel-body">								
 				
@@ -240,18 +240,18 @@ if ($retornoError) {
 <!-- TRABAJADORES -->
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-primary">
+			<div class="panel panel-amarello">
 				<div class="panel-heading">
 					<strong>WORKER(S)</strong>
 				</div>
 				<div class="panel-body">
-<p class="text-info text-left">By signing below the worker(s) agreed to comply with all VCI’s policies as well as with all safe operations required on
+<p class="text-left">By signing below the worker(s) agreed to comply with all VCI’s policies as well as with all safe operations required on
 this specific site, also is aware of all potential hazards, keeping in mind that all equipment has the right of way. Do not
 walk behind any piece of equipment before making EYE CONTACT with the operator.</p>	
 
 					<div class="col-lg-12">	
 												
-					<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_job_jso"]; ?>">
+					<button type="button" class="btn btn-amarello btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_job_jso"]; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Worker
 					</button><br>
 					
@@ -261,15 +261,17 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 <?php 
 	if($infoWorkers){
 ?>
-			<table class="table table-bordered table-striped table-hover table-condensed">
-				<tr class="primary">
-					<th class='text-center'>Name</th>
-					<th class='text-center'>Position</th>
-					<th class='text-center'>Emergency contact</th>
-					<th class='text-center'>Works for</th>
-					<th class='text-center'>Edit</th>
-					<th class='text-center'>Signature</th>
-				</tr>
+			<table class="table table-striped table-hover table-condensed">
+				<thead>
+					<tr class="default">
+						<th>Name</th>
+						<th>Position</th>
+						<th>Emergency contact</th>
+						<th>Company Name</th>
+						<th class='text-center'>Edit</th>
+						<th class='text-center'>Signature</th>
+					</tr>
+				</thead>
 				<?php
 					foreach ($infoWorkers as $data):
 						echo "<tr>";					
@@ -279,7 +281,7 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 						echo "<td >" . $data['works_for'] . "</small></td>";
 						echo "<td class='text-center'>";									
 				?>
-						<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_jso_worker']; ?>" >
+						<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_jso_worker']; ?>" >
 							<span class="glyphicon glyphicon-edit" aria-hidden="true">
 						</button>									
 				<?php
@@ -291,7 +293,7 @@ if($data['signature']){
 	$class = "btn-default";
 	
 ?>
-<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#<?php echo $data['id_job_jso_worker'] . "wModal"; ?>" id="<?php echo "worker-" . $data['id_job_jso_worker']; ?>">
+<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#<?php echo $data['id_job_jso_worker'] . "wModal"; ?>" id="<?php echo "worker-" . $data['id_job_jso_worker']; ?>">
 	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 </button>
 
@@ -313,12 +315,12 @@ if($data['signature']){
 				?>
 <!-- enlace para enviar mensaje de texto al foreman -->
 <?php if($data['works_phone_number']){ ?>
-<a href="<?php echo base_url("jobs/sendSMSworkerJSO/" . $data['id_job_jso_worker']); ?>" class="btn btn-default btn-xs"> 
+<a href="<?php echo base_url("jobs/sendSMSworkerJSO/" . $data['id_job_jso_worker']); ?>" class="btn btn-default btn-sm"> 
 	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to Worker
 </a>
 <?php } ?>
 
-					<a class='btn <?php echo $class; ?> btn-xs' href='<?php echo base_url('jobs/add_signature_jso/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_jso'] . '/' . $data['id_job_jso_worker']) ?>' id="btn-delete">
+					<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('jobs/add_signature_jso/worker/' . $jobInfo[0]["id_job"] . '/' . $data['fk_id_job_jso'] . '/' . $data['id_job_jso_worker']) ?>' id="btn-delete">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 					</a>
 					</center>

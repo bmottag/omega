@@ -7,7 +7,7 @@
 		 * Add tool box
 		 * @since 24/10/2017
 		 */
-		public function add_tool_box() 
+		public function add_TOOLBOX() 
 		{
 			$idUser = $this->session->userdata("id");
 			$idToolBox = $this->input->post('hddIdentificador');
@@ -532,7 +532,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		 * Add JSO
 		 * @since 4/1/2018
 		 */
-		public function add_jso() 
+		public function addJSO() 
 		{
 			$idUser = $this->session->userdata("id");
 			$idJSO = $this->input->post('hddIdentificador');
@@ -619,14 +619,15 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				$data['fk_id_user'] = $idUser;
 				$data['fk_id_job'] = $this->input->post('hddIdJob');
 				$data['date_issue_jso'] = date("Y-m-d G:i:s");
-				$query = $this->db->insert('job_jso', $data);	
+				$query = $this->db->insert('job_jso', $data);
+				$idJSO = $this->db->insert_id();
 			} else {
 				$this->db->where('id_job_jso', $idJSO);
 				$query = $this->db->update('job_jso', $data);
 			}
 			
 			if ($query) {
-				return true;
+				return $idJSO;
 			} else {
 				return false;
 			}

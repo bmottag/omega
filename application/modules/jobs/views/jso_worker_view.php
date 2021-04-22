@@ -1,6 +1,4 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/jso_workers_external.js"); ?>"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 $(document).ready(function () {
@@ -60,7 +58,10 @@ if ($retornoError) {
 }
 ?> 
 					<strong>Date JSO: </strong><?php echo $JSOInfo[0]['date_issue_jso']; ?><br>
-					<strong>Job Code/Name: </strong><br><?php echo $JSOInfo[0]['job_description']; ?>
+					<strong>Job Code/Name: </strong><br><?php echo $JSOInfo[0]['job_description']; ?><br>
+					<strong>Potential hazards: </strong><br><?php echo $JSOInfo[0]['potential_hazards']; ?>
+
+					
 				</div>
 			</div>
 
@@ -127,30 +128,11 @@ if ($retornoError) {
 								<label for="placa">Name: *</label>
 								<input type="text" id="name" name="name" class="form-control" value="<?php echo $information?$information[0]["name"]:""; ?>" placeholder="Name" required >
 							</div>
-<script>
-	$( function() {
-		$( "#birth" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'yy-mm-dd'
-		});
-	});
-</script>
-							<div class="col-sm-6">
-								<label for="linea">Birth Date: *</label>
-								<input type="text" class="form-control" id="birth" name="birth" value="<?php echo $information?$information[0]["birth_date"]:""; ?>" placeholder="Birth Date" required/>
-							</div>						
-						</div>
 
-						<div class="form-group">
 							<div class="col-sm-6">
 								<label for="color">City: *</label>
 								<input type="text" id="city" name="city" class="form-control" value="<?php echo $information?$information[0]["city"]:""; ?>" placeholder="City" required>
-							</div>
-							
-							<div class="col-sm-6">
-
-							</div>
+							</div>						
 						</div>
 
 						<div class="form-group">

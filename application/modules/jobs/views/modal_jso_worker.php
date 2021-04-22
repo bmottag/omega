@@ -63,14 +63,14 @@ $(document).ready(function () {
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="phone_number">Worker movil number: *</label>
-					<input type="text" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["works_phone_number"]:""; ?>" placeholder="Worker movil number" required >
+					<input type="number" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["works_phone_number"]:""; ?>" placeholder="Worker movil number" required >
 				</div>
 			</div>
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label for="emergency_contact">Emergency Contact/Phone number:</label>
-					<input type="text" id="emergency_contact" name="emergency_contact" class="form-control" value="<?php echo $information?$information[0]["emergency_contact"]:""; ?>" placeholder="Emergency Contact" >
+					<input type="number" id="emergency_contact" name="emergency_contact" class="form-control" value="<?php echo $information?$information[0]["emergency_contact"]:""; ?>" placeholder="Emergency Contact" >
 				</div>
 			</div>
 		</div>
