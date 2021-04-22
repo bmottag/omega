@@ -34,7 +34,6 @@
 					'social_insurance' => $this->input->post('insuranceNumber'),
 					'health_number' => $this->input->post('healthNumber'),
 					'birthdate' => $this->input->post('birth'),
-					'rh' => $this->input->post('tipoSangre'),
 					'movil' => $this->input->post('movilNumber'),
 					'email' => $this->input->post('email'),
 					'address' => $this->input->post('address'),

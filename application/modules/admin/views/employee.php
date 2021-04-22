@@ -111,7 +111,6 @@ if ($retornoError) {
 								
 								<th class="text-center">Email</th>
 								<th class="text-center">Date of birth</th>
-								<th class="text-center">RH</th>
 								<th class="text-center">Social insurance Number</th>
 								<th class="text-center">Health number</th>
 								<th class="text-center">Address</th>
@@ -192,37 +191,7 @@ if($count == 10){
 									}
 									
 									echo "<td>" . $lista['email'] . "</td>";
-									echo "<td>" . $lista['birthdate'] . "</td>";
-									
-									echo "<td>";
-									switch ($lista['rh']) {
-										case 1:
-											echo "O-";
-											break;
-										case 2:
-											echo "O+";
-											break;
-										case 3:
-											echo "A-";
-											break;
-										case 4:
-											echo "A+";
-											break;
-										case 5:
-											echo "B-";
-											break;
-										case 6:
-											echo "B+";
-											break;
-										case 7:
-											echo "AB-";
-											break;
-										case 8:
-											echo "AB+";
-											break;
-									}
-									echo "</td>";
-									
+									echo "<td>" . $lista['birthdate'] . "</td>";									
 									echo "<td>" . chunk_split($lista['social_insurance'],3," ") . "</td>";
 									echo "<td>" . chunk_split($lista['health_number'],3," ") . "</td>";
 									echo "<td>" . $lista['address'] . "</td>";

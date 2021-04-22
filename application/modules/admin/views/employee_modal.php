@@ -62,6 +62,7 @@
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
+				<!--
 					<label class="control-label" for="tipoSangre">RH</label>
 					<select name="tipoSangre" id="tipoSangre" class="form-control" required>
 						<option value="">Select...</option>
@@ -74,6 +75,7 @@
 						<option value=7 <?php if($information[0]["rh"] == 7) { echo "selected"; }  ?>>AB-</option>
 						<option value=8 <?php if($information[0]["rh"] == 8) { echo "selected"; }  ?>>AB+</option>
 					</select>
+				-->
 				</div>
 			</div>
 		</div>
