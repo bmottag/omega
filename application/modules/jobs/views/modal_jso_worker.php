@@ -30,52 +30,30 @@ $(document).ready(function () {
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="name">Name : *</label>
+					<label for="name">Name: *</label>
 					<input type="text" id="name" name="name" class="form-control" value="<?php echo $information?$information[0]["name"]:""; ?>" placeholder="Name" required >
 				</div>
 			</div>
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-<script>
-	$( function() {
-		$( "#birth" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'yy-mm-dd'
-		});
-	});
-</script>
-					<label class="control-label" for="birth">Birth Date:</label>
-					<input type="text" class="form-control" id="birth" name="birth" value="<?php echo $information?$information[0]["birth_date"]:""; ?>" placeholder="Birth Date" />
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-6">		
-				<div class="form-group text-left">
-					<label for="city">City : *</label>
+					<label for="city">City:</label>
 					<input type="text" id="city" name="city" class="form-control" value="<?php echo $information?$information[0]["city"]:""; ?>" placeholder="City" >
 				</div>
 			</div>
-		
-			<div class="col-sm-6">		
-
-			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="worksfor">Company Name: *</label>
+					<label for="worksfor">Company Name:</label>
 					<input type="text" id="worksfor" name="worksfor" class="form-control" value="<?php echo $information?$information[0]["works_for"]:""; ?>" placeholder="Company Name" >
 				</div>
 			</div>
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="position">Position: *</label>
+					<label for="position">Position:</label>
 					<input type="text" id="position" name="position" class="form-control" value="<?php echo $information?$information[0]["position"]:""; ?>" placeholder="Position" >
 				</div>
 			</div>
@@ -91,7 +69,7 @@ $(document).ready(function () {
 		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="emergency_contact">Emergency Contact/Phone number: *</label>
+					<label for="emergency_contact">Emergency Contact/Phone number:</label>
 					<input type="text" id="emergency_contact" name="emergency_contact" class="form-control" value="<?php echo $information?$information[0]["emergency_contact"]:""; ?>" placeholder="Emergency Contact" >
 				</div>
 			</div>
@@ -100,7 +78,7 @@ $(document).ready(function () {
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="license">Driver’s License Required : *</label>
+					<label for="license">Driver’s License Required:</label>
 					<br>
 					<label class="radio-inline">
 						<input type="radio" name="license" id="license1" value=1 <?php if($information && $information[0]["driver_license_required"] == 1) { echo "checked"; }  ?>>Yes
@@ -128,7 +106,9 @@ $(document).ready(function () {
 		</div>
 		
 		<div class="form-group">
-			<button type="button" id="btnSubmitWorker" name="btnSubmitWorker" class="btn btn-primary" >Save</button> 
+			<button type="button" id="btnSubmitWorker" name="btnSubmitWorker" class="btn btn-primary" >
+				Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+			</button> 
 		</div>
 		
 		<div class="form-group">

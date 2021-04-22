@@ -696,7 +696,6 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 					'fk_id_job_jso' => $this->input->post('hddidJobJso'),
 					'name' => $this->security->xss_clean($this->input->post("name")),
 					'position' => $this->security->xss_clean($this->input->post('position')),
-					'birth_date' => $this->security->xss_clean($this->input->post('birth')),
 					'emergency_contact' => $this->security->xss_clean($this->input->post('emergency_contact')),
 					'driver_license_required' => $this->security->xss_clean($this->input->post('license')),
 					'license_number' => $this->security->xss_clean($this->input->post('license_number')),
