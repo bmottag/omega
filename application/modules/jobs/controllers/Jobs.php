@@ -1476,7 +1476,7 @@ ob_end_clean();
 
 
 			//Close and output PDF document
-			$pdf->Output('jso_' . $idJSO . '.pdf', 'I');
+			$pdf->Output('jso_' . $data['info'][0]['job_description']  . $idJSO . '.pdf', 'I');
 
 			//============================================================+
 			// END OF FILE
