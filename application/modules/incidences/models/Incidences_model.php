@@ -168,7 +168,6 @@
 			
 			$data = array(
 				'fk_incident_type' => $this->input->post('incidentType'),
-				'people_involved' => $this->input->post('involved'),
 				'what_happened' => $this->input->post('happened'),
 				'date_incident' => $this->input->post('date'),
 				'time' => $time,
@@ -359,6 +358,51 @@
 				
 				$this->db->order_by('id_witness', 'asc');
 				$query = $this->db->get('incidence_accident_witness');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Save Person involved
+		 * @since 24/4/2021
+		 */
+		public function savePersonInvolved() 
+		{							
+				$data = array(
+					'fk_id_incident' => $this->input->post('hddId'),
+					'person_name' => $this->input->post('workerName'),
+					'person_movil_number' => $this->input->post('phone_number')
+				);			
+
+				$query = $this->db->insert('incidence_incident_person', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Get incidente Persons involved
+		 * @since 24/4/2021
+		 */
+		public function get_persons_involved($arrData) 
+		{		
+				$this->db->select();
+				if (array_key_exists("idIncident", $arrData)) {
+					$this->db->where('P.fk_id_incident', $arrData["idIncident"]);
+				}
+				if (array_key_exists("movilNumber", $arrData)) {
+					$where = "P.person_movil_number != ''";
+					$this->db->where($where);
+				}
+				$this->db->order_by('P.person_name', 'asc');
+				$query = $this->db->get('incidence_incident_person P');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
