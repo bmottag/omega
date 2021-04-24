@@ -1,27 +1,15 @@
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-ambulance fa-fw"></i>	INCIDENCES
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-ambulance"></i> INCIDENT/ACCIDENT REPORT
+					<i class="fa fa-ambulance"></i> <strong>INCIDENCES</strong> - INCIDENT/ACCIDENT REPORT
 				</div>
 				<div class="panel-body">
-					<a class='btn btn-outline btn-warning btn-block' href='<?php echo base_url('incidences/add_incident/') ?>'>
+					<a class='btn btn-outline btn-info btn-block' href='<?php echo base_url('incidences/add_incident/') ?>'>
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Add an Incident/Accident Report
 					</a>
 					

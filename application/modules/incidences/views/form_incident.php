@@ -6,18 +6,6 @@
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-ambulance fa-fw"></i>	INCIDENCES
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 
 <form  name="form" id="form" class="form-horizontal" method="post"  >
 	<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_incident"]:""; ?>"/>
@@ -26,10 +14,10 @@
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
-					<a class="btn btn-warning" href=" <?php echo base_url().'incidences/incident'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-ambulance"></i> INCIDENT/ACCIDENT REPORT
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url().'incidences/incident'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-ambulance"></i> <strong>INCIDENCES</strong> - INCIDENT/ACCIDENT REPORT
 				</div>
 				<div class="panel-body">
 
@@ -66,7 +54,7 @@ if ($retornoError) {
 				<div class="col-lg-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-edit fa-fw"></i> Employee
+                            <i class="fa fa-edit fa-fw"></i> <strong>Supervisor</strong> - <?php echo $information[0]['supervisor'];  ?>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -90,7 +78,7 @@ if($information[0]["supervisor_signature"]){
 			<div class="modal-content">      
 				<div class="modal-header">        
 					<button type="button" class="close" data-dismiss="modal">×</button>        
-					<h4 class="modal-title">Employee Signature</h4>      </div>      
+					<h4 class="modal-title">Supervisor Signature</h4>      </div>      
 				<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["supervisor_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
 				<div class="modal-footer">        
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -103,7 +91,7 @@ if($information[0]["supervisor_signature"]){
 	}
 	?>
 
-	<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/incident/supervisor/" . $information[0]["id_incident"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Employee Signature </a>
+	<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/incident/supervisor/" . $information[0]["id_incident"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Supervisor Signature </a>
 
 									</div>
 								</div>
@@ -117,7 +105,7 @@ if($information[0]["supervisor_signature"]){
 				<div class="col-lg-6">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <i class="fa fa-edit fa-fw"></i> V-Contracting Safety Coordinator
+                            <i class="fa fa-edit fa-fw"></i> <strong>Safety Coordinator</strong> - <?php echo $information[0]['coordinator'];  ?>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -265,7 +253,7 @@ if($information[0]["coordinator_signature"]){
 								
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>What was the immediate cause? *</strong> (sequence of unsafe acts that led to incident. ex water on the floor, awkward positioning)
 				</div>
@@ -282,7 +270,7 @@ if($information[0]["coordinator_signature"]){
 	
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>What were the contributting factors? *</strong> (what caused the behavior or unsafe act, what controls were ignored)
 				</div>
@@ -299,7 +287,7 @@ if($information[0]["coordinator_signature"]){
 		
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>What training, instruction, orientation, and cautions were given before the incident: *</strong>
 				</div>
@@ -316,7 +304,7 @@ if($information[0]["coordinator_signature"]){
 	
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>Corrective Actions: </strong> What actions were taken to correct immediately? *
 				</div>
@@ -333,7 +321,7 @@ if($information[0]["coordinator_signature"]){
 	
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>Preventative Action: </strong> How can similar incidents be prevented in the future? *
 				</div>
@@ -350,13 +338,13 @@ if($information[0]["coordinator_signature"]){
 								
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>IN CHARGE</strong>
 				</div>
 				<div class="panel-body">								
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="manager">Employee: *</label>
+							<label class="col-sm-4 control-label" for="manager">Supervisor: *</label>
 							<div class="col-sm-5">
 								<select name="manager" id="manager" class="form-control" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
@@ -386,7 +374,7 @@ if($information[0]["coordinator_signature"]){
 	
 	<div class="row">
 		<div class="col-lg-12">				
-			<div class="panel panel-warning">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<strong>COMMENTS</strong>
 				</div>

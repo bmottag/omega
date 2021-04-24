@@ -1,24 +1,12 @@
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-ambulance fa-fw"></i>	INCIDENCES
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-ambulance"></i> NEAR MISS REPORT
+					<i class="fa fa-ambulance"></i> <strong>INCIDENCES</strong> - NEAR MISS REPORT
 				</div>
 				<div class="panel-body">
 					<a class='btn btn-outline btn-info btn-block' href='<?php echo base_url('incidences/add_near_miss/') ?>'>
