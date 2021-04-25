@@ -24,7 +24,6 @@
 								<th>Reported by</th>
 								<th>Incident type</th>
 								<th>Incident date</th>
-								<th>Who was involved?</th>
 								<th>What happened?</th>
 								<th>Edit</th>
 								<th>Dowloand</th>
@@ -38,7 +37,6 @@
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td>" . $lista['incident_type'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_incident'] . "</td>";
-									echo "<td>" . $lista['people_involved'] . "</td>";
 									echo "<td>" . $lista['what_happened'] . "</td>";
 									
 									echo "<td class='text-center'>";									

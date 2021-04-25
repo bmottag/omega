@@ -24,7 +24,6 @@
 								<th>Reported by</th>
 								<th>Near miss type</th>
 								<th>Near miss date </th>
-								<th>Who was involved?</th>
 								<th>What happened?</th>
 								<th>Edit</th>
 								<th>Dowloand</th>
@@ -38,7 +37,6 @@
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td>" . $lista['incident_type'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_near_miss'] . "</td>";
-									echo "<td>" . $lista['people_involved'] . "</td>";
 									echo "<td>" . $lista['what_happened'] . "</td>";
 									
 									echo "<td class='text-center'>";								

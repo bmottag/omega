@@ -55,7 +55,6 @@
 			$data = array(
 				'fk_id_user' => $idUser,
 				'fk_incident_type' => $this->input->post('nearMissType'),
-				'people_involved' => $this->input->post('involved'),
 				'what_happened' => $this->input->post('happened'),
 				'date_near_miss' => $this->input->post('date'),
 				'time' => $time,

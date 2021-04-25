@@ -170,13 +170,14 @@ if($information[0]["coordinator_signature"]){
 								</select>
 							</div>
 						</div>
-						
+						<!--
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="involved">Who was involved? *</label>
 							<div class="col-sm-5">
 							<textarea id="involved" name="involved" placeholder="Who was involved?"  class="form-control" rows="2"><?php echo $information?$information[0]["people_involved"]:""; ?></textarea>
 							</div>
 						</div>
+						-->
 						
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="happened">What happened? *</label>
