@@ -642,6 +642,14 @@ class Incidences extends CI_Controller {
 			}
 
 
+			//busco lista de personal involucrado, para el formulario
+			$arrParam = array(
+				'idIncident' => $idIncident,
+				'form' => $type
+			);
+			$data['personsInvolved'] = $this->incidences_model->get_persons_involved($arrParam);
+
+
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
 

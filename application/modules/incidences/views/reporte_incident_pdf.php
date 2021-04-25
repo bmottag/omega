@@ -33,7 +33,15 @@ $call_manager = $info[0]["call_manager"] == 1?"Yes":"No";
 					
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Who was involved? </strong></th>
-					<th>' . $info[0]['people_involved']. '</th>
+					<th>';
+
+	if($personsInvolved){
+		foreach ($personsInvolved as $data):
+			$html.= $data['person_name'] . '<br>';
+		endforeach;
+	}
+
+	$html.= '</th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Did you call your Manager or Supervisor? </strong></th>
 					<th>' . $call_manager . '</th>
 				</tr>
@@ -118,6 +126,55 @@ $call_manager = $info[0]["call_manager"] == 1?"Yes":"No";
 					<th colspan="3">' . $info[0]['comments']. '</th>
 				</tr>
 			</table><br><br>';
+
+	if($personsInvolved)
+	{
+			$html.= '<table border="1" cellspacing="0" cellpadding="5">';
+					
+			//pintar las firmas de a 4 por fila
+			$total = count($personsInvolved);//contar numero de trabajadores
+			$totalFilas  = 1;
+			if($total>=4)
+			{//si es mayor 4 entonces calcular cuantas filas deben ser
+				$div = $total / 4;
+				$totalFilas = ceil($div); //redondeo hace arriba
+			}
+
+			$n = 1;
+			for($i=0;$i<$totalFilas;$i++){
+				$html.= '<tr>';	
+				
+						$finish = $n * 4;
+						$star = $finish - 4;
+						if($finish > $total){
+							$finish = $total;
+						}
+						$n++;			
+																				
+						for ($j = $star; $j < $finish; $j++) {
+	
+							$html.= '<th align="center" width="20%">';
+							
+							if($personsInvolved[$j]['person_signature']){
+								//$url = base_url($workers[$j]['signature']);
+								$html.= '<img src="'.$personsInvolved[$j]['person_signature'].'" border="0" width="70" height="70" />';
+							}
+							$html.= '</th>';
+						}
+
+				$html.= '</tr>';
+								
+				$html.= '<tr bgcolor="#337ab7" style="color:white;">';		
+							for ($j = $star; $j < $finish; $j++) {	
+								$html.= '<th align="center"><strong>' . $personsInvolved[$j]['person_name'] . '</strong></th>';
+							}
+				$html.= '</tr>';
+			}
+			
+			$html.= '</table>';
+	}
+		
+	$html.= '<br><br>';
 	
 	$signatureSupervisor = "";
 	$signatureCoordinator = "";
