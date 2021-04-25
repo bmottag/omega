@@ -257,7 +257,93 @@ if($information[0]["coordinator_signature"]){
 		</div>
 	</div>								
 								
+<?php if($information){ ?>
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<strong>Person(s) involved *</strong> 
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+<!--INICIO TRABAJADORS -->
+					<div class="col-lg-12">													
+						<button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#modalPerson" id="x">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Person Involved
+						</button>
+						<br>
+					</div>
+
+
+				<?php 
+					if($personsInvolved){
+				?>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th class='text-center'>Movil number</th>
+									<th class='text-center'>Signature</th>
+									<th class='text-center'>Delete</th>
+								</tr>
+							</thead>
+					<?php
+						foreach ($personsInvolved as $data):
+							echo "<tr>";					
+							echo "<td>" . $data['person_name'] . "</td>";
+							echo "<td class='text-center'>" . $data['person_movil_number'] . "</td>";
+							echo "<td class='text-center'>";
+							$class = "btn-primary";
+
+							if($data['person_signature']){ 
+								$class = "btn-default";
 								
+						?>
+								<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#<?php echo $data['id_incident_person'] . "SubcontractorModal"; ?>" id="<?php echo $data['id_incident_person']; ?>">
+									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+								</button>
+
+								<div id="<?php echo $data['id_incident_person'] . "SubcontractorModal"; ?>" class="modal fade" role="dialog">  
+									<div class="modal-dialog">
+										<div class="modal-content">      
+											<div class="modal-header">        
+												<button type="button" class="close" data-dismiss="modal">×</button>        
+												<h4 class="modal-title">Person Signature</h4>      </div>      
+											<div class="modal-body text-center"><img src="<?php echo base_url($data['person_signature']); ?>" class="img-rounded" alt="Meeting conducted by Signature" width="304" height="236" />   </div>      
+											<div class="modal-footer">    
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+											</div>  
+										</div>  
+									</div>
+								</div>
+						<?php
+							}
+						?>
+							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('incidences/add_signature/near_miss/personsInvolved/' . $data['fk_id_incident'] . '/' . $data['id_incident_person']) ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
+							</a>
+						<?php
+							echo "</td>"; 
+							echo "<td class='text-center'>";
+						?>
+							<a class='btn btn-danger btn-sm' href='<?php echo base_url('incidences/deleteIncidentPersonInvolved/' . $data['id_incident_person'] . '/' . $data['fk_id_incident'] . '/1') ?>' id="btn-delete">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
+							</a>
+						<?php
+							echo "</td>";
+							echo "</tr>";
+						endforeach;
+					?>
+						</table>
+				<?php } ?>
+<!--FIN TRABAJADORS -->
+					</div>			
+				</div>
+			</div>
+		</div>
+	</div>
+<?php } ?>
+
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-info">
@@ -416,3 +502,64 @@ if($information[0]["coordinator_signature"]){
 
 </div>
 <!-- /#page-wrapper -->
+
+<!--INICIO Modal para adicionar Person -->
+<div class="modal fade text-center" id="modalPerson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatos">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">ADD PERSON INVOLVED</h4>
+			</div>
+
+			<div class="modal-body">
+				<form name="formPerson" id="formPerson" role="form" method="post" action="<?php echo base_url("incidences/save_person_involved") ?>" >
+					<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_near_miss"]:""; ?>"/>
+					<input type="hidden" id="hddFormIdentifier" name="hddFormIdentifier" value=1 />
+					
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group text-left">
+								<label class="control-label" for="workerName">Person Name: *</label>
+								<input type="text" id="workerName" name="workerName" class="form-control" placeholder="Person Name" required >
+							</div>
+						</div>
+
+						<div class="col-sm-6">	
+							<div class="form-group text-left">
+								<label for="phone_number">Movil number:</label>
+								<input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Worker movil number" maxlength="12">
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:50%;" align="center">
+								<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+									Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div id="div_load" style="display:none">		
+							<div class="progress progress-striped active">
+								<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+									<span class="sr-only">45% completado</span>
+								</div>
+							</div>
+						</div>
+						<div id="div_error" style="display:none">			
+							<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
+						</div>	
+					</div>
+						
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para adicionar PERSON -->

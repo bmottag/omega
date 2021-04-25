@@ -313,14 +313,14 @@ if($information[0]["coordinator_signature"]){
 						<?php
 							}
 						?>
-							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('incidences/add_signature/personsInvolved/' . $data['id_incident_person'] . '/' . $data['fk_id_incident']) ?>' id="btn-delete">
+							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('incidences/add_signature/incident/personsInvolved/' . $data['fk_id_incident'] . '/' . $data['id_incident_person']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
 						<?php
 							echo "</td>"; 
 							echo "<td class='text-center'>";
 						?>
-							<a class='btn btn-danger btn-sm' href='<?php echo base_url('incidences/deleteIncidentPersonInvolved/' . $data['id_incident_person'] . '/' . $data['fk_id_incident']) ?>' id="btn-delete">
+							<a class='btn btn-danger btn-sm' href='<?php echo base_url('incidences/deleteIncidentPersonInvolved/' . $data['id_incident_person'] . '/' . $data['fk_id_incident'] . '/2') ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
 							</a>
 						<?php
@@ -529,6 +529,7 @@ if($information[0]["coordinator_signature"]){
 			<div class="modal-body">
 				<form name="formPerson" id="formPerson" role="form" method="post" action="<?php echo base_url("incidences/save_person_involved") ?>" >
 					<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_incident"]:""; ?>"/>
+					<input type="hidden" id="hddFormIdentifier" name="hddFormIdentifier" value=2 />
 					
 					<div class="row">
 						<div class="col-sm-6">

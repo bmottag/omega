@@ -64,6 +64,13 @@ class Incidences extends CI_Controller {
 					"idNearMiss" => $id
 				);				
 				$data['information'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+
+				//busco lista de personal involucrado, para el formulario de NEAR MISS (1)
+				$arrParam = array(
+					'idIncident' => $id,
+					'form' => 1
+				);
+				$data['personsInvolved'] = $this->incidences_model->get_persons_involved($arrParam);
 				
 				if (!$data['information']) { 
 					show_error('ERROR!!! - You are in the wrong place.');	
@@ -146,36 +153,36 @@ class Incidences extends CI_Controller {
 	 * Signature
 	 * param $incidencesType: near_miss / incident / accident
 	 * param $userType: supervisor / coordinator
-	 * param $identificador: llave principal del formulario
+	 * param $idFormulario: llave principal del formulario
      * @since 15/5/2017
      * @author BMOTTAG
 	 */
-	public function add_signature($incidencesType, $userType, $identificador )
+	public function add_signature($incidencesType, $userType, $idFormulario, $idPersonal = 'x' )
 	{
-			if (empty($incidencesType) ||empty($userType) || empty($identificador) ) {
+			if (empty($incidencesType) ||empty($userType) || empty($idFormulario) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
 		
 			if($_POST){
 				//update signature with the name of de file
-				if($incidencesType == "personsInvolved"){
-					//userType = id de la persona involucrada
-					$name = "images/signature/safety/" . $incidencesType . "_" . $userType . ".png";
+				if($userType == "personsInvolved")
+				{
+					$name = "images/signature/safety/" . $userType . "_" . $idPersonal . ".png";
 					
 					$arrParam = array(
 						"table" => "incidence_incident_person",
 						"primaryKey" => "id_incident_person ",
-						"id" => $userType,
+						"id" => $idPersonal,
 						"column" => "person_signature",
 						"value" => $name
 					);
 					$this->load->model("general_model");
 					$updateColumSignature = $this->general_model->updateRecord($arrParam);
-					$data['linkBack'] = "incidences/add_incident/" . $identificador;
+					$data['linkBack'] = "incidences/add_incident/" . $idFormulario;
 				}else{
 					//update signature with the name of de file
 					//para firmas de CORDINADORES Y SUPERVISORES
-					$name = "images/signature/incidences/" . $incidencesType . "_" . $userType . "_" . $identificador . ".png";
+					$name = "images/signature/incidences/" . $incidencesType . "_" . $userType . "_" . $idFormulario . ".png";
 					
 					$arrParam = array(
 						"table" => "incidence_" . $incidencesType,
@@ -184,12 +191,11 @@ class Incidences extends CI_Controller {
 						"userColumn" => "fk_id_user_" . $userType,
 						"fechaColumn" => "date_" . $userType,
 						"idColumn" => "id_" . $incidencesType,
-						"idValue" => $identificador
+						"idValue" => $idFormulario
 					);
 					$updateColumSignature = $this->incidences_model->updateInfoSignature($arrParam);
-					$data['linkBack'] = "incidences/add_" . $incidencesType . "/" . $identificador;
 				}
-				
+				$data['linkBack'] = "incidences/add_" . $incidencesType . "/" . $idFormulario;
 				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
@@ -329,7 +335,11 @@ class Incidences extends CI_Controller {
 				$arrParam = array('idIncident' => $id);				
 				$data['information'] = $this->incidences_model->get_incident_by($arrParam);
 
-				//busco lista de personal involucrado
+				//busco lista de personal involucrado, para el formulario de INCIDENT (2)
+				$arrParam = array(
+					'idIncident' => $id,
+					'form' => 2
+				);
 				$data['personsInvolved'] = $this->incidences_model->get_persons_involved($arrParam);
 		
 				if (!$data['information']) { 
@@ -668,13 +678,19 @@ class Incidences extends CI_Controller {
     public function save_person_involved() 
 	{
 			$idIncident = $this->input->post('hddId');
+			$formIdentifier = $this->input->post('hddFormIdentifier');
+			if($formIdentifier==1){
+				$path = 'incidences/add_near_miss/' . $idIncident;
+			}else{
+				$path = 'incidences/add_incident/' . $idIncident;
+			}
 
 			if ($this->incidences_model->savePersonInvolved()) {
 				$this->session->set_flashdata('retornoExito', 'You have add a Person Involved.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('incidences/add_incident/' . $idIncident), 'refresh');
+			redirect(base_url($path), 'refresh');
     }		
 
     /**
@@ -682,7 +698,7 @@ class Incidences extends CI_Controller {
      * @since 24/4/2021
      * @author BMOTTAG
      */
-    public function deleteIncidentPersonInvolved($idPerson, $idIncident) 
+    public function deleteIncidentPersonInvolved($idPerson, $idIncident, $formIdentifier) 
 	{
 			if (empty($idPerson) || empty($idIncident) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -692,13 +708,19 @@ class Incidences extends CI_Controller {
 				"primaryKey" => "id_incident_person",
 				"id" => $idPerson
 			);
+
+			if($formIdentifier==1){
+				$path = 'incidences/add_near_miss/' . $idIncident;
+			}else{
+				$path = 'incidences/add_incident/' . $idIncident;
+			}
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
 				$this->session->set_flashdata('retornoExito', 'You have delete a Person Involved.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('incidences/add_incident/' . $idIncident), 'refresh');
+			redirect(base_url($path), 'refresh');
     }
 	
 	

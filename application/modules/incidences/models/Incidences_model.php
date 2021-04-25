@@ -375,7 +375,8 @@
 				$data = array(
 					'fk_id_incident' => $this->input->post('hddId'),
 					'person_name' => $this->input->post('workerName'),
-					'person_movil_number' => $this->input->post('phone_number')
+					'person_movil_number' => $this->input->post('phone_number'),
+					'form_identifier ' => $this->input->post('hddFormIdentifier')
 				);			
 
 				$query = $this->db->insert('incidence_incident_person', $data);
@@ -396,6 +397,9 @@
 				$this->db->select();
 				if (array_key_exists("idIncident", $arrData)) {
 					$this->db->where('P.fk_id_incident', $arrData["idIncident"]);
+				}
+				if (array_key_exists("form", $arrData)) {
+					$this->db->where('P.form_identifier', $arrData["form"]);
 				}
 				if (array_key_exists("movilNumber", $arrData)) {
 					$where = "P.person_movil_number != ''";
