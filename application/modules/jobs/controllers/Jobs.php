@@ -1459,15 +1459,12 @@ ob_end_clean();
 
 			$html = $this->load->view("reporte_jso", $data, true);
 			
+			if($data['workers']){
+				$html .= $this->load->view("reporte_jso_workers", $data, true);
+			}
+
 			// output the HTML content
 			$pdf->writeHTML($html, true, false, true, false, '');
-			
-			
-			if($data['workers']){
-				//$pdf->AddPage();
-				$html = $this->load->view("reporte_jso_workers", $data, true);
-				$pdf->writeHTML($html, true, false, true, false, '');
-			}
 
 			// Print some HTML Cells
 

@@ -29,8 +29,10 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 						<th width="25%"><strong>' . $data['date_oriented'] . '</strong></th>
 						<th width="25%" bgcolor="#337ab7" style="color:white;"><strong>Signature:</strong></th>';
 			$html.= '<th align="center" width="25%">';
-				if($data['signature']){
-					$html.= '<img src="' . $data['signature'] . '" border="0" width="60" height="60" />';
+				if($data['signature'] && file_exists($data['signature'])){
+					if(filesize($data['signature']) < 200000){
+						$html.= '<img src="' . $data['signature'] . '" border="0" width="60" height="60" />';
+					}
 				}
 			$html.= '</th>';
 			
