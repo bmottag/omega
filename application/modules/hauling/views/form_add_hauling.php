@@ -241,15 +241,19 @@ if($userRol==99){
 <?php 
 	$mostrar = "none";
 	$mostrarTruck = "inline";
+	$plateRequired = "";
+	$truckRequired = "required";
 	if($information && $information["company_type"]==2){
 		$mostrar = "inline";
 		$mostrarTruck = "none";
+		$plateRequired = "required";
+		$truckRequired = "";
 	}
 ?>
 						<div class="form-group" id="div_truck" style="display:<?php echo $mostrarTruck; ?>">
 							<label class="col-sm-4 control-label" for="truck">Truck</label>
 							<div class="col-sm-5">
-								<select name="truck" id="truck" class="form-control" required>
+								<select name="truck" id="truck" class="form-control" <?php echo $truckRequired; ?> >
 								
 									<?php if($information){ ?>
 									<option value=''>Select...</option>
@@ -276,7 +280,7 @@ if($userRol==99){
 						<div class="form-group" id="div_plate" style="display:<?php echo $mostrar; ?>">
 							<label class="col-sm-4 control-label" for="plate">Plate Number </label>
 							<div class="col-sm-5">
-								<input type="text" id="plate" name="plate" class="form-control" value="<?php echo $information?$information["plate"]:""; ?>" placeholder="Plate number" required >
+								<input type="text" id="plate" name="plate" class="form-control" value="<?php echo $information?$information["plate"]:""; ?>" placeholder="Plate number" <?php echo $plateRequired; ?> >
 							</div>
 						</div>
 						
