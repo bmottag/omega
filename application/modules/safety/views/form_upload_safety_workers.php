@@ -134,7 +134,13 @@ if ($retornoError) {
 							echo "<tr>";					
 							echo "<td >" . $data['worker_name'] . "</td>";
 							echo "<td >" . $data['company_name'] . "</td>";
-							echo "<td class='text-center'>" . $data['worker_movil_number'] . "</td>";
+							echo "<td class='text-center'>" . $data['worker_movil_number'];
+							if($data['worker_movil_number']){
+?>
+	<a href='<?php echo base_url("external/sendSMSFLHAWorker/" . $information[0]["id_safety"] . '/' . $data['id_safety_subcontractor']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
+<?php
+							}
+							echo "</td>";
 							echo "<td class='text-center'>";
 						?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('safety/deleteSafetySubcontractor/' . $data['id_safety_subcontractor'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">

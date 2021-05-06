@@ -213,7 +213,7 @@ class External extends CI_Controller {
      * @since 14/4/2021
      * @author BMOTTAG
 	 */
-	public function sendSMSFLHAWorker($idSafety)
+	public function sendSMSFLHAWorker($idSafety, $idSafetySubcontractor = 'x')
 	{			
 		$this->load->model("general_model");
 		$this->load->library('encrypt');
@@ -233,13 +233,13 @@ class External extends CI_Controller {
 		
         $client = new Twilio\Rest\Client($dato1, $dato2);
 		
-		
 		$data['informationWorker'] = FALSE;
 		$data['idSafety'] = $idSafety;
 														
 		$arrParam = array(
-			"idSafety" => $idSafety,
-			"movilNumber" => true
+			'idSafety' => $idSafety,
+			'movilNumber' => true,
+			'idSafetySubcontractor' => $idSafetySubcontractor
 		);
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam);
 

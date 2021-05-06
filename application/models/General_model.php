@@ -148,6 +148,9 @@ class General_model extends CI_Model {
 		{		
 				$this->db->select();
 				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
+				if (array_key_exists("idSafetySubcontractor", $arrData) && $arrData["idSafetySubcontractor"] != 'x') {
+					$this->db->where('W.id_safety_subcontractor', $arrData["idSafetySubcontractor"]);
+				}
 				if (array_key_exists("idSafety", $arrData)) {
 					$this->db->where('W.fk_id_safety', $arrData["idSafety"]);
 				}
