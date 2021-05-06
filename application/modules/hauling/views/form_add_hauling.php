@@ -242,12 +242,14 @@ if($userRol==99){
 	$mostrar = "none";
 	$mostrarTruck = "inline";
 	$plateRequired = "";
-	$truckRequired = "required";
+	$truckRequired = "";
 	if($information && $information["company_type"]==2){
 		$mostrar = "inline";
 		$mostrarTruck = "none";
 		$plateRequired = "required";
 		$truckRequired = "";
+	}elseif($information && $information["company_type"]==1){
+		$truckRequired = "required";
 	}
 ?>
 						<div class="form-group" id="div_truck" style="display:<?php echo $mostrarTruck; ?>">
