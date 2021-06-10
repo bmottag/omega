@@ -252,7 +252,7 @@ class External extends CI_Controller {
 		$mensaje .= "\nFollow the link, read the FLHA and sign.";
 		$mensaje .= "\n";
 		$mensaje .= "\n";
-		$mensaje .= base_url("external/add_task_control/" . $idSafety);
+		$mensaje .= base_url("safety/review_flha/" . $idSafety);
 
 		if($data['informationWorker']){
 			foreach ($data['informationWorker'] as $data):
@@ -266,7 +266,7 @@ class External extends CI_Controller {
 				);
 			endforeach;
 		}
-		$data['linkBack'] = "safety/upload_workers/" . $idSafety;
+		$data['linkBack'] = "safety/review_flha/" . $idSafety;
 		$data['titulo'] = "<i class='fa fa-list'></i>FLHA - SMS";
 		
 		$data['clase'] = "alert-info";

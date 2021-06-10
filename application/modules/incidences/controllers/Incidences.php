@@ -730,6 +730,114 @@ class Incidences extends CI_Controller {
 			}
 			redirect(base_url($path), 'refresh');
     }
+
+	/**
+	 * Envio de mensaje para firmar INCIDENCES
+	 * param $idFormulario: id del formulario
+	 * param $incidencesType: 1:Near Miss / 2: Incident
+     * @since 25/4/2021
+     * @author BMOTTAG
+	 */
+	public function sendSMSIncidencesPersons($idFormulario, $incidencesType)
+	{			
+		$this->load->model("general_model");
+//		$this->load->library('encrypt');
+//		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+//		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+//		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		
+//        $client = new Twilio\Rest\Client($dato1, $dato2);
+		
+		$data['infoPersonsInvolved'] = FALSE;
+		
+		switch ($incidencesType) {
+			case 1:
+				$arrParam = array("idNearMiss" => $idFormulario);				
+				$data['info'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+				break;
+			case 2:
+				$arrParam = array("idIncident" => $idFormulario);				
+				$data['info'] = $this->incidences_model->get_incident_by($arrParam);
+				break;
+		}
+pr($data['info']);
+		//busco lista de personal involucrado, para el formulario
+		$arrParam = array(
+			'idIncident' => $idFormulario,
+			'form' => $incidencesType,
+			'movilNumber' => true
+		);
+		$data['infoPersonsInvolved'] = $this->incidences_model->get_persons_involved($arrParam);
+pr($data['infoPersonsInvolved']); exit;
+		$mensaje = "";
+		$mensaje .= "VCI INCIDENCES - " . date('F j, Y', strtotime($data['info'][0]['date_issue']));
+		$mensaje .= "\n" . $data['infoSafety'][0]['job_description'];
+		$mensaje .= "\nFollow the link, read and sign.";
+		$mensaje .= "\n";
+		$mensaje .= "\n";
+		if($incidencesType==1){
+			$mensaje .= base_url("incidences/review_incident/" . $idFormulario);
+		}else{
+			$mensaje .= base_url("incidences/review_near_miss/" . $idFormulario);
+		}
+
+		if($data['informationWorker']){
+			foreach ($data['informationWorker'] as $data):
+				$to = '+1' . $data['worker_movil_number'];		
+				$client->messages->create(
+					$to,
+					array(
+						'from' => '587 600 8948',
+						'body' => $mensaje
+					)
+				);
+			endforeach;
+		}
+		if($incidencesType==1){
+			$path = 'incidences/add_near_miss/' . $idFormulario;
+		}else{
+			$path = 'incidences/add_incident/' . $idFormulario;
+		}
+		$data['linkBack'] = $path;
+		$data['titulo'] = "<i class='fa fa-list'></i>FLHA - SMS";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "You have send the SMS to Subcontractors";
+
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Subcontractors view to sign
+     * @since 15/4/2021
+     * @author BMOTTAG
+	 */
+	public function review_incident($idFormulario)
+	{
+			$arrParam = array('idIncident' => $idFormulario);				
+			$data['information'] = $this->incidences_model->get_incident_by($arrParam);
+
+			//busco lista de personal involucrado, para el formulario de INCIDENT (2)
+			$arrParam = array(
+				'idIncident' => $idFormulario,
+				'form' => 2
+			);
+			$data['personsInvolved'] = $this->incidences_model->get_persons_involved($arrParam);
+
+			$data["view"] = 'review_incident';
+			$this->load->view("layout_calendar", $data);
+	}
+
 	
 	
 	
