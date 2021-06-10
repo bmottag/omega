@@ -3,7 +3,7 @@ $( document ).ready( function () {
 	$( "#formReceipt" ).validate( {
 		rules: {
 			place: 				{ required: true, minlength:4, maxlength:100 },
-			price:	 			{ number: true, minlength:2, maxlength:5 },
+			price:	 			{ number: true, minlength:2, maxlength:8 },
 			description: 		{ required: true }
 		},
 		errorElement: "em",
