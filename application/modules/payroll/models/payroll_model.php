@@ -174,12 +174,15 @@
 				$idTask = $this->input->post('hddIdentificador');
 				$inicio = $this->input->post('hddInicio');
 				$fin = $this->input->post('hddFin');
+
+				$firstObservation =  $this->security->xss_clean($this->input->post('hddObservation'));
+				$firstObservation =  addslashes($firstObservation);
 				
 				$observation =  $this->security->xss_clean($this->input->post('observation'));
 				$observation =  addslashes($observation);
 				
 				$moreInfo = "<strong>Changue hour by SUPER ADMIN.</strong> <br>Before -> Start: " . $inicio . " <br>Before -> Finish: " . $fin;
-				$observation = $this->input->post('hddObservation') . "<br>********************<br>" . $moreInfo . "<br>" . $observation . "<br>Date: " . date("Y-m-d G:i:s") . "<br>********************";
+				$observation = $firstObservation . "<br>********************<br>" . $moreInfo . "<br>" . $observation . "<br>Date: " . date("Y-m-d G:i:s") . "<br>********************";
 
 				$fechaStart = $this->input->post('start_date');
 				$horaStart = $this->input->post('start_hour');
