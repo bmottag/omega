@@ -647,7 +647,55 @@ set_time_limit(60);
 							<th align="center" ><strong>Name</strong></th>
 							<th align="center"><strong>' . $lista['name']. '</strong></th>
 						</tr>
-						</table>';			
+						</table>';
+
+				$html.= '<br><br>';	
+				$html.= '<table cellspacing="0" cellpadding="5">
+								<tr>
+									<th bgcolor="#337ab7" style="color:white; text-align: center;" colspan="5" ><strong>Priority: High (6-8) Medium (4-5) Low (2-3) </strong></th>
+								</tr>
+								<tr>
+									<th width="28%" bgcolor="#337ab7" style="color:white; text-align: center;" rowspan="2" ><strong>Frecuency </strong></th>
+
+									<th width="72%" bgcolor="#337ab7" style="color:white; text-align: center;" colspan="4" ><strong>Severity </strong></th>
+								</tr>';
+				$html .= '<tr>
+									<th width="18%" style="text-align: center;">1. No health impacts</th>
+									<th width="18%" style="text-align: center;">2. Minor health impacts</th>
+									<th width="18%" style="text-align: center;">3. Moderate / Reversible health impacts</th>
+									<th width="18%" style="text-align: center;">4. Permanent consequences / Death </th>
+						</tr>';
+				$html .= '<tr>
+									<th width="28%" >1. Not expected to occur</th>
+									<th width="18%" style="text-align: center;" >2</th>
+									<th width="18%" style="text-align: center;" >3</th>
+									<th width="18%" style="text-align: center;" >4</th>
+									<th width="18%" style="text-align: center;" >5</th>
+						</tr>';
+				$html .= '<tr>
+									<th >2. Could occur once</th>
+									<th style="text-align: center;" >3</th>
+									<th style="text-align: center;" >4</th>
+									<th style="text-align: center;" >5</th>
+									<th style="text-align: center;" >6</th>
+						</tr>';
+				$html .= '<tr>
+									<th >3. Could occur several time</th>
+									<th style="text-align: center;" >4</th>
+									<th style="text-align: center;" >5</th>
+									<th style="text-align: center;" >6</th>
+									<th style="text-align: center;" >7</th>
+						</tr>';
+				$html .= '<tr>
+									<th >4. Could occur continuously</th>
+									<th style="text-align: center;" >5</th>
+									<th style="text-align: center;" >6</th>
+									<th style="text-align: center;" >7</th>
+									<th style="text-align: center;" >8</th>
+						</tr>';
+
+
+				$html .= '</table>';
 
 				// output the HTML content
 				$pdf->writeHTML($html, true, false, true, false, '');
