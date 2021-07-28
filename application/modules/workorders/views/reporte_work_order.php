@@ -108,7 +108,7 @@
 
 						$description = $data['description'] . ' - ' . $data['material'];
 						if($data['markup'] > 0){
-							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+							$description = $description . ' - Plus M.U.';
 						}
 
 						$html.=		'<tr>
@@ -131,15 +131,15 @@
 
 						$description = $data['description'] . ' - ' . $data['place'];
 						if($data['markup'] > 0){
-							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+							$description = $description . ' - Plus M.U.';
 						}
 
 						$html.=		'<tr>
 									<th align="center">' . $items . '</th>
 									<th>' . $description . '</th>
 									<th align="center"> Receipt </th>
-									<th align="center"> - </th>
-									<th align="right">$ ' . number_format($data['price'], 2) . '</th>
+									<th align="center"> 1 </th>
+									<th align="right">$ ' . number_format($data['value'], 2) . '</th>
 									<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 						$html.= '</tr>';
 				endforeach;
@@ -184,7 +184,7 @@
 
 						$description = $data['description'];
 						if($data['markup'] > 0){
-							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+							$description = $description . ' - Plus M.U.';
 						}
 
 						$html.=		'<tr>
