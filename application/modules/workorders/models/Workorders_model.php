@@ -384,7 +384,7 @@
 				//$year = date('Y');
 				//$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
 				
-				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.job_description, J.markup, C.*");
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, J.job_description, J.markup, J.notes, C.*");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');

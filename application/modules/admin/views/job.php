@@ -109,7 +109,8 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">Job Code/Name</th>
 								<th class="text-center">Markup</th>
-								<th class="text-center">State 
+								<th class="text-center">Notes</th>
+								<th class="text-center">Status 
 
 <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
 	Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
@@ -125,6 +126,7 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td class='text-center'>" . $lista['markup'] . " %</td>";
+									echo "<td ><small>" . $lista['notes'] . "</small></td>";
 									echo "<td class='text-center'>";
 									switch ($lista['state']) {
 										case 1:

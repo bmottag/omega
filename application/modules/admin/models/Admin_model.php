@@ -68,7 +68,8 @@
 				$data = array(
 					'job_description' => $this->input->post('jobName'),
 					'markup' => $this->input->post('markup'),
-					'state' => $this->input->post('stateJob')
+					'state' => $this->input->post('stateJob'),
+					'notes' => addslashes($this->security->xss_clean($this->input->post('notes')))
 				);			
 
 				//revisar si es para adicionar o editar

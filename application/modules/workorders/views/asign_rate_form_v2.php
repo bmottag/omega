@@ -264,6 +264,9 @@ if ($retornoError) {
 								<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?>
 								<br><strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?>
 								<br><strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
+								<?php if($information[0]["notes"]){ ?>
+								<br><strong>Job Code/Name - Notes: </strong><?php echo $information[0]["notes"]; ?>
+								<?php } ?>
 								<br><strong>Markup: </strong><?php echo $information[0]["markup"] . '%'; ?>
 								<br><strong>Supervisor: </strong><?php echo $information[0]["name"]; ?>
 								<br><strong>Observation: </strong><?php echo $information[0]["observation"]; ?>

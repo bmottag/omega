@@ -7,13 +7,14 @@
 </div>
 
 <div class="modal-body">
+	<p class="text-danger text-left">Fields with * are required.</p>
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_job"]:""; ?>"/>
 
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="jobName">Job Code/Name</label>
+					<label class="control-label" for="jobName">Job Code/Name: *</label>
 					<input type="text" id="jobName" name="jobName" class="form-control" value="<?php echo $information?$information[0]["job_description"]:""; ?>" placeholder="Job Code/Name" required >
 				</div>
 			</div>
@@ -22,19 +23,28 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="markup">Markup</label>
+					<label class="control-label" for="markup">Markup:</label>
 					<input type="text" id="markup" name="markup" class="form-control" value="<?php echo $information?$information[0]["markup"]:"0"; ?>" placeholder="Markup" required >
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="stateJob">State</label>
+					<label class="control-label" for="stateJob">Status: *</label>
 					<select name="stateJob" id="stateJob" class="form-control" >
 						<option value=''>Select...</option>
 						<option value='1' <?php if($information && $information[0]["state"] == '1') { echo "selected"; }  ?>>Active</option>
 						<option value='2' <?php if($information && $information[0]["state"] == '2') { echo "selected"; }  ?>>Inactive</option>
 					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="notes">Notes: *</label>
+					<textarea id="notes" name="notes" class="form-control" rows="3"><?php echo $information?$information[0]["notes"]:""; ?></textarea>
 				</div>
 			</div>
 		</div>
