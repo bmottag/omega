@@ -830,6 +830,92 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				}
 		}
 
+		/**
+		 * Add Excavation
+		 * @since 2/8/2021
+		 */
+		public function addExcavation() 
+		{
+			$idUser = $this->session->userdata("id");
+			$idExcavation = $this->input->post('hddIdentificador');
+			$idJob = $this->input->post('hddIdJob');
+			
+			$data = array(
+				'fk_id_job' => $idJob,
+				'project_location' => $this->input->post('project_location'),
+				'fk_id_user_approved_by ' => 1,
+				'depth' => $this->input->post('depth'),
+				'width' => $this->input->post('width'),
+				'length' => $this->input->post('length'),
+				'confined_space' => $this->input->post('confined_space'),
+				'tested_daily' => $this->input->post('tested_daily'),
+				'tested_daily_explanation' => $this->input->post('tested_daily_explanation'),
+				'ventilation' => $this->input->post('ventilation'),
+				'ventilation_explanation' => $this->input->post('ventilation_explanation'),
+				'soil_classification' => $this->input->post('soil_classification'),
+				'soil_type' => $this->input->post('soil_type'),
+				'description_safe_work' => $this->input->post('description_safe_work')
+			);
+						
+			//revisar si es para adicionar o editar
+			if ($idExcavation == '') {
+				$data['fk_id_user'] = $idUser; //solo se ingresa el usuario cuando se crea
+				$data['date_excavation'] = date("Y-m-d");//fecha del registro
+				$query = $this->db->insert('job_excavation', $data);
+				$idExcavation = $this->db->insert_id();//ID guardado
+			} else {
+				$this->db->where('id_job_excavation', $idExcavation);
+				$query = $this->db->update('job_excavation', $data);
+			}
+			if ($query) {
+				return $idExcavation;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Get Excavation workers info
+		 * @since 2/8/2021
+		 */
+		public function get_excavation_workers($arrData) 
+		{		
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name");
+				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+				if (array_key_exists("idExcavation", $arrData)) {
+					$this->db->where('W.fk_id_job_excavation', $arrData["idExcavation"]);
+				}
+				$this->db->order_by('U.first_name, U.last_name', 'asc');
+				$query = $this->db->get('job_excavation_workers W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Get Excavation subcontractor workers info
+		 * @since 2/8/2021
+		 */
+		public function get_excavation_subcontractors($arrData) 
+		{		
+				$this->db->select();
+				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
+				if (array_key_exists("idExcavation", $arrData)) {
+					$this->db->where('W.fk_id_job_excavation', $arrData["idExcavation"]);
+				}
+				$this->db->order_by('C.company_name, W.worker_name', 'asc');
+				$query = $this->db->get('job_excavation_subcontractor W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 		
 	    
 	}

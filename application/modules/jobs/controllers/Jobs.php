@@ -1835,6 +1835,124 @@ ob_end_clean();
 			$this->load->view("layout", $data);
 	}
 
+	/**
+	 * Excavation and Trenching Plan list
+     * @since 1/08/2021
+     * @author BMOTTAG
+	 */
+	public function excavation($idJob)
+	{		
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//Excavation and trenching info
+			$arrParam = array("idJob" => $idJob);				
+			$data['information'] = $this->general_model->get_excavation($arrParam);
+
+			$data["view"] ='excavation_list';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form Excavation and Trenching Plan
+     * @since 1/08/2021
+     * @author BMOTTAG
+	 */
+	public function add_excavation($idJob, $idExcavation = 'x')
+	{
+			$data['information'] = FALSE;
+			$data['deshabilitar'] = '';
+			
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			$arrParam = array(
+				"table" => "param_company",
+				"order" => "company_name",
+				"column" => "company_type",
+				"id" => 2
+			);
+			$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
+			
+			//si envio el id, entonces busco la informacion 
+			if ($idExcavation != 'x') {
+				
+				$arrParam = array("idExcavation" => $idExcavation);				
+				$data['information'] = $this->general_model->get_excavation($arrParam);
+								
+				if (!$data['information']) { 
+					show_error('ERROR!!! - You are in the wrong place.');	
+				}
+			}			
+
+			$data["view"] = 'form_excavation';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Save Excavation and Trenching Plan
+     * @since 1/08/2021
+     * @author BMOTTAG
+	 */
+	public function save_excavation()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			if ($idExcavation = $this->jobs_model->addExcavation()) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+				$data["idExcavation"] = $idExcavation;
+				$this->session->set_flashdata('retornoExito', 'You have save your Excavation and Trenching Plan, do not forget to add Workers and signatures.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				$data["idExcavation"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+
+	/**
+	 * Form Upload Personnel to Excavation Plan
+     * @since 2/8/2021
+     * @author BMOTTAG
+	 */
+	public function upload_excavation_personnel($idExcavation)
+	{
+			if (empty($idExcavation)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+			$this->load->model("general_model");
+			$data['information'] = FALSE;				
+
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
+			$arrParam = array("idExcavation" => $idExcavation);
+			$data['information'] = $this->general_model->get_excavation($arrParam);
+			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
+			$data['excavationSubcontractors'] = $this->jobs_model->get_excavation_subcontractors($arrParam);//excavation subcontractors  list
+
+			$data['view'] = 'form_upload_excavation_personnel';
+			$this->load->view("layout", $data);
+	}
+
 
 	
 	
