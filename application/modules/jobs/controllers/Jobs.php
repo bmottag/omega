@@ -1880,14 +1880,6 @@ ob_end_clean();
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
-			$arrParam = array(
-				"table" => "param_company",
-				"order" => "company_name",
-				"column" => "company_type",
-				"id" => 2
-			);
-			$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
-			
 			//si envio el id, entonces busco la informacion 
 			if ($idExcavation != 'x') {
 				
@@ -1949,10 +1941,54 @@ ob_end_clean();
 			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
 			$data['excavationSubcontractors'] = $this->jobs_model->get_excavation_subcontractors($arrParam);//excavation subcontractors  list
 
-			$data['view'] = 'form_upload_excavation_personnel';
+			$data['view'] = 'form_excavation_personnel';
 			$this->load->view("layout", $data);
 	}
 
+	/**
+	 * Form Excavation and Trenching Plan - Protection Methods
+     * @since 3/08/2021
+     * @author BMOTTAG
+	 */
+	public function upload_protection_methods($idExcavation)
+	{
+			if (empty($idExcavation)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+
+			$this->load->model("general_model");
+			$arrParam = array("idExcavation" => $idExcavation);
+			$data['information'] = $this->general_model->get_excavation($arrParam);
+
+			$data["view"] = 'form_excavation_protection_methods';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save Excavation and Trenching Plan - Protection
+     * @since 8/08/2021
+     * @author BMOTTAG
+	 */
+	public function save_excavation_protection()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$idExcavation = $this->input->post('hddIdentificador');
+			
+			if ($this->jobs_model->updateExcavation()) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+				$data["idExcavation"] = $idExcavation;
+				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				$data["idExcavation"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
 
 	
 	

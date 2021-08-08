@@ -916,6 +916,36 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				}
 		}
 
+		/**
+		 * Update Excavation
+		 * @since 8/8/2021
+		 */
+		public function updateExcavation() 
+		{
+			$idExcavation = $this->input->post('hddIdentificador');
+			
+			$data = array(
+				'protection_sloping' => $this->input->post('sloping'),
+				'protection_type_a' => $this->input->post('type_a'),
+				'protection_type_b' => $this->input->post('type_b'),
+				'protection_type_c' => $this->input->post('type_c'),
+				'protection_benching' => $this->input->post('benching'),
+				'protection_shoring' => $this->input->post('shoring'),
+				'protection_shielding' => $this->input->post('shielding'),
+				'additional_comments' => $this->input->post('additional_comments')
+			);
+						
+
+			$this->db->where('id_job_excavation', $idExcavation);
+			$query = $this->db->update('job_excavation', $data);
+		
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		
 	    
 	}

@@ -24,6 +24,8 @@
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_excavation_personnel/' . $information[0]['id_job_excavation']); ?>">Personnel</a>
 						</li>
+						<li><a href="<?php echo base_url('jobs/upload_protection_methods/' . $information[0]['id_job_excavation']); ?>">Protection Methods & Systems</a>
+						</li>
 					</ul>
 					<br>
 				<?php
