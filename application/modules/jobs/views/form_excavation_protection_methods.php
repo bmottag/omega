@@ -39,6 +39,8 @@ function valid_field()
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_affected_zone/' . $information[0]['id_job_excavation']); ?>">Affected Zone, Traffic & Utilities </a>
 						</li>
+						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a>
+						</li>
 					</ul>
 					<br>
 				<?php
