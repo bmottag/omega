@@ -2035,6 +2035,51 @@ ob_end_clean();
 			echo json_encode($data);
     }
 
+	/**
+	 * Form Excavation and Trenching Plan - Affected Zone, Traffic & Utilities
+     * @since 3/08/2021
+     * @author BMOTTAG
+	 */
+	public function upload_affected_zone($idExcavation)
+	{
+			if (empty($idExcavation)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+
+			$this->load->model("general_model");
+			$arrParam = array("idExcavation" => $idExcavation);
+			$data['information'] = $this->general_model->get_excavation($arrParam);
+
+			$data["view"] = 'form_excavation_affected_zone';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save Excavation and Trenching Plan - Affected Zone, Traffic & Utilities
+     * @since 8/08/2021
+     * @author BMOTTAG
+	 */
+	public function save_affected_zone()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$idExcavation = $this->input->post('hddIdentificador');
+			
+			if ($this->jobs_model->updateExcavationAffectedZone()) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+				$data["idExcavation"] = $idExcavation;
+				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				$data["idExcavation"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
+
 	
 	
 }

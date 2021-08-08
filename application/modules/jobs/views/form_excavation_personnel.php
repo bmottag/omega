@@ -26,6 +26,8 @@
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_access_egress/' . $information[0]['id_job_excavation']); ?>">Access & Egress </a>
 						</li>
+						<li><a href="<?php echo base_url('jobs/upload_affected_zone/' . $information[0]['id_job_excavation']); ?>">Affected Zone, Traffic & Utilities </a>
+						</li>
 					</ul>
 					<br>
 				<?php
