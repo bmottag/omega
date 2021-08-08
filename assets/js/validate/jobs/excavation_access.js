@@ -35,7 +35,7 @@ $( document ).ready( function () {
 
 				$.ajax({
 					type: "POST",	
-					url: base_url + "jobs/save_protection_methods",	
+					url: base_url + "jobs/save_access_egress",	
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -61,7 +61,7 @@ $( document ).ready( function () {
 							$("#div_guardado").css("display", "inline");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "jobs/upload_protection_methods/" + data.idExcavation;
+							var url = base_url + "jobs/upload_access_egress/" + data.idExcavation;
 							$(location).attr("href", url);
 						}
 						else

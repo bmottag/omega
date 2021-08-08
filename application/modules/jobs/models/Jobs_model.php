@@ -917,7 +917,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		}
 
 		/**
-		 * Update Excavation
+		 * Update Excavation - Protection Methods
 		 * @since 8/8/2021
 		 */
 		public function updateExcavation() 
@@ -933,6 +933,32 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'protection_shoring' => $this->input->post('shoring'),
 				'protection_shielding' => $this->input->post('shielding'),
 				'additional_comments' => $this->input->post('additional_comments')
+			);
+						
+
+			$this->db->where('id_job_excavation', $idExcavation);
+			$query = $this->db->update('job_excavation', $data);
+		
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Update Excavation - Access & Egress
+		 * @since 8/8/2021
+		 */
+		public function updateExcavationAccess() 
+		{
+			$idExcavation = $this->input->post('hddIdentificador');
+			
+			$data = array(
+				'access_ladder' => $this->input->post('ladder'),
+				'access_ramp' => $this->input->post('ramp'),
+				'access_other' => $this->input->post('other'),
+				'access_explain' => $this->input->post('access_explain')
 			);
 						
 

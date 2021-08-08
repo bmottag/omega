@@ -1,9 +1,9 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_protection.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_access.js"); ?>"></script>
 
 <script>
 function valid_field() 
 {
-	if(document.getElementById('sloping').checked || document.getElementById('type_a').checked || document.getElementById('type_b').checked || document.getElementById('type_c').checked || document.getElementById('benching').checked || document.getElementById('shoring').checked || document.getElementById('shielding').checked ){
+	if(document.getElementById('ladder').checked || document.getElementById('ramp').checked || document.getElementById('other').checked ){
 		document.getElementById('hddField').value = 1;
 	}else{
 		document.getElementById('hddField').value = "";
@@ -33,9 +33,9 @@ function valid_field()
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_excavation_personnel/' . $information[0]['id_job_excavation']); ?>">Personnel</a>
 						</li>
-						<li class='active'><a href="<?php echo base_url('jobs/upload_protection_methods/' . $information[0]['id_job_excavation']); ?>">Protection Methods & Systems</a>
+						<li><a href="<?php echo base_url('jobs/upload_protection_methods/' . $information[0]['id_job_excavation']); ?>">Protection Methods & Systems</a>
 						</li>
-						<li><a href="<?php echo base_url('jobs/upload_access_egress/' . $information[0]['id_job_excavation']); ?>">Access & Egress </a>
+						<li class='active'><a href="<?php echo base_url('jobs/upload_access_egress/' . $information[0]['id_job_excavation']); ?>">Access & Egress </a>
 						</li>
 					</ul>
 					<br>
@@ -77,22 +77,18 @@ if ($retornoError) {
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
 														
 						<div class="form-group">
-							<label class="col-sm-5 control-label" for="project_location">Choose the method of protection below that will be implemented: *
+							<label class="col-sm-5 control-label" for="project_location">Choose the method of access / egress below that will be implemented:  *
 								<br><small class="text-danger">(may choose more than one) </small></label>
 							<div class="col-sm-5">
-<input type="checkbox" id="sloping" name="sloping" value=1 <?php if($information && $information[0]["protection_sloping"]){echo "checked";} ?> onclick="valid_field()"> Sloping<br>
-<input type="checkbox" id="type_a" name="type_a" value=1 <?php if($information && $information[0]["protection_type_a"]){echo "checked";} ?> onclick="valid_field()"> ¾ to 1- Type A Soil<br>
-<input type="checkbox" id="type_b" name="type_b" value=1 <?php if($information && $information[0]["protection_type_b"]){echo "checked";} ?> onclick="valid_field()"> 1 to 1 - Type B Soil<br>
-<input type="checkbox" id="type_c" name="type_c" value=1 <?php if($information && $information[0]["protection_type_c"]){echo "checked";} ?> onclick="valid_field()"> 1 ½ to 1- Type C Soil<br>
-<input type="checkbox" id="benching" name="benching" value=1 <?php if($information && $information[0]["protection_benching"]){echo "checked";} ?> onclick="valid_field()"> Benching<br>
-<input type="checkbox" id="shoring" name="shoring" value=1 <?php if($information && $information[0]["protection_shoring"]){echo "checked";} ?> onclick="valid_field()"> Shoring<br>
-<input type="checkbox" id="shielding" name="shielding" value=1 <?php if($information && $information[0]["protection_shielding"]){echo "checked";} ?> onclick="valid_field()"> Shielding<br>
+<input type="checkbox" id="ladder" name="ladder" value=1 <?php if($information && $information[0]["access_ladder"]){echo "checked";} ?> onclick="valid_field()"> Portable ladder(s) placed within 7 m of lateral travel<br>
+<input type="checkbox" id="ramp" name="ramp" value=1 <?php if($information && $information[0]["access_ramp"]){echo "checked";} ?> onclick="valid_field()"> Ramp(s) placed within 15 m of lateral travel<br>
+<input type="checkbox" id="other" name="other" value=1 <?php if($information && $information[0]["access_other"]){echo "checked";} ?> onclick="valid_field()"> Other means of access / egress: <br>
 
 <?php 
 $valorCampo = "";
 if($information)
 {
-	if($information[0]["protection_sloping"] || $information[0]["protection_type_a"] || $information[0]["protection_type_b"] || $information[0]["protection_type_c"] || $information[0]["protection_benching"] || $information[0]["protection_shoring"] || $information[0]["protection_shielding"])
+	if($information[0]["access_ladder"] || $information[0]["access_ramp"] || $information[0]["access_other"])
 	{
 		$valorCampo = 1;
 	}
@@ -104,9 +100,9 @@ if($information)
 						</div>
 												
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="additional_comments">Additional Comments: </label>
+							<label class="col-sm-4 control-label" for="access_explain">Explain in detail: </label>
 							<div class="col-sm-5">
-								<textarea id="additional_comments" name="additional_comments" class="form-control" placeholder="Additional Comments" rows="3"><?php echo $information?$information[0]["additional_comments"]:""; ?></textarea>
+								<textarea id="access_explain" name="access_explain" class="form-control" placeholder="Explain in detail" rows="3"><?php echo $information?$information[0]["access_explain"]:""; ?></textarea>
 							</div>
 						</div>
 
