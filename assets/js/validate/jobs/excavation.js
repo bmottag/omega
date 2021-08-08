@@ -1,16 +1,36 @@
 $( document ).ready( function () {
+
+jQuery.validator.addMethod("fieldTestedExplanation", function(value, element, param) {
+	var tested_daily = $('#tested_daily').val();
+	if(tested_daily==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("fieldVentilationExplanation", function(value, element, param) {
+	var ventilation = $('#ventilation').val();
+	if(ventilation==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
 			
 	$( "#form" ).validate( {
 		rules: {
-			project_location:		{ required: true },
-			depth:					{ required: true },
-			width:					{ required: true },
-			length:					{ required: true },
-			confined_space:			{ required: true },
-			tested_daily:			{ required: true },
-			ventilation:			{ required: true },
-			soil_classification:	{ required: true },
-			soil_type:				{ required: true }
+			project_location:			{ required: true },
+			depth:						{ required: true },
+			width:						{ required: true },
+			length:						{ required: true },
+			confined_space:				{ required: true },
+			tested_daily:				{ required: true },
+			tested_daily_explanation:	{ fieldTestedExplanation: "#tested_daily" },
+			ventilation:				{ required: true },
+			ventilation_explanation:	{ fieldVentilationExplanation: "#ventilation" },
+			soil_classification:		{ required: true },
+			soil_type:					{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -90,7 +110,9 @@ $( document ).ready( function () {
 		
 				});	
 		
-		}//if			
+		}else{
+			alert("There are missing fields.");
+		}			
 	});
 
 });

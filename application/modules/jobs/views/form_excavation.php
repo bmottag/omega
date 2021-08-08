@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavation.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -116,8 +117,8 @@ if ($retornoError) {
 							<div class="col-sm-5">									
 								<select name="confined_space" id="confined_space" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 <?php if($information[0]["confined_space"] == 1) { echo "selected"; }  ?>>Yes</option>
-									<option value=2 <?php if($information[0]["confined_space"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=1 <?php if($information && $information[0]["confined_space"] == 1) { echo "selected"; }  ?>>Yes</option>
+									<option value=2 <?php if($information && $information[0]["confined_space"] == 2) { echo "selected"; }  ?>>No</option>
 								</select>
 							</div>
 						</div>
@@ -127,16 +128,23 @@ if ($retornoError) {
 							<div class="col-sm-5">									
 								<select name="tested_daily" id="tested_daily" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 <?php if($information[0]["tested_daily"] == 1) { echo "selected"; }  ?>>Yes</option>
-									<option value=2 <?php if($information[0]["tested_daily"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=1 <?php if($information && $information[0]["tested_daily"] == 1) { echo "selected"; }  ?>>Yes</option>
+									<option value=2 <?php if($information && $information[0]["tested_daily"] == 2) { echo "selected"; }  ?>>No</option>
 								</select>
 							</div>
 						</div>
+
+<?php 
+	$fildTested = "none";
+	if($information && $information[0]["tested_daily"]==1){
+		$fildTested = "inline";
+	}
+?>
 						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="tested_daily_explanation">If yes, please explain</label>
+						<div class="form-group" id="div_tested_daily_explanation" style="display:<?php echo $fildTested; ?>">
+							<label class="col-sm-4 control-label" for="tested_daily_explanation">If yes, please explain:</label>
 							<div class="col-sm-5">
-								<textarea id="tested_daily_explanation" name="tested_daily_explanation" class="form-control" placeholder="If yes, please explain" rows="3"><?php echo $information?$information[0]["tested_daily_explanation"]:""; ?></textarea>
+								<textarea id="tested_daily_explanation" name="tested_daily_explanation" class="form-control" placeholder="If yes, please explain" rows="3" ><?php echo $information?$information[0]["tested_daily_explanation"]:""; ?></textarea>
 							</div>
 						</div>
 
@@ -145,16 +153,23 @@ if ($retornoError) {
 							<div class="col-sm-5">									
 								<select name="ventilation" id="ventilation" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 <?php if($information[0]["ventilation"] == 1) { echo "selected"; }  ?>>Yes</option>
-									<option value=2 <?php if($information[0]["ventilation"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=1 <?php if($information && $information[0]["ventilation"] == 1) { echo "selected"; }  ?>>Yes</option>
+									<option value=2 <?php if($information && $information[0]["ventilation"] == 2) { echo "selected"; }  ?>>No</option>
 								</select>
 							</div>
 						</div>
+
+<?php 
+	$fildVentilation = "none";
+	if($information && $information[0]["ventilation"]==1){
+		$fildVentilation = "inline";
+	}
+?>
 						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="ventilation_explanation">If yes, please explain</label>
+						<div class="form-group" id="div_ventilation_explanation" style="display:<?php echo $fildVentilation; ?>">
+							<label class="col-sm-4 control-label" for="ventilation_explanation">If yes, please explain:</label>
 							<div class="col-sm-5">
-								<textarea id="ventilation_explanation" name="ventilation_explanation" class="form-control" placeholder="Specify PPE" rows="3"><?php echo $information?$information[0]["ventilation_explanation"]:""; ?></textarea>
+								<textarea id="ventilation_explanation" name="ventilation_explanation" class="form-control" placeholder="If yes, please explain" rows="3"><?php echo $information?$information[0]["ventilation_explanation"]:""; ?></textarea>
 							</div>
 						</div>
 
@@ -163,8 +178,8 @@ if ($retornoError) {
 							<div class="col-sm-5">									
 								<select name="soil_classification" id="soil_classification" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 <?php if($information[0]["soil_classification"] == 1) { echo "selected"; }  ?>>Yes</option>
-									<option value=2 <?php if($information[0]["soil_classification"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=1 <?php if($information && $information[0]["soil_classification"] == 1) { echo "selected"; }  ?>>Yes</option>
+									<option value=2 <?php if($information && $information[0]["soil_classification"] == 2) { echo "selected"; }  ?>>No</option>
 								</select>
 							</div>
 						</div>
@@ -174,16 +189,16 @@ if ($retornoError) {
 							<div class="col-sm-5">									
 								<select name="soil_type" id="soil_type" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 <?php if($information[0]["soil_type"] == 1) { echo "selected"; }  ?>>Stable rock</option>
-									<option value=2 <?php if($information[0]["soil_type"] == 2) { echo "selected"; }  ?>>"Type A" - unconfined comprehensive strength of 1.5 tsf or greater</option>
-									<option value=3 <?php if($information[0]["soil_type"] == 3) { echo "selected"; }  ?>>"Type B" - unconfined comprehensive strength of 0.5 -1.5 tsf</option>
-									<option value=4 <?php if($information[0]["soil_type"] == 4) { echo "selected"; }  ?>>"Type C" - unconfined comprehensive strength of 0.5 tsf or less</option>
+									<option value=1 <?php if($information && $information[0]["soil_type"] == 1) { echo "selected"; }  ?>>Stable rock</option>
+									<option value=2 <?php if($information && $information[0]["soil_type"] == 2) { echo "selected"; }  ?>>"Type A" - unconfined comprehensive strength of 1.5 tsf or greater</option>
+									<option value=3 <?php if($information && $information[0]["soil_type"] == 3) { echo "selected"; }  ?>>"Type B" - unconfined comprehensive strength of 0.5 -1.5 tsf</option>
+									<option value=4 <?php if($information && $information[0]["soil_type"] == 4) { echo "selected"; }  ?>>"Type C" - unconfined comprehensive strength of 0.5 tsf or less</option>
 								</select>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="description_safe_work">Description of safe work practices and anticipated work inside the excavation / trench</label>
+							<label class="col-sm-4 control-label" for="description_safe_work">Description of safe work practices and anticipated work inside the excavation / trench:</label>
 							<div class="col-sm-5">
 								<textarea id="description_safe_work" name="description_safe_work" class="form-control" rows="3"><?php echo $information?$information[0]["description_safe_work"]:""; ?></textarea>
 							</div>
