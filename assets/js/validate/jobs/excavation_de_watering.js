@@ -1,8 +1,18 @@
 $( document ).ready( function () {
+
+jQuery.validator.addMethod("fieldExplanation", function(value, element, param) {
+	var dewatering_needed = $('#dewatering_needed').val();
+	if(dewatering_needed==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
 			
 	$( "#form" ).validate( {
 		rules: {
 			dewatering_needed:		{ required: true },
+			explain_equipment:		{ fieldExplanation: "#dewatering_needed" },
 			body_water:				{ required: true }
 		},
 		errorElement: "em",

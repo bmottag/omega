@@ -1,5 +1,23 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_de_watering.js"); ?>"></script>
 
+<script>
+$(document).ready(function () {
+    $('#dewatering_needed').change(function () {
+        $('#dewatering_needed option:selected').each(function () {
+            var dewatering_needed = $('#dewatering_needed').val();
+
+            if ((dewatering_needed > 0 || dewatering_needed != '') ) {
+				$("#div_explain_equipment").css("display", "none");
+                $('#explain_equipment').val("");
+				if(dewatering_needed==1){
+					$("#div_explain_equipment").css("display", "inline");
+				}
+            }
+        });
+    });    
+});
+</script>
+
 <div id="page-wrapper">
 	<br>
 	
@@ -80,8 +98,15 @@ if ($retornoError) {
 								</select>
 							</div>
 						</div>
+
+<?php 
+	$fildDewatering = "none";
+	if($information && $information[0]["dewatering_needed"]==1){
+		$fildDewatering = "inline";
+	}
+?>
 												
-						<div class="form-group">
+						<div class="form-group" id="div_explain_equipment" style="display:<?php echo $fildDewatering; ?>">
 							<label class="col-sm-4 control-label" for="explain_equipment">If yes, explain equipment and procedures: </label>
 							<div class="col-sm-5">
 								<textarea id="explain_equipment" name="explain_equipment" class="form-control" placeholder="If yes, explain equipment and procedures" rows="3"><?php echo $information?$information[0]["explain_equipment"]:""; ?></textarea>
