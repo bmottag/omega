@@ -1018,7 +1018,8 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'dewatering_needed' => $this->input->post('dewatering_needed'),
 				'explain_equipment' => $this->input->post('explain_equipment'),
 				'body_water' => $this->input->post('body_water'),
-				'water_conducted' => $this->input->post('water_conducted')
+				'water_conducted' => $this->input->post('water_conducted'),
+				'additional_notes' => $this->input->post('additional_notes')
 			);
 						
 

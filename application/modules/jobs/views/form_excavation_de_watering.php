@@ -107,7 +107,12 @@ if ($retornoError) {
 							</div>
 						</div>
 
-
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="additional_notes">Additional Notes: </label>
+							<div class="col-sm-5">
+								<textarea id="additional_notes" name="additional_notes" class="form-control" placeholder="Additional Notes" rows="3"><?php echo $information?$information[0]["additional_notes"]:""; ?></textarea>
+							</div>
+						</div>
 
 
 					
