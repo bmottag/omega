@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_affected_zone.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavationAffectedZone.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -106,8 +107,15 @@ if ($retornoError) {
 								</select>
 							</div>
 						</div>
-												
-						<div class="form-group">
+
+<?php 
+	$fildUtilityLines = "none";
+	if($information && $information[0]["utility_lines"]==1){
+		$fildUtilityLines = "inline";
+	}
+?>
+					
+						<div class="form-group" id="div_utility_lines_explain" style="display:<?php echo $fildUtilityLines; ?>">
 							<label class="col-sm-4 control-label" for="utility_lines_explain">If yes, explain: </label>
 							<div class="col-sm-5">
 								<textarea id="utility_lines_explain" name="utility_lines_explain" class="form-control" placeholder="If yes, explain" rows="3"><?php echo $information?$information[0]["utility_lines_explain"]:""; ?></textarea>
@@ -126,7 +134,14 @@ if ($retornoError) {
 							</div>
 						</div>
 
-						<div class="form-group">
+<?php 
+	$fildMethodSupport = "none";
+	if($information && $information[0]["encumbrances"]==1){
+		$fildMethodSupport = "inline";
+	}
+?>
+
+						<div class="form-group" id="div_method_support" style="display:<?php echo $fildMethodSupport; ?>">
 							<label class="col-sm-4 control-label" for="method_support">If yes, explain method of support / protection: </label>
 							<div class="col-sm-5">
 								<textarea id="method_support" name="method_support" class="form-control" placeholder="If yes, explain method of support / protection" rows="3"><?php echo $information?$information[0]["method_support"]:""; ?></textarea>
@@ -158,7 +173,19 @@ if ($retornoError) {
 							</div>
 						</div>
 
-						<div class="form-group">
+<?php 
+	$fildSpoilsTransported = "none";
+	$fildEnvironmentalControls = "none";
+	if($information && $information[0]["spoil_piles"]==2){
+		$fildSpoilsTransported = "inline";
+		$fildEnvironmentalControls = "none";
+	}elseif($information && $information[0]["spoil_piles"]==1){
+		$fildSpoilsTransported = "none";
+		$fildEnvironmentalControls = "inline";
+	}
+?>
+
+						<div class="form-group" id="div_spoils_transported" style="display:<?php echo $fildSpoilsTransported; ?>">
 							<label class="col-sm-4 control-label" for="spoils_transported">If no, will spoils be transported off site? 
 							</label>
 							<div class="col-sm-5">									
@@ -170,7 +197,7 @@ if ($retornoError) {
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" id="div_environmental_controls" style="display:<?php echo $fildEnvironmentalControls; ?>">
 							<label class="col-sm-4 control-label" for="environmental_controls">If yes, are environmental controls in place to reduce runoff?
 							</label>
 							<div class="col-sm-5">									
@@ -194,8 +221,14 @@ if ($retornoError) {
 							</div>
 						</div>
 
+<?php 
+	$fildMethodsSecure = "none";
+	if($information && $information[0]["open_overnight"]==1){
+		$fildMethodsSecure = "inline";
+	}
+?>
 
-						<div class="form-group">
+						<div class="form-group" id="div_methods_secure" style="display:<?php echo $fildMethodsSecure; ?>">
 							<label class="col-sm-4 control-label" for="methods_secure">If yes, describe methods to secure the excavation area from the public or bystanders: </label>
 							<div class="col-sm-5">
 								<textarea id="methods_secure" name="methods_secure" class="form-control" placeholder="If yes, describe methods to secure the excavation area from the public or bystanders" rows="3"><?php echo $information?$information[0]["methods_secure"]:""; ?></textarea>

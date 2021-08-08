@@ -1,14 +1,64 @@
 $( document ).ready( function () {
+
+jQuery.validator.addMethod("fieldUtilityExplanation", function(value, element, param) {
+	var utility_lines = $('#utility_lines').val();
+	if(utility_lines==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("fieldMethod", function(value, element, param) {
+	var encumbrances = $('#encumbrances').val();
+	if(encumbrances==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("fieldSpoilsTransported", function(value, element, param) {
+	var spoil_piles = $('#spoil_piles').val();
+	if(spoil_piles==2 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("fieldEnvironmental", function(value, element, param) {
+	var spoil_piles = $('#spoil_piles').val();
+	if(spoil_piles==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("fieldMethodsSecure", function(value, element, param) {
+	var open_overnight = $('#open_overnight').val();
+	if(open_overnight==1 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
 			
 	$( "#form" ).validate( {
 		rules: {
 			located:				{ required: true },
 			permit_required:		{ required: true },
 			utility_lines:			{ required: true },
+			utility_lines_explain:	{ fieldUtilityExplanation: "#utility_lines" },
 			encumbrances:			{ required: true },
+			method_support:			{ fieldMethod: "#encumbrances" },
 			utility_shutdown:		{ required: true },
 			spoil_piles:			{ required: true },
+			spoils_transported:		{ fieldSpoilsTransported: "#spoil_piles" },
+			environmental_controls:	{ fieldEnvironmental: "#spoil_piles" },
 			open_overnight:			{ required: true },
+			methods_secure:			{ fieldMethodsSecure: "#open_overnight" },
 			vehicle_traffic:		{ required: true }
 		},
 		errorElement: "em",
@@ -89,7 +139,9 @@ $( document ).ready( function () {
 		
 				});	
 		
-		}//if			
+		}else{
+			alert("There are missing fields.");
+		}		
 	});
 
 });
