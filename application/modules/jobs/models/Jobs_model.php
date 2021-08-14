@@ -1057,6 +1057,65 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			}
 		}
 
+		/**
+		 * @author BMOTTAG
+		 * @since 14/11/2021
+		 * Consulta de empleados para un formato de excavation
+		 */
+		public function get_excavation_byIdworker_byIdExcavation($idExcavation, $idWorker) {
+			$this->db->where('fk_id_job_excavation', $idExcavation);
+			$this->db->where('fk_id_user', $idWorker);
+			$query = $this->db->get('job_excavation_workers');
+			if ($query->num_rows() == 1) {
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+		}
+
+		/**
+		 * Add Excavation and Trenching Plan WORKER
+		 * @since 14/8/2021
+		 */
+		public function add_excavation_worker($idExcavation) 
+		{
+			//add the new workers
+			$query = 1;
+			if ($workers = $this->input->post('workers')) {
+				$tot = count($workers);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_job_excavation' => $idExcavation,
+						'fk_id_user' => $workers[$i]
+					);
+					$query = $this->db->insert('job_excavation_workers', $data);
+				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
+		/**
+		 * Save one worker - Excavation and Trenching Plan
+		 * @since 14/8/2021
+		 */
+		public function excavationSaveOneWorker() 
+		{							
+				$data = array(
+					'fk_id_job_excavation' => $this->input->post('hddIdExcavation'),
+					'fk_id_user' => $this->input->post('worker')
+				);			
+				$query = $this->db->insert('job_excavation_workers', $data);
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 		
 	    
 	}

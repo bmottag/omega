@@ -10,11 +10,12 @@
 			<div class="panel panel-danger">
 				<div class="panel-heading">
 					<a class="btn btn-danger btn-xs" href=" <?php echo base_url('jobs/excavation/' . $jobInfo[0]["id_job"]); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-life-saver"></i> <strong>EXCAVATION AND TRENCHING PLAN</strong>
+					<i class="fa fa-pied-piper-alt"></i> <strong>EXCAVATION AND TRENCHING PLAN</strong>
 				</div>
 				<div class="panel-body">
 				
 					<div class="alert alert-danger">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>
 				<?php 

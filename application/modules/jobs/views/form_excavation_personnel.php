@@ -8,10 +8,12 @@
 		<div class="col-lg-12">
 			<div class="panel panel-danger">
 				<div class="panel-heading">
-					<i class="fa fa-life-saver"></i> <strong>EXCAVATION AND TRENCHING PLAN</strong>
+					<a class="btn btn-danger btn-xs" href=" <?php echo base_url('jobs/excavation/' . $information[0]["id_job"]); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-pied-piper-alt"></i> <strong>EXCAVATION AND TRENCHING PLAN</strong>
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-danger">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?>
 					</div>
 				<?php 
@@ -117,11 +119,11 @@ if ($retornoError) {
 <!--INICIO WORKERS -->
 					<div class="col-lg-12">	
 						<?php if($excavationWorkers){ ?>
-							<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+							<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
 							</button>
 						<?php }else { ?>
-							<a href="<?php echo base_url("safety/add_workers/" . $information[0]["id_job_excavation"]); ?>" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+							<a href="<?php echo base_url("jobs/add_workers_excavation/" . $information[0]["id_job_excavation"]); ?>" class="btn btn-info btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
 						<?php } ?>
 						<br>
 					</div>
@@ -142,7 +144,7 @@ if ($retornoError) {
 							echo "<td >" . $data['name'] . "</td>";
 							echo "<td class='text-center'>";
 					?>
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('safety/deleteSafetyWorker/' . $data['id_safety_worker'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/deleteExcavationWorker/' . $data['fk_id_job_excavation'] . '/' . $data['id_excavation_worker']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span> 
 							</a>
 					<?php
@@ -216,31 +218,23 @@ if ($retornoError) {
 		<div class="modal-content" id="tablaDatos">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">ADD WORKER</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Add Worker</h4>
 			</div>
 
 			<div class="modal-body">
-				<form name="formHazard" id="formHazard" role="form" method="post" action="<?php echo base_url("safety/safet_One_Worker") ?>" >
-					<input type="hidden" id="hddId" name="hddId" value="<?php echo $information[0]["id_safety"]; ?>"/>
+				<form name="formWorker" id="formWorker" role="form" method="post" action="<?php echo base_url("jobs/excavation_One_Worker") ?>" >
+					<input type="hidden" id="hddIdExcavation" name="hddIdExcavation" value="<?php echo $information[0]["id_job_excavation"]; ?>"/>
 					
 					<div class="form-group text-left">
-						<label class="control-label" for="worker">Worker</label>
-						<select name="worker" id="worker" class="form-control" required>
+						<label class="control-label" for="worker">Worker: *</label>
+						<select name="worker" id="worker" class="form-control" required >
 							<option value=''>Select...</option>
 							<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 								<option value="<?php echo $workersList[$i]["id_user"]; ?>" ><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 							<?php } ?>
 						</select>
 					</div>
-					
-					<div class="form-group">
-						<div class="row" align="center">
-							<div style="width:50%;" align="center">
-								<input type="submit" id="btnSubmitWorker" name="btnSubmitWorker" value="Save" class="btn btn-primary"/>
-							</div>
-						</div>
-					</div>
-					
+									
 					<div class="form-group">
 						<div id="div_load" style="display:none">		
 							<div class="progress progress-striped active">
@@ -254,6 +248,16 @@ if ($retornoError) {
 						</div>	
 					</div>
 						
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:100%;" align="center">
+								<button type="submit" id="btnSubmitWorker" name="btnSubmitWorker" class='btn btn-info'>
+										Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+								</button>						
+							</div>
+						</div>
+					</div>
+
 				</form>
 			</div>
 
