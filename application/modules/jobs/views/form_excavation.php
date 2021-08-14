@@ -85,7 +85,7 @@ if ($retornoError) {
 								<br><small class="text-danger">Depth in meters</small>
 							</label>
 							<div class="col-sm-5">
-							<input type="number" id="depth" name="depth" class="form-control" value="<?php echo $information?$information[0]["depth"]:""; ?>" placeholder="Anticipated depth of excavation / trench" required >
+							<input type="number" id="depth" name="depth" max="15" class="form-control" value="<?php echo $information?$information[0]["depth"]:""; ?>" placeholder="Anticipated depth of excavation / trench" required >
 							</div>
 						</div>
 
@@ -97,7 +97,7 @@ if ($retornoError) {
 								<br><small class="text-danger">Meters</small>
 							</label>
 							<div class="col-sm-5">
-							<input type="number" id="width" name="width" class="form-control" value="<?php echo $information?$information[0]["width"]:""; ?>" placeholder="Width" >
+							<input type="number" id="width" name="width" max="15" class="form-control" value="<?php echo $information?$information[0]["width"]:""; ?>" placeholder="Width" >
 							</div>
 						</div>
 
@@ -106,7 +106,7 @@ if ($retornoError) {
 								<br><small class="text-danger">Meters</small>
 							</label>
 							<div class="col-sm-5">
-							<input type="number" id="length" name="length" class="form-control" value="<?php echo $information?$information[0]["length"]:""; ?>" placeholder="Length" >
+							<input type="number" id="length" name="length" max="200" class="form-control" value="<?php echo $information?$information[0]["length"]:""; ?>" placeholder="Length" >
 							</div>
 						</div>
 

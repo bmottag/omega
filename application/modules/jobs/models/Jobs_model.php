@@ -1033,6 +1033,30 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			}
 		}
 
+		/**
+		 * Update Excavation - Personnel
+		 * @since 14/8/2021
+		 */
+		public function updatePersonnel() 
+		{
+			$idExcavation = $this->input->post('hddIdentificador');
+			
+			$data = array(
+				'fk_id_user_operator' => $this->input->post('operator'),
+				'fk_id_user_supervisor' => $this->input->post('supervisor')
+			);
+						
+
+			$this->db->where('id_job_excavation', $idExcavation);
+			$query = $this->db->update('job_excavation', $data);
+		
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		
 	    
 	}

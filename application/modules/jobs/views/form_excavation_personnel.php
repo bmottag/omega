@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/safety/safety_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_personnel.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -65,11 +65,14 @@ if ($retornoError) {
     <?php
 }
 ?> 
+
 					<form  name="form" id="form" class="form-horizontal" method="post" >
+						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="operator">Operator performing excavation *</label>
 							<div class="col-sm-5">									
-								<select name="operator" id="operator" class="form-control" >
+								<select name="operator" id="operator" class="form-control" required >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_user_operator"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
@@ -82,21 +85,34 @@ if ($retornoError) {
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="supervisor">Person supervising excavation *</label>
 							<div class="col-sm-5">									
-								<select name="supervisor" id="supervisor" class="form-control" >
+								<select name="supervisor" id="supervisor" class="form-control" required >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_user_operator"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_user_supervisor"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
 						</div>
 
+						<div class="form-group">
+							<div class="row" align="center">
+								<div style="width:100%;" align="center">
+									<button type="button" id="btnSubmit" name="btnSubmit" class='btn btn-danger'>
+											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									</button>						
+								</div>
+							</div>
+						</div>
+
 					</form>
-						
-						
-						<p class="text-danger">List of employees involved during the excavation process (spotter, worker, pile layer, surveyor).</p>
-						
-						
+
+						<hr>
+
+						<div class="alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span>
+							List of employees involved during the excavation process (spotter, worker, pile layer, surveyor).
+						</div>
+
 
 <!--INICIO WORKERS -->
 					<div class="col-lg-12">	

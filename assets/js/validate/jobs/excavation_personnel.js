@@ -1,36 +1,9 @@
 $( document ).ready( function () {
-
-jQuery.validator.addMethod("fieldTestedExplanation", function(value, element, param) {
-	var tested_daily = $('#tested_daily').val();
-	if(tested_daily==1 && value == ""){
-		return false;
-	}else{
-		return true;
-	}
-}, "This field is required.");
-
-jQuery.validator.addMethod("fieldVentilationExplanation", function(value, element, param) {
-	var ventilation = $('#ventilation').val();
-	if(ventilation==1 && value == ""){
-		return false;
-	}else{
-		return true;
-	}
-}, "This field is required.");
 			
 	$( "#form" ).validate( {
 		rules: {
-			project_location:			{ required: true },
-			depth:						{ required: true, minlength: 1, maxlength:2 },
-			width:						{ required: true, minlength: 1, maxlength:2 },
-			length:						{ required: true, minlength: 1, maxlength:3 },
-			confined_space:				{ required: true },
-			tested_daily:				{ required: true },
-			tested_daily_explanation:	{ fieldTestedExplanation: "#tested_daily" },
-			ventilation:				{ required: true },
-			ventilation_explanation:	{ fieldVentilationExplanation: "#ventilation" },
-			soil_classification:		{ required: true },
-			soil_type:					{ required: true }
+			operator:				{ required: true },
+			supervisor:		{ required: true },
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -63,7 +36,7 @@ jQuery.validator.addMethod("fieldVentilationExplanation", function(value, elemen
 
 				$.ajax({
 					type: "POST",	
-					url: base_url + "jobs/save_excavation",	
+					url: base_url + "jobs/save_personnel",	
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -112,7 +85,7 @@ jQuery.validator.addMethod("fieldVentilationExplanation", function(value, elemen
 		
 		}else{
 			alert("There are missing fields.");
-		}			
+		}		
 	});
 
 });

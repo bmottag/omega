@@ -83,10 +83,15 @@
 										COVID <span class="fa fa-bug" aria-hidden="true">
 									</a>
 
+						<?php
+								if($userRol == 99 || $userRol == 4){ //Para ROL SUPERVISOR Y BASIC no se muestra el enlace
+						?>
 									<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/excavation/' . $lista['id_job']) ?>'>
 										ETP <span class="fa fa-pied-piper-alt" aria-hidden="true">
 									</a>
-
+						<?php
+								}
+						?>
 									<a class='btn btn-violeta btn-xs' href='<?php echo base_url('jobs/bitacora/' . $lista['id_job']) ?>'>
 										Bitacora <span class="fa fa-umbrella" aria-hidden="true">
 									</a>

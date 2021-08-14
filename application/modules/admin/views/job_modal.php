@@ -43,7 +43,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="notes">Notes: *</label>
+					<label class="control-label" for="notes">Notes: </label>
 					<textarea id="notes" name="notes" class="form-control" rows="3"><?php echo $information?$information[0]["notes"]:""; ?></textarea>
 				</div>
 			</div>
