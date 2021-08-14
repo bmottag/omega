@@ -168,7 +168,7 @@ if ($retornoError) {
 				<?php 
 					if($excavationSubcontractors){
 				?>
-<a href="<?php echo base_url("external/sendSMSFLHAWorker/" . $information[0]["id_safety"]); ?>" class="btn btn-default btn-xs"> 
+<a href="<?php echo base_url("external/sendSMSFLHAWorker/" . $information[0]["id_job_excavation"]); ?>" class="btn btn-default btn-xs"> 
 	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to All Subcontractor Workers
 </a>
 						<table class="table table-hover">
@@ -188,13 +188,13 @@ if ($retornoError) {
 							echo "<td class='text-center'>" . $data['worker_movil_number'];
 							if($data['worker_movil_number']){
 ?>
-	<a href='<?php echo base_url("external/sendSMSFLHAWorker/" . $information[0]["id_safety"] . '/' . $data['id_safety_subcontractor']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
+	<a href='<?php echo base_url("external/sendSMSFLHAWorker/" . $data["fk_id_job_excavation"] . '/' . $data['id_excavation_subcontractor']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
 <?php
 							}
 							echo "</td>";
 							echo "<td class='text-center'>";
 						?>
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('safety/deleteSafetySubcontractor/' . $data['id_safety_subcontractor'] . '/' . $data['fk_id_safety']) ?>' id="btn-delete">
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/deleteExcavationSubcontractorWorker/' . $data['fk_id_job_excavation'] . '/' . $data['id_excavation_subcontractor']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
 							</a>
 						<?php
@@ -272,12 +272,12 @@ if ($retornoError) {
 		<div class="modal-content" id="tablaDatos">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">ADD SUBCONTRACTOR WORKER</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Add Subcontractor Worker</h4>
 			</div>
 
 			<div class="modal-body">
-				<form name="formSubcontractor" id="formSubcontractor" role="form" method="post" action="<?php echo base_url("safety/safet_subcontractor_Worker") ?>" >
-					<input type="hidden" id="hddId" name="hddId" value="<?php echo $information[0]["id_safety"]; ?>"/>
+				<form name="formSubcontractor" id="formSubcontractor" role="form" method="post" action="<?php echo base_url("jobs/excavation_subcontractor_Worker") ?>" >
+					<input type="hidden" id="hddIdExcavation" name="hddIdExcavation" value="<?php echo $information[0]["id_job_excavation"]; ?>"/>
 					
 					<div class="row">
 						<div class="col-sm-6">	
@@ -312,14 +312,6 @@ if ($retornoError) {
 					</div>
 
 					<div class="form-group">
-						<div class="row" align="center">
-							<div style="width:50%;" align="center">
-								<input type="submit" id="btnSubmitSubcontractor" name="btnSubmitSubcontractor" value="Save" class="btn btn-primary"/>
-							</div>
-						</div>
-					</div>
-					
-					<div class="form-group">
 						<div id="div_load" style="display:none">		
 							<div class="progress progress-striped active">
 								<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
@@ -330,6 +322,16 @@ if ($retornoError) {
 						<div id="div_error" style="display:none">			
 							<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
 						</div>	
+					</div>
+
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:100%;" align="center">
+								<button type="submit" id="btnSubmitWorker" name="btnSubmitWorker" class='btn btn-primary'>
+										Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+								</button>						
+							</div>
+						</div>
 					</div>
 						
 				</form>

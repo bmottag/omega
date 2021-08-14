@@ -1942,6 +1942,14 @@ ob_end_clean();
 			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
 			$data['excavationSubcontractors'] = $this->jobs_model->get_excavation_subcontractors($arrParam);//excavation subcontractors  list
 
+			$arrParam = array(
+				"table" => "param_company",
+				"order" => "company_name",
+				"column" => "company_type",
+				"id" => 2
+			);
+			$data['companyList'] = $this->general_model->get_basic_search($arrParam);//company list
+
 			$data['view'] = 'form_excavation_personnel';
 			$this->load->view("layout", $data);
 	}
@@ -2240,6 +2248,46 @@ ob_end_clean();
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 			redirect(base_url('jobs/upload_excavation_personnel/' . $idExcavation ), 'refresh');
+    }
+
+    /**
+     * Excavation - Subcontractor worker
+     * @since 14/8/2021
+     * @author BMOTTAG
+     */
+    public function excavation_subcontractor_Worker() 
+	{
+			$idExcavation = $this->input->post('hddIdExcavation');
+
+			if ($this->jobs_model->saveSubcontractorWorkerExcavation()) {
+				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('jobs/upload_excavation_personnel/' . $idExcavation ), 'refresh');
+    }	
+
+    /**
+     * Delete subcontractor - Excavation and Trenching Plan
+     * @since 14/8/2021
+     * @author BMOTTAG
+     */
+    public function deleteExcavationSubcontractorWorker($idExcavation, $idSubcontractor) 
+	{
+			if (empty($idExcavation) || empty($idSubcontractor) ) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+			$arrParam = array(
+				"table" => "job_excavation_subcontractor",
+				"primaryKey" => "id_excavation_subcontractor",
+				"id" => $idSubcontractor
+			);
+			if ($this->jobs_model->deleteRecord($arrParam)) {
+				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect(base_url('jobs/upload_excavation_personnel/' . $idExcavation), 'refresh');
     }
 
 	

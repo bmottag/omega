@@ -1116,6 +1116,28 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				}
 		}
 
+		/**
+		 * Save subcontractor worker - Excavation and Trenching Plan
+		 * @since 14/8/2021
+		 */
+		public function saveSubcontractorWorkerExcavation() 
+		{							
+				$data = array(
+					'fk_id_job_excavation' => $this->input->post('hddIdExcavation'),
+					'fk_id_company' => $this->input->post('company'),
+					'worker_name' => $this->input->post('workerName'),
+					'worker_movil_number' => $this->input->post('phone_number')
+				);			
+
+				$query = $this->db->insert('job_excavation_subcontractor', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 		
 	    
 	}
