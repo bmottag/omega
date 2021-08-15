@@ -2290,6 +2290,119 @@ ob_end_clean();
 			redirect(base_url('jobs/upload_excavation_personnel/' . $idExcavation), 'refresh');
     }
 
+	/**
+	 * Subcontractors view to sign
+     * @since 14/8/2021
+     * @author BMOTTAG
+	 */
+	public function review_excavation($idExcavation)
+	{
+			$this->load->model("general_model");
+			$arrParam = array("idExcavation" => $idExcavation);
+			$data['information'] = $this->general_model->get_excavation($arrParam);
+
+			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
+			$data['excavationSubcontractors'] = $this->jobs_model->get_excavation_subcontractors($arrParam);//excavation 
+
+			$data["view"] = 'review_excavation';
+			$this->load->view("layout_calendar", $data);
+	}
+
+	/**
+	 * Signature
+	 * param $typo: supervisor / worker
+	 * param $idExcavation: llave principal del formulario
+	 * param $idWorker: llave principal del trabajador
+     * @since 14/8/2021
+     * @author BMOTTAG
+	 */
+	public function add_signature_excavation($typo, $idExcavation, $idWorker = 'x')
+	{
+			if (empty($typo) || empty($idExcavation)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			if($_POST){
+				
+				//update signature with the name of the file
+				if($typo == "supervisor"){
+					$name = "images/signature/etp/" . $typo . "_" . $idJSO . ".png";
+					
+					$arrParam = array(
+						"table" => "job_jso",
+						"primaryKey" => "id_job_jso",
+						"id" => $idJSO,
+						"column" => "supervisor_signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario
+					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
+				}elseif($typo == "manager"){
+					$name = "images/signature/etp/" . $typo . "_" . $idJSO . ".png";
+					
+					$arrParam = array(
+						"table" => "job_jso",
+						"primaryKey" => "id_job_jso",
+						"id" => $idJSO,
+						"column" => "manager_signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario
+					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
+				}elseif($typo == "worker"){
+					$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_excavation_workers",
+						"primaryKey" => "id_excavation_worker",
+						"id" => $idWorker,
+						"column" => "signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario con ancla a la lista de trabajadores
+					$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
+				}elseif($typo == "subcontractor"){
+					$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
+					
+					$arrParam = array(
+						"table" => "job_excavation_subcontractor",
+						"primaryKey" => "id_excavation_subcontractor",
+						"id" => $idWorker,
+						"column" => "signature",
+						"value" => $name
+					);
+					//enlace para regresar al formulario con ancla a la lista de trabajadores
+					$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
+				}
+				
+				$data_uri = $this->input->post("image");
+				$encoded_image = explode(",", $data_uri)[1];
+				$decoded_image = base64_decode($encoded_image);
+				file_put_contents($name, $decoded_image);
+				
+				$this->load->model("general_model");
+				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
+				if ($this->general_model->updateRecord($arrParam)) {
+					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
+					
+					$data['clase'] = "alert-success";
+					$data['msj'] = "Good job, you have save your signature.";	
+				} else {
+					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+					
+					$data['clase'] = "alert-danger";
+					$data['msj'] = "Ask for help.";
+				}
+				
+				$data["view"] = 'template/answer';
+				$this->load->view("layout", $data);
+
+				//redirect("/safety/add_safety/" . $idSafety,'refresh');
+			}else{			
+				$this->load->view('template/make_signature');
+			}
+	}
+
 	
 	
 }

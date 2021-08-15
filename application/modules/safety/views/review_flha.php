@@ -253,7 +253,7 @@
 		<div class="col-lg-12">				
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-user"></i> <strong>SUBCONTRACTOR WORKER</strong>
+					<i class="fa fa-user"></i> <strong>SUBCONTRACTOR WORKERS</strong>
 				</div>
 				<div class="panel-body">
 
