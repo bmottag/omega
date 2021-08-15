@@ -54,6 +54,7 @@ if ($retornoError) {
 		<div class="alert alert-success ">
 			<strong>Location:</strong><br><?php echo $template[0]['location'];  ?><br>
 			<strong>Description:</strong><br><?php echo $template[0]['template_description'];  ?><br>
+			<span class='fa fa-cloud-download' aria-hidden='true'></span> 
 			<strong>Dowloand to: </strong>
 <a href='<?php echo base_url('template/generaTemplatePDF/' . $template[0]['id_template'] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 			

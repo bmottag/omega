@@ -14,6 +14,7 @@
 				<div class="panel-body">
 				
 					<div class="alert alert-success">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 						<?php 
 						if($information){

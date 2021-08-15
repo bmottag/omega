@@ -12,6 +12,7 @@
 				<div class="panel-body">
 
 					<div class="alert alert-danger">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?><br>
 						<a href="<?php echo base_url("jobs/hazards_logs/" . $jobInfo[0]["id_job"]); ?>">LOGS</a>
 					</div>

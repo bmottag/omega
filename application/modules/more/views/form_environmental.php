@@ -15,13 +15,14 @@
 				<div class="panel-body">
 				
 					<div class="alert alert-purpura">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 						<?php 
 						if($information){
 								echo "<br><strong>Date review: </strong>";
 								echo $information[0]["date_environmental"]; 
 								
-								echo "<br><strong>Dowloand ESI: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand ESI: </strong>";
 						?>
 <a href='<?php echo base_url('more/generaEnvironmentalPDF/' . $jobInfo[0]['id_job'] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 

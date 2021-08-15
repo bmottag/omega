@@ -52,13 +52,14 @@ $(function(){
 				<div class="panel-body">
 									
 					<div class="alert alert-info">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 						<?php 
 						if($information){
-								echo "<br><strong>Date: </strong>";
+								echo "<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Date: </strong>";
 								echo $information[0]["date_issue_jso"]; 
 								
-								echo "<br><strong>Download JSO: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download JSO: </strong>";
 						?>
 <a href='<?php echo base_url('jobs/generaJSOPDF/' . $information[0]["id_job_jso"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php 

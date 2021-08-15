@@ -261,9 +261,10 @@ if ($retornoError) {
 					<div class="row">
 						<div class="col-lg-12">								
 							<div class="alert alert-info">
+								<span class='fa fa-money' aria-hidden='true'></span>
 								<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?>
-								<br><strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?>
-								<br><strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
+								<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?>
+								<br><span class="fa fa-briefcase" aria-hidden="true"></span> <strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
 								<?php if($information[0]["notes"]){ ?>
 								<br><strong>Job Code/Name - Notes: </strong><?php echo $information[0]["notes"]; ?>
 								<?php } ?>

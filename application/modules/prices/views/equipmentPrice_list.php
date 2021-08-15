@@ -17,6 +17,7 @@
 					<div class="row">
 						<div class="col-lg-12">	
 							<div class="alert alert-danger">
+								<span class="fa fa-briefcase" aria-hidden="true"></span>
 								<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 
 								<br><br>

@@ -10,6 +10,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-info">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?><br>
 						<strong>Task(s) to be done: </strong><br><?php echo $information?$information[0]["work"]:""; ?>
 

@@ -23,6 +23,7 @@ function valid_field()
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-danger">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?>
 					</div>
 				<?php 

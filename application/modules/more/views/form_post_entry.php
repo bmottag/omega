@@ -32,13 +32,14 @@
 				?>
 				
 					<div class="alert alert-warning">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
-						<br><strong>Date: </strong>
+						<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Date: </strong>
 						<?php 
 						if($information){
 								echo $information[0]["date_confined"]; 
 								
-								echo "<br><strong>Dowloand Confined Entry Permit Form: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand Confined Entry Permit Form: </strong>";
 						?>
 <a href='<?php echo base_url('more/generaConfinedPDF/' . $information[0]["id_job_confined"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 
