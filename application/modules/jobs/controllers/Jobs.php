@@ -2325,30 +2325,16 @@ ob_end_clean();
 			if($_POST){
 				
 				//update signature with the name of the file
-				if($typo == "supervisor"){
-					$name = "images/signature/etp/" . $typo . "_" . $idJSO . ".png";
+				if($typo == "supervisor" || $typo == "operator"){
+					$name = "images/signature/etp/" . $typo . "_" . $idExcavation . ".png";
 					
 					$arrParam = array(
-						"table" => "job_jso",
-						"primaryKey" => "id_job_jso",
-						"id" => $idJSO,
-						"column" => "supervisor_signature",
+						"table" => "job_excavation",
+						"primaryKey" => "id_job_excavation",
+						"id" => $idExcavation,
+						"column" => $typo . "_signature",
 						"value" => $name
 					);
-					//enlace para regresar al formulario
-					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
-				}elseif($typo == "manager"){
-					$name = "images/signature/etp/" . $typo . "_" . $idJSO . ".png";
-					
-					$arrParam = array(
-						"table" => "job_jso",
-						"primaryKey" => "id_job_jso",
-						"id" => $idJSO,
-						"column" => "manager_signature",
-						"value" => $name
-					);
-					//enlace para regresar al formulario
-					$data['linkBack'] = 'jobs/add_jso/' . $idJob . '/' . $idJSO;
 				}elseif($typo == "worker"){
 					$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
 					
@@ -2359,8 +2345,6 @@ ob_end_clean();
 						"column" => "signature",
 						"value" => $name
 					);
-					//enlace para regresar al formulario con ancla a la lista de trabajadores
-					$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
 				}elseif($typo == "subcontractor"){
 					$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
 					
@@ -2371,9 +2355,9 @@ ob_end_clean();
 						"column" => "signature",
 						"value" => $name
 					);
-					//enlace para regresar al formulario con ancla a la lista de trabajadores
-					$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
 				}
+
+				$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
 				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
