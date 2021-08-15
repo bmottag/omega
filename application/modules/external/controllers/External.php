@@ -276,6 +276,74 @@ class External extends CI_Controller {
 		$this->load->view("layout", $data);
 	}
 
+	/**
+	 * Envio de mensaje para firmar - Excavation and Trenching Plan
+     * @since 14/4/2021
+     * @author BMOTTAG
+	 */
+	public function sendSMSExcavationWorker($idExcavation, $idSubcontractor = 'x')
+	{			
+		$this->load->model("general_model");
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		$phone = $parametric[5]["value"];
+		
+        $client = new Twilio\Rest\Client($dato1, $dato2);
+		
+		$data['informationWorker'] = FALSE;
+		$data['idExcavation'] = $idExcavation;
+														
+		$arrParam = array(
+			'idExcavation' => $idExcavation,
+			'movilNumber' => true,
+			'idSubcontractor' => $idSubcontractor
+		);
+		$data['information'] = $this->general_model->get_excavation($arrParam);
+
+		//lista de subcontratistas para este FLHA
+		$data['informationWorker'] = $this->general_model->get_excavation_subcontractors($arrParam);//info safety workers
+
+		$mensaje = "";
+		$mensaje .= "VCI Excavation and Trenching Plan - " . date('F j, Y', strtotime($data['information'][0]['date_excavation']));
+		$mensaje .= "\n" . $data['information'][0]['job_description'];
+		$mensaje .= "\nFollow the link, read the Excavation and Trenching Plan and sign.";
+		$mensaje .= "\n";
+		$mensaje .= "\n";
+		$mensaje .= base_url("jobs/review_excavation/" . $idExcavation);
+
+		if($data['informationWorker']){
+			foreach ($data['informationWorker'] as $data):
+				$to = '+1' . $data['worker_movil_number'];		
+				$client->messages->create(
+					$to,
+					array(
+						'from' => $phone,
+						'body' => $mensaje
+					)
+				);
+			endforeach;
+		}
+		$data['linkBack'] = "jobs/review_excavation/" . $idExcavation;
+		$data['titulo'] = "<i class='fa fa-pied-piper-alt'></i>Excavation and Trenching Plan - SMS";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "You have send the SMS to Subcontractors";
+
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+	}
+
 	
 	
 }

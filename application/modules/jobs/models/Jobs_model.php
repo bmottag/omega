@@ -896,27 +896,6 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		}
 
 		/**
-		 * Get Excavation subcontractor workers info
-		 * @since 2/8/2021
-		 */
-		public function get_excavation_subcontractors($arrData) 
-		{		
-				$this->db->select();
-				$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
-				if (array_key_exists("idExcavation", $arrData)) {
-					$this->db->where('W.fk_id_job_excavation', $arrData["idExcavation"]);
-				}
-				$this->db->order_by('C.company_name, W.worker_name', 'asc');
-				$query = $this->db->get('job_excavation_subcontractor W');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
-
-		/**
 		 * Update Excavation - Protection Methods
 		 * @since 8/8/2021
 		 */

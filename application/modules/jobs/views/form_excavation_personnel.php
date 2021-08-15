@@ -170,7 +170,7 @@ if ($retornoError) {
 				<?php 
 					if($excavationSubcontractors){
 				?>
-<a href="<?php echo base_url("external/sendSMSFLHAWorker/" . $information[0]["id_job_excavation"]); ?>" class="btn btn-default btn-xs"> 
+<a href="<?php echo base_url("external/sendSMSExcavationWorker/" . $information[0]["id_job_excavation"]); ?>" class="btn btn-default btn-xs"> 
 	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to All Subcontractor Workers
 </a>
 						<table class="table table-hover">
@@ -190,7 +190,7 @@ if ($retornoError) {
 							echo "<td class='text-center'>" . $data['worker_movil_number'];
 							if($data['worker_movil_number']){
 ?>
-	<a href='<?php echo base_url("external/sendSMSFLHAWorker/" . $data["fk_id_job_excavation"] . '/' . $data['id_excavation_subcontractor']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
+	<a href='<?php echo base_url("external/sendSMSExcavationWorker/" . $data["fk_id_job_excavation"] . '/' . $data['id_excavation_subcontractor']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
 <?php
 							}
 							echo "</td>";

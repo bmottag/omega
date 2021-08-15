@@ -1940,7 +1940,7 @@ ob_end_clean();
 			$data['information'] = $this->general_model->get_excavation($arrParam);
 
 			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
-			$data['excavationSubcontractors'] = $this->jobs_model->get_excavation_subcontractors($arrParam);//excavation subcontractors  list
+			$data['excavationSubcontractors'] = $this->general_model->get_excavation_subcontractors($arrParam);//excavation subcontractors  list
 
 			$arrParam = array(
 				"table" => "param_company",
@@ -2302,7 +2302,7 @@ ob_end_clean();
 			$data['information'] = $this->general_model->get_excavation($arrParam);
 
 			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
-			$data['excavationSubcontractors'] = $this->jobs_model->get_excavation_subcontractors($arrParam);//excavation 
+			$data['excavationSubcontractors'] = $this->general_model->get_excavation_subcontractors($arrParam);//excavation 
 
 			$data["view"] = 'review_excavation';
 			$this->load->view("layout_calendar", $data);
@@ -2396,8 +2396,6 @@ ob_end_clean();
 				
 				$data["view"] = 'template/answer';
 				$this->load->view("layout", $data);
-
-				//redirect("/safety/add_safety/" . $idSafety,'refresh');
 			}else{			
 				$this->load->view('template/make_signature');
 			}
