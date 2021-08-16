@@ -1939,7 +1939,7 @@ ob_end_clean();
 			$arrParam = array("idExcavation" => $idExcavation);
 			$data['information'] = $this->general_model->get_excavation($arrParam);
 
-			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
+			$data['excavationWorkers'] = $this->general_model->get_excavation_workers($arrParam);//excavation_worker list
 			$data['excavationSubcontractors'] = $this->general_model->get_excavation_subcontractors($arrParam);//excavation subcontractors  list
 
 			$arrParam = array(
@@ -2301,7 +2301,7 @@ ob_end_clean();
 			$arrParam = array("idExcavation" => $idExcavation);
 			$data['information'] = $this->general_model->get_excavation($arrParam);
 
-			$data['excavationWorkers'] = $this->jobs_model->get_excavation_workers($arrParam);//excavation_worker list
+			$data['excavationWorkers'] = $this->general_model->get_excavation_workers($arrParam);//excavation_worker list
 			$data['excavationSubcontractors'] = $this->general_model->get_excavation_subcontractors($arrParam);//excavation 
 
 			$data["view"] = 'review_excavation';
@@ -2383,6 +2383,97 @@ ob_end_clean();
 			}else{			
 				$this->load->view('template/make_signature');
 			}
+	}
+
+	/**
+	 * Generate Report in PDF - Excavation and Trenching Plan
+	 * @param int $idExcavation
+     * @since 15/08/2021
+     * @author BMOTTAG
+	 */
+	public function generaExcavationPDF($idExcavation)
+	{
+			$this->load->library('Pdf');
+			
+			// create new PDF document
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor('VCI');
+			$pdf->SetTitle('Excavation and Trenching Plan report');
+			$pdf->SetSubject('TCPDF Tutorial');
+
+			// set default header data
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			
+			$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+			// set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			// set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			// set some language-dependent strings (optional)
+			if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+				require_once(dirname(__FILE__).'/lang/eng.php');
+				$pdf->setLanguageArray($l);
+			}
+
+			// ---------------------------------------------------------
+
+			// set font
+			$pdf->SetFont('dejavusans', '', 8);
+
+			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+		
+			$this->load->model("general_model");
+			$arrParam = array("idExcavation" => $idExcavation);
+			$data['info'] = $this->general_model->get_excavation($arrParam);
+			
+			$data['excavationWorkers'] = $this->general_model->get_excavation_workers($arrParam);//excavation_worker list
+			$data['excavationSubcontractors'] = $this->general_model->get_excavation_subcontractors($arrParam);//excavation 
+
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// Print a table
+				
+			// add a page
+			$pdf->AddPage();
+
+			$html = $this->load->view("reporte_excavation", $data, true);
+										
+			// output the HTML content
+			$pdf->writeHTML($html, true, false, true, false, '');
+		
+
+			// Print some HTML Cells
+
+			// reset pointer to the last page
+			$pdf->lastPage();
+			$date = $data['info'][0]['date_excavation'];
+
+			ob_end_clean();
+			//Close and output PDF document
+			$pdf->Output('Excavation_Trenching_Plan_' . $date . '.pdf', 'I');
+
+			//============================================================+
+			// END OF FILE
+			//============================================================+
+		
 	}
 
 	

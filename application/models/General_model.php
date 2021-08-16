@@ -1173,5 +1173,26 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Get Excavation workers info
+		 * @since 2/8/2021
+		 */
+		public function get_excavation_workers($arrData) 
+		{		
+				$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name");
+				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+				if (array_key_exists("idExcavation", $arrData)) {
+					$this->db->where('W.fk_id_job_excavation', $arrData["idExcavation"]);
+				}
+				$this->db->order_by('U.first_name, U.last_name', 'asc');
+				$query = $this->db->get('job_excavation_workers W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 
 }

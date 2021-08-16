@@ -12,6 +12,8 @@
 					<div class="alert alert-danger">
 						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?>
+						<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand ETP: </strong>
+						<a href='<?php echo base_url('jobs/generaExcavationPDF/' . $information[0]["id_job_excavation"] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 					</div>
 				<?php 
 					if($this->session->rol && $information){
