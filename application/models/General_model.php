@@ -1121,8 +1121,8 @@ class General_model extends CI_Model {
 				$this->db->select('E.*, CONCAT(U.first_name, " " , U.last_name) name, CONCAT(X.first_name, " " , X.last_name) operator, CONCAT(Z.first_name, " " , Z.last_name) supervisor, J.id_job, J.job_description');
 				$this->db->join('param_jobs J', 'J.id_job = E.fk_id_job', 'INNER');
 				$this->db->join('user U', 'U.id_user = E.fk_id_user', 'INNER');
-				$this->db->join('user X', 'X.id_user = E.fk_id_user_operator', 'INNER');
-				$this->db->join('user Z', 'Z.id_user = E.fk_id_user_supervisor', 'INNER');
+				$this->db->join('user X', 'X.id_user = E.fk_id_user_operator', 'LEFT');
+				$this->db->join('user Z', 'Z.id_user = E.fk_id_user_supervisor', 'LEFT');
 				if (array_key_exists("idJob", $arrDatos)) {
 					$this->db->where('fk_id_job', $arrDatos["idJob"]);
 				}
