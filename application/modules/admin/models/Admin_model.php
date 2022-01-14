@@ -192,6 +192,7 @@
 					'manufacturer_date' => $this->input->post('manufacturer'),
 					'description' => $this->input->post('description'),
 					'unit_number' => $this->input->post('unitNumber'),
+					'vin_number' => $this->input->post('vinNumber'),
 					'state' => $this->input->post('state'),
 					'hours' => $this->input->post('hours')
 				);	

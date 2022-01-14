@@ -13,7 +13,6 @@
 <?php
 if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratista
 	$labelFecha = "Arrival date";
-	$labelNumber = "Vin number";
 ?>
 		<input type="hidden" id="type1" name="type1" value=2 /><!-- Si es subcontractor entonces es RENTAL -->
 		
@@ -45,7 +44,6 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 <?php
 }else{ //si es vci carga el campo con el id de VCI
 	$labelFecha = "Manufacturer date";
-	$labelNumber = "Unit number";
 ?>
 		<input type="hidden" id="company" name="company" value=1 />
 		<input type="hidden" id="type1" name="type1" value=1 /><!-- Si es VCI entonces el FLEET -->
@@ -98,30 +96,39 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 			</div>
 		</div>
 		
-
-		<div class="form-group text-left">
-			<label class="control-label" for="description">Description : *</label>
-			<textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><?php echo $information?$information[0]["description"]:""; ?></textarea>
+		<div class="row">
+			<div class="col-sm-12">	
+				<div class="form-group text-left">
+					<label class="control-label" for="description">Description : *</label>
+					<textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><?php echo $information?$information[0]["description"]:""; ?></textarea>
+				</div>
+			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="unitNumber"><?php echo $labelNumber; ?></label>
-					<input type="text" id="unitNumber" name="unitNumber" class="form-control" value="<?php echo $information?$information[0]["unit_number"]:""; ?>" placeholder="<?php echo $labelNumber; ?>" required >
+					<label class="control-label" for="unitNumber">Unit number: *</label>
+					<input type="text" id="unitNumber" name="unitNumber" class="form-control" value="<?php echo $information?$information[0]["unit_number"]:""; ?>" placeholder="Unit number" required >
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="hours">Hours/Kilometers : *</label>
-					<input type="text" id="hours" name="hours" class="form-control" value="<?php echo $information?$information[0]["hours"]:""; ?>" placeholder="Hours/Kilometers" required >
+					<label class="control-label" for="vinNumber">VIN number: *</label>
+					<input type="text" id="vinNumber" name="vinNumber" class="form-control" value="<?php echo $information?$information[0]["vin_number"]:""; ?>" placeholder="VIN number" required >
 				</div>
 			</div>
 		</div>
 		
 
 		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="hours">Hours/Kilometers : *</label>
+					<input type="text" id="hours" name="hours" class="form-control" value="<?php echo $information?$information[0]["hours"]:""; ?>" placeholder="Hours/Kilometers" required >
+				</div>
+			</div>
 <?php if(!$information){ ?>		
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
@@ -129,11 +136,13 @@ if($companyType == 2){ //si es subcontractor me deja seleccionar un sucontratist
 					<input type="text" id="oilChange" name="oilChange" class="form-control" value="<?php echo $information?$information[0]["oil_change"]:""; ?>" placeholder="Hours/Kilometers" required >
 				</div>
 			</div>
-<?php } ?> 
+<?php } ?>
+		</div>
 
 <?php
 if($companyType == 1){ //si es VCI
 ?>
+		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="state">State : *</label>
@@ -143,18 +152,11 @@ if($companyType == 1){ //si es VCI
 						<option value=2 <?php if($information && $information[0]["state"] == 2) { echo "selected"; }  ?>>Inactive</option>
 					</select>
 				</div>
-			</div>			
-<?php } ?> 
-		</div>
-				
-		<div class="form-group">
-			<div class="row" align="center">
-				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
-				</div>
 			</div>
-		</div>
+		</div>		
+<?php } ?> 
 		
+				
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">
@@ -166,6 +168,16 @@ if($companyType == 1){ //si es VCI
 			<div id="div_error" style="display:none">			
 				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
 			</div>	
+		</div>
+
+		<div class="form-group">
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 			
 	</form>
