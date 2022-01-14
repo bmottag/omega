@@ -59,25 +59,7 @@
 					<input type="text" class="form-control" id="birth" name="birth" value="<?php echo $information?$information[0]["birthdate"]:""; ?>" placeholder="Date of birth" required />
 				</div>
 			</div>
-			
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-				<!--
-					<label class="control-label" for="tipoSangre">RH</label>
-					<select name="tipoSangre" id="tipoSangre" class="form-control" required>
-						<option value="">Select...</option>
-						<option value=1 <?php if($information[0]["rh"] == 1) { echo "selected"; }  ?>>O-</option>
-						<option value=2 <?php if($information[0]["rh"] == 2) { echo "selected"; }  ?>>O+</option>
-						<option value=3 <?php if($information[0]["rh"] == 3) { echo "selected"; }  ?>>A-</option>
-						<option value=4 <?php if($information[0]["rh"] == 4) { echo "selected"; }  ?>>A+</option>
-						<option value=5 <?php if($information[0]["rh"] == 5) { echo "selected"; }  ?>>B-</option>
-						<option value=6 <?php if($information[0]["rh"] == 6) { echo "selected"; }  ?>>B+</option>
-						<option value=7 <?php if($information[0]["rh"] == 7) { echo "selected"; }  ?>>AB-</option>
-						<option value=8 <?php if($information[0]["rh"] == 8) { echo "selected"; }  ?>>AB+</option>
-					</select>
-				-->
-				</div>
-			</div>
+
 		</div>
 
 		<div class="row">
