@@ -2,8 +2,7 @@
 
 <div id="page-wrapper">
 	<br>
-	
-	<!-- /.row -->
+
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="panel panel-purpura">
@@ -24,8 +23,10 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	
-		<div class="col-lg-6" id="div_vehicle" style="display:none">
+	<div class="row">
+		<div class="col-lg-12" id="div_vehicle" style="display:none">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<i class="fa fa-automobile"></i> <strong>VEHICLE INFORMATION</strong>
@@ -35,8 +36,7 @@
 
 				</div>
 			</div>
-		</div>
-					
+		</div>		
 	</div>	
 </div>
 <!-- /#page-wrapper -->
