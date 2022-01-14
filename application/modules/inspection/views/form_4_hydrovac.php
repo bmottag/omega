@@ -135,6 +135,7 @@ if ($fuel_system_check == 0) {
 		
 			<strong>Description: </strong><?php echo $vehicleInfo[0]['description']; ?><br>
 			<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
+			<strong>VIN Number: </strong><?php echo $vehicleInfo[0]['vin_number']; ?><br>
 			<p class='text-danger'>
 				<strong>Engine current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
 				<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change"]); ?> hours

@@ -32,6 +32,7 @@
 								<th>Model</th>
 								<th>Description</th>
 								<th>Unit Number</th>
+								<th>VIN Number</th>
 								<th>Hours/Kilometers</th>
 								<th>Next Oil Change</th>
 							</tr>
@@ -43,6 +44,7 @@
 								echo "<td class='text-center'>" . $vehicleInfo[0]["model"] . "</td>";
 								echo "<td>" . $vehicleInfo[0]["description"] . "</td>";
 								echo "<td class='text-center'>" . $vehicleInfo[0]["unit_number"] . "</td>";
+								echo "<td class='text-center'>" . $vehicleInfo[0]["vin_number"] . "</td>";
 								
 								$diferencia = $vehicleInfo[0]["oil_change"] - $vehicleInfo[0]["hours"];
 								$class = "";

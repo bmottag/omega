@@ -94,10 +94,12 @@ $(function(){
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -106,25 +108,25 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
 }
-?> 
+?>
 				<?php
 					if($info){
 						
 
 if($companyType == 2){ //si es subcontractor 
 	$labelFecha = "Arrival date";
-	$labelNumber = "Vin number";
 }else{ //si es vci
 	$labelFecha = "Manufacturer date";
-	$labelNumber = "Unit number";
 }
 				?>				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
@@ -136,7 +138,8 @@ if($companyType == 2){ //si es subcontractor
 								<th class="text-center">Make</th>
 								<th class="text-center">Model</th>
 								<th class="text-center">Description</th>
-								<th class="text-center"><?php echo $labelNumber; ?></th>
+								<th class="text-center">Unit Number</th>
+								<th class="text-center">VIN Number</th>
 								<th class="text-center">Hours/Kilometers</th>
 								<th class="text-center"><?php echo $labelFecha; ?></th>
 								<th class="text-center">Type</th>
@@ -193,7 +196,8 @@ if($lista["inspection_type"] == 99 ){
 									echo "<td>" . $lista['make'] . "</td>";
 									echo "<td>" . $lista['model'] . "</td>";
 									echo "<td>" . $lista['description'] . "</td>";
-									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['unit_number'] . "</strong></p></td>";									
+									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['unit_number'] . "</strong></p></td>";
+									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['vin_number'] . "</strong></p></td>";									
 									echo "<td class='text-right'><p><strong>" . number_format($lista["hours"]) . "</strong>";
 									
 						?>

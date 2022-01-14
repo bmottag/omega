@@ -39,6 +39,7 @@
 								<th class='text-center'>Vehicle Make</th>
 								<th class='text-center'>Vehicle Model</th>
 								<th class='text-center'>Unit Number</th>
+								<th class='text-center'>VIN Number</th>
 								<th class='text-center'>Description</th>
 								<th class='text-center'>Comments</th>
 							</tr>
@@ -116,6 +117,7 @@ if($lista['comments'] != ''){
 								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
 								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
 								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['unit_number'] . "</p></td>";
+								echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['vin_number'] . "</p></td>";
 								echo "<td ><p class='text-" . $class . "'>" . $lista['description'] . "</p></td>";
 								echo "<td><p class='text-" . $class . "'>" . $lista['comments'] . "</p></td>";
 								echo "</tr>";

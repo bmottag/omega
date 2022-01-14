@@ -74,6 +74,7 @@ if ($retornoError) {
 						<th>Photo</th>
 						<th>Description</th>
 						<th>Unit Number</th>
+						<th>VIN Number</th>
 						<th>Hours</th>
 						<th>Next Oil Change</th>
 					</tr>
@@ -93,6 +94,7 @@ if ($retornoError) {
 						echo "</td>";
 						echo "<td>" . $vehicleInfo[0]["description"] . "</td>";
 						echo "<td class='text-center'>" . $vehicleInfo[0]["unit_number"] . "</td>";
+						echo "<td class='text-center'>" . $vehicleInfo[0]["vin_number"] . "</td>";
 						echo "<td class='text-right'>" . number_format($vehicleInfo[0]["hours"]) . "</td>";
 						echo "<td class='text-right'>" . number_format($vehicleInfo[0]["oil_change"]) . "</td>";
 						echo "</tr>";

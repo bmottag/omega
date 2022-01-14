@@ -414,7 +414,7 @@ class General_model extends CI_Model {
 				$this->db->where('V.state', $arrData["vehicleState"]);
 			}
 			if (array_key_exists("vinNumber", $arrData)) {
-				$this->db->like('V.unit_number', $arrData["vinNumber"]); 
+				$this->db->like('V.vin_number', $arrData["vinNumber"]); 
 			}			
 			
 			$query = $this->db->get('param_vehicle V');

@@ -1,8 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/maintenance/maintenance.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/ajaxSearchVehicle.js"); ?>"></script>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -16,12 +12,12 @@
 				</div>
 				<div class="panel-body">
 									
-					<p class='text-default'>Enter at least 5 consecutive characters of the<strong> VIN number</strong></p>
+					<p class='text-default'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER</strong></p>
 									
 					<div class="form-group">
 						<div class="col-sm-10 col-sm-offset-1">
 							<label for="vinNumber">VIN NUMBER </label>
-							<input type="text" id="vinNumber" name="vinNumber" class="form-control" placeholder="Vin number">
+							<input type="text" id="vinNumber" name="vinNumber" class="form-control" placeholder="VIN NUMBER">
 						</div>						
 					</div>
 						

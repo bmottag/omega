@@ -1655,7 +1655,7 @@ if ($fuel_system_check == 0) {
         $vinNumber = $this->input->post('vinNumber');
 		
 		if(strlen($vinNumber) < 5){			
-			echo "<p class='text-danger'>Enter at least 5 consecutive characters of the<strong> VIN number</strong></p>";
+			echo "<p class='text-danger'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER</strong></p>";
 		}
 		else
 		{				

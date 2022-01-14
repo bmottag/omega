@@ -155,6 +155,7 @@ if ($fuel_system_check == 0) {
 				
 					<strong>Description: </strong><?php echo $vehicleInfo[0]['description']; ?><br>
 					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
+					<strong>VIN Number: </strong><?php echo $vehicleInfo[0]['vin_number']; ?><br>
 					
 					<?php
 					$tipo = $vehicleInfo[0]['type_level_2'];

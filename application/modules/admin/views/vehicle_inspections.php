@@ -142,6 +142,7 @@ echo "<br><a class='btn btn-success btn-xs' href='" . base_url($linkInspection) 
 					<strong>Model: </strong><?php echo $vehicleInfo[0]['model']; ?><br>
 					<strong>Description: </strong><?php echo $vehicleInfo[0]['description']; ?><br>
 					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
+					<strong>VIN Number: </strong><?php echo $vehicleInfo[0]['vin_number']; ?><br>
 					<strong>Type: </strong><br>
 					<?php
 						switch ($vehicleInfo[0]['type_level_1']) {
