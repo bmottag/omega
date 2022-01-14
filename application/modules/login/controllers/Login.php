@@ -81,7 +81,7 @@ class Login extends CI_Controller {
 						$sessionData = array(
 							"auth" => "OK",
 							"id" => $user["id"],
-							"dashboardURL" => $rolInfo[0]['dashboard_url'],
+							"dashboardURL" => 'dashboard',
 							"firstname" => $user["firstname"],
 							"lastname" => $user["lastname"],
 							"name" => $user["firstname"] . ' ' . $user["lastname"],

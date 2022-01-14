@@ -69,7 +69,7 @@
 				}
 				
 			}
-			
+		
 	    	switch($state){
 	    		case 0: //NEW USER, must change the password
 	    				redirect("/employee","location",301);
