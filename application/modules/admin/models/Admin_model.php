@@ -545,6 +545,33 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Add/Edit CERTIFICATE
+		 * @since 14/1/2022
+		 */
+		public function saveCertificate() 
+		{
+				$idCertificate = $this->input->post('hddId');
+				
+				$data = array(
+					'certificate' => $this->input->post('certificate'),
+					'certificate_description' => $this->input->post('description')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idCertificate == '') {
+					$query = $this->db->insert('param_certificates', $data);			
+				} else {
+					$this->db->where('id_certificate', $idCertificate);
+					$query = $this->db->update('param_certificates', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 		
 		
 	    

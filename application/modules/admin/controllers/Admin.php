@@ -1116,6 +1116,76 @@ class Admin extends CI_Controller {
 			echo json_encode($data);	
     }
 
+	/**
+	 * Certificate List
+     * @since 14/1/2022
+     * @author BMOTTAG
+	 */
+	public function certificate()
+	{
+			$arrParam = array(
+				"table" => "param_certificates ",
+				"order" => "certificate",
+				"id" => "x"
+			);
+			$data['info'] = $this->general_model->get_basic_search($arrParam);
+			
+			$data["view"] = 'certificate';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - Certificados
+     * @since 14/1/2022
+     */
+    public function cargarModalCertificate() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+	
+			$data['information'] = FALSE;
+			$data["idCertificate"] = $this->input->post("idCertificate");	
+			
+			if ($data["idCertificate"] != 'x') {
+				$arrParam = array(
+					"table" => "param_certificates",
+					"order" => "id_certificate",
+					"column" => "id_certificate",
+					"id" => $data["idCertificate"]
+				);
+				$data['information'] = $this->general_model->get_basic_search($arrParam);
+			}
+			
+			$this->load->view("certificate_modal", $data);
+    }
+	
+	/**
+	 * Guardar certificados
+     * @since 14/1/2022
+     * @author BMOTTAG
+	 */
+	public function save_certificate()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idCertificate = $this->input->post('hddId');
+			
+			$msj = "You have add a new Certificate!!";
+			if ($idCertificate != '') {
+				$msj = "You have update a Certificate!!";
+			}
+
+			if ($this->admin_model->saveCertificate()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }    
+
 
 	
 }
