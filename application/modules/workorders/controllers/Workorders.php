@@ -507,22 +507,6 @@ class Workorders extends CI_Controller {
 			$data['noSend'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
 			$arrParam = array("state" => 4);
 			$data['noClosed'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
-
-			//consultas año anterior
-			$year = date("Y") - 1; 
-			$arrParam = array(
-				'state' => 0,
-				'year' => $year
-			);
-			$data['noOnfieldLastYear'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
-			$arrParam['state'] = 1;
-			$data['noProgressLastYear'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
-			$arrParam['state'] = 2;
-			$data['noRevisedLastYear'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
-			$arrParam['state'] = 3;
-			$data['noSendLastYear'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
-			$arrParam['state'] = 4;
-			$data['noClosedLastYear'] = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
 			
 			$data["view"] = "asign_rate_form_search";
 			

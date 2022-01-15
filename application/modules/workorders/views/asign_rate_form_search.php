@@ -10,11 +10,11 @@
 		<div class="col-lg-8">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-money"></i> <strong>WORK ORDERS</strong>
+					<i class="fa fa-money"></i> <strong>WORK ORDERS - SEARCH</strong>
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-info">
-						<strong>Note:</strong> 
+						<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
 						Select at least one of the following fields
 					</div>
 					<form  name="form" id="form" role="form" method="post" class="form-horizontal" >
@@ -111,9 +111,9 @@ return date;
 		<!-- /.col-lg-12 -->
 		
 		<div class="col-lg-4">
-			<div class="panel panel-danger">
+			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Word Orders <?php echo date("Y"); ?>
+					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Work Orders <b><?php echo date("Y"); ?></b>
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
@@ -155,12 +155,34 @@ return date;
 				</div>
 				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
+		</div>
+	</div>
 
-			<div class="panel panel-success">
+	<div class="row">
+
+		<?php
+			for ($x = 1; $x <= 3; $x++) {
+				$year = date("Y") - $x; 
+
+				//consultar datos
+				$arrParam = array(
+					'state' => 0,
+					'year' => $year
+				);
+				$noOnfieldLastYear = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+				$arrParam['state'] = 1;
+				$noProgressLastYear = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+				$arrParam['state'] = 2;
+				$noRevisedLastYear = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+				$arrParam['state'] = 3;
+				$noSendLastYear = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+				$arrParam['state'] = 4;
+				$noClosedLastYear = $this->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
+		?>
+		<div class="col-lg-4">
+			<div class="panel panel-violeta">
 				<div class="panel-heading">
-					<?php $year = date("Y") - 1; ?>
-					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Word Orders <?php echo $year; ?>
+					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Work Orders <b><?php echo $year; ?></b>
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
@@ -195,23 +217,16 @@ return date;
 								</span>
 							</p>
 						</a>
-
 					</div>
-					<!-- /.list-group -->
-
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
-
 		</div>
-		<!-- /.col-lg-4 -->
-
+		<?php
+			}
+		?>
 	</div>
-	<!-- /.row -->
-	
 </div>
-<!-- /#page-wrapper -->
+
 
 <!-- Tables -->
 <script>
