@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/employee_certificate.js"); ?>"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -105,6 +106,7 @@ if ($retornoError) {
 							<tr>
 								<th>Certificate</th>
 								<th class="text-center">Date Throught</th>
+								<th class="text-center">Delete </th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -128,8 +130,15 @@ if ($retornoError) {
 									}
 									
 									echo "<tr class='" . $class . "'>";
-									echo "<td><p class='text-" . $class . "'>" . $lista['certificate'] . "</p></td>";
-									echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_through'] . "</p></td>";
+									echo "<td>" . $lista['certificate'] . "</td>";
+									echo "<td class='text-center'>" . $lista['date_through'] . "</td>";
+									echo "<td class='text-center'>";
+								?>
+											<button type="button" id="<?php echo $lista['id_user_certificate']; ?>" class='btn btn-danger btn-xs' title="Delete">
+													<i class="fa fa-trash-o"></i>
+											</button>
+								<?php
+									echo "</td>";
 									echo "</tr>";
 							endforeach;
 						?>

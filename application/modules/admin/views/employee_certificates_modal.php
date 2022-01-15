@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/employee_certificatre.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/employee_certificate.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">EMPLOYEE CERTIFICATES

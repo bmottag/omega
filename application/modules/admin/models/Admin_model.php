@@ -582,6 +582,9 @@
 				$this->db->select();
 				$this->db->join('user U', 'U.id_user = X.fk_id_user', 'INNER');
 				$this->db->join('param_certificates C', 'C.id_certificate = X.fk_id_certificate ', 'INNER');
+				if (array_key_exists("idUserCertificate", $arrData)) {
+					$this->db->where('X.id_user_certificate', $arrData["idUserCertificate"]);
+				}
 				if (array_key_exists("idUser", $arrData)) {
 					$this->db->where('U.id_user', $arrData["idUser"]);
 				}

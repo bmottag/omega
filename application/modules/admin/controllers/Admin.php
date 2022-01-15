@@ -1272,5 +1272,38 @@ class Admin extends CI_Controller {
 			echo json_encode($data);
     }   
 
+	/**
+	 * Delete Employee Certificatte
+     * @since 8/7/2018
+	 */
+	public function delete_user_certificate()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$arrParam['idUserCertificate']  = $this->input->post('identificador');	
+			$certificate_exist = $this->admin_model->get_user_certificates($arrParam);
+			$data["idRecord"] = $certificate_exist[0]['fk_id_user'];
+			
+			//eliminaos registros
+			$arrParam = array(
+				"table" => "user_certificates",
+				"primaryKey" => "id_user_certificate ",
+				"id" => $arrParam['idUserCertificate'] 
+			);
+
+			if ($this->general_model->deleteRecord($arrParam)) {
+				$data["result"] = true;
+				$data["mensaje"] = "You have delete one record.";
+				$this->session->set_flashdata('retornoExito', 'You have delete one record');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}			
+
+			echo json_encode($data);
+    }
+
 	
 }
