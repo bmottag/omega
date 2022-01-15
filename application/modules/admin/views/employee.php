@@ -7,7 +7,7 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/admin/cargarModalEmployee',
+				url: base_url + 'admin/cargarModalEmployee',
                 data: {'idEmployee': oID},
                 cache: false,
                 success: function (data) {
@@ -102,43 +102,35 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">ID</th>
-								<th class="text-center">Firstname</th>
-								<th class="text-center">Lastname</th>
+								<th class="text-center">Name</th>
 								<th class="text-center">User</th>
-								<th class="text-center">Movil</th>
 								<th class="text-center">Rol</th>
 								<th class="text-center">State</th>
-								
-								<?php if(!$deshabilitar){ ?>
-								<th class="text-center">Password</th>
-								<?php } ?>
-								
-								<th class="text-center">Email</th>
-								<th class="text-center">Date of birth</th>
-								<th class="text-center">Social insurance Number</th>
-								<th class="text-center">Health number</th>
-								<th class="text-center">Address</th>
+								<th class="text-center">More Info</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
-									echo "<tr>";
-									echo "<td>" . $lista['id_user'] . "</td>";
-									echo "<td>" . $lista['first_name'];
-				
-									if(!$deshabilitar){ 					
+								echo "<tr>";
+								echo "<td class='text-center'>" . $lista['id_user'] . "</td>";
+								echo "<td class='text-center'>" . $lista['first_name'] . ' ' . $lista['last_name'];
+			
+								if(!$deshabilitar){ 					
 						?>
-									<br>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" >
-										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-									</button>
+								<br><br>
+								<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" title="Edit" >
+									<i class='fa fa-pencil'></i>
+								</button>
+
+								<a href="<?php echo base_url("admin/userCertificates/" . $lista['id_user']); ?>" class="btn btn-info btn-xs" title="Certificates"><i class='fa fa-link'></i></a>	
+
+								<a href="<?php echo base_url("admin/change_password/" . $lista['id_user']); ?>" class="btn btn-violeta btn-xs" title="Change password"><i class='fa fa-lock'></i></a>	
 						<?php
-									}
-									
-									echo "</td>";
-									echo "<td>" . $lista['last_name'] . "</td>";
-									echo "<td class='text-center'>" . $lista['log_user'] . "</td>";
+								}
+								
+								echo "</td>";
+								echo "<td class='text-center'>" . $lista['log_user'] . "</td>";
 $movil = $lista["movil"];
 // Separa en grupos de tres 
 $count = strlen($movil); 
@@ -155,51 +147,37 @@ if($count == 10){
 	$resultado = chunk_split($movil,3," "); 
 }
 								
-									echo "<td class='text-center'>" . $resultado . "</td>";
-									echo "<td class='text-center'>";
-									echo '<p class="' . $lista['estilos'] . '"><strong>' . $lista['rol_name'] . '</strong></p>';
-									echo "</td>";
-									
-									echo "<td class='text-center'>";
-									switch ($lista['state']) {
-										case 0:
-												$valor = 'New User';
-												$clase = "text-primary";
-												break;
-										case 1:
-											$valor = 'Active';
-											$clase = "text-success";
-											break;
-										case 2:
-											$valor = 'Inactive';
-											$clase = "text-danger";
-											break;
-									}
-									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
-									echo "</td>";
-									
-									
-									if(!$deshabilitar)
-									{ 
 
-									echo "<td class='text-center'>";
-							?>
-									<!-- 
-										Se quita la opcion de resetear la contraseña a 123456
-									<a href="<?php echo base_url("admin/resetPassword/" . $lista['id_user']); ?>" class="btn btn-default btn-xs">Reset <span class="glyphicon glyphicon-lock" aria-hidden="true"></a> 
-									-->
-									<a href="<?php echo base_url("admin/change_password/" . $lista['id_user']); ?>" class="btn btn-default btn-xs">Change password <span class="glyphicon glyphicon-lock" aria-hidden="true"></a>
-									
-							<?php
-									echo "</td>";
-									}
-									
-									echo "<td>" . $lista['email'] . "</td>";
-									echo "<td>" . $lista['birthdate'] . "</td>";									
-									echo "<td>" . chunk_split($lista['social_insurance'],3," ") . "</td>";
-									echo "<td>" . chunk_split($lista['health_number'],3," ") . "</td>";
-									echo "<td>" . $lista['address'] . "</td>";
-									echo "</tr>";
+								echo "<td class='text-center'>";
+								echo '<p class="' . $lista['estilos'] . '"><strong>' . $lista['rol_name'] . '</strong></p>';
+								echo "</td>";
+								
+								echo "<td class='text-center'>";
+								switch ($lista['state']) {
+									case 0:
+											$valor = 'New User';
+											$clase = "text-primary";
+											break;
+									case 1:
+										$valor = 'Active';
+										$clase = "text-success";
+										break;
+									case 2:
+										$valor = 'Inactive';
+										$clase = "text-danger";
+										break;
+								}
+								echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+								echo "</td>";
+								echo "<td>";
+								echo "<b>Movil: </b>" . $resultado . "<br>";
+								echo "<b>Email: </b>" . $lista['email']  . "<br>";
+								echo "<b>DOB: </b>" . $lista['birthdate']  . "<br>";
+								echo "<b>SIN: </b>" . chunk_split($lista['social_insurance'],3," ") . "<br>";
+								echo "<b>Health number: </b>" . chunk_split($lista['health_number'],3," ") . "<br>";
+								echo "<b>Address: </b>" . $lista['address'] . "<br>";
+								echo "</td>";
+								echo "</tr>";
 							endforeach;
 						?>
 						</tbody>

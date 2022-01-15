@@ -1187,5 +1187,90 @@ class Admin extends CI_Controller {
     }    
 
 
+	/**
+	 * User Certificates
+	 * @param int $idEmployee
+	 * @since 15/1/2022
+	 */
+	public function userCertificates($idUser)
+	{
+			if (empty($idUser)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+						
+			//busco datos del vehiculo
+			$arrParam['idUser'] = $idUser;			
+			$data['UserInfo'] = $this->general_model->get_user($arrParam);
+		
+			$data['info'] = $this->admin_model->get_user_certificates($arrParam);
+
+			$data["view"] = 'employee_certificates';
+			$this->load->view("layout", $data);
+	}
+
+    /**
+     * Cargo modal- Formulario de certificados
+     * @since 15/1/2022
+     */
+    public function cargarModalUserCertificate() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$data["idEmployee"] = $this->input->post("idEmployee");
+		
+			$arrParam = array(
+				"table" => "param_certificates ",
+				"order" => "certificate",
+				"id" => "x"
+			);
+			$data['certificateList'] = $this->general_model->get_basic_search($arrParam);
+
+			$this->load->view("employee_certificates_modal", $data);
+    }
+
+	/**
+	 * Save employee certificate
+     * @since 15/1/2022
+     * @author BMOTTAG
+	 */
+	public function save_employee_certificate()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idEmployee = $this->input->post('hddidEmployee');
+			$idEmployeeCertificate = $this->input->post('hddidEmployeeCertificate');
+
+			$data["idRecord"] = $idEmployee;
+			$msj = "You have add a new Certificate!!";
+
+			//para verificar si ya existe este certificado asigando al empleado
+			$certificate_exist = FALSE;
+
+			if($idEmployeeCertificate == '') {
+				$arrParam = array(
+					"idUser" => $idEmployee,
+					"idCertificate" => $this->input->post('certificate')
+				);
+				$certificate_exist = $this->admin_model->get_user_certificates($arrParam);
+			}
+
+			if($certificate_exist) {
+				$data["result"] = "error";
+				$data["mensaje"] = " Error. The Employee already has the certificate.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The access already exist.');
+			} else {
+				if ($this->admin_model->saveEmployeeCertificate()) {
+					$data["result"] = true;
+					$this->session->set_flashdata('retornoExito', $msj);
+				} else {
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}			
+			
+			echo json_encode($data);
+    }   
+
 	
 }

@@ -780,10 +780,12 @@ class General_model extends CI_Model {
 		{			
 			$this->db->select();
 			$this->db->join('param_rol R', 'R.id_rol = U.perfil', 'INNER');
+			if (array_key_exists("idUser", $arrData)) {
+				$this->db->where('U.id_user', $arrData["idUser"]);
+			}
 			if (array_key_exists("state", $arrData)) {
 				$this->db->where('U.state', $arrData["state"]);
 			}
-			
 			//list without inactive users
 			if (array_key_exists("filtroState", $arrData)) {
 				$this->db->where('U.state !=', 2);
@@ -794,8 +796,9 @@ class General_model extends CI_Model {
 
 			if ($query->num_rows() >= 1) {
 				return $query->result_array();
-			} else
+			}else{
 				return false;
+			}
 		}
 		
 		/**
