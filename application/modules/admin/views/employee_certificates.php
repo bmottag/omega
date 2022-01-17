@@ -44,7 +44,7 @@ $(function(){
 				</div>
 				<div class="panel-body">
 
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $UserInfo[0]["id_user"]; ?>">
+					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $UserInfo[0]["id_user"] . '-X'; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Certificate
 					</button><br>
 				
@@ -105,8 +105,8 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th>Certificate</th>
-								<th class="text-center">Date Throught</th>
-								<th class="text-center">Delete </th>
+								<th class="text-center">Date Throught <small>(YYYY-MM-DD)</small></th>
+								<th class="text-center">Links </th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -131,14 +131,26 @@ if ($retornoError) {
 									
 									echo "<tr class='" . $class . "'>";
 									echo "<td>" . $lista['certificate'] . "</td>";
-									echo "<td class='text-center'>" . $lista['date_through'] . "</td>";
-									echo "<td class='text-center'>";
 								?>
-											<button type="button" id="<?php echo $lista['id_user_certificate']; ?>" class='btn btn-danger btn-xs' title="Delete">
-													<i class="fa fa-trash-o"></i>
-											</button>
+
+
+<form  name="form_<?php echo $lista['id_user_certificate']; ?>" id="form_<?php echo $lista['id_user_certificate']?>" method="post" action="<?php echo base_url("admin/update_user_certificate"); ?>">
+<input type="hidden" id="hddidEmployeeCertificate" name="hddidEmployeeCertificate" value="<?php echo  $lista['id_user_certificate']; ?>"/>
+
+									<td class='text-center'>
+										<input type="text" class="form-control" id="dateThroughUpdate" name="dateThroughUpdate" value="<?php echo $lista['date_through'] ; ?>" placeholder="YYYY-MM-DD" required />
+									</td>
+									<td class='text-center'>
+										<button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-info btn-xs" title="Update">
+											 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+										</button> 
+
+										<button type="button" id="<?php echo $lista['id_user_certificate']; ?>" class='btn btn-danger btn-xs' title="Delete">
+												<i class="fa fa-trash-o"></i>
+										</button>
+									</td>
+									</form>	
 								<?php
-									echo "</td>";
 									echo "</tr>";
 							endforeach;
 						?>

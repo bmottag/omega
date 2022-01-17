@@ -610,15 +610,19 @@
 				$idEmployeeCertificate = $this->input->post('hddidEmployeeCertificate');
 				
 				$data = array(
-					'fk_id_user' => $this->input->post('hddidEmployee'),
-					'fk_id_certificate' => $this->input->post('certificate'),
 					'date_through' => $this->input->post('dateThrough')
 				);
 				
 				//revisar si es para adicionar o editar
 				if ($idEmployeeCertificate == '') {
+					$data = array(
+						'date_through' => $this->input->post('dateThrough'),
+						'fk_id_user' => $this->input->post('hddidEmployee'),
+						'fk_id_certificate' => $this->input->post('certificate')
+					);
 					$query = $this->db->insert('user_certificates ', $data);			
 				} else {
+					$data['date_through'] = $this->input->post('dateThroughUpdate');
 					$this->db->where('id_user_certificate', $idEmployeeCertificate);
 					$query = $this->db->update('user_certificates ', $data);
 				}

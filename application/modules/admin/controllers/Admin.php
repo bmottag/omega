@@ -1305,5 +1305,27 @@ class Admin extends CI_Controller {
 			echo json_encode($data);
     }
 
+	/**
+	 * Update User Certificate
+     * @since 15/1/2022
+     * @author BMOTTAG
+	 */
+	public function update_user_certificate()
+	{					
+			$arrParam['idUserCertificate']  = $this->input->post('hddidEmployeeCertificate');	
+			$certificate_exist = $this->admin_model->get_user_certificates($arrParam);
+			$data["idRecord"] = $certificate_exist[0]['fk_id_user'];
+
+			if ($this->admin_model->saveEmployeeCertificate()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the Date!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('admin/userCertificates/' . $data["idRecord"]), 'refresh');
+    }
+
 	
 }
