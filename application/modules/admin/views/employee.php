@@ -104,21 +104,37 @@ if ($retornoError) {
 								<th class="text-center">ID</th>
 								<th class="text-center">Name</th>
 								<th class="text-center">User</th>
-								<th class="text-center">Rol</th>
-								<th class="text-center">State</th>
 								<th class="text-center">More Info</th>
+								<th class="text-center">Certificates</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
+
+								switch ($lista['state']) {
+									case 0:
+											$valor = 'New User';
+											$clase = "text-primary";
+											break;
+									case 1:
+										$valor = 'Active';
+										$clase = "text-success";
+										break;
+									case 2:
+										$valor = 'Inactive';
+										$clase = "text-danger";
+										break;
+								}
 								echo "<tr>";
 								echo "<td class='text-center'>" . $lista['id_user'] . "</td>";
-								echo "<td class='text-center'>" . $lista['first_name'] . ' ' . $lista['last_name'];
-			
+								echo "<td class='text-center'><b>" . $lista['first_name'] . ' ' . $lista['last_name'] . "</b>";
+
+								echo '<p class="' . $lista['estilos'] . '"><strong>Rol: ' . $lista['rol_name'] . '</strong></p>';
+								echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
 								if(!$deshabilitar){ 					
 						?>
-								<br><br>
+								<br>
 								<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" title="Edit" >
 									<i class='fa fa-pencil'></i>
 								</button>
@@ -147,35 +163,28 @@ if($count == 10){
 	$resultado = chunk_split($movil,3," "); 
 }
 								
+							
 
-								echo "<td class='text-center'>";
-								echo '<p class="' . $lista['estilos'] . '"><strong>' . $lista['rol_name'] . '</strong></p>';
-								echo "</td>";
-								
-								echo "<td class='text-center'>";
-								switch ($lista['state']) {
-									case 0:
-											$valor = 'New User';
-											$clase = "text-primary";
-											break;
-									case 1:
-										$valor = 'Active';
-										$clase = "text-success";
-										break;
-									case 2:
-										$valor = 'Inactive';
-										$clase = "text-danger";
-										break;
-								}
-								echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
-								echo "</td>";
-								echo "<td>";
+								echo "<td><small>";
 								echo "<b>Movil: </b>" . $resultado . "<br>";
 								echo "<b>Email: </b>" . $lista['email']  . "<br>";
 								echo "<b>DOB: </b>" . $lista['birthdate']  . "<br>";
 								echo "<b>SIN: </b>" . chunk_split($lista['social_insurance'],3," ") . "<br>";
 								echo "<b>Health number: </b>" . chunk_split($lista['health_number'],3," ") . "<br>";
 								echo "<b>Address: </b>" . $lista['address'] . "<br>";
+								echo "</small></td>";
+								echo "<td>";
+								$arrParam['idUser'] = $lista['id_user'] ;			
+								$certificateList = $this->admin_model->get_user_certificates($arrParam);
+
+								//pr($data['certificateList']);
+								if($certificateList){
+									echo "<ol><small>";
+									foreach ($certificateList as $datos):
+										echo "<li>" . $datos['certificate'] . ' -- <b>' . $datos['date_through'] . "</b></li>";
+									endforeach;
+									echo "</small></ol>";
+								}
 								echo "</td>";
 								echo "</tr>";
 							endforeach;

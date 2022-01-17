@@ -96,7 +96,7 @@ if ($retornoError) {
 						<div class="col-lg-6">
 							<div class="alert alert-warning">
 								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-								If the record is yellow, it is because the <b>Certificate has less than 3 days to expire.</b>
+								If the record is yellow, it is because the <b>Certificate has less than 30 days to expire.</b>
 							</div>		
 						</div>
 					</div>					
