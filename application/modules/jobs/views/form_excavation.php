@@ -1,6 +1,19 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavation.js"); ?>"></script>
 
+<?php
+/**
+ * If it is an ADMIN user, show date 
+ * @author BMOTTAG
+ * @since  20/01/2022
+ */
+$userRol = $this->session->rol;
+if($userRol==99){
+?>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<?php } ?>
+
 <div id="page-wrapper">
 	<br>
 	
@@ -75,6 +88,32 @@ if ($retornoError) {
 					<form  name="form" id="form" class="form-horizontal" method="post" >
 						<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
+<?php
+/**
+ * If it is an ADMIN user, show date 
+ * @author BMOTTAG
+ * @since  11/5/2017
+ */
+if($userRol==99){
+?>				
+<script>
+	$( function() {
+		$( "#date" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'yy-mm-dd'
+		});
+	});
+</script>
+						<div class="form-group">
+															
+								<label class="col-sm-4 control-label" for="date">Date of Issue:</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_excavation"]:""; ?>" placeholder="Date of Issue" />
+								</div>
+							
+						</div>
+<?php } ?>							
 														
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="project_location">Project Location (be specific): *</label>

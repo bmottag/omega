@@ -855,14 +855,28 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'soil_type' => $this->input->post('soil_type'),
 				'description_safe_work' => $this->input->post('description_safe_work')
 			);
-						
+
+			//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+			$userRol = $this->session->rol;
+			$dateIssue = $this->input->post('date');
+		
 			//revisar si es para adicionar o editar
 			if ($idExcavation == '') {
 				$data['fk_id_user'] = $idUser; //solo se ingresa el usuario cuando se crea
+
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
 				$data['date_excavation'] = date("Y-m-d");//fecha del registro
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_excavation'] = $dateIssue;
+				}
 				$query = $this->db->insert('job_excavation', $data);
 				$idExcavation = $this->db->insert_id();//ID guardado
 			} else {
+				//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
+				$data['date_excavation'] = date("Y-m-d");//fecha del registro
+				if($userRol==99 && $dateIssue!=""){
+					$data['date_excavation'] = $dateIssue;
+				}							
 				$this->db->where('id_job_excavation', $idExcavation);
 				$query = $this->db->update('job_excavation', $data);
 			}

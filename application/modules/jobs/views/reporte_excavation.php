@@ -429,19 +429,7 @@
 				</table>';
 
 
-	$html = '<style>
-				table {
-					font-family: arial, sans-serif;
-					border-collapse: collapse;
-					width: 100%;
-				}
 
-				td, th {
-					border: 0px solid #dddddd;
-					text-align: left;
-					padding: 10px;
-				}
-				</style>';
 
 
 		$html.= '<br>';
