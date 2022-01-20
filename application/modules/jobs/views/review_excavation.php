@@ -31,7 +31,7 @@
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a>
 						</li>
-						<li class='active'><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Review and Sign </a>
+						<li class='active'><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Approvals / Review </a>
 						</li>
 					</ul>
 					<br>
@@ -46,7 +46,7 @@
 					<strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?><br>
 					<strong>Date: </strong><?php echo $information[0]["date_excavation"]; ?><br>
 					<strong>Project Location: </strong><?php echo $information[0]["project_location"]; ?><br>
-					<strong>Depth of excavation / trench: </strong><?php echo $information[0]["depth"]; ?> meters<br>
+					<strong>Anticipated Depth of excavation / trench: </strong><?php echo $information[0]["depth"]; ?> meters<br>
 					<strong>Width: </strong><?php echo $information[0]["width"]; ?> meters<br>
 					<strong>Length: </strong><?php echo $information[0]["length"]; ?> meters<br>
 					Will or could this excavation / trench be considered a confined space?
@@ -63,6 +63,53 @@
 		</div>
 
 		<div class="col-lg-6">
+	        <div class="panel panel-primary">
+	            <div class="panel-heading">
+	                <i class="fa fa-edit fa-fw"></i> Project Manager - Signature
+	            </div>
+
+                <div class="panel-body">						
+					<div class="form-group">
+						<div class="row" align="center">
+							<div style="width:80%;" align="center">
+							<?php 								
+								$class = "btn-primary";						
+								if($information[0]["manager_signature"])
+								{ 
+									$class = "btn-default";
+							?>
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" >
+										<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
+									</button>
+
+									<div id="myModal" class="modal fade" role="dialog">  
+										<div class="modal-dialog">
+											<div class="modal-content">      
+												<div class="modal-header">        
+													<button type="button" class="close" data-dismiss="modal">×</button>        
+													<h4 class="modal-title">Project Manager - Signature</h4>      </div>      
+												<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["manager_signature"]); ?>" class="img-rounded" alt="Meeting conducted by Signature" width="304" height="236" />   </div>      
+												<div class="modal-footer">        
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+												</div>  
+											</div>  
+										</div>
+									</div>
+							<?php
+								}
+							?>
+						
+								<a class="btn <?php echo $class; ?>" href="<?php echo base_url("jobs/add_signature_excavation/manager/" . $information[0]["id_job_excavation"] . "/x"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a>
+
+								<br><br>
+								<strong><?php echo $information[0]["manager"]; ?></strong>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 	        <div class="panel panel-primary">
 	            <div class="panel-heading">
 	                <i class="fa fa-edit fa-fw"></i> Operator performing excavation - Signature

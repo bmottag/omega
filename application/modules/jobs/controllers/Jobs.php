@@ -1933,6 +1933,9 @@ ob_end_clean();
 			$this->load->model("general_model");
 			$data['information'] = FALSE;				
 
+			$arrParam = array("state" => 1, "idUserMANAGERS" => true);
+			$data['adminList'] = $this->general_model->get_user($arrParam);//workers list
+
 			$arrParam = array("state" => 1);
 			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 
@@ -2325,7 +2328,7 @@ ob_end_clean();
 			if($_POST){
 				
 				//update signature with the name of the file
-				if($typo == "supervisor" || $typo == "operator"){
+				if($typo == "supervisor" || $typo == "operator" || $typo == "manager"){
 					$name = "images/signature/etp/" . $typo . "_" . $idExcavation . ".png";
 					
 					$arrParam = array(

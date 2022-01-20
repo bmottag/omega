@@ -783,6 +783,10 @@ class General_model extends CI_Model {
 			if (array_key_exists("idUser", $arrData)) {
 				$this->db->where('U.id_user', $arrData["idUser"]);
 			}
+			if (array_key_exists("idUserMANAGERS", $arrData)) {
+				$IDmagers = array(2,3);
+				$this->db->where_in('U.id_user', $IDmagers);
+			}
 			if (array_key_exists("state", $arrData)) {
 				$this->db->where('U.state', $arrData["state"]);
 			}
@@ -1121,9 +1125,10 @@ class General_model extends CI_Model {
 				$year = date('Y');
 				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//para filtrar solo los registros del año actual
 				
-				$this->db->select('E.*, CONCAT(U.first_name, " " , U.last_name) name, CONCAT(X.first_name, " " , X.last_name) operator, CONCAT(Z.first_name, " " , Z.last_name) supervisor, J.id_job, J.job_description');
+				$this->db->select('E.*, CONCAT(W.first_name, " " , W.last_name) name, CONCAT(U.first_name, " " , U.last_name) manager, CONCAT(X.first_name, " " , X.last_name) operator, CONCAT(Z.first_name, " " , Z.last_name) supervisor, J.id_job, J.job_description');
 				$this->db->join('param_jobs J', 'J.id_job = E.fk_id_job', 'INNER');
-				$this->db->join('user U', 'U.id_user = E.fk_id_user', 'INNER');
+				$this->db->join('user W', 'W.id_user = E.fk_id_user', 'INER');
+				$this->db->join('user U', 'U.id_user = E.fk_id_user_manager', 'LEFT');
 				$this->db->join('user X', 'X.id_user = E.fk_id_user_operator', 'LEFT');
 				$this->db->join('user Z', 'Z.id_user = E.fk_id_user_supervisor', 'LEFT');
 				if (array_key_exists("idJob", $arrDatos)) {

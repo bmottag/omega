@@ -34,7 +34,7 @@
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a>
 						</li>
-						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Review and Sign </a>
+						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Approvals / Review  </a>
 						</li>
 					</ul>
 					<br>
@@ -127,7 +127,9 @@ if ($retornoError) {
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="tested_daily">Will the excavation / trench atmospheric conditions be tested daily? *</label>
+							<label class="col-sm-4 control-label" for="tested_daily">Will the excavation / trench atmospheric conditions be tested daily? *
+								<br><small class="text-danger">Be mindful of atmospheric conditions such as high concentration levels of radon (radiation), H2S, and any other harmful gases.</small>
+							</label>
 							<div class="col-sm-5">									
 								<select name="tested_daily" id="tested_daily" class="form-control" required>
 									<option value="">Select...</option>
@@ -152,7 +154,9 @@ if ($retornoError) {
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="ventilation">Will ventilation be supplied inside the excavation / trench? *</label>
+							<label class="col-sm-4 control-label" for="ventilation">Will ventilation be supplied inside the excavation / trench? *
+								<br><small class="text-danger">Adequate ventilation needs to be used when elevated levels of harmful gases are found in the air.</small>
+							</label>
 							<div class="col-sm-5">									
 								<select name="ventilation" id="ventilation" class="form-control" required>
 									<option value="">Select...</option>
@@ -201,9 +205,33 @@ if ($retornoError) {
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="description_safe_work">Description of safe work practices and anticipated work inside the excavation / trench:</label>
+							<label class="col-sm-4 control-label" for="description_safe_work">Description of safe work practices and anticipated work inside the excavation / trench:
+							</label>
 							<div class="col-sm-5">
 								<textarea id="description_safe_work" name="description_safe_work" class="form-control" rows="3"><?php echo $information?$information[0]["description_safe_work"]:""; ?></textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-4"></div>
+
+							<div class="col-sm-6">
+								<small class="text-danger">
+								<ul>
+									<li>Do not work alone</li>
+									<li>Keep eye contact with Heavy Equipment operators</li>
+									<li>Maintain good communication with the crew</li>
+									<li>No worker shall enter any trench or excavation until the walls have been adequately cut back</li>
+									<li>No worker shall enter any trench or excavation before temporary protective structures have been installed (shorings, trench jacks, sheet piling, cage)</li>
+									<li>Identify all underground utilities and/or overhead powerlines</li>
+									<li>Understand the scope of work</li>
+									<li>Have a copy of the site Locates</li>
+									<li>Use the provided safe means of entering and exiting the excavation (ladder, scaffold, mechanical devices, appropriate slopping of the ground)</li>
+									<li>Use traffic control methods near roads or busy access ways</li>
+									<li>Use traffic controllers/flaggers</li>
+									<li>Set up barricades</li>
+								</ul>
+								</small>
 							</div>
 						</div>
 

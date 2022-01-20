@@ -39,7 +39,7 @@
 
 		$html.= '<table border="0" cellspacing="0" cellpadding="5">
 				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Depth of excavation </strong></th>
+					<th bgcolor="#337ab7" style="color:white;"><strong>Anticipated depth of excavation / trench </strong></th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Width </strong></th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Length </strong></th>
 				</tr>
@@ -429,10 +429,56 @@
 				</table>';
 
 
+	$html = '<style>
+				table {
+					font-family: arial, sans-serif;
+					border-collapse: collapse;
+					width: 100%;
+				}
+
+				td, th {
+					border: 0px solid #dddddd;
+					text-align: left;
+					padding: 10px;
+				}
+				</style>';
 
 
+		$html.= '<br>';
+		$html.= '<p><h1 align="center" style="color:#337ab7;">Approvals / Review </h1></p>';
 		$html.= '<br><br>';
-			
+
+		$html.= '<table border="1" cellspacing="0" cellpadding="5">';
+		$html.= '<tr>';
+		$html.= '<th align="center" width="25%">';
+				if($info[0]['operator_signature']){
+					$html.= '<img src="'. $info[0]['operator_signature'] .'" border="0" width="70" height="70" />';
+				}
+		$html.= '</th>';
+		$html.= '<th align="center" width="10%"></th>';
+		$html.= '<th align="center" width="25%">';
+				if($info[0]['supervisor_signature']){
+					$html.= '<img src="'. $info[0]['supervisor_signature'] .'" border="0" width="70" height="70" />';
+				}
+		$html.= '</th>';
+		$html.= '<th align="center" width="10%"></th>';
+		$html.= '<th align="center" width="25%">';
+				if($info[0]['manager_signature']){
+					$html.= '<img src="'. $info[0]['manager_signature'] .'" border="0" width="70" height="70" />';
+				}
+		$html.= '</th>';
+		$html.= '</tr>';
+		$html.= '<tr bgcolor="#337ab7" style="color:white;">';
+		$html.= '<th align="center"><strong>' . $info[0]['operator'] . '<br>Operator performing excavation</strong></th>';
+		$html.= '<th></th>';
+		$html.= '<th align="center"><strong>' . $info[0]['supervisor'] . '<br>Person supervising excavation</strong></th>';
+		$html.= '<th></th>';
+		$html.= '<th align="center"><strong>' . $info[0]['manager'] . '<br>Project Manager</strong></th>';
+		$html.= '</tr>';
+		$html.= '</table>';
+		
+		$html.= '<br><br>';
+
 				if(!$excavationWorkers){			
 						$html.= 'No data was found for workers';
 				}else{				
@@ -450,8 +496,7 @@
 
 						$n = 1;
 						for($i=0;$i<$totalFilas;$i++){
-							$html.= '<tr>
-										<th align="center" width="20%"><strong><p>Initials</p></strong></th>';	
+							$html.= '<tr>';	
 							
 									$finish = $n * 4;
 									$star = $finish - 4;
@@ -472,17 +517,9 @@
 
 							$html.= '</tr>';
 							
-							$html.= '<tr bgcolor="#337ab7" style="color:white;">
-										<th align="center"><strong>Company</strong></th>';
+							$html.= '<tr bgcolor="#337ab7" style="color:white;">';
 										for ($j = $star; $j < $finish; $j++) {	
-											$html.= '<th align="center"><strong>VCI</strong></th>';
-										}
-							$html.= '</tr>';
-							
-							$html.= '<tr bgcolor="#337ab7" style="color:white;">
-										<th align="center"><strong>Worker Name</strong></th>';		
-										for ($j = $star; $j < $finish; $j++) {	
-											$html.= '<th align="center"><strong>' . $excavationWorkers[$j]['name'] . '</strong></th>';
+											$html.= '<th align="center"><strong>' . $excavationWorkers[$j]['name'] . '<br>VCI</strong></th>';
 										}
 							$html.= '</tr>';
 						}
@@ -499,19 +536,18 @@
 						//pintar las firmas de a 4 por fila
 						$total = count($excavationSubcontractors);//contar numero de trabajadores
 						$totalFilas  = 1;
-						if($total>=4)
+						if($total>=5)
 						{//si es mayor 4 entonces calcular cuantas filas deben ser
-							$div = $total / 4;
+							$div = $total / 5;
 							$totalFilas = ceil($div); //redondeo hace arriba
 						}
 
 						$n = 1;
 						for($i=0;$i<$totalFilas;$i++){
-							$html.= '<tr>
-										<th align="center" width="20%"><strong><p>Initials</p></strong></th>';	
+							$html.= '<tr>';	
 							
-									$finish = $n * 4;
-									$star = $finish - 4;
+									$finish = $n * 5;
+									$star = $finish - 5;
 									if($finish > $total){
 										$finish = $total;
 									}
@@ -529,19 +565,12 @@
 
 							$html.= '</tr>';
 							
-							$html.= '<tr bgcolor="#337ab7" style="color:white;">
-										<th align="center"><strong>Company</strong></th>';
+							$html.= '<tr bgcolor="#337ab7" style="color:white;">';
 										for ($j = $star; $j < $finish; $j++) {	
-											$html.= '<th align="center"><strong>' . $excavationSubcontractors[$j]['company_name'] . '</strong></th>';
+											$html.= '<th align="center"><strong>'  . $excavationSubcontractors[$j]['worker_name'] . '<br>' . $excavationSubcontractors[$j]['company_name'] . '</strong></th>';
 										}
 							$html.= '</tr>';
 							
-							$html.= '<tr bgcolor="#337ab7" style="color:white;">
-										<th align="center"><strong>Worker Name</strong></th>';		
-										for ($j = $star; $j < $finish; $j++) {	
-											$html.= '<th align="center"><strong>' . $excavationSubcontractors[$j]['worker_name'] . '</strong></th>';
-										}
-							$html.= '</tr>';
 						}
 						
 						$html.= '</table>';

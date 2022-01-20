@@ -843,7 +843,6 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			$data = array(
 				'fk_id_job' => $idJob,
 				'project_location' => $this->input->post('project_location'),
-				'fk_id_user_approved_by ' => 1,
 				'depth' => $this->input->post('depth'),
 				'width' => $this->input->post('width'),
 				'length' => $this->input->post('length'),
@@ -1000,6 +999,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			$idExcavation = $this->input->post('hddIdentificador');
 			
 			$data = array(
+				'fk_id_user_manager' => $this->input->post('manager'),
 				'fk_id_user_operator' => $this->input->post('operator'),
 				'fk_id_user_supervisor' => $this->input->post('supervisor')
 			);

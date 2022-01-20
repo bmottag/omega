@@ -43,7 +43,7 @@ function valid_field()
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a>
 						</li>
-						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Review and Sign </a>
+						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Approvals / Review  </a>
 						</li>						
 					</ul>
 					<br>

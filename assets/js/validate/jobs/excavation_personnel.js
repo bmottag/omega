@@ -2,6 +2,7 @@ $( document ).ready( function () {
 			
 	$( "#form" ).validate( {
 		rules: {
+			manager:				{ required: true },
 			operator:				{ required: true },
 			supervisor:		{ required: true },
 		},

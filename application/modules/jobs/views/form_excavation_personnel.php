@@ -32,7 +32,7 @@
 						</li>
 						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a>
 						</li>
-						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Review and Sign </a>
+						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Approvals / Review </a>
 						</li>
 					</ul>
 					<br>
@@ -72,6 +72,18 @@ if ($retornoError) {
 
 					<form  name="form" id="form" class="form-horizontal" method="post" >
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="manager">Project Manager *</label>
+							<div class="col-sm-5">									
+								<select name="manager" id="manager" class="form-control" required >
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($adminList); $i++) { ?>
+										<option value="<?php echo $adminList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_user_manager"] == $adminList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $adminList[$i]["first_name"] . ' ' . $adminList[$i]["last_name"]; ?></option>	
+									<?php } ?>
+								</select>
+							</div>
+						</div>
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="operator">Operator performing excavation *</label>
