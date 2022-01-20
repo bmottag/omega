@@ -2,7 +2,8 @@ $( document ).ready( function () {
 			
 	$( "#form" ).validate( {
 		rules: {
-			hddField:		{ required: true }
+			hddField:		{ required: true },
+			hddField2:		{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

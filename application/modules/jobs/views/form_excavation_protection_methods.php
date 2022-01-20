@@ -1,12 +1,23 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_protection.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavationProtection.js"); ?>"></script>
 
 <script>
 function valid_field() 
 {
-	if(document.getElementById('sloping').checked || document.getElementById('type_a').checked || document.getElementById('type_b').checked || document.getElementById('type_c').checked || document.getElementById('benching').checked || document.getElementById('shoring').checked || document.getElementById('shielding').checked ){
+	if(document.getElementById('sloping').checked || document.getElementById('benching').checked || document.getElementById('shoring').checked || document.getElementById('shielding').checked ){
 		document.getElementById('hddField').value = 1;
 	}else{
 		document.getElementById('hddField').value = "";
+	}
+
+	if(document.getElementById('sloping').checked){
+		if(document.getElementById('type_a').checked || document.getElementById('type_b').checked || document.getElementById('type_c').checked ){
+			document.getElementById('hddField2').value = 1;
+		}else{
+			document.getElementById('hddField2').value = "";
+		}
+	}else{
+		document.getElementById('hddField2').value = 1;
 	}
 }
 </script>
@@ -31,20 +42,14 @@ function valid_field()
 					if($information){
 				?>
 					<ul class="nav nav-tabs">
-						<li><a href="<?php echo base_url('jobs/add_excavation/' . $information[0]['fk_id_job'] . '/' . $information[0]['id_job_excavation']); ?>">Main Form</a>
-						</li>
-						<li><a href="<?php echo base_url('jobs/upload_excavation_personnel/' . $information[0]['id_job_excavation']); ?>">Personnel</a>
-						</li>
-						<li class='active'><a href="<?php echo base_url('jobs/upload_protection_methods/' . $information[0]['id_job_excavation']); ?>">Protection Methods & Systems</a>
-						</li>
-						<li><a href="<?php echo base_url('jobs/upload_access_egress/' . $information[0]['id_job_excavation']); ?>">Access & Egress </a>
-						</li>
-						<li><a href="<?php echo base_url('jobs/upload_affected_zone/' . $information[0]['id_job_excavation']); ?>">Affected Zone </a>
-						</li>
-						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a>
-						</li>
-						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Approvals / Review </a>
-						</li>
+						<li><a href="<?php echo base_url('jobs/add_excavation/' . $information[0]['fk_id_job'] . '/' . $information[0]['id_job_excavation']); ?>">Main Form</a></li>
+						<li><a href="<?php echo base_url('jobs/upload_excavation_personnel/' . $information[0]['id_job_excavation']); ?>">Personnel</a></li>
+						<li class='active'><a href="<?php echo base_url('jobs/upload_protection_methods/' . $information[0]['id_job_excavation']); ?>">Protection Methods & Systems</a></li>
+						<li><a href="<?php echo base_url('jobs/upload_access_egress/' . $information[0]['id_job_excavation']); ?>">Access & Egress </a></li>
+						<li><a href="<?php echo base_url('jobs/upload_affected_zone/' . $information[0]['id_job_excavation']); ?>">Affected Zone </a></li>
+						<li><a href="<?php echo base_url('jobs/upload_de_watering/' . $information[0]['id_job_excavation']); ?>">De-Watering </a></li>
+						<li><a href="<?php echo base_url('jobs/upload_sketch/' . $information[0]['id_job_excavation']); ?>">Excavation / Trench Sketch </a></li>
+						<li><a href="<?php echo base_url('jobs/review_excavation/' . $information[0]['id_job_excavation']); ?>">Approvals / Review </a></li>
 					</ul>
 					<br>
 				<?php
@@ -89,11 +94,50 @@ if ($retornoError) {
 								<br><small class="text-danger">(may choose more than one) </small></label>
 							<div class="col-sm-8">
 <input type="checkbox" id="sloping" name="sloping" value=1 <?php if($information && $information[0]["protection_sloping"]){echo "checked";} ?> onclick="valid_field()"> Sloping<br>
-<input type="checkbox" id="type_a" name="type_a" value=1 <?php if($information && $information[0]["protection_type_a"]){echo "checked";} ?> onclick="valid_field()"> ¾ to 1- Type A Soil<br>
-<input type="checkbox" id="type_b" name="type_b" value=1 <?php if($information && $information[0]["protection_type_b"]){echo "checked";} ?> onclick="valid_field()"> 1 to 1 - Type B Soil<br>
-<input type="checkbox" id="type_c" name="type_c" value=1 <?php if($information && $information[0]["protection_type_c"]){echo "checked";} ?> onclick="valid_field()"> 1 ½ to 1- Type C Soil<br>
 
+
+
+
+<?php 
+	$fildTested = "none";
+	if($information && $information[0]["protection_sloping"]){
+		$fildTested = "inline";
+	}
+?>
+						
+						<div class="form-group" id="div_sloping" style="display:<?php echo $fildTested; ?>">
+							<label class="col-sm-1 control-label" for="tested_daily_explanation"></label>
+							<div class="col-sm-5">
+								<input type="checkbox" id="type_a" name="type_a" value=1 <?php if($information && $information[0]["protection_type_a"]){echo "checked";} ?> onclick="valid_field()"> ¾ to 1- Type A Soil<br>
+								<input type="checkbox" id="type_b" name="type_b" value=1 <?php if($information && $information[0]["protection_type_b"]){echo "checked";} ?> onclick="valid_field()"> 1 to 1 - Type B Soil<br>
+								<input type="checkbox" id="type_c" name="type_c" value=1 <?php if($information && $information[0]["protection_type_c"]){echo "checked";} ?> onclick="valid_field()"> 1 ½ to 1- Type C Soil<br>
+
+							</div>
+						</div>
+<?php 
+$valorCampo2 = "";
+if($information)
+{
+	if($information[0]["protection_sloping"])
+	{
+		if($information[0]["protection_type_a"] || $information[0]["protection_type_b"] || $information[0]["protection_type_c"])
+		{
+			$valorCampo2 = 1;
+		}
+	}else{
+		$valorCampo2 = 1;
+	}
+}
+?>
+								<input type="hidden" id="hddField2" name="hddField2" value="<?php echo $valorCampo2; ?>"/>
+
+
+
+
+
+<p>
 <img src="https://v-contracting.ca/app/images/sloping.jpg">
+</p>
 <input type="checkbox" id="benching" name="benching" value=1 <?php if($information && $information[0]["protection_benching"]){echo "checked";} ?> onclick="valid_field()"> Benching <small class="text-danger">Note: Benching in class C soil is prohibited. </small><br>
 <input type="checkbox" id="shoring" name="shoring" value=1 <?php if($information && $information[0]["protection_shoring"]){echo "checked";} ?> onclick="valid_field()"> Shoring<br>
 <input type="checkbox" id="shielding" name="shielding" value=1 <?php if($information && $information[0]["protection_shielding"]){echo "checked";} ?> onclick="valid_field()"> Shielding<br>

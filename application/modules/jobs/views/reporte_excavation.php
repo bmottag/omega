@@ -32,8 +32,6 @@
 					<th colspan="3">' . $info[0]['project_location']. '</th>
 				</tr>
 			</table>';
-
-		$html.= '<br><br>';
 		
 		$html.= '<p><h1 align="center" style="color:#337ab7;">General Conditions</h1></p>';
 
@@ -146,7 +144,6 @@
 				</tr>
 			</table>';
 
-		$html.= '<br><br>';
 		$html.= '<p><h1 align="center" style="color:#337ab7;">Protection Methods & Systems</h1></p>';
 
 		$html.= 'Choose the method of protection below that will be implemented:
@@ -380,6 +377,13 @@
 				</tr>
 				</table>';
 
+		if($info[0]['excavation_sketch']){
+			$html.= '<p><h1 align="center" style="color:#337ab7;">Excavation / Trench Sketch</h1></p>';
+			$html.= 'Sketch or diagram of the excavation / trench.';
+			
+			$html.= '<h3 align="center"><img src="'. $info[0]['excavation_sketch'] .'" border="0" width="400" height="270" /></h3>';
+		}
+
 		$html.= '<br><br>';
 
 		$html.= '<p><h1 align="center" style="color:#337ab7;">De-Watering</h1></p>';
@@ -434,11 +438,6 @@
 				</tr>
 				</table>';
 
-
-
-
-
-		$html.= '<br>';
 		$html.= '<p><h1 align="center" style="color:#337ab7;">Approvals / Review </h1></p>';
 		$html.= '<br><br>';
 

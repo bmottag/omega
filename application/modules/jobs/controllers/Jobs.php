@@ -2328,52 +2328,68 @@ ob_end_clean();
 			if($_POST){
 				
 				//update signature with the name of the file
-				if($typo == "supervisor" || $typo == "operator" || $typo == "manager"){
+				if($typo == "sketch"){
+					$data['linkBack'] = 'jobs/upload_sketch/' . $idExcavation;
+					$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>EXCAVATION / TRENCH SKETCH";
+					$msj = "Good job, you have save the excavation/trench sketch.";
+
 					$name = "images/signature/etp/" . $typo . "_" . $idExcavation . ".png";
 					
 					$arrParam = array(
 						"table" => "job_excavation",
 						"primaryKey" => "id_job_excavation",
 						"id" => $idExcavation,
-						"column" => $typo . "_signature",
+						"column" => "excavation_sketch",
 						"value" => $name
 					);
-				}elseif($typo == "worker"){
-					$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
-					
-					$arrParam = array(
-						"table" => "job_excavation_workers",
-						"primaryKey" => "id_excavation_worker",
-						"id" => $idWorker,
-						"column" => "signature",
-						"value" => $name
-					);
-				}elseif($typo == "subcontractor"){
-					$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
-					
-					$arrParam = array(
-						"table" => "job_excavation_subcontractor",
-						"primaryKey" => "id_excavation_subcontractor",
-						"id" => $idWorker,
-						"column" => "signature",
-						"value" => $name
-					);
+				}else{
+					$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
+					$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
+					$msj = "Good job, you have save your signature.";	
+					if($typo == "supervisor" || $typo == "operator" || $typo == "manager"){
+						$name = "images/signature/etp/" . $typo . "_" . $idExcavation . ".png";
+						
+						$arrParam = array(
+							"table" => "job_excavation",
+							"primaryKey" => "id_job_excavation",
+							"id" => $idExcavation,
+							"column" => $typo . "_signature",
+							"value" => $name
+						);
+					}elseif($typo == "worker"){
+						$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
+						
+						$arrParam = array(
+							"table" => "job_excavation_workers",
+							"primaryKey" => "id_excavation_worker",
+							"id" => $idWorker,
+							"column" => "signature",
+							"value" => $name
+						);
+					}elseif($typo == "subcontractor"){
+						$name = "images/signature/etp/" . $typo . "_" . $idWorker . ".png";
+						
+						$arrParam = array(
+							"table" => "job_excavation_subcontractor",
+							"primaryKey" => "id_excavation_subcontractor",
+							"id" => $idWorker,
+							"column" => "signature",
+							"value" => $name
+						);
+					}
 				}
 
-				$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
-				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
 				$decoded_image = base64_decode($encoded_image);
 				file_put_contents($name, $decoded_image);
 				
 				$this->load->model("general_model");
-				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
 				if ($this->general_model->updateRecord($arrParam)) {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = $msj;	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -2386,6 +2402,25 @@ ob_end_clean();
 			}else{			
 				$this->load->view('template/make_signature');
 			}
+	}
+
+	/**
+	 * Form Excavation and Trenching Plan - Sketch
+     * @since 20/01/2022
+     * @author BMOTTAG
+	 */
+	public function upload_sketch($idExcavation)
+	{
+			if (empty($idExcavation)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+
+			$this->load->model("general_model");
+			$arrParam = array("idExcavation" => $idExcavation);
+			$data['information'] = $this->general_model->get_excavation($arrParam);
+
+			$data["view"] = 'form_excavation_sketch';
+			$this->load->view("layout", $data);
 	}
 
 	/**
