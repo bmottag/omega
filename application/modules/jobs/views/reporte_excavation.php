@@ -163,8 +163,14 @@
 		if($info[0]['protection_type_c']){
 			$html.= '<li>1 ½ to 1- Type C Soil</li>';
 		}
+		$html.= '</ul>';
+
+		if($info[0]['protection_sloping']){
+			$html.= '<p><img src="https://v-contracting.ca/app/images/sloping.jpg"></p>';
+		}
+		$html.= '<ul>';
 		if($info[0]['protection_benching']){
-			$html.= '<li>Benching</li>';
+			$html.= '<li>Benching - (Note: Benching in class C soil is prohibited.)</li>';
 		}
 		if($info[0]['protection_shoring']){
 			$html.= '<li>Shoring</li>';

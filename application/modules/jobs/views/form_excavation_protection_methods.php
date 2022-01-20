@@ -85,14 +85,16 @@ if ($retornoError) {
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
 														
 						<div class="form-group">
-							<label class="col-sm-5 control-label" for="project_location">Choose the method of protection below that will be implemented: *
+							<label class="col-sm-4 control-label" for="project_location">Choose the method of protection below that will be implemented: *
 								<br><small class="text-danger">(may choose more than one) </small></label>
-							<div class="col-sm-5">
+							<div class="col-sm-8">
 <input type="checkbox" id="sloping" name="sloping" value=1 <?php if($information && $information[0]["protection_sloping"]){echo "checked";} ?> onclick="valid_field()"> Sloping<br>
 <input type="checkbox" id="type_a" name="type_a" value=1 <?php if($information && $information[0]["protection_type_a"]){echo "checked";} ?> onclick="valid_field()"> ¾ to 1- Type A Soil<br>
 <input type="checkbox" id="type_b" name="type_b" value=1 <?php if($information && $information[0]["protection_type_b"]){echo "checked";} ?> onclick="valid_field()"> 1 to 1 - Type B Soil<br>
 <input type="checkbox" id="type_c" name="type_c" value=1 <?php if($information && $information[0]["protection_type_c"]){echo "checked";} ?> onclick="valid_field()"> 1 ½ to 1- Type C Soil<br>
-<input type="checkbox" id="benching" name="benching" value=1 <?php if($information && $information[0]["protection_benching"]){echo "checked";} ?> onclick="valid_field()"> Benching<br>
+
+<img src="https://v-contracting.ca/app/images/sloping.jpg">
+<input type="checkbox" id="benching" name="benching" value=1 <?php if($information && $information[0]["protection_benching"]){echo "checked";} ?> onclick="valid_field()"> Benching <small class="text-danger">Note: Benching in class C soil is prohibited. </small><br>
 <input type="checkbox" id="shoring" name="shoring" value=1 <?php if($information && $information[0]["protection_shoring"]){echo "checked";} ?> onclick="valid_field()"> Shoring<br>
 <input type="checkbox" id="shielding" name="shielding" value=1 <?php if($information && $information[0]["protection_shielding"]){echo "checked";} ?> onclick="valid_field()"> Shielding<br>
 
@@ -118,15 +120,14 @@ if($information)
 							</div>
 						</div>
 
-
-
-
-
-					
-
-
-
-
+						<div class="form-group">
+							<div class="row" align="center">
+								<div style="width:50%;" align="center">
+									<p class="text-danger">Note: If excavation / trench depth exceeds 7 meters in depth, please attach a copy of the engineered excavation / trench design and protective systems.</p>						
+								</div>
+							</div>
+						</div>
+	
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:100%;" align="center">
