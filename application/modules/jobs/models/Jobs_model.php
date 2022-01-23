@@ -853,7 +853,19 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'ventilation_explanation' => $this->input->post('ventilation_explanation'),
 				'soil_classification' => $this->input->post('soil_classification'),
 				'soil_type' => $this->input->post('soil_type'),
-				'description_safe_work' => $this->input->post('description_safe_work')
+				'description_safe_work' => $this->input->post('description_safe_work'),
+				'practice_work_alone' => $this->input->post('practice_work_alone'),
+				'practice_eye_contact' => $this->input->post('practice_eye_contact'),
+				'practice_communication' => $this->input->post('practice_communication'),
+				'practice_walls' => $this->input->post('practice_walls'),
+				'practice_protective_structures' => $this->input->post('practice_protective_structures'),
+				'practice_identify_underground' => $this->input->post('practice_identify_underground'),
+				'practice_scope' => $this->input->post('practice_scope'),
+				'practice_site_locates' => $this->input->post('practice_site_locates'),
+				'practice_provided_safe' => $this->input->post('practice_provided_safe'),
+				'practice_traffic_control' => $this->input->post('practice_traffic_control'),
+				'practice_flaggers' => $this->input->post('practice_flaggers'),
+				'practice_barricades' => $this->input->post('practice_barricades')
 			);
 
 			//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion

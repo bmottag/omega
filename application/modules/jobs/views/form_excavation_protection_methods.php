@@ -167,7 +167,7 @@ if($information)
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:50%;" align="center">
-									<p class="text-danger">Note: If excavation / trench depth exceeds 7 meters in depth, please attach a copy of the engineered excavation / trench design and protective systems.</p>						
+									<p class="text-danger">Note: If excavation / trench exceeds 7 meters in depth, please attach a copy of the engineered excavation / trench design and protective systems.</p>						
 								</div>
 							</div>
 						</div>

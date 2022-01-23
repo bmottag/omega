@@ -243,29 +243,19 @@ if($userRol==99){
 							</label>
 							<div class="col-sm-5">
 								<textarea id="description_safe_work" name="description_safe_work" class="form-control" rows="3"><?php echo $information?$information[0]["description_safe_work"]:""; ?></textarea>
-							</div>
-						</div>
 
-						<div class="form-group">
-							<div class="col-sm-4"></div>
-
-							<div class="col-sm-6">
-								<small class="text-danger">
-								<ul>
-									<li>Do not work alone</li>
-									<li>Keep eye contact with Heavy Equipment operators</li>
-									<li>Maintain good communication with the crew</li>
-									<li>No worker shall enter any trench or excavation until the walls have been adequately cut back</li>
-									<li>No worker shall enter any trench or excavation before temporary protective structures have been installed (shorings, trench jacks, sheet piling, cage)</li>
-									<li>Identify all underground utilities and/or overhead powerlines</li>
-									<li>Understand the scope of work</li>
-									<li>Have a copy of the site Locates</li>
-									<li>Use the provided safe means of entering and exiting the excavation (ladder, scaffold, mechanical devices, appropriate slopping of the ground)</li>
-									<li>Use traffic control methods near roads or busy access ways</li>
-									<li>Use traffic controllers/flaggers</li>
-									<li>Set up barricades</li>
-								</ul>
-								</small>
+<input type="checkbox" id="practice_work_alone" name="practice_work_alone" value=1 <?php if($information && $information[0]["practice_work_alone"]){echo "checked";} ?> ><small> Do not work alone</small><br>
+<input type="checkbox" id="practice_eye_contact" name="practice_eye_contact" value=1 <?php if($information && $information[0]["practice_eye_contact"]){echo "checked";} ?> > <small>Keep eye contact with Heavy Equipment operators</small><br>
+<input type="checkbox" id="practice_communication" name="practice_communication" value=1 <?php if($information && $information[0]["practice_communication"]){echo "checked";} ?> > <small>Maintain good communication with the crew</small><br>
+<input type="checkbox" id="practice_walls" name="practice_walls" value=1 <?php if($information && $information[0]["practice_walls"]){echo "checked";} ?> > <small>No worker shall enter any trench or excavation until the walls have been adequately cut back</small><br>
+<input type="checkbox" id="practice_protective_structures" name="practice_protective_structures" value=1 <?php if($information && $information[0]["practice_protective_structures"]){echo "checked";} ?> > <small>No worker shall enter any trench or excavation before temporary protective structures have been installed (shorings, trench jacks, sheet piling, cage)</small><br>
+<input type="checkbox" id="practice_identify_underground" name="practice_identify_underground" value=1 <?php if($information && $information[0]["practice_identify_underground"]){echo "checked";} ?> > <small>Identify all underground utilities and/or overhead powerlines</small><br>
+<input type="checkbox" id="practice_scope" name="practice_scope" value=1 <?php if($information && $information[0]["practice_scope"]){echo "checked";} ?> > <small>Understand the scope of work</small><br>
+<input type="checkbox" id="practice_site_locates" name="practice_site_locates" value=1 <?php if($information && $information[0]["practice_site_locates"]){echo "checked";} ?> > <small>Have a copy of the site Locates</small><br>
+<input type="checkbox" id="practice_provided_safe" name="practice_provided_safe" value=1 <?php if($information && $information[0]["practice_provided_safe"]){echo "checked";} ?> > <small>Use the provided safe means of entering and exiting the excavation (ladder, scaffold, mechanical devices, appropriate slopping of the ground)</small><br>
+<input type="checkbox" id="practice_traffic_control" name="practice_traffic_control" value=1 <?php if($information && $information[0]["practice_traffic_control"]){echo "checked";} ?> > <small>Use traffic control methods near roads or busy access ways</small><br>
+<input type="checkbox" id="practice_flaggers" name="practice_flaggers" value=1 <?php if($information && $information[0]["practice_flaggers"]){echo "checked";} ?> > <small>Use traffic controllers/flaggers</small><br>
+<input type="checkbox" id="practice_barricades" name="practice_barricades" value=1 <?php if($information && $information[0]["practice_barricades"]){echo "checked";} ?> > <small>Set up barricades</small>
 							</div>
 						</div>
 

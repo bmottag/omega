@@ -140,7 +140,46 @@
 				</tr>
 				<tr>
 					<th>Description of safe work practices and anticipated work inside the excavation / trench</th>
-					<th colspan="2">' . $info[0]['description_safe_work'] . '</th>
+					<th colspan="2">' . $info[0]['description_safe_work'];
+				$html.= '	<ul>';
+				if($info[0]['practice_work_alone']){
+					$html.= '<li>Do not work alone</li>';
+				}
+				if($info[0]['practice_eye_contact']){
+					$html.= '<li>Keep eye contact with Heavy Equipment operators</li>';
+				}
+				if($info[0]['practice_communication']){
+					$html.= '<li>Maintain good communication with the crew</li>';
+				}
+				if($info[0]['practice_walls']){
+					$html.= '<li>No worker shall enter any trench or excavation until the walls have been adequately cut back</li>';
+				}
+				if($info[0]['practice_protective_structures']){
+					$html.= '<li>No worker shall enter any trench or excavation before temporary protective structures have been installed (shorings, trench jacks, sheet piling, cage)</li>';
+				}
+				if($info[0]['practice_identify_underground']){
+					$html.= '<li>Identify all underground utilities and/or overhead powerlines</li>';
+				}
+				if($info[0]['practice_scope']){
+					$html.= '<li>Understand the scope of work</li>';
+				}
+				if($info[0]['practice_site_locates']){
+					$html.= '<li>Have a copy of the site Locates</li>';
+				}
+				if($info[0]['practice_provided_safe']){
+					$html.= '<li>Use the provided safe means of entering and exiting the excavation (ladder, scaffold, mechanical devices, appropriate slopping of the ground)</li>';
+				}
+				if($info[0]['practice_traffic_control']){
+					$html.= '<li>Use traffic control methods near roads or busy access ways</li>';
+				}
+				if($info[0]['practice_flaggers']){
+					$html.= '<li>Use traffic controllers/flaggers</li>';
+				}
+				if($info[0]['practice_barricades']){
+					$html.= '<li>Set up barricades</li>	';
+				}
+				$html.= '</ul>';
+					$html.= '</th>
 				</tr>
 			</table>';
 
