@@ -632,6 +632,34 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Add/Edit ALEERTS SETTINGS
+		 * @since 23/01/2022
+		 */
+		public function saveAlert() 
+		{
+				$idAlert = $this->input->post('hddId');
+				
+				$data = array(
+					'alert_description' => $this->input->post('alert_description'),
+					'fk_id_user_email' => $this->input->post('emailTo'),
+					'fk_id_user_sms' => $this->input->post('smsTo')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idAlert == '') {
+					$query = $this->db->insert('alerts_settings', $data);			
+				} else {
+					$this->db->where('id_alerts_settings', $idAlert);
+					$query = $this->db->update('alerts_settings', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 		
 		
 	    

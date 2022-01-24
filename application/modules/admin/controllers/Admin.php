@@ -1327,5 +1327,71 @@ class Admin extends CI_Controller {
 			redirect(base_url('admin/userCertificates/' . $data["idRecord"]), 'refresh');
     }
 
+	/**
+	 * Alert List
+     * @since 23/01/2022
+     * @author BMOTTAG
+	 */
+	public function alerts()
+	{
+			$arrParam = array();
+			$data['info'] = $this->general_model->get_alerts_settings($arrParam);
+			
+			$data["view"] = 'alerts';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario configuracion de alertas
+     * @since 23/01/2022
+     */
+    public function cargarModalAlerts() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idAlert"] = $this->input->post("idAlert");
+
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);
+			
+			if ($data["idAlert"] != 'x') {
+				$arrParam = array(
+					"idAlertsSettings" => $data["idAlert"] 
+				);
+				$data['information'] = $this->general_model->get_alerts_settings($arrParam);
+			}
+			
+			$this->load->view("alerts_modal", $data);
+    }
+	
+	/**
+	 * Save alerts settings
+     * @since 23/01/2022
+     * @author BMOTTAG
+	 */
+	public function save_alerts()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idAlert = $this->input->post('hddId');
+			
+			$msj = "You have add a new Alert!!";
+			if ($idAlert != '') {
+				$msj = "You have update an Alert!!";
+			}
+
+			if ($this->admin_model->saveAlert()) {
+				$data["result"] = true;				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
+
 	
 }
