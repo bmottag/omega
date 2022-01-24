@@ -574,34 +574,6 @@
 		}
 
 		/**
-		 * Get user certificates
-		 * @since 15/1/2022
-		 */
-		public function get_user_certificates($arrData) 
-		{				
-				$this->db->select();
-				$this->db->join('user U', 'U.id_user = X.fk_id_user', 'INNER');
-				$this->db->join('param_certificates C', 'C.id_certificate = X.fk_id_certificate ', 'INNER');
-				if (array_key_exists("idUserCertificate", $arrData)) {
-					$this->db->where('X.id_user_certificate', $arrData["idUserCertificate"]);
-				}
-				if (array_key_exists("idUser", $arrData)) {
-					$this->db->where('U.id_user', $arrData["idUser"]);
-				}
-				if (array_key_exists("idCertificate", $arrData)) {
-					$this->db->where('C.id_certificate', $arrData["idCertificate"]);
-				}
-				$this->db->order_by('C.certificate', 'asc');
-				$query = $this->db->get('user_certificates X');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
-
-		/**
 		 * Add/Edit CERTIFICATE to Employee
 		 * @since 15/1/2022
 		 */

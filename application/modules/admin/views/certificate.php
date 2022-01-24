@@ -79,6 +79,7 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">Certificate</th>
 								<th class="text-center">Description</th>
+								<th class="text-center">Employees</th>
 								<th class="text-center">Edit</th>
 							</tr>
 						</thead>
@@ -86,8 +87,19 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 								echo "<tr>";
-								echo "<td>" . $lista['certificate'] . "</td>";
-								echo "<td>" . $lista['certificate_description'] . "</td>";
+								echo "<td><small>" . $lista['certificate'] . "</small></td>";
+								echo "<td><small>" . $lista['certificate_description'] . "</small></td>";
+								echo "<td>";
+								$arrParam['idCertificate'] = $lista['id_certificate'] ;			
+								$certificateList = $this->general_model->get_user_certificates($arrParam);
+								if($certificateList){
+									echo "<ol><small>";
+									foreach ($certificateList as $datos):
+										echo "<li>" . $datos['first_name'] . ' ' . $datos['last_name'] . ' - <b>' . $datos['date_through'] . "</b></li>";
+									endforeach;
+									echo "</small></ol>";
+								}
+								echo "</td>";
 								echo "<td class='text-center'>";
 						?>
 								<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_certificate']; ?>" >

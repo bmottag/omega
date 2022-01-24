@@ -175,13 +175,11 @@ if($count == 10){
 								echo "</small></td>";
 								echo "<td>";
 								$arrParam['idUser'] = $lista['id_user'] ;			
-								$certificateList = $this->admin_model->get_user_certificates($arrParam);
-
-								//pr($data['certificateList']);
+								$certificateList = $this->general_model->get_user_certificates($arrParam);
 								if($certificateList){
 									echo "<ol><small>";
 									foreach ($certificateList as $datos):
-										echo "<li>" . $datos['certificate'] . ' -- <b>' . $datos['date_through'] . "</b></li>";
+										echo "<li>" . $datos['certificate'] . ' - <b>' . $datos['date_through'] . "</b></li>";
 									endforeach;
 									echo "</small></ol>";
 								}

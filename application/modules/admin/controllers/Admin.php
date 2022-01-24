@@ -1202,7 +1202,7 @@ class Admin extends CI_Controller {
 			$arrParam['idUser'] = $idUser;			
 			$data['UserInfo'] = $this->general_model->get_user($arrParam);
 		
-			$data['info'] = $this->admin_model->get_user_certificates($arrParam);
+			$data['info'] = $this->general_model->get_user_certificates($arrParam);
 
 			$data["view"] = 'employee_certificates';
 			$this->load->view("layout", $data);
@@ -1252,7 +1252,7 @@ class Admin extends CI_Controller {
 					"idUser" => $idEmployee,
 					"idCertificate" => $this->input->post('certificate')
 				);
-				$certificate_exist = $this->admin_model->get_user_certificates($arrParam);
+				$certificate_exist = $this->general_model->get_user_certificates($arrParam);
 			}
 
 			if($certificate_exist) {
@@ -1282,7 +1282,7 @@ class Admin extends CI_Controller {
 			$data = array();
 			
 			$arrParam['idUserCertificate']  = $this->input->post('identificador');	
-			$certificate_exist = $this->admin_model->get_user_certificates($arrParam);
+			$certificate_exist = $this->general_model->get_user_certificates($arrParam);
 			$data["idRecord"] = $certificate_exist[0]['fk_id_user'];
 			
 			//eliminaos registros
@@ -1313,7 +1313,7 @@ class Admin extends CI_Controller {
 	public function update_user_certificate()
 	{					
 			$arrParam['idUserCertificate']  = $this->input->post('hddidEmployeeCertificate');	
-			$certificate_exist = $this->admin_model->get_user_certificates($arrParam);
+			$certificate_exist = $this->general_model->get_user_certificates($arrParam);
 			$data["idRecord"] = $certificate_exist[0]['fk_id_user'];
 
 			if ($this->admin_model->saveEmployeeCertificate()) {
