@@ -209,7 +209,7 @@ if ($retornoError) {
 		});
 	});
 </script>
-									<label class="col-sm-4 control-label" for="hddTask">Date Work Order :</label>
+									<label class="col-sm-4 control-label" for="hddTask">Work Order Date :</label>
 									<div class="col-sm-5">
 										<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date"]:""; ?>" placeholder="Date" required <?php echo $deshabilitar; ?> />
 									</div>
@@ -245,9 +245,9 @@ if ($retornoError) {
 								
 
 <div class="form-group text-danger" id="div_stockQuantity">
-	<label class="col-sm-4 control-label" for="foreman">Foreman name : </label>
+	<label class="col-sm-4 control-label" for="foreman">Foreman's name : </label>
 	<div class="col-sm-5">
-		<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
+		<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman's name" value="<?php echo $information?$information[0]["foreman_name_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
 	</div>
 </div>
 								
@@ -257,21 +257,21 @@ if ($retornoError) {
 								
 								
 								<div class="form-group text-danger">
-									<label class="col-sm-4 control-label" for="email">Foreman movil number : </label>
+									<label class="col-sm-4 control-label" for="email">Foreman's mobile number : </label>
 									<div class="col-sm-5">
-										<input type="text" id="movilNumber" name="movilNumber" class="form-control" placeholder="Foreman movil number" value="<?php echo $information?$information[0]["foreman_movil_number_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
+										<input type="text" id="movilNumber" name="movilNumber" class="form-control" placeholder="Foreman's mobile number" value="<?php echo $information?$information[0]["foreman_movil_number_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
 									</div>
 								</div>
 
 								<div class="form-group text-danger">
-									<label class="col-sm-4 control-label" for="email">Foreman email : </label>
+									<label class="col-sm-4 control-label" for="email">Foreman's email : </label>
 									<div class="col-sm-5">
-										<input type="text" id="email" name="email" class="form-control" placeholder="Foreman email" value="<?php echo $information?$information[0]["foreman_email_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
+										<input type="text" id="email" name="email" class="form-control" placeholder="Foreman's email" value="<?php echo $information?$information[0]["foreman_email_wo"]:""; ?>" <?php echo $deshabilitar; ?>>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="taskDescription">Task description :</label>
+									<label class="col-sm-4 control-label" for="taskDescription">Work Done :</label>
 									<div class="col-sm-5">
 									<textarea id="observation" name="observation" class="form-control" rows="3" <?php echo $deshabilitar; ?> placeholder="Task description"><?php echo $information?$information[0]["observation"]:""; ?></textarea>
 									</div>
@@ -546,7 +546,7 @@ if($information){
 				<tr class="warning">
 					<th class="text-center">Employee Name</th>
 					<th class="text-center">Employee Type</th>
-					<th class="text-center">Task Description</th>
+					<th class="text-center">Work Done</th>
 					<th class="text-center">Hours</th>
 					<th class="text-center">Links</th>
 				</tr>

@@ -220,7 +220,7 @@ if ($retornoError) {
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date'] . "</td>";
 									echo '<td>';
-									echo '<strong>Task Description:</strong><br>' . $lista['observation'];
+									echo '<strong>Work Done:</strong><br>' . $lista['observation'];
 									echo '<p class="text-info"><strong>Last message:</strong><br>' . $lista['last_message'] . '</p>';
 									echo '</td>';
 									echo '</tr>';

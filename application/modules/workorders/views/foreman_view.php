@@ -12,10 +12,10 @@
 				<div class="panel-body">
 
 					<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?><br>
-					<strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?><br>
+					<strong>Work Order Date: </strong><?php echo $information[0]["date"]; ?><br>
 					<strong>Job Code/Name: </strong><br><?php echo $information[0]["job_description"]; ?><br>
 					<strong>Foreman: </strong><?php echo $information[0]["foreman_name_wo"]; ?><br>
-					<strong>Task description: </strong><br><?php echo $information[0]["observation"]; ?>
+					<strong>Work Done: </strong><br><?php echo $information[0]["observation"]; ?>
 				</div>
 			</div>
 		</div>	
@@ -89,7 +89,7 @@
 						<tr class="warning">
 							<td><p class="text-center"><strong>Employee Name</strong></p></td>
 							<td><p class="text-center"><strong>Employee Type</strong></p></td>
-							<td><p class="text-center"><strong>Task Description</strong></p></td>
+							<td><p class="text-center"><strong>Work Done</strong></p></td>
 							<td><p class="text-center"><strong>Hours</strong></p></td>
 						</tr>
 						<?php

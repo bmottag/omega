@@ -200,7 +200,7 @@ if ($retornoError) {
 						<div class="col-lg-12">								
 							<div class="alert alert-info">
 								<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?>
-								<br><strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?>
+								<br><strong>Work Order Date: </strong><?php echo $information[0]["date"]; ?>
 								<br><strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
 								<br><strong>Supervisor: </strong><?php echo $information[0]["name"]; ?>
 								<br><strong>Observation: </strong><?php echo $information[0]["observation"]; ?>
@@ -463,11 +463,11 @@ if ($retornoError) {
 						}
 						
 						if($data['foreman_name']){
-							echo "<br><small><strong>Foreman name</strong><br>" . $data['foreman_name'] . "</small> ";
+							echo "<br><small><strong>Foreman's name</strong><br>" . $data['foreman_name'] . "</small> ";
 						}
 						
 						if($data['foreman_email']){
-							echo "<br><small><strong>Foreman email</strong><br>" . $data['foreman_email'] . "</small> ";
+							echo "<br><small><strong>Foreman's email</strong><br>" . $data['foreman_email'] . "</small> ";
 						}
 
 						echo "</td>";

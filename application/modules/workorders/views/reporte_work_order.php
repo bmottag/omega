@@ -39,7 +39,7 @@
 			$html.= '<table border="0" cellspacing="0" cellpadding="4">';
 
 			$html.= '<tr>
-						<th width="50%" bgcolor="#337ab7" style="color:white;"><strong>TASK DESCRIPTION </strong></th>
+						<th width="50%" bgcolor="#337ab7" style="color:white;"><strong>WORK DONE </strong></th>
 						<th width="50%" bgcolor="#337ab7" style="color:white;" colspan="2"><strong>CLIENT INFORMATION </strong></th>
 					</tr>';
 			

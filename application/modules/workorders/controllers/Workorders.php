@@ -701,7 +701,7 @@ class Workorders extends CI_Controller {
 					$msj .= "<br><strong>Hours: </strong>" . $lista['hours'];
 					
 					if($lista['foreman_name']){
-						$msj .= "<br><strong>Foreman name: </strong>" . $lista['foreman_name'];
+						$msj .= "<br><strong>Foreman's name: </strong>" . $lista['foreman_name'];
 					}
 					
 					
@@ -858,7 +858,7 @@ class Workorders extends CI_Controller {
 			$msj .= "<br><strong>Done by: </strong>" . $infoWorkorder[0]["name"];
 			
 			if($infoWorkorder[0]["foreman_name_wo"]){
-				$msj .= "<br><strong>Foreman name: </strong>" . $infoWorkorder[0]["foreman_name_wo"];
+				$msj .= "<br><strong>Foreman's name: </strong>" . $infoWorkorder[0]["foreman_name_wo"];
 			}
 
 			if($infoWorkorder[0]["observation"]){
@@ -1133,9 +1133,9 @@ class Workorders extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->setCellValue('A3', 'Work Order #')
 										->setCellValue('B3', 'Supervisor')
 										->setCellValue('C3', 'Date of Issue')
-										->setCellValue('D3', 'Date Work Order')
+										->setCellValue('D3', 'Work Order Date')
 										->setCellValue('E3', 'Job Code/Name')
-										->setCellValue('F3', 'Task Description')
+										->setCellValue('F3', 'Work Done')
 										->setCellValue('G3', 'Description')
 										->setCellValue('H3', 'Employee Name')
 										->setCellValue('I3', 'Employee Type')

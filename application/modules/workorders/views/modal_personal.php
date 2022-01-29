@@ -38,7 +38,7 @@
 		</div>
 		
 		<div class="form-group text-left">
-			<label for="description">Task Description : *</label>
+			<label for="description">Work Done : *</label>
 			<textarea id="description" name="description" class="form-control" rows="3"></textarea>
 		</div>
 		

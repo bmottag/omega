@@ -263,7 +263,7 @@ if ($retornoError) {
 							<div class="alert alert-info">
 								<span class='fa fa-money' aria-hidden='true'></span>
 								<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?>
-								<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Date Work Order: </strong><?php echo $information[0]["date"]; ?>
+								<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Work Order Date: </strong><?php echo $information[0]["date"]; ?>
 								<br><span class="fa fa-briefcase" aria-hidden="true"></span> <strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
 								<?php if($information[0]["notes"]){ ?>
 								<br><strong>Job Code/Name - Notes: </strong><?php echo $information[0]["notes"]; ?>
@@ -341,7 +341,7 @@ if ($retornoError) {
 					<th class="text-center">Employee Name</th>
 					<th class="text-center">Employee Type</th>
 					<th class="text-center">Hours</th>
-					<th class="text-center">Task Description</th>
+					<th class="text-center">Work Done</th>
 					<th class="text-center">Rate</th>
 					<th class="text-center">Value</th>
 					<th class="text-center">Save</th>
@@ -715,11 +715,11 @@ if ($retornoError) {
 						}
 						
 						if($data['foreman_name']){
-							echo "<br><small><strong>Foreman name</strong><br>" . $data['foreman_name'] . "</small> ";
+							echo "<br><small><strong>Foreman's name</strong><br>" . $data['foreman_name'] . "</small> ";
 						}
 						
 						if($data['foreman_email']){
-							echo "<br><small><strong>Foreman email</strong><br>" . $data['foreman_email'] . "</small> ";
+							echo "<br><small><strong>Foreman's email</strong><br>" . $data['foreman_email'] . "</small> ";
 						}
 						echo "</td>";
 						
