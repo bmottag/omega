@@ -190,7 +190,7 @@ if ($retornoError) {
 		<div class="col-lg-12">	
 			<div class="alert <?php echo $clase; ?>">
 				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				Actual state: <strong><?php echo $valor; ?></strong>
+				Actual status: <strong><?php echo $valor; ?></strong>
 			</div>
 		</div>
 	</div>
@@ -395,7 +395,7 @@ if($information){
 	{ 
 ?>
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="state">State :</label>
+									<label class="col-sm-4 control-label" for="state">Status :</label>
 									<div class="col-sm-8">
 										<select name="state" id="state" class="form-control" required <?php echo $deshabilitar; ?>>
 											<option value="">Select...</option>
@@ -448,7 +448,7 @@ if($information){
 		<div class="col-lg-6">	
 			<div class="chat-panel panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-comments fa-fw"></i> State history
+					<i class="fa fa-comments fa-fw"></i> Status history
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
