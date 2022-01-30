@@ -87,16 +87,16 @@ if ($retornoError) {
 				?>		
 
 					<div class="row">
-						<div class="col-lg-6">
+						<div class="col-lg-12">
 							<div class="alert alert-danger">
-								<span class="glyphicon glyphicon-alert" aria-hidden="true"></span> 
-								If the record is red, it is because the <b>Certificate has expired.</b>
+								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> 
+								<small>If the record is red, it is because the <b>Certificate has expired.</b></small>
 							</div>		
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-12">
 							<div class="alert alert-warning">
 								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-								If the record is yellow, it is because the <b>Certificate has less than 30 days to expire.</b>
+								<small>If the record is yellow, it is because the <b>Certificate has less than 90 days to expire.</b></small>
 							</div>		
 						</div>
 					</div>					
@@ -117,11 +117,11 @@ if ($retornoError) {
 									//semaforo de acuerdo a fecha de vencimiento
 									$fechaVencimiento = strtotime($lista['date_through']);
 									$diferencia = $fechaVencimiento - $filtroFecha;
-									//2678400 --> equivalen a 30 dias
-									//si la diferencia es mayor a 30 dias no hay problema
-									if($diferencia > 2678400){
+									//8035200 --> equivalen a 90 dias
+									//si la diferencia es mayor a 90 dias no hay problema
+									if($diferencia > 8035200){
 										$class = '';
-									}elseif($diferencia <= 2678400 && $diferencia >= 0){
+									}elseif($diferencia <= 8035200 && $diferencia >= 0){
 										//si la diferencia es entre 0 y 30 dias, entonces se va a vencer pronto
 										$class = 'warning text-warning';
 									}else{
@@ -130,7 +130,7 @@ if ($retornoError) {
 									}
 									
 									echo "<tr class='" . $class . "'>";
-									echo "<td>" . $lista['certificate'] . "</td>";
+									echo "<td><b>" . $lista['certificate'] . "</b></td>";
 								?>
 
 
