@@ -1217,6 +1217,9 @@ class General_model extends CI_Model {
 				if (array_key_exists("idUser", $arrData)) {
 					$this->db->where('U.id_user', $arrData["idUser"]);
 				}
+				if (array_key_exists("state", $arrData)) {
+					$this->db->where('U.state', $arrData["state"]);
+				}
 				if (array_key_exists("idCertificate", $arrData)) {
 					$this->db->where('C.id_certificate', $arrData["idCertificate"]);
 				}

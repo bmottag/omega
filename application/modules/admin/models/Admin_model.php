@@ -582,7 +582,8 @@
 				$idEmployeeCertificate = $this->input->post('hddidEmployeeCertificate');
 				
 				$data = array(
-					'date_through' => $this->input->post('dateThrough')
+					'date_through' => $this->input->post('dateThrough'),
+					'alerts_sent' => 0
 				);
 				
 				//revisar si es para adicionar o editar
