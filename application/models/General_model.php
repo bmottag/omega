@@ -1255,5 +1255,21 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Verify if the user already exist by specific column
+		 * @author BMOTTAG
+		 * @since  8/11/2016
+		 * @review 31/01/2022
+		 */
+		public function verifyUser($arrData) 
+		{
+				$this->db->where($arrData["column"], $arrData["value"]);
+				$query = $this->db->get("user");
+
+				if ($query->num_rows() >= 1) {
+					return true;
+				} else{ return false; }
+		}
+
 
 }

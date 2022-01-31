@@ -91,13 +91,13 @@ class Admin extends CI_Controller {
 					"column" => "log_user",
 					"value" => $log_user
 				);
-				$result_user = $this->admin_model->verifyUser($arrParam);
+				$result_user = $this->general_model->verifyUser($arrParam);
 				//Verify if the user already exist by the social insurance number
 				$arrParam = array(
 					"column" => "social_insurance",
 					"value" => $social_insurance
 				);
-				$result_insurance = $this->admin_model->verifyUser($arrParam);
+				$result_insurance = $this->general_model->verifyUser($arrParam);
 			}
 
 			if ($result_user || $result_insurance) 

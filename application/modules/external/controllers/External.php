@@ -6,6 +6,7 @@ class External extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("external_model");
+        $this->load->model("general_model");
 		$this->load->helper('form');
     }
 	
@@ -344,6 +345,117 @@ class External extends CI_Controller {
 		$this->load->view("layout", $data);
 	}
 
+	/**
+	 * Add and employye
+     * @since 31/1/2022
+     * @author BMOTTAG
+	 */
+	public function newEmployee($key)
+	{
+			$filtro = 'uiAqv828TZr';
+			if($filtro != $key) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+					
+			$data["view"] = "form_employee";
+			$this->load->view("layout_calendar", $data);
+	}
+
+	/**
+	 * Save new employee
+     * @since 31/01/2022
+     * @author BMOTTAG
+	 */
+	public function save_employee()
+	{	
+			header('Content-Type: application/json');
+			$data = array();
+
+			$log_user =  addslashes($this->security->xss_clean($this->input->post('user')));
+			$social_insurance = addslashes($this->security->xss_clean($this->input->post('insuranceNumber')));
+			$email = addslashes($this->security->xss_clean($this->input->post('email')));
+			$firstName = addslashes($this->security->xss_clean($this->input->post('firstName')));
+			
+			$result_user = false;
+			$result_email = false;
+
+			//Verify if the user already exist by the user name
+			$arrParam = array(
+				"column" => "log_user",
+				"value" => $log_user
+			);
+			$result_user = $this->general_model->verifyUser($arrParam);
+			//Verify if the user already exist by the email
+			$arrParam = array(
+				"column" => "email",
+				"value" => $email
+			);
+			$result_email = $this->general_model->verifyUser($arrParam);
+
+			if($result_user || $result_email) 
+			{
+				$data["result"] = "error";
+				if($result_user)
+				{
+					$data["mensaje"] = " Error. The user name already exist.";
+				}
+				if($result_email)
+				{
+					$data["mensaje"] = " Error. The email already exist.";
+				}
+				if($result_user && $result_email)
+				{
+					$data["mensaje"] = " Error. The user name an email already exist.";
+				}
+			}else{
+				if ($this->external_model->saveEmployee()) {
+					$newPassword = addslashes($this->security->xss_clean($this->input->post('inputPassword')));
+					$passwd = str_replace(array("<",">","[","]","*","^","-","'","="),"",$newPassword); 
+
+					$msj = "Thank you for registering, an email was sent with the access data to the system.";
+					$msj .= "<br><br><strong>User name: </strong>" . $log_user;
+					$msj .= "<br><strong>Password: </strong>" . $passwd;
+
+					//Envio de correo
+					$subjet = "Welcome to VCI";
+					$user = $firstName;
+					$to = $email;
+
+					$link = base_url();
+					$emailmsj = "<strong>APP Link: </strong><a href='" . $link . "'>VCI APP</a>";
+					$emailmsj .= "<br><strong>User name: </strong>" . $log_user;
+					$emailmsj .= "<br><strong>Password: </strong>" . $passwd;
+
+					$mensaje = "<html>
+					<head>
+					  <title> $subjet </title>
+					</head>
+					<body>
+						<p>Dear	$user:</p>
+						<p>Thank you for registering, the following employees information is the access data to the system:</p>
+						<p>$emailmsj</p>
+						<p>Cordially,</p>
+						<p><strong>V-CONTRACTING INC</strong></p>
+					</body>
+					</html>";		
+	
+					$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+					$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
+					$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+
+					//enviar correo
+					mail($to, $subjet, $mensaje, $cabeceras);
+					//Fin envio de correo
+
+					$data["result"] = true;					
+					$this->session->set_flashdata('retornoExito', $msj);
+				} else {
+					$data["result"] = "error";
+				}
+			}
+			echo json_encode($data);
+    }
 	
 	
 }

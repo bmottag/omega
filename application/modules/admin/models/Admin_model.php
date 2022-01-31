@@ -4,22 +4,6 @@
 
 	    
 		/**
-		 * Verify if the user already exist by the social insurance number
-		 * @author BMOTTAG
-		 * @since  8/11/2016
-		 * @review 27/11/2016
-		 */
-		public function verifyUser($arrData) 
-		{
-				$this->db->where($arrData["column"], $arrData["value"]);
-				$query = $this->db->get("user");
-
-				if ($query->num_rows() >= 1) {
-					return true;
-				} else{ return false; }
-		}
-		
-		/**
 		 * Add/Edit USER
 		 * @since 8/11/2016
 		 */

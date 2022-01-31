@@ -74,11 +74,40 @@
 			} else {
 				return false;
 			}
-		}		
+		}
+
+		/**
+		 * Add employee
+		 * @since 31/01/2022
+		 */
+		public function saveEmployee() 
+		{
+			$newPassword = addslashes($this->security->xss_clean($this->input->post('inputPassword')));
+			$passwd = str_replace(array("<",">","[","]","*","^","-","'","="),"",$newPassword); 
+
+			$data = array(
+				'first_name' => addslashes($this->security->xss_clean($this->input->post('firstName'))),
+				'last_name' => addslashes($this->security->xss_clean($this->input->post('lastName'))),
+				'log_user' => addslashes($this->security->xss_clean($this->input->post('user'))),
+				'password' => md5($passwd),
+				'social_insurance' => addslashes($this->security->xss_clean($this->input->post('insuranceNumber'))),
+				'health_number' => addslashes($this->security->xss_clean($this->input->post('healthNumber'))),
+				'birthdate' => addslashes($this->security->xss_clean($this->input->post('birth'))),
+				'movil' => addslashes($this->security->xss_clean($this->input->post('movilNumber'))),
+				'email' => addslashes($this->security->xss_clean($this->input->post('email'))),
+				'address' => addslashes($this->security->xss_clean($this->input->post('address'))),
+				'perfil' => 7,
+				'state' => 1
+			);	
+			$query = $this->db->insert('user', $data);
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 
 		
-		
 
-		
 	    
 	}
