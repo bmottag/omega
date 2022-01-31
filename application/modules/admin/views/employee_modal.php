@@ -65,7 +65,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="insuranceNumber">Social insurance Number</label>
+					<label class="control-label" for="insuranceNumber">Social Insurance Number</label>
 					<input type="text" id="insuranceNumber" name="insuranceNumber" class="form-control" value="<?php echo $information?$information[0]["social_insurance"]:""; ?>" placeholder="Social Insurance Number" required >
 				</div>
 			</div>

@@ -110,13 +110,13 @@ class Admin extends CI_Controller {
 				}
 				if($result_insurance)
 				{
-					$data["mensaje"] = " Error. The user already exist by the social insurance number.";
+					$data["mensaje"] = " Error. The user already exist by the Social Insurance Number.";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The user already exist by the social insurance number.');
 				}
 				if($result_user && $result_insurance)
 				{
-					$data["mensaje"] = " Error. The user already exist by the user name and the social insurance number.";
-					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The user already exist by the user name and the social insurance number.');
+					$data["mensaje"] = " Error. The user already exist by the user name and the Social Insurance Number.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The user already exist by the user name and the Social Insurance Number.');
 				}
 			} else {
 					if ($this->admin_model->saveEmployee()) {
