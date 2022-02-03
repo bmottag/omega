@@ -36,7 +36,8 @@ class Payroll extends CI_Controller {
 			$view = 'form_add_payroll';
 			
 			//if the last record doesn´t have finish time
-			if($data['record'] && $data['record'][0]['finish'] == 0){
+			if($data['record'] && $data['record'][0]['finish'] == '0000-00-00 00:00:00'){
+				$data['start'] = $data['record'][0]['start'];
 				$view = 'form_end_payroll';
 			}
 			
@@ -66,29 +67,52 @@ class Payroll extends CI_Controller {
 	/**
 	 * Update finish time payroll
      * @since 11/11/2016
+     * @review 2/02/2022
      * @author BMOTTAG
 	 */
 	public function updatePayroll()
-	{				
-			if ($this->payroll_model->updatePayroll()) {
+	{	
+			$start =  $this->input->post('hddStart');
+			$fechaStart = strtotime($start);
+			$fechaStart = date("Y-m-d", $fechaStart);
+			$fechaActual = date("Y-m-d");
 
-				//busco inicio y fin para calcular horas de trabajo y guardar en la base de datos
-				//START search info for the task
-				$idTask =  $this->input->post('hddIdentificador');
-				$infoTask = $this->payroll_model->get_taskbyid($idTask);
-				//END of search				
-
+			$hour = date("G:i");
+			//verifico si el fecha es igual para el inicio y el final
+			if($fechaStart == $fechaActual){
 				//update working time and working hours
-				$hour = date("G:i");
-				if ($this->payroll_model->updateWorkingTimePayroll($infoTask)) {
+				$finish = date("Y-m-d G:i:s");
+				if ($this->payroll_model->updateWorkingTimePayroll($start, $finish)) {
 					$this->session->set_flashdata('retornoExito', 'have a good night, you finished at ' . $hour . '.');
 				}else{
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');
 				}
-				
-            } else {
-                $this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
-            }
+			}else{
+				$i = 0;
+				while($fechaStart != $fechaActual):
+					$i++;
+					if($i == 1){
+						//debo actualizar el registro inicial
+						$finish = $fechaStart . " 23:59:59";
+//echo $start . "<br>" .$finish; exit;
+						$this->payroll_model->updateWorkingTimePayroll($start, $finish);
+					}
+					
+					$fechaStart = new DateTime($fechaStart);
+					$fechaStart->modify('+1 day');
+					$fechaStart = $fechaStart->format("Y-m-d");
+					$start = $fechaStart . " 00:00:00";
+
+					//revisar si ya es el ultimo dia
+					if($fechaStart == $fechaActual){
+						$finish = date("Y-m-d G:i:s");
+					}else{
+						$finish = $fechaStart . " 23:59:59";
+					}
+					//hago un insert nuevo
+					$this->payroll_model->insertWorkingTimePayroll($start, $finish);
+				endwhile;
+			}
 
 			$dashboard = $this->session->userdata("dashboardURL");
 			redirect($dashboard,'refresh');
@@ -217,6 +241,5 @@ class Payroll extends CI_Controller {
 			
 			echo json_encode($data);
     }
-
 	
 }

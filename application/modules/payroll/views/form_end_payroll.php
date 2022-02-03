@@ -27,7 +27,8 @@
 
 							<form  name="form" id="form" class="form-horizontal" method="post" action="<?php echo base_url("payroll/updatePayroll"); ?>" >
 								<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $record[0]["id_task"]; ?>"/>
-								
+								<input type="hidden" id="hddStart" name="hddStart" value="<?php echo $start; ?>"/>
+
 								<div class="alert alert-info">
 									<strong>Task: </strong><?php echo $record[0]["task"]?><br>
 									<strong>Job Code/Name: </strong><?php echo $record[0]["job_start"]?><br>

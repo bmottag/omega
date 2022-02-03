@@ -39,37 +39,6 @@
 		}
 		
 		/**
-		 * Update PAYROLL - finish and observation files
-		 * @since 11/11/2016
-		 */
-		public function updatePayroll() 
-		{
-				$idTask =  $this->input->post('hddIdentificador');
-				$idJob =  $this->input->post('jobName');
-				$observation =  $this->security->xss_clean($this->input->post('observation'));
-				$observation =  addslashes($observation);
-				$latitude =  $this->input->post('latitud');
-				$longitude =  $this->input->post('longitud');
-				
-				$address =  $this->security->xss_clean($this->input->post('address'));
-				$address =  addslashes($address);
-								
-				$fecha = date("Y-m-d G:i:s");
-
-				$sql = "UPDATE task";
-				$sql.= " SET observation='$observation', finish =  '$fecha', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address'";
-				$sql.= " WHERE id_task=$idTask";
-
-				$query = $this->db->query($sql);
-
-				if ($query) {
-					return true;
-				} else {
-					return false;
-				}
-		}		
-
-		/**
 		 * Update PAYROLL - signature
 		 * @since 11/11/2016
 		 */
@@ -94,17 +63,18 @@
 		/**
 		 * Update PAYROLL - workin time and workin hours
 		 * @since 17/11/2016
+		 * @review 2/02/2022
 		 */
-		public function updateWorkingTimePayroll($info) 
+		public function updateWorkingTimePayroll($fechaStart, $fechaCierre) 
 		{
-				$dteStart = new DateTime($info['start']);
-				$dteEnd   = new DateTime($info['finish']);
+				$dteStart = new DateTime($fechaStart);
+				$dteEnd   = new DateTime($fechaCierre);
 				
 				$dteDiff  = $dteStart->diff($dteEnd);
 				$workingTime = $dteDiff->format("%R%a days %H:%I:%S");//days hours:minutes:seconds
 			
 				//START hours calculation
-				$minutes = (strtotime($info['finish'])-strtotime($info['start']))/60;
+				$minutes = (strtotime($fechaStart)-strtotime($fechaCierre))/60;
 				$minutes = abs($minutes);  
 				$minutes = round($minutes);
 		
@@ -137,9 +107,17 @@
 				//FINISH hours calculation
 				
 				$idTask =  $this->input->post('hddIdentificador');
-
+				$idJob =  $this->input->post('jobName');
+				$observation =  $this->security->xss_clean($this->input->post('observation'));
+				$observation =  addslashes($observation);
+				$latitude =  $this->input->post('latitud');
+				$longitude =  $this->input->post('longitud');
+				
+				$address =  $this->security->xss_clean($this->input->post('address'));
+				$address =  addslashes($address);
+								
 				$sql = "UPDATE task";
-				$sql.= " SET working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+				$sql.= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 				$sql.= " WHERE id_task=$idTask";
 
 				$query = $this->db->query($sql);
@@ -149,7 +127,79 @@
 				} else {
 					return false;
 				}
-		}			
+		}		
+
+		/**
+		 * Insert PAYROLL
+		 * @since 2/02/2022
+		 */
+		public function insertWorkingTimePayroll($fechaStart, $fechaCierre) 
+		{
+				$dteStart = new DateTime($fechaStart);
+				$dteEnd   = new DateTime($fechaCierre);
+				
+				$dteDiff  = $dteStart->diff($dteEnd);
+				$workingTime = $dteDiff->format("%R%a days %H:%I:%S");//days hours:minutes:seconds
+			
+				//START hours calculation
+				$minutes = (strtotime($fechaStart)-strtotime($fechaCierre))/60;
+				$minutes = abs($minutes);  
+				$minutes = round($minutes);
+		
+				$hours = $minutes/60;
+				$hours = round($hours,2);
+				
+				$justHours = intval($hours);
+				$decimals=$hours-$justHours; 
+
+				//Ajuste de los decimales para redondearlos a .25 / .5 / .75
+				if($decimals<0.12){
+					$transformation = 0;
+				}elseif($decimals>=0.12 && $decimals<0.37){
+					$transformation = 0.25;
+				}elseif($decimals>=0.37 && $decimals<0.62){
+					$transformation = 0.5;
+				}elseif($decimals>=0.62 && $decimals<0.87){
+					$transformation = 0.75;
+				}elseif($decimals>=0.87){
+					$transformation = 1;
+				}
+				$workingHours = $justHours + $transformation;
+				$overtimeHours = 0;
+				if($workingHours>8){
+					$regularHours = 8;
+					$overtimeHours = $workingHours - 8;
+				}else{
+					$regularHours = $workingHours;
+				}
+				//FINISH hours calculation
+				
+				$idUser = $this->session->userdata("id");
+				$idTask =  $this->input->post('hddIdentificador');
+				$idJob =  $this->input->post('jobName');
+				$observation =  $this->security->xss_clean($this->input->post('observation'));
+				$observation =  addslashes($observation);
+				$latitude =  $this->input->post('latitud');
+				$longitude =  $this->input->post('longitud');
+				
+				$address =  $this->security->xss_clean($this->input->post('address'));
+				$address =  addslashes($address);
+
+				$sql = "INSERT INTO task";
+				$sql.= " (fk_id_user, fk_id_operation, fk_id_job, task_description, start, latitude_start, longitude_start, address_start,
+							observation, finish, fk_id_job_finish, latitude_finish, longitude_finish, address_finish, working_time, working_hours, 
+							regular_hours, overtime_hours)";
+				$sql.= " VALUES ($idUser, 1, $idJob, '', '$fechaStart', $latitude, $longitude, '$address', '$observation', '$fechaCierre', '$idJob', 
+								$latitude, $longitude, '$address', '$workingTime', $workingHours, $regularHours, $overtimeHours)";
+								
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 		
 		/**
 		 * Consulta BASICA A UNA TABLA
@@ -222,20 +272,5 @@
 				}
 		}
 
-		
-		
-		
-		
-		
-		
-		
-		
-
-		
-		
-		
-		
-		
-		
 	    
 	}
