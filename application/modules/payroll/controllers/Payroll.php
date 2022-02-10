@@ -221,7 +221,8 @@ class Payroll extends CI_Controller {
     }
 	
 	/**
-	 * Save payroll hours
+	 * Save payroll hours 
+	 * Se usa cuando el adminstrador esta actualizadno las horas del empleado
      * @since 2/2/2018
      * @author BMOTTAG
 	 */
@@ -231,6 +232,8 @@ class Payroll extends CI_Controller {
 			$data = array();
 						
 			$idTask = $this->input->post('hddIdentificador');
+			$fechaAnterior = $this->input->post('hddfechaInicio');
+			$fechaStart = $this->input->post('start_date');
 			$data["idRecord"] = $idTask;
 
 			if ($this->payroll_model->savePayrollHour()) {
@@ -241,10 +244,22 @@ class Payroll extends CI_Controller {
 				//START search info for the task
 				$idTask =  $this->input->post('hddIdentificador');
 				$infoTask = $this->payroll_model->get_taskbyid($idTask);
+				$start = $infoTask["start"];
+				$finish = $infoTask["finish"];
 				//END of search	
 
 				//update working time and working hours
-				if ($this->payroll_model->updateWorkingTimePayroll($infoTask)) {
+				if($this->payroll_model->updateWorkingTimePayroll($start, $finish, 1))
+				{
+					//verificar si cambio la fecha se debe actualizar el id del periodo
+					if($fechaAnterior != $fechaStart){
+						/**
+						 * Guardar el id del periodo en la tabla task
+					     * busco el periodo, sino existe lo creo
+						 */
+						$this->save_period($idTask);
+					}
+
 					$this->session->set_flashdata('retornoExito', 'You have update the payroll hour');
 				}else{
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');

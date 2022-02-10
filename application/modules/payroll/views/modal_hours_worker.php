@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report/hours_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report/hours.js"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -48,7 +48,7 @@ $minutosFin = substr($fin, 14, 2);
 		});
 	});
 </script>
-					<label class="control-label" for="start_date">Start date: *</label>
+					<label class="control-label" for="start_date">Date: *</label>
 					<input type="text" class="form-control" id="start_date" name="start_date" value="<?php echo $fechaInicio; ?>" placeholder="Start date" required />
 				</div>
 			</div>
@@ -96,18 +96,7 @@ $minutosFin = substr($fin, 14, 2);
 		<div class="row">
 			<div class="col-sm-4">		
 				<div class="form-group text-left">
-				
-<script>
-	$( function() {
-		$( "#finish_date" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'yy-mm-dd'
-		});
-	});
-</script>
-					<label class="control-label" for="finish_date">Finish date: *</label>
-					<input type="text" class="form-control" id="finish_date" name="finish_date" value="<?php echo $fechaFin; ?>" placeholder="Start date" required />
+
 				</div>
 			</div>
 			

@@ -5,7 +5,6 @@ jQuery.validator.addMethod("validacion", function(value, element, param) {
 	var start_date = $('#start_date').val();
 	var start_hour = $('#start_hour').val();
 	var start_min = $('#start_min').val();
-	var finish_date = $('#finish_date').val();
 	var finish_hour = $('#finish_hour').val();
 	var finish_min = $('#finish_min').val();
 	
@@ -16,7 +15,7 @@ jQuery.validator.addMethod("validacion", function(value, element, param) {
 	var hddhoraFin = $('#hddhoraFin').val();
 	var hddminutosFin = $('#hddminutosFin').val();
 	
-	if (hddfechaInicio == start_date &&  hddhoraInicio == start_hour  &&  hddminutosInicio == start_min &&  hddfechaFin == finish_date &&  hddhoraFin == finish_hour &&  hddminutosFin == finish_min) {
+	if (hddfechaInicio == start_date &&  hddhoraInicio == start_hour  &&  hddminutosInicio == start_min &&  hddhoraFin == finish_hour &&  hddminutosFin == finish_min) {
 		return false;
 	}else{
 		return true;
@@ -28,7 +27,6 @@ jQuery.validator.addMethod("validacion", function(value, element, param) {
 			start_date:	 			{ required: true },
 			start_hour:	 			{ required: true },
 			start_min:	 			{ required: true },
-			finish_date:			{ required: true },
 			finish_hour:	 		{ required: true },
 			finish_min:	 			{ required: true },
 			observation:	 		{ required: true, validacion:true }

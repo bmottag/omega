@@ -62,10 +62,11 @@
 
 		/**
 		 * Update PAYROLL - workin time and workin hours
+		 * param $adminUpdate: si no envian es porque viene el usuario registrando el cierre, de lo contrariro es porque el administrador esta actualizando
 		 * @since 17/11/2016
 		 * @review 2/02/2022
 		 */
-		public function updateWorkingTimePayroll($fechaStart, $fechaCierre) 
+		public function updateWorkingTimePayroll($fechaStart, $fechaCierre, $adminUpdate = 'x') 
 		{
 				$dteStart = new DateTime($fechaStart);
 				$dteEnd   = new DateTime($fechaCierre);
@@ -107,18 +108,27 @@
 				//FINISH hours calculation
 				
 				$idTask =  $this->input->post('hddIdentificador');
-				$idJob =  $this->input->post('jobName');
-				$observation =  $this->security->xss_clean($this->input->post('observation'));
-				$observation =  addslashes($observation);
-				$latitude =  $this->input->post('latitud');
-				$longitude =  $this->input->post('longitud');
-				
-				$address =  $this->security->xss_clean($this->input->post('address'));
-				$address =  addslashes($address);
-								
-				$sql = "UPDATE task";
-				$sql.= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
-				$sql.= " WHERE id_task=$idTask";
+				if($adminUpdate == 'x')
+				{
+					$idJob =  $this->input->post('jobName');
+					$observation =  $this->security->xss_clean($this->input->post('observation'));
+					$observation =  addslashes($observation);
+					$latitude =  $this->input->post('latitud');
+					$longitude =  $this->input->post('longitud');
+					
+					$address =  $this->security->xss_clean($this->input->post('address'));
+					$address =  addslashes($address);
+									
+					$sql = "UPDATE task";
+					$sql.= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+					$sql.= " WHERE id_task=$idTask";
+				}else{
+					$sql = "UPDATE task";
+					$sql.= " SET working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+					$sql.= " WHERE id_task=$idTask";		
+				}
+
+
 
 				$query = $this->db->query($sql);
 
@@ -238,7 +248,7 @@
 				$fechaStart = $this->input->post('start_date');
 				$horaStart = $this->input->post('start_hour');
 				$minStart = $this->input->post('start_min');
-				$fechaFinish = $this->input->post('finish_date');
+				$fechaFinish = $this->input->post('start_date');
 				$horaFinish = $this->input->post('finish_hour');
 				$minFinish = $this->input->post('finish_min');
 				
