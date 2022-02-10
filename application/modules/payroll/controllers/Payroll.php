@@ -390,5 +390,41 @@ class Payroll extends CI_Controller {
 			}
 			return TRUE;
 	}
+
+	/**
+	 * Payroll form search
+     * @since 10/02/2022
+     * @author BMOTTAG
+	 */
+    public function payrollSearchForm() 
+	{
+			$this->load->model("general_model");
+
+			//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+					
+			$arrParam = array("limit" => 10);
+			$data['infoPeriod'] = $this->general_model->get_period($arrParam);//lista de periodos los ultimos 10	
+
+			$data["view"] = "form_search";
+			
+			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
+			if($this->input->post('period')){
+				$period =  $this->input->post('period');
+				$data['employee'] =  $this->input->post('employee');
+				$data['employee'] = $data['employee']==''?'x':$data['employee'];
+
+				$arrParam = array(
+					"idPeriod" => $period,
+					"idEmployee" => $data['employee']
+				);
+
+				$data['info'] = $this->general_model->get_task_by_period($arrParam);
+				$data["view"] = "list_payroll";
+			}
+			
+			$this->load->view("layout_calendar", $data);
+    }
 	
 }
