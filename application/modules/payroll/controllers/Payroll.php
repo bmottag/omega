@@ -72,6 +72,7 @@ class Payroll extends CI_Controller {
 	 */
 	public function updatePayroll()
 	{	
+			$idTask =  $this->input->post('hddIdentificador');
 			$start =  $this->input->post('hddStart');
 			$fechaStart = strtotime($start);
 			$fechaStart = date("Y-m-d", $fechaStart);
@@ -82,7 +83,13 @@ class Payroll extends CI_Controller {
 			if($fechaStart == $fechaActual){
 				//update working time and working hours
 				$finish = date("Y-m-d G:i:s");
-				if ($this->payroll_model->updateWorkingTimePayroll($start, $finish)) {
+				if ($this->payroll_model->updateWorkingTimePayroll($start, $finish))
+				{
+					/**
+					 * Guardar el id del periodo en la tabla task
+				     * busco el periodo, sino existe lo creo
+					 */
+					$periodo = $this->save_period($idTask);
 					$this->session->set_flashdata('retornoExito', 'have a good night, you finished at ' . $hour . '.');
 				}else{
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');
@@ -94,8 +101,13 @@ class Payroll extends CI_Controller {
 					if($i == 1){
 						//debo actualizar el registro inicial
 						$finish = $fechaStart . " 23:59:59";
-//echo $start . "<br>" .$finish; exit;
 						$this->payroll_model->updateWorkingTimePayroll($start, $finish);
+
+						/**
+						 * Guardar el id del periodo en la tabla task
+					     * busco el periodo, sino existe lo creo
+						 */
+						$this->save_period($idTask);
 					}
 					
 					$fechaStart = new DateTime($fechaStart);
@@ -110,7 +122,12 @@ class Payroll extends CI_Controller {
 						$finish = $fechaStart . " 23:59:59";
 					}
 					//hago un insert nuevo
-					$this->payroll_model->insertWorkingTimePayroll($start, $finish);
+					$idTask = $this->payroll_model->insertWorkingTimePayroll($start, $finish);
+					/**
+					 * Guardar el id del periodo en la tabla task
+				     * busco el periodo, sino existe lo creo
+					 */
+					$this->save_period($idTask);
 				endwhile;
 			}
 
@@ -241,5 +258,122 @@ class Payroll extends CI_Controller {
 			
 			echo json_encode($data);
     }
+
+	/**
+	 * Busco a que periodo pertenece y se guarda el id periodo en la tabla de task
+     * @since 9/2/2022
+     * @author BMOTTAG
+	 */
+    function save_period($idTask) 
+	{
+			$this->load->model("general_model");
+			$idWeakPeriod = FALSE;
+
+			//mientras no tenga ID PERIDO entonces lo busco y si no existe creo 2 mas
+			while (!$idWeakPeriod) {
+				$idWeakPeriod = $this->search_period($idTask);//busco el ID del periodo en los ultimos 10
+								
+				//no esta dentro de ninguno de los ultimos 10 periodos entonces se genero 2 peridos mas
+				if(!$idWeakPeriod){
+					$this->generate_period();
+				}
+			} 
+		
+			//guardo el id en la tabla task			
+			$arrParam = array(
+				"table" => "task",
+				"primaryKey" => "id_task",
+				"id" => $idTask,
+				"column" => "fk_id_weak_period",
+				"value" => $idWeakPeriod
+			);
+			if ($this->general_model->updateRecord($arrParam)) {
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+    }
+
+	/**
+	 * Busco a que periodo pertenece
+     * @since 9/2/2022
+	 */
+    function search_period($idTask) 
+	{
+			//info for the payroll
+			$this->load->model("general_model");
+			$arrParam = array("idTask" => $idTask);			
+			$infoPayroll = $this->general_model->get_task($arrParam);//informacion del payroll
+			
+			$start = strtotime($infoPayroll[0]['start']);
+			$fechaStart = date( 'Y-m-j' , $start );
+			
+			$arrParam = array("limit" => 10);
+			$infoPeriod = $this->general_model->get_weak_period($arrParam);//lista de periodos los ultimos 10
+
+			//valido si la fecha esta dentro de alguno de los 10 ultimos periodos
+			$fechaStart = date_create($fechaStart);
+			
+			$idWeakPeriod = FALSE;
+			foreach ($infoPeriod as $data):
+				$periodoIni = date_create($data['date_weak_start']);
+				$periodoFin = date_create($data['date_weak_finish']);
+				
+				if($fechaStart >= $periodoIni && $fechaStart <= $periodoFin) {
+					//esta dentro del periodo entonces saco el id del periodo
+					$idWeakPeriod = $data['id_period_weak'];
+					break;
+				}
+			endforeach;
+		
+			return $idWeakPeriod;
+    }
+
+	/**
+	 * Genera 2 secuencias de periodos
+     * @since 9/2/2022
+     * @author BMOTTAG
+	 */
+	public function generate_period()
+	{			
+			$this->load->model("general_model");
+			
+			//genero 2 periodos nuevos
+			for ($i = 0; $i < 2; $i++) 
+			{
+				$arrParam = array("limit" => 1);
+				$infoPeriod = $this->general_model->get_period($arrParam);//info ultimo periodo
+			
+				//fecha inicial del siguiente periodo se le suma un dia a la fecha final del ultimo periodo
+				//fecha final del siguiente periodo se le suma 14 dias a la fecha final del ultimo periodo
+				$periodoIniNew = date('Y-m-d', strtotime ( '+1 day ' , strtotime ( $infoPeriod[0]['date_finish'] ) ) );//le sumo un dia 
+				$periodoFinNew = date('Y-m-d',strtotime ( '+14 day ' , strtotime ( $infoPeriod[0]['date_finish'] ) ) );//le sumo 14 dias
+				
+				//guardo el nuevo periodo
+				$arrParam = array(
+					"periodoIniNew" => $periodoIniNew,
+					"periodoFinNew" => $periodoFinNew
+				);
+
+				if($idPeriod = $this->payroll_model->savePeriod($arrParam))
+				{
+					//guardo las dos semanas del periodo
+					$semana1IniNew = date('Y-m-d', strtotime ( '+1 day ' , strtotime ( $infoPeriod[0]['date_finish'] ) ) );//le sumo un dia 
+					$semana1FinNew = date('Y-m-d',strtotime ( '+7 day ' , strtotime ( $infoPeriod[0]['date_finish'] ) ) );//le sumo 7 dias
+					$semana2IniNew = date('Y-m-d', strtotime ( '+1 day ' , strtotime ( $semana1FinNew ) ) );//le sumo un dia 
+					$semana2FinNew = date('Y-m-d',strtotime ( '+7 day ' , strtotime ( $semana1FinNew) ) );//le sumo 7 dias
+					//guardo la primer semana
+					$arrParam = array(
+						"idPeriod" => $idPeriod,
+						"semana1IniNew" => $semana1IniNew,
+						"semana1FinNew" => $semana1FinNew,
+						"semana2IniNew" => $semana2IniNew,
+						"semana2FinNew" => $semana2FinNew,
+					);
+					$this->payroll_model->saveWeakPeriod($arrParam);
+				}
+			}
+			return TRUE;
+	}
 	
 }

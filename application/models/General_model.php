@@ -40,10 +40,12 @@ class General_model extends CI_Model {
 		$this->db->join('param_jobs H', 'H.id_job = T.fk_id_job_finish', 'LEFT');
 		$this->db->join('param_operation O', 'O.id_operation = T.fk_id_operation', 'INNER');
 		
+		if (array_key_exists("idTask", $arrData)) {
+			$this->db->where('id_task', $arrData["idTask"]);
+		}
         if (array_key_exists("idEmployee", $arrData)) {
             $this->db->where('U.id_user', $arrData["idEmployee"]);
         }
-
 		if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
 			$this->db->where('T.start >=', $arrData["from"]);
 		}				
@@ -1269,6 +1271,56 @@ class General_model extends CI_Model {
 				if ($query->num_rows() >= 1) {
 					return true;
 				} else{ return false; }
+		}
+
+		/**
+		 * PERIOD
+		 * @since 9/02/2022
+		 */
+		public function get_period($arrData) 
+		{				
+				if (array_key_exists("idPeriod", $arrData)) {
+					$this->db->where('id_period', $arrData["idPeriod"]);
+				}
+				
+				$this->db->order_by('id_period', 'desc');
+				
+				if (array_key_exists("limit", $arrData)) {
+					$query = $this->db->get('payroll_period', $arrData["limit"]);
+				}else{
+					$query = $this->db->get('payroll_period');
+				}				
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * WEAK PERIOD
+		 * @since 9/02/2022
+		 */
+		public function get_weak_period($arrData) 
+		{				
+				if (array_key_exists("idPeriodWeak", $arrData)) {
+					$this->db->where('id_period_weak', $arrData["idPeriodWeak"]);
+				}
+				
+				$this->db->order_by('id_period_weak', 'desc');
+				
+				if (array_key_exists("limit", $arrData)) {
+					$query = $this->db->get('payroll_period_weaks', $arrData["limit"]);
+				}else{
+					$query = $this->db->get('payroll_period_weaks');
+				}				
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
 		}
 
 

@@ -193,9 +193,10 @@
 								$latitude, $longitude, '$address', '$workingTime', $workingHours, $regularHours, $overtimeHours)";
 								
 				$query = $this->db->query($sql);
+				$idtask = $this->db->insert_id();
 
 				if ($query) {
-					return true;
+					return $idtask;
 				} else {
 					return false;
 				}
@@ -264,6 +265,62 @@
 					$this->db->where('id_job_jso_worker', $idJobJsoWorker);
 					$query = $this->db->update('job_jso_workers', $data);
 				}
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add PERIOD
+		 * @since 9/02/2022
+		 */
+		public function savePeriod($arrData)
+		{				
+				$period = $arrData["periodoIniNew"] . " --> " . $arrData["periodoFinNew"];
+				
+				$data = array(
+					'date_start' => $arrData["periodoIniNew"],
+					'date_finish' => $arrData["periodoFinNew"],
+					'period' => $period
+				);	
+				
+				$query = $this->db->insert('payroll_period', $data);
+				$idPeriod = $this->db->insert_id();
+
+				if ($query) {
+					return $idPeriod;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add Weak PERIOD
+		 * @since 9/02/2022
+		 */
+		public function saveWeakPeriod($arrData)
+		{				
+				$weak1 = $arrData["semana1IniNew"] . " --> " . $arrData["semana1FinNew"];
+				$weak2 = $arrData["semana2IniNew"] . " --> " . $arrData["semana2FinNew"];
+				
+				$data = array(
+					'fk_id_period' => $arrData["idPeriod"],
+					'date_weak_start' => $arrData["semana1IniNew"],
+					'date_weak_finish' => $arrData["semana1FinNew"],
+					'period_weak' => $weak1
+				);	
+				$query = $this->db->insert('payroll_period_weaks', $data);
+				
+				$data = array(
+					'fk_id_period' => $arrData["idPeriod"],
+					'date_weak_start' => $arrData["semana2IniNew"],
+					'date_weak_finish' => $arrData["semana2FinNew"],
+					'period_weak' => $weak2
+				);	
+				$query = $this->db->insert('payroll_period_weaks', $data);
 
 				if ($query) {
 					return true;
