@@ -320,7 +320,8 @@
 					'fk_id_period' => $arrData["idPeriod"],
 					'date_weak_start' => $arrData["semana1IniNew"],
 					'date_weak_finish' => $arrData["semana1FinNew"],
-					'period_weak' => $weak1
+					'period_weak' => $weak1,
+					'weak_number' => 1
 				);	
 				$query = $this->db->insert('payroll_period_weaks', $data);
 				
@@ -328,7 +329,8 @@
 					'fk_id_period' => $arrData["idPeriod"],
 					'date_weak_start' => $arrData["semana2IniNew"],
 					'date_weak_finish' => $arrData["semana2FinNew"],
-					'period_weak' => $weak2
+					'period_weak' => $weak2,
+					'weak_number' => 2
 				);	
 				$query = $this->db->insert('payroll_period_weaks', $data);
 

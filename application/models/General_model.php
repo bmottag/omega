@@ -1327,6 +1327,32 @@ class General_model extends CI_Model {
 	     * Modules: Payroll/search
 	     * @since 10/02/2022
 	     */
+	    public function get_users_by_period($arrData) 
+		{
+		        $this->db->select("T.fk_id_user");
+		        $this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
+				$this->db->join('payroll_period_weaks W', 'W.id_period_weak = T.fk_id_weak_period', 'LEFT');
+				$this->db->join('payroll_period P', 'P.id_period = W.fk_id_period', 'INNER');
+				
+		        if (array_key_exists("idPeriod", $arrData)) {
+		            $this->db->where('P.id_period', $arrData["idPeriod"]);
+		        }
+		        $this->db->group_by("T.fk_id_user");
+				$this->db->order_by('U.first_name, U.last_name', 'asc');
+		        $query = $this->db->get('task T');
+
+		        if ($query->num_rows() > 0) {
+		            return $query->result_array();
+		        } else {
+		            return false;
+		        }
+	    }
+
+	    /**
+	     * Task list
+	     * Modules: Payroll/search
+	     * @since 11/02/2022
+	     */
 	    public function get_task_by_period($arrData) 
 		{
 		        $this->db->select("T.*, CONCAT(first_name, ' ', last_name) name, id_user, W.period_weak");
@@ -1334,16 +1360,15 @@ class General_model extends CI_Model {
 				$this->db->join('payroll_period_weaks W', 'W.id_period_weak = T.fk_id_weak_period', 'LEFT');
 				$this->db->join('payroll_period P', 'P.id_period = W.fk_id_period', 'INNER');
 				
-				if (array_key_exists("idTask", $arrData)) {
-					$this->db->where('id_task', $arrData["idTask"]);
-				}
-				if (array_key_exists("employee", $arrData) && $arrData["employee"] != 'x') {
-					$this->db->where('U.id_user', $arrData["employee"]);
+				if (array_key_exists("idUser", $arrData)) {
+					$this->db->where('U.id_user', $arrData["idUser"]);
 				}
 		        if (array_key_exists("idPeriod", $arrData)) {
 		            $this->db->where('P.id_period', $arrData["idPeriod"]);
 		        }
-				
+		        if (array_key_exists("weakNumber", $arrData)) {
+		            $this->db->where('W.weak_number', $arrData["weakNumber"]);
+		        }
 				$this->db->order_by('id_task', 'asc');
 		        $query = $this->db->get('task T');
 

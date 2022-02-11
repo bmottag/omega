@@ -25,86 +25,144 @@ $(function(){
 <div id="page-wrapper">
 
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-						<i class="fa fa-bar-chart-o fa-fw"></i> PAYROLL BY PERIOD
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 
-	<!-- /.row -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="btn btn-success btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-clock-o fa-fw"></i> PAYROLL REPORT
-				</div>
-				<!-- /.panel-heading -->
-				<div class="panel-body">
-				<div class="alert alert-info">
-					<strong>Period: </strong>
-					<strong>To Date: </strong>
-					
-
-				</div>
 				<?php
 					if(!$info){
 				?>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-violeta">
+				<div class="panel-heading">
+					<a class="btn btn-violeta btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT - Period: </b> <?php echo $infoPeriod[0]["period"]; ?>
+				</div>
+
+				<div class="panel-body">
 					<div class="alert alert-danger">
 						No data was found matching your criteria. 
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 				<?php
 					}else{
-				?>
-					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
-						<thead>
-							<tr>
-								<th class='text-center'>Employee Name</th>
-								<th class='text-center'>Date & Time - Start</th>
-								<th class='text-center'>Date & Time - Finish</th>
-								<th class='text-center'>Working Hours</th>
-								<th class='text-center'>Regular Hours</th>
-								<th class='text-center'>Overtime Hours</th>
-								<th class='text-center'>Total Hours</th>
-							</tr>
-						</thead>
-						<tbody>							
-						<?php
-							$total = 0;
-							foreach ($info as $lista):
-								echo "<tr>";
-								echo "<td class='text-left'>" . $lista['name'] . "</td>";								
-								echo "<td class='text-center'>" . $lista['start'] . "</td>";
-								echo "<td class='text-center'>" . $lista['finish'] . "</td>";
-								echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
-								echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
-								echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
-								$total = $lista['working_hours'] + $total;
-								echo "<td class='text-right'><strong>" . $total . "</strong></td>";
-								echo "</tr>";
-							endforeach;
-						?>
-						</tbody>
-					</table>
-				<?php }	?>
-				</div>
-				<!-- /.panel-body -->
-			</div>
-			<!-- /.panel -->
-		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-	
 
+						foreach ($info as $lista):
+							$arrParam = array(
+								"idUser" => $lista['fk_id_user'],
+								"idPeriod" => $infoPeriod[0]["id_period"],
+								"weakNumber" => 1
+							);
+							$infoPayrollUser1 = $this->general_model->get_task_by_period($arrParam);
+
+							$arrParam = array(
+								"idUser" => $lista['fk_id_user'],
+								"idPeriod" => $infoPeriod[0]["id_period"],
+								"weakNumber" => 2
+							);
+							$infoPayrollUser2 = $this->general_model->get_task_by_period($arrParam);
+				?>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-violeta">
+				<div class="panel-heading">
+					<a class="btn btn-violeta btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT - Period: </b> <?php echo $infoPeriod[0]["period"]; ?>
+				</div>
+
+				<div class="panel-body">
+							<div class="alert alert-default">
+								<h2><i class="fa fa-user"></i> <b>Employee: </b> 
+								<?php 
+									if($infoPayrollUser1){
+										echo $infoPayrollUser1[0]["name"];
+									}else{
+										echo $infoPayrollUser2[0]["name"]; 
+									}
+								?></h2>
+							</div>
+							<table width="100%" class="table table-hover" id="dataTables">
+								<thead>
+									<tr>
+										<th class='text-center'>Date & Time - Start</th>
+										<th class='text-center'>Date & Time - Finish</th>
+										<th class='text-center'>Working Hours</th>
+										<th class='text-center'>Regular Hours</th>
+										<th class='text-center'>Overtime Hours</th>
+									</tr>
+								</thead>
+								<tbody>							
+								<?php
+									if($infoPayrollUser1)
+									{
+										echo "<tr><td class='text-center' colspan='6'>";
+										echo "<p class='text-danger'><b>First Weak: " . $infoPayrollUser1[0]["period_weak"] . "</b></p>";
+										echo "</td></tr>";
+										$total = 0;
+										$totalRegular = 0;
+										$totalOvertime = 0;
+										foreach ($infoPayrollUser1 as $lista):
+											echo "<tr>";							
+											echo "<td class='text-center'>" . $lista['start'] . "</td>";
+											echo "<td class='text-center'>" . $lista['finish'] . "</td>";
+											echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
+											echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
+											echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
+											$total = $lista['working_hours'] + $total;
+											$totalRegular = $lista['regular_hours'] + $totalRegular;
+											$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
+											echo "</tr>";
+										endforeach;
+											echo "<tr><td></td>";
+											echo "<td class='text-right'><strong>Total per weak:</strong></td>";
+											echo "<td class='text-right'><strong>" . $total . "</strong></td>";
+											echo "<td class='text-right'><strong>" . $totalRegular . "</strong></td>";
+											echo "<td class='text-right'><strong>" . $totalOvertime . "</strong></td>";
+											echo "</tr>";
+											echo "<tr><td colspan='5'><br></td></tr>";
+									}
+									if($infoPayrollUser2)
+									{
+										echo "<tr><td class='text-center' colspan='6'>";
+										echo "<p class='text-danger'><b>Second Weak: " . $infoPayrollUser2[0]["period_weak"] . "</b></p>";
+										echo "</td></tr>";
+										$total = 0;
+										$totalRegular = 0;
+										$totalOvertime = 0;
+										foreach ($infoPayrollUser2 as $lista):
+											echo "<tr>";							
+											echo "<td class='text-center'>" . $lista['start'] . "</td>";
+											echo "<td class='text-center'>" . $lista['finish'] . "</td>";
+											echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
+											echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
+											echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
+											$total = $lista['working_hours'] + $total;
+											$totalRegular = $lista['regular_hours'] + $totalRegular;
+											$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
+											echo "</tr>";
+										endforeach;
+											echo "<tr><td></td>";
+											echo "<td class='text-right'><strong>Total per weak:</strong></td>";
+											echo "<td class='text-right'><strong>" . $total . "</strong></td>";
+											echo "<td class='text-right'><strong>" . $totalRegular . "</strong></td>";
+											echo "<td class='text-right'><strong>" . $totalOvertime . "</strong></td>";
+											echo "</tr>";
+									}
+								?>
+								</tbody>
+							</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+				<?php
+						endforeach;
+				 	}	
+				?>
 </div>
-<!-- /#page-wrapper -->
+
 
 <!--INICIO Modal cambio de hora-->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    

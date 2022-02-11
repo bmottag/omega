@@ -415,12 +415,15 @@ class Payroll extends CI_Controller {
 				$data['employee'] =  $this->input->post('employee');
 				$data['employee'] = $data['employee']==''?'x':$data['employee'];
 
+				$arrParam = array("idPeriod" => $period);
+				$data['infoPeriod'] = $this->general_model->get_period($arrParam);//info del periodo
+
 				$arrParam = array(
 					"idPeriod" => $period,
 					"idEmployee" => $data['employee']
 				);
 
-				$data['info'] = $this->general_model->get_task_by_period($arrParam);
+				$data['info'] = $this->general_model->get_users_by_period($arrParam);
 				$data["view"] = "list_payroll";
 			}
 			
