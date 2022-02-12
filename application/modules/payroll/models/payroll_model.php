@@ -289,7 +289,7 @@
 		 */
 		public function savePeriod($arrData)
 		{				
-				$period = $arrData["periodoIniNew"] . " --> " . $arrData["periodoFinNew"];
+				$period = $arrData["periodoIniNew"] . " - " . $arrData["periodoFinNew"];
 				
 				$data = array(
 					'date_start' => $arrData["periodoIniNew"],
@@ -313,8 +313,8 @@
 		 */
 		public function saveWeakPeriod($arrData)
 		{				
-				$weak1 = $arrData["semana1IniNew"] . " --> " . $arrData["semana1FinNew"];
-				$weak2 = $arrData["semana2IniNew"] . " --> " . $arrData["semana2FinNew"];
+				$weak1 = $arrData["semana1IniNew"] . " - " . $arrData["semana1FinNew"];
+				$weak2 = $arrData["semana2IniNew"] . " - " . $arrData["semana2FinNew"];
 				
 				$data = array(
 					'fk_id_period' => $arrData["idPeriod"],

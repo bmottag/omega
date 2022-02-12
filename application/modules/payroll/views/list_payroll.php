@@ -87,21 +87,28 @@ $(function(){
 									<tr>
 										<th class='text-center'>Date & Time - Start</th>
 										<th class='text-center'>Date & Time - Finish</th>
-										<th class='text-center'>Working Hours</th>
-										<th class='text-center'>Regular Hours</th>
-										<th class='text-center'>Overtime Hours</th>
+										<th class='text-right'>Worked Hours</th>
+										<th class='text-right'>Regular Hours</th>
+										<th class='text-right'>Daily Overtime Hours</th>
 									</tr>
 								</thead>
 								<tbody>							
 								<?php
+									$totalHours1 = 0;
+									$totalHours2 = 0;
+									$actualRegularHours1 = 0;
+									$actualOvertimeHours1 = 0;
+									$actualRegularHours2 = 0;
+									$actualOvertimeHours2 = 0;
 									if($infoPayrollUser1)
 									{
-										echo "<tr><td class='text-center' colspan='6'>";
+										echo "<tr><td class='text-left' colspan='6'>";
 										echo "<p class='text-danger'><b>First Weak: " . $infoPayrollUser1[0]["period_weak"] . "</b></p>";
 										echo "</td></tr>";
-										$total = 0;
 										$totalRegular = 0;
 										$totalOvertime = 0;
+										$totalRegularWeek = 0;
+										$weeklyOvertime = 0;
 										foreach ($infoPayrollUser1 as $lista):
 											echo "<tr>";							
 											echo "<td class='text-center'>" . $lista['start'] . "</td>";
@@ -109,27 +116,55 @@ $(function(){
 											echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
 											echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
 											echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
-											$total = $lista['working_hours'] + $total;
+											$totalHours1 = $lista['working_hours'] + $totalHours1;
 											$totalRegular = $lista['regular_hours'] + $totalRegular;
 											$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
 											echo "</tr>";
 										endforeach;
-											echo "<tr><td></td>";
-											echo "<td class='text-right'><strong>Total per weak:</strong></td>";
-											echo "<td class='text-right'><strong>" . $total . "</strong></td>";
-											echo "<td class='text-right'><strong>" . $totalRegular . "</strong></td>";
-											echo "<td class='text-right'><strong>" . $totalOvertime . "</strong></td>";
+											echo "<tr><td></td><td></td>";
+											echo "<td class='text-right'><strong>Total weekly hours:<br>" . $totalHours1 . "</strong></td>";
+											echo "<td class='text-right'><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></td>";
+											echo "<td class='text-right'><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></td>";
+											echo "</tr>";
+
+											if($totalHours1 > 44){
+												$totalRegularWeek = 44;
+												$weeklyOvertime = $totalHours1 - $totalRegularWeek;
+											}else{
+												$totalRegularWeek = $totalHours1;
+											}
+
+											echo "<tr><td></td><td></td><td></td>";
+											echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . $totalRegularWeek . "</strong></td>";
+											echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . $weeklyOvertime . "</strong></td>";
+											echo "</tr>";
+
+											if($weeklyOvertime > $totalOvertime){
+												$actualRegularHours1 = $totalRegularWeek;
+												$actualOvertimeHours1 = $weeklyOvertime;
+											}else{
+												$actualRegularHours1 = $totalRegular;
+												$actualOvertimeHours1 = $totalOvertime;
+											}
+											echo "<tr><td></td><td></td><td></td>";
+											echo "<td class='text-right'>";
+											echo "<p class='text-primary'><b>Actual regular hours:<br> " . $actualRegularHours1 . "</b></p>";
+											echo "</td>";
+											echo "<td class='text-right'>";
+											echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . $actualOvertimeHours1 . "</b></p>";
+											echo "</td>";
 											echo "</tr>";
 											echo "<tr><td colspan='5'><br></td></tr>";
 									}
 									if($infoPayrollUser2)
 									{
-										echo "<tr><td class='text-center' colspan='6'>";
+										echo "<tr><td class='text-left' colspan='6'>";
 										echo "<p class='text-danger'><b>Second Weak: " . $infoPayrollUser2[0]["period_weak"] . "</b></p>";
 										echo "</td></tr>";
-										$total = 0;
 										$totalRegular = 0;
 										$totalOvertime = 0;
+										$totalRegularWeek = 0;
+										$weeklyOvertime = 0;
 										foreach ($infoPayrollUser2 as $lista):
 											echo "<tr>";							
 											echo "<td class='text-center'>" . $lista['start'] . "</td>";
@@ -137,18 +172,56 @@ $(function(){
 											echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
 											echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
 											echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
-											$total = $lista['working_hours'] + $total;
+											$totalHours2 = $lista['working_hours'] + $totalHours2;
 											$totalRegular = $lista['regular_hours'] + $totalRegular;
 											$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
 											echo "</tr>";
 										endforeach;
-											echo "<tr><td></td>";
-											echo "<td class='text-right'><strong>Total per weak:</strong></td>";
-											echo "<td class='text-right'><strong>" . $total . "</strong></td>";
-											echo "<td class='text-right'><strong>" . $totalRegular . "</strong></td>";
-											echo "<td class='text-right'><strong>" . $totalOvertime . "</strong></td>";
+											echo "<tr><td></td><td></td>";
+											echo "<td class='text-right'><strong>Total weekly hours:<br>" . $totalHours2 . "</strong></td>";
+											echo "<td class='text-right'><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></td>";
+											echo "<td class='text-right'><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></td>";
 											echo "</tr>";
+
+											if($totalHours2 > 44){
+												$totalRegularWeek = 44;
+												$weeklyOvertime = $totalHours2 - $totalRegularWeek;
+											}else{
+												$totalRegularWeek = $totalHours2;
+											}
+
+											echo "<tr><td></td><td></td><td></td>";
+											echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . $totalRegularWeek . "</strong></td>";
+											echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . $weeklyOvertime . "</strong></td>";
+											echo "</tr>";
+
+											if($weeklyOvertime > $totalOvertime){
+												$actualRegularHours2 = $totalRegularWeek;
+												$actualOvertimeHours2 = $weeklyOvertime;
+											}else{
+												$actualRegularHours2 = $totalRegular;
+												$actualOvertimeHours2 = $totalOvertime;
+											}
+											echo "<tr><td></td><td></td><td></td>";
+											echo "<td class='text-right'>";
+											echo "<p class='text-primary'><b>Actual regular hours:<br> " . $actualRegularHours2 . "</b></p>";
+											echo "</td>";
+											echo "<td class='text-right'>";
+											echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . $actualOvertimeHours2 . "</b></p>";
+											echo "</td>";
+											echo "</tr>";
+											echo "<tr><td colspan='5'><br></td></tr>";
 									}
+											$totalWorked = $totalHours1 + $totalHours2;
+											$totalRegularHours = $actualRegularHours1 + $actualRegularHours2;
+											$totalOvertimeHours = $actualOvertimeHours1 + $actualOvertimeHours2;
+
+											echo "<tr class='danger text-danger'><td></td>";
+											echo "<td class='text-right'><strong>CUT-OFF:</strong></td>";
+											echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
+											echo "<td class='text-right'><strong>Total regular hours:<br>" . $totalRegularHours . "</strong></td>";
+											echo "<td class='text-right'><strong>Total overtime hours:<br>" . $totalOvertimeHours . "</strong></td>";
+											echo "</tr>";
 								?>
 								</tbody>
 							</table>
