@@ -122,6 +122,8 @@
 <br><strong>Reports:</strong> Hauling Report
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
+<br><strong>Accounting:</strong> Payroll by period
+<br>----------------------------
 <br><strong>Settings:</strong> Job Code/Name
 <br>----------------------------
 <br><strong>Manuals</strong>
@@ -180,7 +182,8 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Special Equipment Inspection Report
 <br>----------------------------
-<br>* <strong>Settings:</strong> Planning ---> can only see list
+<br>* <strong>Settings:</strong> Employee ---> This role can only update the employee certifacates.
+<br>* <strong>Settings:</strong> Planning ---> This role can only see the information.
 <br><strong>Settings:</strong> Hazard
 <br><strong>Settings:</strong> Hazard activity
 <br><strong>Settings:</strong> Vehicles
@@ -188,6 +191,7 @@
 <br><strong>Settings:</strong> Vechicle stock
 <br><strong>Settings:</strong> Link to videos
 <br><strong>Settings:</strong> Link to manuals
+<br><strong>Settings:</strong> Certificate list
 <br>----------------------------
 <br><strong>Manuals</strong>
 					</p>
@@ -237,11 +241,13 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
-<br>* <strong>Settings:</strong> Employee ---> can only see list
+<br><strong>Accounting:</strong> Payroll by period
+<br>----------------------------
+<br>* <strong>Settings:</strong> Employee ---> This role can only see the information.
 <br><strong>Settings:</strong> Job Code/Name
 <br><strong>Settings:</strong> Company
-<br>* <strong>Settings:</strong> Vehicles ---> can only see list
-<br>* <strong>Settings:</strong> Rentals ---> can only see list
+<br>* <strong>Settings:</strong> Vehicles ---> This role can only see the information.
+<br>* <strong>Settings:</strong> Rentals ---> This role can only see the information.
 <br>----------------------------
 <br><strong>Manuals</strong>
 					</p>
@@ -292,12 +298,12 @@
 <br><strong>Reports:</strong> Construction Equipment Inspection Report
 <br><strong>Reports:</strong> Work Order Report
 <br>----------------------------
-<br>* <strong>Settings:</strong> Employee ---> can only see list
+<br>* <strong>Settings:</strong> Employee ---> This role can only see the information.
 <br><strong>Settings:</strong> Job Code/Name
 <br><strong>Settings:</strong> Planning
 <br><strong>Settings:</strong> Company
-<br>* <strong>Settings:</strong> Vehicles ---> can only see list
-<br>* <strong>Settings:</strong> Rentals ---> can only see list
+<br>* <strong>Settings:</strong> Vehicles ---> This role can only see the information.
+<br>* <strong>Settings:</strong> Rentals ---> This role can only see the information.
 <br>----------------------------
 <br><strong>Manuals</strong>
 					</p>
