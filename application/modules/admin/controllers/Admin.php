@@ -1170,9 +1170,9 @@ class Admin extends CI_Controller {
 			
 			$idCertificate = $this->input->post('hddId');
 			
-			$msj = "You have add a new Certificate!!";
+			$msj = "You have added a new Certificate!!";
 			if ($idCertificate != '') {
-				$msj = "You have update a Certificate!!";
+				$msj = "You have updated a Certificate!!";
 			}
 
 			if ($this->admin_model->saveCertificate()) {
