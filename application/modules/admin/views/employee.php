@@ -138,9 +138,16 @@ if ($retornoError) {
 								<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" title="Edit" >
 									<i class='fa fa-pencil'></i>
 								</button>
-
-								<a href="<?php echo base_url("admin/userCertificates/" . $lista['id_user']); ?>" class="btn btn-info btn-xs" title="Certificates"><i class='fa fa-link'></i></a>	
-
+						<?php
+								}
+								//SOLO SE HABILITA EL BOTON DE CERTIFICADOS PARA EL USUARIO SUPER ADMINISTRADOR Y SAFETY 
+								if($userRol == 99 || $userRol == 4){
+						?>
+								<a href="<?php echo base_url("admin/userCertificates/" . $lista['id_user']); ?>" class="btn btn-info btn-xs" title="Certificates"><i class='fa fa-link'></i></a>
+						<?php
+								}
+								if(!$deshabilitar){ 					
+						?>
 								<a href="<?php echo base_url("admin/change_password/" . $lista['id_user']); ?>" class="btn btn-violeta btn-xs" title="Change password"><i class='fa fa-lock'></i></a>	
 						<?php
 								}
