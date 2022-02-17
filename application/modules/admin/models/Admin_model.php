@@ -617,6 +617,37 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Update employee rate
+		 * @since 16/2/2022
+		 */
+		public function updateEmployeeRate() 
+		{
+			//update states
+			$query = 1;
+			
+			$employee = $this->input->post('form');
+			if ($employee) {
+				$tot = count($employee['id']);
+				
+				for ($i = 0; $i < $tot; $i++) 
+				{					
+					$data = array(
+						'employee_rate' => $employee['employee_rate'][$i],
+						'employee_type' => $employee['type'][$i]
+					);
+					$this->db->where('id_user', $employee['id'][$i]);
+					$query = $this->db->update('user', $data);
+				}
+			}
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
 		
 		
 	    

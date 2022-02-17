@@ -18,8 +18,6 @@ class Admin extends CI_Controller {
 	public function employee($state)
 	{			
 			$data['state'] = $state;
-			
-			$this->load->model("general_model");
 			if($state == 1){
 				$arrParam = array("filtroState" => TRUE);
 			}else{
@@ -43,7 +41,6 @@ class Admin extends CI_Controller {
 			$data['information'] = FALSE;
 			$data["idEmployee"] = $this->input->post("idEmployee");	
 			
-			$this->load->model("general_model");
 			$arrParam = array("filtro" => TRUE);
 			$data['roles'] = $this->general_model->get_roles($arrParam);
 
@@ -156,7 +153,6 @@ class Admin extends CI_Controller {
 	 */
 	public function material()
 	{
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_material_type",
 				"order" => "material",
@@ -180,7 +176,6 @@ class Admin extends CI_Controller {
 			$data["idMaterial"] = $this->input->post("idMaterial");	
 			
 			if ($data["idMaterial"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "param_material_type",
 					"order" => "id_material",
@@ -232,7 +227,6 @@ class Admin extends CI_Controller {
 	 */
 	public function company()
 	{
-			$this->load->model("general_model");
 			//se filtra por company_type para que solo se pueda editar los subcontratistas
 			$arrParam = array(
 				"table" => "param_company",
@@ -258,7 +252,6 @@ class Admin extends CI_Controller {
 			$data["idCompany"] = $this->input->post("idCompany");	
 			
 			if ($data["idCompany"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "param_company",
 					"order" => "id_company",
@@ -327,7 +320,6 @@ class Admin extends CI_Controller {
 			$data['information'] = FALSE;
 			$data["idHazard"] = $this->input->post("idHazard");	
 			
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_hazard_activity",
 				"order" => "hazard_activity",
@@ -398,7 +390,6 @@ class Admin extends CI_Controller {
 	{
 			$data['state'] = $state;
 		
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_jobs",
 				"order" => "job_description",				
@@ -423,7 +414,6 @@ class Admin extends CI_Controller {
 			$data["idJob"] = $this->input->post("idJob");	
 			
 			if ($data["idJob"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "param_jobs",
 					"order" => "id_job",
@@ -508,7 +498,6 @@ class Admin extends CI_Controller {
 			$data["companyType"] = $porciones[0];
 			$data["idVehicle"] = $porciones[1];		
 			
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_company",
 				"order" => "company_name",
@@ -681,7 +670,6 @@ class Admin extends CI_Controller {
 				"value" => $path
 			);
 
-			$this->load->model("general_model");
 			$data['linkBack'] = "admin/vehicle/" . $vistaRegreso;
 			$data['titulo'] = "<i class='fa fa-automobile'></i>VEHICLE";
 			
@@ -789,7 +777,6 @@ class Admin extends CI_Controller {
 	 */
 	public function employeeType()
 	{
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_employee_type",
 				"order" => "employee_type",
@@ -813,7 +800,6 @@ class Admin extends CI_Controller {
 			$data["idEmployeeType"] = $this->input->post("idEmployeeType");	
 			
 			if ($data["idEmployeeType"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "param_employee_type",
 					"order" => "id_employee_type",
@@ -865,7 +851,6 @@ class Admin extends CI_Controller {
 	 */
 	public function hazardActivity()
 	{
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_hazard_activity",
 				"order" => "hazard_activity",
@@ -889,7 +874,6 @@ class Admin extends CI_Controller {
 			$data["idHazardActivity"] = $this->input->post("idHazardActivity");	
 			
 			if ($data["idHazardActivity"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "param_hazard_activity",
 					"order" => "id_hazard_activity",
@@ -945,7 +929,6 @@ class Admin extends CI_Controller {
 				show_error('ERROR!!! - You are in the wrong place. The ID USER is missing.');
 			}
 			
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "user",
 				"order" => "id_user",
@@ -1019,7 +1002,6 @@ class Admin extends CI_Controller {
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 		
-			$this->load->model("general_model");	
 			//busco datos del vehiculo
 			$arrParam['idVehicle'] = $this->input->post("idVehicle");
 			$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
@@ -1046,7 +1028,6 @@ class Admin extends CI_Controller {
 	 */
 	public function stock()
 	{
-			$this->load->model("general_model");
 			//se filtra por company_type para que solo se pueda editar los subcontratistas
 			$arrParam = array(
 				"table" => "stock",
@@ -1071,7 +1052,6 @@ class Admin extends CI_Controller {
 			$data["idStock"] = $this->input->post("idStock");
 			
 			if ($data["idStock"] != 'x') {
-				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "stock",
 					"order" => "id_stock",
@@ -1526,5 +1506,38 @@ class Admin extends CI_Controller {
 			}	
 			return true;
     }
+
+	/**
+	 * Employee Rate List
+     * @since 16/2/2022
+     * @author BMOTTAG
+	 */
+	public function employeeRate()
+	{
+			$this->load->model("general_model");
+			$arrParam = array("filtroState" => TRUE);
+			$data['info'] = $this->general_model->get_user($arrParam);
+			
+			$data["view"] = 'employee_rate';
+			$this->load->view("layout", $data);
+	}
+	
+	/**
+	 * Update the employee rate of each field
+     * @since 16/2/2022
+     * @author BMOTTAG
+	 */
+	public function update_employee_rate()
+	{	
+			if ($this->admin_model->updateEmployeeRate()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have updated the Employee Rate List!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url("admin/employeeRate"), 'refresh');
+	}
 	
 }
