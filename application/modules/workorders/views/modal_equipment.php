@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/ajaxTrucks_v2.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/equipment_v3.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/equipment.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">EQUIPMENT
@@ -62,19 +62,22 @@
 						<input type="text" id="otherEquipment" name="otherEquipment" class="form-control" placeholder="Tools" >
 					</div>
 				</div>
-				
-		<div class="form-group text-left">
-			<div id="div_operated">
-				<label for="operatedby">Operated by: *</label>
-				<select name="operatedby" id="operatedby" class="form-control" required>
-					<option value=''>Select...</option>
-					<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-						<option value="<?php echo $workersList[$i]["id_user"]; ?>" ><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
-					<?php } ?>
-				</select>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<div id="div_operated">
+						<label for="operatedby">Operated by: *</label>
+						<select name="operatedby" id="operatedby" class="form-control" >
+							<option value=''>Select...</option>
+							<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+								<option value="<?php echo $workersList[$i]["id_user"]; ?>" ><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+							<?php } ?>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
-
 		
 		<div class="row">
 			<div class="col-sm-6">

@@ -1,13 +1,20 @@
 $( document ).ready( function () {
 
-	
+jQuery.validator.addMethod("fieldOperated", function(value, element, param) {
+	var standby = $('#standby').val();
+	if(standby == 2 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");	
+
 	$( "#formEquipment" ).validate( {
 		rules: {
 			type: 				{ required: true },
-			truck: 				{ required: true },
-			operatedby: 		{ required: true },
 			hour: 				{ required: true, number: true, maxlength:10 },
 			quantity: 			{ number: true, maxlength:10 },
+			operatedby:			{ fieldOperated: true },
 			description: 		{ required: true }
 		},
 		errorElement: "em",
@@ -18,10 +25,12 @@ $( document ).ready( function () {
 
 		},
 		highlight: function ( element, errorClass, validClass ) {
-			$( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
 		},
 		unhighlight: function (element, errorClass, validClass) {
-			$( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
 		},
 		submitHandler: function (form) {
 			return true;
