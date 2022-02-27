@@ -52,10 +52,12 @@ $(function(){
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -64,15 +66,17 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
 }
-?> 
+?>
 
 				<?php
 					if(!$info){
@@ -110,12 +114,21 @@ if ($retornoError) {
  */
 	$userRol = $this->session->rol;
 	if($userRol==99 || $userRol==3){
+		//si no se ahn pagado entonces se pueden editar
+		if($lista['period_status']==1){
 
 						?>
 								<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_task']; ?>" >
 									Edit Hours <span class="glyphicon glyphicon-edit" aria-hidden="true">
 								</button>									
 						<?php
+		}else{
+						?>
+								<div class="alert alert-danger">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> These hours have already been paid, they cannot be edited.
+								</div>
+						<?php			
+		}
 	}
 								echo "</td>";
 								

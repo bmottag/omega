@@ -2861,7 +2861,7 @@ if($lista["with_trailer"] == 1){
 			$data['info'] = $this->report_model->get_payroll($arrParam);
 			$data["view"] = "list_payroll_v2";
 			
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
     }
 	
 

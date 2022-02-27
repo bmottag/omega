@@ -1306,6 +1306,10 @@ class General_model extends CI_Model {
 				if (array_key_exists("idPeriodWeak", $arrData)) {
 					$this->db->where('id_period_weak', $arrData["idPeriodWeak"]);
 				}
+
+				if (array_key_exists("idPeriod", $arrData)) {
+					$this->db->where('fk_id_period', $arrData["idPeriod"]);
+				}
 				
 				$this->db->order_by('id_period_weak', 'desc');
 				

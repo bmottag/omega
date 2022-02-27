@@ -404,5 +404,30 @@
 				}
 		}
 
+		/**
+		 * Update task estatus
+		 * @since 27/2/2022
+		 */
+		public function updateTaskStatus() 
+		{			
+				$idPeriod =  $this->input->post('period');
+				$idEmployee =  $this->input->post('hddIdUser');
+				$idWeak1 =  $this->input->post('hddIdWeakPeriod1');
+				$idWeak2 =  $this->input->post('hddIdWeakPeriod2');	
+
+				$idWeaks = array($idWeak1, $idWeak2);
+				$data['period_status'] = 2;
+
+				$this->db->where('fk_id_user', $idEmployee);
+				$this->db->where_in('fk_id_weak_period', $idWeaks);
+				$query = $this->db->update('task', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 	    
 	}

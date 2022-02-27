@@ -424,6 +424,8 @@ class Payroll extends CI_Controller {
 				$arrParam = array("idPeriod" => $data['idPeriod']);
 				$data['infoPeriod'] = $this->general_model->get_period($arrParam);//info del periodo
 
+				$data['infoWeakPeriod'] = $this->general_model->get_weak_period($arrParam);//lista de periodos los ultimos 10
+
 				$arrParam = array(
 					"idPeriod" => $data['idPeriod'],
 					"idEmployee" => $data['idEmployee']
@@ -445,7 +447,11 @@ class Payroll extends CI_Controller {
 			$idPeriod =  $this->input->post('period');
 			$idEmployee =  $this->input->post('employee');	
 
-			if ($this->payroll_model->savePaystub()) {
+			if ($this->payroll_model->savePaystub())
+			{
+				//update TABLE task set period_status to 2 (PAID)
+				$this->payroll_model->updateTaskStatus();
+
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have save the Rate!!");
 			} else {

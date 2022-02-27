@@ -70,6 +70,7 @@ $(function(){
 					"weakNumber" => 2
 				);
 				$infoPayrollUser2 = $this->general_model->get_task_by_period($arrParam);
+
 				//buscar por peridoo y por usuario si ya tiene guardado el paystub
 				$infoPaystub = $this->general_model->get_paystub_by_period($arrParam);
 				//si ya se guardo el paystub entonces tomo esos valores 
@@ -275,11 +276,14 @@ $(function(){
 
 									<form  name="paystub_<?php echo $idUser ?>" id="paystub_<?php echo $idUser; ?>" method="post" action="<?php echo base_url("payroll/save_paystub"); ?>">
 
-										<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
-										<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
-										<input type="text" id="hddEmployeeRate" name="hddEmployeeRate" value="<?php echo $employeeHourRate; ?>" />
-										<input type="text" id="hddEmployeeType" name="hddEmployeeType" value="<?php echo $employeeType; ?>" />
 										<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="" />
+										<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
+										<input type="hidden" id="hddIdWeakPeriod1" name="hddIdWeakPeriod1" value="<?php echo $infoWeakPeriod[0]['id_period_weak']; ?>" />
+										<input type="hidden" id="hddIdWeakPeriod2" name="hddIdWeakPeriod2" value="<?php echo $infoWeakPeriod[1]['id_period_weak']; ?>" />
+										<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
+										<input type="hidden" id="hddEmployeeRate" name="hddEmployeeRate" value="<?php echo $employeeHourRate; ?>" />
+										<input type="hidden" id="hddEmployeeType" name="hddEmployeeType" value="<?php echo $employeeType; ?>" />
+										
 										<input type="hidden" id="hddTotalWorkedHours" name="hddTotalWorkedHours" value="<?php echo $totalWorked; ?>" />
 										<input type="hidden" id="hddRegularHours" name="hddRegularHours" value="<?php echo $totalRegularHours; ?>" />
 										<input type="hidden" id="hddIdOvertimeHours" name="hddIdOvertimeHours" value="<?php echo $totalOvertimeHours; ?>" />
