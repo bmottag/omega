@@ -341,5 +341,66 @@
 				}
 		}
 
+		/**
+		 * Save paystub
+		 * @since 21/2/2022
+		 */
+		public function savePaystub() 
+		{			
+				$idUser = $this->session->userdata("id");
+				$idPaytsub = $this->input->post('hddIdPaytsub');
+				$costRegularSalary = $this->input->post('hddCostRegularSalary');
+				$costOvertime = $this->input->post('hddCostOvertime');
+				$costVacation = $this->input->post('hddCostVacation');
+				$totalIncome = $costRegularSalary + $costOvertime;
+				$gross_salary = $totalIncome + $costVacation ;
+				$er_cpp = $ee_cpp = $this->input->post('ee_cpp');
+				$ee_ei = $this->input->post('ee_ei');
+				$er_ei = $ee_ei*1.4;
+				$tax = $this->input->post('tax');
+				$gwl_deductions = $this->input->post('gwl_deductions');
+				$ee_total_taxes = $ee_cpp + $ee_ei + $tax;
+				$remittance = $ee_cpp + $er_cpp + $ee_ei + $er_ei + $tax;
+				$net_pay = $gross_salary - $ee_total_taxes - $gwl_deductions;
+				
+				$data = array(
+					'total_worked_hours' => $this->input->post('hddTotalWorkedHours'),
+					'total_regular_hours' => $this->input->post('hddRegularHours'),
+					'total_overtime_hours' => $this->input->post('hddIdOvertimeHours'),
+					'cost_regular_salary' => $costRegularSalary,
+					'cost_over_time' => $costOvertime,
+					'total_income' => $totalIncome,
+					'cost_vacation_regular_salary' => $costVacation,
+					'gross_salary' => $gross_salary,
+					'ee_cpp' => $ee_cpp,
+					'er_cpp' => $er_cpp,
+					'ee_ei' => $ee_ei,
+					'er_ei' => $er_ei,
+					'tax' => $tax,
+					'ee_total_taxes' => $ee_total_taxes,
+					'gwl_deductions' => $gwl_deductions,
+					'remittance' => $remittance,
+					'net_pay' => $net_pay
+				);
+
+				//revisar si es para adicionar o editar
+				if ($idPaytsub == ''){
+					$data['paystub_date_issue'] = date('Y-m-d');
+					$data['paystub_fk_id_user'] = $idUser;
+					$data['fk_id_period'] = $this->input->post('hddIdPeriod');
+					$data['fk_id_employee'] = $this->input->post('hddIdUser');
+					$query = $this->db->insert('payroll_paystub', $data);
+				} else {
+					$this->db->where('id_paystub', $idPaytsub);
+					$query = $this->db->update('payroll_paystub', $data);
+				}		
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 	    
 	}

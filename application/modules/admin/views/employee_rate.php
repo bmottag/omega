@@ -18,7 +18,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-flag-o"></i> GENERAL RATE BY HOUR
+					<i class="fa fa-flag-o"></i> EMPLOYEE RATE BY HOUR
 				</div>
 				<div class="panel-body">
 <?php
@@ -62,7 +62,7 @@ if ($retornoError) {
 								<th class="text-center">ID</th>
 								<th class="text-center">Name</th>
 								<th class="text-center">More Info</th>
-								<th class="text-center">Employee Rate</th>
+								<th class="text-center">Employee Hour Rate</th>
 								<th class="text-center">Type
 								<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
 									Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
@@ -126,7 +126,7 @@ if($count == 10){
 								echo "<td class='text-right'>";
 					?>
 					<input type="hidden" name="form[id][]" value="<?php echo $lista['id_user']; ?>"/>
-					$ <input type="text" name="form[employee_rate][]" class="form-control" placeholder="Unit Price" value="<?php echo $unitPrice; ?>" >
+					$ <input type="text" name="form[employee_rate][]" class="form-control" placeholder="Employee Hour Rate" value="<?php echo $unitPrice; ?>" >
 					<?php
 								echo "</td>";
 								echo "<td class='text-right'>";

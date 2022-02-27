@@ -1337,6 +1337,9 @@ class General_model extends CI_Model {
 		        if (array_key_exists("idPeriod", $arrData)) {
 		            $this->db->where('P.id_period', $arrData["idPeriod"]);
 		        }
+		        if (array_key_exists("idEmployee", $arrData) && $arrData["idEmployee"] != '') {
+		            $this->db->where('T.fk_id_user', $arrData["idEmployee"]);
+		        }
 		        $this->db->group_by("T.fk_id_user");
 				$this->db->order_by('U.first_name, U.last_name', 'asc');
 		        $query = $this->db->get('task T');
@@ -1371,6 +1374,32 @@ class General_model extends CI_Model {
 		        }
 				$this->db->order_by('id_task', 'asc');
 		        $query = $this->db->get('task T');
+
+		        if ($query->num_rows() > 0) {
+		            return $query->result_array();
+		        } else {
+		            return false;
+		        }
+	    }
+
+	    /**
+	     * Paystub by period
+	     * Modules: Payroll/search
+	     * @since 25/02/2022
+	     */
+	    public function get_paystub_by_period($arrData) 
+		{
+		        $this->db->select("P.*, CONCAT(first_name, ' ', last_name) name");
+		        $this->db->join('user U', 'U.id_user = P.paystub_fk_id_user', 'INNER');
+				
+				if (array_key_exists("idUser", $arrData)) {
+					$this->db->where('P.fk_id_employee', $arrData["idUser"]);
+				}
+		        if (array_key_exists("idPeriod", $arrData)) {
+		            $this->db->where('P.fk_id_period', $arrData["idPeriod"]);
+		        }
+				$this->db->order_by('id_paystub', 'asc');
+		        $query = $this->db->get('payroll_paystub P');
 
 		        if ($query->num_rows() > 0) {
 		            return $query->result_array();

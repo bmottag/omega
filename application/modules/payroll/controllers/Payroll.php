@@ -396,7 +396,7 @@ class Payroll extends CI_Controller {
      * @since 10/02/2022
      * @author BMOTTAG
 	 */
-    public function payrollSearchForm() 
+    public function payrollSearchForm($idPeriod = 'x', $idEmployee = '' ) 
 	{
 			$this->load->model("general_model");
 
@@ -410,24 +410,50 @@ class Payroll extends CI_Controller {
 			$data["view"] = "form_search";
 			
 			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
-			if($this->input->post('period')){
-				$period =  $this->input->post('period');
-				$data['employee'] =  $this->input->post('employee');
-				$data['employee'] = $data['employee']==''?'x':$data['employee'];
+			if($idPeriod != 'x' || $_POST){
+				if($idPeriod != 'x'){
+					$data['idPeriod'] =  $idPeriod;
+					$data['idEmployee'] =  $idEmployee;
+				}				
 
-				$arrParam = array("idPeriod" => $period);
+				if($this->input->post('period')){
+					$data['idPeriod'] =  $this->input->post('period');
+					$data['idEmployee'] =  $this->input->post('employee');
+				}
+
+				$arrParam = array("idPeriod" => $data['idPeriod']);
 				$data['infoPeriod'] = $this->general_model->get_period($arrParam);//info del periodo
 
 				$arrParam = array(
-					"idPeriod" => $period,
-					"idEmployee" => $data['employee']
+					"idPeriod" => $data['idPeriod'],
+					"idEmployee" => $data['idEmployee']
 				);
-
 				$data['info'] = $this->general_model->get_users_by_period($arrParam);
 				$data["view"] = "list_payroll";
 			}
 			
 			$this->load->view("layout_calendar", $data);
+    }
+
+	/**
+	 * Save paystub
+     * @since 21/2/2022
+     * @author BMOTTAG
+	 */
+	public function save_paystub()
+	{	
+			$idPeriod =  $this->input->post('period');
+			$idEmployee =  $this->input->post('employee');	
+
+			if ($this->payroll_model->savePaystub()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have save the Rate!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('payroll/payrollSearchForm/' . $idPeriod . '/' . $idEmployee), 'refresh');
     }
 	
 }
