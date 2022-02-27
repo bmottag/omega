@@ -72,6 +72,11 @@ $(function(){
 				$infoPayrollUser2 = $this->general_model->get_task_by_period($arrParam);
 				//buscar por peridoo y por usuario si ya tiene guardado el paystub
 				$infoPaystub = $this->general_model->get_paystub_by_period($arrParam);
+				//si ya se guardo el paystub entonces tomo esos valores 
+				if($infoPaystub){
+						$employeeHourRate = $infoPaystub[0]["employee_rate_paystub"];
+						$employeeType = $infoPaystub[0]["employee_type_paystub"];
+				}
 	?>
 	<div class="row">
 		<div class="col-lg-12">
@@ -93,7 +98,7 @@ $(function(){
 					<div class="alert alert-default">
 						<h2><i class="fa fa-user"></i> <b>Employee: </b> <?php echo $employeeName; ?>
 							<br><small><b>Hour rate: </b>$ <?php echo $employeeHourRate; ?></small>
-							<br><small><b>Type: </b><?php echo $type = $employeeType=1?'Field':'Admin'; ?></small>
+							<br><small><b>Type: </b><?php echo $type = $employeeType==1?'Field':'Admin'; ?></small>
 						</h2>
 					</div>
 					<table width="100%" class="table table-hover" id="dataTables">
@@ -272,6 +277,8 @@ $(function(){
 
 										<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
 										<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
+										<input type="text" id="hddEmployeeRate" name="hddEmployeeRate" value="<?php echo $employeeHourRate; ?>" />
+										<input type="text" id="hddEmployeeType" name="hddEmployeeType" value="<?php echo $employeeType; ?>" />
 										<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="" />
 										<input type="hidden" id="hddTotalWorkedHours" name="hddTotalWorkedHours" value="<?php echo $totalWorked; ?>" />
 										<input type="hidden" id="hddRegularHours" name="hddRegularHours" value="<?php echo $totalRegularHours; ?>" />

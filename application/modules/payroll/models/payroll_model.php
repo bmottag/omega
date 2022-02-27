@@ -364,6 +364,8 @@
 				$net_pay = $gross_salary - $ee_total_taxes - $gwl_deductions;
 				
 				$data = array(
+					'employee_rate_paystub' => $this->input->post('hddEmployeeRate'),
+					'employee_type_paystub' => $this->input->post('hddEmployeeType'),
 					'total_worked_hours' => $this->input->post('hddTotalWorkedHours'),
 					'total_regular_hours' => $this->input->post('hddRegularHours'),
 					'total_overtime_hours' => $this->input->post('hddIdOvertimeHours'),
