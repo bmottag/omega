@@ -475,5 +475,34 @@ class Payroll extends CI_Controller {
 
 			redirect(base_url('payroll/payrollSearchForm/' . $idPeriod . '/' . $idEmployee), 'refresh');
     }
+
+	/**
+	 * Payroll form search, to review paystubs
+     * @since 28/02/2022
+     * @author BMOTTAG
+	 */
+    public function reviewPaystubs() 
+	{
+			$this->load->model("general_model");
+
+			//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+					
+			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
+			if($_POST)
+			{
+				$data['year'] =  $this->input->post('year');
+				$data['idEmployee'] =  $this->input->post('employee');
+
+				$arrParam = array(
+					"year" => $data['year'],
+					"idEmployee" => $data['idEmployee']
+				);
+				$data['info'] = $this->general_model->get_paystub_by_period($arrParam);
+			}
+			$data["view"] = "form_search_paystubs";
+			$this->load->view("layout_calendar", $data);
+    }    
 	
 }

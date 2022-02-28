@@ -1,5 +1,3 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report.js"); ?>"></script>
-
 <div id="page-wrapper">
 
 	<br>
@@ -30,7 +28,7 @@
 
 							<div class="col-sm-3 col-sm-offset-1">
 								<label for="from">Period: *</label>
-								<select name="period" id="period" class="form-control" >
+								<select name="period" id="period" class="form-control" required >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($infoPeriod); $i++) { ?>
 										<option value="<?php echo $infoPeriod[$i]["id_period"]; ?>"><?php echo $infoPeriod[$i]["period"]; ?></option>	
@@ -51,7 +49,6 @@
 						</div>
 								
                     </form>
-
 				</div>
 			</div>
 		</div>
