@@ -1412,5 +1412,30 @@ class General_model extends CI_Model {
 		        }
 	    }
 
+	    /**
+	     * Total Paystub by year and employee
+	     * Modules: Payroll/search
+	     * @since 27/02/2022
+	     */
+	    public function get_total_yearly($arrData) 
+		{
+		        $this->db->select();
+				
+				if (array_key_exists("idUser", $arrData)) {
+					$this->db->where('Y.fk_id_employee', $arrData["idUser"]);
+				}
+		        if (array_key_exists("year", $arrData)) {
+		            $this->db->where('Y.year', $arrData["year"]);
+		        }
+				$this->db->order_by('year', 'asc');
+		        $query = $this->db->get('payroll_total_yearly Y');
+
+		        if ($query->num_rows() > 0) {
+		            return $query->result_array();
+		        } else {
+		            return false;
+		        }
+	    }
+
 
 }

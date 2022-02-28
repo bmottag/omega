@@ -18,12 +18,10 @@ $(function(){
 	});
 
 });
-
 </script>
 
 
 <div id="page-wrapper">
-
 	<br>
 	<div class="row">
 		<div class="col-md-12">

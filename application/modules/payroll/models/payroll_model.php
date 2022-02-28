@@ -369,7 +369,7 @@
 					'employee_type_paystub' => $this->input->post('hddEmployeeType'),
 					'total_worked_hours' => $this->input->post('hddTotalWorkedHours'),
 					'total_regular_hours' => $this->input->post('hddRegularHours'),
-					'total_overtime_hours' => $this->input->post('hddIdOvertimeHours'),
+					'total_overtime_hours' => $this->input->post('hddOvertimeHours'),
 					'cost_regular_salary' => $costRegularSalary,
 					'cost_over_time' => $costOvertime,
 					'total_income' => $totalIncome,
@@ -422,6 +422,104 @@
 				$this->db->where('fk_id_user', $idEmployee);
 				$this->db->where_in('fk_id_weak_period', $idWeaks);
 				$query = $this->db->update('task', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Ingreso los datos de totales por año
+		 * @since 27/2/2022
+		 */
+		public function updatePayrollTotalYearly($arrData) 
+		{
+				$idTotalYearly = $this->input->post('hddIdTotalYearly');
+
+				$workedHours = $this->input->post('hddTotalWorkedHours');
+				$regularHours = $this->input->post('hddRegularHours');
+				$overtimeHours = $this->input->post('hddOvertimeHours');
+				$costRegularSalary = $this->input->post('hddCostRegularSalary');
+				$costOvertime = $this->input->post('hddCostOvertime');
+				$costVacation = $this->input->post('hddCostVacation');
+				$totalIncome = $costRegularSalary + $costOvertime;
+				$gross_salary = $totalIncome + $costVacation ;
+				$er_cpp = $ee_cpp = $this->input->post('ee_cpp');
+				$ee_ei = $this->input->post('ee_ei');
+				$er_ei = $ee_ei*1.4;
+				$tax = $this->input->post('tax');
+				$gwl_deductions = $this->input->post('gwl_deductions');
+				$ee_total_taxes = $ee_cpp + $ee_ei + $tax;
+				$remittance = $ee_cpp + $er_cpp + $ee_ei + $er_ei + $tax;
+				$net_pay = $gross_salary - $ee_total_taxes - $gwl_deductions;
+
+				if($arrData){
+					$TOTALworkedHours = $workedHours + $arrData[0]['total_year_worked_hours'];
+					$TOTALregularHours = $regularHours + $arrData[0]['total_year_regular_hours'];
+					$TOTALovertimeHours = $overtimeHours + $arrData[0]['total_year_overtime_hours'];
+					$TOTALcostRegularSalary = $costRegularSalary + $arrData[0]['total_year_cost_regular_salary'];
+					$TOTALcostOvertime = $costOvertime + $arrData[0]['total_year_cost_over_time'];
+					$TOTALcostVacation = $costVacation + $arrData[0]['total_year_cost_vacation_regular_salary'];
+					$TOTALgross_salary = $gross_salary + $arrData[0]['total_year_gross_salary'];
+					$TOTALee_cpp = $ee_cpp + $arrData[0]['total_year_ee_cpp'];
+					$TOTALer_cpp = $er_cpp + $arrData[0]['total_year_er_cpp'];
+					$TOTALee_ei = $ee_ei + $arrData[0]['total_year_ee_ei'];
+					$TOTALer_ei = $er_ei + $arrData[0]['total_year_er_ei'];
+					$TOTALtax = $tax + $arrData[0]['total_year_tax'];
+					$TOTALeetax = $ee_total_taxes + $arrData[0]['total_year_ee_total_taxes'];
+					$TOTALgwl_deductions = $gwl_deductions + $arrData[0]['total_year_gwl_deductions'];
+					$TOTALremittance = $remittance + $arrData[0]['total_year_remittance'];
+					$TOTALnet_pay = $net_pay + $arrData[0]['total_year_net_pay'];	
+				}else{
+					$TOTALworkedHours = $workedHours;
+					$TOTALregularHours = $regularHours;
+					$TOTALovertimeHours = $overtimeHours;
+					$TOTALcostRegularSalary = $costRegularSalary;
+					$TOTALcostOvertime = $costOvertime;
+					$TOTALcostVacation = $costVacation;
+					$TOTALgross_salary = $gross_salary;
+					$TOTALee_cpp = $ee_cpp;
+					$TOTALer_cpp = $er_cpp;
+					$TOTALee_ei = $ee_ei;
+					$TOTALer_ei = $er_ei;
+					$TOTALtax = $tax;
+					$TOTALeetax = $ee_total_taxes;
+					$TOTALgwl_deductions = $gwl_deductions;
+					$TOTALremittance = $remittance;
+					$TOTALnet_pay = $net_pay;					
+				}
+
+
+				$data = array(
+					'total_year_worked_hours' => $TOTALworkedHours,
+					'total_year_regular_hours' => $TOTALregularHours,
+					'total_year_overtime_hours' => $TOTALovertimeHours,
+					'total_year_cost_regular_salary' => $TOTALcostRegularSalary,
+					'total_year_cost_over_time' => $TOTALcostOvertime,
+					'total_year_cost_vacation_regular_salary' => $TOTALcostVacation,
+					'total_year_gross_salary' => $TOTALgross_salary,
+					'total_year_ee_cpp' => $TOTALee_cpp,
+					'total_year_er_cpp' => $TOTALer_cpp,
+					'total_year_ee_ei' => $TOTALee_ei,
+					'total_year_er_ei' => $TOTALer_ei,
+					'total_year_tax' => $TOTALtax,
+					'total_year_ee_total_taxes' => $TOTALeetax,
+					'total_year_gwl_deductions' => $TOTALgwl_deductions,
+					'total_year_remittance' => $TOTALremittance,
+					'total_year_net_pay' => $TOTALnet_pay
+				);
+
+				//revisar si es para adicionar o editar
+				if ($idTotalYearly == '') {
+					$data['year'] = $this->input->post('hddYear');
+					$data['fk_id_employee'] = $this->input->post('hddIdUser');		
+					$query = $this->db->insert('payroll_total_yearly ', $data);
+				} else {
+					$this->db->where('id_total_yearly', $idTotalYearly);
+					$query = $this->db->update('payroll_total_yearly ', $data);
+				}
 
 				if ($query) {
 					return true;

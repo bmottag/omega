@@ -456,6 +456,16 @@ class Payroll extends CI_Controller {
 				//update TABLE task set period_status to 2 (PAID)
 				$this->payroll_model->updateTaskStatus();
 
+				//update TABLE payroll_total_yearly
+				//buscar el total de valores por año y usuario
+				$arrParam = array(
+					"idUser" => $this->input->post('hddIdUser'),
+					"year" => $this->input->post('hddYear')
+				);
+				$this->load->model("general_model");
+				$infoTotalYear = $this->general_model->get_total_yearly($arrParam);
+				$this->payroll_model->updatePayrollTotalYearly($infoTotalYear);
+
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have save the Rate!!");
 			} else {

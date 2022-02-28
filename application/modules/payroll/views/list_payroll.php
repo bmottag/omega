@@ -1,28 +1,4 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<script>
-$(function(){ 
-			
-	$(".btn-info").click(function () {	
-			var oID = $(this).attr("id");
-            $.ajax ({
-                type: 'POST',
-				url: base_url + 'payroll/cargarModalHours',
-                data: {'idTask': oID},
-                cache: false,
-                success: function (data) {
-                    $('#tablaDatos').html(data);
-                }
-            });
-	});
-
-});
-
-</script>
-
 <div id="page-wrapper">
-
 	<br>
 	<?php
 		if(!$info){
@@ -71,13 +47,24 @@ $(function(){
 				);
 				$infoPayrollUser2 = $this->general_model->get_task_by_period($arrParam);
 
-				//buscar por peridoo y por usuario si ya tiene guardado el paystub
+				//buscar por perido y por usuario si ya tiene guardado el paystub
 				$infoPaystub = $this->general_model->get_paystub_by_period($arrParam);
 				//si ya se guardo el paystub entonces tomo esos valores 
 				if($infoPaystub){
 						$employeeHourRate = $infoPaystub[0]["employee_rate_paystub"];
 						$employeeType = $infoPaystub[0]["employee_type_paystub"];
 				}
+
+				//buscar el total de valores por año y usuario
+				$arrParam = array(
+					"idUser" => $lista['fk_id_user'],
+					"year" => $infoPeriod[0]['year_period']
+				);
+				$infoTotalYear = $this->general_model->get_total_yearly($arrParam);
+
+				//si hay registro envio el id del registro
+				$idTotalYear = $infoTotalYear?$infoTotalYear[0]['id_total_yearly']:'';
+
 	?>
 	<div class="row">
 		<div class="col-lg-12">
@@ -277,7 +264,9 @@ $(function(){
 									<form  name="paystub_<?php echo $idUser ?>" id="paystub_<?php echo $idUser; ?>" method="post" action="<?php echo base_url("payroll/save_paystub"); ?>">
 
 										<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="" />
+										<input type="hidden" id="hddIdTotalYearly" name="hddIdTotalYearly" value="<?php echo $idTotalYear; ?>" />
 										<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
+										<input type="hidden" id="hddYear" name="hddYear" value="<?php echo $infoPeriod[0]['year_period']; ?>" />
 										<input type="hidden" id="hddIdWeakPeriod1" name="hddIdWeakPeriod1" value="<?php echo $infoWeakPeriod[0]['id_period_weak']; ?>" />
 										<input type="hidden" id="hddIdWeakPeriod2" name="hddIdWeakPeriod2" value="<?php echo $infoWeakPeriod[1]['id_period_weak']; ?>" />
 										<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
@@ -286,7 +275,7 @@ $(function(){
 										
 										<input type="hidden" id="hddTotalWorkedHours" name="hddTotalWorkedHours" value="<?php echo $totalWorked; ?>" />
 										<input type="hidden" id="hddRegularHours" name="hddRegularHours" value="<?php echo $totalRegularHours; ?>" />
-										<input type="hidden" id="hddIdOvertimeHours" name="hddIdOvertimeHours" value="<?php echo $totalOvertimeHours; ?>" />
+										<input type="hidden" id="hddOvertimeHours" name="hddOvertimeHours" value="<?php echo $totalOvertimeHours; ?>" />
 										<input type="hidden" id="hddCostRegularSalary" name="hddCostRegularSalary" value="<?php echo $cost_regular_salary; ?>" />
 										<input type="hidden" id="hddCostOvertime" name="hddCostOvertime" value="<?php echo $cost_overtime; ?>" />
 										<input type="hidden" id="hddCostVacation" name="hddCostVacation" value="<?php echo $cost_vacation; ?>" />
@@ -446,12 +435,21 @@ $(function(){
 											</thead>
 											<tbody>
 											<?php
+												if($infoTotalYear){
+													$year_cost_regular_salary = $cost_regular_salary + $infoTotalYear[0]['total_year_cost_regular_salary'];
+													$year_cost_overtime = $cost_overtime + $infoTotalYear[0]['total_year_cost_over_time'];
+													$year_cost_vacation = $cost_vacation + $infoTotalYear[0]['total_year_cost_vacation_regular_salary'];
+												}else{
+													$year_cost_regular_salary = $cost_regular_salary;
+													$year_cost_overtime = $cost_overtime;
+													$year_cost_vacation = $cost_vacation;
+												}
 												echo "<tr>";
 												echo "<td><small>Regular Pay</small></td>";
 												echo "<td class='text-center'><small>" . $totalRegularHours . "</small></td>";
 												echo "<td class='text-center'><small>" . $employeeHourRate . "</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($cost_regular_salary, 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($year_cost_regular_salary, 2) . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
@@ -459,7 +457,7 @@ $(function(){
 												echo "<td class='text-center'><small>" . $totalOvertimeHours . "</small></td>";
 												echo "<td class='text-center'><small>" . $employeeHourRate * 1.5 . "</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($cost_overtime, 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($year_cost_overtime, 2) . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
@@ -467,7 +465,7 @@ $(function(){
 												echo "<td class='text-center'></td>";
 												echo "<td class='text-center'></td>";
 												echo "<td class='text-right'><small>$ " . number_format($cost_vacation, 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($year_cost_vacation, 2) . "</small></td>";
 												echo "</tr>";
 											?>
 											</tbody>
@@ -488,7 +486,7 @@ $(function(){
 												echo "<tr>";
 												echo "<td><small>GWL Deductions</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gwl_deductions'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_gwl_deductions'], 2) . "</small></td>";
 												echo "</tr>";
 											?>
 											</tbody>
@@ -507,19 +505,19 @@ $(function(){
 												echo "<tr>";
 												echo "<td><small>Income Tax</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['tax'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_tax'], 2) . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Employment Insurance</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_ei'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_ee_ei'], 2) . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Canada Pension Plan</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_cpp'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_ee_cpp'], 2) . "</small></td>";
 												echo "</tr>";
 											?>
 											</tbody>
@@ -557,19 +555,19 @@ $(function(){
 												echo "<tr>";
 												echo "<td><small>Total Pay</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gross_salary'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_gross_salary'], 2) . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Taxes</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_total_taxes'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_ee_total_taxes'], 2) . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Deductions</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gwl_deductions'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format(0, 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_gwl_deductions'], 2) . "</small></td>";
 												echo "</tr>";
 
 
