@@ -294,7 +294,8 @@
 				$data = array(
 					'date_start' => $arrData["periodoIniNew"],
 					'date_finish' => $arrData["periodoFinNew"],
-					'period' => $period
+					'period' => $period,
+					'year_period' => $arrData["yearPeriodo"]
 				);	
 				
 				$query = $this->db->insert('payroll_period', $data);

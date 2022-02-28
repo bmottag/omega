@@ -363,11 +363,15 @@ class Payroll extends CI_Controller {
 				//fecha final del siguiente periodo se le suma 14 dias a la fecha final del ultimo periodo
 				$periodoIniNew = date('Y-m-d', strtotime ( '+1 day ' , strtotime ( $infoPeriod[0]['date_finish'] ) ) );//le sumo un dia 
 				$periodoFinNew = date('Y-m-d',strtotime ( '+14 day ' , strtotime ( $infoPeriod[0]['date_finish'] ) ) );//le sumo 14 dias
+				//sacar el año de la vigencia
+				$yearPeriodo = date("Y", strtotime($periodoIniNew));
+
 				
 				//guardo el nuevo periodo
 				$arrParam = array(
 					"periodoIniNew" => $periodoIniNew,
-					"periodoFinNew" => $periodoFinNew
+					"periodoFinNew" => $periodoFinNew,
+					"yearPeriodo" => $yearPeriodo
 				);
 
 				if($idPeriod = $this->payroll_model->savePeriod($arrParam))
