@@ -1407,7 +1407,7 @@ class General_model extends CI_Model {
 		        if (array_key_exists("year", $arrData)) {
 		            $this->db->where('X.year_period', $arrData["year"]);
 		        }
-				$this->db->order_by('P.fk_id_employee, P.fk_id_period', 'asc');
+				$this->db->order_by('W.first_name, W.last_name, P.fk_id_period', 'asc');
 		        $query = $this->db->get('payroll_paystub P');
 
 		        if ($query->num_rows() > 0) {
@@ -1424,15 +1424,16 @@ class General_model extends CI_Model {
 	     */
 	    public function get_total_yearly($arrData) 
 		{
-		        $this->db->select();
+		        $this->db->select("Y.*, CONCAT(U.first_name, ' ', U.last_name) employee");
+		        $this->db->join('user U', 'U.id_user = Y.fk_id_employee', 'INNER');
 				
-				if (array_key_exists("idUser", $arrData)) {
+				if (array_key_exists("idUser", $arrData) && $arrData["idUser"] != '') {
 					$this->db->where('Y.fk_id_employee', $arrData["idUser"]);
 				}
 		        if (array_key_exists("year", $arrData)) {
 		            $this->db->where('Y.year', $arrData["year"]);
 		        }
-				$this->db->order_by('year', 'asc');
+				$this->db->order_by('U.first_name, U.last_name, year', 'asc');
 		        $query = $this->db->get('payroll_total_yearly Y');
 
 		        if ($query->num_rows() > 0) {
