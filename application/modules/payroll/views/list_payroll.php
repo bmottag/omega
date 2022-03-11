@@ -48,7 +48,12 @@
 				$infoPayrollUser2 = $this->general_model->get_task_by_period($arrParam);
 
 				//buscar por perido y por usuario si ya tiene guardado el paystub
+				$arrParam = array(
+					"idEmployee" => $lista['fk_id_user'],
+					"idPeriod" => $idPeriod
+				);
 				$infoPaystub = $this->general_model->get_paystub_by_period($arrParam);
+
 				//si ya se guardo el paystub entonces tomo esos valores 
 				if($infoPaystub){
 						$employeeHourRate = $infoPaystub[0]["employee_rate_paystub"];
