@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/ajaxSearchVehicle.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/ajaxSearchVehicle_v1.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -14,10 +14,18 @@
 					<p class='text-default'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER</strong></p>
 									
 					<div class="form-group">
-						<div class="col-sm-10 col-sm-offset-1">
+						<div class="col-sm-10">
 							<label for="vinNumber">VIN NUMBER </label>
 							<input type="text" id="vinNumber" name="vinNumber" class="form-control" placeholder="VIN NUMBER">
 						</div>						
+					
+						<div class="col-sm-2">
+							<br>
+							 <button type="submit" class="btn btn-purpura">
+							 	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search 
+							 </button>
+						</div>
+
 					</div>
 						
 				</div>
@@ -25,18 +33,8 @@
 		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col-lg-12" id="div_vehicle" style="display:none">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<i class="fa fa-automobile"></i> <strong>VEHICLE INFORMATION</strong>
-				</div>
-				<div class="panel-body" id="div_vehicle_info">
-				
-
-				</div>
-			</div>
-		</div>		
+	<div class="row" id="div_vehicle" style="display:none">
+	
 	</div>	
 </div>
 <!-- /#page-wrapper -->

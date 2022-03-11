@@ -18,13 +18,13 @@ $(document).ready(function () {
 				cache: false,
 				success: function (data)
 				{
-					$('#div_vehicle_info').html(data);
+					$('#div_vehicle').html(data);
 				}
 			});
 		} else {				
 			var data = '';
 			$("#div_vehicle").css("display", "none");
-			$('#div_vehicle_info').html(data);
+			$('#div_vehicle').html(data);
 		}
     });
     
