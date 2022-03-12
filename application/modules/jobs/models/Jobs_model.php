@@ -847,6 +847,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'width' => $this->input->post('width'),
 				'length' => $this->input->post('length'),
 				'confined_space' => $this->input->post('confined_space'),
+				'fk_id_confined' => $this->input->post('idConfined'),
 				'tested_daily' => $this->input->post('tested_daily'),
 				'tested_daily_explanation' => $this->input->post('tested_daily_explanation'),
 				'ventilation' => $this->input->post('ventilation'),

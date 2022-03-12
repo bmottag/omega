@@ -1879,6 +1879,12 @@ ob_end_clean();
 				"id" => $idJob
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+			//tool box info
+			$arrParam = array(
+				"idJob" => $idJob
+			);				
+			$data['confinedList'] = $this->general_model->get_confined_space($arrParam);
 			
 			//si envio el id, entonces busco la informacion 
 			if ($idExcavation != 'x') {

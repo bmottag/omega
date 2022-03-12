@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavation.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavation_v1.js"); ?>"></script>
 
 <?php
 /**
@@ -156,6 +156,25 @@ if($userRol==99){
 									<option value="">Select...</option>
 									<option value=1 <?php if($information && $information[0]["confined_space"] == 1) { echo "selected"; }  ?>>Yes</option>
 									<option value=2 <?php if($information && $information[0]["confined_space"] == 2) { echo "selected"; }  ?>>No</option>
+								</select>
+							</div>
+						</div>
+
+<?php 
+	$fildConfined = "none";
+	if($information && $information[0]["confined_space"]==1){
+		$fildConfined = "inline";
+	}
+?>
+						
+						<div class="form-group" id="div_confined" style="display:<?php echo $fildConfined; ?>">
+							<label class="col-sm-4 control-label" for="ventilation_explanation">If yes, please select the Confined Space Entry Permit:</label>
+							<div class="col-sm-5">
+								<select name="idConfined" id="idConfined" class="form-control" >
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($confinedList); $i++) { ?>
+										<option value="<?php echo $confinedList[$i]["id_job_confined"]; ?>" <?php if($information && $information[0]["fk_id_confined"] == $confinedList[$i]["id_job_confined"]) { echo "selected"; }  ?>><?php echo 'No.' . $confinedList[$i]["id_job_confined"] . ' *** ' . $confinedList[$i]["date_confined"]  ; ?></option>	
+									<?php } ?>
 								</select>
 							</div>
 						</div>
