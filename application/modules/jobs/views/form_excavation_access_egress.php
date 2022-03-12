@@ -82,9 +82,29 @@ if ($retornoError) {
 							<label class="col-sm-5 control-label" for="project_location">Choose the method of access / egress below that will be implemented:  *
 								<br><small class="text-danger">(may choose more than one) </small></label>
 							<div class="col-sm-5">
-<input type="checkbox" id="ladder" name="ladder" value=1 <?php if($information && $information[0]["access_ladder"]){echo "checked";} ?> onclick="valid_field()"> Portable ladder(s) placed within 7 m of lateral travel<br>
-<input type="checkbox" id="ramp" name="ramp" value=1 <?php if($information && $information[0]["access_ramp"]){echo "checked";} ?> onclick="valid_field()"> Ramp(s) placed within 15 m of lateral travel<br>
-<input type="checkbox" id="other" name="other" value=1 <?php if($information && $information[0]["access_other"]){echo "checked";} ?> onclick="valid_field()"> Other means of access / egress: <br>
+<?php
+$styleLadder = "";
+$styleRamp = "";
+$styleOther = "";
+if($information && $information[0]["access_ladder"]){
+	$styleLadder = "text-danger";
+}
+if($information && $information[0]["access_ramp"]){
+	$styleRamp = "text-danger";
+}
+if($information && $information[0]["access_other"]){
+	$styleOther = "text-danger";
+}
+?>
+<p class="<?php echo $styleLadder; ?>">
+<input type="checkbox" id="ladder" name="ladder" value=1 <?php if($information && $information[0]["access_ladder"]){echo "checked";} ?> onclick="valid_field()"> Portable ladder(s) placed within 7 m of lateral travel
+</p>
+<p class="<?php echo $styleRamp; ?>">
+<input type="checkbox" id="ramp" name="ramp" value=1 <?php if($information && $information[0]["access_ramp"]){echo "checked";} ?> onclick="valid_field()"> Ramp(s) placed within 15 m of lateral travel
+</p>
+<p class="<?php echo $styleOther; ?>">
+<input type="checkbox" id="other" name="other" value=1 <?php if($information && $information[0]["access_other"]){echo "checked";} ?> onclick="valid_field()"> Other means of access / egress: 
+</p>
 
 <?php 
 $valorCampo = "";

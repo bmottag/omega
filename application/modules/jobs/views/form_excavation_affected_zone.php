@@ -160,7 +160,7 @@ if ($retornoError) {
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="spoil_piles">Will spoil piles remain a minimum 60 cm from the excavation / trench edge? *
+							<label class="col-sm-4 control-label" for="spoil_piles">Will spoil piles remain a minimum 1 meter from the excavation / trench edge? *
 							</label>
 							<div class="col-sm-5">									
 								<select name="spoil_piles" id="spoil_piles" class="form-control" required>
@@ -227,7 +227,9 @@ if ($retornoError) {
 ?>
 
 						<div class="form-group" id="div_methods_secure" style="display:<?php echo $fildMethodsSecure; ?>">
-							<label class="col-sm-4 control-label" for="methods_secure">If yes, describe methods to secure the excavation area from the public or bystanders: </label>
+							<label class="col-sm-4 control-label" for="methods_secure">If yes, describe methods to secure the excavation area from the public or bystanders: 
+							<br><small class="text-danger">As a recomendation you can use construction fence to cover an open excavation and/or concrete barricades to secure the excavation. </small>
+							</label>
 							<div class="col-sm-5">
 								<textarea id="methods_secure" name="methods_secure" class="form-control" placeholder="If yes, describe methods to secure the excavation area from the public or bystanders" rows="3"><?php echo $information?$information[0]["methods_secure"]:""; ?></textarea>
 							</div>
