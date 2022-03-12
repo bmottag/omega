@@ -1,16 +1,3 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_access.js"); ?>"></script>
-
-<script>
-function valid_field() 
-{
-	if(document.getElementById('ladder').checked || document.getElementById('ramp').checked || document.getElementById('other').checked ){
-		document.getElementById('hddField').value = 1;
-	}else{
-		document.getElementById('hddField').value = "";
-	}
-}
-</script>
-
 <div id="page-wrapper">
 	<br>
 	
@@ -119,6 +106,34 @@ if ($retornoError) {
 							</div>
 						</div>
 					</div>
+					<hr>
+
+					<form  name="form" id="form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url("jobs/save_upload_sketch"); ?>">
+						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
+						<div class="form-group">					
+							<label class="col-sm-5 control-label text-danger" for="hddTask">Attach document if necessary
+								<br><small class="text-danger">Allowed format: pdf
+								<br>Maximum size: 3000 KB </small>
+							</label>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-7">
+								 <input type="file" name="userfile" />
+								 <br>
+								 <?php if($information[0]["excavation_sketch_doc"]){ ?>
+									<a href="<?php echo base_url('files/excavation/' . $information[0]["excavation_sketch_doc"]) ?>" target="_blank">Attached document: <?php echo $information[0]["excavation_sketch_doc"]; ?></a>
+								<?php } ?>
+							</div>
+
+							<div class="col-sm-5">
+									<button type="submit" id="btnSubmit" name="btnSubmit" class='btn btn-danger'>
+											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									</button>
+							</div>
+						</div>
+
+					</form>
 				</div>
 			</div>
 

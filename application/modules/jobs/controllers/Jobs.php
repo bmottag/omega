@@ -2102,7 +2102,7 @@ ob_end_clean();
      * @since 3/08/2021
      * @author BMOTTAG
 	 */
-	public function upload_affected_zone($idExcavation)
+	public function upload_affected_zone($idExcavation, $error = '')
 	{
 			if (empty($idExcavation)) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -2123,23 +2123,40 @@ ob_end_clean();
 	 */
 	public function save_affected_zone()
 	{			
-			header('Content-Type: application/json');
 			$data = array();
 			$idExcavation = $this->input->post('hddIdentificador');
-			
-			if ($this->jobs_model->updateExcavationAffectedZone()) {
-				$data["result"] = true;
-				$data["mensaje"] = "Solicitud guardada correctamente.";
-				$data["idExcavation"] = $idExcavation;
+
+	        $config['upload_path'] = './files/excavation/';
+	        $config['overwrite'] = TRUE;
+	        $config['allowed_types'] = 'pdf';
+	        $config['max_size'] = '3000';
+	        $config['max_width'] = '2024';
+	        $config['max_height'] = '2008';
+
+        	$this->load->library('upload', $config);
+      
+        if (!$this->upload->do_upload() && $_FILES['userfile']['name']!= "") {
+        	//SI EL ARCHIVO FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
+            $error = $this->upload->display_errors();
+  			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong>' . $error);
+            $this->upload_affected_zone($idExcavation,$error);
+        }else{
+			if($_FILES['userfile']['name']== ""){
+				$archivo = 'xxx';
+			}else{
+	            $file_info = $this->upload->data();//subimos ARCHIVO				
+				$data = array('upload_data' => $this->upload->data());
+				$archivo = $file_info['file_name'];			
+			}
+			//insertar datos
+			if($this->jobs_model->updateExcavationAffectedZone($archivo))
+			{
 				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
-			} else {
-				$data["result"] = "error";
-				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
-				$data["idExcavation"] = "";
+			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-
-			echo json_encode($data);
+			redirect('jobs/upload_affected_zone/' . $idExcavation);
+        }
     }
 
 	/**
@@ -2446,6 +2463,55 @@ ob_end_clean();
 			$data["view"] = 'form_excavation_sketch';
 			$this->load->view("layout", $data);
 	}
+
+	/**
+	 * Save Trenching Plan - Sketch
+     * @since 12/03/2022
+     * @author BMOTTAG
+	 */
+	public function save_upload_sketch()
+	{			
+			$data = array();
+			$idExcavation = $this->input->post('hddIdentificador');
+
+	        $config['upload_path'] = './files/excavation/';
+	        $config['overwrite'] = TRUE;
+	        $config['allowed_types'] = 'pdf';
+	        $config['max_size'] = '3000';
+	        $config['max_width'] = '2024';
+	        $config['max_height'] = '2008';
+
+        	$this->load->library('upload', $config);
+      
+        if (!$this->upload->do_upload()) {
+        	//SI EL ARCHIVO FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
+            $error = $this->upload->display_errors();
+  			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong>' . $error);
+            $this->upload_sketch($idExcavation);
+        }else{
+
+            $file_info = $this->upload->data();//subimos ARCHIVO				
+			$data = array('upload_data' => $this->upload->data());
+			$archivo = $file_info['file_name'];		
+
+			$arrParam = array(
+				"table" => "job_excavation",
+				"primaryKey" => "id_job_excavation",
+				"id" => $idExcavation,
+				"column" => "excavation_sketch_doc",
+				"value" => $archivo
+			);
+			//insertar datos
+			$this->load->model("general_model");
+			if ($this->general_model->updateRecord($arrParam))
+			{
+				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+			}else{
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			redirect('jobs/upload_sketch/' . $idExcavation);
+        }
+    }
 
 	/**
 	 * Generate Report in PDF - Excavation and Trenching Plan

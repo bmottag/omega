@@ -1,4 +1,3 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_affected_zone.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavationAffectedZone.js"); ?>"></script>
 
 <div id="page-wrapper">
@@ -65,7 +64,7 @@ if ($retornoError) {
 }
 ?>
 
-					<form  name="form" id="form" class="form-horizontal" method="post" >
+					<form  name="form" id="form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url("jobs/save_affected_zone"); ?>">
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
 														
 						<div class="form-group">
@@ -83,7 +82,6 @@ if ($retornoError) {
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="permit_required">Is an excavation permit required in this area or on this project? *
-								<br><small class="text-danger">If yes, please attach a copy of the permit to this plan.</small>
 							</label>
 							<div class="col-sm-5">									
 								<select name="permit_required" id="permit_required" class="form-control" required>
@@ -91,6 +89,20 @@ if ($retornoError) {
 									<option value=1 <?php if($information[0]["permit_required"] == 1) { echo "selected"; }  ?>>Yes</option>
 									<option value=2 <?php if($information[0]["permit_required"] == 2) { echo "selected"; }  ?>>No</option>
 								</select>
+							</div>
+						</div>
+
+						<div class="form-group">					
+							<label class="col-sm-4 control-label text-danger" for="hddTask">If yes, please attach a copy of the permit to this plan.
+								<br><small class="text-danger">Allowed format: pdf
+								<br>Maximum size: 3000 KB </small>
+							</label>
+							<div class="col-sm-5">
+								 <input type="file" name="userfile" />
+								 <br>
+								 <?php if($information[0]["permit_required_doc"]){ ?>
+									<a href="<?php echo base_url('files/excavation/' . $information[0]["permit_required_doc"]) ?>" target="_blank">Copy of the permit: <?php echo $information[0]["permit_required_doc"]; ?></a>
+								<?php } ?>
 							</div>
 						</div>
 
@@ -248,16 +260,10 @@ if ($retornoError) {
 							</div>
 						</div>
 
-
-					
-
-
-
-
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:100%;" align="center">
-									<button type="button" id="btnSubmit" name="btnSubmit" class='btn btn-danger'>
+									<button type="submit" id="btnSubmit" name="btnSubmit" class='btn btn-danger'>
 											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 									</button>						
 								</div>

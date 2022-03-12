@@ -963,7 +963,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		 * Update Excavation - Affected Zone, Traffic & Utilities
 		 * @since 8/8/2021
 		 */
-		public function updateExcavationAffectedZone() 
+		public function updateExcavationAffectedZone($archivo) 
 		{
 			$idExcavation = $this->input->post('hddIdentificador');
 			
@@ -982,6 +982,10 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'methods_secure' => $this->input->post('methods_secure'),
 				'vehicle_traffic' => $this->input->post('vehicle_traffic')
 			);
+
+			if($archivo != 'xxx'){
+				$data['permit_required_doc'] = $archivo;
+			}
 						
 			$this->db->where('id_job_excavation', $idExcavation);
 			$query = $this->db->update('job_excavation', $data);
