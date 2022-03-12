@@ -1994,7 +1994,7 @@ ob_end_clean();
      * @since 3/08/2021
      * @author BMOTTAG
 	 */
-	public function upload_protection_methods($idExcavation)
+	public function upload_protection_methods($idExcavation, $error = '')
 	{
 			if (empty($idExcavation)) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -2003,6 +2003,7 @@ ob_end_clean();
 			$this->load->model("general_model");
 			$arrParam = array("idExcavation" => $idExcavation);
 			$data['information'] = $this->general_model->get_excavation($arrParam);
+			$data['error'] = $error; //se usa para mostrar los errores al cargar la imagen 	
 
 			$data["view"] = 'form_excavation_protection_methods';
 			$this->load->view("layout", $data);
@@ -2013,26 +2014,43 @@ ob_end_clean();
      * @since 8/08/2021
      * @author BMOTTAG
 	 */
-	public function save_protection_methods()
-	{			
-			header('Content-Type: application/json');
+    function save_protection_methods() 
+	{
 			$data = array();
 			$idExcavation = $this->input->post('hddIdentificador');
-			
-			if ($this->jobs_model->updateExcavation()) {
-				$data["result"] = true;
-				$data["mensaje"] = "Solicitud guardada correctamente.";
-				$data["idExcavation"] = $idExcavation;
+
+	        $config['upload_path'] = './files/excavation/';
+	        $config['overwrite'] = TRUE;
+	        $config['allowed_types'] = 'pdf';
+	        $config['max_size'] = '3000';
+	        $config['max_width'] = '2024';
+	        $config['max_height'] = '2008';
+
+        	$this->load->library('upload', $config);
+      
+        if (!$this->upload->do_upload() && $_FILES['userfile']['name']!= "") {
+        	//SI EL ARCHIVO FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
+            $error = $this->upload->display_errors();
+  			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong>' . $error);
+            $this->upload_protection_methods($idExcavation,$error);
+        }else{
+			if($_FILES['userfile']['name']== ""){
+				$archivo = 'xxx';
+			}else{
+	            $file_info = $this->upload->data();//subimos ARCHIVO				
+				$data = array('upload_data' => $this->upload->data());
+				$archivo = $file_info['file_name'];			
+			}
+			//insertar datos
+			if($this->jobs_model->updateExcavation($archivo))
+			{
 				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
-			} else {
-				$data["result"] = "error";
-				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
-				$data["idExcavation"] = "";
+			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-
-			echo json_encode($data);
-    }
+			redirect('jobs/upload_protection_methods/' . $idExcavation);
+        }
+    } 
 
 	/**
 	 * Form Excavation and Trenching Plan - Access & Egress

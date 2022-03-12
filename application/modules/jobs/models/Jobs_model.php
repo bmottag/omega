@@ -904,7 +904,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		 * Update Excavation - Protection Methods
 		 * @since 8/8/2021
 		 */
-		public function updateExcavation() 
+		public function updateExcavation($archivo) 
 		{
 			$idExcavation = $this->input->post('hddIdentificador');
 			
@@ -918,8 +918,11 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'protection_shielding' => $this->input->post('shielding'),
 				'additional_comments' => $this->input->post('additional_comments')
 			);
-						
 
+			if($archivo != 'xxx'){
+				$data['method_system_doc'] = $archivo;
+			}
+					
 			$this->db->where('id_job_excavation', $idExcavation);
 			$query = $this->db->update('job_excavation', $data);
 		

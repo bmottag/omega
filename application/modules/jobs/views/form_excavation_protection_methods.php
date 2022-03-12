@@ -1,4 +1,3 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/excavation_protection.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/ajaxExcavationProtection.js"); ?>"></script>
 
 <script>
@@ -86,7 +85,7 @@ if ($retornoError) {
 }
 ?>
 
-					<form  name="form" id="form" class="form-horizontal" method="post" >
+					<form  name="form" id="form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url("jobs/save_protection_methods"); ?>">
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information?$information[0]["id_job_excavation"]:""; ?>"/>
 														
 						<div class="form-group">
@@ -94,9 +93,6 @@ if ($retornoError) {
 								<br><small class="text-danger">(may choose more than one) </small></label>
 							<div class="col-sm-8">
 <input type="checkbox" id="sloping" name="sloping" value=1 <?php if($information && $information[0]["protection_sloping"]){echo "checked";} ?> onclick="valid_field()"> Sloping<br>
-
-
-
 
 <?php 
 	$fildTested = "none";
@@ -129,10 +125,7 @@ if($information)
 	}
 }
 ?>
-								<input type="hidden" id="hddField2" name="hddField2" value="<?php echo $valorCampo2; ?>"/>
-
-
-
+								<input type="hidden" id="hddField2" name="hddField2" value="<?php echo $valorCampo2; ?>" required />
 
 
 <p>
@@ -152,11 +145,25 @@ if($information)
 	}
 }
 ?>
-<input type="hidden" id="hddField" name="hddField" value="<?php echo $valorCampo; ?>"/>
+<input type="hidden" id="hddField" name="hddField" value="<?php echo $valorCampo; ?>" required/>
 							
 							</div>
 						</div>
-												
+			
+						<div class="form-group">					
+							<label class="col-sm-4 control-label" for="hddTask">Attach document if necessary
+								<br><small class="text-danger">Allowed format: pdf
+								<br>Maximum size: 3000 KB </small>
+							</label>
+							<div class="col-sm-5">
+								 <input type="file" name="userfile" />
+								 <br>
+								 <?php if($information[0]["method_system_doc"]){ ?>
+									<a href="<?php echo base_url('files/excavation/' . $information[0]["method_system_doc"]) ?>" target="_blank">Attached document: <?php echo $information[0]["method_system_doc"]; ?></a>
+								<?php } ?>
+							</div>
+						</div>
+			
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="additional_comments">Additional Comments: </label>
 							<div class="col-sm-5">
@@ -175,23 +182,17 @@ if($information)
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:100%;" align="center">
-									<button type="button" id="btnSubmit" name="btnSubmit" class='btn btn-danger'>
+									<button type="submit" id="btnSubmit" name="btnSubmit" class='btn btn-danger'>
 											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-									</button>						
+									</button>
 								</div>
 							</div>
 						</div>
 						
 					</form>
-					
-					<!-- /.row (nested) -->
+
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
