@@ -22,6 +22,12 @@
 						<?php if($information[0]["method_system_doc"]){ ?>
 							<br><a href="<?php echo base_url('files/excavation/' . $information[0]["method_system_doc"]) ?>" target="_blank">Attached document: <?php echo $information[0]["method_system_doc"]; ?></a>
 						<?php } ?>
+						<?php if($information[0]["permit_required_doc"]){ ?>
+							<br><a href="<?php echo base_url('files/excavation/' . $information[0]["permit_required_doc"]) ?>" target="_blank">Attached document: <?php echo $information[0]["permit_required_doc"]; ?></a>
+						<?php } ?>
+						<?php if($information[0]["excavation_sketch_doc"]){ ?>
+							<br><a href="<?php echo base_url('files/excavation/' . $information[0]["excavation_sketch_doc"]) ?>" target="_blank">Attached document: <?php echo $information[0]["excavation_sketch_doc"]; ?></a>
+						<?php } ?>
 					</div>
 				<?php 
 					if($this->session->rol && $information){
