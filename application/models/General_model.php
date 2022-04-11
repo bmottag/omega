@@ -1344,6 +1344,12 @@ class General_model extends CI_Model {
 		        if (array_key_exists("idEmployee", $arrData) && $arrData["idEmployee"] != '') {
 		            $this->db->where('T.fk_id_user', $arrData["idEmployee"]);
 		        }
+				if (array_key_exists("from", $arrData)) {
+					$this->db->where('T.start >=', $arrData["from"]);
+				}				
+				if (array_key_exists("to", $arrData)) {
+					$this->db->where('T.start <=', $arrData["to"]);
+				}
 		        $this->db->group_by("T.fk_id_user");
 				$this->db->order_by('U.first_name, U.last_name', 'asc');
 		        $query = $this->db->get('task T');
@@ -1362,8 +1368,10 @@ class General_model extends CI_Model {
 	     */
 	    public function get_task_by_period($arrData) 
 		{
-		        $this->db->select("T.*, CONCAT(first_name, ' ', last_name) name, id_user, W.period_weak");
+		        $this->db->select("T.*, CONCAT(first_name, ' ', last_name) name, id_user, W.period_weak, J.job_description job_start, H.job_description job_finish");
 		        $this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
+				$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
+				$this->db->join('param_jobs H', 'H.id_job = T.fk_id_job_finish', 'LEFT');
 				$this->db->join('payroll_period_weaks W', 'W.id_period_weak = T.fk_id_weak_period', 'LEFT');
 				$this->db->join('payroll_period P', 'P.id_period = W.fk_id_period', 'INNER');
 				
@@ -1376,6 +1384,12 @@ class General_model extends CI_Model {
 		        if (array_key_exists("weakNumber", $arrData)) {
 		            $this->db->where('W.weak_number', $arrData["weakNumber"]);
 		        }
+				if (array_key_exists("from", $arrData)) {
+					$this->db->where('T.start >=', $arrData["from"]);
+				}				
+				if (array_key_exists("to", $arrData)) {
+					$this->db->where('T.start <=', $arrData["to"]);
+				}
 				$this->db->order_by('id_task', 'asc');
 		        $query = $this->db->get('task T');
 

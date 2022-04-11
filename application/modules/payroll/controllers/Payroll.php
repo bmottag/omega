@@ -532,6 +532,52 @@ class Payroll extends CI_Controller {
 			}
 			$data["view"] = "form_search_total_yearly";
 			$this->load->view("layout_calendar", $data);
-    }  
+    }
+
+	/**
+	 * Payroll form search
+     * @since 10/04/2022
+     * @author BMOTTAG
+	 */
+    public function payrollSearchTimeSheet($idPeriod = 'x', $idEmployee = '' ) 
+	{
+			$this->load->model("general_model");
+
+			//workers list
+			$arrParam = array("state" => 1);
+			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+					
+			$data["view"] = "form_search_time_sheet";
+			
+			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
+			if($this->input->post('from')){
+				if($idPeriod != 'x'){
+					$data['idPeriod'] =  $idPeriod;
+					$data['idEmployee'] =  $idEmployee;
+				}				
+
+				if($this->input->post('from')){
+					$data['idEmployee'] =  $this->input->post('employee');
+
+					$from =  $this->input->post('from');
+					$to =  $this->input->post('to');
+					$data['from'] = formatear_fecha($from);
+					$data['to'] = formatear_fecha($to);
+					
+					//le sumo un dia al dia final para que ingrese ese dia en la consulta
+					$data['to'] = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( $data['to'] ) ) );
+				}
+
+				$arrParam = array(
+					"from" => $data['from'],
+					"to" => $data['to'],
+					"idEmployee" => $data['idEmployee']
+				);
+				$data['info'] = $this->general_model->get_users_by_period($arrParam);
+				$data["view"] = "list_payroll_time_sheet";
+			}
+
+			$this->load->view("layout_calendar", $data);
+    }
 	
 }
