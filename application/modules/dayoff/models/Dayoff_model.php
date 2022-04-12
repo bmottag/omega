@@ -50,7 +50,7 @@
 		{
 				$idUser = $this->session->userdata("id");
 				$type =  $this->input->post('type');
-				$observation =  $this->input->post('observation');
+				$observation =   $this->security->xss_clean($this->input->post('observation'));
 				$date =  $this->input->post('date');
 				$state =  1;//new
 				$fecha = date("Y-m-d G:i:s");

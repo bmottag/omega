@@ -90,11 +90,12 @@ class Dayoff extends CI_Controller {
 								break;
 						}
 						//mensaje del correo
+						$observation =   $this->security->xss_clean($this->input->post('observation'));
 						$emailMsn = "<p>There is a new request for a Day Off:</p>";
 						$emailMsn .= "<strong>Employee: </strong>" . $dayoffInfo[0]["name"];
 						$emailMsn .= "<br><strong>Type: </strong>" . $tipo;
 						$emailMsn .= "<br><strong>Date of dayoff: </strong>" . $dayoffInfo[0]["date_dayoff"];
-						$emailMsn .= "<br><strong>Observation: </strong>" . $dayoffInfo[0]["observation"];
+						$emailMsn .= "<br><strong>Observation: </strong>" . $observation;
 						$emailMsn .= "<p>Please go to the system to Approved or Denied the Day Off.</p>";
 						
 						//mensaje de texto
