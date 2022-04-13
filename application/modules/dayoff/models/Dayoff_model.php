@@ -50,12 +50,13 @@
 		{
 				$idUser = $this->session->userdata("id");
 				$type =  $this->input->post('type');
-				$observation =   $this->security->xss_clean($this->input->post('observation'));
+				$observation =  $this->security->xss_clean($this->input->post('observation'));
+				$observation =  addslashes($observation);
+
 				$date =  $this->input->post('date');
 				$state =  1;//new
 				$fecha = date("Y-m-d G:i:s");
 
-				
 				$sql = "INSERT INTO dayoff";
 				$sql.= " (fk_id_user, id_type_dayoff, date_issue, date_dayoff, observation, state)";
 				$sql.= " VALUES ($idUser, $type, '$fecha', '$date', '$observation', $state)";
