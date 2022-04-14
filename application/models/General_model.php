@@ -52,6 +52,9 @@ class General_model extends CI_Model {
 		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
 			$this->db->where('T.start <', $arrData["to"]);
 		}
+		if (array_key_exists("toLimit", $arrData) && $arrData["toLimit"] != '') {
+			$this->db->where('T.start <', $arrData["toLimit"]);
+		}
 		if (array_key_exists("fecha", $arrData)) {
 			$this->db->like('T.start', $arrData["fecha"]); 
 		}

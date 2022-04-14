@@ -66,7 +66,7 @@
 		 * @since 17/11/2016
 		 * @review 2/02/2022
 		 */
-		public function updateWorkingTimePayroll($fechaStart, $fechaCierre, $adminUpdate = 'x') 
+		public function updateWorkingTimePayroll($fechaStart, $fechaCierre, $adminUpdate = 'x', $id_task = 'x') 
 		{
 				$dteStart = new DateTime($fechaStart);
 				$dteEnd   = new DateTime($fechaCierre);
@@ -122,13 +122,17 @@
 					$sql = "UPDATE task";
 					$sql.= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 					$sql.= " WHERE id_task=$idTask";
+				}elseif($adminUpdate == 2){
+
+					$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
+					$sql = "UPDATE task";
+					$sql.= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+					$sql.= " WHERE id_task=$id_task";
 				}else{
 					$sql = "UPDATE task";
 					$sql.= " SET working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 					$sql.= " WHERE id_task=$idTask";		
 				}
-
-
 
 				$query = $this->db->query($sql);
 
@@ -143,11 +147,11 @@
 		 * Insert PAYROLL
 		 * @since 2/02/2022
 		 */
-		public function insertWorkingTimePayroll($fechaStart, $fechaCierre) 
+		public function insertWorkingTimePayroll($fechaStart, $fechaCierre, $taskInfo = 'x') 
 		{
 				$dteStart = new DateTime($fechaStart);
 				$dteEnd   = new DateTime($fechaCierre);
-				
+		
 				$dteDiff  = $dteStart->diff($dteEnd);
 				$workingTime = $dteDiff->format("%R%a days %H:%I:%S");//days hours:minutes:seconds
 			
@@ -183,7 +187,6 @@
 					$regularHours = $workingHours;
 				}
 				//FINISH hours calculation
-				
 				$idUser = $this->session->userdata("id");
 				$idTask =  $this->input->post('hddIdentificador');
 				$idJob =  $this->input->post('jobName');
@@ -191,9 +194,19 @@
 				$observation =  addslashes($observation);
 				$latitude =  $this->input->post('latitud');
 				$longitude =  $this->input->post('longitud');
-				
 				$address =  $this->security->xss_clean($this->input->post('address'));
 				$address =  addslashes($address);
+
+				if($taskInfo != 'x')
+				{
+					$idUser = $taskInfo['fk_id_user'];
+					$idTask = $taskInfo['id_task'];
+					$idJob = $taskInfo['fk_id_job'];
+					$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
+					$latitude =  0;
+					$longitude =  0;
+					$address = '';
+				}
 
 				$sql = "INSERT INTO task";
 				$sql.= " (fk_id_user, fk_id_operation, fk_id_job, task_description, start, latitude_start, longitude_start, address_start,

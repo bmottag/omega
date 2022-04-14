@@ -579,5 +579,145 @@ class Payroll extends CI_Controller {
 
 			$this->load->view("layout_calendar", $data);
     }
+
+	/**
+	 * Form Payroll Check
+	 * Used by cron
+     * @since 12/04/2022
+     * @author BMOTTAG
+	 */
+	public function payroll_check()
+	{
+			$this->load->model("general_model");
+			//search for the last 20 records
+			$to = date("Y-m-d");
+			$arrParam = array(
+				"toLimit" => $to,
+				"limit" => 20
+			);			
+			$records = $this->general_model->get_task($arrParam);
+
+			foreach ($records as $data):
+				if($data['finish'] == '0000-00-00 00:00:00'){
+					
+					$fechaStart = strtotime($data['start']);
+					$fechaStart = date("Y-m-d G:i:s", $fechaStart);
+					$fechaActual = date("Y-m-d G:i:s");
+
+					//START hours calculation
+					$hours = (strtotime($fechaStart)-strtotime($fechaActual))/3600;
+					$hours = abs($hours);  
+					$hours = round($hours);
+
+					if($hours > 24){
+						//end the current task automatically
+						$this->updatePayrollAutomatically($data['id_task'], $data['start']);
+					}elseif($hours > 16 ){
+						//send sms to the employee
+						$this->sendSMSWorkerTask($data['fk_id_user']);
+					}
+				}
+			endforeach;
+	}
+
+	/**
+	 * Close finish time payroll - automatically
+     * @since 13/04/2022
+     * @author BMOTTAG
+	 */
+	public function updatePayrollAutomatically($idTask, $start)
+	{	
+			$fechaStart = strtotime($start);
+			$fechaStart = date("Y-m-d", $fechaStart);
+			$fechaActual = date("Y-m-d");
+			$taskInfo = $this->payroll_model->get_taskbyid($idTask);
+
+			$hour = date("G:i");
+
+			$i = 0;
+			while($fechaStart != $fechaActual):
+				$i++;
+				if($i == 1){
+					//debo actualizar el registro inicial
+					$finish = $fechaStart . " 23:59:59";
+					$this->payroll_model->updateWorkingTimePayroll($start, $finish,2, $idTask);
+					/**
+					 * Guardar el id del periodo en la tabla task
+				     * busco el periodo, sino existe lo creo
+					 */
+					$this->save_period($idTask);
+				}
+
+				$fechaStart = new DateTime($fechaStart);
+				$fechaStart->modify('+1 day');
+				$fechaStart = $fechaStart->format("Y-m-d");
+				$start = $fechaStart . " 00:00:00";
+
+				//revisar si ya es el ultimo dia
+				if($fechaStart == $fechaActual){
+					$finish = date("Y-m-d G:i:s");
+				}else{
+					$finish = $fechaStart . " 23:59:59";
+				}
+				//hago un insert nuevo
+				$idTask = $this->payroll_model->insertWorkingTimePayroll($start, $finish,$taskInfo);
+				/**
+				 * Guardar el id del periodo en la tabla task
+			     * busco el periodo, sino existe lo creo
+				 */
+				$this->save_period($idTask);
+			endwhile;
+
+			return true;
+	}
+
+	/**
+	 * Send text message to employee when he haven't checkout
+     * @since 13/4/2022
+     * @author BMOTTAG
+	 */
+	public function sendSMSWorkerTask($idUser)
+	{			
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$this->load->model("general_model");
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$twilioSID = $this->encrypt->decode($parametric[3]["value"]);
+		$twilioToken = $this->encrypt->decode($parametric[4]["value"]);
+		$twilioPhone = $parametric[5]["value"];
+	
+        $client = new Twilio\Rest\Client($twilioSID, $twilioToken);
+
+		//task control info
+		$arrParam = array("idUser" => $idUser);				
+		$userInfo = $this->general_model->get_user($arrParam);
+				
+		$mensaje = "VCI TIME SHEET";
+		$mensaje .= "\n" . $userInfo[0]['first_name'] . ' ' .  $userInfo[0]['last_name'];
+		$mensaje .= "\n";
+		$mensaje .= "This message is to remind you that you have been working more than 16 hours, it is possible that you forgot to check out, if it is the case please login the system and check out.";
+
+		$to = '+1' . $userInfo[0]['movil'];
+
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		// the number you'd like to send the message to
+			$to,
+			array(
+				// A Twilio phone number you purchased at twilio.com/console
+				'from' => $twilioPhone,
+				'body' => $mensaje
+			)
+		);
+
+		return true;
+	}
 	
 }
