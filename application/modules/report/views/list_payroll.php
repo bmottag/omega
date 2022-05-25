@@ -52,7 +52,7 @@ $(function(){
 					<strong>From Date: </strong><?php echo $from; ?> 
 					<strong>To Date: </strong><?php echo $to; ?> 
 					
-<?php if($info){ ?>
+<?php if($info && 1==2){ ?>
 					<br><strong>Dowloand to: </strong>
 <a href='<?php echo base_url('report/generaPayrollXLS/' . $employee . '/' . $from . '/' . $to ); ?>'>Excel <img src='<?php echo base_url_images('xls.png'); ?>' ></a>	
 					
@@ -95,7 +95,7 @@ $(function(){
  * Opcion de editar horas para  SUPER ADMIN
  */
 	$userRol = $this->session->rol;
-	if($userRol==99){
+	if($userRol==99 && 1==2){
 
 						?>
 								<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_task']; ?>" >
