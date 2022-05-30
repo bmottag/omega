@@ -38,6 +38,7 @@ class Report extends CI_Controller {
 			$data['vehicleList'] = FALSE;//lista para filtrar en inspection report
 			$data['trailerList'] = FALSE;//lista para filtrar en inspection report
 			$data['truckList'] = FALSE;//lista para filtrar en hauling report
+			$data['vehicleRequired'] = FALSE;
 
 			switch ($modulo) {
 				case 'payroll':
@@ -140,6 +141,12 @@ class Report extends CI_Controller {
 					$data['jobList'] = $this->general_model->get_basic_search($arrParam);//job list
 					$data["titulo"] = "<i class='fa fa-money fa-fw'></i> WORK ORDER REPORT";
 					break;
+				case 'maintenance':
+					$arrParam= array("company_type" => true);
+					$data['vehicleList'] = $this->report_model->get_vehicle_by_type($arrParam);//vehicle's list
+					$data['vehicleRequired'] = 'required';
+					$data["titulo"] = "<i class='fa fa-money fa-fw'></i> MAINTENANCE PROGRAM";
+					break;
 			}
 			
 			$data["view"] = "form_search";
@@ -241,6 +248,13 @@ class Report extends CI_Controller {
 					
 						$data['info'] = $this->report_model->get_workorder($arrParam);
 						$data["view"] = "list_workorder";
+						break;
+					case 'maintenance':
+						$arrParam['vehicleId'] =  $this->input->post('vehicleId');
+					
+						$data['info'] = $this->report_model->get_maintenance($arrParam);
+//pr($data['info']); exit;
+						$data["view"] = "list_maintenance";
 						break;
 				}
 				

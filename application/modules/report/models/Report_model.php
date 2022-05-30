@@ -190,6 +190,7 @@
 		{								
 				$this->db->select();
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
+				$this->db->join('param_company C', 'C.id_company = V.fk_id_company', 'INNER');
 				$this->db->where('V.state', 1);//filtro por activos
 				if (array_key_exists("tipo", $arrData) && $arrData["tipo"] == "daily") {			
 					$where = "T.inspection_type IN (1,3)";
@@ -200,6 +201,10 @@
 					$this->db->where('V.type_level_2', 5);
 				}elseif (array_key_exists("tipo", $arrData) && $arrData["tipo"] == "special") {
 					$this->db->where('T.inspection_type', 4);
+				}
+
+				if (array_key_exists("company_type", $arrData)) {
+					$this->db->where('C.company_type', 1);
 				}
 				
 				$this->db->order_by('T.inspection_type, V.unit_number', 'asc');
@@ -571,7 +576,6 @@
 				}
 		}
 
-
 		/**
 		 * Get safety COVID
 		 * @since 15/4/2021
@@ -581,6 +585,40 @@
 				$this->db->select();
 				$this->db->where('W.fk_id_safety', $idSafety); 
 				$query = $this->db->get('safety_covid W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * maintenance
+		 * @since 25/05/2022
+		 */
+		public function get_maintenance($arrData) 
+		{						
+				$this->db->select("M.date_maintenance, M.maintenance_description, M.done_by, M.next_hours_maintenance, M.next_date_maintenance, M.maintenance_state, M.fk_id_vehicle, S.stock_description, T.maintenance_type, V.make, V.description");
+				$this->db->join('maintenance_type T', 'T.id_maintenance_type = M.fk_id_maintenance_type', 'INNER');
+				$this->db->join('stock S', 'S.id_stock = M.fk_id_stock ', 'LEFT');
+				$this->db->join('param_vehicle V', 'V.id_vehicle = M.fk_id_vehicle ', 'INNER');
+				if (array_key_exists("from", $arrData) && $arrData["from"] != 'x') {
+					$this->db->where('M.date_maintenance >=', $arrData["from"]);
+				}				
+				if (array_key_exists("to", $arrData) && $arrData["to"] != 'x') {
+					$this->db->where('M.date_maintenance <=', $arrData["to"]);
+				}
+				if (array_key_exists("vehicleId", $arrData) && $arrData["vehicleId"] != 'x') {
+					$this->db->where('M.fk_id_vehicle', $arrData["vehicleId"]);
+				}
+				if (array_key_exists("maitenanceType", $arrData)) {
+					$this->db->where('M.fk_id_maintenance_type', $arrData["maitenanceType"]);
+				}
+
+				
+				$this->db->order_by('M.id_maintenance', 'asc');
+				$query = $this->db->get('maintenance M');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();

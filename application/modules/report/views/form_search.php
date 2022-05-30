@@ -55,11 +55,16 @@
 <!-- FIN FILTRO POR EMPLEADO PARA PAYROLL CON USUARIO DE ADMINISTRADOR -->
 
 <!-- INICIO FILTRO POR VEHICULO PARA INSPECTION -->
-									<?php if($vehicleList){ ?>
+									<?php if($vehicleList){
+											$note = '<small class="danger">(This field is NOT required.)</small>';
+											if($vehicleRequired){
+												$note = '*';
+											}
+									?>
 										<div class="form-group">
-											<div class="col-sm-5 col-sm-offset-1"">
-												<label for="vehicleId">Vehicle <small class="danger">(This field is NOT required.)</small></label>
-												<select name="vehicleId" id="vehicleId" class="form-control" >
+											<div class="col-sm-5 col-sm-offset-1">
+												<label for="vehicleId">Vehicle <?php echo $note; ?></label>
+												<select name="vehicleId" id="vehicleId" class="form-control" <?php echo $vehicleRequired; ?>>
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($vehicleList); $i++) { ?>
 														<option value="<?php echo $vehicleList[$i]["id_vehicle"]; ?>" ><?php echo $vehicleList[$i]["unit_number"] . ' -----> ' . $vehicleList[$i]["description"]; ?></option>	
