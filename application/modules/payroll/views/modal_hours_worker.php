@@ -97,6 +97,17 @@ $minutosFin = substr($fin, 14, 2);
 			<div class="col-sm-4">		
 				<div class="form-group text-left">
 
+<script>
+	$( function() {
+		$( "#finish_date" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'yy-mm-dd'
+		});
+	});
+</script>
+					<label class="control-label" for="finish_date">Finish date: *</label>
+					<input type="text" class="form-control" id="finish_date" name="finish_date" value="<?php echo $fechaFin; ?>" placeholder="Finish date" required />
 				</div>
 			</div>
 			

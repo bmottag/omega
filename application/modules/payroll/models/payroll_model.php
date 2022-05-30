@@ -261,7 +261,7 @@
 				$fechaStart = $this->input->post('start_date');
 				$horaStart = $this->input->post('start_hour');
 				$minStart = $this->input->post('start_min');
-				$fechaFinish = $this->input->post('start_date');
+				$fechaFinish = $this->input->post('finish_date');
 				$horaFinish = $this->input->post('finish_hour');
 				$minFinish = $this->input->post('finish_min');
 				
@@ -273,21 +273,6 @@
 				$sql.= " WHERE id_task=$idTask";
 
 				$query = $this->db->query($sql);
-
-				if ($query) {
-					return true;
-				} else {
-					return false;
-				}
-
-				//revisar si es para adicionar o editar
-				if ($idJobJsoWorker == '') {			
-					$data['date_oriented'] = date('Y-m-d');
-					$query = $this->db->insert('job_jso_workers', $data);
-				} else {
-					$this->db->where('id_job_jso_worker', $idJobJsoWorker);
-					$query = $this->db->update('job_jso_workers', $data);
-				}
 
 				if ($query) {
 					return true;

@@ -79,56 +79,19 @@ class Payroll extends CI_Controller {
 			$fechaActual = date("Y-m-d");
 
 			$hour = date("G:i");
-			//verifico si el fecha es igual para el inicio y el final
-			if($fechaStart == $fechaActual){
-				//update working time and working hours
-				$finish = date("Y-m-d G:i:s");
-				if ($this->payroll_model->updateWorkingTimePayroll($start, $finish))
-				{
-					/**
-					 * Guardar el id del periodo en la tabla task
-				     * busco el periodo, sino existe lo creo
-					 */
-					$periodo = $this->save_period($idTask);
-					$this->session->set_flashdata('retornoExito', 'have a good night, you finished at ' . $hour . '.');
-				}else{
-					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');
-				}
+
+			//update working time and working hours
+			$finish = date("Y-m-d G:i:s");
+			if ($this->payroll_model->updateWorkingTimePayroll($start, $finish))
+			{
+				/**
+				 * Guardar el id del periodo en la tabla task
+			     * busco el periodo, sino existe lo creo
+				 */
+				$periodo = $this->save_period($idTask);
+				$this->session->set_flashdata('retornoExito', 'have a good night, you finished at ' . $hour . '.');
 			}else{
-				$i = 0;
-				while($fechaStart != $fechaActual):
-					$i++;
-					if($i == 1){
-						//debo actualizar el registro inicial
-						$finish = $fechaStart . " 23:59:59";
-						$this->payroll_model->updateWorkingTimePayroll($start, $finish);
-
-						/**
-						 * Guardar el id del periodo en la tabla task
-					     * busco el periodo, sino existe lo creo
-						 */
-						$this->save_period($idTask);
-					}
-					
-					$fechaStart = new DateTime($fechaStart);
-					$fechaStart->modify('+1 day');
-					$fechaStart = $fechaStart->format("Y-m-d");
-					$start = $fechaStart . " 00:00:00";
-
-					//revisar si ya es el ultimo dia
-					if($fechaStart == $fechaActual){
-						$finish = date("Y-m-d G:i:s");
-					}else{
-						$finish = $fechaStart . " 23:59:59";
-					}
-					//hago un insert nuevo
-					$idTask = $this->payroll_model->insertWorkingTimePayroll($start, $finish);
-					/**
-					 * Guardar el id del periodo en la tabla task
-				     * busco el periodo, sino existe lo creo
-					 */
-					$this->save_period($idTask);
-				endwhile;
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');
 			}
 
 			$dashboard = $this->session->userdata("dashboardURL");
@@ -628,45 +591,13 @@ class Payroll extends CI_Controller {
 	public function updatePayrollAutomatically($idTask, $start)
 	{	
 			$fechaStart = strtotime($start);
-			$fechaStart = date("Y-m-d", $fechaStart);
-			$fechaActual = date("Y-m-d");
-			$taskInfo = $this->payroll_model->get_taskbyid($idTask);
-
-			$hour = date("G:i");
-
-			$i = 0;
-			while($fechaStart != $fechaActual):
-				$i++;
-				if($i == 1){
-					//debo actualizar el registro inicial
-					$finish = $fechaStart . " 23:59:59";
-					$this->payroll_model->updateWorkingTimePayroll($start, $finish,2, $idTask);
-					/**
-					 * Guardar el id del periodo en la tabla task
-				     * busco el periodo, sino existe lo creo
-					 */
-					$this->save_period($idTask);
-				}
-
-				$fechaStart = new DateTime($fechaStart);
-				$fechaStart->modify('+1 day');
-				$fechaStart = $fechaStart->format("Y-m-d");
-				$start = $fechaStart . " 00:00:00";
-
-				//revisar si ya es el ultimo dia
-				if($fechaStart == $fechaActual){
-					$finish = date("Y-m-d G:i:s");
-				}else{
-					$finish = $fechaStart . " 23:59:59";
-				}
-				//hago un insert nuevo
-				$idTask = $this->payroll_model->insertWorkingTimePayroll($start, $finish,$taskInfo);
-				/**
-				 * Guardar el id del periodo en la tabla task
-			     * busco el periodo, sino existe lo creo
-				 */
-				$this->save_period($idTask);
-			endwhile;
+			$finish = date("Y-m-d G:i:s");
+			$this->payroll_model->updateWorkingTimePayroll($start, $finish,2, $idTask);
+			/**
+			 * Guardar el id del periodo en la tabla task
+		     * busco el periodo, sino existe lo creo
+			 */
+			$this->save_period($idTask);
 
 			return true;
 	}
