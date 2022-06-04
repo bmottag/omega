@@ -107,6 +107,89 @@
 			}
 		}
 
+		/**
+		 * Add checkin
+		 * @since 1/06/2022
+		 */
+		public function saveCheckin($idWorker) 
+		{
+			$data = array(
+				'fk_id_worker' => $idWorker,
+				'checkin_date ' => date('Y-m-d'),
+				'checkin_time ' => date("Y-m-d G:i:s")
+			);	
+			$query = $this->db->insert('new_checkin ', $data);
+			$idCheckin = $this->db->insert_id();	
+			if ($query) {
+				return $idCheckin;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Add new worker
+		 * @since 1/06/2022
+		 */
+		public function saveNewWorker() 
+		{
+			$data = array(
+				'worker_name' => addslashes($this->security->xss_clean($this->input->post('new_name'))),
+				'worker_movil' => addslashes($this->security->xss_clean($this->input->post('new_phone_number'))),
+			);	
+			$query = $this->db->insert('new_workers', $data);
+			$idWorker = $this->db->insert_id();	
+			if ($query) {
+				return $idWorker;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Check In List
+		 * @since 1/6/2022
+		 */
+		public function get_checkin($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->join('new_workers W', 'W.id_worker = C.fk_id_worker', 'INNER');			
+				if (array_key_exists("idCheckin", $arrDatos)) {
+					$this->db->where('C.id_checkin', $arrDatos["idCheckin"]);
+				}
+				if (array_key_exists("today", $arrDatos)) {
+					$this->db->where('C.checkin_date', $arrDatos["today"]);
+				}
+				$query = $this->db->get('new_checkin C');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Update Checkin - Checkout
+		 * @since 4/06/2022
+		 */
+		public function saveCheckout() 
+		{
+				$idCheckin = $this->input->post('hddId');
+				
+				$data = array(
+					'checkout_time' => date("Y-m-d G:i:s")
+				);
+				$this->db->where('id_checkin', $idCheckin);
+				$query = $this->db->update('new_checkin', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 		
 
 	    

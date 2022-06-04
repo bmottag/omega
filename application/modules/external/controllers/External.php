@@ -19,7 +19,6 @@ class External extends CI_Controller {
 	{
 			$data['information'] = FALSE;
 			
-			$this->load->model("general_model");
 			//job info
 			$arrParam = array(
 				"table" => "param_jobs",
@@ -154,7 +153,6 @@ class External extends CI_Controller {
 			"order" => "id_parametric",
 			"id" => "x"
 		);
-		$this->load->model("general_model");
 		$parametric = $this->general_model->get_basic_search($arrParam);						
 		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
@@ -216,7 +214,6 @@ class External extends CI_Controller {
 	 */
 	public function sendSMSFLHAWorker($idSafety, $idSafetySubcontractor = 'x')
 	{			
-		$this->load->model("general_model");
 		$this->load->library('encrypt');
 		require 'vendor/Twilio/autoload.php';
 
@@ -226,7 +223,6 @@ class External extends CI_Controller {
 			"order" => "id_parametric",
 			"id" => "x"
 		);
-		$this->load->model("general_model");
 		$parametric = $this->general_model->get_basic_search($arrParam);						
 		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
@@ -284,7 +280,6 @@ class External extends CI_Controller {
 	 */
 	public function sendSMSExcavationWorker($idExcavation, $idSubcontractor = 'x')
 	{			
-		$this->load->model("general_model");
 		$this->load->library('encrypt');
 		require 'vendor/Twilio/autoload.php';
 
@@ -294,7 +289,6 @@ class External extends CI_Controller {
 			"order" => "id_parametric",
 			"id" => "x"
 		);
-		$this->load->model("general_model");
 		$parametric = $this->general_model->get_basic_search($arrParam);						
 		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
@@ -455,6 +449,130 @@ class External extends CI_Controller {
 				}
 			}
 			echo json_encode($data);
+    }
+
+	/**
+	 * Form Checkin
+     * @since 30/5/2022
+     * @author BMOTTAG
+	 */
+	public function checkin($idCheckin = 'x')
+	{
+			$data['information'] = FALSE;
+			$data['idEncuesta'] = FALSE;
+
+			$arrParam = array(
+				"table" => "new_workers",
+				"order" => "worker_name",
+				"id" => "x"
+			);
+			$data['workers'] = $this->general_model->get_basic_search($arrParam);
+
+			$arrParam = array(
+				"today" => date('Y-m-d')
+			);
+			$data['checkinList'] = $this->external_model->get_checkin($arrParam);
+
+			if ($idCheckin != 'x') {
+					$data['idCheckin'] = $idCheckin;
+			}
+			$data["view"] = "form_checkin";
+			$this->load->view("layout_calendar", $data);
+	}
+
+	/**
+	 * Save Checkin
+     * @since 1/6/2022
+     * @author BMOTTAG
+	 */
+	public function save_checkin()
+	{
+			header('Content-Type: application/json');
+			$data = array();
+
+			$login_before =  addslashes($this->security->xss_clean($this->input->post('login_before')));
+			$idWorker =  addslashes($this->security->xss_clean($this->input->post('id_name')));
+			$msj = "Welcome, have a good day!";
+
+			if($login_before == 1){
+				if ($idCheckin = $this->external_model->saveCheckin($idWorker)) 
+				{
+					$data["result"] = true;
+					$data["idCheckin"] = $idCheckin;
+					$this->session->set_flashdata('retornoExito', $msj);
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = "Error!!! Ask for help.";
+					$data["idInspection"] = "";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
+			}else{
+				if ($idWorker = $this->external_model->saveNewWorker()) 
+				{
+					if ($idCheckin = $this->external_model->saveCheckin($idWorker)) 
+					{
+						$data["result"] = true;
+						$data["idCheckin"] = $idCheckin;
+						$this->session->set_flashdata('retornoExito', $msj);
+					} else {
+						$data["result"] = "error";
+						$data["mensaje"] = "Error!!! Ask for help.";
+						$data["idInspection"] = "";
+						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+					}
+				} else {
+					$data["result"] = "error";
+					$data["mensaje"] = "Error!!! Ask for help.";
+					$data["idInspection"] = "";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}				
+			}
+			echo json_encode($data);
+    }
+
+    /**
+     * Cargo modal - formulario checkout
+     * @since 4/06/2022
+     */
+    public function cargarModalCheckout() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idCheckin"] = $this->input->post("idCheckin");	
+
+			if ($data["idCheckin"] != 'x') {
+				$arrParam = array(
+					"idCheckin" => $data["idCheckin"]
+				);
+				$data['information'] = $this->external_model->get_checkin($arrParam);
+			}
+			$this->load->view("checkout_modal", $data);
+    }
+
+	/**
+	 * Update checkin - checkout
+     * @since 4/06/2022
+     * @author BMOTTAG
+	 */
+	public function save_checkout()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idCheckin = $this->input->post('hddId');
+			$msj = "You have update the information!!";
+
+			if ($this->external_model->saveCheckout()) {
+				$data["result"] = true;
+				$data["idRecord"] = $idCheckin;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$data["idRecord"] = "";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);	
     }
 	
 	
