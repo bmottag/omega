@@ -459,7 +459,7 @@ class External extends CI_Controller {
 	public function checkin($idCheckin = 'x')
 	{
 			$data['information'] = FALSE;
-			$data['idEncuesta'] = FALSE;
+			$data['idCheckin'] = FALSE;
 
 			$arrParam = array(
 				"table" => "new_workers",
@@ -471,10 +471,12 @@ class External extends CI_Controller {
 			$arrParam = array(
 				"today" => date('Y-m-d')
 			);
-			$data['checkinList'] = $this->external_model->get_checkin($arrParam);
+			$data['checkinList'] = $this->general_model->get_checkin($arrParam);
 
 			if ($idCheckin != 'x') {
-					$data['idCheckin'] = $idCheckin;
+				$data['idCheckin'] = $idCheckin;
+				$arrParam = array("idCheckin" => $idCheckin);
+				$data['checkinList'] = $this->general_model->get_checkin($arrParam);
 			}
 			$data["view"] = "form_checkin";
 			$this->load->view("layout_calendar", $data);
@@ -545,7 +547,7 @@ class External extends CI_Controller {
 				$arrParam = array(
 					"idCheckin" => $data["idCheckin"]
 				);
-				$data['information'] = $this->external_model->get_checkin($arrParam);
+				$data['information'] = $this->general_model->get_checkin($arrParam);
 			}
 			$this->load->view("checkout_modal", $data);
     }
@@ -560,16 +562,14 @@ class External extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$idCheckin = $this->input->post('hddId');
-			$msj = "You have update the information!!";
+			$data["idCheckin"] = $this->input->post('hddId');
+			$msj = "Have a good night, your Check-Out is done!!";
 
 			if ($this->external_model->saveCheckout()) {
 				$data["result"] = true;
-				$data["idRecord"] = $idCheckin;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
-				$data["idRecord"] = "";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 			echo json_encode($data);	

@@ -147,29 +147,6 @@
 		}
 
 		/**
-		 * Check In List
-		 * @since 1/6/2022
-		 */
-		public function get_checkin($arrDatos) 
-		{
-				$this->db->select();
-				$this->db->join('new_workers W', 'W.id_worker = C.fk_id_worker', 'INNER');			
-				if (array_key_exists("idCheckin", $arrDatos)) {
-					$this->db->where('C.id_checkin', $arrDatos["idCheckin"]);
-				}
-				if (array_key_exists("today", $arrDatos)) {
-					$this->db->where('C.checkin_date', $arrDatos["today"]);
-				}
-				$query = $this->db->get('new_checkin C');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
-
-		/**
 		 * Update Checkin - Checkout
 		 * @since 4/06/2022
 		 */

@@ -1539,5 +1539,86 @@ class Admin extends CI_Controller {
 
 			redirect(base_url("admin/employeeRate"), 'refresh');
 	}
+
+	/**
+	 * Form CkeckIN check
+	 * Used by cron
+     * @since 4/06/2022
+     * @author BMOTTAG
+	 */
+	public function checkin_check()
+	{
+			$arrParam = array(
+				"today" => date('Y-m-d'),
+				"checkout" => true
+			);
+			$checkinList = $this->general_model->get_checkin($arrParam);
+
+			if($checkinList){
+				$x=0;
+				foreach ($checkinList as $data):
+					$x++;
+					//send sms to the employee
+					$this->sendSMSWorkerCheckinCheckout($data['id_checkin']);
+				endforeach;
+				echo $x . " messages have been sent to people that haven't Check-Out";
+			}else{
+				echo "Everybody have the Check-Out done.";
+			}
+	}
+
+	/**
+	 * Send text message to employee when he haven't checkout
+     * @since 4/6/2022
+     * @author BMOTTAG
+	 */
+	public function sendSMSWorkerCheckinCheckout($idCheckin)
+	{			
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$twilioSID = $this->encrypt->decode($parametric[3]["value"]);
+		$twilioToken = $this->encrypt->decode($parametric[4]["value"]);
+		$twilioPhone = $parametric[5]["value"];
+	
+        $client = new Twilio\Rest\Client($twilioSID, $twilioToken);
+
+		//checkin info
+		$arrParam = array(
+			"idCheckin" => $idCheckin
+		);
+		$information = $this->general_model->get_checkin($arrParam);
+				
+		$mensaje = "VCI CHECK-OUT";
+		$mensaje .= "\n" . $information[0]['worker_name'];
+		$mensaje .= "\n";
+		$mensaje .= "This message is to remind you that you still on the working list, it is possible that you forgot to check out, if it is the case please check out.";
+		$mensaje .= "\nFollow the link and do the check-out.";
+		$mensaje .= "\n";
+		$mensaje .= "\n";
+		$mensaje .= base_url("external/checkin/" . $idCheckin);
+
+		$to = '+1' . $information[0]['worker_movil'];
+
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		// the number you'd like to send the message to
+			$to,
+			array(
+				// A Twilio phone number you purchased at twilio.com/console
+				'from' => $twilioPhone,
+				'body' => $mensaje
+			)
+		);
+
+		return true;
+	}
 	
 }

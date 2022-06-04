@@ -22,7 +22,7 @@ $(function(){
 <div id="page-wrapper">
 	<br>
 
-	<!-- /.row -->
+<?php if(!$idCheckin){ ?>
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -39,38 +39,10 @@ $(function(){
 							</div>
 						</div>
 					</div>
-<?php
-$retornoExito = $this->session->flashdata('retornoExito');
-if ($retornoExito) {
-    ?>
-    <div class="row">
-		<div class="col-lg-12">	
-			<div class="alert alert-success ">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-				<?php echo $retornoExito ?>		
-			</div>
-		</div>
-	</div>
-    <?php
-}
 
-$retornoError = $this->session->flashdata('retornoError');
-if ($retornoError) {
-    ?>
-    <div class="row">
-		<div class="col-lg-12">	
-			<div class="alert alert-danger ">
-				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				<?php echo $retornoError ?>
-			</div>
-		</div>
-	</div>
-    <?php
-}
-?>
 					<div class="row">
 						<div class="col-lg-3">
-							<strong>Date: </strong><?php echo date('Y-m-d'); ?><br>
+							<h3><strong>Date: </strong><?php echo date('Y-m-d'); ?><br></h3>
 						</div>
 					</div>
 					<br>
@@ -146,6 +118,7 @@ if ($retornoError) {
 			</div>
 		</div>
 	</div>
+<?php } ?>
 
 	<div class="row">
 		<div class="col-lg-12">				
@@ -154,11 +127,39 @@ if ($retornoError) {
 					People Working Today - <b><?php echo date('Y-m-d'); ?></b>
 				</div>
 				<div class="panel-body">
+<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
+		</div>
+	</div>
+    <?php
+}
 
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
+		</div>
+	</div>
+    <?php
+}
+?>
 				<?php 
 					if($checkinList){
 				?>		
-					<table class="table table-hover">
+					<table width="100%" class="table table-hover" id="dataTables">
 						<thead>
 							<tr>
 								<th class="text-center">Date</th>
@@ -218,3 +219,16 @@ if ($retornoError) {
 	</div>
 </div>                       
 <!--FIN Modal -->
+
+
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+	$('#dataTables').DataTable({
+            responsive: true,
+			 "ordering": false,
+			 paging: false,
+			"searching": false
+	});
+});
+</script>
