@@ -185,7 +185,7 @@ if ($retornoError) {
 						?>
 								<br>
 								<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_checkin']; ?>" >
-									Sing-Out <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									Sign-Out <span class="glyphicon glyphicon-edit" aria-hidden="true">
 								</button>
 						<?php
 								}
