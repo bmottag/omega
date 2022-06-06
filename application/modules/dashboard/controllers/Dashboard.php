@@ -15,7 +15,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function index()
 	{	
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			
 			$data['infoMaintenance'] = FALSE;
@@ -30,6 +29,7 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
 			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
 			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
+			$data['noCheckin'] = $this->general_model->countCheckin();
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -59,7 +59,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function hauling()
 	{		
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
@@ -81,7 +80,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function pickups_inspection()
 	{		
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
@@ -103,7 +101,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function construction_equipment_inspection()
 	{		
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
@@ -125,7 +122,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function maintenance()
 	{		
-			$this->load->model("general_model");
 			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
@@ -150,10 +146,10 @@ class Dashboard extends CI_Controller {
 	 */
 	public function supervisor()
 	{	
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			
 			$data['infoMaintenance'] = FALSE;
+			$data['noCheckin'] = FALSE;
 			
 			//cuenta payroll para el usuario 
 			$arrParam["task"] = 1;//buscar por timestap
@@ -189,7 +185,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function work_order()
 	{	
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			
 			$data['infoMaintenance'] = FALSE;
@@ -197,6 +192,7 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = FALSE;
 			$data['noHeavyInspection'] = FALSE;
 			$data['noSpecialInspection'] = FALSE;
+			$data['noCheckin'] = FALSE;
 			$data['infoGenerator'] = FALSE;
 			$data['infoHydrovac'] = FALSE;
 			$data['infoSweeper'] = FALSE;
@@ -226,10 +222,10 @@ class Dashboard extends CI_Controller {
 	 */
 	public function safety()
 	{	
-			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			
 			$data['noHauling'] = FALSE;
+			$data['noCheckin'] = FALSE;
 			
 			//cuenta payroll para el usuario 
 			$arrParam["task"] = 1;//buscar por timestap
@@ -268,12 +264,11 @@ class Dashboard extends CI_Controller {
 	 */
 	public function accounting()
 	{	
-			$this->load->model("general_model");
-
 			$data['noJobs'] = FALSE;
 			$data['noDailyInspection'] = FALSE;
 			$data['noHeavyInspection'] = FALSE;
 			$data['noSpecialInspection'] = FALSE;
+			$data['noCheckin'] = FALSE;
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
 			$data['infoWaterTruck'] = FALSE;
@@ -315,11 +310,10 @@ class Dashboard extends CI_Controller {
 	 * Management DASHBOARD
 	 */
 	public function management()
-	{	
-			$this->load->model("general_model");
-			
+	{		
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
+			$data['noCheckin'] = FALSE;
 			
 			//cuenta payroll para el usuario 
 			$arrParam["task"] = 1;//buscar por timestap
@@ -357,8 +351,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function admin()
 	{	
-			$this->load->model("general_model");
-			
 			//cuenta payroll para el usuario 
 			$arrParam["task"] = 1;//buscar por timestap
 			$data['noTareas'] = $this->general_model->countTask($arrParam);
@@ -369,6 +361,7 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
 			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
 			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
+			$data['noCheckin'] = $this->general_model->countCheckin();
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -590,6 +583,27 @@ class Dashboard extends CI_Controller {
 			$data['parametric'] = $this->general_model->get_basic_search($arrParam);	
 
 			$data["view"] ='settings';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Check In list
+     * @since 5/6/2022
+     * @author BMOTTAG
+	 */
+	public function checkin()
+	{		
+			$userRol = $this->session->userdata("rol");
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
+
+			$data['requestDate'] = date('Y-m-d');
+			if($_POST){
+				$data['requestDate'] = $this->input->post('date');
+			}
+			$arrParam = array("today" => $data['requestDate']);
+			$data['checkinList'] = $this->general_model->get_checkin($arrParam);
+
+			$data["view"] ='checkin_list';
 			$this->load->view("layout", $data);
 	}
 	

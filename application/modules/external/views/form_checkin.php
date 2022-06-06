@@ -225,10 +225,10 @@ if ($retornoError) {
 <script>
 $(document).ready(function() {
 	$('#dataTables').DataTable({
-            responsive: true,
-			 "ordering": false,
-			 paging: false,
-			"searching": false
+        responsive: true,
+		 "ordering": false,
+		 paging: false,
+		"searching": false
 	});
 });
 </script>

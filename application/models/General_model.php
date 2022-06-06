@@ -1486,5 +1486,21 @@ class General_model extends CI_Model {
 				}
 		}
 
+	/**
+	 * Count daily checkin people
+	 * @author BMOTTAG
+	 * @since  4/06/2022
+	 */
+	public function countCheckin()
+	{
+		$today = date('Y-m-d');
+		$sql = "SELECT count(id_checkin) CONTEO";
+		$sql.= " FROM new_checkin";
+		$sql.= " WHERE checkin_date = '$today'";
+        $query = $this->db->query($sql);
+        $row = $query->row();
+        return $row->CONTEO;
+	}
+
 
 }
