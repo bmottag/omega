@@ -12,7 +12,7 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="company">Full Name:</label>
-					<input type="text" id="company" name="company" class="form-control" value="<?php echo $information?$information[0]["worker_name"]:""; ?>" placeholder="Worker name" >
+					<input type="text" id="company" name="company" class="form-control" value="<?php echo $information?$information[0]["worker_name"]:""; ?>" placeholder="Worker name" disabled>
 				</div>
 			</div>
 			

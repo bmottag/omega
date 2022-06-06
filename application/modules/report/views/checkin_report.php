@@ -25,8 +25,8 @@ if($checkinList)
 					<th width="15%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Date</strong></th>
 					<th width="20%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Worker</strong></th>
 					<th width="20%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Phone Number</strong></th>
-					<th width="20%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Check-In</strong></th>
-					<th width="20%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Check-Out</strong></th>			
+					<th width="20%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Sign-In</strong></th>
+					<th width="20%" bgcolor="#dde1da" style="color:#3e403e;text-align:center;"><strong>Sign-Out</strong></th>			
 				</tr>';
 
 				$x=0;

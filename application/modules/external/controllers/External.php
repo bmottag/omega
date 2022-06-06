@@ -494,7 +494,7 @@ class External extends CI_Controller {
 
 			$login_before =  addslashes($this->security->xss_clean($this->input->post('login_before')));
 			$idWorker =  addslashes($this->security->xss_clean($this->input->post('id_name')));
-			$msj = "Welcome, have a good day!";
+			$msj = "Welcome, work safe!";
 
 			if($login_before == 1){
 				if ($idCheckin = $this->external_model->saveCheckin($idWorker)) 
@@ -563,7 +563,7 @@ class External extends CI_Controller {
 			$data = array();
 			
 			$data["idCheckin"] = $this->input->post('hddId');
-			$msj = "Have a good night, your Check-Out is done!!";
+			$msj = "Thanks for coming, have a good day!";
 
 			if ($this->external_model->saveCheckout()) {
 				$data["result"] = true;

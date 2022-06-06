@@ -3,7 +3,7 @@
 
 <script>
 $(function(){ 
-	$(".btn-info").click(function () {	
+	$(".btn-danger").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -27,7 +27,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-tasks"></i><strong> CHECK-IN </strong>
+					<i class="fa fa-tasks"></i><strong> SIGN-IN </strong>
 				</div>
 				<div class="panel-body">
 				<form  name="form" id="form" method="post" >
@@ -35,7 +35,7 @@ $(function(){
 						<div class="col-lg-12">
 							<div class="alert alert-info ">
 								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-									The following form is to let the people know that you are in the site, or you aready left. 
+									Welcome to <b>VCI</b> Sign-In form. 
 							</div>
 						</div>
 					</div>
@@ -49,7 +49,7 @@ $(function(){
 					<div class="row">
 						<div class="col-lg-3">
 							<div class="form-group">									
-								<label class="control-label" for="login_before">Have you Check-In before? <small class="text-primary"> </small></label>
+								<label class="control-label" for="login_before">Have you Sign-In before? <small class="text-primary"> </small></label>
 								<select name="login_before" id="login_before" class="form-control" required>
 									<option value=''>Seleccione...</option>
 									<option value=1 >Yes</option>
@@ -91,7 +91,7 @@ $(function(){
 						<div class="row" align="center">
 							<div style="width:50%;" align="center">
 								<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
-									Check-In <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									Sign-In <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 								</button> 
 							</div>
 						</div>
@@ -165,9 +165,8 @@ if ($retornoError) {
 								<th class="text-center">Date</th>
 								<th >Worker</th>
 								<th class="text-center">Phone Number</th>
-								<th class="text-center">Check-In</th>
-								<th class="text-center">Check-Out</th>
-								<th class="text-center">Editar</th>
+								<th class="text-center">Sign-In</th>
+								<th class="text-center">Sign-Out</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -176,27 +175,25 @@ if ($retornoError) {
 								$checkOut = $lista['checkout_time'];
 								$flag = false;
 								if($lista['checkout_time']=="0000-00-00 00:00:00"){
-									$checkOut = "<p class='text-primary'><i class='fa fa-refresh fa-fw'></i><b>Still working</b><p>";
+									$checkOut = "<p class='text-danger'><i class='fa fa-refresh fa-fw'></i><b>Still working</b><p>";
 									$flag = true;
 								}
 								
 								echo "<tr>";
-								echo "<td class='text-center'>" . ucfirst(strftime("%b %d, %G",strtotime($lista['checkin_date']))) . "</td>";
+								echo "<td class='text-center'>" . ucfirst(strftime("%b %d, %G",strtotime($lista['checkin_date'])));
+								if($flag){
+						?>
+								<br>
+								<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_checkin']; ?>" >
+									Sing-Out <span class="glyphicon glyphicon-edit" aria-hidden="true">
+								</button>
+						<?php
+								}
+								echo "</td>";
 								echo "<td>" . $lista['worker_name'] . "</td>";
 								echo "<td class='text-center'>" . $lista['worker_movil'] . "</td>";
 								echo "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
 								echo "<td class='text-center'>" . $checkOut . "</td>";
-								echo "<td class='text-center'>";
-								if($flag){
-						?>
-								<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_checkin']; ?>" >
-									Check-Out <span class="glyphicon glyphicon-edit" aria-hidden="true">
-								</button>
-						<?php
-								}else{
-									echo "---";
-								}
-								echo "</td>";
 								echo "</tr>";
 							endforeach;
 						?>

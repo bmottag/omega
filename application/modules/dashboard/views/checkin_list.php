@@ -10,7 +10,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<a class="btn btn-primary btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-search"></i> <strong>CHECK-IN LIST</strong>
+					<i class="fa fa-search"></i> <strong>SIGN-IN LIST</strong>
 				</div>
 				<div class="panel-body">
 
@@ -57,7 +57,7 @@
 							<br>
 							<div class="btn-group" >
 								<a class='btn btn-purpura btn-xs' href='<?php echo base_url('admin/checkin_check/') ?>' target="_blank">
-									Send SMS to Workers <i class='glyphicon glyphicon-send'></i>
+									Send SMS to Workers that haven't Sign Out <i class='glyphicon glyphicon-send'></i>
 								</a>
 								<a href='<?php echo base_url("report/checkinPDF/" . $requestDate); ?>' class='btn btn-info btn-xs' title="Download Report" target="_blank"> Download Report <i class='fa fa-file-pdf-o'></i></a>
 							</div>
@@ -70,8 +70,8 @@
 								<th class="text-center">Date</th>
 								<th >Worker</th>
 								<th class="text-center">Phone Number</th>
-								<th class="text-center">Check-In</th>
-								<th class="text-center">Check-Out</th>
+								<th class="text-center">Sign-In</th>
+								<th class="text-center">Sign-Out</th>
 							</tr>
 						</thead>
 						<tbody>							

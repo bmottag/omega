@@ -1599,8 +1599,8 @@ class Admin extends CI_Controller {
 		$mensaje = "VCI CHECK-OUT";
 		$mensaje .= "\n" . $information[0]['worker_name'];
 		$mensaje .= "\n";
-		$mensaje .= "This message is to remind you that you still on the working list, it is possible that you forgot to check out, if it is the case please check out.";
-		$mensaje .= "\nFollow the link and do the check-out.";
+		$mensaje .= "This message is to remind you that you still ON the working list at the work site, it is possible that you forgot to sign out.";
+		$mensaje .= "\nUse the following link to sign out.";
 		$mensaje .= "\n";
 		$mensaje .= "\n";
 		$mensaje .= base_url("external/checkin/" . $idCheckin);

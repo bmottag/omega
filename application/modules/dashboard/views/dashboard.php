@@ -310,13 +310,13 @@ if ($retornoError) {
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge"><?php echo $noCheckin; ?></div>
-                                    <div>Workers check-in today</div>
+                                    <div>Sign-In Form</div>
                                 </div>
                             </div>
                         </div>
                         <a href="<?php echo base_url('dashboard/checkin'); ?>">
                             <div class="panel-footer">
-                                <span class="pull-left"> Check-In </span>
+                                <span class="pull-left"> View Registers </span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
