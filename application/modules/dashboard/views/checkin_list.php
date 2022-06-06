@@ -56,7 +56,7 @@
 						<div class="col-lg-6" align="right">
 							<br>
 							<div class="btn-group" >
-								<a class='btn btn-purpura btn-xs' href='<?php echo base_url('admin/checkin_check/') ?>' target="_blank">
+								<a class='btn btn-purpura btn-xs' href='<?php echo base_url('admin/checkin_check') ?>' target="_blank">
 									Send SMS to Workers that haven't Sign Out <i class='glyphicon glyphicon-send'></i>
 								</a>
 								<a href='<?php echo base_url("report/checkinPDF/" . $requestDate); ?>' class='btn btn-info btn-xs' title="Download Report" target="_blank"> Download Report <i class='fa fa-file-pdf-o'></i></a>

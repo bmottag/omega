@@ -1547,32 +1547,6 @@ class Admin extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function checkin_check()
-	{
-			$arrParam = array(
-				"today" => date('Y-m-d'),
-				"checkout" => true
-			);
-			$checkinList = $this->general_model->get_checkin($arrParam);
-
-			if($checkinList){
-				$x=0;
-				foreach ($checkinList as $data):
-					$x++;
-					//send sms to the employee
-					$this->sendSMSWorkerCheckinCheckout($data['id_checkin']);
-				endforeach;
-				echo $x . " messages have been sent to people that haven't Check-Out";
-			}else{
-				echo "Everybody have the Check-Out done.";
-			}
-	}
-
-	/**
-	 * Send text message to employee when he haven't checkout
-     * @since 4/6/2022
-     * @author BMOTTAG
-	 */
-	public function sendSMSWorkerCheckinCheckout($idCheckin)
 	{			
 		$this->load->library('encrypt');
 		require 'vendor/Twilio/autoload.php';
@@ -1590,35 +1564,40 @@ class Admin extends CI_Controller {
 	
         $client = new Twilio\Rest\Client($twilioSID, $twilioToken);
 
-		//checkin info
 		$arrParam = array(
-			"idCheckin" => $idCheckin
+			"today" => date('Y-m-d'),
+			"checkout" => true
 		);
-		$information = $this->general_model->get_checkin($arrParam);
-				
-		$mensaje = "VCI CHECK-OUT";
-		$mensaje .= "\n" . $information[0]['worker_name'];
-		$mensaje .= "\n";
-		$mensaje .= "This message is to remind you that you still ON the working list at the work site, it is possible that you forgot to sign out.";
-		$mensaje .= "\nUse the following link to sign out.";
-		$mensaje .= "\n";
-		$mensaje .= "\n";
-		$mensaje .= base_url("external/checkin/" . $idCheckin);
+		$checkinList = $this->general_model->get_checkin($arrParam);
 
-		$to = '+1' . $information[0]['worker_movil'];
+		if($checkinList){
+			$x=0;
+			foreach ($checkinList as $data):
+				$x++;
+				//send sms to the employee
+				$mensaje = "VCI Sign-Out";
+				$mensaje .= "\n" . $data['worker_name'];
+				$mensaje .= "\n";
+				$mensaje .= "This message is to remind you that you still ON the working list at the work site, it is possible that you forgot to sign out.";
+				$mensaje .= "\nUse the following link to Sign-Out.";
+				$mensaje .= "\n";
+				$mensaje .= "\n";
+				$mensaje .= base_url("external/checkin/" . $data['id_checkin']);
 
-		// Use the client to do fun stuff like send text messages!
-		$client->messages->create(
-		// the number you'd like to send the message to
-			$to,
-			array(
-				// A Twilio phone number you purchased at twilio.com/console
-				'from' => $twilioPhone,
-				'body' => $mensaje
-			)
-		);
+				$to = '+1' . $data['worker_movil'];
+				$client->messages->create(
+					$to,
+					array(
+						'from' => $twilioPhone,
+						'body' => $mensaje
+					)
+				);
+			endforeach;
+			echo $x . " messages have been sent to people that haven't Check-Out";
+		}else{
+			echo "Everybody have the Check-Out done.";
+		}
 
-		return true;
 	}
 	
 }
