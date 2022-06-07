@@ -24,7 +24,7 @@ class Home {
                     }
                 }
             } else if ($this->ci->uri->segment(1) == "admin") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
-                $arrControllers = array($this->ci->uri->segment(1), "certifications_check");
+                $arrControllers = array($this->ci->uri->segment(1), "certifications_check", "checkin_check");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
                     if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
                         $error = TRUE;
