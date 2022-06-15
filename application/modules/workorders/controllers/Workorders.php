@@ -6,7 +6,7 @@ class Workorders extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("workorders_model");
-		$this->load->library('PHPExcel.php');
+		//$this->load->library('PHPExcel.php');
         $this->load->helper('form');
     }
 	
@@ -1409,7 +1409,10 @@ class Workorders extends CI_Controller {
 				$arrParam['table'] = "workorder_ocasional";
 				$data['incomeSubcontractor'] = $this->workorders_model->countIncome($arrParam);//cuenta horas de personal
 
-				$data['total'] = $data['incomePersonal'] + $data['incomeMaterial'] + $data['incomeEquipment'] + $data['incomeSubcontractor'];
+				$arrParam['table'] = "workorder_receipt ";
+				$data['incomeReceipt'] = $this->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+				$data['total'] = $data['incomePersonal'] + $data['incomeMaterial'] + $data['incomeEquipment'] + $data['incomeSubcontractor'] + $data['incomeReceipt'];
 				
 				//job list
 				$arrParam = array(

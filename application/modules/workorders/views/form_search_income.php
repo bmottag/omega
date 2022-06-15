@@ -162,7 +162,7 @@ return date;
 					<br><strong> From Date: </strong> <?php echo $from; ?>
 					<strong>To Date: </strong> <?php echo $to; ?>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body small">
 				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesIncome">
 						<thead>
@@ -174,6 +174,7 @@ return date;
 								<th class="text-center">Material Income</th>
 								<th class="text-center">Equipment Income</th>
 								<th class="text-center">Subcontractor Income</th>
+								<th class="text-center">Receipt Income</th>
 								<th class="text-center">Total Income</th>
 								<th class="text-center">Download</th>
 							</tr>
@@ -199,6 +200,10 @@ return date;
 							
 							echo "<td class='text-right'>";
 							echo '$' . number_format($incomeSubcontractor, 2);
+							echo "</td>";
+
+							echo "<td class='text-right'>";
+							echo '$' . number_format($incomeReceipt, 2);
 							echo "</td>";
 							
 							echo "<td class='text-right'>";
@@ -235,7 +240,7 @@ return date;
 				<div class="panel-heading">
 					<i class="fa fa-briefcase"></i> JOBS INFO - Income for all Job Codes/Names
 				</div>
-				<div class="panel-body">
+				<div class="panel-body small">
 
 				<?php
 					if($jobList){
@@ -250,6 +255,7 @@ return date;
 								<th class="text-center">Material Income</th>
 								<th class="text-center">Equipment Income</th>
 								<th class="text-center">Subcontractor Income</th>
+								<th class="text-center">Receipt Income</th>
 								<th class="text-center">Total Income</th>
 								<th class="text-center">Download</th>
 							</tr>
@@ -277,8 +283,11 @@ return date;
 									
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_ocasional");
 									$incomeSubcontractor = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
-									
-									$total = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor;
+
+									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_receipt");
+									$incomeReceipt = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+									$total = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor + $incomeReceipt;
 									
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
@@ -299,6 +308,10 @@ return date;
 									
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeSubcontractor, 2);
+									echo "</td>";
+
+									echo "<td class='text-right'>";
+									echo '$' . number_format($incomeReceipt, 2);
 									echo "</td>";
 									
 									echo "<td class='text-right'>";
