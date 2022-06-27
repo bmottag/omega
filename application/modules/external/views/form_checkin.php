@@ -31,6 +31,7 @@ $(function(){
 				</div>
 				<div class="panel-body">
 				<form  name="form" id="form" method="post" >
+					<input type="hidden" id="idProject" name="idProject" value="<?php echo $jobInfo[0]["id_job"]; ?>" >
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="alert alert-info ">
@@ -41,8 +42,9 @@ $(function(){
 					</div>
 
 					<div class="row">
-						<div class="col-lg-3">
-							<h3><strong>Date: </strong><?php echo date('Y-m-d'); ?><br></h3>
+						<div class="col-lg-12">
+							<h3><strong>Date: </strong><?php echo date('Y-m-d'); ?><br>
+							<small><?php echo $jobInfo[0]["job_description"]; ?></small></h3>
 						</div>
 					</div>
 					<br>

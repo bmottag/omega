@@ -115,10 +115,11 @@
 		{
 			$data = array(
 				'fk_id_worker' => $idWorker,
-				'checkin_date ' => date('Y-m-d'),
-				'checkin_time ' => date("Y-m-d G:i:s")
+				'checkin_date' => date('Y-m-d'),
+				'checkin_time' => date("Y-m-d G:i:s"),
+				'fk_id_job' => addslashes($this->security->xss_clean($this->input->post('idProject')))
 			);	
-			$query = $this->db->insert('new_checkin ', $data);
+			$query = $this->db->insert('new_checkin', $data);
 			$idCheckin = $this->db->insert_id();	
 			if ($query) {
 				return $idCheckin;

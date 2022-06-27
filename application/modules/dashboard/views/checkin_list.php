@@ -72,6 +72,7 @@
 								<th class="text-center">Phone Number</th>
 								<th class="text-center">Sign-In</th>
 								<th class="text-center">Sign-Out</th>
+								<th class="text-center">Job Code/Name</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -87,6 +88,7 @@
 								echo "<td class='text-center'>" . $lista['worker_movil'] . "</td>";
 								echo "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
 								echo "<td class='text-center'>" . $checkOut . "</td>";
+								echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
 								echo "</tr>";
 							endforeach;
 						?>

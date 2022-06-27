@@ -1582,7 +1582,7 @@ class Admin extends CI_Controller {
 				$mensaje .= "\nUse the following link to Sign-Out.";
 				$mensaje .= "\n";
 				$mensaje .= "\n";
-				$mensaje .= base_url("external/checkin/" . $data['id_checkin']);
+				$mensaje .= base_url("external/checkin/". $data['fk_id_job']."/". $data['id_checkin']);
 
 				$to = '+1' . $data['worker_movil'];
 				$client->messages->create(

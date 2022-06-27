@@ -7,7 +7,7 @@
 <div class="modal-body">
 	<form name="formCheckout" id="formCheckout" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_checkin"]:""; ?>"/>
-		
+		<input type="hidden" id="idProject" name="idProject" value="<?php echo $information?$information[0]["fk_id_job"]:""; ?>"/>
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">

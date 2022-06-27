@@ -1467,9 +1467,13 @@ class General_model extends CI_Model {
 		public function get_checkin($arrDatos) 
 		{
 				$this->db->select();
-				$this->db->join('new_workers W', 'W.id_worker = C.fk_id_worker', 'INNER');			
+				$this->db->join('new_workers W', 'W.id_worker = C.fk_id_worker', 'INNER');
+				$this->db->join('param_jobs J', 'J.id_job = C.fk_id_job', 'INNER');		
 				if (array_key_exists("idCheckin", $arrDatos)) {
 					$this->db->where('C.id_checkin', $arrDatos["idCheckin"]);
+				}
+				if (array_key_exists("idJob", $arrDatos)) {
+					$this->db->where('C.fk_id_job', $arrDatos["idJob"]);
 				}
 				if (array_key_exists("today", $arrDatos)) {
 					$this->db->where('C.checkin_date', $arrDatos["today"]);
@@ -1477,6 +1481,7 @@ class General_model extends CI_Model {
 				if (array_key_exists("checkout", $arrDatos)) {
 					$this->db->where('C.checkout_time', '0000-00-00 00:00:00');
 				}
+				$this->db->order_by('C.fk_id_job, C.id_checkin', 'asc');
 				$query = $this->db->get('new_checkin C');
 
 				if ($query->num_rows() > 0) {

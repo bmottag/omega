@@ -456,7 +456,7 @@ class External extends CI_Controller {
      * @since 30/5/2022
      * @author BMOTTAG
 	 */
-	public function checkin($idCheckin = 'x')
+	public function checkin($idProject, $idCheckin = 'x')
 	{
 			$data['information'] = FALSE;
 			$data['idCheckin'] = FALSE;
@@ -469,7 +469,16 @@ class External extends CI_Controller {
 			$data['workers'] = $this->general_model->get_basic_search($arrParam);
 
 			$arrParam = array(
-				"today" => date('Y-m-d')
+				"table" => "param_jobs",
+				"order" => "id_job",
+				"column" => "id_job",
+				"id" => $idProject
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);//company list
+
+			$arrParam = array(
+				"today" => date('Y-m-d'),
+				"idJob" => $idProject
 			);
 			$data['checkinList'] = $this->general_model->get_checkin($arrParam);
 
@@ -494,13 +503,14 @@ class External extends CI_Controller {
 
 			$login_before =  addslashes($this->security->xss_clean($this->input->post('login_before')));
 			$idWorker =  addslashes($this->security->xss_clean($this->input->post('id_name')));
+			$idJob =  addslashes($this->security->xss_clean($this->input->post('idProject')));
 			$msj = "Welcome, work safe!";
 
 			if($login_before == 1){
 				if ($idCheckin = $this->external_model->saveCheckin($idWorker)) 
 				{
 					$data["result"] = true;
-					$data["idCheckin"] = $idCheckin;
+					$data["idCheckin"] = $idJob ."/".$idCheckin;
 					$this->session->set_flashdata('retornoExito', $msj);
 				} else {
 					$data["result"] = "error";
@@ -514,7 +524,7 @@ class External extends CI_Controller {
 					if ($idCheckin = $this->external_model->saveCheckin($idWorker)) 
 					{
 						$data["result"] = true;
-						$data["idCheckin"] = $idCheckin;
+						$data["idCheckin"] = $idJob ."/".$idCheckin;
 						$this->session->set_flashdata('retornoExito', $msj);
 					} else {
 						$data["result"] = "error";
@@ -562,7 +572,9 @@ class External extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$data["idCheckin"] = $this->input->post('hddId');
+			$idCheckin = $this->input->post('hddId');
+			$idJob = $this->input->post('idProject');
+			$data["idCheckin"] = $idJob ."/".$idCheckin;
 			$msj = "Thanks for coming, have a good day!";
 
 			if ($this->external_model->saveCheckout()) {
