@@ -225,7 +225,6 @@ class Dashboard extends CI_Controller {
 			$userRol = $this->session->userdata("rol");
 			
 			$data['noHauling'] = FALSE;
-			$data['noCheckin'] = FALSE;
 			
 			//cuenta payroll para el usuario 
 			$arrParam["task"] = 1;//buscar por timestap
@@ -236,6 +235,7 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
 			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
 			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
+			$data['noCheckin'] = $this->general_model->countCheckin();
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
