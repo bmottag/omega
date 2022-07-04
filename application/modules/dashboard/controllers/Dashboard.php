@@ -192,7 +192,6 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = FALSE;
 			$data['noHeavyInspection'] = FALSE;
 			$data['noSpecialInspection'] = FALSE;
-			$data['noCheckin'] = FALSE;
 			$data['infoGenerator'] = FALSE;
 			$data['infoHydrovac'] = FALSE;
 			$data['infoSweeper'] = FALSE;
@@ -204,6 +203,7 @@ class Dashboard extends CI_Controller {
 			
 			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
 			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
+			$data['noCheckin'] = $this->general_model->countCheckin();
 						
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -593,7 +593,6 @@ class Dashboard extends CI_Controller {
 	 */
 	public function checkin()
 	{		
-			$userRol = $this->session->userdata("rol");
 			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
 			$data['requestDate'] = date('Y-m-d');
