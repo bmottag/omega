@@ -1,12 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(FCPATH.'vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 class Report extends CI_Controller {
 	
     public function __construct() {
         parent::__construct();
 		$this->load->model("report_model");
-		//$this->load->library('PHPExcel.php');
     }
 	
 	/**
@@ -2295,6 +2305,10 @@ if($lista["with_trailer"] == 1){
 	 */
 	public function generaPayrollXLS($idUser, $from, $to)
 	{
+			$fechaActual = date('Y-m-d');
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition:attachment;filename=payroll_'.$fechaActual.'.xlsx');
+
 			$data['from'] = $from;
 			$data['to'] = $to;
 				
@@ -2307,28 +2321,18 @@ if($lista["with_trailer"] == 1){
 
 			$info = $this->report_model->get_payroll($arrParam);
 
-
-			// Create new PHPExcel object	
-			$objPHPExcel = new PHPExcel();
-
-			// Set document properties
-			$objPHPExcel->getProperties()->setCreator("VCI APP")
-										 ->setLastModifiedBy("VCI APP")
-										 ->setTitle("Report")
-										 ->setSubject("Report")
-										 ->setDescription("VCI Report.")
-										 ->setKeywords("office 2007 openxml php")
-										 ->setCategory("Report");
+			$spreadsheet = new Spreadsheet();
+			$spreadsheet->getActiveSheet()->setTitle('Consolidado');
 										 
 			// Create a first sheet
 			$dateRange = $from . '-' . $to;
-			$objPHPExcel->setActiveSheetIndex(0);
-			$objPHPExcel->getActiveSheet()->setCellValue('A1', 'PAYROLL REPORT');
+
+			$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'PAYROLL REPORT');
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('A2', 'Date Range:')
+			$spreadsheet->getActiveSheet(0)->setCellValue('A2', 'Date Range:')
 										->setCellValue('B2', $dateRange);
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('A4', 'Employee Name')
+			$spreadsheet->getActiveSheet(0)->setCellValue('A4', 'Employee Name')
 										->setCellValue('B4', 'Time In')
 										->setCellValue('C4', 'Time Out')
 										->setCellValue('D4', 'Job Start')
@@ -2342,7 +2346,7 @@ if($lista["with_trailer"] == 1){
 			$total = 0;
 			foreach ($info as $data):
 					$total = $data['working_hours'] + $total;
-					$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['name'])
+					$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['name'])
 												  ->setCellValue('B'.$j, $data['start'])
 												  ->setCellValue('C'.$j, $data['finish'])
 												  ->setCellValue('D'.$j, $data['job_start'])
@@ -2355,82 +2359,31 @@ if($lista["with_trailer"] == 1){
 			endforeach;         
 
 			// Set column widths							  
-			$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(23);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(23);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
 
 			// Add conditional formatting
-			$objConditional1 = new PHPExcel_Style_Conditional();
-			$objConditional1->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_BETWEEN)
-							->addCondition('200')
-							->addCondition('400');
-			$objConditional1->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
-			$objConditional1->getStyle()->getFont()->setBold(true);
-			$objConditional1->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:I4')->getFont()->setBold(true);
 
-			$objConditional2 = new PHPExcel_Style_Conditional();
-			$objConditional2->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_LESSTHAN)
-							->addCondition('0');
-			$objConditional2->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
-			$objConditional2->getStyle()->getFont()->setItalic(true);
-			$objConditional2->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:I4')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:I4')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:I4')->getFill()->getStartColor()->setARGB('236e09');
 
-			$objConditional3 = new PHPExcel_Style_Conditional();
-			$objConditional3->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_GREATERTHANOREQUAL)
-							->addCondition('0');
-			$objConditional3->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_GREEN);
-			$objConditional3->getStyle()->getFont()->setItalic(true);
-			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:I4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:I4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-			$conditionalStyles = $objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles();
-			array_push($conditionalStyles, $objConditional1);
-			array_push($conditionalStyles, $objConditional2);
-			array_push($conditionalStyles, $objConditional3);
-			$objPHPExcel->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
+			$spreadsheet->setActiveSheetIndex(0);
 
-			//	duplicate the conditional styles across a range of cells
-			$objPHPExcel->getActiveSheet()->duplicateConditionalStyle(
-							$objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
-							'B3:B7'
-						  );
-
-			// Set fonts			  
-			$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A4:I4')->getFont()->setBold(true);
-
-			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $objPHPExcel->getProperties()->getTitle() . '&RPage &P of &N');
-
-			// Set page orientation and size
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-
-			// Rename worksheet
-			$userName = $info[0]['name'];
-			$objPHPExcel->getActiveSheet()->setTitle($userName);
-
-			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-			$objPHPExcel->setActiveSheetIndex(0);
-
-			// redireccionamos la salida al navegador del cliente (Excel2007)
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="payroll.xlsx"');
-			header('Cache-Control: max-age=0');
-			 
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-			$objWriter->save('php://output');
-			  
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');  
     }
 	
 	/**
@@ -2456,10 +2409,10 @@ if($lista["with_trailer"] == 1){
 			$info = $this->report_model->get_hauling($arrParam);
 
 			// Create new PHPExcel object	
-			$objPHPExcel = new PHPExcel();
+			$spreadsheet = new PHPExcel();
 
 			// Set document properties
-			$objPHPExcel->getProperties()->setCreator("VCI APP")
+			$spreadsheet->getProperties()->setCreator("VCI APP")
 										 ->setLastModifiedBy("VCI APP")
 										 ->setTitle("Report")
 										 ->setSubject("Report")
@@ -2469,13 +2422,13 @@ if($lista["with_trailer"] == 1){
 										 
 			// Create a first sheet
 			$dateRange = $from . '-' . $to;
-			$objPHPExcel->setActiveSheetIndex(0);
-			$objPHPExcel->getActiveSheet()->setCellValue('A1', 'HAULING REPORT');
+			$spreadsheet->setActiveSheetIndex(0);
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'HAULING REPORT');
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('A2', 'Date Range:')
+			$spreadsheet->getActiveSheet()->setCellValue('A2', 'Date Range:')
 										->setCellValue('B2', $dateRange);
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('A4', 'Hauling done by')
+			$spreadsheet->getActiveSheet()->setCellValue('A4', 'Hauling done by')
 										->setCellValue('B4', 'Employee')
 										->setCellValue('C4', 'Truck - Unit Number')
 										->setCellValue('D4', 'Truck Type')
@@ -2492,7 +2445,7 @@ if($lista["with_trailer"] == 1){
 			$j=5;
 			$total = 0;
 			foreach ($info as $data):
-					$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['company_name'])
+					$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['company_name'])
 												  ->setCellValue('B'.$j, $data['name'])
 												  ->setCellValue('C'.$j, $data['unit_number'])
 												  ->setCellValue('D'.$j, $data['truck_type'])
@@ -2509,18 +2462,18 @@ if($lista["with_trailer"] == 1){
 			endforeach;         
 
 			// Set column widths							  
-			$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(23);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(23);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(30);
 
 			// Add conditional formatting
 			$objConditional1 = new PHPExcel_Style_Conditional();
@@ -2548,43 +2501,43 @@ if($lista["with_trailer"] == 1){
 			$objConditional3->getStyle()->getFont()->setItalic(true);
 			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
 
-			$conditionalStyles = $objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles();
+			$conditionalStyles = $spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles();
 			array_push($conditionalStyles, $objConditional1);
 			array_push($conditionalStyles, $objConditional2);
 			array_push($conditionalStyles, $objConditional3);
-			$objPHPExcel->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
+			$spreadsheet->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
 
 			//	duplicate the conditional styles across a range of cells
-			$objPHPExcel->getActiveSheet()->duplicateConditionalStyle(
-							$objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
+			$spreadsheet->getActiveSheet()->duplicateConditionalStyle(
+							$spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
 							'B3:B7'
 						  );
 
 			// Set fonts			  
-			$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A4:L4')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('A4:L4')->getFont()->setBold(true);
 
 			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $objPHPExcel->getProperties()->getTitle() . '&RPage &P of &N');
+			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
+			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $spreadsheet->getProperties()->getTitle() . '&RPage &P of &N');
 
 			// Set page orientation and size
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+			$spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+			$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
 
 			// Rename worksheet
-			$objPHPExcel->getActiveSheet()->setTitle("Hauling");
+			$spreadsheet->getActiveSheet()->setTitle("Hauling");
 
 			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-			$objPHPExcel->setActiveSheetIndex(0);
+			$spreadsheet->setActiveSheetIndex(0);
 
 			// redireccionamos la salida al navegador del cliente (Excel2007)
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			header('Content-Disposition: attachment;filename="hauling.xlsx"');
 			header('Cache-Control: max-age=0');
 			 
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+			$objWriter = PHPExcel_IOFactory::createWriter($spreadsheet, 'Excel2007');
 			$objWriter->save('php://output');
 			  
     }
@@ -2612,10 +2565,10 @@ if($lista["with_trailer"] == 1){
 			$info = $this->report_model->get_workorder($arrParam);
 
 			// Create new PHPExcel object	
-			$objPHPExcel = new PHPExcel();
+			$spreadsheet = new PHPExcel();
 
 			// Set document properties
-			$objPHPExcel->getProperties()->setCreator("VCI APP")
+			$spreadsheet->getProperties()->setCreator("VCI APP")
 										 ->setLastModifiedBy("VCI APP")
 										 ->setTitle("Report")
 										 ->setSubject("Report")
@@ -2625,13 +2578,13 @@ if($lista["with_trailer"] == 1){
 										 
 			// Create a first sheet
 			$dateRange = $from . '-' . $to;
-			$objPHPExcel->setActiveSheetIndex(0);
-			$objPHPExcel->getActiveSheet()->setCellValue('A1', 'WORK ORDER REPORT');
+			$spreadsheet->setActiveSheetIndex(0);
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'WORK ORDER REPORT');
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('A2', 'Date Range:')
+			$spreadsheet->getActiveSheet()->setCellValue('A2', 'Date Range:')
 										->setCellValue('B2', $dateRange);
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('A4', 'Work Order #')
+			$spreadsheet->getActiveSheet()->setCellValue('A4', 'Work Order #')
 										->setCellValue('B4', 'Supervisor')
 										->setCellValue('C4', 'Date of Issue')
 										->setCellValue('D4', 'Date Work Order')
@@ -2662,7 +2615,7 @@ if($lista["with_trailer"] == 1){
 				$observation = $data['observation']?$data['observation']:'';
 				if($workorderPersonal){
 					foreach ($workorderPersonal as $infoP):
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -2681,7 +2634,7 @@ if($lista["with_trailer"] == 1){
 
 				if($workorderMaterials){
 					foreach ($workorderMaterials as $infoM):
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -2705,7 +2658,7 @@ if($lista["with_trailer"] == 1){
 							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
 						}
 					
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -2730,7 +2683,7 @@ if($lista["with_trailer"] == 1){
 						
 						$quantity = $infoE['quantity']==0?1:$infoE['quantity'];//cantidad si es cero es porque es 1
 			
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -2752,7 +2705,7 @@ if($lista["with_trailer"] == 1){
 						$equipment = $infoO['company_name'] . '-' . $infoO['equipment'];
 						$hours = $infoO['hours']==0?1:$infoO['hours'];
 						
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -2773,22 +2726,22 @@ if($lista["with_trailer"] == 1){
 			endforeach;
 
 			// Set column widths							  
-			$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(22);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(22);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(40);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(40);
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(35);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(40);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(40);
 
 			// Add conditional formatting
 			$objConditional1 = new PHPExcel_Style_Conditional();
@@ -2816,43 +2769,43 @@ if($lista["with_trailer"] == 1){
 			$objConditional3->getStyle()->getFont()->setItalic(true);
 			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
 
-			$conditionalStyles = $objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles();
+			$conditionalStyles = $spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles();
 			array_push($conditionalStyles, $objConditional1);
 			array_push($conditionalStyles, $objConditional2);
 			array_push($conditionalStyles, $objConditional3);
-			$objPHPExcel->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
+			$spreadsheet->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
 
 			//	duplicate the conditional styles across a range of cells
-			$objPHPExcel->getActiveSheet()->duplicateConditionalStyle(
-							$objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
+			$spreadsheet->getActiveSheet()->duplicateConditionalStyle(
+							$spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
 							'B3:B7'
 						  );
 
 			// Set fonts			  
-			$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A4:P4')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('A4:P4')->getFont()->setBold(true);
 
 			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $objPHPExcel->getProperties()->getTitle() . '&RPage &P of &N');
+			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
+			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $spreadsheet->getProperties()->getTitle() . '&RPage &P of &N');
 
 			// Set page orientation and size
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+			$spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+			$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
 
 			// Rename worksheet
-			$objPHPExcel->getActiveSheet()->setTitle('Work Order');
+			$spreadsheet->getActiveSheet()->setTitle('Work Order');
 
 			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-			$objPHPExcel->setActiveSheetIndex(0);
+			$spreadsheet->setActiveSheetIndex(0);
 
 			// redireccionamos la salida al navegador del cliente (Excel2007)
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			header('Content-Disposition: attachment;filename="workorder.xlsx"');
 			header('Cache-Control: max-age=0');
 			 
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+			$objWriter = PHPExcel_IOFactory::createWriter($spreadsheet, 'Excel2007');
 			$objWriter->save('php://output');
 			  
     }

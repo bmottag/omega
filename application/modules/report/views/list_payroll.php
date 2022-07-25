@@ -51,14 +51,11 @@ $(function(){
 				<div class="alert alert-info">
 					<strong>From Date: </strong><?php echo $from; ?> 
 					<strong>To Date: </strong><?php echo $to; ?> 
-					
-<?php if($info && 1==2){ ?>
 					<br><strong>Dowloand to: </strong>
 <a href='<?php echo base_url('report/generaPayrollXLS/' . $employee . '/' . $from . '/' . $to ); ?>'>Excel <img src='<?php echo base_url_images('xls.png'); ?>' ></a>	
 					
 <a href='<?php echo base_url('report/generaPayrollPDF/' . $employee . '/' . $from . '/' . $to ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 		 
-<?php } ?>
 				</div>
 				<?php
 					if(!$info){
