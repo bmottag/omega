@@ -1,12 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(FCPATH.'vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 class Workorders extends CI_Controller {
 	
     public function __construct() {
         parent::__construct();
         $this->load->model("workorders_model");
-		//$this->load->library('PHPExcel.php');
         $this->load->helper('form');
     }
 	
@@ -1105,51 +1115,39 @@ class Workorders extends CI_Controller {
      * @author BMOTTAG
 	 */
 	public function generaWorkOrderXLS($jobId, $from = '' , $to = '')
-	{				
+	{			
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition:attachment;filename=workorder_'.$jobId.'.xlsx');
+
 			$arrParam = array(
 				"jobId" => $jobId,
 				"from" => $from,
 				"to" => $to
 			);
-
 			$info = $this->workorders_model->get_workorder_by_idJob($arrParam);
 
-			// Create new PHPExcel object	
-			$objPHPExcel = new PHPExcel();
-
-			// Set document properties
-			$objPHPExcel->getProperties()->setCreator("VCI APP")
-										 ->setLastModifiedBy("VCI APP")
-										 ->setTitle("Report")
-										 ->setSubject("Report")
-										 ->setDescription("VCI Report.")
-										 ->setKeywords("office 2007 openxml php")
-										 ->setCategory("Report");
-										 
-			// Create a first sheet
-			$objPHPExcel->setActiveSheetIndex(0);
-			$objPHPExcel->getActiveSheet()->setCellValue('A1', 'WORK ORDER REPORT');
-						
-			$objPHPExcel->getActiveSheet()->setCellValue('A3', 'Work Order #')
-										->setCellValue('B3', 'Supervisor')
-										->setCellValue('C3', 'Date of Issue')
-										->setCellValue('D3', 'Work Order Date')
-										->setCellValue('E3', 'Job Code/Name')
-										->setCellValue('F3', 'Work Done')
-										->setCellValue('G3', 'Description')
-										->setCellValue('H3', 'Employee Name')
-										->setCellValue('I3', 'Employee Type')
-										->setCellValue('J3', 'Material')
-										->setCellValue('K3', 'Equipment')
-										->setCellValue('L3', 'Hours')
-										->setCellValue('M3', 'Quantity')
-										->setCellValue('N3', 'Unit')
-										->setCellValue('O3', 'Unit price')
-										->setCellValue('P3', 'Operated by')
-										->setCellValue('Q3', 'Line Total');
-										
-										
-			$j=4;
+			$spreadsheet = new Spreadsheet();
+			$spreadsheet->getActiveSheet()->setTitle('Work Order Report');
+	
+			$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
+					
+			$j=2;
 			$total = 0; 
 			foreach ($info as $data):
 					
@@ -1162,7 +1160,7 @@ class Workorders extends CI_Controller {
 				$observation = $data['observation']?$data['observation']:'';
 				if($workorderPersonal){
 					foreach ($workorderPersonal as $infoP):
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -1181,7 +1179,7 @@ class Workorders extends CI_Controller {
 
 				if($workorderMaterials){
 					foreach ($workorderMaterials as $infoM):
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -1209,7 +1207,7 @@ class Workorders extends CI_Controller {
 						
 						$quantity = $infoE['quantity']==0?1:$infoE['quantity'];//cantidad si es cero es porque es 1
 			
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -1232,7 +1230,7 @@ class Workorders extends CI_Controller {
 						$equipment = $infoO['company_name'] . '-' . $infoO['equipment'];
 						$hours = $infoO['hours']==0?1:$infoO['hours'];
 						
-						$objPHPExcel->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
 													  ->setCellValue('D'.$j, $data['date'])
@@ -1252,89 +1250,40 @@ class Workorders extends CI_Controller {
 			endforeach;
 
 			// Set column widths							  
-			$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(22);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(22);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(50);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(60);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(60);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(50);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(15);
-			$objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+
 
 			// Add conditional formatting
-			$objConditional1 = new PHPExcel_Style_Conditional();
-			$objConditional1->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_BETWEEN)
-							->addCondition('200')
-							->addCondition('400');
-			$objConditional1->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
-			$objConditional1->getStyle()->getFont()->setBold(true);
-			$objConditional1->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
 
-			$objConditional2 = new PHPExcel_Style_Conditional();
-			$objConditional2->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_LESSTHAN)
-							->addCondition('0');
-			$objConditional2->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
-			$objConditional2->getStyle()->getFont()->setItalic(true);
-			$objConditional2->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
 
-			$objConditional3 = new PHPExcel_Style_Conditional();
-			$objConditional3->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_GREATERTHANOREQUAL)
-							->addCondition('0');
-			$objConditional3->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_GREEN);
-			$objConditional3->getStyle()->getFont()->setItalic(true);
-			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-			$conditionalStyles = $objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles();
-			array_push($conditionalStyles, $objConditional1);
-			array_push($conditionalStyles, $objConditional2);
-			array_push($conditionalStyles, $objConditional3);
-			$objPHPExcel->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
+			$spreadsheet->setActiveSheetIndex(0);
 
-			//	duplicate the conditional styles across a range of cells
-			$objPHPExcel->getActiveSheet()->duplicateConditionalStyle(
-							$objPHPExcel->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
-							'B3:B7'
-						  );
-
-			// Set fonts			  
-			$objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$objPHPExcel->getActiveSheet()->getStyle('A3:Q3')->getFont()->setBold(true);
-
-			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
-			$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $objPHPExcel->getProperties()->getTitle() . '&RPage &P of &N');
-
-			// Set page orientation and size
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
-			$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-
-			// Rename worksheet
-			$objPHPExcel->getActiveSheet()->setTitle('Work Order');
-
-			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-			$objPHPExcel->setActiveSheetIndex(0);
-
-			// redireccionamos la salida al navegador del cliente (Excel2007)
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="workorder_' . $jobId . '.xlsx"');
-			header('Cache-Control: max-age=0');
-
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-			$objWriter->save('php://output');
-			  
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');  
     }
 	
 	/**
