@@ -1498,10 +1498,12 @@ class General_model extends CI_Model {
 	 */
 	public function countCheckin()
 	{
-		$today = date('Y-m-d');
+		$year = date('Y');
+		$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+
 		$sql = "SELECT count(id_checkin) CONTEO";
 		$sql.= " FROM new_checkin";
-		$sql.= " WHERE checkin_date = '$today'";
+		$sql.= " WHERE checkin_date >= '$firstDay'";
         $query = $this->db->query($sql);
         $row = $query->row();
         return $row->CONTEO;

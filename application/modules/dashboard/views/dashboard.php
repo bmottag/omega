@@ -300,7 +300,6 @@ if ($retornoError) {
                 </div>
 <?php	}  ?>
 
-<?php if($noCheckin){  ?>
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -323,7 +322,6 @@ if ($retornoError) {
                         </a>
                     </div>
                 </div>
-<?php } ?>
 				
 
             </div>
