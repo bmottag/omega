@@ -481,8 +481,10 @@ class Dashboard extends CI_Controller {
 				$longitud = count($haulingInfo);
 				$i=1;
 				foreach ($haulingInfo as $data):
+
+        			$material = preg_replace('([^A-Za-z0-9 ])', ' ', $data['material']);
 					echo  '{
-						      "title": "Hauling. #: ' . $data['id_hauling'] . ' - Report done by: ' . $data['name'] . ' - Hauling done by: ' . $data['company_name'] . '  - From Site: ' . $data['site_from'] . ' - To Site: ' . $data['site_to'] . ' - Truck - Unit Number: ' . $data['unit_number'] . ' - Material Type: ' . $data['material'] . '",
+						      "title": "Hauling. #: ' . $data['id_hauling'] . ' - Report done by: ' . $data['name'] . ' - Hauling done by: ' . $data['company_name'] . '  - From Site: ' . $data['site_from'] . ' - To Site: ' . $data['site_to'] . ' - Truck - Unit Number: ' . $data['unit_number'] . ' - Material Type: ' . $material . '",
 						      "start": "' . $data['date_issue'] . ' ' . $data['time_in'] . '",
 						      "end": "' . $data['date_issue'] . ' ' . $data['time_out'] . '",
 						      "color": "red",
