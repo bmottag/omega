@@ -15,17 +15,14 @@
 						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>					
-<?php
-	//si no hay informacion entonces muestro el boton para agregar una nueva, de lo contrario solo se edita
-	if(!$information){
-?>				
+			
 					<a class='btn btn-outline btn-purpura btn-block' href='<?php echo base_url('more/add_environmental/' . $jobInfo[0]['id_job']) ?>'>
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Enviromental site inspection form
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Add an Enviromental Site Inspection
 					</a>
 					
 					<br>
 <?php
-	}else{
+	if($information){
 ?>
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
