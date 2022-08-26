@@ -2397,6 +2397,9 @@ if($lista["with_trailer"] == 1){
 	 */
 	public function generaHaulingXLS($idCompany, $idMaterial, $from, $to)
 	{
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition:attachment;filename=hauling_report_'.$from.'_'.$to.'.xlsx');
+
 			$data['from'] = $from;
 			$data['to'] = $to;
 				
@@ -2408,43 +2411,25 @@ if($lista["with_trailer"] == 1){
 			);
 			$info = $this->report_model->get_hauling($arrParam);
 
-			// Create new PHPExcel object	
-			$spreadsheet = new PHPExcel();
-
-			// Set document properties
-			$spreadsheet->getProperties()->setCreator("VCI APP")
-										 ->setLastModifiedBy("VCI APP")
-										 ->setTitle("Report")
-										 ->setSubject("Report")
-										 ->setDescription("VCI Report.")
-										 ->setKeywords("office 2007 openxml php")
-										 ->setCategory("Report");
+			$spreadsheet = new Spreadsheet();
+			$spreadsheet->getActiveSheet()->setTitle('Hauling Report');
 										 
-			// Create a first sheet
-			$dateRange = $from . '-' . $to;
-			$spreadsheet->setActiveSheetIndex(0);
-			$spreadsheet->getActiveSheet()->setCellValue('A1', 'HAULING REPORT');
-			
-			$spreadsheet->getActiveSheet()->setCellValue('A2', 'Date Range:')
-										->setCellValue('B2', $dateRange);
-			
-			$spreadsheet->getActiveSheet()->setCellValue('A4', 'Hauling done by')
-										->setCellValue('B4', 'Employee')
-										->setCellValue('C4', 'Truck - Unit Number')
-										->setCellValue('D4', 'Truck Type')
-										->setCellValue('E4', 'Plate')
-										->setCellValue('F4', 'Material Type')
-										->setCellValue('G4', 'From Site')
-										->setCellValue('H4', 'To Site')
-										->setCellValue('I4', 'Payment')
-										->setCellValue('J4', 'Date of Issue')
-										->setCellValue('K4', 'Time In')
-										->setCellValue('L4', 'Time Out')
-										->setCellValue('M4', 'Comments');
+			$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Hauling done by')
+										->setCellValue('B1', 'Employee')
+										->setCellValue('C1', 'Truck - Unit Number')
+										->setCellValue('D1', 'Truck Type')
+										->setCellValue('E1', 'Plate')
+										->setCellValue('F1', 'Material Type')
+										->setCellValue('G1', 'From Site')
+										->setCellValue('H1', 'To Site')
+										->setCellValue('I1', 'Payment')
+										->setCellValue('J1', 'Date of Issue')
+										->setCellValue('K1', 'Time In')
+										->setCellValue('L1', 'Time Out')
+										->setCellValue('M1', 'Comments');
 										
-			$j=5;
-			$total = 0;
-			foreach ($info as $data):
+			$j=2;
+			foreach ($info as $data):		
 					$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['company_name'])
 												  ->setCellValue('B'.$j, $data['name'])
 												  ->setCellValue('C'.$j, $data['unit_number'])
@@ -2474,71 +2459,23 @@ if($lista["with_trailer"] == 1){
 			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(30);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(50);
 
 			// Add conditional formatting
-			$objConditional1 = new PHPExcel_Style_Conditional();
-			$objConditional1->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_BETWEEN)
-							->addCondition('200')
-							->addCondition('400');
-			$objConditional1->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
-			$objConditional1->getStyle()->getFont()->setBold(true);
-			$objConditional1->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFont()->setBold(true);
 
-			$objConditional2 = new PHPExcel_Style_Conditional();
-			$objConditional2->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_LESSTHAN)
-							->addCondition('0');
-			$objConditional2->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
-			$objConditional2->getStyle()->getFont()->setItalic(true);
-			$objConditional2->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFill()->getStartColor()->setARGB('236e09');
 
-			$objConditional3 = new PHPExcel_Style_Conditional();
-			$objConditional3->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_GREATERTHANOREQUAL)
-							->addCondition('0');
-			$objConditional3->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_GREEN);
-			$objConditional3->getStyle()->getFont()->setItalic(true);
-			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-			$conditionalStyles = $spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles();
-			array_push($conditionalStyles, $objConditional1);
-			array_push($conditionalStyles, $objConditional2);
-			array_push($conditionalStyles, $objConditional3);
-			$spreadsheet->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
-
-			//	duplicate the conditional styles across a range of cells
-			$spreadsheet->getActiveSheet()->duplicateConditionalStyle(
-							$spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
-							'B3:B7'
-						  );
-
-			// Set fonts			  
-			$spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-			$spreadsheet->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$spreadsheet->getActiveSheet()->getStyle('A4:L4')->getFont()->setBold(true);
-
-			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
-			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
-			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $spreadsheet->getProperties()->getTitle() . '&RPage &P of &N');
-
-			// Set page orientation and size
-			$spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
-			$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-
-			// Rename worksheet
-			$spreadsheet->getActiveSheet()->setTitle("Hauling");
-
-			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 			$spreadsheet->setActiveSheetIndex(0);
 
-			// redireccionamos la salida al navegador del cliente (Excel2007)
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="hauling.xlsx"');
-			header('Cache-Control: max-age=0');
-			 
-			$objWriter = PHPExcel_IOFactory::createWriter($spreadsheet, 'Excel2007');
-			$objWriter->save('php://output');
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');  
 			  
     }
 	
