@@ -633,9 +633,13 @@
 				
 				for ($i = 0; $i < $tot; $i++) 
 				{					
+					$bankTime = $employee['employee_subcontractor'][$i]==1?2:$employee['bank_time'][$i];
+
 					$data = array(
 						'employee_rate' => $employee['employee_rate'][$i],
-						'employee_type' => $employee['type'][$i]
+						'employee_type' => $employee['type'][$i],
+						'employee_subcontractor' => $employee['employee_subcontractor'][$i],
+						'bank_time' => $bankTime
 					);
 					$this->db->where('id_user', $employee['id'][$i]);
 					$query = $this->db->update('user', $data);

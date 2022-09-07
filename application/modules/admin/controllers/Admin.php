@@ -1512,14 +1512,14 @@ class Admin extends CI_Controller {
      * @since 16/2/2022
      * @author BMOTTAG
 	 */
-	public function employeeRate()
+	public function employeeSettings()
 	{
 			$this->load->model("general_model");
 			$arrParam = array("filtroState" => TRUE);
 			$data['info'] = $this->general_model->get_user($arrParam);
 			
-			$data["view"] = 'employee_rate';
-			$this->load->view("layout", $data);
+			$data["view"] = 'employee_settings';
+			$this->load->view("layout_calendar", $data);
 	}
 	
 	/**
@@ -1537,7 +1537,7 @@ class Admin extends CI_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url("admin/employeeRate"), 'refresh');
+			redirect(base_url("admin/employeeSettings"), 'refresh');
 	}
 
 	/**

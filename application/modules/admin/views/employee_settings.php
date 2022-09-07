@@ -5,7 +5,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - EMPLOYEE RATE
+					<i class="fa fa-gear fa-fw"></i> SETTINGS - EMPLOYEE SETTINGS
 					</h4>
 				</div>
 			</div>
@@ -18,7 +18,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-flag-o"></i> EMPLOYEE RATE BY HOUR
+					<i class="fa fa-flag-o"></i> EMPLOYEE SETTINGS
 				</div>
 				<div class="panel-body">
 <?php
@@ -59,15 +59,20 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
+								<th class="text-right" colspan="7">
+								<button type="submit" class="btn btn-primary" id="btnSubmit2" name="btnSubmit2" >
+									Update Employee Information <span class="glyphicon glyphicon-edit" aria-hidden="true">
+								</button>
+								</th>
+							</tr>
+							<tr>
 								<th class="text-center">ID</th>
 								<th class="text-center">Name</th>
 								<th class="text-center">More Info</th>
 								<th class="text-center">Employee Hour Rate</th>
-								<th class="text-center">Type
-								<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
-									Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
-								</button>
-								</th>
+								<th class="text-center">Employee Type</th>
+								<th class="text-center">Is Subcontractor?</th>
+								<th class="text-center">Is using bank time?</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -131,13 +136,32 @@ if($count == 10){
 								echo "</td>";
 								echo "<td class='text-right'>";
 					?>
-								<select name="form[type][]" class="form-control" required>
+								<select name="form[type][]" class="form-control" >
 									<option value=''>Select...</option>
 									<option value=1 <?php if($lista["employee_type"] == 1) { echo "selected"; }  ?>>Field</option>
 									<option value=2 <?php if($lista["employee_type"] == 2) { echo "selected"; }  ?>>Admin</option>
 								</select>
 						<?php
 								echo "</td>";
+								echo "<td>";
+						?>
+								<select name="form[employee_subcontractor][]" class="form-control" >
+									<option value=''>Select...</option>
+									<option value=1 <?php if($lista["employee_subcontractor"] == 1) { echo "selected"; }  ?>>Yes</option>
+									<option value=2 <?php if($lista["employee_subcontractor"] == 2) { echo "selected"; }  ?>>No</option>
+								</select>
+						<?php
+								echo "</td>";
+								echo "<td>";
+						?>
+								<select name="form[bank_time][]" class="form-control" >
+									<option value=''>Select...</option>
+									<option value=1 <?php if($lista["bank_time"] == 1) { echo "selected"; }  ?>>Yes</option>
+									<option value=2 <?php if($lista["bank_time"] == 2) { echo "selected"; }  ?>>No</option>
+								</select>
+						<?php
+								echo "</td>";
+								echo "</tr>";
 							endforeach;
 						?>
 						</tbody>
@@ -173,7 +197,14 @@ $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
 		"order": [[ 1, "asc" ]],
-		"pageLength": 100
+		"pageLength": 100,
+		"columnDefs": [
+		  { "orderable": false, "targets": 2 },
+		  { "orderable": false, "targets": 3 },
+		  { "orderable": false, "targets": 4 },
+		  { "orderable": false, "targets": 5 },
+		  { "orderable": false, "targets": 6 },
+		]
 	});
 });
 </script>
