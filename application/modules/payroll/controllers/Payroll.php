@@ -368,7 +368,10 @@ class Payroll extends CI_Controller {
 			$this->load->model("general_model");
 
 			//workers list
-			$arrParam = array("state" => 1);
+			$arrParam = array(
+							"state" => 1,
+							"employee_subcontractor" => 2
+						);
 			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 					
 			$arrParam = array("limit" => 10);
@@ -395,7 +398,8 @@ class Payroll extends CI_Controller {
 
 				$arrParam = array(
 					"idPeriod" => $data['idPeriod'],
-					"idEmployee" => $data['idEmployee']
+					"idEmployee" => $data['idEmployee'],
+					"employee_subcontractor" => 2
 				);
 				$data['info'] = $this->general_model->get_users_by_period($arrParam);
 				$data["view"] = "list_payroll";
@@ -412,10 +416,26 @@ class Payroll extends CI_Controller {
 	public function save_paystub()
 	{	
 			$idPeriod =  $this->input->post('period');
-			$idEmployee =  $this->input->post('employee');	
+			$idEmployee =  $this->input->post('employee');
 
-			if ($this->payroll_model->savePaystub())
+			$userBankTime =  $this->input->post('hddBankTime');
+			$bankTimeFlag =  $this->input->post('hddBankTimeFlag');
+
+			if ($idPaystub = $this->payroll_model->savePaystub())
 			{
+				//if user is with bank time, then i have to update the ne balanace
+				if($userBankTime == 1 && $bankTimeFlag != ""){
+					$arrParamBankTime = array(
+						"idPeriod" => $idPeriod,
+						"idEmployee" => $idEmployee,
+						"bankTimeAdd" => $this->input->post('hddBankTimeAdd'),
+						"bankTimeSubtract" => $this->input->post('hddBankTimeSubtract'),
+						"bankNewBalance" => $this->input->post('hddBankTimeNewBalance'),
+						"observation" => "New Paystub"
+					);
+					$this->payroll_model->saveBankTimeBalance($arrParamBankTime);
+				}
+
 				//update TABLE task set period_status to 2 (PAID)
 				$this->payroll_model->updateTaskStatus();
 

@@ -798,6 +798,9 @@ class General_model extends CI_Model {
 			if (array_key_exists("filtroState", $arrData)) {
 				$this->db->where('U.state !=', 2);
 			}
+			if (array_key_exists("employee_subcontractor", $arrData)) {
+				$this->db->where('U.employee_subcontractor', $arrData["employee_subcontractor"]);
+			}
 
 			$this->db->order_by("first_name, last_name", "ASC");
 			$query = $this->db->get("user U");
@@ -1353,6 +1356,9 @@ class General_model extends CI_Model {
 				if (array_key_exists("to", $arrData)) {
 					$this->db->where('T.start <=', $arrData["to"]);
 				}
+				if (array_key_exists("employee_subcontractor", $arrData)) {
+					$this->db->where('U.employee_subcontractor', $arrData["employee_subcontractor"]);
+				}
 		        $this->db->group_by("T.fk_id_user");
 				$this->db->order_by('U.first_name, U.last_name', 'asc');
 		        $query = $this->db->get('task T');
@@ -1508,6 +1514,32 @@ class General_model extends CI_Model {
         $row = $query->row();
         return $row->CONTEO;
 	}
+
+		/**
+		 * Bank time list
+		 * @since 09/7/2022
+		 */
+		public function get_bank_time($arrData) 
+		{			
+			$this->db->select();
+			if (array_key_exists("idUser", $arrData)) {
+				$this->db->where('T.fk_id_employee ', $arrData["idUser"]);
+			}
+
+	        if (array_key_exists("limit", $arrData)) {
+	        	$this->db->order_by("id_bank_time", "DESC");
+	            $query = $this->db->get('payroll_bank_time T', $arrData["limit"]);
+	        }else{
+	        	$this->db->order_by("id_bank_time", "ASC");
+	        	$query = $this->db->get('payroll_bank_time T');
+	        }
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			}else{
+				return false;
+			}
+		}
 
 
 }

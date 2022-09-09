@@ -30,7 +30,7 @@
 				$employeeName = $infoUser[0]["first_name"] . ' ' . $infoUser[0]["last_name"];
 				$employeeHourRate = $infoUser[0]["employee_rate"];
 				$employeeType = $infoUser[0]["employee_type"];
-
+				$bankTime = $infoUser[0]["bank_time"];
 				$idPeriod = $infoPeriod[0]["id_period"];
 				//buscar por usuario y por periodo las horas de cada semana
 				$arrParam = array(
@@ -56,8 +56,8 @@
 
 				//si ya se guardo el paystub entonces tomo esos valores 
 				if($infoPaystub){
-						$employeeHourRate = $infoPaystub[0]["employee_rate_paystub"];
-						$employeeType = $infoPaystub[0]["employee_type_paystub"];
+					$employeeHourRate = $infoPaystub[0]["employee_rate_paystub"];
+					$employeeType = $infoPaystub[0]["employee_type_paystub"];
 				}
 
 				//buscar el total de valores por año y usuario
@@ -92,6 +92,7 @@
 						<h2><i class="fa fa-user"></i> <b>Employee: </b> <?php echo $employeeName; ?>
 							<br><small><b>Hour rate: </b>$ <?php echo $employeeHourRate; ?></small>
 							<br><small><b>Type: </b><?php echo $type = $employeeType==1?'Field':'Admin'; ?></small>
+							<br><small><b>Is using Bank Time: </b><?php echo $bankTime==1?'Active':'Inactive'; ?></small>
 						</h2>
 					</div>
 					<table width="100%" class="table table-hover" id="dataTables">
@@ -227,13 +228,89 @@
 									$totalWorked = $totalHours1 + $totalHours2;
 									$totalRegularHours = $actualRegularHours1 + $actualRegularHours2;
 									$totalOvertimeHours = $actualOvertimeHours1 + $actualOvertimeHours2;
+									$bankTimeBalance = 0;
+									$bankTimeFlag = "";
+									$toBankTime = 0;
+									$takeFromBanktime = 0;
+									$newBankTimeBalance = 0;
 
-									echo "<tr class='danger text-danger'><td></td>";
-									echo "<td class='text-right'><strong>CUT-OFF:</strong></td>";
-									echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
-									echo "<td class='text-right'><strong>Total regular hours:<br>" . $totalRegularHours . "</strong></td>";
-									echo "<td class='text-right'><strong>Total overtime hours:<br>" . $totalOvertimeHours . "</strong></td>";
-									echo "</tr>";
+									if($bankTime == 2){
+										echo "<tr class='danger text-danger'><td></td>";
+										echo "<td class='text-right'><strong>CUT-OFF:</strong></td>";
+										echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
+										echo "<td class='text-right'><strong>Total regular hours:<br>" . $totalRegularHours . "</strong></td>";
+										echo "<td class='text-right'><strong>Total overtime hours:<br>" . $totalOvertimeHours . "</strong></td>";
+										echo "</tr>";
+									}elseif($bankTime == 1){
+
+										//bank time info
+										$arrParam = array(
+											"idUser" => $lista['fk_id_user'],
+											"limit" => 1
+										);
+										$infoBankTime = $this->general_model->get_bank_time($arrParam);
+
+										
+										if($infoBankTime){
+											$bankTimeBalance = $infoBankTime[0]["balance"];
+										}
+										//si ya se guardo el paystub entonces tomo esos valores 
+										if($infoPaystub){
+											$bankTimeBalance = $infoPaystub[0]["actual_bank_time_balance"];
+										}
+
+										if($totalWorked >= 88){
+											$payHours = 88;
+											$toBankTime = $totalWorked - 88;
+											$newBankTimeBalance = $bankTimeBalance + $toBankTime;
+											$bankTimeFlag = $totalWorked == 88 ? "":"add";
+										}else{
+											$payHours = $totalWorked;
+											if($bankTimeBalance > 0){
+												$timeNeeded = 88 - $payHours;
+												$bankTimeFlag = "subtract";
+												if($bankTimeBalance >= $timeNeeded){
+													$newBankTimeBalance = $bankTimeBalance - $timeNeeded;
+													$takeFromBanktime = $bankTimeBalance - $newBankTimeBalance;
+													$payHours = $payHours + $takeFromBanktime;
+												}else{
+													$takeFromBanktime = $bankTimeBalance;
+													$payHours = $payHours + $bankTimeBalance;
+												}
+											}
+										}
+
+										$totalRegularHours = $payHours;
+										$totalOvertimeHours = 0;
+										
+										echo "<tr class='danger text-danger'><td></td>";
+										echo "<td class='text-right'></td>";
+										echo "<td class='text-right'></td>";
+										echo "<td class='text-right'>Actual Bank Time Balance:</td>";
+										echo "<td class='text-right'><strong>" . $bankTimeBalance . "</strong></td>";
+										echo "</tr>";
+
+										echo "<tr class='danger text-danger'><td></td>";
+										echo "<td class='text-right'><strong>CUT-OFF with BANK TIME:</strong></td>";
+										echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
+										echo "<td class='text-right'><strong>Total regular hours:<br>" . $payHours . "</strong></td>";
+										if($bankTimeFlag == "add"){
+											echo "<td class='text-right'><strong>Add to Bank Time:<br>" . $toBankTime . "</strong></td>";
+										}elseif($bankTimeFlag == "subtract"){
+											echo "<td class='text-right'><strong>Subtract from Bank Time:<br>" . $takeFromBanktime . "</strong></td>";
+										}else{
+											echo "<td class='text-right'></td>";
+										}
+										
+										echo "</tr>";
+
+										echo "<tr class='danger text-danger'><td></td>";
+										echo "<td class='text-right'></td>";
+										echo "<td class='text-right'></td>";
+										echo "<td class='text-right'>New Bank Time Balance:</td>";
+										echo "<td class='text-right'><strong>" . $newBankTimeBalance . "</strong></td>";
+										echo "</tr>";
+									}
 
 						?>
 						</tbody>
@@ -268,13 +345,21 @@
 
 									<form  name="paystub_<?php echo $idUser ?>" id="paystub_<?php echo $idUser; ?>" method="post" action="<?php echo base_url("payroll/save_paystub"); ?>">
 
-										<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="" />
+										<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="<?php echo $infoPaystub?$infoPaystub[0]["id_paystub"]:"" ?>" />
 										<input type="hidden" id="hddIdTotalYearly" name="hddIdTotalYearly" value="<?php echo $idTotalYear; ?>" />
 										<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
 										<input type="hidden" id="hddYear" name="hddYear" value="<?php echo $infoPeriod[0]['year_period']; ?>" />
 										<input type="hidden" id="hddIdWeakPeriod1" name="hddIdWeakPeriod1" value="<?php echo $infoWeakPeriod[0]['id_period_weak']; ?>" />
 										<input type="hidden" id="hddIdWeakPeriod2" name="hddIdWeakPeriod2" value="<?php echo $infoWeakPeriod[1]['id_period_weak']; ?>" />
 										<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
+
+										<input type="hidden" id="hddBankTime" name="hddBankTime" value="<?php echo $bankTime; ?>" />
+										<input type="hidden" id="hddBankTimeFlag" name="hddBankTimeFlag" value="<?php echo $bankTimeFlag; ?>" />
+										<input type="hidden" id="hddBankTimeBalance" name="hddBankTimeBalance" value="<?php echo $bankTimeBalance; ?>" />
+										<input type="hidden" id="hddBankTimeAdd" name="hddBankTimeAdd" value="<?php echo $toBankTime; ?>" />
+										<input type="hidden" id="hddBankTimeSubtract" name="hddBankTimeSubtract" value="<?php echo $takeFromBanktime; ?>" />
+										<input type="hidden" id="hddBankTimeNewBalance" name="hddBankTimeNewBalance" value="<?php echo $newBankTimeBalance; ?>" />
+
 										<input type="hidden" id="hddEmployeeRate" name="hddEmployeeRate" value="<?php echo $employeeHourRate; ?>" />
 										<input type="hidden" id="hddEmployeeType" name="hddEmployeeType" value="<?php echo $employeeType; ?>" />
 										

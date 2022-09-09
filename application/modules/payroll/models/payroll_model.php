@@ -390,12 +390,12 @@
 					$data['paystub_fk_id_user'] = $idUser;
 					$data['fk_id_period'] = $this->input->post('hddIdPeriod');
 					$data['fk_id_employee'] = $this->input->post('hddIdUser');
+					$data['actual_bank_time_balance'] = $this->input->post('hddBankTimeBalance');
 					$query = $this->db->insert('payroll_paystub', $data);
 				} else {
 					$this->db->where('id_paystub', $idPaytsub);
 					$query = $this->db->update('payroll_paystub', $data);
-				}		
-
+				}
 				if ($query) {
 					return true;
 				} else {
@@ -518,6 +518,32 @@
 					$this->db->where('id_total_yearly', $idTotalYearly);
 					$query = $this->db->update('payroll_total_yearly ', $data);
 				}
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Save banktime balance
+		 * @since 9/9/2022
+		 */
+		public function saveBankTimeBalance($arrData)
+		{		
+				$idUser = $this->session->userdata("id");
+										
+				$data = array(
+					'fk_id_period' => $arrData["idPeriod"],
+					'fk_id_employee' => $arrData["idEmployee"],
+					'time_in' => $arrData["bankTimeAdd"],
+					'time_out' => $arrData["bankTimeSubtract"],
+					'balance' => $arrData["bankNewBalance"],
+					'change_done_by' => $idUser,
+					'observation' => $arrData["observation"]
+				);					
+				$query = $this->db->insert('payroll_bank_time', $data);
 
 				if ($query) {
 					return true;
