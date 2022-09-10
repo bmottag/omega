@@ -526,31 +526,5 @@
 				}
 		}
 
-		/**
-		 * Save banktime balance
-		 * @since 9/9/2022
-		 */
-		public function saveBankTimeBalance($arrData)
-		{		
-				$idUser = $this->session->userdata("id");
-										
-				$data = array(
-					'fk_id_period' => $arrData["idPeriod"],
-					'fk_id_employee' => $arrData["idEmployee"],
-					'time_in' => $arrData["bankTimeAdd"],
-					'time_out' => $arrData["bankTimeSubtract"],
-					'balance' => $arrData["bankNewBalance"],
-					'change_done_by' => $idUser,
-					'observation' => $arrData["observation"]
-				);					
-				$query = $this->db->insert('payroll_bank_time', $data);
-
-				if ($query) {
-					return true;
-				} else {
-					return false;
-				}
-		}
-
 	    
 	}

@@ -1514,7 +1514,6 @@ class Admin extends CI_Controller {
 	 */
 	public function employeeSettings()
 	{
-			$this->load->model("general_model");
 			$arrParam = array("filtroState" => TRUE);
 			$data['info'] = $this->general_model->get_user($arrParam);
 			
@@ -1599,5 +1598,81 @@ class Admin extends CI_Controller {
 		}
 
 	}
+
+	/**
+	 * Employee Bank Time List
+     * @since 9/9/2022
+     * @author BMOTTAG
+	 */
+	public function employeBankTime($idUser)
+	{
+			$data["idUser"] = $idUser;
+
+			$arrParam = array("idUser" => $idUser);
+			$data['info'] = $this->general_model->get_bank_time($arrParam);
+		
+			$data["view"] = 'employee_bank_time';
+			$this->load->view("layout_calendar", $data);
+	}
+
+    /**
+     * Cargo modal - formulario Add Balance to Bank time
+     * @since 9/9/2022
+     */
+    public function cargarModalBankTimeBalance() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idEmployee"] = $this->input->post("idEmployee");	
+	
+			$arrParam = array(
+				"idUser" => $data["idEmployee"]
+			);
+			$data['information'] = $this->general_model->get_user($arrParam);
+
+			$this->load->view("employee_bank_time_modal", $data);
+    }
+
+	/**
+	 * Insert bank time
+     * @since 9/9/2022
+     * @author BMOTTAG
+	 */
+	public function save_bank_time_balance()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idEmployee"] = $this->input->post('hddId');
+			$bankTimeAdd = $this->input->post('time');
+			$msj = "You have added Balance to Bank Time!!";
+
+			$arrParam = array(
+				"idUser" => $data["idEmployee"],
+				"limit" => 1
+			);
+			$infoBankTime = $this->general_model->get_bank_time($arrParam);
+
+			$bankNewBalance = $infoBankTime?$infoBankTime[0]["balance"] + $bankTimeAdd:$bankTimeAdd; 
+
+			$arrParamBankTime = array(
+				"idPeriod" => 0,
+				"idEmployee" => $data["idEmployee"],
+				"bankTimeAdd" => $bankTimeAdd,
+				"bankTimeSubtract" => 0,
+				"bankNewBalance" => $bankNewBalance,
+				"observation" => "Bank Time Added"
+			);
+			if ($this->general_model->saveBankTimeBalance($arrParamBankTime)) {
+				$data["result"] = true;				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
 	
 }

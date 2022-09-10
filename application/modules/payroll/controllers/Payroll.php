@@ -433,7 +433,8 @@ class Payroll extends CI_Controller {
 						"bankNewBalance" => $this->input->post('hddBankTimeNewBalance'),
 						"observation" => "New Paystub"
 					);
-					$this->payroll_model->saveBankTimeBalance($arrParamBankTime);
+					$this->load->model("general_model");
+					$this->general_model->saveBankTimeBalance($arrParamBankTime);
 				}
 
 				//update TABLE task set period_status to 2 (PAID)

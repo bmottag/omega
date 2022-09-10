@@ -134,7 +134,7 @@ if($count == 10){
 					$ <input type="text" name="form[employee_rate][]" class="form-control" placeholder="Employee Hour Rate" value="<?php echo $unitPrice; ?>" >
 					<?php
 								echo "</td>";
-								echo "<td class='text-right'>";
+								echo "<td class='text-center'>";
 					?>
 								<select name="form[type][]" class="form-control" >
 									<option value=''>Select...</option>
@@ -143,7 +143,7 @@ if($count == 10){
 								</select>
 						<?php
 								echo "</td>";
-								echo "<td>";
+								echo "<td class='text-center'>";
 						?>
 								<select name="form[employee_subcontractor][]" class="form-control" >
 									<option value=''>Select...</option>
@@ -152,7 +152,7 @@ if($count == 10){
 								</select>
 						<?php
 								echo "</td>";
-								echo "<td>";
+								echo "<td class='text-center'>";
 						?>
 								<select name="form[bank_time][]" class="form-control" >
 									<option value=''>Select...</option>
@@ -160,6 +160,14 @@ if($count == 10){
 									<option value=2 <?php if($lista["bank_time"] == 2) { echo "selected"; }  ?>>No</option>
 								</select>
 						<?php
+								if($lista["bank_time"] == 1){
+						?>		
+								<br><br>
+								<a class="btn btn-warning btn-xs" href="<?php echo base_url('admin/employeBankTime/' . $lista['id_user']); ?> ">
+									View Bank Time Info <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+								</a>
+						<?php
+								}
 								echo "</td>";
 								echo "</tr>";
 							endforeach;

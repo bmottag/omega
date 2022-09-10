@@ -1516,12 +1516,43 @@ class General_model extends CI_Model {
 	}
 
 		/**
+		 * Save banktime balance
+		 * @since 9/9/2022
+		 */
+		public function saveBankTimeBalance($arrData)
+		{		
+				$idUser = $this->session->userdata("id");
+										
+				$data = array(
+					'fk_id_period' => $arrData["idPeriod"],
+					'fk_id_employee' => $arrData["idEmployee"],
+					'time_in' => $arrData["bankTimeAdd"],
+					'time_out' => $arrData["bankTimeSubtract"],
+					'balance' => $arrData["bankNewBalance"],
+					'change_done_by' => $idUser,
+					'observation' => $arrData["observation"],
+					'date_issue' => date("Y-m-d G:i:s")
+				);					
+				$query = $this->db->insert('payroll_bank_time', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
 		 * Bank time list
 		 * @since 09/7/2022
 		 */
 		public function get_bank_time($arrData) 
 		{			
-			$this->db->select();
+			$this->db->select("T.*, CONCAT(U.first_name, ' ', U.last_name) employee, CONCAT(W.first_name, ' ', W.last_name) done_by, X.period");
+			$this->db->join('user U', 'U.id_user = T.fk_id_employee', 'INNER');
+	        $this->db->join('user W', 'W.id_user = T.change_done_by', 'INNER');
+	        $this->db->join('payroll_period X', 'X.id_period = T.fk_id_period', 'LEFT');
+
 			if (array_key_exists("idUser", $arrData)) {
 				$this->db->where('T.fk_id_employee ', $arrData["idUser"]);
 			}
@@ -1530,7 +1561,7 @@ class General_model extends CI_Model {
 	        	$this->db->order_by("id_bank_time", "DESC");
 	            $query = $this->db->get('payroll_bank_time T', $arrData["limit"]);
 	        }else{
-	        	$this->db->order_by("id_bank_time", "ASC");
+	        	$this->db->order_by("id_bank_time", "DESC");
 	        	$query = $this->db->get('payroll_bank_time T');
 	        }
 
