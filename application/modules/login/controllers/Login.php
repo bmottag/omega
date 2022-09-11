@@ -88,6 +88,7 @@ class Login extends CI_Controller {
 							"logUser" => $user["logUser"],
 							"state" => $user["state"],
 							"rol" => $user["rol"],
+							"bankTime" => $user["bankTime"],
 							"photo" => $user["photo"],
 							"idVehicle" => $data['idVehicle'],
 							"inspectionType" => $data['inspectionType'],

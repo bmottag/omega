@@ -36,6 +36,7 @@
 	    				$user["movil"] = $row->movil;
 						$user["state"] = $row->state;
 						$user["rol"] = $row->perfil;
+						$user["bankTime"] = $row->bank_time;
 						$user["photo"] = $row->photo;
 	    			//}	    			
 	    		}

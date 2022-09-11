@@ -381,9 +381,18 @@ if ($retornoError) {
 						?>
 						</tbody>
 					</table>
-					
-					<!-- /.table-responsive -->
-					<a href="<?php echo base_url("report/searchByDateRange/payroll"); ?>" class="btn btn-default btn-block">View more own records</a>
+
+					<a href="<?php echo base_url("report/searchByDateRange/payroll"); ?>" class="btn btn-outline btn-default btn-block">
+                        View more own records <span class="fa fa-book" aria-hidden="true">
+                    </a>
+                    <?php 
+                        $userBankTime = $this->session->bankTime;
+                        if($userBankTime == 1){
+                     ?>
+                        <a href="<?php echo base_url("report/employeBankTime"); ?>" class="btn btn-outline btn-info btn-block">
+                            View Bank Time records <span class="fa fa-flag" aria-hidden="true">
+                        </a>
+                    <?php   } ?>
 <?php	} ?>					
 				</div>
 				<!-- /.panel-body -->

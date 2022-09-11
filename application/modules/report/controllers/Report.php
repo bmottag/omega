@@ -2856,5 +2856,20 @@ if($lista["with_trailer"] == 1){
 		
 	}
 
+	/**
+	 * Employee Bank Time List
+     * @since 11/9/2022
+     * @author BMOTTAG
+	 */
+	public function employeBankTime()
+	{
+			$idUser = $this->session->userdata("id");
+			$arrParam = array("idUser" => $idUser);
+			$this->load->model("general_model");
+			$data['info'] = $this->general_model->get_bank_time($arrParam);
+			$data["view"] = 'employee_bank_time';
+			$this->load->view("layout_calendar", $data);
+	}
+
 	
 }
