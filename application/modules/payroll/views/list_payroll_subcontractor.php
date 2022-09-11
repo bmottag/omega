@@ -34,10 +34,10 @@ if ($retornoError) {
 	?>
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-violeta">
+			<div class="panel panel-danger">
 				<div class="panel-heading">
 					<a class="btn btn-violeta btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT </b>
+					<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT - SUBCONTRACTOR </b>
 					<br><b>Period Beginning: </b> <?php echo $infoPeriod[0]["date_start"]; ?>
 					<br><b>Period Ending: </b> <?php echo $infoPeriod[0]["date_finish"]; ?>
 				</div>
@@ -60,6 +60,7 @@ if ($retornoError) {
 				$employeeHourRate = $infoUser[0]["employee_rate"];
 				$employeeType = $infoUser[0]["employee_type"];
 				$bankTime = $infoUser[0]["bank_time"];
+				$bankTimeFlag = "";
 				$idPeriod = $infoPeriod[0]["id_period"];
 				//buscar por usuario y por periodo las horas de cada semana
 				$arrParam = array(
@@ -102,12 +103,12 @@ if ($retornoError) {
 	?>
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-violeta">
+			<div class="panel panel-danger">
 				<div class="panel-heading">
 					<div class="row">
 					<div class="col-lg-12">
 						<a class="btn btn-violeta btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-						<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT</b>
+						<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT - SUBCONTRACTOR</b>
 					</div>
 					<div class="col-lg-2 col-lg-offset-2"><b>Period Beginning: </b></div>
 					<div class="col-lg-8"><?php echo $infoPeriod[0]["date_start"]; ?></div>	
@@ -121,7 +122,6 @@ if ($retornoError) {
 						<h2><i class="fa fa-user"></i> <b>Employee: </b> <?php echo $employeeName; ?>
 							<br><small><b>Hour rate: </b>$ <?php echo $employeeHourRate; ?></small>
 							<br><small><b>Type: </b><?php echo $type = $employeeType==1?'Field':'Admin'; ?></small>
-							<br><small><b>Is using Bank Time: </b><?php echo $bankTime==1?'Active':'Inactive'; ?></small>
 						</h2>
 					</div>
 					<table width="100%" class="table table-hover" id="dataTables">
@@ -168,35 +168,6 @@ if ($retornoError) {
 									echo "<td class='text-right'><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></td>";
 									echo "<td class='text-right'><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></td>";
 									echo "</tr>";
-
-									if($totalHours1 > 44){
-										$totalRegularWeek = 44;
-										$weeklyOvertime = $totalHours1 - $totalRegularWeek;
-									}else{
-										$totalRegularWeek = $totalHours1;
-									}
-
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . $totalRegularWeek . "</strong></td>";
-									echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . $weeklyOvertime . "</strong></td>";
-									echo "</tr>";
-
-									if($weeklyOvertime > $totalOvertime){
-										$actualRegularHours1 = $totalRegularWeek;
-										$actualOvertimeHours1 = $weeklyOvertime;
-									}else{
-										$actualRegularHours1 = $totalRegular;
-										$actualOvertimeHours1 = $totalOvertime;
-									}
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual regular hours:<br> " . $actualRegularHours1 . "</b></p>";
-									echo "</td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . $actualOvertimeHours1 . "</b></p>";
-									echo "</td>";
-									echo "</tr>";
-									echo "<tr><td colspan='5'><br></td></tr>";
 							}
 							if($infoPayrollUser2)
 							{
@@ -224,123 +195,16 @@ if ($retornoError) {
 									echo "<td class='text-right'><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></td>";
 									echo "<td class='text-right'><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></td>";
 									echo "</tr>";
-
-									if($totalHours2 > 44){
-										$totalRegularWeek = 44;
-										$weeklyOvertime = $totalHours2 - $totalRegularWeek;
-									}else{
-										$totalRegularWeek = $totalHours2;
-									}
-
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . $totalRegularWeek . "</strong></td>";
-									echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . $weeklyOvertime . "</strong></td>";
-									echo "</tr>";
-
-									if($weeklyOvertime > $totalOvertime){
-										$actualRegularHours2 = $totalRegularWeek;
-										$actualOvertimeHours2 = $weeklyOvertime;
-									}else{
-										$actualRegularHours2 = $totalRegular;
-										$actualOvertimeHours2 = $totalOvertime;
-									}
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual regular hours:<br> " . $actualRegularHours2 . "</b></p>";
-									echo "</td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . $actualOvertimeHours2 . "</b></p>";
-									echo "</td>";
-									echo "</tr>";
-									echo "<tr><td colspan='5'><br></td></tr>";
 							}
-									$totalWorked = $totalHours1 + $totalHours2;
-									$totalRegularHours = $actualRegularHours1 + $actualRegularHours2;
+									$totalRegularHours = $totalWorked = $totalHours1 + $totalHours2;
 									$totalOvertimeHours = $actualOvertimeHours1 + $actualOvertimeHours2;
-									$bankTimeBalance = 0;
-									$bankTimeFlag = "";
-									$toBankTime = 0;
-									$takeFromBanktime = 0;
-									$newBankTimeBalance = 0;
 
-									if($bankTime == 2){
-										echo "<tr class='danger text-danger'><td></td>";
-										echo "<td class='text-right'><strong>CUT-OFF:</strong></td>";
-										echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
-										echo "<td class='text-right'><strong>Total regular hours:<br>" . $totalRegularHours . "</strong></td>";
-										echo "<td class='text-right'><strong>Total overtime hours:<br>" . $totalOvertimeHours . "</strong></td>";
-										echo "</tr>";
-									}elseif($bankTime == 1){
-
-										//bank time info
-										$arrParam = array(
-											"idUser" => $lista['fk_id_user'],
-											"limit" => 1
-										);
-										$infoBankTime = $this->general_model->get_bank_time($arrParam);
-
-										
-										if($infoBankTime){
-											$bankTimeBalance = $infoBankTime[0]["balance"];
-										}
-										//si ya se guardo el paystub entonces tomo esos valores 
-										if($infoPaystub){
-											$bankTimeBalance = $infoPaystub[0]["actual_bank_time_balance"];
-										}
-
-										if($totalWorked >= 88){
-											$payHours = 88;
-											$toBankTime = $totalWorked - 88;
-											$newBankTimeBalance = $bankTimeBalance + $toBankTime;
-											$bankTimeFlag = $totalWorked == 88 ? "":"add";
-										}else{
-											$payHours = $totalWorked;
-											if($bankTimeBalance > 0){
-												$timeNeeded = 88 - $payHours;
-												$bankTimeFlag = "subtract";
-												if($bankTimeBalance >= $timeNeeded){
-													$newBankTimeBalance = $bankTimeBalance - $timeNeeded;
-													$takeFromBanktime = $bankTimeBalance - $newBankTimeBalance;
-													$payHours = $payHours + $takeFromBanktime;
-												}else{
-													$takeFromBanktime = $bankTimeBalance;
-													$payHours = $payHours + $bankTimeBalance;
-												}
-											}
-										}
-
-										$totalRegularHours = $payHours;
-										$totalOvertimeHours = 0;
-										
-										echo "<tr class='danger text-danger'><td></td>";
-										echo "<td class='text-right'></td>";
-										echo "<td class='text-right'></td>";
-										echo "<td class='text-right'>Actual Bank Time Balance:</td>";
-										echo "<td class='text-right'><strong>" . $bankTimeBalance . "</strong></td>";
-										echo "</tr>";
-
-										echo "<tr class='danger text-danger'><td></td>";
-										echo "<td class='text-right'><strong>CUT-OFF with BANK TIME:</strong></td>";
-										echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
-										echo "<td class='text-right'><strong>Total regular hours:<br>" . $payHours . "</strong></td>";
-										if($bankTimeFlag == "add"){
-											echo "<td class='text-right'><strong>Add to Bank Time:<br>" . $toBankTime . "</strong></td>";
-										}elseif($bankTimeFlag == "subtract"){
-											echo "<td class='text-right'><strong>Subtract from Bank Time:<br>" . $takeFromBanktime . "</strong></td>";
-										}else{
-											echo "<td class='text-right'></td>";
-										}
-										
-										echo "</tr>";
-
-										echo "<tr class='danger text-danger'><td></td>";
-										echo "<td class='text-right'></td>";
-										echo "<td class='text-right'></td>";
-										echo "<td class='text-right'>New Bank Time Balance:</td>";
-										echo "<td class='text-right'><strong>" . $newBankTimeBalance . "</strong></td>";
-										echo "</tr>";
-									}
-
+									echo "<tr class='danger text-danger'><td></td>";
+									echo "<td class='text-right'><strong>CUT-OFF:</strong></td>";
+									echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
+									echo "<td class='text-right'></td>";
+									echo "<td class='text-right'></td>";
+									echo "</tr>";
 						?>
 						</tbody>
 					</table>
@@ -362,175 +226,58 @@ if ($retornoError) {
 						//Gross salary
 						$gross_salary = $cost_regular_salary + $cost_overtime + $cost_vacation;
 
-						if(!$infoPaystub){
 					?>
-						<div class="col-lg-3">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<i class="fa fa-bell fa-fw"></i> Form
-								</div>
-								<!-- /.panel-heading -->
-								<div class="panel-body">
-
-									<form  name="paystub_<?php echo $idUser ?>" id="paystub_<?php echo $idUser; ?>" method="post" action="<?php echo base_url("payroll/save_paystub"); ?>">
-
-										<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="<?php echo $infoPaystub?$infoPaystub[0]["id_paystub"]:"" ?>" />
-										<input type="hidden" id="hddIdTotalYearly" name="hddIdTotalYearly" value="<?php echo $idTotalYear; ?>" />
-										<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
-										<input type="hidden" id="hddYear" name="hddYear" value="<?php echo $infoPeriod[0]['year_period']; ?>" />
-										<input type="hidden" id="hddIdWeakPeriod1" name="hddIdWeakPeriod1" value="<?php echo $infoWeakPeriod[0]['id_period_weak']; ?>" />
-										<input type="hidden" id="hddIdWeakPeriod2" name="hddIdWeakPeriod2" value="<?php echo $infoWeakPeriod[1]['id_period_weak']; ?>" />
-										<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
-
-										<input type="hidden" id="hddBankTime" name="hddBankTime" value="<?php echo $bankTime; ?>" />
-										<input type="hidden" id="hddBankTimeFlag" name="hddBankTimeFlag" value="<?php echo $bankTimeFlag; ?>" />
-										<input type="hidden" id="hddBankTimeBalance" name="hddBankTimeBalance" value="<?php echo $bankTimeBalance; ?>" />
-										<input type="hidden" id="hddBankTimeAdd" name="hddBankTimeAdd" value="<?php echo $toBankTime; ?>" />
-										<input type="hidden" id="hddBankTimeSubtract" name="hddBankTimeSubtract" value="<?php echo $takeFromBanktime; ?>" />
-										<input type="hidden" id="hddBankTimeNewBalance" name="hddBankTimeNewBalance" value="<?php echo $newBankTimeBalance; ?>" />
-
-										<input type="hidden" id="hddEmployeeRate" name="hddEmployeeRate" value="<?php echo $employeeHourRate; ?>" />
-										<input type="hidden" id="hddEmployeeType" name="hddEmployeeType" value="<?php echo $employeeType; ?>" />
-										
-										<input type="hidden" id="hddTotalWorkedHours" name="hddTotalWorkedHours" value="<?php echo $totalWorked; ?>" />
-										<input type="hidden" id="hddRegularHours" name="hddRegularHours" value="<?php echo $totalRegularHours; ?>" />
-										<input type="hidden" id="hddOvertimeHours" name="hddOvertimeHours" value="<?php echo $totalOvertimeHours; ?>" />
-										<input type="hidden" id="hddCostRegularSalary" name="hddCostRegularSalary" value="<?php echo $cost_regular_salary; ?>" />
-										<input type="hidden" id="hddCostOvertime" name="hddCostOvertime" value="<?php echo $cost_overtime; ?>" />
-										<input type="hidden" id="hddCostVacation" name="hddCostVacation" value="<?php echo $cost_vacation; ?>" />
-										<input type="hidden" id="hddFGrossSalary" name="hddFGrossSalary" value="<?php echo $gross_salary; ?>" />
-
-										<!-- campos ocultos para redireccionar al listado inicial buscado -->
-										<input type="hidden" id="contractType" name="contractType" value="<?php echo $contractType; ?>" />
-										<input type="hidden" id="period" name="period" value="<?php echo $idPeriod; ?>" />
-										<input type="hidden" id="employee" name="employee" value="<?php echo $idEmployee; ?>" />
-
-										<div class="form-group text-left">
-											<label class="control-label" for="firstName">EE CPP: *</label>
-											<input type="text" id="ee_cpp" name="ee_cpp" class="form-control" placeholder="EE CPP" required >
-										</div>
-
-										<div class="form-group text-left">
-											<label class="control-label" for="firstName">EE EI: *</label>
-											<input type="text" id="ee_ei" name="ee_ei" class="form-control" placeholder="EE EI" required >
-										</div>
-
-										<div class="form-group text-left">
-											<label class="control-label" for="firstName">TAX: *</label>
-											<input type="text" id="tax" name="tax" class="form-control" placeholder="TAX" required >
-										</div>
-
-										<div class="form-group text-left">
-											<label class="control-label" for="firstName">GWL Deductions: *</label>
-											<input type="text" id="gwl_deductions" name="gwl_deductions" class="form-control" placeholder="GWL Deductions" required >
-										</div>
-
-										<div class="form-group">
-											<div class="row" align="center">
-												<div style="width:80%;" align="right">
-													<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
-														Generate Paystub <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-													</button> 
-												</div>
-											</div>
-										</div>
-
-									</form>
-								</div>
-							</div>
-						</div>
-
-				<?php 
-					}else{
-				?>
 						<div class="col-lg-4">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
-									<i class="fa fa-bell fa-fw"></i> More info
-								</div>
-								<!-- /.panel-heading -->
-								<div class="panel-body">
-									<div class="list-group">
+		                            <div class="row">
+		                                <div class="col-lg-6">
+		                                    <i class="fa fa-bell fa-fw"></i> Pay Stub Detail
+		                                </div>
+		                                <div class="col-lg-6 text-right">
+										<?php if(!$infoPaystub){ ?>
+											<form  name="paystub_<?php echo $idUser ?>" id="paystub_<?php echo $idUser; ?>" method="post" action="<?php echo base_url("payroll/save_paystub"); ?>">
 
-										<p class="text-default">
-											<span class="text-muted small"><em><strong> Reviewed by: </strong> <?php echo $infoPaystub[0]['name']; ?></em>
-											</span><br>
-											<span class="text-muted small"><em><strong> Revised date: </strong> <?php echo $infoPaystub[0]['paystub_date_issue']; ?></em>
-											</span>
-										</p>
+												<input type="hidden" id="hddIdPaytsub" name="hddIdPaytsub" value="<?php echo $infoPaystub?$infoPaystub[0]["id_paystub"]:"" ?>" />
+												<input type="hidden" id="hddIdTotalYearly" name="hddIdTotalYearly" value="<?php echo $idTotalYear; ?>" />
+												<input type="hidden" id="hddIdPeriod" name="hddIdPeriod" value="<?php echo $idPeriod; ?>" />
+												<input type="hidden" id="hddYear" name="hddYear" value="<?php echo $infoPeriod[0]['year_period']; ?>" />
+												<input type="hidden" id="hddIdWeakPeriod1" name="hddIdWeakPeriod1" value="<?php echo $infoWeakPeriod[0]['id_period_weak']; ?>" />
+												<input type="hidden" id="hddIdWeakPeriod2" name="hddIdWeakPeriod2" value="<?php echo $infoWeakPeriod[1]['id_period_weak']; ?>" />
+												<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>" />
 
-										<table width="100%" class="table table-hover" id="dataTables">
-											<thead>
-												<tr>
-													<th><small>TAXES</small></th>
-													<th class='text-right'><small>Current</small></th>
-												</tr>
-											</thead>
-											<tbody>
-											<?php
-												$ee_cpp = $infoPaystub[0]['ee_cpp']?$infoPaystub[0]['ee_cpp']:0;
-												$er_cpp = $infoPaystub[0]['er_cpp']?$infoPaystub[0]['er_cpp']:0;
-												$ee_ei = $infoPaystub[0]['ee_ei']?$infoPaystub[0]['ee_ei']:0;
-												$er_ei = $infoPaystub[0]['er_ei']?$infoPaystub[0]['er_ei']:0;
-												$tax = $infoPaystub[0]['tax']?$infoPaystub[0]['tax']:0;
-												$gwl_deductions = $infoPaystub[0]['gwl_deductions']?$infoPaystub[0]['gwl_deductions']:0;
-												$remittance = $infoPaystub[0]['remittance']?$infoPaystub[0]['remittance']:0;
-												$net_pay = $infoPaystub[0]['net_pay']?$infoPaystub[0]['net_pay']:0;
+												<input type="hidden" id="hddBankTime" name="hddBankTime" value="<?php echo $bankTime; ?>" />
+												<input type="hidden" id="hddBankTimeFlag" name="hddBankTimeFlag" value="<?php echo $bankTimeFlag; ?>" />			
 
-												echo "<tr>";
-												echo "<td><small>EE CPP</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_cpp'], 2) . "</small></td>";
-												echo "</tr>";
+												<input type="hidden" id="hddEmployeeRate" name="hddEmployeeRate" value="<?php echo $employeeHourRate; ?>" />
+												<input type="hidden" id="hddEmployeeType" name="hddEmployeeType" value="<?php echo $employeeType; ?>" />
+												
+												<input type="hidden" id="hddTotalWorkedHours" name="hddTotalWorkedHours" value="<?php echo $totalWorked; ?>" />
+												<input type="hidden" id="hddRegularHours" name="hddRegularHours" value="<?php echo $totalRegularHours; ?>" />
+												<input type="hidden" id="hddOvertimeHours" name="hddOvertimeHours" value="<?php echo $totalOvertimeHours; ?>" />
+												<input type="hidden" id="hddCostRegularSalary" name="hddCostRegularSalary" value="<?php echo $cost_regular_salary; ?>" />
+												<input type="hidden" id="hddCostOvertime" name="hddCostOvertime" value="<?php echo $cost_overtime; ?>" />
+												<input type="hidden" id="hddCostVacation" name="hddCostVacation" value="<?php echo $cost_vacation; ?>" />
+												<input type="hidden" id="hddFGrossSalary" name="hddFGrossSalary" value="<?php echo $gross_salary; ?>" />
 
-												echo "<tr>";
-												echo "<td><small>ER CPP</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['er_cpp'], 2) . "</small></td>";
-												echo "</tr>";
+												<!-- campos ocultos para redireccionar al listado inicial buscado -->
+												<input type="hidden" id="contractType" name="contractType" value="<?php echo $contractType; ?>" />
+												<input type="hidden" id="period" name="period" value="<?php echo $idPeriod; ?>" />
+												<input type="hidden" id="employee" name="employee" value="<?php echo $idEmployee; ?>" />
 
-												echo "<tr>";
-												echo "<td><small>EE EI</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_ei'], 2) . "</small></td>";
-												echo "</tr>";
+												<input type="hidden" id="ee_cpp" name="ee_cpp" value=0 />
+												<input type="hidden" id="ee_ei" name="ee_ei" value=0 />
+												<input type="hidden" id="tax" name="tax" value=0 />
+												<input type="hidden" id="gwl_deductions" name="gwl_deductions" value=0 />
+												<input type="hidden" id="hddBankTimeBalance" name="hddBankTimeBalance" value=0 />
 
-												echo "<tr>";
-												echo "<td><small>* ER EI</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['er_ei'], 2) . "</small></td>";
-												echo "</tr>";
-
-												echo "<tr>";
-												echo "<td><small>TAX</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['tax'], 2) . "</small></td>";
-												echo "</tr>";
-
-												echo "<tr>";
-												echo "<td><small>GWL Deductions</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gwl_deductions'], 2) . "</small></td>";
-												echo "</tr>";
-
-												echo "<tr>";
-												echo "<td><small>** Remittance</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['remittance'], 2) . "</small></td>";
-												echo "</tr>";
-											?>
-											</tbody>
-										</table>
-
-										<p class="text-default">
-											<span class="text-muted small"><em>* ER EI = EE EI x 1.4</em></span><br>
-											<span class="text-muted small"><em>** Remitttance = (EE CPP + ER CPP + EE EI + ER EI + TAX)</em></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-				<?php
-					}
-				?>
-
-						<div class="col-lg-4">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<i class="fa fa-bell fa-fw"></i> Pay Stub Detail
+												<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-info" >
+													Generate Paystub <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+												</button> 
+											</form>
+										<?php } ?>
+		                                </div>
+		                            </div>
 								</div>
 								<!-- /.panel-heading -->
 								<div class="panel-body">

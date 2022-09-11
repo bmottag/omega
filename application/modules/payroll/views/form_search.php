@@ -1,5 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/ajaxSearch.js"); ?>"></script>
 <div id="page-wrapper">
-
 	<br>
     <div class="row">
         <div class="col-lg-12">
@@ -16,13 +16,12 @@
 					<form  name="form" id="form" role="form" method="post" class="form-horizontal" >
 
 						<div class="form-group">
-							<div class="col-sm-3 col-sm-offset-2">
-								<label for="from">Employee <small>(This field is NOT required.)</small></label>
-								<select name="employee" id="employee" class="form-control" >
+							<div class="col-sm-2 col-sm-offset-1" required>
+								<label for="from">Contract type: *</label>
+								<select name="contractType" id="contractType" class="form-control" required>
 									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-										<option value="<?php echo $workersList[$i]["id_user"]; ?>"><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
-									<?php } ?>
+									<option value=2 >Employee</option>
+									<option value=1 >Subcontractor</option>
 								</select>
 							</div>
 
@@ -34,6 +33,12 @@
 										<option value="<?php echo $infoPeriod[$i]["id_period"]; ?>"><?php echo $infoPeriod[$i]["period"]; ?></option>	
 									<?php } ?>
 								</select>
+							</div>
+
+							<div class="col-sm-3 col-sm-offset-1" id="div_employee" style="display:none">
+								<label for="from">Employee <small>(This field is NOT required.)</small></label>
+									<select name="employee" id="employee" class="form-control" >
+									</select>
 							</div>
 						</div>
 
@@ -47,7 +52,6 @@
 								</div>
 							</div>
 						</div>
-								
                     </form>
 				</div>
 			</div>

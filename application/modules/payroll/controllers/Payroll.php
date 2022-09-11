@@ -363,16 +363,9 @@ class Payroll extends CI_Controller {
      * @since 10/02/2022
      * @author BMOTTAG
 	 */
-    public function payrollSearchForm($idPeriod = 'x', $idEmployee = '' ) 
+    public function payrollSearchForm($contractType = 'x', $idPeriod = 'x', $idEmployee = '' ) 
 	{
 			$this->load->model("general_model");
-
-			//workers list
-			$arrParam = array(
-							"state" => 1,
-							"employee_subcontractor" => 2
-						);
-			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
 					
 			$arrParam = array("limit" => 10);
 			$data['infoPeriod'] = $this->general_model->get_period($arrParam);//lista de periodos los ultimos 10	
@@ -380,13 +373,15 @@ class Payroll extends CI_Controller {
 			$data["view"] = "form_search";
 			
 			//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
-			if($idPeriod != 'x' || $_POST){
+			if($contractType  != 'x' && $idPeriod != 'x' || $_POST){
 				if($idPeriod != 'x'){
+					$data['contractType'] =  $contractType;
 					$data['idPeriod'] =  $idPeriod;
 					$data['idEmployee'] =  $idEmployee;
 				}				
 
 				if($this->input->post('period')){
+					$data['contractType'] =  $this->input->post('contractType');
 					$data['idPeriod'] =  $this->input->post('period');
 					$data['idEmployee'] =  $this->input->post('employee');
 				}
@@ -399,10 +394,10 @@ class Payroll extends CI_Controller {
 				$arrParam = array(
 					"idPeriod" => $data['idPeriod'],
 					"idEmployee" => $data['idEmployee'],
-					"employee_subcontractor" => 2
+					"employee_subcontractor" => $data['contractType'] 
 				);
 				$data['info'] = $this->general_model->get_users_by_period($arrParam);
-				$data["view"] = "list_payroll";
+				$data["view"] = $data['contractType']==2?"list_payroll":"list_payroll_subcontractor";
 			}
 			
 			$this->load->view("layout_calendar", $data);
@@ -415,6 +410,7 @@ class Payroll extends CI_Controller {
 	 */
 	public function save_paystub()
 	{	
+			$contractType =  $this->input->post('contractType');
 			$idPeriod =  $this->input->post('period');
 			$idEmployee =  $this->input->post('employee');
 
@@ -451,13 +447,13 @@ class Payroll extends CI_Controller {
 				$this->payroll_model->updatePayrollTotalYearly($infoTotalYear);
 
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the Rate!!");
+				$this->session->set_flashdata('retornoExito', "You have save the Paystub!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url('payroll/payrollSearchForm/' . $idPeriod . '/' . $idEmployee), 'refresh');
+			redirect(base_url('payroll/payrollSearchForm/' . $contractType . '/'. $idPeriod . '/' . $idEmployee), 'refresh');
     }
 
 	/**
@@ -671,5 +667,27 @@ class Payroll extends CI_Controller {
 
 		return true;
 	}
+
+	/**
+	 * Employee list by contract type
+     * @since 11/9/2022
+     * @author BMOTTAG
+	 */
+    public function employeeList() {
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+        $identificador = $this->input->post('identificador');
+		$arrParam = array(
+			"state" => 1,
+			"employee_subcontractor" => $identificador
+		);
+		$this->load->model("general_model");
+		$lista = $this->general_model->get_user($arrParam);//workers list
+        echo "<option value=''>Select...</option>";
+        if ($lista) {
+            foreach ($lista as $fila) {
+                echo "<option value='" . $fila["id_user"] . "' >" . $fila["first_name"] . " " . $fila["last_name"] . "</option>";
+            }
+        }
+    }
 	
 }
