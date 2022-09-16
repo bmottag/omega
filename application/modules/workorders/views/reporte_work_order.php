@@ -5,8 +5,8 @@
 			$html = '<table border="0" cellspacing="0" cellpadding="5">';
 			$html.= '<tr>
 					<th width="60%">
-					<b>P.O. Box </b> 67037 Northland Village NW <br>
-					Calgary - Alberta - T2L2L2 <br>
+					<b>P.O. Box </b> 84209 RPO MARKET MALL <br>
+					Calgary - Alberta - T3A 5C4 <br>
 					<b>Phone:</b> 587-892-9616 / <b>Fax:</b> 403-910-0752<br>
 					<a href="http://www.v-contracting.ca/" dir="ltr">www.v-contracting.ca/</a>
 					</th>';
