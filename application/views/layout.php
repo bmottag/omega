@@ -155,7 +155,8 @@
 						if($links){
 							$topMenu .= '<li class=dropdown>';
 							$topMenu .= '<a class="dropdown-toggle" data-toggle="dropdown" href="#">';
-							$topMenu .= '<i class="fa ' . $item['menu_icon'] . '"></i> ' . $item['menu_name'] . ' <i class="fa fa-caret-down"></i>';
+							//$topMenu .= '<i class="fa ' . $item['menu_icon'] . '"></i> ' . $item['menu_name'] . ' <i class="fa fa-caret-down"></i>';
+							$topMenu .= '<i class="fa ' . $item['menu_icon'] . '"></i> <i class="fa fa-caret-down"></i>';
 							$topMenu .= '</a>';
 							
 							$topMenu .= '<ul class="dropdown-menu dropdown-messages">';

@@ -92,8 +92,73 @@ if ($retornoError) {
 }
 ?> 
 			
+				<!-- Enlace internos -->
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
+						<a class="btn btn-block btn-social btn-primary" href="#anclaPayroll">
+							<i class="fa fa-book"></i> <b> Last Payroll Records </b>
+						</a>
+					</div>
+
+					<?php if($infoSafety){  ?>	
+						<div class="col-lg-3 col-md-6">
+							<a class="btn btn-block btn-social btn-info" href="#anclaSafety">
+								<i class="fa fa-life-saver"></i> <b> Last FLHA Records </b>
+							</a>
+						</div>	
+					<?php } ?>
+
+					<?php if($noJobs){  ?>
+						<div class="col-lg-3 col-md-6">
+							<a class="btn btn-block btn-social btn-info" href="<?php echo base_url('jobs'); ?>">
+								<i class="fa fa-briefcase"></i> <b> Jobs list</b>
+							</a>
+						</div>	
+					<?php } ?>
+
+					<?php if($noHauling){  ?>
+						<div class="col-lg-3 col-md-6">
+							<a class="btn btn-block btn-social btn-warning" href="<?php echo base_url('dashboard/hauling'); ?>">
+								<i class="fa fa-truck"></i> <b> Last Hauling Records </b>
+							</a>
+						</div>	
+					<?php } ?>
+
+				</div>
+				<br>
+				<div class="row">
+					<?php if($noDailyInspection){  ?>
+						<div class="col-lg-3 col-md-6">
+							<a class="btn btn-block btn-social btn-success" href="<?php echo base_url('dashboard/pickups_inspection'); ?>">
+								<i class="fa fa-search"></i> <b> Last Pickups & Trucks Inspections</b>
+							</a>
+						</div>	
+					<?php } ?>
+
+					<?php if($noHeavyInspection){  ?>
+						<div class="col-lg-3 col-md-6">
+							<a class="btn btn-block btn-social btn-danger" href="<?php echo base_url('dashboard/construction_equipment_inspection'); ?>">
+								<i class="fa fa-search"></i> <b> Last Construction Equipment Inspections</b>
+							</a>
+						</div>	
+					<?php } ?>
+
+					<div class="col-lg-3 col-md-6">
+						<a class="btn btn-block btn-social btn-purpura" href="#anclaWatertruck">
+							<i class="fa fa-search"></i> <b> Last Special Equipment Inspections</b>
+						</a>
+					</div>	
+
+					<div class="col-lg-3 col-md-6">
+						<a class="btn btn-block btn-social btn-primary" href="<?php echo base_url('dashboard/checkin'); ?>">
+							<i class="fa fa-search"></i> <b> View Sign-In Form Registers </b>
+						</a>
+						<br>
+					</div>
+				</div>
+
 			
-            <!-- /.row -->
+<!-- 
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
@@ -325,7 +390,7 @@ if ($retornoError) {
 				
 
             </div>
-            <!-- /.row -->
+-->
             <div class="row">
 
 <a name="anclaPayroll" ></a>			

@@ -27,6 +27,7 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
+<!--
 				<li>
 					<a href="#">
 						<?php if($this->session->photo){ ?>
@@ -41,8 +42,8 @@
 							<a href="<?php echo base_url("employee/photo"); ?>">User Photo</a>
 						</li>
 					</ul>
-					<!-- /.nav-second-level -->
 				</li>
+-->
 				<?php
 					if($leftMenu){
 						echo $leftMenu;
