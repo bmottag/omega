@@ -1154,6 +1154,7 @@ class Workorders extends CI_Controller {
 				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
 				$workorderPersonal = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
 				$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+				$workorderReceipts = $this->workorders_model->get_workorder_receipt($arrParam);//workorder receipts list
 				$workorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
 				$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 
@@ -1191,6 +1192,26 @@ class Workorders extends CI_Controller {
 													  ->setCellValue('N'.$j, $infoM['unit'])
 													  ->setCellValue('O'.$j, $infoM['rate'])
 													  ->setCellValue('Q'.$j, $infoM['value']);
+						$j++;
+					endforeach;
+				}
+
+				if($workorderReceipts){
+					foreach ($workorderReceipts as $infoR):
+
+						$description = $infoR['description'] . ' - ' . $infoR['place'];
+						if($infoR['markup'] > 0){
+							$description = $description . ' - Plus M.U.';
+						}
+
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $description)
+													  ->setCellValue('Q'.$j, $infoR['value']);
 						$j++;
 					endforeach;
 				}
