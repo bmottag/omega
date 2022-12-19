@@ -361,6 +361,7 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 <!-- /#page-wrapper -->
 
 <!--INICIO Modal para adicionar WORKER -->
+<?php if($workersList){ ?>
 <div class="modal fade text-center" id="modalWorker" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
 	<div class="modal-dialog" role="document">
 		<div class="modal-content" id="tablaDatos">
@@ -409,7 +410,8 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 
 		</div>
 	</div>
-</div>                       
+</div>  
+<?php } ?>                     
 <!--FIN Modal para adicionar WORKER -->
 
 
