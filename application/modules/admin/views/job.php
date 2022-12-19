@@ -117,7 +117,7 @@ if ($retornoError) {
 </button>
 
 								</th>
-								<th class="text-center">Edit</th>
+								<th class="text-center">Links</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -167,6 +167,10 @@ if ($retornoError) {
 									
 									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('prices/equipmentUnitPrice/' . $lista['id_job'] . '/1') ?>'>
 										Equipment <span class="fa fa-flag" aria-hidden="true">
+									</a>
+
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('admin/job_qr_code/' . $lista['id_job'] . '/1') ?>'>
+										Timesheet QR CODE 
 									</a>
 									
 						<?php

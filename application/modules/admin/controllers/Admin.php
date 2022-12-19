@@ -1674,5 +1674,58 @@ class Admin extends CI_Controller {
 
 			echo json_encode($data);
     }
+
+	/**
+	 * View for JOB CODE - QR CODE
+     * @since 19/12/2022
+     * @author BMOTTAG
+	 */
+	public function job_qr_code($idJob)
+	{
+			if (empty($idJob)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+			
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+			//if there is not a QR CORE then it generate the QR CODE
+			if(!$data['jobInfo'][0]["qr_code_timesheet"]){
+				//INCIO - genero imagen con la libreria y la subo 
+				$this->load->library('ciqrcode');
+				https://v-contracting.ca/app//576
+				$valorQRcode = base_url("external/checkin/" . $idJob);
+				$rutaImagen = "images/qrcode/job_timesheet/" . $idJob . "_qr_code.png";
+				
+				$params['data'] = $valorQRcode;
+				$params['level'] = 'H';
+				$params['size'] = 10;
+				$params['savename'] = FCPATH.$rutaImagen;
+								
+				$this->ciqrcode->generate($params);
+				//FIN - genero imagen con la libreria y la subo
+
+				//Update timesheet qr code field
+				$arrParam = array(
+					"table" => "param_jobs",
+					"primaryKey" => "id_job",
+					"id" => $idJob,
+					"column" => "qr_code_timesheet",
+					"value" => $rutaImagen
+				);				
+				$this->general_model->updateRecord($arrParam);
+
+			}
+			
+			$data['idJob'] = $idJob;
+			$data["view"] = 'job_qr_code';
+			$this->load->view("layout", $data);
+	}
 	
 }
