@@ -1116,15 +1116,16 @@ class Workorders extends CI_Controller {
 	 */
 	public function generaWorkOrderXLS($jobId, $from = '' , $to = '')
 	{			
-			header('Content-Type: application/vnd.ms-excel');
-			header('Content-Disposition:attachment;filename=workorder_'.$jobId.'.xlsx');
-
 			$arrParam = array(
 				"jobId" => $jobId,
 				"from" => $from,
 				"to" => $to
 			);
 			$info = $this->workorders_model->get_workorder_by_idJob($arrParam);
+			$jobCode = $info[0]['job_description'];
+
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition:attachment;filename=workorder_'.$jobCode.'.xlsx');
 
 			$spreadsheet = new Spreadsheet();
 			$spreadsheet->getActiveSheet()->setTitle('Work Order Report');
@@ -1161,6 +1162,7 @@ class Workorders extends CI_Controller {
 				$observation = $data['observation']?$data['observation']:'';
 				if($workorderPersonal){
 					foreach ($workorderPersonal as $infoP):
+						$total += $infoP['value']; 
 						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
@@ -1180,6 +1182,7 @@ class Workorders extends CI_Controller {
 
 				if($workorderMaterials){
 					foreach ($workorderMaterials as $infoM):
+						$total += $infoM['value'];
 						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
 													  ->setCellValue('B'.$j, $data['name'])
 													  ->setCellValue('C'.$j, $data['date_issue'])
@@ -1198,7 +1201,7 @@ class Workorders extends CI_Controller {
 
 				if($workorderReceipts){
 					foreach ($workorderReceipts as $infoR):
-
+						$total += $infoR['value'];
 						$description = $infoR['description'] . ' - ' . $infoR['place'];
 						if($infoR['markup'] > 0){
 							$description = $description . ' - Plus M.U.';
@@ -1218,7 +1221,7 @@ class Workorders extends CI_Controller {
 		
 				if($workorderEquipment){
 					foreach ($workorderEquipment as $infoE):
-									
+						$total += $infoE['value'];
 						//si es tipo miscellaneous -> 8, entonces la description es diferente
 						if($infoE['fk_id_type_2'] == 8){
 							$equipment = $infoE['miscellaneous'] . " - " . $infoE['other'];
@@ -1248,6 +1251,7 @@ class Workorders extends CI_Controller {
 			
 				if($workorderOcasional){
 					foreach ($workorderOcasional as $infoO):
+						$total += $infoO['value'];
 						$equipment = $infoO['company_name'] . '-' . $infoO['equipment'];
 						$hours = $infoO['hours']==0?1:$infoO['hours'];
 						
@@ -1269,6 +1273,12 @@ class Workorders extends CI_Controller {
 				}
 				
 			endforeach;
+
+			$total = '$ ' . number_format($total, 2);
+			$spreadsheet->getActiveSheet()->setCellValue('P'.$j, 'Total Income');
+			$spreadsheet->getActiveSheet()->setCellValue('Q'.$j, $total);
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
 
 			// Set column widths							  
 			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
