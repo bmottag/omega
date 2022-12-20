@@ -572,14 +572,20 @@
 				
 				//revisar si es para adicionar o editar
 				if ($idEmployeeCertificate == '') {
+					$expire = $this->input->post('expire');
+					$date_through = $expire == 2 ? "": $this->input->post('dateThrough');
 					$data = array(
-						'date_through' => $this->input->post('dateThrough'),
+						'expires' => $expire,
+						'date_through' => $date_through,
 						'fk_id_user' => $this->input->post('hddidEmployee'),
 						'fk_id_certificate' => $this->input->post('certificate')
 					);
 					$query = $this->db->insert('user_certificates ', $data);			
 				} else {
-					$data['date_through'] = $this->input->post('dateThroughUpdate');
+					$expire = $this->input->post('expiresUpdate');
+					$date_through = $expire == 2 ? "": $this->input->post('dateThroughUpdate');
+					$data['expires'] = $expire;
+					$data['date_through'] = $date_through;
 					$this->db->where('id_user_certificate', $idEmployeeCertificate);
 					$query = $this->db->update('user_certificates ', $data);
 				}
@@ -591,7 +597,7 @@
 		}
 
 		/**
-		 * Add/Edit ALEERTS SETTINGS
+		 * Add/Edit ALERTS SETTINGS
 		 * @since 23/01/2022
 		 */
 		public function saveAlert() 

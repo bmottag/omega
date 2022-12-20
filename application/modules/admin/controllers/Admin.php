@@ -1222,7 +1222,7 @@ class Admin extends CI_Controller {
 			$idEmployeeCertificate = $this->input->post('hddidEmployeeCertificate');
 
 			$data["idRecord"] = $idEmployee;
-			$msj = "You have add a new Certificate!!";
+			$msj = "You have added a new Certificate!!";
 
 			//para verificar si ya existe este certificado asigando al empleado
 			$certificate_exist = FALSE;

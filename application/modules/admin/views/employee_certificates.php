@@ -105,6 +105,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th>Certificate</th>
+								<th>Expires?</th>
 								<th class="text-center">Date Throught <small>(YYYY-MM-DD)</small></th>
 								<th class="text-center">Links </th>
 							</tr>
@@ -119,16 +120,20 @@ if ($retornoError) {
 									$diferencia = $fechaVencimiento - $filtroFecha;
 									//8035200 --> equivalen a 90 dias
 									//si la diferencia es mayor a 90 dias no hay problema
-									if($diferencia > 8035200){
-										$class = '';
-									}elseif($diferencia <= 8035200 && $diferencia >= 0){
-										//si la diferencia es entre 0 y 30 dias, entonces se va a vencer pronto
-										$class = 'warning text-warning';
-									}else{
-										//si la diferencia es menor que 0 entonces esta vencida
-										$class = 'danger text-danger';
+									$class = '';
+									$date = "";
+									if($lista["expires"] != 2){
+										$date = $lista['date_through'];
+										if($diferencia > 8035200){
+											$class = '';
+										}elseif($diferencia <= 8035200 && $diferencia >= 0){
+											//si la diferencia es entre 0 y 30 dias, entonces se va a vencer pronto
+											$class = 'warning text-warning';
+										}else{
+											//si la diferencia es menor que 0 entonces esta vencida
+											$class = 'danger text-danger';
+										}
 									}
-									
 									echo "<tr class='" . $class . "'>";
 									echo "<td><b>" . $lista['certificate'] . "</b></td>";
 								?>
@@ -136,9 +141,16 @@ if ($retornoError) {
 
 <form  name="form_<?php echo $lista['id_user_certificate']; ?>" id="form_<?php echo $lista['id_user_certificate']?>" method="post" action="<?php echo base_url("admin/update_user_certificate"); ?>">
 <input type="hidden" id="hddidEmployeeCertificate" name="hddidEmployeeCertificate" value="<?php echo  $lista['id_user_certificate']; ?>"/>
+									<td class='text-center'>
+										<select name="expiresUpdate" id="expiresUpdate" class="form-control" required>
+											<option value=''>Select...</option>
+											<option value=1 <?php if($lista["expires"] == 1) { echo "selected"; }  ?>>Yes</option>
+											<option value=2 <?php if($lista["expires"] == 2) { echo "selected"; }  ?>>No</option>
+										</select>
+									</td>
 
 									<td class='text-center'>
-										<input type="text" class="form-control" id="dateThroughUpdate" name="dateThroughUpdate" value="<?php echo $lista['date_through'] ; ?>" placeholder="YYYY-MM-DD" required />
+										<input type="text" class="form-control" id="dateThroughUpdate" name="dateThroughUpdate" value="<?php echo $date; ?>" placeholder="YYYY-MM-DD" />
 									</td>
 									<td class='text-center'>
 										<button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-info btn-xs" title="Update">
@@ -165,7 +177,7 @@ if ($retornoError) {
 		<div class="col-lg-4">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-user"></i> <b><?php echo $UserInfo[0]['first_name'] . ' ' . $UserInfo[0]['last_name']; ?></b> - INFORMATION
+					<i class="fa fa-user"></i> <b><?php echo $UserInfo[0]['first_name'] . ' ' . $UserInfo[0]['last_name']; ?></b> - Information
 				</div>
 				<div class="panel-body">
 				

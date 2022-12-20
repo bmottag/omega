@@ -1,9 +1,19 @@
 $( document ).ready( function () {
+
+	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
+		var expire = $('#expire').val();
+		if(expire==2 && value == ""){
+			return true;
+		}else{
+			return false;
+		}
+	}, "This field is required.");
 	
 	$( "#form" ).validate( {
 		rules: {
-			certificate:				{ required: true },
-			dateThrough: 				{ required: true }
+			certificate:			{ required: true },
+			expire: 				{ required: true },
+			dateThrough:			{ fieldSpecify: true },
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

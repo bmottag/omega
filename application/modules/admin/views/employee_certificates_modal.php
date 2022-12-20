@@ -1,4 +1,22 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/employee_certificate.js"); ?>"></script>
+
+<script>
+$(document).ready(function () {
+    $('#expire').change(function () {
+        $('#expire option:selected').each(function () {
+            var expire = $('#expire').val();
+
+            if ( expire == 2 ) {
+				$("#div_date").css("display", "none");
+                $('#dateThrough').val("");
+            } else {
+				$("#div_date").css("display", "inline");
+			}
+        });
+    });    
+});
+</script>
+
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">EMPLOYEE CERTIFICATES
@@ -25,6 +43,20 @@
 					</select>
 				</div>
 			</div>
+					
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="dateThrough">Does the certificate expire?: *</label>
+					<select name="expire" id="expire" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 selected>Yes</option>
+						<option value=2 >No</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			
 <script>
 	$( function() {
@@ -35,10 +67,10 @@
 		});
 	});
 </script>		
-			<div class="col-sm-6">
+			<div class="col-sm-6" id="div_date">
 				<div class="form-group text-left">
 					<label class="control-label" for="dateThrough">Date Through: *</label>
-					<input type="text" class="form-control" id="dateThrough" name="dateThrough" placeholder="Date Through" required />
+					<input type="text" class="form-control" id="dateThrough" name="dateThrough" placeholder="Date Through" />
 				</div>
 			</div>
 		</div>
