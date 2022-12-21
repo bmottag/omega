@@ -607,6 +607,17 @@ class Dashboard extends CI_Controller {
 			$data["view"] ='checkin_list';
 			$this->load->view("layout", $data);
 	}
+
+	/**
+	 * System changes
+     * @since 21/12/2022
+     * @author BMOTTAG
+	 */
+	public function versions()
+	{		
+			$data["view"] ='versions';
+			$this->load->view("layout", $data);
+	}
 	
 	
 }
