@@ -597,25 +597,26 @@
 		}
 
 		/**
-		 * Add/Edit ALERTS SETTINGS
+		 * Add/Edit NOTIFICATIONS ACCESS SETTINGS
 		 * @since 23/01/2022
+		 * @REVIEW 22/12/2022
 		 */
-		public function saveAlert() 
+		public function saveNotification() 
 		{
-				$idAlert = $this->input->post('hddId');
+				$idNotificationAccess = $this->input->post('hddId');
 				
 				$data = array(
-					'alert_description' => $this->input->post('alert_description'),
+					'fk_id_notification' => $this->input->post('notification'),
 					'fk_id_user_email' => $this->input->post('emailTo'),
 					'fk_id_user_sms' => $this->input->post('smsTo')
 				);
 				
 				//revisar si es para adicionar o editar
-				if ($idAlert == '') {
-					$query = $this->db->insert('alerts_settings', $data);			
+				if ($idNotificationAccess == '') {
+					$query = $this->db->insert('notifications_access', $data);			
 				} else {
-					$this->db->where('id_alerts_settings', $idAlert);
-					$query = $this->db->update('alerts_settings', $data);
+					$this->db->where('id_notification_access', $idNotificationAccess);
+					$query = $this->db->update('notifications_access', $data);
 				}
 				if ($query) {
 					return true;

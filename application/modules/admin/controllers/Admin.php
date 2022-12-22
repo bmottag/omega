@@ -1310,14 +1310,15 @@ class Admin extends CI_Controller {
 	/**
 	 * Alert List
      * @since 23/01/2022
+	 * @review 22/12/2022
      * @author BMOTTAG
 	 */
-	public function alerts()
+	public function notifications()
 	{
 			$arrParam = array();
-			$data['info'] = $this->general_model->get_alerts_settings($arrParam);
+			$data['info'] = $this->general_model->get_notifications_access($arrParam);
 			
-			$data["view"] = 'alerts';
+			$data["view"] = 'notifications';
 			$this->load->view("layout", $data);
 	}
 	
@@ -1325,44 +1326,52 @@ class Admin extends CI_Controller {
      * Cargo modal - formulario configuracion de alertas
      * @since 23/01/2022
      */
-    public function cargarModalAlerts() 
+    public function cargarModalNotification() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
-			$data["idAlert"] = $this->input->post("idAlert");
+			$data["idNotificationAccess"] = $this->input->post("idNotificationAccess");
 
 			$arrParam = array("state" => 1);
 			$data['workersList'] = $this->general_model->get_user($arrParam);
+
+			$arrParam = array(
+				"table" => "notifications",
+				"order" => "notification",
+				"id" => "x"
+			);
+			$data['notificationsList'] = $this->general_model->get_basic_search($arrParam);
 			
-			if ($data["idAlert"] != 'x') {
+			if ($data["idNotificationAccess"] != 'x') {
 				$arrParam = array(
-					"idAlertsSettings" => $data["idAlert"] 
+					"idNotificationAccess" => $data["idNotificationAccess"] 
 				);
-				$data['information'] = $this->general_model->get_alerts_settings($arrParam);
+				$data['information'] = $this->general_model->get_notifications_access($arrParam);
 			}
 			
-			$this->load->view("alerts_modal", $data);
+			$this->load->view("notifications_modal", $data);
     }
 	
 	/**
-	 * Save alerts settings
+	 * Save notifications access settings
      * @since 23/01/2022
+	 * @review 22/12/2022
      * @author BMOTTAG
 	 */
-	public function save_alerts()
+	public function save_notifications()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$idAlert = $this->input->post('hddId');
+			$idNotificationAccess = $this->input->post('hddId');
 			
-			$msj = "You have add a new Alert!!";
-			if ($idAlert != '') {
-				$msj = "You have update an Alert!!";
+			$msj = "You have added a new Notification Access!!";
+			if ($idNotificationAccess != '') {
+				$msj = "You have updated an Notification Access!!";
 			}
 
-			if ($this->admin_model->saveAlert()) {
+			if ($this->admin_model->saveNotification()) {
 				$data["result"] = true;				
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {

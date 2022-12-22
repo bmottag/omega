@@ -56,7 +56,7 @@
                         <strong>Certifications Check:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/admin/certifications_check </li>
-                            <li>Time: Every Sunday at 1am </li>
+                            <li>Time: Every Monday at 1am </li>
                         </ul>
 
                         <strong>Payroll Check:</strong>

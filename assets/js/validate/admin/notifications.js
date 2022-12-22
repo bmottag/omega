@@ -1,9 +1,20 @@
 $( document ).ready( function () {
 
+	jQuery.validator.addMethod("fieldOperated", function(value, element, param) {
+		var smsTo = $('#smsTo').val();
+		var emailTo = $('#emailTo').val();
+		if(smsTo == "" && emailTo == ""){
+			return false;
+		}else{
+			return true;
+		}
+	}, "You must indicate Email or/and SMS.");	
 	
 	$( "#form" ).validate( {
 		rules: {
-			alert_description:				{ required: true }
+			notification:			{ required: true },
+			emailTo:				{ fieldOperated: true },
+			smsTo:					{ fieldOperated: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -13,10 +24,10 @@ $( document ).ready( function () {
 
 		},
 		highlight: function ( element, errorClass, validClass ) {
-			$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
 		},
 		unhighlight: function (element, errorClass, validClass) {
-			$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
 		},
 		submitHandler: function (form) {
 			return true;
@@ -34,7 +45,7 @@ $( document ).ready( function () {
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "admin/save_alerts",	
+					url: base_url + "admin/save_notifications",	
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -54,7 +65,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "admin/alerts";
+							var url = base_url + "admin/notifications";
 							$(location).attr("href", url);
 						}
 						else

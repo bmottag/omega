@@ -1241,19 +1241,20 @@ class General_model extends CI_Model {
 		}
 
 		/**
-		 * Get alerts settings
-		 * @since 23/1/2022
+		 * Get NOTIFICATION ACCESS
+		 * @since 22/12/2022
 		 */
-		public function get_alerts_settings($arrData) 
+		public function get_notifications_access($arrData) 
 		{				
-				$this->db->select("A.*, CONCAT(U.first_name, ' ', U.last_name) name_email, U.email, CONCAT(X.first_name, ' ', X.last_name) name_sms, X.movil");
+				$this->db->select("A.*, N.notification, N.description,CONCAT(U.first_name, ' ', U.last_name) name_email, U.email, CONCAT(X.first_name, ' ', X.last_name) name_sms, X.movil");
+				$this->db->join('notifications N', 'N.id_notification = A.fk_id_notification', 'INNER');
 				$this->db->join('user U', 'U.id_user = A.fk_id_user_email', 'LEFT');
 				$this->db->join('user X', 'X.id_user = A.fk_id_user_sms', 'LEFT');
-				if (array_key_exists("idAlertsSettings", $arrData)) {
-					$this->db->where('A.id_alerts_settings', $arrData["idAlertsSettings"]);
+				if (array_key_exists("idNotificationAccess", $arrData)) {
+					$this->db->where('A.id_notification_access', $arrData["idNotificationAccess"]);
 				}
-				$this->db->order_by('A.alert_description', 'asc');
-				$query = $this->db->get('alerts_settings A');
+				$this->db->order_by('N.notification', 'asc');
+				$query = $this->db->get('notifications_access A');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();

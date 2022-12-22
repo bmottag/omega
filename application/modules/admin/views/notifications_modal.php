@@ -1,20 +1,25 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/alerts.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/notifications.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Alerts Settings Form
-	<br><small>Add/Edit Alerts</small>
+	<h4 class="modal-title" id="exampleModalLabel">Notifications Access Settings Form
+	<br><small>Add/Edit Notifications Access</small>
 	</h4>
 </div>
 
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
-		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_alerts_settings"]:""; ?>"/>
+		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_notification_access"]:""; ?>"/>
 		
 		<div class="row">
-			<div class="col-sm-12">		
+			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="alert_description">Alert Description: *</label>
-					<textarea id="alert_description" name="alert_description" class="form-control" rows="3"><?php echo $information?$information[0]["alert_description"]:""; ?></textarea>
+					<label class="control-label" for="notification">Notification: *</label>
+					<select name="notification" id="notification" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($notificationsList); $i++) { ?>
+							<option value="<?php echo $notificationsList[$i]["id_notification"]; ?>" <?php if($information && $information[0]["fk_id_notification"] == $notificationsList[$i]["id_notification"]) { echo "selected"; }  ?>><?php echo $notificationsList[$i]["notification"]; ?></option>	
+						<?php } ?>
+					</select>
 				</div>
 			</div>
 		</div>

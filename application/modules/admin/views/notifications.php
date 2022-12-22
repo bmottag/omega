@@ -4,8 +4,8 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/admin/cargarModalAlerts',
-                data: {'idAlert': oID},
+				url: base_url + '/admin/cargarModalNotification',
+                data: {'idNotificationAccess': oID},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -22,7 +22,7 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - ALERTS
+					<i class="fa fa-gear fa-fw"></i> SETTINGS - NOTIFICATIONS
 					</h4>
 				</div>
 			</div>
@@ -35,11 +35,11 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> ALERTS LIST
+					<i class="fa fa-building"></i> NOTIFICATIONS ACCESS LIST
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Alert
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Notification Access
 					</button><br>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -76,7 +76,8 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Alert Description</th>
+								<th class="text-center">Notification</th>
+								<th class="text-center">Description</th>
 								<th class="text-center">Send Email To</th>
 								<th class="text-center">Send SMS To</th>
 								<th class="text-center">Edit</th>
@@ -86,13 +87,14 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['alert_description'] . "</td>";
-									echo "<td>" . $lista['name_email'] . "</br>" . $lista['email']  . "</td>";	
-									echo "<td>" . $lista['name_sms'] . "</br>" . chunk_split($lista['movil'],3," ") . "</td>";
+									echo "<td>" . $lista['notification'] . "</td>";
+									echo "<td>" . $lista['description'] . "</td>";
+									echo "<td>" . $lista['name_email'] . "</br><b>" . $lista['email']  . "</b></td>";	
+									echo "<td>" . $lista['name_sms'] . "</br><b>" . chunk_split($lista['movil'],3," ") . "</b></td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_alerts_settings']; ?>" >
-										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_notification_access']; ?>" >
+										<span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
 									</button>
 						<?php
 									echo "</td>";
@@ -102,15 +104,10 @@ if ($retornoError) {
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->

@@ -83,3 +83,14 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+/**
+ * Custom defines
+ */
+defined('ID_ROL_SUPER_ADMIN')   OR define('ID_ROL_SUPER_ADMIN', 99);
+defined('ID_NOTIFICATION_CERTIFICATION')   OR define('ID_NOTIFICATION_CERTIFICATION', 1);
+defined('ID_NOTIFICATION_FLHA')   OR define('ID_NOTIFICATION_FLHA', 2);
+defined('ID_NOTIFICATION_TOOL_BOX')   OR define('ID_NOTIFICATION_TOOL_BOX', 3);
+defined('ID_NOTIFICATION_PLANNING')   OR define('ID_NOTIFICATION_PLANNING', 4);
+defined('ID_NOTIFICATION_MAINTENANCE')   OR define('ID_NOTIFICATION_MAINTENANCE', 5);
+defined('ID_NOTIFICATION_PAYROLL')   OR define('ID_NOTIFICATION_PAYROLL',6);
+defined('ID_NOTIFICATION_TIMESHEET')   OR define('ID_NOTIFICATION_TIMESHEET', 7);
