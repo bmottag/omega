@@ -1368,7 +1368,7 @@ class Admin extends CI_Controller {
 			
 			$msj = "You have added a new Notification Access!!";
 			if ($idNotificationAccess != '') {
-				$msj = "You have updated an Notification Access!!";
+				$msj = "You have updated the Notification Access!!";
 			}
 
 			if ($this->admin_model->saveNotification()) {
@@ -1390,18 +1390,19 @@ class Admin extends CI_Controller {
 	 */
     function certifications_check() 
 	{
-			$arrParam = array("state" => 1);
+			$arrParam = array(
+				"state" => 1,
+				"expires" => 1,
+			);
 			$information  = $this->general_model->get_user_certificates($arrParam);
 
 			if($information)
 			{
 				//revisar si se envia correo o se envia mensaje de texto y a quien se le envia
-				$arrParam = array(
-					"idAlertsSettings" => 1
-				);
-				$configuracionAlertas = $this->general_model->get_alerts_settings($arrParam);
+				$arrParam = array("idAlertsSettings" => ID_NOTIFICATION_CERTIFICATION);
+				$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
 
-				if($configuracionAlertas[0]['email'] || $configuracionAlertas[0]['movil'])
+				if($configuracionAlertas)
 				{
 					$filtroFecha = strtotime(date('Y-m-d'));
 					$msj = "";
@@ -1428,15 +1429,12 @@ class Admin extends CI_Controller {
 
 						if($updateAlert)
 						{
-							//envio correo 
-							if($configuracionAlertas[0]['email'])
-							{
-								$msj .= "<p>";
-								$msj .= "<strong>Employee: </strong>" . $lista['first_name'] . " " . $lista['last_name'];
-								$msj .= "<br><strong>Certificate: </strong>" . $lista['certificate'];
-								$msj .= "<br><strong>Date Throught : </strong>" . $lista['date_through'];
-								$msj .= "</p>";	
-							}
+							//mensaje para el correo
+							$msj .= "<p>";
+							$msj .= "<strong>Employee: </strong>" . $lista['first_name'] . " " . $lista['last_name'];
+							$msj .= "<br><strong>Certificate: </strong>" . $lista['certificate'];
+							$msj .= "<br><strong>Date Throught : </strong>" . $lista['date_through'];
+							$msj .= "</p>";	
 
 							$alerts_sent = $lista['alerts_sent']+1;
 							$arrParam = array(
@@ -1450,67 +1448,71 @@ class Admin extends CI_Controller {
 						}
 					endforeach;
 
-					//envio correo 
-					if($configuracionAlertas[0]['email'] && $msj)
-					{
-						$subjet = "Certificate Overdue";
-						$user = $configuracionAlertas[0]['name_email'];
-						$to = $configuracionAlertas[0]['email'];
-															
-						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:</p>
-							<p>The following employees has a certificate that is about to expire:</p>
-							<p>$msj</p>
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";		
-			
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+					//configuracion para envio de mensaje de texto
+					$this->load->library('encrypt');
+					require 'vendor/Twilio/autoload.php';
 
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
-					}
-
-					//si envio mensaje de texto entonces buscar datos parametricos 	
-					if($configuracionAlertas[0]['movil'] && $msj){
-						$this->load->library('encrypt');
-						require 'vendor/Twilio/autoload.php';
-
-						//busco datos parametricos twilio
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$dato1 = $this->encrypt->decode($parametric[3]["value"]);
-						$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-						$phone = $parametric[5]["value"];
-						
-						$client = new Twilio\Rest\Client($dato1, $dato2);
-
-						$to = '+1' . $configuracionAlertas[0]['movil'];
-						$mensaje = "APP VCI - Employees Certificates";
-						$mensaje .= "\n There are some employees who have a certificate that is about to expire, go to Settings - Employee and check.";
+					//busco datos parametricos twilio
+					$arrParam = array(
+						"table" => "parametric",
+						"order" => "id_parametric",
+						"id" => "x"
+					);
+					$parametric = $this->general_model->get_basic_search($arrParam);						
+					$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+					$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+					$twilioPhone = $parametric[5]["value"];
 					
-						$client->messages->create(
-							$to,
-							array(
-								// A Twilio phone number you purchased at twilio.com/console
-								'from' => '587 600 8948',
-								'body' => $mensaje
-							)
-						);
-					}
-					//fin configuracion
+					$client = new Twilio\Rest\Client($dato1, $dato2);
+
+					foreach($configuracionAlertas as $envioAlerta):
+						//envio correo 
+						if($envioAlerta['email'] && $msj)
+						{
+							$user = $envioAlerta['name_email'];
+							$to = $envioAlerta['email'];
+
+							//Contenido correo
+							$subjet = "Certificate Overdue";							
+							$mensaje = "<html>
+							<head>
+							<title> $subjet </title>
+							</head>
+							<body>
+								<p>Dear	$user:</p>
+								<p>The following employees has a certificate that is about to expire:</p>
+								<p>$msj</p>
+								<p>Cordially,</p>
+								<p><strong>V-CONTRACTING INC</strong></p>
+							</body>
+							</html>";
+		
+							$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+							$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+							$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
+							$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+
+							//enviar correo
+							$envio = mail($to, $subjet, $mensaje, $cabeceras);
+						}
+
+						//envio mensaje de texto
+						if($envioAlerta['movil'] && $msj){
+							$to = '+1' . $envioAlerta['movil'];
+							$mensaje = "APP VCI - Employees Certificates";
+							$mensaje .= "\n There are some employees who have a certificate that is about to expire, go to Settings - Employee and check.";
+						/*
+							$client->messages->create(
+								$to,
+								array(
+									'from' => $twilioPhone,
+									'body' => $mensaje
+								)
+							);
+						*/
+						}
+
+					endforeach;
 				}
 			}	
 			return true;
