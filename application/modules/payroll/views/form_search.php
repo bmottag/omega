@@ -16,7 +16,26 @@
 					<form  name="form" id="form" role="form" method="post" class="form-horizontal" >
 
 						<div class="form-group">
-							<div class="col-sm-2 col-sm-offset-1" required>
+							<div class="col-sm-1 col-sm-offset-1" required>
+								<label for="yearPeriod">Year: *</label>
+								<select name="yearPeriod" id="yearPeriod" class="form-control" required>
+									<option value='' >Select...</option>
+									<?php
+									$firstYear = 2018;
+									$actualYear = Date("Y");
+
+									for($i = $firstYear; $i <= $actualYear; $i++) {
+										?>
+										<option value='<?php echo $i; ?>' <?php
+										if ($i == $actualYear) {
+											echo 'selected="selected"';
+										}
+										?>><?php echo $i; ?></option>
+									<?php } ?>									
+								</select>
+							</div>
+
+							<div class="col-sm-2" >
 								<label for="from">Contract type: *</label>
 								<select name="contractType" id="contractType" class="form-control" required>
 									<option value=''>Select...</option>
@@ -25,7 +44,7 @@
 								</select>
 							</div>
 
-							<div class="col-sm-3 col-sm-offset-1">
+							<div class="col-sm-3">
 								<label for="from">Period: *</label>
 								<select name="period" id="period" class="form-control" required >
 									<option value=''>Select...</option>
@@ -35,7 +54,7 @@
 								</select>
 							</div>
 
-							<div class="col-sm-3 col-sm-offset-1" id="div_employee" style="display:none">
+							<div class="col-sm-3" id="div_employee" style="display:none">
 								<label for="from">Employee <small>(This field is NOT required.)</small></label>
 									<select name="employee" id="employee" class="form-control" >
 									</select>

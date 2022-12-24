@@ -362,9 +362,8 @@ if ($retornoError) {
 						//Gross salary
 						$gross_salary = $cost_regular_salary + $cost_overtime + $cost_vacation;
 
-						if(!$infoPaystub){
 					?>
-						<div class="col-lg-3">
+						<div class="col-lg-2">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
 									<i class="fa fa-bell fa-fw"></i> Form
@@ -407,30 +406,42 @@ if ($retornoError) {
 
 										<div class="form-group text-left">
 											<label class="control-label" for="firstName">EE CPP: *</label>
-											<input type="text" id="ee_cpp" name="ee_cpp" class="form-control" placeholder="EE CPP" required >
+											<input type="text" id="ee_cpp" name="ee_cpp" value="<?php echo $infoPaystub?$infoPaystub[0]['ee_cpp']:""; ?>" class="form-control" placeholder="EE CPP" required >
 										</div>
 
 										<div class="form-group text-left">
 											<label class="control-label" for="firstName">EE EI: *</label>
-											<input type="text" id="ee_ei" name="ee_ei" class="form-control" placeholder="EE EI" required >
+											<input type="text" id="ee_ei" name="ee_ei" value="<?php echo $infoPaystub?$infoPaystub[0]['ee_ei']:""; ?>" class="form-control" placeholder="EE EI" required >
 										</div>
 
 										<div class="form-group text-left">
 											<label class="control-label" for="firstName">TAX: *</label>
-											<input type="text" id="tax" name="tax" class="form-control" placeholder="TAX" required >
+											<input type="text" id="tax" name="tax" value="<?php echo $infoPaystub?$infoPaystub[0]['tax']:""; ?>" class="form-control" placeholder="TAX" required >
 										</div>
 
 										<div class="form-group text-left">
 											<label class="control-label" for="firstName">GWL Deductions: *</label>
-											<input type="text" id="gwl_deductions" name="gwl_deductions" class="form-control" placeholder="GWL Deductions" required >
+											<input type="text" id="gwl_deductions" value="<?php echo $infoPaystub?$infoPaystub[0]['gwl_deductions']:""; ?>" name="gwl_deductions" class="form-control" placeholder="GWL Deductions" required >
 										</div>
+
+									<?php 
+										$deshabilitar = "";
+										if($infoPaystub && $infoPaystub[0]["commit"] == 1){
+											$deshabilitar = "disabled";
+										}
+									?>
 
 										<div class="form-group">
 											<div class="row" align="center">
 												<div style="width:80%;" align="right">
-													<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+													<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-xs btn-primary" value="apply" <?php echo $deshabilitar; ?> >
+														Apply <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+													</button> 
+												<?php if($infoPaystub){ ?>
+													<button type="submit" id="btnGenerate" name="btnGenerate" class="btn btn-xs btn-primary" value="generate" <?php echo $deshabilitar; ?> >
 														Generate Paystub <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 													</button> 
+												<?php } ?>
 												</div>
 											</div>
 										</div>
@@ -440,10 +451,10 @@ if ($retornoError) {
 							</div>
 						</div>
 
-				<?php 
-					}else{
-				?>
-						<div class="col-lg-4">
+					<?php 
+						if($infoPaystub){
+					?>
+						<div class="col-lg-3">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
 									<i class="fa fa-bell fa-fw"></i> More info
@@ -659,7 +670,7 @@ if ($retornoError) {
 				<?php
 					if($infoPaystub){
 				?>
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
 									<i class="fa fa-bell fa-fw"></i> Summary

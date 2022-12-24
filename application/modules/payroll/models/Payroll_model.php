@@ -361,7 +361,12 @@
 				$ee_total_taxes = $ee_cpp + $ee_ei + $tax;
 				$remittance = $ee_cpp + $er_cpp + $ee_ei + $er_ei + $tax;
 				$net_pay = $gross_salary - $ee_total_taxes - $gwl_deductions;
-				
+				$btnGenerate =  $this->input->post('btnGenerate');
+				$valueCommit = 2;
+				if(isset($btnGenerate)){
+					$valueCommit = 1;
+				}
+		
 				$data = array(
 					'employee_rate_paystub' => $this->input->post('hddEmployeeRate'),
 					'employee_type_paystub' => $this->input->post('hddEmployeeType'),
@@ -381,7 +386,8 @@
 					'ee_total_taxes' => $ee_total_taxes,
 					'gwl_deductions' => $gwl_deductions,
 					'remittance' => $remittance,
-					'net_pay' => $net_pay
+					'net_pay' => $net_pay,
+					'commit' => $valueCommit
 				);
 
 				//revisar si es para adicionar o editar

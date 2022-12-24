@@ -367,8 +367,9 @@ class Payroll extends CI_Controller {
 	{
 			$this->load->model("general_model");
 					
-			$arrParam = array("limit" => 10);
-			$data['infoPeriod'] = $this->general_model->get_period($arrParam);//lista de periodos los ultimos 10	
+			$actualYear = Date("Y");
+			$arrParam = array("year_period" => $actualYear);
+			$data['infoPeriod'] = $this->general_model->get_period($arrParam);//lista de periodos para el presente ano
 
 			$data["view"] = "form_search";
 			
@@ -416,38 +417,43 @@ class Payroll extends CI_Controller {
 
 			$userBankTime =  $this->input->post('hddBankTime');
 			$bankTimeFlag =  $this->input->post('hddBankTimeFlag');
+			$btnSubmit =  $this->input->post('btnSubmit');
+			$btnGenerate =  $this->input->post('btnGenerate');
 
-			if ($idPaystub = $this->payroll_model->savePaystub())
+			if($this->payroll_model->savePaystub())
 			{
-				//if user is with bank time, then i have to update the ne balanace
-				if($userBankTime == 1 && $bankTimeFlag != ""){
-					$arrParamBankTime = array(
-						"idPeriod" => $idPeriod,
-						"idEmployee" => $idEmployee,
-						"bankTimeAdd" => $this->input->post('hddBankTimeAdd'),
-						"bankTimeSubtract" => $this->input->post('hddBankTimeSubtract'),
-						"bankNewBalance" => $this->input->post('hddBankTimeNewBalance'),
-						"observation" => "New Paystub"
+				$this->session->set_flashdata('retornoExito', "You have saved the Paystub!!");
+				if(isset($btnGenerate)){
+					//if user is with bank time, then i have to update the new balanace
+					if($userBankTime == 1 && $bankTimeFlag != ""){
+						$arrParamBankTime = array(
+							"idPeriod" => $idPeriod,
+							"idEmployee" => $idEmployee,
+							"bankTimeAdd" => $this->input->post('hddBankTimeAdd'),
+							"bankTimeSubtract" => $this->input->post('hddBankTimeSubtract'),
+							"bankNewBalance" => $this->input->post('hddBankTimeNewBalance'),
+							"observation" => "New Paystub"
+						);
+						$this->load->model("general_model");
+						$this->general_model->saveBankTimeBalance($arrParamBankTime);
+					}
+
+					//update TABLE task set period_status to 2 (PAID)
+					$this->payroll_model->updateTaskStatus();
+
+					//update TABLE payroll_total_yearly
+					//buscar el total de valores por año y usuario
+					$arrParam = array(
+						"idUser" => $this->input->post('hddIdUser'),
+						"year" => $this->input->post('hddYear')
 					);
 					$this->load->model("general_model");
-					$this->general_model->saveBankTimeBalance($arrParamBankTime);
+					$infoTotalYear = $this->general_model->get_total_yearly($arrParam);
+					$this->payroll_model->updatePayrollTotalYearly($infoTotalYear);
 				}
 
-				//update TABLE task set period_status to 2 (PAID)
-				$this->payroll_model->updateTaskStatus();
-
-				//update TABLE payroll_total_yearly
-				//buscar el total de valores por año y usuario
-				$arrParam = array(
-					"idUser" => $this->input->post('hddIdUser'),
-					"year" => $this->input->post('hddYear')
-				);
-				$this->load->model("general_model");
-				$infoTotalYear = $this->general_model->get_total_yearly($arrParam);
-				$this->payroll_model->updatePayrollTotalYearly($infoTotalYear);
-
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the Paystub!!");
+				
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -686,6 +692,27 @@ class Payroll extends CI_Controller {
         if ($lista) {
             foreach ($lista as $fila) {
                 echo "<option value='" . $fila["id_user"] . "' >" . $fila["first_name"] . " " . $fila["last_name"] . "</option>";
+            }
+        }
+    }
+
+	/**
+	 * Period list by year
+     * @since 23/12/2022
+     * @author BMOTTAG
+	 */
+    public function periodList() {
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+        $identificador = $this->input->post('identificador');
+
+		$arrParam = array("year_period" => $identificador);
+		$this->load->model("general_model");
+		$lista = $this->general_model->get_period($arrParam);//lista de periodos los ultimos 10	
+
+        echo "<option value=''>Select...</option>";
+        if ($lista) {
+            foreach ($lista as $fila) {
+                echo "<option value='" . $fila["id_period"] . "' >" . $fila["period"] . "</option>";
             }
         }
     }

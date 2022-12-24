@@ -1291,7 +1291,9 @@ class General_model extends CI_Model {
 				if (array_key_exists("idPeriod", $arrData)) {
 					$this->db->where('id_period', $arrData["idPeriod"]);
 				}
-				
+				if (array_key_exists("year_period", $arrData)) {
+					$this->db->where('year_period', $arrData["year_period"]);
+				}
 				$this->db->order_by('id_period', 'desc');
 				
 				if (array_key_exists("limit", $arrData)) {

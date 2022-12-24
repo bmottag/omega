@@ -5,6 +5,27 @@
  */
 
 $(document).ready(function () {
+
+    $('#yearPeriod').change(function () {
+        $('#yearPeriod option:selected').each(function () {
+            var yearPeriod = $('#yearPeriod').val();
+            if (yearPeriod > 0 || yearPeriod != '') {
+                $.ajax ({
+                    type: 'POST',
+                    url: base_url + 'payroll/periodList',
+                    data: {'identificador': yearPeriod},
+                    cache: false,
+                    success: function (data)
+                    {
+                        $('#period').html(data);
+                    }
+                });
+            } else {
+                var data = '';
+                $('#period').html(data);
+            }
+        });
+    });
 	
     $('#contractType').change(function () {
         $('#contractType option:selected').each(function () {
