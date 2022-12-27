@@ -114,7 +114,6 @@ class External extends CI_Controller {
 				$decoded_image = base64_decode($encoded_image);
 				file_put_contents($name, $decoded_image);
 				
-				$this->load->model("general_model");
 				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i> SIGNATURE";
 				if ($this->general_model->updateRecord($arrParam)) {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
@@ -203,8 +202,6 @@ class External extends CI_Controller {
 
 		$data["view"] = 'template/answer';
 		$this->load->view("layout", $data);
-
-
 	}
 	
 	/**
@@ -585,6 +582,47 @@ class External extends CI_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 			echo json_encode($data);	
+    }
+
+	/**
+	 * List Day Off, for ADMIN
+     * @since 27/12/2022
+     * @author BMOTTAG
+	 */
+	public function aproveDayOff($idDayoff, $idUser)
+	{
+			$data["idDayoff"] = $idDayoff;
+			$data["idUser"] = $idUser;
+			$data["dayOffInfo"] = $this->general_model->get_day_off($data);
+
+			if($data["dayOffInfo"]) {
+				$data["view"] = 'dayoff';
+				$this->load->view("layout_calendar", $data);
+			}else{
+				show_error('ERROR!!! - You are in the wrong place.');
+			}	
+	}
+
+	/**
+	 * Update dayoff status
+     * @since 27/12/2022
+     * @author BMOTTAG
+	 */
+	public function update_dayoff_status()
+	{	
+			header('Content-Type: application/json');
+			$data = array();
+			$idDayoff = $this->input->post('hddIdDayOff');
+			$idUser = $this->input->post('hddIdUser');
+			$data["return"] = $idDayoff ."/".$idUser;
+			if ($this->external_model->update_dayoff()) {
+				$data["result"] = true;			
+				$this->session->set_flashdata('retornoExito', 'Information saved successfully!!');
+			} else {
+				$data["result"] = "error";			
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);
     }
 	
 	

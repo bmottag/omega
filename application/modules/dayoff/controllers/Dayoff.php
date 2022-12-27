@@ -17,7 +17,7 @@ class Dayoff extends CI_Controller {
 	public function index()
 	{
 			$arrParam["idEmployee"] = TRUE;
-			$data['dayoffList'] = $this->dayoff_model->get_day_off($arrParam);
+			$data['dayoffList'] = $this->general_model->get_day_off($arrParam);
 			$data["view"] = 'dayoff_list';
 			$this->load->view("layout", $data);
 	}
@@ -79,7 +79,7 @@ class Dayoff extends CI_Controller {
 						if($configuracionAlertas){
 							//buscar info del day off
 							$arrParam["idDayoff"] = $idDayoff;
-							$dayoffInfo = $this->dayoff_model->get_day_off($arrParam);
+							$dayoffInfo = $this->general_model->get_day_off($arrParam);
 							
 							switch ($dayoffInfo[0]['id_type_dayoff']) {
 								case 1:
@@ -98,8 +98,7 @@ class Dayoff extends CI_Controller {
 							$mensajeEmail .= "<br><strong>Type: </strong>" . $tipo;
 							$mensajeEmail .= "<br><strong>Date of dayoff: </strong>" . $dayoffInfo[0]["date_dayoff"];
 							$mensajeEmail .= "<br><strong>Observation: </strong>" . $observation;
-							$mensajeEmail .= "<p>Follow the link to approve or deny the Day Off: </br>";
-							$mensajeEmail .= base_url("external/approve_day_off/" . $idDayoff). "</p>";
+							$mensajeEmail .= "<p>Follow the link to approve or deny the Day Off: </p>";
 							
 							//mensaje de texto
 							$mensajeSMS = "DAY OFF APP-VCI";
@@ -109,9 +108,8 @@ class Dayoff extends CI_Controller {
 							$mensajeSMS .= "\nDate of dayoff: " . $dayoffInfo[0]["date_dayoff"];
 							$mensajeSMS .= "\nObservation: " . $dayoffInfo[0]["observation"];
 							$mensajeSMS .= "\nFollow the link to review: ";
-							$mensajeSMS .= base_url("external/approve_day_off/" . $idDayoff);
 
-							$this->sendNotifications($configuracionAlertas, $subjet, $mensajeEmail, $mensajeSMS);
+							$this->sendNotifications($idDayoff, $configuracionAlertas, $subjet, $mensajeEmail, $mensajeSMS);
 						}
 						
 						$data["result"] = true;
@@ -137,7 +135,7 @@ class Dayoff extends CI_Controller {
 	public function newDayoffList()
 	{
 			$data["state"] = 1;//new
-			$data['dayoffList'] = $this->dayoff_model->get_day_off($data);
+			$data['dayoffList'] = $this->general_model->get_day_off($data);
 			
 			$data["tittle"] = "New Request";
 			$data["icon"] = "fa-hand-o-right";
@@ -199,7 +197,7 @@ class Dayoff extends CI_Controller {
 	public function approvedDayoffList()
 	{
 			$data["state"] = 2;//approved
-			$data['dayoffList'] = $this->dayoff_model->get_day_off($data);
+			$data['dayoffList'] = $this->general_model->get_day_off($data);
 			
 			$data["tittle"] = "Approved Request";
 			$data["icon"] = "fa-hand-o-up";
@@ -215,7 +213,7 @@ class Dayoff extends CI_Controller {
 	public function deniedDayoffList()
 	{
 			$data["state"] = 3;//denied
-			$data['dayoffList'] = $this->dayoff_model->get_day_off($data);
+			$data['dayoffList'] = $this->general_model->get_day_off($data);
 			
 			$data["tittle"] = "Denied Request";
 			$data["icon"] = "fa-hand-o-down";
@@ -228,7 +226,7 @@ class Dayoff extends CI_Controller {
      * @author BMOTTAG
      * @since  26/12/2022
      */
-    public function sendNotifications($configuracionAlertas, $subjet, $mensajeEmail, $mensajeSMS) 
+    public function sendNotifications($idDayoff, $configuracionAlertas, $subjet, $mensajeEmail, $mensajeSMS) 
 	{
 		//configuracion para envio de mensaje de texto
 		$this->load->library('encrypt');
@@ -253,6 +251,8 @@ class Dayoff extends CI_Controller {
 			{
 				$user = $envioAlerta['name_email'];
 				$to = $envioAlerta['email'];
+				$urlEmail = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['fk_id_user_email']);
+				$mensajeEmail = $mensajeEmail . $urlEmail;
 
 				//Contenido correo					
 				$mensaje = "<html>
@@ -277,7 +277,10 @@ class Dayoff extends CI_Controller {
 			}
 
 			//envio mensaje de texto
-			if($envioAlerta['movil']){
+			if($envioAlerta['movil'])
+			{
+				$urlMovil = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['fk_id_user_sms']);
+				$mensajeSMS = $mensajeSMS . $urlMovil;
 				$to = '+1' . $envioAlerta['movil'];
 				$client->messages->create(
 					$to,
@@ -292,31 +295,5 @@ class Dayoff extends CI_Controller {
 		endforeach;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

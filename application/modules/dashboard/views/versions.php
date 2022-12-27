@@ -8,9 +8,28 @@
 				</div>
 				<div class="panel-body">
 					<p>
-                        <strong>Certificatios:</strong> 
+                        <strong>Dashboard:</strong> 
                         <ul>
-                        <li>Form with new field. Does it expires</li>
+                        <li>Take out big numbers of the boxes in the top.</li>
+                        </ul>
+                        <strong>Settings - JOB CODE/NAME:</strong> 
+                        <ul>
+                        <li>New functionality for any project to generate the QR CODE for the timesheet.</li>
+                        </ul>
+                        <strong>Certifications:</strong> 
+                        <ul>
+                        <li>Form with new field to indicate if the certificate expire or not. For the notifications it validate if the certificate expires.</li>
+                        </ul>
+                        <strong>Work Orders:</strong> 
+                        <ul>
+                        <li>In search income for the excel document, the Receipts column is added.</li>
+                        <li>At the end of the Total Income column, it shows the Total.</li>
+                        <li>The name of the document comes with the name of the JOB CODE.</li>
+                        </ul>
+                        <strong>Day Off</strong> 
+                        <ul>
+                        <li>The administrator has the option to set who is the person to receive the notification.</li>
+                        <li>The notification comes with the new path to update the status of the day off.</li>
                         </ul>
 					</p>
 				</div>
@@ -25,7 +44,7 @@
 		<div class="col-lg-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<strong>Cron Jobs</strong>
+					<strong>System Notifications - Automatic</strong>
 				</div>
 				<div class="panel-body">
 					<p>
@@ -70,6 +89,23 @@
                             <li>URL: https://v-contracting.ca/app/admin/checkin_check  </li>
                             <li>Time: Every day at 6am </li>
                         </ul>                        
+					</p>
+				</div>
+				<div class="panel-footer">
+
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<strong>System Notifications - Workflow</strong>
+				</div>
+				<div class="panel-body">
+					<p>
+                        <strong>Dayoff request</strong>
+
+                      
 					</p>
 				</div>
 				<div class="panel-footer">

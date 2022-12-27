@@ -168,6 +168,33 @@
 				}
 		}
 
+	    /**
+	     * Update dayoff´s state
+	     * @author BMOTTAG
+	     * @since  27/12/2022
+	     */
+	    public function update_dayoff()
+		{
+				$idDayoff = $this->input->post('hddIdDayOff');
+				$idUser = $this->input->post('hddIdUser');
+				$state = $this->input->post("status");
+				$observation =  $this->security->xss_clean($this->input->post('observation'));
+				$observation =  addslashes($observation);
+				$fecha = date("Y-m-d G:i:s");
+								
+				//actualizo fecha del registo
+				$sql = "UPDATE dayoff";
+				$sql.= " SET fk_id_boss = $idUser, state = $state, admin_observation = '$observation', date_update = '$fecha'";
+				$sql.= " WHERE id_dayoff = $idDayoff";
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+
 		
 
 	    

@@ -3,46 +3,6 @@
 	class Dayoff_model extends CI_Model {
 		
 		/**
-		 * Get dayoff info
-		 * @since 7/12/2016
-		 * @review 6/2/2017
-		 */
-		public function get_day_off($arrData) 
-		{		
-				$idUser = $this->session->userdata("id");
-				$year = date('Y');
-				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año actual
-				 
-				$beforeYesterday = date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")-2, date("Y")));
-				
-				$this->db->select("D.*, CONCAT(first_name, ' ', last_name) name");
-				$this->db->join('user U', 'U.id_user = D.fk_id_user', 'INNER');
-				if (array_key_exists("idEmployee", $arrData)) {
-					$this->db->where('U.id_user', $idUser );//filtro por empleado
-				}
-				if (array_key_exists("state", $arrData)) {
-					$this->db->where('D.state', $arrData["state"] );//filtro por estado
-					
-					if($arrData["state"]>1){
-							$this->db->where('D.date_dayoff >=', $beforeYesterday);//filtro para los aprobados que la fecha de solicitud del permiso ya paso
-					}
-					
-				}
-				if (array_key_exists("idDayoff", $arrData)) {
-					$this->db->where('D.id_dayoff', $arrData["idDayoff"] );//filtro por idDayoff
-				}
-				$this->db->where('D.date_issue >=', $firstDay);//filtro para el año actual
-				$this->db->order_by('D.id_dayoff', 'desc');
-				$query = $this->db->get('dayoff D');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
-		
-		/**
 		 * Add SAFETY HAZARD
 		 * @since 7/12/2016
 		 */
@@ -86,7 +46,6 @@
 				$fecha = date("Y-m-d G:i:s");
 								
 				//actualizo fecha del registo
-				$idSafety = $this->db->insert_id();
 				$sql = "UPDATE dayoff";
 				$sql.= " SET fk_id_boss = $idUser, state = $state, admin_observation = '$observation', date_update = '$fecha'";
 				$sql.= " WHERE id_dayoff = $idDayoff";

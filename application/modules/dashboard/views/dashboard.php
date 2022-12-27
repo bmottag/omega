@@ -38,11 +38,11 @@
 					<?php 	
 						switch ($dayoff['state']) {
 							case 2:
-								$noteDayoff = ' is <strong>Approved.</strong>';
+								$noteDayoff = ' was <strong>Approved.</strong>';
 								$classDayoff = "alert-success";
 								break;
 							case 3:
-								$noteDayoff = ' is <strong>Denied.</strong>';
+								$noteDayoff = ' was <strong>Denied.</strong>';
 								$classDayoff = "alert-danger";
 								break;
 						}
@@ -51,10 +51,10 @@
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						<strong>DAY OFF: </strong>
 						<?php 
-							echo "The day off that you request for the ";
+							echo "The day off you requested for the ";
 							echo "<strong>" . $dayoff['date_dayoff'] . "</strong>";
 							echo $noteDayoff;
-							echo "You can check your request in the Day Off link."
+							echo " You can check your request in the Day Off link."
 						?>
 					</div>
                 </div>
