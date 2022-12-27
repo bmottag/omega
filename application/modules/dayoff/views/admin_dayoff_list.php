@@ -50,7 +50,7 @@ $(function(){
 							switch ($state) 
 							{
 								case 1:
-									echo 'You have to approved or denied the following request';
+									echo 'You have to approve or deny the following request';
 									break;
 								case 2:
 									echo 'List of approved dayoff request';
@@ -68,7 +68,7 @@ if ($retornoExito) {
     ?>
     <div class="alert alert-success ">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        <strong><?php echo $this->session->userdata("firstname"); ?></strong> <?php echo $retornoExito ?>		
+        <?php echo $retornoExito ?>		
     </div>
     <?php
 }
@@ -92,11 +92,11 @@ if ($retornoError) {
 								<tr>
 									<th class="text-center">Employee</th>
 									<th class="text-center">Date of issue</th>
-									<th class="text-center">Update State</th>
+									<th class="text-center">Update Status</th>
 									<th class="text-center">Type</th>
-									<th class="text-center">Date of dayoff</th>
+									<th class="text-center">Date of day off</th>
 									<th class="text-center">Observation</th>
-									<th class="text-center">State</th>
+									<th class="text-center">Actual Status</th>
 									
 								</tr>
 							</thead>
@@ -111,8 +111,8 @@ if ($retornoError) {
 										$deshabilitar = "";
 										if($lista['state'] != 1 ){ $deshabilitar = "disabled";}
 							?>
-									<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_dayoff']; ?>" <?php echo $deshabilitar;  ?>>
-										<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Update State
+									<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_dayoff']; ?>" <?php echo $deshabilitar;  ?> title="Update Status" >
+										<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 									</button>
 							<?php
 										echo "</td>";

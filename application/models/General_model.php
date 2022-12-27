@@ -1254,7 +1254,7 @@ class General_model extends CI_Model {
 				$this->db->join('user U', 'U.id_user = A.fk_id_user_email', 'LEFT');
 				$this->db->join('user X', 'X.id_user = A.fk_id_user_sms', 'LEFT');
 				if (array_key_exists("idNotificationAccess", $arrData)) {
-					$this->db->where('A.id_notification_access', $arrData["idNotificationAccess"]);
+					$this->db->where('A.fk_id_notification', $arrData["idNotificationAccess"]);
 				}
 				$this->db->order_by('N.notification', 'asc');
 				$query = $this->db->get('notifications_access A');
@@ -1422,11 +1422,14 @@ class General_model extends CI_Model {
 	     */
 	    public function get_paystub_by_period($arrData) 
 		{
-		        $this->db->select("P.*, CONCAT(U.first_name, ' ', U.last_name) name, CONCAT(W.first_name, ' ', W.last_name) employee, X.date_start,X.date_finish");
+		        $this->db->select("P.*, CONCAT(U.first_name, ' ', U.last_name) name, CONCAT(W.first_name, ' ', W.last_name) employee, W.address, W.postal_code, X.date_start,X.date_finish");
 		        $this->db->join('user U', 'U.id_user = P.paystub_fk_id_user', 'INNER');
 		        $this->db->join('user W', 'W.id_user = P.fk_id_employee', 'INNER');
 		        $this->db->join('payroll_period X', 'X.id_period = P.fk_id_period', 'INNER');
 				
+		        if (array_key_exists("idPaytsub", $arrData)) {
+		            $this->db->where('P.id_paystub', $arrData["idPaytsub"]);
+		        }
 				if (array_key_exists("idEmployee", $arrData) && $arrData["idEmployee"] != '') {
 					$this->db->where('P.fk_id_employee', $arrData["idEmployee"]);
 				}

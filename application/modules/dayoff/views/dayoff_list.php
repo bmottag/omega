@@ -52,9 +52,9 @@ $(function(){
 							<tr>
 								<th class="text-center">Date of issue</th>
 								<th class="text-center">Type</th>
-								<th class="text-center">Date of dayoff</th>
+								<th class="text-center">Date of day off</th>
 								<th class="text-center">Observation</th>
-								<th class="text-center">State</th>
+								<th class="text-center">Status</th>
 								<th class="text-center">Admin Observation</th>
 							</tr>
 						</thead>

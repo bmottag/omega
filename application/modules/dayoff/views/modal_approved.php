@@ -10,7 +10,7 @@
 	<form  name="form" id="form" role="form" method="post" >
 	<input type="hidden" id="hddIdParam" name="hddIdParam" value="<?php echo $idDayoff; ?>"/>
 		<div class="form-group text-left">
-				<label for="state" class="control-label">State : *</label>
+				<label for="state" class="control-label">Status : *</label>
 				<select name="state" id="state" class="form-control" required>
 					<option value="">Select...</option>
 					<option value=2 >Approved</option>
@@ -24,7 +24,13 @@
 		</div> 		
 		
 		<div class="form-group">
-			<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >Save</button> 
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 		
 		<div class="form-group">

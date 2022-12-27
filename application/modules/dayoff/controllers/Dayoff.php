@@ -73,93 +73,46 @@ class Dayoff extends CI_Controller {
 			} else {			
 					if ($idDayoff = $this->dayoff_model->add_dayoff()) 
 					{
-						//envio memsaje de texto al administrador
-						$this->load->library('encrypt');
-						require 'vendor/Twilio/autoload.php';
+						//revisar si se envia correo o se envia mensaje de texto y a quien se le envia
+						$arrParam = array("idNotificationAccess" => ID_NOTIFICATION_DAYOFF);
+						$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
+						if($configuracionAlertas){
+							//buscar info del day off
+							$arrParam["idDayoff"] = $idDayoff;
+							$dayoffInfo = $this->dayoff_model->get_day_off($arrParam);
+							
+							switch ($dayoffInfo[0]['id_type_dayoff']) {
+								case 1:
+									$tipo = 'Family/medical appointment';
+									break;
+								case 2:
+									$tipo = 'Regular';
+									break;
+							}
+							//mensaje del correo
+							$subjet = "Day Off";
+							$observation =  $this->security->xss_clean($this->input->post('observation'));
+							$observation =  addslashes($observation);
+							$mensajeEmail = "<p>There is a new request for a Day Off:</p>";
+							$mensajeEmail .= "<strong>Employee: </strong>" . $dayoffInfo[0]["name"];
+							$mensajeEmail .= "<br><strong>Type: </strong>" . $tipo;
+							$mensajeEmail .= "<br><strong>Date of dayoff: </strong>" . $dayoffInfo[0]["date_dayoff"];
+							$mensajeEmail .= "<br><strong>Observation: </strong>" . $observation;
+							$mensajeEmail .= "<p>Follow the link to approve or deny the Day Off: </br>";
+							$mensajeEmail .= base_url("external/approve_day_off/" . $idDayoff). "</p>";
+							
+							//mensaje de texto
+							$mensajeSMS = "DAY OFF APP-VCI";
+							$mensajeSMS .= "\nThere is a new request for a Day Off:";
+							$mensajeSMS .= "\nEmployee: " . $dayoffInfo[0]["name"];
+							$mensajeSMS .= "\nType: " . $tipo;
+							$mensajeSMS .= "\nDate of dayoff: " . $dayoffInfo[0]["date_dayoff"];
+							$mensajeSMS .= "\nObservation: " . $dayoffInfo[0]["observation"];
+							$mensajeSMS .= "\nFollow the link to review: ";
+							$mensajeSMS .= base_url("external/approve_day_off/" . $idDayoff);
 
-						//enviar correo al administrador
-						$arrParam["idDayoff"] = $idDayoff;
-						$dayoffInfo = $this->dayoff_model->get_day_off($arrParam);
-						
-						switch ($dayoffInfo[0]['id_type_dayoff']) {
-							case 1:
-								$tipo = 'Family/medical appointment';
-								break;
-							case 2:
-								$tipo = 'Regular';
-								break;
+							$this->sendNotifications($configuracionAlertas, $subjet, $mensajeEmail, $mensajeSMS);
 						}
-						//mensaje del correo
-						$observation =  $this->security->xss_clean($this->input->post('observation'));
-						$observation =  addslashes($observation);
-						$emailMsn = "<p>There is a new request for a Day Off:</p>";
-						$emailMsn .= "<strong>Employee: </strong>" . $dayoffInfo[0]["name"];
-						$emailMsn .= "<br><strong>Type: </strong>" . $tipo;
-						$emailMsn .= "<br><strong>Date of dayoff: </strong>" . $dayoffInfo[0]["date_dayoff"];
-						$emailMsn .= "<br><strong>Observation: </strong>" . $observation;
-						$emailMsn .= "<p>Please go to the system to Approved or Denied the Day Off.</p>";
-						
-						//mensaje de texto
-						$mensajeSMS = "DAY OFF APP-VCI";
-						$mensajeSMS .= "\nThere is a new request for a Day Off:";
-						$mensajeSMS .= "\nEmployee: " . $dayoffInfo[0]["name"];
-						$mensajeSMS .= "\nType: " . $tipo;
-						$mensajeSMS .= "\nDate of dayoff: " . $dayoffInfo[0]["date_dayoff"];
-						$mensajeSMS .= "\nObservation: " . $dayoffInfo[0]["observation"];
-
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
-						$subjet = "Day Off";
-						$this->load->model("general_model");
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-						
-						//datos para el mensaje de texto
-						$dato1 = $this->encrypt->decode($parametric[3]["value"]);
-						$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-						
-						$client = new Twilio\Rest\Client($dato1, $dato2);
-						$toPhone = '+1' . $parametric[6]['value'];
-					
-						// Use the client to do fun stuff like send text messages!
-						$client->messages->create(
-						// the number you'd like to send the message to
-							$toPhone,
-							array(
-								// A Twilio phone number you purchased at twilio.com/console
-								'from' => '587 600 8948',
-								'body' => $mensajeSMS
-							)
-						);
-
-						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
-
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
-						//FIN ENVIO DE CORREO
 						
 						$data["result"] = true;
 						$data["mensaje"] = "Thank you. The ADMIN will review your request.";
@@ -225,7 +178,7 @@ class Dayoff extends CI_Controller {
 					$data["mensaje"] = "Solicitud guardada correctamente.";
 					$data["idSafety"] = $idSafety;
 					
-					$this->session->set_flashdata('retornoExito', 'You have change the day off´s state!!');
+					$this->session->set_flashdata('retornoExito', 'Information saved successfully!!');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -269,45 +222,76 @@ class Dayoff extends CI_Controller {
 			$data["view"] = 'admin_dayoff_list';
 			$this->load->view("layout", $data);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
     /**
-     * Envia correos al administrador
+     * Notifications
      * @author BMOTTAG
-     * @since  7/12/2016
+     * @since  26/12/2022
      */
-    public function mailToAdmin($idDayoff) {
-        $this->load->library("email");
+    public function sendNotifications($configuracionAlertas, $subjet, $mensajeEmail, $mensajeSMS) 
+	{
+		//configuracion para envio de mensaje de texto
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
 
-        //$data['dayoff'] = $this->dayoff_model->get_dayoff_byID($idDayoff);
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		$twilioPhone = $parametric[5]["value"];
+	
+		$client = new Twilio\Rest\Client($dato1, $dato2);
 
-        //$data['usuario'] = $this->consultas_generales->get_user_by_id($idUser);
-        //$email = $data['usuario']['mail_usuario'];
-        $data['msj'] = "Mr. Admin";
-		$data['msj'].= "<p>Prueba de envio de correo <strong>datos que se deben enviar</p>";
-        $data['msj'].= " para la Dependencia/Territorial <strong>mas datos</strong>.";
+		foreach($configuracionAlertas as $envioAlerta):
+			//envio correo 
+			if($envioAlerta['email'])
+			{
+				$user = $envioAlerta['name_email'];
+				$to = $envioAlerta['email'];
 
-        $this->email->from("aplicaciones@vci.co", "VCI - APP");
-        $this->email->to('bmottag@gmail.com'); //to($email);
-        $html = $this->load->view("email", $data, true);
-        $this->email->subject("Dayoff");
+				//Contenido correo					
+				$mensaje = "<html>
+							<head>
+							  <title> $subjet </title>
+							</head>
+							<body>
+								<p>Dear	$user:<br/>
+								</p>
+								$mensajeEmail
+								<p>Cordially,</p>
+								<p><strong>V-CONTRACTING INC</strong></p>
+							</body>
+							</html>";
 
-        $this->email->message($html);
-        $this->email->send();
+				$headers = "MIME-Version: 1.0\r\n";
+				$headers .= "Content-Type: text/html; charset=utf-8\r\n";
+				$headers .= "From: VCI APP <info@v-contracting.ca>\r\n";
 
-        return true;
-    }
+				//enviar correo
+				$envio = mail($to, $subjet, $mensaje, $headers);
+			}
+
+			//envio mensaje de texto
+			if($envioAlerta['movil']){
+				$to = '+1' . $envioAlerta['movil'];
+				$client->messages->create(
+					$to,
+					array(
+						'from' => $twilioPhone,
+						'body' => $mensajeSMS
+					)
+				);
+
+			}
+
+		endforeach;
+		return true;
+	}
 	
 	
 	
