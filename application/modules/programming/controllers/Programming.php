@@ -96,10 +96,10 @@ class Programming extends CI_Controller {
 			$idJob = $this->input->post('jobName');
 			$date = $this->input->post('date');
 
-			$msj = "You have add a new programming. Do not forget to asign the workers.";
+			$msj = "You have added a new Planning. Do not forget to asign the workers.";
 			$result_project = false;
 			if ($idProgramming != '') {
-				$msj = "You have update a programming!!";
+				$msj = "You have updated a Planning!!";
 			}else{
 				//verificar si ya existe el proyecto para esa fecha
 				$arrParam = array(
@@ -176,7 +176,7 @@ class Programming extends CI_Controller {
 				//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
 				$updateState = $this->update_state($data["idProgramming"]);
 				
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, if they are going to use a machine remember to assign it to the worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added Workers to the Planning, if they are going to use a machine remember to assign it to the worker.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -617,7 +617,7 @@ if($bandera){
 			$idProgramming = $this->input->post('hddId');
 
 			if ($this->programming_model->saveOneWorkerProgramming()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -929,6 +929,79 @@ if($bandera){
 			
 			return $memo;
 
+    }
+
+	/**
+	 * Form Flash Planning
+     * @since 28/12/2022
+     * @author BMOTTAG
+	 */
+	public function flash_planning()
+	{			
+		$this->load->model("general_model");
+		$data['information'] = FALSE;
+		$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+
+		//jobs list - (active items)
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "state",
+			"id" => 1
+		);
+		$data['jobs'] = $this->general_model->get_basic_search($arrParam);
+
+		//workers list
+		$arrParam = array("state" => 1);
+		$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+
+		$data["view"] = 'form_planning_flash';
+		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save Flash Planning
+     * @since 28/12/2022
+	 */
+	public function save_flash_planning()
+	{			
+			header('Content-Type: application/json');
+			
+			$this->load->model("general_model");
+			$idProgramming = $this->input->post('hddId');
+
+			$msj = "You have added a new Planning.";
+			if ($idProgramming != '') {
+				$msj = "You have updated a Planning!!";
+			}
+
+			$horas = $this->general_model->get_horas();//LISTA DE HORAS
+			$horaActual = date("G:i");
+
+			$idHora = "";
+			foreach ($horas as $hora):
+				$hora1 =strtotime( $hora["formato_24"]);
+				$hora2 = strtotime($horaActual);
+				
+				if( $hora1 > $hora2 ) {
+					$idHora = $hora["id_hora"];
+					break;
+				}  
+			endforeach;
+			
+			if ($data["idProgramming"] = $this->programming_model->saveProgramming()) 
+			{	
+				//Save worker
+				$this->programming_model->saveWorkerFashPlanning($data["idProgramming"], $idHora);
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+				
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
+			}
+
+			echo json_encode($data);
     }
 
 

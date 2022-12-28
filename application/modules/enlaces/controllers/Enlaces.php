@@ -56,9 +56,9 @@ class Enlaces extends CI_Controller {
 			
 			$idEnlace = $this->input->post('hddId');
 			
-			$msj = "You have add a new Menu link!!";
+			$msj = "You have added a new Menu link!!";
 			if ($idEnlace != '') {
-				$msj = "You have update a Menu link!!";
+				$msj = "You have updated a Menu link!!";
 			}
 
 			if ($this->enlaces_model->saveMenu()) {
@@ -122,9 +122,9 @@ class Enlaces extends CI_Controller {
 			
 			$idLink = $this->input->post('hddId');
 			
-			$msj = "You have add a new Link!!";
+			$msj = "You have added a new Link!!";
 			if ($idLink != '') {
-				$msj = "You have update a Link!!";
+				$msj = "You have updated a Link!!";
 			}
 
 			if ($this->enlaces_model->saveLink()) {
@@ -281,9 +281,9 @@ class Enlaces extends CI_Controller {
 			
 			$idLink = $this->input->post('hddId');
 			
-			$msj = "You have add a new Link!!";
+			$msj = "You have added a new Link!!";
 			if ($idLink != '') {
-				$msj = "You have update a Link!!";
+				$msj = "You have updated a Link!!";
 			}
 
 			if ($this->enlaces_model->saveVideo()) {
@@ -441,7 +441,7 @@ class Enlaces extends CI_Controller {
 			if ($this->general_model->deleteRecord($arrParam)) 
 			{
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have delete the role access.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted the role access.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

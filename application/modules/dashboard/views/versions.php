@@ -32,6 +32,14 @@
                         <li>The administrator has the option to set who is the person to receive the notification.</li>
                         <li>The notification comes with the new path to update the status of the day off.</li>
                         </ul>
+                        <strong>Settings - Employee</strong> 
+                        <ul>
+                        <li>New field for Employee form, postal code.</li>
+                        </ul>
+                        <strong>Settings - Planning</strong> 
+                        <ul>
+                        <li>New form for flash Planning.</li>
+                        </ul>
 					</p>
 				</div>
 				<div class="panel-footer">

@@ -191,6 +191,29 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Save worker for Flash Planning 
+		 * @since 28/12/2022
+		 */
+		public function saveWorkerFashPlanning($idProgramming, $idHora) 
+		{							
+				$data = array(
+					'fk_id_programming' => $idProgramming,
+					'fk_id_programming_user' => $this->input->post('worker'),
+					'fk_id_machine' => $this->input->post('machine'),
+					'fk_id_hour' => $idHora,
+					'site' => 2, // Se coloca por defecto 2 -> At the Site
+					'safety' => 1 // Se coloca por defecto FLHA
+				);			
+				$query = $this->db->insert('programming_worker', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 					
 		
 	    
