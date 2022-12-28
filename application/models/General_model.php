@@ -1254,7 +1254,7 @@ class General_model extends CI_Model {
 				$this->db->join('user U', 'U.id_user = A.fk_id_user_email', 'LEFT');
 				$this->db->join('user X', 'X.id_user = A.fk_id_user_sms', 'LEFT');
 				if (array_key_exists("idNotificationAccess", $arrData)) {
-					$this->db->where('A.fk_id_notification', $arrData["idNotificationAccess"]);
+					$this->db->where('A.id_notification_access', $arrData["idNotificationAccess"]);
 				}
 				$this->db->order_by('N.notification', 'asc');
 				$query = $this->db->get('notifications_access A');

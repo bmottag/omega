@@ -4,7 +4,7 @@
 		<div class="col-lg-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<strong>Winter 2022 - 2023</strong>
+					<strong>New Features Winter 2022 - 2023</strong>
 				</div>
 				<div class="panel-body">
 					<p>
