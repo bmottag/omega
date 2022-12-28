@@ -1299,7 +1299,6 @@ class Workorders extends CI_Controller {
 			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
 
-
 			// Add conditional formatting
 			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
 			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
@@ -1311,7 +1310,482 @@ class Workorders extends CI_Controller {
 			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-			$spreadsheet->setActiveSheetIndex(0);
+			/**
+			 * INFO PERSONAL
+			 */
+			$spreadsheet->createSheet();
+			$spreadsheet->setActiveSheetIndex(1);
+			$spreadsheet->getActiveSheet()->setTitle('Personal Income');
+
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
+
+			$totalP = 0;
+			$j=2;
+			foreach ($info as $data):
+
+				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
+				$workorderPersonal = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
+
+				$observation = $data['observation']?$data['observation']:'';
+				if($workorderPersonal){
+					foreach ($workorderPersonal as $infoP):
+						$totalP += $infoP['value']; 
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+														->setCellValue('B'.$j, $data['name'])
+														->setCellValue('C'.$j, $data['date_issue'])
+														->setCellValue('D'.$j, $data['date'])
+														->setCellValue('E'.$j, $data['job_description'])
+														->setCellValue('F'.$j, $observation)
+														->setCellValue('G'.$j, $infoP['description'])
+														->setCellValue('H'.$j, $infoP['name'])
+														->setCellValue('I'.$j, $infoP['employee_type'])
+														->setCellValue('L'.$j, $infoP['hours'])
+														->setCellValue('N'.$j, 'Hours')
+														->setCellValue('O'.$j, $infoP['rate'])
+														->setCellValue('Q'.$j, $infoP['value']);
+						$j++;
+					endforeach;
+				}
+			endforeach;
+			
+			$totalP = '$ ' . number_format($totalP, 2);
+			$spreadsheet->getActiveSheet()->setCellValue('P'.$j, 'Total Income');
+			$spreadsheet->getActiveSheet()->setCellValue('Q'.$j, $totalP);
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
+
+			// Set column widths							  
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+
+			// Add conditional formatting
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+			/**
+			 * FIN INFO PERSONAL
+			 */
+
+			/**
+			 * INFO MATERIAL
+			 */
+			$spreadsheet->createSheet();
+			$spreadsheet->setActiveSheetIndex(2);
+			$spreadsheet->getActiveSheet()->setTitle('Material Income');
+
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
+
+			$totalM = 0;
+			$j=2;
+			foreach ($info as $data):
+
+				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
+				$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
+
+				$observation = $data['observation']?$data['observation']:'';
+				if($workorderMaterials){
+					foreach ($workorderMaterials as $infoM):
+						$totalM += $infoM['value'];
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoM['description'])
+													  ->setCellValue('J'.$j, $infoM['material'])
+													  ->setCellValue('M'.$j, $infoM['quantity'])
+													  ->setCellValue('N'.$j, $infoM['unit'])
+													  ->setCellValue('O'.$j, $infoM['rate'])
+													  ->setCellValue('Q'.$j, $infoM['value']);
+						$j++;
+					endforeach;
+				}
+			endforeach;
+			
+			$totalM = '$ ' . number_format($totalM, 2);
+			$spreadsheet->getActiveSheet()->setCellValue('P'.$j, 'Total Income');
+			$spreadsheet->getActiveSheet()->setCellValue('Q'.$j, $totalM);
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
+
+			// Set column widths							  
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+
+			// Add conditional formatting
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+			/**
+			 * FIN INFO MATERIAL
+			 */
+
+			/**
+			 * INFO RECEIPT
+			 */
+			$spreadsheet->createSheet();
+			$spreadsheet->setActiveSheetIndex(3);
+			$spreadsheet->getActiveSheet()->setTitle('Receipt Income');
+
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
+
+			$totalR = 0;
+			$j=2;
+			foreach ($info as $data):
+
+				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
+				$workorderReceipts = $this->workorders_model->get_workorder_receipt($arrParam);//workorder receipts list
+
+				$observation = $data['observation']?$data['observation']:'';
+				if($workorderReceipts){
+					foreach ($workorderReceipts as $infoR):
+						$totalR += $infoR['value'];
+						$description = $infoR['description'] . ' - ' . $infoR['place'];
+						if($infoR['markup'] > 0){
+							$description = $description . ' - Plus M.U.';
+						}
+
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $description)
+													  ->setCellValue('Q'.$j, $infoR['value']);
+						$j++;
+					endforeach;
+				}
+			endforeach;
+			
+			$totalR = '$ ' . number_format($totalR, 2);
+			$spreadsheet->getActiveSheet()->setCellValue('P'.$j, 'Total Income');
+			$spreadsheet->getActiveSheet()->setCellValue('Q'.$j, $totalR);
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
+
+			// Set column widths							  
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+
+			// Add conditional formatting
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+			/**
+			 * FIN INFO RECEIPT 
+			 */
+
+			/**
+			 * INFO EQUIPMENT
+			 */
+			$spreadsheet->createSheet();
+			$spreadsheet->setActiveSheetIndex(4);
+			$spreadsheet->getActiveSheet()->setTitle('Equipment Income');
+
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
+
+			$totalE = 0;
+			$j=2;
+			foreach ($info as $data):
+				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
+				$workorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
+
+				$observation = $data['observation']?$data['observation']:'';
+				if($workorderEquipment){
+					foreach ($workorderEquipment as $infoE):
+						$totalE += $infoE['value'];
+						//si es tipo miscellaneous -> 8, entonces la description es diferente
+						if($infoE['fk_id_type_2'] == 8){
+							$equipment = $infoE['miscellaneous'] . " - " . $infoE['other'];
+						}else{
+							$equipment = $infoE['type_2'] . " - " . $infoE['unit_number'] . " - " . $infoE['v_description'];
+						}
+						
+						$quantity = $infoE['quantity']==0?1:$infoE['quantity'];//cantidad si es cero es porque es 1
+			
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoE['description'])
+													  ->setCellValue('K'.$j, $equipment)
+													  ->setCellValue('L'.$j, $infoE['hours'])
+													  ->setCellValue('M'.$j, $quantity)
+													  ->setCellValue('N'.$j, 'Hours')
+													  ->setCellValue('O'.$j, $infoE['rate'])
+													  ->setCellValue('P'.$j, $infoE['operatedby'])
+													  ->setCellValue('Q'.$j, $infoE['value']);
+						$j++;
+					endforeach;
+				}
+			endforeach;
+			
+			$totalE = '$ ' . number_format($totalE, 2);
+			$spreadsheet->getActiveSheet()->setCellValue('P'.$j, 'Total Income');
+			$spreadsheet->getActiveSheet()->setCellValue('Q'.$j, $totalE);
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
+
+			// Set column widths							  
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+
+			// Add conditional formatting
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+			/**
+			 * FIN INFO EQUIPMENT 
+			 */
+
+			/**
+			 * INFO SUBCONTRACTOR
+			 */
+			$spreadsheet->createSheet();
+			$spreadsheet->setActiveSheetIndex(5);
+			$spreadsheet->getActiveSheet()->setTitle('Subcontractor Income');
+
+			$spreadsheet->getActiveSheet()->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
+
+			$totalS = 0;
+			$j=2;
+			foreach ($info as $data):
+				$arrParam = array('idWorkOrder' =>$data['id_workorder']);
+				$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
+
+				$observation = $data['observation']?$data['observation']:'';
+				if($workorderOcasional){
+					foreach ($workorderOcasional as $infoO):
+						$totalS += $infoO['value'];
+						$equipment = $infoO['company_name'] . '-' . $infoO['equipment'];
+						$hours = $infoO['hours']==0?1:$infoO['hours'];
+						
+						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
+													  ->setCellValue('B'.$j, $data['name'])
+													  ->setCellValue('C'.$j, $data['date_issue'])
+													  ->setCellValue('D'.$j, $data['date'])
+													  ->setCellValue('E'.$j, $data['job_description'])
+													  ->setCellValue('F'.$j, $observation)
+													  ->setCellValue('G'.$j, $infoO['description'])
+													  ->setCellValue('K'.$j, $equipment)
+													  ->setCellValue('L'.$j, $hours)
+													  ->setCellValue('M'.$j, $infoO['quantity'])
+													  ->setCellValue('N'.$j, $infoO['unit'])
+													  ->setCellValue('O'.$j, $infoO['rate'])
+													  ->setCellValue('Q'.$j, $infoO['value']);
+						$j++;
+					endforeach;
+				}
+			endforeach;
+			
+			$totalS = '$ ' . number_format($totalS, 2);
+			$spreadsheet->getActiveSheet()->setCellValue('P'.$j, 'Total Income');
+			$spreadsheet->getActiveSheet()->setCellValue('Q'.$j, $totalS);
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
+
+			// Set column widths							  
+			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
+			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
+
+			// Add conditional formatting
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
+
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+			/**
+			 * FIN INFO SUBCONTRACTOR 
+			 */
+
+			 $spreadsheet->setActiveSheetIndex(0);
 
 			$writer = new Xlsx($spreadsheet);
 			$writer->save('php://output');  

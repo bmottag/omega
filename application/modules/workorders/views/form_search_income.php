@@ -172,9 +172,9 @@ return date;
 								<th class="text-center">Numbers of Personal Hours</th>
 								<th class="text-center">Personal Income</th>
 								<th class="text-center">Material Income</th>
+								<th class="text-center">Receipt Income</th>
 								<th class="text-center">Equipment Income</th>
 								<th class="text-center">Subcontractor Income</th>
-								<th class="text-center">Receipt Income</th>
 								<th class="text-center">Total Income</th>
 								<th class="text-center">Download</th>
 							</tr>
@@ -193,6 +193,10 @@ return date;
 							echo "<td class='text-right'>";
 							echo '$' . number_format($incomeMaterial, 2);
 							echo "</td>";
+
+							echo "<td class='text-right'>";
+							echo '$' . number_format($incomeReceipt, 2);
+							echo "</td>";
 							
 							echo "<td class='text-right'>";
 							echo '$' . number_format($incomeEquipment, 2);
@@ -200,10 +204,6 @@ return date;
 							
 							echo "<td class='text-right'>";
 							echo '$' . number_format($incomeSubcontractor, 2);
-							echo "</td>";
-
-							echo "<td class='text-right'>";
-							echo '$' . number_format($incomeReceipt, 2);
 							echo "</td>";
 							
 							echo "<td class='text-right'>";
@@ -253,9 +253,9 @@ return date;
 								<th class="text-center">Numbers of Personal Hours</th>
 								<th class="text-center">Personal Income</th>
 								<th class="text-center">Material Income</th>
+								<th class="text-center">Receipt Income</th>
 								<th class="text-center">Equipment Income</th>
 								<th class="text-center">Subcontractor Income</th>
-								<th class="text-center">Receipt Income</th>
 								<th class="text-center">Total Income</th>
 								<th class="text-center">Download</th>
 							</tr>
@@ -277,15 +277,15 @@ return date;
 									
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_materials");
 									$incomeMaterial = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
+
+									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_receipt");
+									$incomeReceipt = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
 									
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_equipment");
 									$incomeEquipment = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
 									
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_ocasional");
 									$incomeSubcontractor = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
-
-									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_receipt");
-									$incomeReceipt = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
 
 									$total = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor + $incomeReceipt;
 									
@@ -301,6 +301,10 @@ return date;
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeMaterial, 2);
 									echo "</td>";
+
+									echo "<td class='text-right'>";
+									echo '$' . number_format($incomeReceipt, 2);
+									echo "</td>";
 									
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeEquipment, 2);
@@ -308,10 +312,6 @@ return date;
 									
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeSubcontractor, 2);
-									echo "</td>";
-
-									echo "<td class='text-right'>";
-									echo '$' . number_format($incomeReceipt, 2);
 									echo "</td>";
 									
 									echo "<td class='text-right'>";
