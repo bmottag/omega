@@ -179,6 +179,7 @@ if($count == 10){
 								echo "<b>SIN: </b>" . chunk_split($lista['social_insurance'],3," ") . "<br>";
 								echo "<b>Health number: </b>" . chunk_split($lista['health_number'],3," ") . "<br>";
 								echo "<b>Address: </b>" . $lista['address'] . "<br>";
+								echo "<b>Postal code: </b>" . $lista['postal_code'] . "<br>";
 								echo "</small></td>";
 								echo "<td>";
 								$arrParam['idUser'] = $lista['id_user'] ;			
@@ -198,15 +199,10 @@ if($count == 10){
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->

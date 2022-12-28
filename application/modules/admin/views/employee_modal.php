@@ -87,9 +87,21 @@
 			</div>
 				
 			<div class="col-sm-6">
+			</div>
+		</div>
+
+		<div class="row">			
+			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="address">Address:</label>
 					<input type="text" id="address" name="address" class="form-control" value="<?php echo $information?$information[0]["address"]:""; ?>" placeholder="Address" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="postalCode">Postal Code:</label>
+					<input type="text" id="postalCode" name="postalCode" class="form-control" value="<?php echo $information?$information[0]["postal_code"]:""; ?>" placeholder="Postal Code" >
 				</div>
 			</div>
 		</div>

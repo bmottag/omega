@@ -21,6 +21,7 @@
 					'movil' => $this->input->post('movilNumber'),
 					'email' => $this->input->post('email'),
 					'address' => $this->input->post('address'),
+					'postal_code' => $this->input->post('postalCode'),
 					'perfil' => $this->input->post('perfil')
 				);	
 
