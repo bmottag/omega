@@ -74,8 +74,9 @@ class Dayoff extends CI_Controller {
 					if ($idDayoff = $this->dayoff_model->add_dayoff()) 
 					{
 						//revisar si se envia correo o se envia mensaje de texto y a quien se le envia
-						$arrParam = array("idNotificationAccess" => ID_NOTIFICATION_DAYOFF);
+						$arrParam = array("idNotification" => ID_NOTIFICATION_DAYOFF);
 						$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
+
 						if($configuracionAlertas){
 							//buscar info del day off
 							$arrParam["idDayoff"] = $idDayoff;

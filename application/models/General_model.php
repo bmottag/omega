@@ -1256,6 +1256,9 @@ class General_model extends CI_Model {
 				if (array_key_exists("idNotificationAccess", $arrData)) {
 					$this->db->where('A.id_notification_access', $arrData["idNotificationAccess"]);
 				}
+				if (array_key_exists("idNotification", $arrData)) {
+					$this->db->where('A.fk_id_notification', $arrData["idNotification"]);
+				}
 				$this->db->order_by('N.notification', 'asc');
 				$query = $this->db->get('notifications_access A');
 

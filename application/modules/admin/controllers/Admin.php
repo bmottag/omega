@@ -1399,7 +1399,7 @@ class Admin extends CI_Controller {
 			if($information)
 			{
 				//revisar si se envia correo o se envia mensaje de texto y a quien se le envia
-				$arrParam = array("idAlertsSettings" => ID_NOTIFICATION_CERTIFICATION);
+				$arrParam = array("idNotification" => ID_NOTIFICATION_CERTIFICATION);
 				$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
 
 				if($configuracionAlertas)
@@ -1487,13 +1487,12 @@ class Admin extends CI_Controller {
 							</body>
 							</html>";
 		
-							$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-							$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-							$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
+							$headers = "MIME-Version: 1.0\r\n";
+							$headers .= "Content-Type: text/html; charset=utf-8\r\n";
+							$headers .= "From: VCI APP <info@v-contracting.ca>\r\n";
+			
 							//enviar correo
-							$envio = mail($to, $subjet, $mensaje, $cabeceras);
+							$envio = mail($to, $subjet, $mensaje, $headers);
 						}
 
 						//envio mensaje de texto
@@ -1501,7 +1500,7 @@ class Admin extends CI_Controller {
 							$to = '+1' . $envioAlerta['movil'];
 							$mensaje = "APP VCI - Employees Certificates";
 							$mensaje .= "\n There are some employees who have a certificate that is about to expire, go to Settings - Employee and check.";
-						/*
+
 							$client->messages->create(
 								$to,
 								array(
@@ -1509,7 +1508,6 @@ class Admin extends CI_Controller {
 									'body' => $mensaje
 								)
 							);
-						*/
 						}
 
 					endforeach;
