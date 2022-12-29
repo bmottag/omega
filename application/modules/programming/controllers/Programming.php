@@ -287,7 +287,7 @@ class Programming extends CI_Controller {
      * @since 16/1/2019
      * @author BMOTTAG
 	 */
-	public function send($idProgramming)
+	public function send($idProgramming, $flashPlanning = false)
 	{			
 		$this->load->model("general_model");
 		$this->load->library('encrypt');
@@ -303,10 +303,9 @@ class Programming extends CI_Controller {
 		$parametric = $this->general_model->get_basic_search($arrParam);						
 		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
-		
+		$twilioPhone = $parametric[5]["value"];
 		
         $client = new Twilio\Rest\Client($dato1, $dato2);
-		
 		
 		$data['informationWorker'] = FALSE;
 		$data['idProgramming'] = $idProgramming;
@@ -323,7 +322,7 @@ class Programming extends CI_Controller {
 		$mensaje .= "\n" . $data['information'][0]['job_description'];
 		$mensaje .= "\n" . $data['information'][0]['observation'];
 		$mensaje .= "\n";
-		
+
 		if($data['informationWorker']){
 			foreach ($data['informationWorker'] as $data):
 				$mensaje .= "\n";
@@ -343,36 +342,31 @@ class Programming extends CI_Controller {
 				$mensaje .= "\n";
 			endforeach;
 			
-			
 			foreach ($copiaInfoWorker as $data):
-			
 				$to = '+1' . $data['movil'];
 			
-				// Use the client to do fun stuff like send text messages!
 				$client->messages->create(
-				// the number you'd like to send the message to
 					$to,
 					array(
-						// A Twilio phone number you purchased at twilio.com/console
-						'from' => '587 600 8948',
+						'from' => $twilioPhone,
 						'body' => $mensaje
 					)
 				);
 			endforeach;
-			
 		}
 		
-
-		$data['linkBack'] = "programming/index/" . $idProgramming;
-		$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
-		
-		$data['clase'] = "alert-info";
-		$data['msj'] = "Se envió el mensaje";
-
-		$data["view"] = 'template/answer';
-		$this->load->view("layout", $data);
-
-
+		if($flashPlanning){
+			return true;
+		}else{
+			$data['linkBack'] = "programming/index/" . $idProgramming;
+			$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
+			
+			$data['clase'] = "alert-info";
+			$data['msj'] = "Message is sent to the workers.";
+	
+			$data["view"] = 'template/answer';
+			$this->load->view("layout", $data);
+		}
 	}
 	
 	/**
@@ -992,7 +986,11 @@ if($bandera){
 			if ($data["idProgramming"] = $this->programming_model->saveProgramming()) 
 			{	
 				//Save worker
-				$this->programming_model->saveWorkerFashPlanning($data["idProgramming"], $idHora);
+				if($this->programming_model->saveWorkerFashPlanning($data["idProgramming"], $idHora)){
+					//envio mensaje de texto
+					$this->send($data["idProgramming"], true);
+					$msj.= " Message is sent to the worker.";
+				}
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 				
