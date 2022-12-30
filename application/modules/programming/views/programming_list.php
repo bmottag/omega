@@ -154,7 +154,35 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 						</tbody>
 					</table>
 				<?php } ?>
-				
+<!-- INICIO LISTA DE WORKER CON DAY OFF -->
+				<?php
+					if($dayoffList){
+				?>
+					<div class="table-responsive">	
+						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+							<thead>
+								<tr class="text-danger danger">
+									<th colspan="2">Employees with day off coming up</th>
+								</tr>
+								<tr class="text-danger danger">
+									<th>Employee</th>
+									<th class="text-center">Date of day off</th>									
+								</tr>
+							</thead>
+							<tbody>							
+							<?php
+								foreach ($dayoffList as $lista):
+									echo "<tr>";
+										echo "<td>" . $lista['name'] . "</td>";
+										echo "<td class='text-center'>" . $lista['date_dayoff'] . "</td>";
+									echo "</tr>";
+								endforeach;
+							?>
+							</tbody>
+						</table>
+					</div>
+				<?php } ?>
+<!-- FIN LISTA DE WORKERS CON DAY OFF -->
 				
 				
 <!-- INICIO HISTORICO -->

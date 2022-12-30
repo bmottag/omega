@@ -1594,6 +1594,8 @@ class General_model extends CI_Model {
 				$idUser = $this->session->userdata("id");
 				$year = date('Y');
 				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//primer dia del año actual
+				$actualDay = date('Y-m-d');//dia actual
+				$afterTommorrow = date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")+2, date("Y")));
 				 
 				$beforeYesterday = date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")-2, date("Y")));
 				
@@ -1609,6 +1611,13 @@ class General_model extends CI_Model {
 							$this->db->where('D.date_dayoff >=', $beforeYesterday);//filtro para los aprobados que la fecha de solicitud del permiso ya paso
 					}
 					
+				}
+				//filtro para mostrar en el PLANNING los que son aprobados y el dia off en en los proximos dos dias o menos
+				if (array_key_exists("forPlanning", $arrData)) {
+					$this->db->where('D.state', 2);//filtro por aprobados
+
+					$this->db->where('D.date_dayoff >=', $actualDay);
+					$this->db->where('D.date_dayoff <=', $afterTommorrow);
 				}
 				if (array_key_exists("idDayoff", $arrData)) {
 					$this->db->where('D.id_dayoff', $arrData["idDayoff"] );//filtro por idDayoff
