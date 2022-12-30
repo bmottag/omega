@@ -39,6 +39,7 @@
                         <strong>Settings - Planning</strong> 
                         <ul>
                         <li>New form for flash Planning.</li>
+                        <li>List for Employees with Day Off.</li>
                         </ul>
 					</p>
 				</div>
@@ -57,22 +58,23 @@
 				</div>
 				<div class="panel-body">
 					<p>
-                        <strong>FLHA Verifications:</strong>
+                        <strong>FLHA Verifications for Planning:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/programming/verificacion_flha</li>
                             <li>Time: Every 30 minutes </li>
                         </ul>
 
-                        <strong>TOOL BOX Verifications:</strong>
+                        <strong>TOOL BOX Verifications for Planning:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/programming/verificacion_tool_box </li>
                             <li>Time: Every 15 minutes </li>
                         </ul>
 
-                        <strong>Planning Verifications:</strong>
+                        <strong>Inspection Verifications for Planning:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/programming/verificacion </li>
                             <li>Time: Every 1 hour </li>
+                            <li>Verify for the current date if there are assigned machines and if they were inspected </li>
                         </ul>
 
                         <strong>Maintenance Check:</strong>
