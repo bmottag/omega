@@ -19,17 +19,9 @@ class Dashboard extends CI_Controller {
 			
 			$data['infoMaintenance'] = FALSE;
 			$data['noJobs'] = FALSE;
-			
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-			
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
-			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
-			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
-			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
-			$data['noCheckin'] = $this->general_model->countCheckin();
+			$data['noHauling'] = TRUE;
+			$data['noDailyInspection'] = TRUE;
+			$data['noHeavyInspection'] = TRUE;
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -147,20 +139,12 @@ class Dashboard extends CI_Controller {
 	public function supervisor()
 	{	
 			$userRol = $this->session->userdata("rol");
-			
+
+			$data['noJobs'] = TRUE;	
+			$data['noHauling'] = TRUE;
+			$data['noDailyInspection'] = TRUE;
+			$data['noHeavyInspection'] = TRUE;
 			$data['infoMaintenance'] = FALSE;
-			$data['noCheckin'] = FALSE;
-			
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-			
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noJobs'] = $this->dashboard_model->countJobs();//cuenta registros de Jobs
-			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
-			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
-			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
-			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -184,26 +168,17 @@ class Dashboard extends CI_Controller {
 	 * WORK ORDER DASHBOARD
 	 */
 	public function work_order()
-	{	
-			$userRol = $this->session->userdata("rol");
-			
+	{			
 			$data['infoMaintenance'] = FALSE;
 			$data['noJobs'] = FALSE;
+			$data['noHauling'] = TRUE;
 			$data['noDailyInspection'] = FALSE;
 			$data['noHeavyInspection'] = FALSE;
-			$data['noSpecialInspection'] = FALSE;
+			
 			$data['infoGenerator'] = FALSE;
 			$data['infoHydrovac'] = FALSE;
 			$data['infoSweeper'] = FALSE;
 			$data['infoWaterTruck'] = FALSE;
-			
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-			
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
-			$data['noCheckin'] = $this->general_model->countCheckin();
 						
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -222,20 +197,10 @@ class Dashboard extends CI_Controller {
 	 */
 	public function safety()
 	{	
-			$userRol = $this->session->userdata("rol");
-			
+			$data['noJobs'] = TRUE;
 			$data['noHauling'] = FALSE;
-			
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noJobs'] = $this->dashboard_model->countJobs();//cuenta registros de Jobs
-			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
-			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
-			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
-			$data['noCheckin'] = $this->general_model->countCheckin();
+			$data['noDailyInspection'] = TRUE;
+			$data['noHeavyInspection'] = TRUE;
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -265,43 +230,22 @@ class Dashboard extends CI_Controller {
 	public function accounting()
 	{	
 			$data['noJobs'] = FALSE;
+			$data['noHauling'] = TRUE;
 			$data['noDailyInspection'] = FALSE;
 			$data['noHeavyInspection'] = FALSE;
-			$data['noSpecialInspection'] = FALSE;
-			$data['noCheckin'] = FALSE;
+
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
 			$data['infoWaterTruck'] = FALSE;
 			$data['infoHydrovac'] = FALSE;
 			$data['infoSweeper'] = FALSE;
 			$data['infoGenerator'] = FALSE;
-			
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-			
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
-			//$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
-			//$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
-			//$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
-			
-			//informacion de un dayoff si lo aprobaron y lo negaron
-			//$data['dayoff'] = $this->dashboard_model->dayOffInfo();
-	
-			//$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 						
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
 			
 			$data['infoSafety'] = $this->general_model->get_safety($arrParam);//info de safety
 			
-			$arrParam["limit"] = 6;//Limite de registros para la consulta
-			//$data['infoWaterTruck'] = $this->general_model->get_special_inspection_water_truck($arrParam);//info de water truck
-			//$data['infoHydrovac'] = $this->general_model->get_special_inspection_hydrovac($arrParam);//info de hydrovac
-			//$data['infoSweeper'] = $this->general_model->get_special_inspection_sweeper($arrParam);//info de sweeper
-			//$data['infoGenerator'] = $this->general_model->get_special_inspection_generator($arrParam);//info de generador
-		
 			$data["view"] = "dashboard";
 			$this->load->view("layout", $data);
 	}
@@ -310,26 +254,14 @@ class Dashboard extends CI_Controller {
 	 * Management DASHBOARD
 	 */
 	public function management()
-	{		
+	{	
+			$data['noJobs'] = TRUE;	
+			$data['noHauling'] = TRUE;
+			$data['noDailyInspection'] = TRUE;
+			$data['noHeavyInspection'] = TRUE;
+
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
-			$data['noCheckin'] = FALSE;
-			
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-			
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noJobs'] = $this->dashboard_model->countJobs();//cuenta registros de Jobs
-			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
-			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
-			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
-			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
-			
-			//informacion de un dayoff si lo aprobaron y lo negaron
-			//$data['dayoff'] = $this->dashboard_model->dayOffInfo();
-				
-			//$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 						
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
@@ -351,17 +283,10 @@ class Dashboard extends CI_Controller {
 	 */
 	public function admin()
 	{	
-			//cuenta payroll para el usuario 
-			$arrParam["task"] = 1;//buscar por timestap
-			$data['noTareas'] = $this->general_model->countTask($arrParam);
-			
-			$data['noSafety'] = $this->dashboard_model->countSafety();//cuenta registros de safety
-			$data['noJobs'] = $this->dashboard_model->countJobs();//cuenta registros de Jobs
-			$data['noHauling'] = $this->dashboard_model->countHauling();//cuenta registros de hauling
-			$data['noDailyInspection'] = $this->dashboard_model->countDailyInspection();//cuenta registros de DailyInspection
-			$data['noHeavyInspection'] = $this->dashboard_model->countHeavyInspection();//cuenta registros de HeavyInspection
-			$data['noSpecialInspection'] = $this->dashboard_model->countSpecialInspection();//cuenta registros de SpecialInspection
-			$data['noCheckin'] = $this->general_model->countCheckin();
+			$data['noJobs'] = TRUE;	
+			$data['noHauling'] = TRUE;
+			$data['noDailyInspection'] = TRUE;
+			$data['noHeavyInspection'] = TRUE;
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
