@@ -12,10 +12,17 @@
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_job"]:""; ?>"/>
 
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="jobName">Job Code/Name: *</label>
-					<input type="text" id="jobName" name="jobName" class="form-control" value="<?php echo $information?$information[0]["job_description"]:""; ?>" placeholder="Job Code/Name" required >
+					<label class="control-label" for="jobCode">Job Code: *</label>
+					<input type="text" id="jobCode" name="jobCode" class="form-control" value="<?php echo $information?$information[0]["job_code"]:""; ?>" placeholder="Job Code" required >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="jobName">Job Name: *</label>
+					<input type="text" id="jobName" name="jobName" class="form-control" value="<?php echo $information?$information[0]["job_description"]:""; ?>" placeholder="Job Name" required >
 				</div>
 			</div>
 		</div>

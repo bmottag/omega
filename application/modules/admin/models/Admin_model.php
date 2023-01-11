@@ -51,6 +51,7 @@
 				$idJob = $this->input->post('hddId');
 				
 				$data = array(
+					'job_code' => $this->input->post('jobCode'),
 					'job_description' => $this->input->post('jobName'),
 					'markup' => $this->input->post('markup'),
 					'state' => $this->input->post('stateJob'),

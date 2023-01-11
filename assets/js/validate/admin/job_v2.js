@@ -4,6 +4,7 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
+			jobCode: 			{ required: true, minlength: 4, maxlength:20 },
 			jobName: 			{ required: true, minlength: 4, maxlength:100 },
 			markup: 			{ required: true, minlength: 1, maxlength:2 },
 			stateJob: 			{ required: true }
@@ -50,7 +51,9 @@ $( document ).ready( function () {
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');							
+							$("#div_error").css("display", "inline");
+							$("#span_msj").html(data.mensaje);
+							$('#btnSubmit').removeAttr('disabled');		
 							return false;
 						} 
 
