@@ -21,6 +21,7 @@ class Programming extends CI_Controller {
 		$data['informationWorker'] = FALSE;
 		$data['idProgramming'] = $idProgramming;
 		$data['workersList'] = FALSE;
+		$data['dayoffList'] = FALSE;
 						
 		//si envio el id, entonces busco la informacion 
 		if ($idProgramming != 'x') {

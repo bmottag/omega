@@ -443,15 +443,14 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 <!--FIN Modal para adicionar WORKER -->
 
 
-    <!-- Tables -->
-    <script>
-    $(document).ready(function() {
-        $('#dataTables').DataTable({
-            responsive: true,
-			 "ordering": false,
-			 paging: false,
-			"searching": false,
-			"info": false
-        });
-    });
-    </script>
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+	$('#dataTables').DataTable({
+		responsive: true,
+		"ordering": false,
+		"pageLength": 100,
+		"info": false
+	});
+});
+</script>
