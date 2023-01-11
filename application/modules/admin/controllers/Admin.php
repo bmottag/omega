@@ -69,9 +69,9 @@ class Admin extends CI_Controller {
 			
 			$idUser = $this->input->post('hddId');
 
-			$msj = "You have add a new Employee!!";
+			$msj = "You have added a new Employee!!";
 			if ($idUser != '') {
-				$msj = "You have update an Employee!!";
+				$msj = "You have updated an Employee!!";
 			}			
 
 			$log_user = $this->input->post('user');
@@ -200,9 +200,9 @@ class Admin extends CI_Controller {
 			
 			$idMaterial = $this->input->post('hddId');
 			
-			$msj = "You have add a new Material Type!!";
+			$msj = "You have added a new Material Type!!";
 			if ($idMaterial != '') {
-				$msj = "You have update a Material Type!!";
+				$msj = "You have updated a Material Type!!";
 			}
 
 			if ($idMaterial = $this->admin_model->saveMaterial()) {
@@ -276,9 +276,9 @@ class Admin extends CI_Controller {
 			
 			$idCompany = $this->input->post('hddId');
 			
-			$msj = "You have add a new company!!";
+			$msj = "You have added a new company!!";
 			if ($idCompany != '') {
-				$msj = "You have update a company!!";
+				$msj = "You have updated a company!!";
 			}
 
 			if ($idCompany = $this->admin_model->saveCompany()) {
@@ -359,9 +359,9 @@ class Admin extends CI_Controller {
 			
 			$idHazard = $this->input->post('hddId');
 			
-			$msj = "You have add a new hazard!!";
+			$msj = "You have added a new hazard!!";
 			if ($idHazard != '') {
-				$msj = "You have update a hazard!!";
+				$msj = "You have updated a hazard!!";
 			}
 
 			if ($idHazard = $this->admin_model->saveHazard()) {
@@ -437,18 +437,34 @@ class Admin extends CI_Controller {
 			$data = array();
 			
 			$idJob = $this->input->post('hddId');
+			$job_code = $this->input->post('jobCode');
 			
-			$msj = "You have add a new job!!";
+			$msj = "You have added a new job!!";
 			if ($idJob != '') {
-				$msj = "You have update a Job!!";
+				$msj = "You have updated a Job!!";
 			}
 
-			if ($idJob = $this->admin_model->saveJob()) {
-				$data["result"] = true;		
-				$this->session->set_flashdata('retornoExito', $msj);
-			} else {
+			//verificar si ya el job code
+			$arrParam = array(
+				"idJob" => $idJob,
+				"column" => "job_code",
+				"value" => $job_code
+			);
+			$result_job = $this->general_model->jobCodeVerify($arrParam);
+
+			if ($result_job) 
+			{
 				$data["result"] = "error";
-				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				$data["mensaje"] = " Error. The Job Code already exist.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The Job Code already exist.');
+			} else {
+				if ($idJob = $this->admin_model->saveJob()) {
+					$data["result"] = true;		
+					$this->session->set_flashdata('retornoExito', $msj);
+				} else {
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
 			}
 
 			echo json_encode($data);
@@ -545,10 +561,10 @@ class Admin extends CI_Controller {
 			
 			$pass = $this->generaPass();//clave para colocarle al codigo QR
 		
-			$msj = "You have add a new vehicle!!";
+			$msj = "You have added a new vehicle!!";
 			$flag = true;
 			if ($idVehicle != '') {
-				$msj = "You have update a vehicle!!";
+				$msj = "You have updated a vehicle!!";
 				$flag = false;
 			}
 
@@ -762,7 +778,7 @@ class Admin extends CI_Controller {
 
 			if ($this->admin_model->saveVehicleNextOilChange($data["idRecord"], $state)) {
 				$data["result"] = true;		
-				$this->session->set_flashdata('retornoExito', "You have add the Next Oil Change");
+				$this->session->set_flashdata('retornoExito', "You have added the Next Oil Change");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -824,9 +840,9 @@ class Admin extends CI_Controller {
 			
 			$idEmployeeType = $this->input->post('hddId');
 			
-			$msj = "You have add a new Employee Type!!";
+			$msj = "You have added a new Employee Type!!";
 			if ($idEmployeeType != '') {
-				$msj = "You have update an Employee Type!!";
+				$msj = "You have updated an Employee Type!!";
 			}
 
 			if ($idEmployeeType = $this->admin_model->saveEmployeeType()) {
@@ -898,9 +914,9 @@ class Admin extends CI_Controller {
 			
 			$idHazardActivity = $this->input->post('hddId');
 			
-			$msj = "You have add a new Activity!!";
+			$msj = "You have added a new Activity!!";
 			if ($idHazardActivity != '') {
-				$msj = "You have update an Activity!!";
+				$msj = "You have updated an Activity!!";
 			}
 
 			if ($idHazardActivity = $this->admin_model->saveHazardActivity()) {
@@ -1076,9 +1092,9 @@ class Admin extends CI_Controller {
 			
 			$idStock = $this->input->post('hddId');
 			
-			$msj = "You have add a new stock!!";
+			$msj = "You have added a new stock!!";
 			if ($idStock != '') {
-				$msj = "You have update a stock!!";
+				$msj = "You have updated a stock!!";
 			}
 
 			if ($idStock = $this->admin_model->saveStock()) {
@@ -1274,8 +1290,8 @@ class Admin extends CI_Controller {
 
 			if ($this->general_model->deleteRecord($arrParam)) {
 				$data["result"] = true;
-				$data["mensaje"] = "You have delete one record.";
-				$this->session->set_flashdata('retornoExito', 'You have delete one record');
+				$data["mensaje"] = "You have deleted one record.";
+				$this->session->set_flashdata('retornoExito', 'You have deleted one record');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

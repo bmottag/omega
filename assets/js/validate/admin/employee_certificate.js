@@ -2,10 +2,10 @@ $( document ).ready( function () {
 
 	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
 		var expire = $('#expire').val();
-		if(expire==2 && value == ""){
-			return true;
-		}else{
+		if(expire==1 && value == ""){
 			return false;
+		}else{
+			return true;
 		}
 	}, "This field is required.");
 	
