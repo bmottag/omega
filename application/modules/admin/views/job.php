@@ -112,12 +112,13 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Job Code/Name</th>
-								<th class="text-center">Markup</th>
+								<th class="text-center">Markup (%)</th>
+								<th class="text-center">Profit (%)</th>
 								<th class="text-center">Notes</th>
 								<th class="text-center">Status 
 
 <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
-	Update <span class="glyphicon glyphicon-edit" aria-hidden="true">
+	Update Status <span class="glyphicon glyphicon-edit" aria-hidden="true">
 </button>
 
 								</th>
@@ -130,6 +131,7 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td class='text-center'>" . $lista['markup'] . " %</td>";
+									echo "<td class='text-center'>" . $lista['profit'] . " %</td>";
 									echo "<td ><small>" . $lista['notes'] . "</small></td>";
 									echo "<td class='text-center'>";
 									switch ($lista['state']) {
@@ -164,18 +166,33 @@ if ($retornoError) {
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
-									
-									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
-										Employee Type <span class="fa fa-flag" aria-hidden="true">
-									</a>
-									
-									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('prices/equipmentUnitPrice/' . $lista['id_job'] . '/1') ?>'>
-										Equipment <span class="fa fa-flag" aria-hidden="true">
-									</a>
 
-									<a class='btn btn-primary btn-xs' href='<?php echo base_url('admin/job_qr_code/' . $lista['id_job'] . '/1') ?>'>
-										Timesheet QR CODE 
-									</a>
+									<div class="pull-right">
+										<div class="btn-group">
+											<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+												Actions
+												<span class="caret"></span>
+											</button>
+
+											<ul class="dropdown-menu pull-right" role="menu">
+												<li>
+													<a href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
+														<i class="fa fa-flag fa-fw"></i> Employee Type
+													</a>
+												</li>	
+												<li>
+													<a href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
+														<i class="fa fa-flag fa-fw"></i> Equipment
+													</a>
+												</li>
+												<li>
+													<a href='<?php echo base_url('admin/job_qr_code/' . $lista['id_job'] . '/1') ?>'>
+														<i class="fa fa-qrcode fa-fw"></i> Timesheet QR CODE 
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
 									
 						<?php
 									echo "</td>";
@@ -214,7 +231,7 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
-		 "ordering": true,
+		 "ordering": false,
 		 paging: false,
 		"searching": true
 	});

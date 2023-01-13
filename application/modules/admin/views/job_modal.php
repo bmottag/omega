@@ -37,6 +37,15 @@
 
 			<div class="col-sm-6">
 				<div class="form-group text-left">
+					<label class="control-label" for="profit">Profit Percentage:</label>
+					<input type="text" id="profit" name="profit" class="form-control" value="<?php echo $information?$information[0]["profit"]:"0"; ?>" placeholder="Profit percentage" required >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
 					<label class="control-label" for="stateJob">Status: *</label>
 					<select name="stateJob" id="stateJob" class="form-control" >
 						<option value=''>Select...</option>

@@ -54,6 +54,7 @@
 					'job_code' => $this->input->post('jobCode'),
 					'job_description' => $this->input->post('jobName'),
 					'markup' => $this->input->post('markup'),
+					'profit' => $this->input->post('profit'),
 					'state' => $this->input->post('stateJob'),
 					'notes' => addslashes($this->security->xss_clean($this->input->post('notes')))
 				);			
