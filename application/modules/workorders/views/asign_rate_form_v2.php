@@ -380,9 +380,9 @@ if ($retornoError) {
 						</td>
 						<td class='text-right'><small>$ <?php echo $data['value']; ?></small></td>
 						<td class='text-center'>
-					<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
-						 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-					</button> 
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Update" <?php echo $deshabilitar; ?>>
+								<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
 						</td>
 						</form>
 						

@@ -6,6 +6,19 @@
 
 <script>
 $(function(){ 
+
+	$(".btn-dark").click(function () {	
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'workorders/cargarModalExpense',
+                data: {'idWorkorder': oID},
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatosExpense').html(data);
+                }
+            });
+	});	
 	
 	$(".btn-warning").click(function () {	
 			var oID = $(this).attr("id");
@@ -81,7 +94,6 @@ $(function(){
 <div id="page-wrapper">
 	<br>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -350,19 +362,10 @@ if ($retornoError) {
 						</div>
 -->
 							</form>
-								
-
-					<!-- /.row (nested) -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
-	
-
 	
 <!--INICIO FORMULARIOS -->								
 <?php 
@@ -370,7 +373,6 @@ if($information){
 ?>
 
 <!--INICIO ADDITIONAL INFORMATION -->
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-6">				
 			<div class="panel panel-primary">
@@ -450,7 +452,7 @@ if($information){
 				<div class="panel-heading">
 					<i class="fa fa-comments fa-fw"></i> Status history
 				</div>
-				<!-- /.panel-heading -->
+
 				<div class="panel-body">
 					<ul class="chat">
 <?php 
@@ -510,18 +512,83 @@ if($information){
 					</ul>
 					
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel .chat-panel -->
 		</div>
-				
 	</div>
-	<!-- /.row -->
 <!--FIN ADDITIONAL INFORMATION -->
 
+<!--INICIO WO EXPENSE -->
+	<div class="row">
+		<div class="col-lg-12">				
+			<div class="panel panel-dark">
+				<div class="panel-heading">
+					WO EXPENSE
+				</div>
+				<div class="panel-body">
+				
+				<?php if(!$deshabilitar){ ?>
+					<div class="col-lg-12">	
+												
+					<button type="button" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalExpense" id="<?php echo $information[0]["id_workorder"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add WO Expense
+					</button><br>
+					</div>
+				<?php } ?>
+
+<?php 
+	if($workorderExpense){
+?>
+			<table class="table table-bordered table-striped table-hover table-condensed">
+				<tr class="warning">
+					<th class="text-center">Chapter</th>
+					<th class="text-center">Item</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Percentage</th>
+					<th class="text-center">Links</th>
+				</tr>
+				<?php
+					foreach ($workorderExpense as $data):
+						echo "<tr>";					
+						echo "<td ><small>" . $data['chapter_name'] . "</small></td>";
+						echo "<td ><small>" . $data['chapter_number'] . "." . $data['item'] . "</small></td>";
+						echo "<td ><small>" . $data['description'] . "</small></td>";
+						
+						$idRecord = $data['id_workorder_expense'];
+				?>				
+						<form  name="expense_<?php echo $idRecord ?>" id="expense_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
+						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
+						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
+						
+						<td>
+						<input type="text" id="percentage" name="percentage" class="form-control" placeholder="Percentage" value="<?php echo $data['wo_percentage']; ?>" required <?php echo $deshabilitar; ?>>
+						</td>
+						
+						<td class='text-center'>
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
+						</form>
+						
+						<br><br>
+							<?php if(!$deshabilitar){ ?>
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+								Delete <i class="fa fa-trash-o"></i> 
+							</a>
+							<?php }else{ echo "---";} ?>
+							</td>
+						</tr>
+				<?php
+					endforeach;
+				?>
+			</table>
+	<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--FIN WO EXPENSE -->
 	
 <!--INICIO PERSONAL -->
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-warning">
@@ -575,13 +642,15 @@ if($information){
 						</td>
 						
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
 						</form>
 						
 						<br><br>
 							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+									Delete <i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 							</td>
@@ -595,12 +664,9 @@ if($information){
 			</div>
 		</div>
 	</div>
-	<!-- /.row -->
 <!--FIN PERSONAL -->
 
-
 <!--INICIO MATERIALS -->
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-success">
@@ -657,14 +723,15 @@ if($information){
 						</td>
 										
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
-							
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
 						</form>
 						
 						<br><br>
 							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/materials/' . $data['id_workorder_materials'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+								Delete <i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 
@@ -680,11 +747,9 @@ if($information){
 			</div>
 		</div>
 	</div>
-	<!-- /.row -->
 <!--FIN MATERIALS -->
 
 <!--INICIO Receipt -->
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-violeta">
@@ -737,13 +802,15 @@ if($information){
 						</td>
 						
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
 						</form>
 						
 						<br><br>
 							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/receipt/' . $data['id_workorder_receipt'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+								Delete <i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 							</td>
@@ -757,11 +824,9 @@ if($information){
 			</div>
 		</div>
 	</div>
-	<!-- /.row -->
 <!--FIN Receipt -->
 
 <!--INICIO EQUIPMENT -->
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-info">
@@ -832,14 +897,15 @@ if($information){
 						</td>
 
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
-							
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
 						</form>			
 
 						<br><br>
 							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/equipment/' . $data['id_workorder_equipment'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+								Delete <i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 				
@@ -854,12 +920,10 @@ if($information){
 			</div>
 		</div>
 	</div>
-	<!-- /.row -->
 <!--FIN EQUIPMENT -->
 
 	
 <!--INICIO OCASIONAL SUBCONTRACTOR -->
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-primary">
@@ -923,14 +987,15 @@ if($information){
 						</td>
 
 						<td class='text-center'>
-							<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" <?php echo $deshabilitar; ?>/>
-							
+							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							</button> 
 						</form>
 						
 						<br><br>
 							<?php if(!$deshabilitar){ ?>
 							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/ocasional/' . $data['id_workorder_ocasional'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"> </span>  Delete
+								Delete <i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 				
@@ -945,23 +1010,21 @@ if($information){
 			</div>
 		</div>
 	</div>
-	<!-- /.row -->
 <!--FIN OCASIONAL SUBCONTRACTOR -->
-
-
-
-
 
 <?php } ?>
 	
-	
 </div>
-<!-- /#page-wrapper -->
 
+<!--INICIO Modal para PERSONAL -->
+<div class="modal fade text-center" id="modalExpense" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosExpense">
 
-
-
-
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para PERSONAL -->
 
 
 <!--INICIO Modal para PERSONAL -->

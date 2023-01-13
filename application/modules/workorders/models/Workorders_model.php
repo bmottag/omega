@@ -1125,6 +1125,46 @@
 				return false;
 			}
 		}
+
+		/**
+		 * Get workorder expenses info
+		 * @since 13/1/2023
+		 */
+		public function get_workorder_expense($arrData) 
+		{
+				$this->db->join('job_details J', 'J.id_job_detail = W.fk_id_job_detail', 'INNER');
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				$query = $this->db->get('workorder_expense W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add expense
+		 * @since 13/1/2023
+		 */
+		public function saveExpense() 
+		{			
+				$data = array(
+					'fk_id_workorder' => $this->input->post('hddidWorkorder'),
+					'fk_id_job_detail' => $this->input->post('item'),
+					'wo_percentage' => $this->input->post('percentage')
+				);
+
+				$query = $this->db->insert('workorder_expense', $data);			
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 		
 
 		

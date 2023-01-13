@@ -1,12 +1,10 @@
 $( document ).ready( function () {
 
 	
-	$( "#formPersonal" ).validate( {
+	$( "#formExpense" ).validate( {
 		rules: {
-			employee: 			{ required: true },
-			type: 				{ required: true },
-			hour: 				{ required: true, number: true, maxlength:10 },
-			description: 		{ required: true }
+			item: 			{ required: true },
+			percentage: 	{ required: true, number: true, maxlength:2 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -28,19 +26,19 @@ $( document ).ready( function () {
 		}
 	});
 	
-	$("#btnSubmitPersonal").click(function(){		
+	$("#btnSubmitExpense").click(function(){		
 	
-		if ($("#formPersonal").valid() == true){
+		if ($("#formExpense").valid() == true){
 		
 				//Activa icono guardando
-				$('#btnSubmitPersonal').attr('disabled','-1');
+				$('#btnSubmitExpense').attr('disabled','-1');
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "workorders/save/savePersonal",	
-					data: $("#formPersonal").serialize(),
+					url: base_url + "workorders/save/saveExpense",	
+					data: $("#formExpense").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
@@ -50,14 +48,14 @@ $( document ).ready( function () {
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
-							$('#btnSubmitPersonal').removeAttr('disabled');							
+							$('#btnSubmitExpense').removeAttr('disabled');							
 							return false;
 						} 
 
 						if( data.result )//true
 						{	                                                        
 							$("#div_load").css("display", "none");
-							$('#btnSubmitPersonal').removeAttr('disabled');
+							$('#btnSubmitExpense').removeAttr('disabled');
 
 							var url = base_url + "workorders/" + data.controlador + "/" + data.idRecord;
 							$(location).attr("href", url);
@@ -67,14 +65,14 @@ $( document ).ready( function () {
 							alert('Error. Reload the web page.');
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
-							$('#btnSubmitPersonal').removeAttr('disabled');
+							$('#btnSubmitExpense').removeAttr('disabled');
 						}	
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
 						$("#div_load").css("display", "none");
 						$("#div_error").css("display", "inline");
-						$('#btnSubmitPersonal').removeAttr('disabled');
+						$('#btnSubmitExpense').removeAttr('disabled');
 					}
 					
 		

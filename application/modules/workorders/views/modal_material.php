@@ -3,7 +3,7 @@
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">MATERIALS VCI
 	<br><small>
-				Add the materials for the Work Order
+				Add materials for the Work Order
 	</small>
 	</h4>
 </div>
@@ -12,33 +12,55 @@
 	<form  name="formMaterial" id="formMaterial" role="form" method="post" >
 		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
 		
-		<div class="form-group text-left">
-				<label for="material">Material : *</label>
-				<select name="material" id="material" class="form-control" >
-					<option value=''>Select...</option>
-					<?php for ($i = 0; $i < count($materialList); $i++) { ?>
-						<option value="<?php echo $materialList[$i]["id_material"]; ?>" ><?php echo $materialList[$i]["material"]; ?></option>	
-					<?php } ?>
-				</select>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="material">Material : *</label>
+					<select name="material" id="material" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($materialList); $i++) { ?>
+							<option value="<?php echo $materialList[$i]["id_material"]; ?>" ><?php echo $materialList[$i]["material"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
 		</div>
 		
-		<div class="form-group text-left">
-			<label for="hour">Quantity : *</label>
-			<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="hour">Quantity : *</label>
+					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
+				</div>
+			</div>
 		</div>
 		
-		<div class="form-group text-left">
-			<label for="unit">Unit : *</label>
-			<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="unit">Unit : *</label>
+					<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
+				</div>
+			</div>
 		</div>
 		
-		<div class="form-group text-left">
-			<label for="description">Description : *</label>
-			<textarea id="description" name="description" class="form-control" rows="3"></textarea>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="description">Description : </label>
+					<textarea id="description" name="description" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
 		</div>
 		
 		<div class="form-group">
-			<button type="button" id="btnSubmitMaterial" name="btnSubmitMaterial" class="btn btn-primary" >Save</button> 
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmitMaterial" name="btnSubmitMaterial" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 		
 		<div class="form-group">

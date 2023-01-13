@@ -85,6 +85,7 @@ class Workorders extends CI_Controller {
 			if ($id != 'x') 
 			{
 				$arrParam = array('idWorkOrder' =>$id);
+				$data['workorderExpense'] = $this->workorders_model->get_workorder_expense($arrParam);//workorder expense list
 				$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
 				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
 				$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);//workorder invoice list
@@ -134,9 +135,9 @@ class Workorders extends CI_Controller {
 			
 			$idWorkorderInicial = $this->input->post('hddIdentificador');
 			
-			$msj = "You have add a new Work Order, continue uploading the information.";
+			$msj = "You have added a new Work Order, continue uploading the information.";
 			if ($idWorkorderInicial != '') {
-				$msj = "You have update the Work Order, continue uploading the information.";
+				$msj = "You have updated the Work Order, continue uploading the information.";
 			}
 
 			if ($idWorkorder = $this->workorders_model->add_workorder()) 
@@ -271,7 +272,7 @@ class Workorders extends CI_Controller {
 
 			if ($this->workorders_model->$modalToUse()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have add a new record!!");
+				$this->session->set_flashdata('retornoExito', "You have added a new record!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -643,7 +644,7 @@ class Workorders extends CI_Controller {
 
 			if ($this->workorders_model->saveRate()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the Rate!!");
+				$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -664,7 +665,7 @@ class Workorders extends CI_Controller {
 
 			if ($this->workorders_model->saveRate()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the Rate!!");
+				$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -802,7 +803,7 @@ class Workorders extends CI_Controller {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -949,7 +950,7 @@ class Workorders extends CI_Controller {
 			
 			$data["idWorkorder"] = $this->input->post('hddIdWorkOrder');
 			
-			$msj = "You have add additional information to the Work Order.";
+			$msj = "You have added additional information to the Work Order.";
 			
 			$arrParam = array(
 				"idWorkorder" => $this->input->post('hddIdWorkOrder'),
@@ -2203,6 +2204,27 @@ class Workorders extends CI_Controller {
 			echo json_encode($data);
 
 	}
+
+    /**
+     * Cargo modal- formulario de captura Expense
+     * @since 13/1/2022
+     */
+    public function cargarModalExpense() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$data["idWorkorder"] = $this->input->post("idWorkorder");
+			$this->load->model("general_model");
+
+			$arrParam = array('idWorkOrder' => $data["idWorkorder"]);
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+	
+			//JOB detail list
+			$arrParam = array("idJob" => $data['information'][0]["fk_id_job"]);
+			$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
+
+			$this->load->view("modal_expense", $data);
+    }
 	
 	
 	

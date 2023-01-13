@@ -4,7 +4,7 @@
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">EQUIPMENT
 	<br><small>
-				Add the Equipment for the Work Order
+				Add Equipment for the Work Order
 	</small>
 	</h4>
 </div>
@@ -31,7 +31,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<div id="div_truck">
-						<label for="truck">Equipment: *</label>
+						<label class="control-label" for="truck">Equipment: *</label>
 						<select name="truck" id="truck" class="form-control" >
 
 						</select>
@@ -58,7 +58,7 @@
 
 				<div class="form-group text-left">
 					<div id="div_other" style="display:none">
-						<label for="otherEquipment">Tools: *</label>
+						<label class="control-label" for="otherEquipment">Tools: *</label>
 						<input type="text" id="otherEquipment" name="otherEquipment" class="form-control" placeholder="Tools" >
 					</div>
 				</div>
@@ -67,7 +67,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<div id="div_operated">
-						<label for="operatedby">Operated by: *</label>
+						<label class="control-label" for="operatedby">Operated by: *</label>
 						<select name="operatedby" id="operatedby" class="form-control" >
 							<option value=''>Select...</option>
 							<?php for ($i = 0; $i < count($workersList); $i++) { ?>
@@ -82,14 +82,14 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="hour">Hours: *</label>
+					<label class="control-label" for="hour">Hours: *</label>
 					<input type="text" id="hour" name="hour" class="form-control" placeholder="Hours" required >
 				</div>
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="quantity">Quantity: </label>
+					<label class="control-label" for="quantity">Quantity: </label>
 					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" >
 				</div>
 			</div>
@@ -99,7 +99,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label for="description">Description: *</label>
+					<label class="control-label" for="description">Description: *</label>
 					<textarea id="description" name="description" class="form-control" rows="3"></textarea>
 				</div>
 			</div>

@@ -28,12 +28,26 @@
 				</div>
 			</div>
 		</div>
-				
-		<div class="form-group text-left">
-			<label for="description">Description: *</label>
-			<textarea id="description" name="description" class="form-control" rows="2"></textarea>
+			
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="description">Description: *</label>
+					<textarea id="description" name="description" class="form-control" rows="2"></textarea>
+				</div>
+			</div>
 		</div>
-				
+
+		<div class="form-group">
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmitReceipt" name="btnSubmitReceipt" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">
@@ -45,16 +59,6 @@
 			<div id="div_error" style="display:none">			
 				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
 			</div>	
-		</div>
-
-		<div class="form-group">
-			<div class="row" align="center">
-				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmitReceipt" name="btnSubmitReceipt" class="btn btn-primary" >
-						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-					</button> 
-				</div>
-			</div>
 		</div>
 		
 	</form>

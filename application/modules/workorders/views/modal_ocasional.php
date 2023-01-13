@@ -3,7 +3,7 @@
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">OCASIONAL SUBCONTRACTOR
 	<br><small>
-				Add the Ocasional Subcontractor for the Work Order
+				Add an Ocasional Subcontractor for the Work Order
 	</small>
 	</h4>
 </div>
@@ -12,48 +12,78 @@
 	<form  name="formOcasional" id="formOcasional" role="form" method="post" >
 		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
 		
-		<div class="form-group text-left">
-				<label for="company">Company : *</label>
-				<select name="company" id="company" class="form-control" >
-					<option value=''>Select...</option>
-					<?php for ($i = 0; $i < count($companyList); $i++) { ?>
-						<option value="<?php echo $companyList[$i]["id_company"]; ?>" ><?php echo $companyList[$i]["company_name"]; ?></option>	
-					<?php } ?>
-				</select>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="company">Company : *</label>
+					<select name="company" id="company" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($companyList); $i++) { ?>
+							<option value="<?php echo $companyList[$i]["id_company"]; ?>" ><?php echo $companyList[$i]["company_name"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
 		</div>
 		
-		<div class="form-group text-left">
-			<label for="equipment">Equipment : *</label>
-			<textarea id="equipment" name="equipment" class="form-control" rows="2"></textarea>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="equipment">Equipment : *</label>
+					<textarea id="equipment" name="equipment" class="form-control" rows="2"></textarea>
+				</div>
+			</div>
 		</div>
 		
-		<div class="form-group text-left">
-			<label for="quantity">Quantity : *</label>
-			<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
-		</div>
-		
-		<div class="form-group text-left">
-			<label for="unit">Unit : *</label>
-			<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
-		</div>
-		
-		<div class="form-group text-left">
-			<label for="hour">Hours : </label>
-			<input type="text" id="hour" name="hour" class="form-control" placeholder="Hours" >
-		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="quantity">Quantity : *</label>
+					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
+				</div>
+			</div>
 
-		<div class="form-group text-left">
-			<label for="contact">Field Contact : </label>
-			<input type="text" id="contact" name="contact" class="form-control" placeholder="Field Contact" required >
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="unit">Unit : *</label>
+					<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
+				</div>
+			</div>
 		</div>
 		
-		<div class="form-group text-left">
-			<label for="description">Description : </label>
-			<textarea id="description" name="description" class="form-control" rows="2"></textarea>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="hour">Hours : </label>
+					<input type="text" id="hour" name="hour" class="form-control" placeholder="Hours" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="contact">Field Contact : *</label>
+					<input type="text" id="contact" name="contact" class="form-control" placeholder="Field Contact" required >
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="description">Description : </label>
+					<textarea id="description" name="description" class="form-control" rows="2"></textarea>
+				</div>
+			</div>
 		</div>
 		
 		<div class="form-group">
-			<button type="button" id="btnSubmitOcasional" name="btnSubmitOcasional" class="btn btn-primary" >Save</button> 
+			<div class="row" align="center">
+				<div style="width:50%;" align="center">
+					<button type="button" id="btnSubmitOcasional" name="btnSubmitOcasional" class="btn btn-primary" >
+						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button> 
+				</div>
+			</div>
 		</div>
 		
 		<div class="form-group">
