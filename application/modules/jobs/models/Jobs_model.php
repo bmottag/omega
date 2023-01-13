@@ -1130,6 +1130,98 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				}
 		}
 
+		/**
+		 * Upload file information
+		 * @since 31/12/2022
+		 */
+		public function upload_file_detail($lista) 
+		{
+				$query = $this->db->insert('job_details', $lista);
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add/Edit JOB DETAIL
+		 * @since 6/1/2023
+		 */
+		public function saveJobDetail() 
+		{
+				$idJobDetail = $this->input->post('hddId');
+			
+				$data = array(
+					'chapter_number' => $this->input->post('chapter_number'),
+					'chapter_name' => $this->input->post('chapter'),
+					'item' => $this->input->post('item'),
+					'description' => $this->input->post('description'),
+					'unit' => $this->input->post('unit'),
+					'quantity' => $this->input->post('quantity'),
+					'unit_price' => $this->input->post('unit_price'),
+					'extended_amount' => $this->input->post('extended_amount')
+				);
+				//revisar si es para adicionar o editar
+				if ($idJobDetail == '') {
+					$idUser = $this->session->userdata("id");
+					$data['fk_id_user'] = $idUser;
+					$data['job_code'] = $this->input->post('job_code');
+					$query = $this->db->insert('job_details', $data);			
+				} else {
+					$this->db->where('id_job_detail', $idJobDetail);
+					$query = $this->db->update('job_details', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Sumatoria de valores para Job Detail
+		 * Int idJob
+		 * @author BMOTTAG
+		 * @since  11/1/2022
+		 */
+		public function sumExtendedAmount($arrDatos)
+		{					
+				$sql = "SELECT ROUND(SUM(extended_amount),2) TOTAL";
+				$sql.= " FROM job_details J";
+				$sql.= " WHERE J.fk_id_job =" . $arrDatos["idJob"];
+								
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->TOTAL;
+		}
+
+		/**
+		 * Update Job Detail
+		 * @since 13/1/2023
+		 */
+		public function updateJobDetail($jobDetails, $totalExtendedAmount) 
+		{			
+				$query = 1;
+				if ($jobDetails) {
+					$tot = count($jobDetails);
+					for ($i = 0; $i < $tot; $i++) {
+						$percentage = number_format($jobDetails[$i]["extended_amount"] * 100 / $totalExtendedAmount);
+
+						$data = array(
+							'percentage' => $percentage
+						);
+						$this->db->where('id_job_detail', $jobDetails[$i]["id_job_detail"] );
+						$query = $this->db->update('job_details', $data);
+					}
+				}
+				if ($query) {
+					return true;
+				} else{
+					return false;
+				}
+		}
+
 		
 	    
 	}

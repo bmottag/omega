@@ -509,7 +509,7 @@ class General_model extends CI_Model {
 				
 			}
 			
-			$this->db->where('P.date_issue >=', $firstDay); //se filtran por registros mayores al primer dia del año
+			//$this->db->where('P.date_issue >=', $firstDay); //se filtran por registros mayores al primer dia del año
 							
 			$this->db->order_by("P.date_programming DESC"); 
 			$query = $this->db->get("programming P");
@@ -1631,6 +1631,49 @@ class General_model extends CI_Model {
 				} else {
 					return false;
 				}
+		}
+
+		/**
+		 * Verificar si el job code ya existe en la base de datos
+		 * @author BMOTTAG
+		 * @since  30/12/2022
+		 */
+		public function jobCodeVerify($arrData) 
+		{
+				if (array_key_exists("idJob", $arrData)) {
+					$this->db->where('id_job !=', $arrData["idJob"]);
+				}			
+
+				$this->db->where($arrData["column"], $arrData["value"]);
+				$query = $this->db->get("param_jobs");
+
+				if ($query->num_rows() >= 1) {
+					return true;
+				} else{ return false; }
+		}
+
+		/**
+		 * Job Detail
+		 * @author BMOTTAG
+		 * @since  03/01/2023
+		 */
+		public function get_job_detail($arrData) 
+		{
+			if (array_key_exists("idJobDetail", $arrData)) {
+				$this->db->where('id_job_detail', $arrData["idJobDetail"]);
+			}
+			if (array_key_exists("idJob", $arrData)) {
+				$this->db->where('fk_id_job', $arrData["idJob"]);
+			}	
+
+			$this->db->order_by('item', 'asc');
+			$query = $this->db->get('job_details D');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
 		}
 
 

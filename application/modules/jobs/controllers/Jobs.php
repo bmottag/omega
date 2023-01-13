@@ -2604,6 +2604,203 @@ ob_end_clean();
 		
 	}
 
+	/**
+	 * Upload Job detail
+     * @since 30/12/2022
+	 */
+	public function upload_job_detail($idJob, $error="", $success="")
+	{	
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+		
+			$data["error"] = $error;
+			$data["success"] = $success;
+			$data["view"] = "upload_file";
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 *Cargue de archivo
+     * @since 20/06/2022
+	 */
+	public function do_upload_job_info()
+	{		
+            $config['upload_path'] = './tmp/';
+            $config['overwrite'] = true;
+            $config['allowed_types'] = 'csv';
+            $config['max_size'] = '5000';
+            $config['file_name'] = 'job_detail.csv';
+
+            $this->load->library('upload', $config);
+            $bandera = false;
+            if (!$this->upload->do_upload()) {
+                $error = $this->upload->display_errors();
+                $msgError = html_escape(substr($error, 3, -4));
+                $this->subir_archivo($msgError);
+            }else {
+				$idJob= $this->input->post("hddIdJob");
+
+                $file_info = $this->upload->data();
+                $data = array('upload_data' => $this->upload->data());
+
+                $archivo = $file_info['file_name'];
+
+				$registros = array();
+				if (($fichero = fopen(FCPATH . 'tmp/' . $archivo, "a+")) !== FALSE) {
+					// Lee los nombres de los campos
+					$nombres_campos = fgetcsv($fichero, 0, ";");
+					$num_campos = count($nombres_campos);
+					// Lee los registros
+
+					$idUser = $this->session->userdata("id");
+					while (($datos = fgetcsv($fichero, 0, ";")) !== FALSE) {
+						// Crea un array asociativo con los nombres y valores de los campos
+						for ($icampo = 0; $icampo < $num_campos; $icampo++) {
+							if($icampo == 0){
+								//adicionar el id del usuario
+								$registro["fk_id_user"] = $idUser;
+								$registro["fk_id_job"] = $idJob;
+							}
+							$registro[$nombres_campos[$icampo]] = utf8_encode($datos[$icampo]);
+						}
+						// Añade el registro leido al array de registros
+						$registros[] = $registro;
+					}
+					fclose($fichero);
+
+					$x=0;
+					$errores = array();
+					$bandera = false;
+					foreach ($registros as $lista) {
+						$x++;
+						if ($this->jobs_model->upload_file_detail($lista)) {
+
+						}else{
+							$errores["numero_registro"] = $x;
+							$bandera = true;
+						}
+					}
+				}
+            }
+
+			$success = 'El archivo se cargó correctamente.';
+
+			if($bandera){
+				$registros = implode(",", $errores["numero_registro"]);
+				$success = 'El archivo se cargó pero hay errores en los siguientes registros:::' . $registros;
+			}
+			$this->upload_job_detail($idJob,'', $success);
+    }
+
+	/**
+	 * Job Detail List
+     * @since 6/1/2023
+     * @author BMOTTAG
+	 */
+	public function job_detail($idJob)
+	{
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+			$arrParam = array("idJob" => $idJob);
+			$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
+			
+			$data["view"] = 'job';
+			$this->load->view("layout_calendar", $data);
+	}
+	
+    /**
+     * Cargo modal - Job Detail
+     * @since 6/1/2023
+     */
+    public function cargarModalJobDetail() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idJobDetail"] = $this->input->post("idJobDetail");	
+			
+			if ($data["idJobDetail"] != 'x') {
+				$arrParam = array(
+					"idJobDetail" => $data["idJobDetail"]
+				);
+				$this->load->model("general_model");
+				$data['information'] = $this->general_model->get_job_detail($arrParam);
+			}
+
+			$this->load->view("job_detail_modal", $data);
+    }
+	
+	/**
+	 * Update Job Detail
+     * @since 6/1/2023
+     * @author BMOTTAG
+	 */
+	public function save_job_detail()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idJobDetail = $this->input->post('hddId');
+			$data["idRecord"] = $this->input->post('hddIdJob');
+			
+			$msj = "You have added a new Register!!";
+			if ($idJobDetail != '') {
+				$msj = "You have updated a Register!!";
+			}
+
+			if ($idJobDetail = $this->jobs_model->saveJobDetail()) {
+				$data["result"] = true;				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
+
+	/**
+	 * Update Job Deteails Percentage
+     * @since 11/1/2023
+     * @author BMOTTAG
+	 */
+	public function update_job_detail()
+	{					
+			$idJob = $this->input->post('hddIdJob');
+			$this->load->model("general_model");
+
+			$arrParam = array("idJob" => $idJob );
+			$jobDetails = $this->general_model->get_job_detail($arrParam);
+
+			$totalExtendedAmount = $this->jobs_model->sumExtendedAmount($arrParam);
+
+			if ($this->jobs_model->updateJobDetail($jobDetails, $totalExtendedAmount)) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have save the Worker Information!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('jobs/job_detail/' . $idJob), 'refresh');
+    }
+
+
 	
 	
 }
