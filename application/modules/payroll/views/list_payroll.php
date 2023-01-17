@@ -430,20 +430,21 @@ if ($retornoError) {
 											$deshabilitar = "disabled";
 										}
 									?>
-
 										<div class="form-group">
-											<div class="row" align="center">
-												<div style="width:80%;" align="right">
-													<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-xs btn-primary" value="apply" <?php echo $deshabilitar; ?> >
-														Apply <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-													</button> 
-												<?php if($infoPaystub){ ?>
-													<button type="submit" id="btnGenerate" name="btnGenerate" class="btn btn-xs btn-primary" value="generate" <?php echo $deshabilitar; ?> >
-														Generate Paystub <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-													</button> 
-												<?php } ?>
-												</div>
-											</div>
+											<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-xs btn-primary" value="apply" <?php echo $deshabilitar; ?> >
+												Apply <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+											</button> 
+											<?php if($infoPaystub){ ?>
+												<button type="submit" id="btnGenerate" name="btnGenerate" class="btn btn-xs btn-primary" value="generate" <?php echo $deshabilitar; ?> >
+													Generate Paystub <span class="fa fa-check-square-o" aria-hidden="true"></span>
+												</button> 
+											<?php } ?>
+											
+											<?php if($infoPaystub && $infoPaystub[0]["commit"] == 1){ ?>
+												<a class="btn btn-xs btn-primary" href='<?php echo base_url('payroll/generaPaystubPDF/' . $infoPaystub[0]["id_paystub"] ); ?>' title="Download Paystub" target="_blank"> 
+													<span class="fa fa-cloud-download" aria-hidden="true"></span>
+												</a>
+											<?php } ?>
 										</div>
 
 									</form>

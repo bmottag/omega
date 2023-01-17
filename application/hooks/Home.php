@@ -138,6 +138,11 @@ class Home {
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
                     $flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
+            } else if ($this->ci->uri->segment(1) == "payroll") {
+                $arrControllers = array("generaPaystubPDF");
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+                    $flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
             }
 			            
             if ($error == FALSE && $flag) {

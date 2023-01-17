@@ -532,5 +532,39 @@
 				}
 		}
 
+	    /**
+	     * Paystub by period
+	     * Modules: Payroll/search
+	     * @since 25/02/2022
+	     */
+	    public function get_paystub_by_period($arrData) 
+		{
+		        $this->db->select("P.*, CONCAT(U.first_name, ' ', U.last_name) name, CONCAT(W.first_name, ' ', W.last_name) employee, W.address, W.postal_code, X.date_start,X.date_finish");
+		        $this->db->join('user U', 'U.id_user = P.paystub_fk_id_user', 'INNER');
+		        $this->db->join('user W', 'W.id_user = P.fk_id_employee', 'INNER');
+		        $this->db->join('payroll_period X', 'X.id_period = P.fk_id_period', 'INNER');
+				
+		        if (array_key_exists("idPaytsub", $arrData)) {
+		            $this->db->where('P.id_paystub', $arrData["idPaytsub"]);
+		        }
+				if (array_key_exists("idEmployee", $arrData) && $arrData["idEmployee"] != '') {
+					$this->db->where('P.fk_id_employee', $arrData["idEmployee"]);
+				}
+		        if (array_key_exists("idPeriod", $arrData)) {
+		            $this->db->where('P.fk_id_period', $arrData["idPeriod"]);
+		        }
+		        if (array_key_exists("year", $arrData)) {
+		            $this->db->where('X.year_period', $arrData["year"]);
+		        }
+				$this->db->order_by('W.first_name, W.last_name, P.fk_id_period', 'asc');
+		        $query = $this->db->get('payroll_paystub P');
+
+		        if ($query->num_rows() > 0) {
+		            return $query->result_array();
+		        } else {
+		            return false;
+		        }
+	    }
+
 	    
 	}
