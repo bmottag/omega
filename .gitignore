@@ -34,3 +34,6 @@ files/
 images/reservas/
 images/captcha_images/
 .vscode/*
+.htaccess
+application/config/config.php
+application/config/database.php

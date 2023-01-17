@@ -235,11 +235,32 @@ class MX_Router extends CI_Router
 
 	public function set_class($class)
 	{
-		$suffix = strval($this->config->item('controller_suffix'));
-		if (!empty($suffix) && strpos($class, $suffix) === FALSE)
+		
+		/*
+		$suffix = $this->config->item('controller_suffix');
+		if (strpos($class, $suffix) === FALSE)
 		{
 			$class .= $suffix;
 		}
 		parent::set_class($class);
+		
+		*/
+		
+		
+		/*
+			Se realizo un ajuste porque salio el siguiente error_get_last
+			Message: strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior
+			Se solucionno con las indicaciones de la siguiente pagina:
+			https://forum.codeigniter.com/thread-72393.html
+		*/
+		$suffix = $this->config->item('controller_suffix');
+		
+		if( $suffix && strpos($class, $suffix) === FALSE)
+		{
+			$class .= $suffix;
+		}
+		parent::set_class($class);
+		
+		
 	}
 }	
