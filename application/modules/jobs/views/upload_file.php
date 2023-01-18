@@ -17,13 +17,13 @@
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>
 				
-		            <div class="row">
-		                <?php 
-							if (!empty($success)) {
-								echo '<div class="col-md-12 alert text-center alert-success"><label>' . $success . '</label></div>';
-							} 
-						?>
-		            </div>
+					<?php 
+						if (!empty($success)) {
+							echo '<div class="col-lg-12">';
+							echo '<div class="alert text-center alert-success"><label>' . $success . '</label></div>';
+							echo '</div>';
+						} 
+					?>
 
 					<form  name="formCargue" id="formCargue" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url("jobs/do_upload_job_info"); ?>">
 						<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>

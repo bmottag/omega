@@ -2690,7 +2690,7 @@ ob_end_clean();
 				}
             }
 
-			$success = 'El archivo se cargó correctamente.';
+			$success = 'The file was uploaded successfully.';
 
 			if($bandera){
 				$registros = implode(",", $errores["numero_registro"]);
