@@ -3,8 +3,7 @@ $( document ).ready( function () {
 	
 	$( "#formExpense" ).validate( {
 		rules: {
-			item: 			{ required: true },
-			percentage: 	{ required: true, number: true, maxlength:2 }
+			item: 			{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

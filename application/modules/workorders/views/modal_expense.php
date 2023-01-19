@@ -25,16 +25,7 @@
 				</div>
 			</div>
 		</div>
-					
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="percentage">Percentage: *</label>
-					<input type="text" id="percentage" name="percentage" class="form-control" placeholder="Percentage" required >
-				</div>
-			</div>
-		</div>
-				
+									
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">

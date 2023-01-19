@@ -1153,8 +1153,7 @@
 		{			
 				$data = array(
 					'fk_id_workorder' => $this->input->post('hddidWorkorder'),
-					'fk_id_job_detail' => $this->input->post('item'),
-					'wo_percentage' => $this->input->post('percentage')
+					'fk_id_job_detail' => $this->input->post('item')
 				);
 
 				$query = $this->db->insert('workorder_expense', $data);			
