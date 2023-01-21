@@ -610,7 +610,10 @@ class Workorders extends CI_Controller {
 			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
 
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+
 			//search for total WO INCOME
+			$arrParam['idJob'] = $data['information'][0]['fk_id_job'];
 			$arrParam['table'] = "workorder_personal";
 			$data['incomePersonal'] = $this->workorders_model->countIncome($arrParam);//INCOME PERSOMAL
 
@@ -628,8 +631,6 @@ class Workorders extends CI_Controller {
 
 			$data['totalWOIncome'] = $data['incomePersonal'] + $data['incomeMaterial'] + $data['incomeEquipment'] + $data['incomeSubcontractor'] + $data['incomeReceipt'];
 			
-			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
-						
 			//DESHABILITAR WORK ORDER
 			$userRol = $this->session->rol;
 			$workorderState = $data['information'][0]['state'];
