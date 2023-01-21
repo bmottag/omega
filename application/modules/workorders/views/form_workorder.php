@@ -6,19 +6,6 @@
 
 <script>
 $(function(){ 
-
-	$(".btn-dark").click(function () {	
-			var oID = $(this).attr("id");
-            $.ajax ({
-                type: 'POST',
-				url: base_url + 'workorders/cargarModalExpense',
-                data: {'idWorkorder': oID},
-                cache: false,
-                success: function (data) {
-                    $('#tablaDatosExpense').html(data);
-                }
-            });
-	});	
 	
 	$(".btn-warning").click(function () {	
 			var oID = $(this).attr("id");
@@ -944,17 +931,6 @@ if($information){
 <?php } ?>
 	
 </div>
-
-<!--INICIO Modal para PERSONAL -->
-<div class="modal fade text-center" id="modalExpense" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
-	<div class="modal-dialog" role="document">
-		<div class="modal-content" id="tablaDatosExpense">
-
-		</div>
-	</div>
-</div>                       
-<!--FIN Modal para PERSONAL -->
-
 
 <!--INICIO Modal para PERSONAL -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    

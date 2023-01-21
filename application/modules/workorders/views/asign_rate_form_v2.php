@@ -87,6 +87,19 @@ $(function(){
 			}
 	});
 
+	$(".btn-dark").click(function () {	
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'workorders/cargarModalExpense',
+                data: {'idWorkorder': oID},
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatosExpense').html(data);
+                }
+            });
+	});	
+
 	$(".btn-warning").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
@@ -171,7 +184,6 @@ $(function(){
 <div id="page-wrapper">
 	<br>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -290,20 +302,11 @@ if ($retornoError) {
 							</div>
 						</div>
 					</div>
-
-					<!-- /.row (nested) -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 
-
-	
-	
 <!--INICIO FORMULARIOS -->								
 <?php if($information){ ?>
 
@@ -381,8 +384,6 @@ if ($retornoError) {
 <!--FIN WO EXPENSE -->
 	
 <!--INICIO PERSONAL -->
-
-	<!-- /.row -->
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-warning">
@@ -481,15 +482,10 @@ if ($retornoError) {
 										</div>
 									</div>
 								</div>
-	</div>
-	<!-- /.row -->
-								
+	</div>			
 <!--FIN PERSONAL -->
 	
-	
 <!--INICIO MATERIALS -->
-
-	<!-- /.row -->
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-success">
@@ -592,13 +588,10 @@ if ($retornoError) {
 										</div>
 									</div>
 								</div>
-	</div>
-	<!-- /.row -->
-								
+	</div>		
 <!--FIN MATERIALS -->
 
 <!--INICIO INVOICE -->
-	<!-- /.row -->
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-violeta">
@@ -699,13 +692,10 @@ if ($retornoError) {
 										</div>
 									</div>
 								</div>
-	</div>
-	<!-- /.row -->				
+	</div>		
 <!--FIN INVOICE -->
 
 <!--INICIO EQUIPMENT -->
-
-	<!-- /.row -->
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-info">
@@ -828,14 +818,10 @@ if ($retornoError) {
 									</div>
 								</div>
 	</div>
-	<!-- /.row -->
-	
+
 <!--FIN EQUIPMENT -->	
 	
-	
 <!--INICIO OCASIONAL SUBCONTRACTOR -->
-
-	<!-- /.row -->
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-primary">
@@ -944,14 +930,14 @@ if ($retornoError) {
 									</div>
 								</div>
 	</div>
-	<!-- /.row -->
+
 	
 <!--FIN OCASIONAL SUBCONTRACTOR -->
 
 
 <!--INICIO HOLD BACK -->
 
-	<!-- /.row -->
+
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-purpura">
@@ -1025,7 +1011,7 @@ if ($retornoError) {
 									</div>
 								</div>
 	</div>
-	<!-- /.row -->
+
 								
 <!--FIN HOLD BACK -->
 	
@@ -1033,7 +1019,16 @@ if ($retornoError) {
 <?php } ?>	
 		
 </div>
-<!-- /#page-wrapper -->
+
+<!--INICIO Modal para PERSONAL -->
+<div class="modal fade text-center" id="modalExpense" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosExpense">
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal para PERSONAL -->
 
 <!--INICIO Modal para PERSONAL -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
@@ -1044,7 +1039,6 @@ if ($retornoError) {
 	</div>
 </div>                       
 <!--FIN Modal para PERSONAL -->
-
 
 <!--INICIO Modal para MATERIAL -->
 <div class="modal fade text-center" id="modalMaterials" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
