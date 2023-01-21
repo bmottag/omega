@@ -85,7 +85,6 @@ class Workorders extends CI_Controller {
 			if ($id != 'x') 
 			{
 				$arrParam = array('idWorkOrder' =>$id);
-				$data['workorderExpense'] = $this->workorders_model->get_workorder_expense($arrParam);//workorder expense list
 				$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
 				$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
 				$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);//workorder invoice list
@@ -603,12 +602,31 @@ class Workorders extends CI_Controller {
 			$this->load->model("general_model");
 			
 			$arrParam = array('idWorkOrder' =>$id);
+			$data['workorderExpense'] = $this->workorders_model->get_workorder_expense($arrParam);//workorder expense list
 			$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
 			$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
 			$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);//workorder invoice list
 			$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
 			$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
 			$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id);//workorder ocasional list
+
+			//search for total WO INCOME
+			$arrParam['table'] = "workorder_personal";
+			$data['incomePersonal'] = $this->workorders_model->countIncome($arrParam);//INCOME PERSOMAL
+
+			$arrParam['table'] = "workorder_materials";
+			$data['incomeMaterial'] = $this->workorders_model->countIncome($arrParam);//INCOME MATERIAL
+
+			$arrParam['table'] = "workorder_equipment";
+			$data['incomeEquipment'] = $this->workorders_model->countIncome($arrParam);//INCOME EQUIPMENT
+
+			$arrParam['table'] = "workorder_ocasional";
+			$data['incomeSubcontractor'] = $this->workorders_model->countIncome($arrParam);//INCOME OCASIONAL
+
+			$arrParam['table'] = "workorder_receipt ";
+			$data['incomeReceipt'] = $this->workorders_model->countIncome($arrParam);//INCOME RECEIPT
+
+			$data['totalWOIncome'] = $data['incomePersonal'] + $data['incomeMaterial'] + $data['incomeEquipment'] + $data['incomeSubcontractor'] + $data['incomeReceipt'];
 			
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 						
