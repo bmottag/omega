@@ -1676,5 +1676,22 @@ class General_model extends CI_Model {
 			}
 		}
 
+		/**
+		 * Sumatoria de gastos para un item
+		 * Int idJobDetail
+		 * @author BMOTTAG
+		 * @since  24/1/2023
+		 */
+		public function sumExpense($arrDatos)
+		{					
+				$sql = "SELECT ROUND(SUM(expense_value),2) TOTAL";
+				$sql.= " FROM workorder_expense W";
+				$sql.= " WHERE W.fk_id_job_detail =" . $arrDatos["idJobDetail"];
+
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->TOTAL;
+		}
+
 
 }

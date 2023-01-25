@@ -74,12 +74,20 @@ $(function(){
                                 <th class="text-center">Unit Price</th>
                                 <th class="text-center">Extended Amount</th>
                                 <th class="text-center">Percentage</th>
+                                <th class="text-center">W.O. Expenses</th>
+                                <th class="text-center">Balance</th>
                                 <th class="text-center">Edit</th>
                             </tr>
                         </thead>
                         <tbody>							
                         <?php
+                            $ci = &get_instance();
+                            $ci->load->model("general_model");
                             foreach ($jobDetails as $data):
+                                $arrParam = array("idJobDetail" => $data['id_job_detail']);
+                                $expenses = $ci->general_model->sumExpense($arrParam);//sumatoria de gastos
+                                $balance = $data['extended_amount'] - $expenses;
+
                                 echo "<tr>";
                                 echo "<td >" . $data['chapter_name'] . "</td>";
                                 echo "<td class='text-center'>" . $data['chapter_number'] . "." . $data['item'] . "</td>";
@@ -87,8 +95,10 @@ $(function(){
                                 echo "<td class='text-center'>" . $data['unit'] . "</td>";
                                 echo "<td class='text-center'>" . $data['quantity'] . "</td>";
                                 echo "<td class='text-right'>$ " . $data['unit_price'] . "</td>";
-                                echo "<td class='text-right'>$ " . $data['extended_amount'] . "</td>";
+                                echo "<td class='text-right'>$ " . number_format($data['extended_amount'],2) . "</td>";
                                 echo "<td class='text-right'> " . $data['percentage'] . " %</td>";
+                                echo "<td class='text-right'>$ " . number_format($expenses,2) . "</td>";
+                                echo "<td class='text-right'>$ " . number_format($balance,2) . "</td>";
                                 echo "<td class='text-center'>";
                     ?>
                                 <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
