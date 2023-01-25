@@ -267,9 +267,15 @@ class Workorders extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 		
-			$data["idRecord"] = $this->input->post('hddidWorkorder');
+			$data["idRecord"] = $idWorkorder = $this->input->post('hddidWorkorder');
 
-			if ($this->workorders_model->$modalToUse()) {
+			if ($this->workorders_model->$modalToUse()) 
+			{
+				if($modalToUse == 'saveExpense'){
+					$idJob = $this->input->post('hddidJob');
+					$this->update_wo_expenses_values($idWorkorder, $idJob);
+				}
+				
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have added a new record!!");
 			} else {
@@ -306,7 +312,15 @@ class Workorders extends CI_Controller {
 			);
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one record from <strong>'.$tabla.'</strong> table.');
+				//para expenses recalculo los valores gastados para cada item
+				if($tabla == 'expense'){
+					$arrParam = array('idWorkOrder' => $idWorkorder);
+					$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+					$idJob = $data['information'][0]["fk_id_job"];
+					$this->update_wo_expenses_values($idWorkorder, $idJob);
+				}
+
+				$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>'.$tabla.'</strong> table.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2239,10 +2253,47 @@ class Workorders extends CI_Controller {
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 	
 			//JOB detail list
-			$arrParam = array("idJob" => $data['information'][0]["fk_id_job"]);
+			$data["idJob"] = $data['information'][0]["fk_id_job"];
+			$arrParam = array("idJob" => $data["idJob"]);
 			$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
 
 			$this->load->view("modal_expense", $data);
+    }
+
+	/**
+	 * Update WO Expenses Values
+     * @since 21/1/2023
+     * @author BMOTTAG
+	 */
+	public function update_wo_expenses_values($idWorkorder, $idJob)
+	{					
+			$arrParam = array('idWorkOrder' =>$idWorkorder);
+			$workorderExpenses = $this->workorders_model->get_workorder_expense($arrParam);//workorder expense list
+			$sumPercentageExpense = $this->workorders_model->sumPercentageExpense($arrParam);//workorder expense list
+			
+			//search for total WO INCOME
+			$arrParam['idJob'] = $idJob;
+			$arrParam['table'] = "workorder_personal";
+			$incomePersonal = $this->workorders_model->countIncome($arrParam);//INCOME PERSOMAL
+
+			$arrParam['table'] = "workorder_materials";
+			$incomeMaterial = $this->workorders_model->countIncome($arrParam);//INCOME MATERIAL
+
+			$arrParam['table'] = "workorder_equipment";
+			$incomeEquipment = $this->workorders_model->countIncome($arrParam);//INCOME EQUIPMENT
+
+			$arrParam['table'] = "workorder_ocasional";
+			$incomeSubcontractor = $this->workorders_model->countIncome($arrParam);//INCOME OCASIONAL
+
+			$arrParam['table'] = "workorder_receipt ";
+			$incomeReceipt = $this->workorders_model->countIncome($arrParam);//INCOME RECEIPT
+
+			$totalWOIncome = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor + $incomeReceipt;
+
+			if($totalWOIncome > 0 && $sumPercentageExpense){
+				$this->workorders_model->updateExpensesValues($workorderExpenses, $totalWOIncome, $sumPercentageExpense);
+			}
+			return true;
     }
 	
 	

@@ -321,12 +321,19 @@ if ($retornoError) {
 				
 				<?php if(!$deshabilitar){ ?>
 					<div class="col-lg-12">	
-
-					TOTAL INCOME: <?php echo $totalWOIncome; ?>
-												
-					<button type="button" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalExpense" id="<?php echo $information[0]["id_workorder"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add WO Expense
-					</button><br>
+						<div class="panel panel-default">
+							<div class="panel-footer">
+								<div class="row">
+									<div class="col-lg-6">
+										<label class="control-label"><b>Total Income for this W.O.:</b> $<?php echo number_format($totalWOIncome, 2); ?></label>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<button type="button" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalExpense" id="<?php echo $information[0]["id_workorder"]; ?>">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add WO Expense
+						</button><br>
 					</div>
 				<?php } ?>
 
@@ -338,8 +345,9 @@ if ($retornoError) {
 					<th class="text-center">Chapter</th>
 					<th class="text-center">Item</th>
 					<th class="text-center">Description</th>
-					<th class="text-center">Percentage</th>
-					<th class="text-center">Links</th>
+					<th class="text-center">Weight in the project (%)</th>
+					<th class="text-center">Expense Value</th>
+					<th class="text-center">Delete</th>
 				</tr>
 				<?php
 					foreach ($workorderExpense as $data):
@@ -347,27 +355,15 @@ if ($retornoError) {
 						echo "<td ><small>" . $data['chapter_name'] . "</small></td>";
 						echo "<td ><small>" . $data['chapter_number'] . "." . $data['item'] . "</small></td>";
 						echo "<td ><small>" . $data['description'] . "</small></td>";
+						echo "<td class='text-right'><small>" . $data['percentage'] . "%</small></td>";
+						echo "<td class='text-right'><small>$" . number_format($data['expense_value'],2) . "</small></td>";
 						
 						$idRecord = $data['id_workorder_expense'];
 				?>				
-						<form  name="expense_<?php echo $idRecord ?>" id="expense_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
-						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
-						<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>"/>
-						
-						<td>
-						<input type="text" id="percentage" name="percentage" class="form-control" placeholder="Percentage" value="<?php echo $data['wo_percentage']; ?>" required <?php echo $deshabilitar; ?>>
-						</td>
-						
-						<td class='text-center'>
-							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-							</button> 
-						</form>
-						
-						<br><br>
+							<td class='text-center'>					
 							<?php if(!$deshabilitar){ ?>
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-								Delete <i class="fa fa-trash-o"></i> 
+							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/expense/' . $data['id_workorder_expense'] . '/' . $data['fk_id_workorder'] . '/view_workorder') ?>' id="btn-delete">
+								<i class="fa fa-trash-o"></i> 
 							</a>
 							<?php }else{ echo "---";} ?>
 							</td>

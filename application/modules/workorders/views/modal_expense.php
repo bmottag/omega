@@ -11,7 +11,8 @@
 <div class="modal-body">
 	<form  name="formExpense" id="formExpense" role="form" method="post" >
 		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
-				
+		<input type="hidden" id="hddidJob" name="hddidJob" value="<?php echo $idJob; ?>"/>
+						
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">

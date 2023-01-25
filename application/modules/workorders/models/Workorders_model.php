@@ -1164,7 +1164,51 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Update WO Expenses Values
+		 * @since 21/1/2023
+		 */
+		public function updateExpensesValues($workorderExpenses, $totalWOIncome,$sumPercentageExpense) 
+		{			
+				$query = 1;
+
+				if ($workorderExpenses) {
+					$tot = count($workorderExpenses);
+					for ($i = 0; $i < $tot; $i++) {
+						$expenseValue = $workorderExpenses[$i]["percentage"] * $totalWOIncome / $sumPercentageExpense;
+
+						$data = array(
+							'expense_value' => $expenseValue
+						);
+						$this->db->where('id_workorder_expense', $workorderExpenses[$i]["id_workorder_expense"] );
+						$query = $this->db->update('workorder_expense', $data);
+					}
+				}
+				
+				if ($query) {
+					return true;
+				} else{
+					return false;
+				}
+		}
 		
+		/**
+		 * Sumatoria de valores de porcentage para los gastos guardados
+		 * Int idWorkOrder
+		 * @author BMOTTAG
+		 * @since  24/1/2023
+		 */
+		public function sumPercentageExpense($arrDatos)
+		{					
+				$sql = "SELECT ROUND(SUM(percentage),2) TOTAL";
+				$sql.= " FROM workorder_expense W";
+				$sql.= " INNER JOIN job_details J on J.id_job_detail = W.fk_id_job_detail";
+				$sql.= " WHERE W.fk_id_workorder =" . $arrDatos["idWorkOrder"];
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->TOTAL;
+		}
 
 		
 		
