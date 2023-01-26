@@ -2256,7 +2256,6 @@ class Workorders extends CI_Controller {
 			$data["idJob"] = $data['information'][0]["fk_id_job"];
 			$arrParam = array("idJob" => $data["idJob"]);		
 			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
-			//$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
 
 			$this->load->view("modal_expense", $data);
     }

@@ -2716,8 +2716,8 @@ ob_end_clean();
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 
-			$arrParam = array("idJob" => $idJob);
-			$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
+			$arrParam = array("idJob" => $idJob);		
+			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
 			
 			$data["view"] = 'job';
 			$this->load->view("layout_calendar", $data);
