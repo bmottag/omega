@@ -2247,15 +2247,16 @@ class Workorders extends CI_Controller {
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
 			$data["idWorkorder"] = $this->input->post("idWorkorder");
-			$this->load->model("general_model");
 
+			$this->load->model("general_model");
 			$arrParam = array('idWorkOrder' => $data["idWorkorder"]);
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 	
 			//JOB detail list
 			$data["idJob"] = $data['information'][0]["fk_id_job"];
-			$arrParam = array("idJob" => $data["idJob"]);
-			$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
+			$arrParam = array("idJob" => $data["idJob"]);		
+			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
+			//$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
 
 			$this->load->view("modal_expense", $data);
     }

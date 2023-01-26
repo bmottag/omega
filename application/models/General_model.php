@@ -1664,7 +1664,10 @@ class General_model extends CI_Model {
 			}
 			if (array_key_exists("idJob", $arrData)) {
 				$this->db->where('fk_id_job', $arrData["idJob"]);
-			}	
+			}
+			if (array_key_exists("chapterNumber", $arrData)) {
+				$this->db->where('chapter_number', $arrData["chapterNumber"]);
+			}
 
 			$this->db->order_by('item', 'asc');
 			$query = $this->db->get('job_details D');
@@ -1674,6 +1677,24 @@ class General_model extends CI_Model {
 			} else {
 				return false;
 			}
+		}
+
+		/**
+		 * Get Distinct Chapter list
+		 * @since 25/1/2023
+		 */
+		public function get_chapter_list($arrData) 
+		{		
+				$this->db->select('distinct(chapter_number), chapter_name');
+				$this->db->where('fk_id_job', $arrData["idJob"]);
+				$this->db->order_by('chapter_name', 'asc');
+				$query = $this->db->get('job_details');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
 		}
 
 		/**
@@ -1691,6 +1712,28 @@ class General_model extends CI_Model {
 				$query = $this->db->query($sql);
 				$row = $query->row();
 				return $row->TOTAL;
+		}
+
+		/**
+		 * Get workorder expenses info
+		 * @since 13/1/2023
+		 */
+		public function get_workorder_expense($arrData) 
+		{
+				$this->db->join('job_details J', 'J.id_job_detail = W.fk_id_job_detail', 'INNER');
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("idJobDetail", $arrData)) {
+					$this->db->where('W.fk_id_job_detail', $arrData["idJobDetail"]);
+				}
+				$query = $this->db->get('workorder_expense W');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
 		}
 
 

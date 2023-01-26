@@ -29,7 +29,7 @@
 					<div class="panel-group" id="accordion">	
 
 						<div class="alert alert-info">
-							<strong>Select </strong> all the hazards that apply.
+							<strong>Select </strong> all hazards that apply.
 
 						</div>
 					

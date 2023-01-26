@@ -1018,7 +1018,7 @@ if ($retornoError) {
 
 <!--INICIO Modal para PERSONAL -->
 <div class="modal fade text-center" id="modalExpense" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content" id="tablaDatosExpense">
 
 		</div>

@@ -1150,19 +1150,28 @@
 		 * @since 13/1/2023
 		 */
 		public function saveExpense() 
-		{			
-				$data = array(
-					'fk_id_workorder' => $this->input->post('hddidWorkorder'),
-					'fk_id_job_detail' => $this->input->post('item')
-				);
+		{
+			//delete Expenses
+			$idWorkorder = $this->input->post('hddidWorkorder');
+			$this->db->delete('workorder_expense', array('fk_id_workorder' => $idWorkorder));
 
-				$query = $this->db->insert('workorder_expense', $data);			
-
-				if ($query) {
-					return true;
-				} else {
-					return false;
+			//add the new expenses
+			$query = 1;
+			if ($expenses = $this->input->post('expense')) {
+				$tot = count($expenses);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_workorder' => $idWorkorder,
+						'fk_id_job_detail' => $expenses[$i]
+					);
+					$query = $this->db->insert('workorder_expense', $data);
 				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
 		}
 
 		/**
