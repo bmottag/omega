@@ -95,10 +95,10 @@ class Inspection extends CI_Controller {
 			$idDailyInspection = $this->input->post('hddId');
 			$idVehicle = $this->input->post('hddIdVehicle');
 		
-			$msj = "You have save your inspection record, please do not forget to sign!!";
+			$msj = "You have saved your inspection record, please do not forget to sign!!";
 			$flag = true;
 			if ($idDailyInspection != '') {
-				$msj = "You have update the Inspection record!!";
+				$msj = "You have updated the Inspection record!!";
 				$flag = false;
 			}
 
@@ -415,11 +415,11 @@ if ($fuel_system_check == 0) {
 			$idHeavyInspection = $this->input->post('hddId');
 			$idVehicle = $this->input->post('hddIdVehicle');
 			
-			$msj = "You have save your inspection record, please do not forget to sign!!";
+			$msj = "You have saved your inspection record, please do not forget to sign!!";
 			$flag = true;
 			if ($idHeavyInspection != '') {
 				$flag = false;
-				$msj = "You have update the Inspection record!!";
+				$msj = "You have updated the Inspection record!!";
 			}
 
 			if ($idHeavyInspection = $this->inspection_model->saveHeavyInspection()) 
@@ -665,11 +665,11 @@ if ($fuel_system_check == 0) {
 			$idGeneratorInspection = $this->input->post('hddId');
 			$idVehicle = $this->input->post('hddIdVehicle');
 			
-			$msj = "You have save your inspection record, please do not forget to sign!!";
+			$msj = "You have saved your inspection record, please do not forget to sign!!";
 			$flag = true;
 			if ($idGeneratorInspection != '') {
 				$flag = false;
-				$msj = "You have update the Inspection record!!";
+				$msj = "You have updated the Inspection record!!";
 			}
 
 			if ($idGeneratorInspection = $this->inspection_model->saveGeneratorInspection()) 
@@ -860,11 +860,11 @@ if ($fuel_system_check == 0) {
 			$idSweeperInspection = $this->input->post('hddId');
 			$idVehicle = $this->input->post('hddIdVehicle');
 			
-			$msj = "You have save your inspection record, please do not forget to sign!!";
+			$msj = "You have saved your inspection record, please do not forget to sign!!";
 			$flag = true;
 			if ($idSweeperInspection != '') {
 				$flag = false;
-				$msj = "You have update the Inspection record!!";
+				$msj = "You have updated the Inspection record!!";
 			}
 
 			if ($idSweeperInspection = $this->inspection_model->saveSweeperInspection()) 
@@ -1062,11 +1062,11 @@ if ($fuel_system_check == 0) {
 			$idHydrovacInspection = $this->input->post('hddId');
 			$idVehicle = $this->input->post('hddIdVehicle');
 
-			$msj = "You have save your inspection record, please do not forget to sign!!";
+			$msj = "You have saved your inspection record, please do not forget to sign!!";
 			$flag = true;
 			if ($idHydrovacInspection != '') {
 				$flag = false;
-				$msj = "You have update the Inspection record!!";
+				$msj = "You have updated the Inspection record!!";
 			}
 
 			if ($idHydrovacInspection = $this->inspection_model->saveHydrovacInspection()) 
@@ -1376,11 +1376,11 @@ if ($fuel_system_check == 0) {
 			$idWatertruckInspection = $this->input->post('hddId');
 			$idVehicle = $this->input->post('hddIdVehicle');
 
-			$msj = "You have save your inspection record, please do not forget to sign!!";
+			$msj = "You have saved your inspection record, please do not forget to sign!!";
 			$flag = true;
 			if ($idWatertruckInspection != '') {
 				$flag = false;
-				$msj = "You have update the Inspection record!!";
+				$msj = "You have updated the Inspection record!!";
 			}
 
 			if ($idWatertruckInspection = $this->inspection_model->saveWatertruckInspection()) 

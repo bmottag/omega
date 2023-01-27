@@ -1736,5 +1736,28 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Get validate user credentials
+		 * @since 26/1/2023
+		 */
+		public function validateCredentials($arrData) 
+		{
+				$login = str_replace(array("<",">","[","]","*","^","-","'","="),"",$arrData["login"]);   
+				$passwd = str_replace(array("<",">","[","]","*","^","-","'","="),"",$arrData["passwd"]); 
+				$passwd = md5($passwd);
+
+				$this->db->select();
+				$this->db->where('id_user', $arrData["idUser"]);
+				$this->db->where('log_user', $login);
+				$this->db->where('password', $passwd);
+				$query = $this->db->get('user');
+
+				if ($query->num_rows() > 0) {
+					return $query->row_array();
+				} else {
+					return false;
+				}
+		}
+
 
 }

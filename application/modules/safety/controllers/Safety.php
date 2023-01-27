@@ -154,8 +154,8 @@ class Safety extends CI_Controller {
 			//actualizo el estado del formulario a cerrado(2)
 			if ($this->general_model->updateRecord($arrParam)) {
 				$data["result"] = true;
-				$data["mensaje"] = "You have close the Safety Report.";
-				$this->session->set_flashdata('retornoExito', 'You have close the Safety Report');
+				$data["mensaje"] = "You have closed the Safety Report.";
+				$this->session->set_flashdata('retornoExito', 'You have closed the Safety Report');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -179,7 +179,7 @@ class Safety extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idSafety"] = $idSafety;
-				$this->session->set_flashdata('retornoExito', 'You have save your FLHA record, do not forget to add Hazards, Workers and signatures.');
+				$this->session->set_flashdata('retornoExito', 'You have saved your FLHA record, do not forget to add Hazards, Workers and signatures.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -227,7 +227,7 @@ class Safety extends CI_Controller {
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idSafety"] = $idSafety;
 				
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -295,7 +295,7 @@ class Safety extends CI_Controller {
 				$data["result"] = true;
 				$data["idSafety"] = $idSafety;
 				
-				$this->session->set_flashdata('retornoExito', 'You have add Hazards.');
+				$this->session->set_flashdata('retornoExito', 'You have added Hazards.');
 			} else {
 				$data["result"] = "error";
 				$data["idSafety"] = "";
@@ -354,7 +354,7 @@ class Safety extends CI_Controller {
 				$data["result"] = true;
 				$data["idSafety"] = $idSafety;
 				
-				$this->session->set_flashdata('retornoExito', 'You have update hazard´s priority!!');
+				$this->session->set_flashdata('retornoExito', 'You have updated hazard´s priority!!');
 			} else {
 				$data["result"] = "error";
 				$data["idSafety"] = "";
@@ -381,7 +381,7 @@ class Safety extends CI_Controller {
 			);
 
 			if ($this->safety_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -404,7 +404,7 @@ class Safety extends CI_Controller {
 			);
 
 			if ($this->safety_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -470,7 +470,7 @@ class Safety extends CI_Controller {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -495,7 +495,7 @@ class Safety extends CI_Controller {
 			$idSafety = $this->input->post('hddId');
 
 			if ($this->safety_model->saveOneHazard()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Hazard.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Hazard.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -510,7 +510,7 @@ class Safety extends CI_Controller {
 			$idSafety = $this->input->post('hddId');
 
 			if ($this->safety_model->saveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -525,7 +525,7 @@ class Safety extends CI_Controller {
 			$idSafety = $this->input->post('hddId');
 
 			if ($this->safety_model->saveSubcontractorWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -577,7 +577,7 @@ class Safety extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idSafety"] = $idSafety;
-				$this->session->set_flashdata('retornoExito', 'You have save your FLHA record, do not forget to add Hazards, Workers and signatures.');
+				$this->session->set_flashdata('retornoExito', 'You have saved your FLHA record, do not forget to add Hazards, Workers and signatures.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -681,7 +681,7 @@ class Safety extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idSafety"] = $idSafety;
-				$this->session->set_flashdata('retornoExito', 'You have save the COVID Form Information, do not forget to add Workers and signatures.');
+				$this->session->set_flashdata('retornoExito', 'You have saved the COVID Form Information, do not forget to add Workers and signatures.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -714,6 +714,98 @@ class Safety extends CI_Controller {
 			$data["view"] = 'review_flha';
 			$this->load->view("layout_calendar", $data);
 	}
+
+    /**
+     * Cargo modal - formulario Employee Verification
+     * @since 26/1/2023
+     */
+    public function cargarModalEmployeeVerification() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			$data["idSafety"] = $this->input->post("idSafety");
+
+			$information = $this->input->post('information');
+			$porciones = explode("-", $information);
+			$data["userType"] = $porciones[0];
+			$data["idUser"]  = $porciones[1];
+			$data["idSafetyWorker"] = $porciones[2];
+
+			$arrParam = array(
+				"table" => "user",
+				"order" => "id_user",
+				"column" => "id_user",
+				"id" => $data["idUser"]
+			);
+			$this->load->model("general_model");
+			$data['information'] = $this->general_model->get_basic_search($arrParam);
+
+			$this->load->view("modal_verification", $data);
+    }
+
+	/**
+	 * Varify credentials and save signature for employee
+     * @since 26/1/2023
+     * @author BMOTTAG
+	 */
+	public function save_signature_credentials()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$idUser = $this->input->post('hddIdUser');
+			$idSafetyWorker = $this->input->post('hddIdSafetyWorker');
+			$idSafety = $this->input->post('hddIdSafety');
+			$userType = $this->input->post('hddUserType');
+			
+			$data["path"] = "safety/review_flha/" . $idSafety;
+			$login = $this->security->xss_clean($this->input->post("login"));
+			$passwd = $this->security->xss_clean($this->input->post("password"));
+
+			$arrParam = array(
+				"idUser" => $idUser,
+				"login" => $login,
+				"passwd" => $passwd
+			);
+			$this->load->model("general_model");
+			$user = $this->general_model->validateCredentials($arrParam);
+
+			if(!$user){
+				$data["result"] = "error";
+				$data["mensaje"] = " Error. Those are not your credentials.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Those are not your credentials.');
+			}else{
+				if(!$user["user_signature"]){
+					$data["result"] = "error";
+					$data["mensaje"] = " Error. You have not saved your signature.";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> You have not saved your signature in the system.');
+				}else{
+					if($userType == "advisor"){
+						$arrParam = array(
+							"table" => "safety",
+							"primaryKey" => "id_safety",
+							"id" => $idSafety,
+							"column" => "signature",
+							"value" => $user["user_signature"]
+						);
+					}elseif($userType == "worker"){
+						$arrParam = array(
+							"table" => "safety_workers",
+							"primaryKey" => "id_safety_worker",
+							"id" => $idSafetyWorker,
+							"column" => "signature",
+							"value" => $user["user_signature"]
+						);
+					}
+					if ($this->general_model->updateRecord($arrParam)) {//UPDATE HAZARD PRIORITY
+						$data["result"] = true;
+						$this->session->set_flashdata('retornoExito', 'You have saved your signature.');
+					} else {
+						$data["result"] = "error";
+						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+					}
+				}
+			}
+			echo json_encode($data);
+    }
 
 
 	

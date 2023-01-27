@@ -1,7 +1,23 @@
+<script>
+$(function(){ 
+	$(".btn-outline").click(function () {	
+			var idSafety = $('#hddIdSafety').val();
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'safety/cargarModalEmployeeVerification',
+                data: {"idSafety": idSafety, 'information': oID },
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatos').html(data);
+                }
+            });
+	});	
+});
+</script>
+
 <div id="page-wrapper">
 	<br>
-	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -41,6 +57,36 @@
 				<?php
 					}
 				?>
+
+<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
+		</div>
+	</div>
+    <?php
+}
+
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
+		</div>
+	</div>
+    <?php
+}
+?> 				
 
 	<div class="row">
 		<div class="col-lg-6">
@@ -196,6 +242,9 @@
 								<th class='text-center'>Signature</th>
 							</tr>
 						</thead>
+
+						<!-- campo para enviar el ID de SAFETY al MODAL -->
+						<input type="hidden" id="hddIdSafety" name="hddIdSafety" value="<?php echo $data['fk_id_safety']; ?>"/>
 					<?php
 						foreach ($safetyWorkers as $data):
 							echo "<tr>";					
@@ -229,6 +278,11 @@
 							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('safety/add_signature/worker/' . $data['fk_id_safety'] . '/' . $data['id_safety_worker']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
+
+							<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modal" id="<?php echo "worker-" . $data['fk_id_user'] . "-". $data['id_safety_worker']; ?>" title="System Signature" >
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> System Signature
+							</button>
+
 							</center>
 					<?php
 							echo "</small></td>"; 
@@ -318,3 +372,13 @@
 		</div>
 	</div>	
 </div>
+
+<!--INICIO Modal -->
+<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatos">
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal -->
