@@ -62,8 +62,8 @@ $(document).ready(function () {
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label for="phone_number">Worker movil number: *</label>
-					<input type="number" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["works_phone_number"]:""; ?>" placeholder="Worker movil number" required >
+					<label for="phone_number">Worker mobile number: *</label>
+					<input type="number" id="phone_number" name="phone_number" class="form-control" value="<?php echo $information?$information[0]["works_phone_number"]:""; ?>" placeholder="Worker mobile number" required >
 				</div>
 			</div>
 		

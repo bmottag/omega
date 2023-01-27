@@ -205,7 +205,7 @@ class Incidences extends CI_Controller {
 				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
 				if($updateColumSignature) {
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {				
 					$data['clase'] = "alert-danger";
 					$data['msj'] = "Ask for help.";

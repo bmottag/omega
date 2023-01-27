@@ -279,7 +279,7 @@ if($information[0]["coordinator_signature"]){
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th class='text-center'>Movil number</th>
+									<th class='text-center'>Mobile number</th>
 									<th class='text-center'>Signature</th>
 									<th class='text-center'>Delete</th>
 								</tr>
@@ -544,8 +544,8 @@ if($information[0]["coordinator_signature"]){
 
 						<div class="col-sm-6">	
 							<div class="form-group text-left">
-								<label for="phone_number">Movil number:</label>
-								<input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Worker movil number" maxlength="12">
+								<label for="phone_number">Mobile number:</label>
+								<input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Worker mobile number" maxlength="12">
 							</div>
 						</div>
 					</div>

@@ -12,11 +12,11 @@
 					<p>
 <strong>Name:</strong> <?php echo $parametric[2]['value']; ?>
 <br><strong>Email:</strong> <?php echo $parametric[7]['value']; ?>
-<br><strong>Movil Number:</strong> <?php echo $parametric[6]['value']; ?>
+<br><strong>Mobile Number:</strong> <?php echo $parametric[6]['value']; ?>
 					</p>
 				</div>
 				<div class="panel-footer">
-					<strong>Movil number: </strong>Used to send SMS of a new Day Off requests. </br>
+					<strong>Mobile number: </strong>Used to send SMS of a new Day Off requests. </br>
 				</div>
 			</div>
 		</div>

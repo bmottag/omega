@@ -141,7 +141,7 @@ class More extends CI_Controller {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -401,7 +401,7 @@ class More extends CI_Controller {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -984,7 +984,7 @@ class More extends CI_Controller {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -1402,7 +1402,7 @@ ob_end_clean();
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					

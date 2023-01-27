@@ -328,7 +328,7 @@ if($information){
 						<tr>
 							<th class='text-center'>Name</th>
 							<th class='text-center'>Company</th>
-							<th class='text-center'>Movil number</th>
+							<th class='text-center'>Mobile number</th>
 							<th class='text-center'>Signature</th>
 							<th class='text-center'>Delete</th>
 						</tr>
@@ -484,8 +484,8 @@ if($information){
 					<div class="row">
 						<div class="col-sm-6">	
 							<div class="form-group text-left">
-								<label for="phone_number">Worker movil number:</label>
-								<input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Worker movil number" maxlength="12">
+								<label for="phone_number">Worker mobile number:</label>
+								<input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Worker mobile number" maxlength="12">
 							</div>
 						</div>
 						<div class="col-sm-6">

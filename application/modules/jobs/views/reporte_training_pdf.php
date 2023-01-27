@@ -25,7 +25,7 @@ emergency evacuation of other employees:<p></p>
 	
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;" width="30%"><strong>Name </strong></th>
-					<th bgcolor="#337ab7" style="color:white;" width="20%"><strong>Movil Number </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="20%"><strong>Mobile Number </strong></th>
 					<th bgcolor="#337ab7" style="color:white;" width="20%"><strong>Title </strong></th>
 					<th bgcolor="#337ab7" style="color:white;" width="30%"><strong>Responsability </strong></th>
 				</tr>';

@@ -208,7 +208,7 @@ class Jobs extends CI_Controller {
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -1314,7 +1314,7 @@ ob_end_clean();
 					//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 					
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have save your signature.";	
+					$data['msj'] = "Good job, you have saved your signature.";	
 				} else {
 					//$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 					
@@ -2372,7 +2372,7 @@ ob_end_clean();
 				if($typo == "sketch"){
 					$data['linkBack'] = 'jobs/upload_sketch/' . $idExcavation;
 					$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>EXCAVATION / TRENCH SKETCH";
-					$msj = "Good job, you have save the excavation/trench sketch.";
+					$msj = "Good job, you have saved the excavation/trench sketch.";
 
 					$name = "images/signature/etp/" . $typo . "_" . $idExcavation . ".png";
 					
@@ -2386,7 +2386,7 @@ ob_end_clean();
 				}else{
 					$data['linkBack'] = 'jobs/review_excavation/' . $idExcavation;
 					$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
-					$msj = "Good job, you have save your signature.";	
+					$msj = "Good job, you have saved your signature.";	
 					if($typo == "supervisor" || $typo == "operator" || $typo == "manager"){
 						$name = "images/signature/etp/" . $typo . "_" . $idExcavation . ".png";
 						

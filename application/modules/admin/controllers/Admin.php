@@ -692,7 +692,7 @@ class Admin extends CI_Controller {
 			if($this->general_model->updateRecord($arrParam))
 			{
 				$data['clase'] = "alert-success";
-				$data['msj'] = "Good job, you have upload the photo.";			
+				$data['msj'] = "Good job, you have uploaded the photo.";			
 			}else{
 				$data['clase'] = "alert-danger";
 				$data['msj'] = "Ask for help.";
