@@ -167,15 +167,15 @@ class Hauling extends CI_Controller {
 			$timeOut = $this->input->post('hourOut');
 			
 
-			$msj = "You have add a new Hauling!!";
+			$msj = "You have added a new Hauling!!";
 			if ($idHauling != '') {
-				$msj = "You have update a Hauling!!";
+				$msj = "You have updated a Hauling!!";
 			}
 
 			if ($idHauling = $this->hauling_model->saveHauling()) {
 				$data["result"] = true;
 				$data["idHauling"] = $idHauling;
-				$this->session->set_flashdata('retornoExito', 'You have save your hauling record, remember to sign and get the contractor signature!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved your hauling record, remember to sign and get the contractor signature!!');
 			} else {
 				$data["result"] = "error";
 				$data["idHauling"] = "";
@@ -302,8 +302,8 @@ class Hauling extends CI_Controller {
 			//actualizo el estado del formulario a cerrado(2)
 			if ($this->general_model->updateRecord($arrParam)) {
 				$data["result"] = true;
-				$data["mensaje"] = "You have close the Hauling Report.";
-				$this->session->set_flashdata('retornoExito', 'You have close the Hauling Report');
+				$data["mensaje"] = "You have closed the Hauling Report.";
+				$this->session->set_flashdata('retornoExito', 'You have closed the Hauling Report');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -328,16 +328,16 @@ class Hauling extends CI_Controller {
 			$timeIn = $this->input->post('hourIn');
 			$timeOut = $this->input->post('hourOut');
 			
-			$msj = "You have add a new Hauling!!";
+			$msj = "You have added a new Hauling!!";
 			if ($idHauling != '') {
-				$msj = "You have update a Hauling!!";
+				$msj = "You have updated a Hauling!!";
 			}
 
 			if ($idHauling = $this->hauling_model->saveHauling()) {
 				$data["result"] = true;
 				$data["idHauling"] = $idHauling;
 				$this->email_v2($idHauling);
-				$this->session->set_flashdata('retornoExito', 'You have save your hauling record and send an email to the contractor, remember to sign and get the contractor signature!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved your hauling record and send an email to the contractor, remember to sign and get the contractor signature!!');
 			} else {
 				$data["result"] = "error";
 				$data["idHauling"] = "";

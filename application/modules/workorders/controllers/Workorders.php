@@ -218,8 +218,8 @@ class Workorders extends CI_Controller {
 			//actualizo el estado del formulario a cerrado(2)
 			if ($this->general_model->updateRecord($arrParam)) {
 				$data["result"] = true;
-				$data["mensaje"] = "You have close the Work Order.";
-				$this->session->set_flashdata('retornoExito', 'You have close the Work Order');
+				$data["mensaje"] = "You have closed the Work Order.";
+				$this->session->set_flashdata('retornoExito', 'You have closed the Work Order');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -868,7 +868,7 @@ class Workorders extends CI_Controller {
 				$data["mensaje"] = "You have update the Work Order and send an email to the contractor, continue uploading the information.";
 				$data["idWorkorder"] = $idWorkorder;
 				$this->email_v2($idWorkorder);
-				$this->session->set_flashdata('retornoExito', 'You have update the Work Order and send an email to the contractor, continue uploading the information.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the Work Order and send an email to the contractor, continue uploading the information.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -2063,7 +2063,7 @@ class Workorders extends CI_Controller {
 				if ($this->workorders_model->update_wo_personal_rate($workorderPersonalRate)) 
 				{				
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+					$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -2078,7 +2078,7 @@ class Workorders extends CI_Controller {
 				if ($this->workorders_model->update_wo_equipment_rate($workorderEquipmentRate)) 
 				{				
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+					$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -2093,7 +2093,7 @@ class Workorders extends CI_Controller {
 				if ($this->workorders_model->update_wo_material_rate($workorderMaterialRate)) 
 				{				
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+					$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -2134,7 +2134,7 @@ class Workorders extends CI_Controller {
 
 			if ($this->workorders_model->saveReceipt()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the information!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the information!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -2167,7 +2167,7 @@ class Workorders extends CI_Controller {
 				if ($this->workorders_model->update_wo_invoice_markup($workorderReceipt, $infoWO[0]['markup'])) 
 				{				
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+					$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -2182,7 +2182,7 @@ class Workorders extends CI_Controller {
 				if ($this->workorders_model->update_wo_material_markup($workorderMaterials, $infoWO[0]['markup'])) 
 				{				
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+					$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -2197,7 +2197,7 @@ class Workorders extends CI_Controller {
 				if ($this->workorders_model->update_wo_ocasional_markup($workorderOcasional, $infoWO[0]['markup'])) 
 				{				
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', 'You have load the data.');
+					$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -2224,7 +2224,7 @@ class Workorders extends CI_Controller {
 			if($wo){
 				if ($this->workorders_model->updateWOState()) {
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', "You have update the state!!");
+					$this->session->set_flashdata('retornoExito', "You have updated the state!!");
 				} else {
 					$data["result"] = "error";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');

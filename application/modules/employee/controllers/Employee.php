@@ -47,7 +47,7 @@ class Employee extends CI_Controller {
 			if($newPassword == $confirm)
 			{					
 					if ($this->employee_model->updatePassword()) {
-						$data["msj"] = "You have update your password.";
+						$data["msj"] = "You have updated your password.";
 						$data["msj"] .= "<br><strong>User name: </strong>" . $this->input->post("hddUser");
 						$data["msj"] .= "<br><strong>Password: </strong>" . $passwd;
 						$data["clase"] = "alert-success";

@@ -195,8 +195,8 @@ class Maintenance extends CI_Controller {
 				}
 				
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Maintenance.";
-				$this->session->set_flashdata('retornoExito', 'You have save the Maintenance!!');
+				$data["mensaje"] = "You have saved the Maintenance.";
+				$this->session->set_flashdata('retornoExito', 'You have saved the Maintenance!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

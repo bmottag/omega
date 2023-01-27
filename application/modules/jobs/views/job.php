@@ -36,7 +36,7 @@ $(function(){
                     ?>	
                         <div class="alert alert-success ">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                            You have not upload any Job Detail Information.
+                            You have not uploaded any Job Detail Information.
                             <a class="btn btn-primary btn-xs" href="<?php echo base_url('jobs/upload_job_detail/' . $jobInfo[0]['id_job']) ?>"><i class="fa fa-upload fa-fw"></i> Upload Job Details</a>
                         </div>
                     <?php

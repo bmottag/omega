@@ -201,7 +201,7 @@ class Payroll extends CI_Controller {
 
 			if ($this->payroll_model->savePayrollHour()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have update the payroll hour');
+				$this->session->set_flashdata('retornoExito', 'You have updated the payroll hour');
 				
 				//busco inicio y fin para calcular horas de trabajo y guardar en la base de datos
 				//START search info for the task
@@ -223,7 +223,7 @@ class Payroll extends CI_Controller {
 						$this->save_period($idTask);
 					}
 
-					$this->session->set_flashdata('retornoExito', 'You have update the payroll hour');
+					$this->session->set_flashdata('retornoExito', 'You have updated the payroll hour');
 				}else{
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');
 				}

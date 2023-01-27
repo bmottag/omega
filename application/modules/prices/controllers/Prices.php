@@ -59,7 +59,7 @@ class Prices extends CI_Controller {
 			if ($this->prices_model->add_employee_type($employeeTypeUnitPrice)) 
 			{				
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have load the data.');
+				$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -80,7 +80,7 @@ class Prices extends CI_Controller {
 	
 			if ($this->prices_model->updateEmployeeTypePrice()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Employee Type Unit Price!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the Employee Type Unit Price!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -123,7 +123,7 @@ class Prices extends CI_Controller {
 			
 			if ($this->prices_model->updateEquipmentPrice()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Equipment Prices!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the Equipment Prices!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -192,7 +192,7 @@ class Prices extends CI_Controller {
 			if ($this->prices_model->add_equipment($equipmentUnitPrice)) 
 			{				
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have load the data.');
+				$this->session->set_flashdata('retornoExito', 'You have loaded the data.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -214,7 +214,7 @@ class Prices extends CI_Controller {
 	
 			if ($this->prices_model->updateJobEquipmentPrice()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Employee Type Unit Price!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the Employee Type Unit Price!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -232,7 +232,7 @@ class Prices extends CI_Controller {
 	{	
 			if ($this->prices_model->updateGeneralEmployeeTypePrice()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Employee Type Unit Price!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the Employee Type Unit Price!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -250,7 +250,7 @@ class Prices extends CI_Controller {
 	{	
 			if ($this->prices_model->updateGeneralMaterialPrice()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Material Price!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the Material Price!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');

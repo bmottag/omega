@@ -975,7 +975,7 @@ class Admin extends CI_Controller {
 			if($newPassword == $confirm)
 			{					
 					if ($this->admin_model->updatePassword()) {
-						$data["msj"] = "You have update the password.";
+						$data["msj"] = "You have updated the password.";
 						$data["msj"] .= "<br><strong>User name: </strong>" . $this->input->post("hddUser");
 						$data["msj"] .= "<br><strong>Password: </strong>" . $passwd;
 						$data["clase"] = "alert-success";
@@ -1001,7 +1001,7 @@ class Admin extends CI_Controller {
 	{	
 			if ($this->admin_model->updateJobsState($state)) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the state!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the state!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');

@@ -100,9 +100,9 @@ class Incidences extends CI_Controller {
 				}				
 				
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Near Miss Report, continue uploading the information.";
+				$data["mensaje"] = "You have saved the Near Miss Report, continue uploading the information.";
 				$data["idNearmiss"] = $idNearmiss;
-				$this->session->set_flashdata('retornoExito', 'You have save the Near Miss Report, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the Near Miss Report, continue uploading the information!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -139,7 +139,7 @@ class Incidences extends CI_Controller {
 			if ($this->general_model->updateRecord($arrParam)) {
 				$data["result"] = true;
 				$data["mensaje"] = "You have close the Report.";
-				$this->session->set_flashdata('retornoExito', 'You have close Report');
+				$this->session->set_flashdata('retornoExito', 'You have closed Report');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -370,9 +370,9 @@ class Incidences extends CI_Controller {
 				}				
 				
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Incident Report, continue uploading the information.";
+				$data["mensaje"] = "You have saved the Incident Report, continue uploading the information.";
 				$data["idRecord"] = $idIncident;
-				$this->session->set_flashdata('retornoExito', 'You have save the Incident Report, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the Incident Report, continue uploading the information!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -466,9 +466,9 @@ class Incidences extends CI_Controller {
 				}				
 				
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Accident Report, continue uploading the information.";
+				$data["mensaje"] = "You have saved the Accident Report, continue uploading the information.";
 				$data["idRecord"] = $idAccident;
-				$this->session->set_flashdata('retornoExito', 'You have save the Accident Report, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the Accident Report, continue uploading the information!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -510,7 +510,7 @@ class Incidences extends CI_Controller {
 
 			if ($this->incidences_model->$modalToUse()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have add a new record!!");
+				$this->session->set_flashdata('retornoExito', "You have added a new record!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -537,7 +537,7 @@ class Incidences extends CI_Controller {
 			);
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one record from <strong>'.$tabla.'</strong> table.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>'.$tabla.'</strong> table.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -694,7 +694,7 @@ class Incidences extends CI_Controller {
 			}
 
 			if ($this->incidences_model->savePersonInvolved()) {
-				$this->session->set_flashdata('retornoExito', 'You have add a Person Involved.');
+				$this->session->set_flashdata('retornoExito', 'You have added a Person Involved.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -724,7 +724,7 @@ class Incidences extends CI_Controller {
 			}
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete a Person Involved.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted a Person Involved.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}

@@ -67,9 +67,9 @@ class External extends CI_Controller {
 			if ($idTaskControl = $this->external_model->add_task_control()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Task Assessment and Control, don't forget to sign..";
+				$data["mensaje"] = "You have saved the Task Assessment and Control, don't forget to sign..";
 				$data["idTaskControl"] = $idTaskControl;
-				$this->session->set_flashdata('retornoExito', "You have save the Task Assessment and Control, don't forget to sign.!!");
+				$this->session->set_flashdata('retornoExito', "You haved saved the Task Assessment and Control, don't forget to sign.!!");
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

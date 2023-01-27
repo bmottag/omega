@@ -88,9 +88,9 @@ class More extends CI_Controller {
 			if ($idEnvironmental = $this->more_model->add_environmental()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Environmental Site Inspection, continue uploading the information.";
+				$data["mensaje"] = "You have saved the Environmental Site Inspection, continue uploading the information.";
 				$data["idEnvironmental"] = $idEnvironmental;
-				$this->session->set_flashdata('retornoExito', 'You have save the Environmental Site Inspection, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the Environmental Site Inspection, continue uploading the information!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -296,9 +296,9 @@ class More extends CI_Controller {
 			
 			$idPPEInspection = $this->input->post('hddId');
 			
-			$msj = "You have add a new PPE Inspection";
+			$msj = "You have added a new PPE Inspection";
 			if ($idPPEInspection != '') {
-				$msj = "You have update a PPE Inspection!!";
+				$msj = "You have updated a PPE Inspection!!";
 			}
 
 			if ($idPPEInspection = $this->more_model->savePPEInspection()) {
@@ -455,7 +455,7 @@ class More extends CI_Controller {
 
 			if ($this->more_model->add_ppe_inspection_worker($idPPEInspection)) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -490,7 +490,7 @@ class More extends CI_Controller {
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -511,7 +511,7 @@ class More extends CI_Controller {
 
 			if ($this->more_model->update_ppe_inspection_worker()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the Inspection");
+				$this->session->set_flashdata('retornoExito', "You have updated the Inspection");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -528,7 +528,7 @@ class More extends CI_Controller {
 			$idPPEInspection = $this->input->post('hddIdPPEInspection');
 
 			if ($this->more_model->addOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -731,9 +731,9 @@ class More extends CI_Controller {
 			if ($idConfined = $this->more_model->add_confined()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Confined Space Entry Permit, continue uploading the information.";
+				$data["mensaje"] = "You have saved the Confined Space Entry Permit, continue uploading the information.";
 				$data["idConfined"] = $idConfined;
-				$this->session->set_flashdata('retornoExito', 'You have save the Confined Space Entry Permit, continue uploading the information. Add Worker(s) in charge of entry and signatures at the end of the form.');
+				$this->session->set_flashdata('retornoExito', 'You have saved the Confined Space Entry Permit, continue uploading the information. Add Worker(s) in charge of entry and signatures at the end of the form.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -829,7 +829,7 @@ class More extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 								
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -857,7 +857,7 @@ class More extends CI_Controller {
 
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -873,7 +873,7 @@ class More extends CI_Controller {
 			$idConfined = $this->input->post('hddIdConfined');
 
 			if ($this->more_model->confinedSaveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', "You have Add one Worker. Don't forget to sign.");
+				$this->session->set_flashdata('retornoExito', "You have added one Worker. Don't forget to sign.");
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1013,7 +1013,7 @@ class More extends CI_Controller {
 
 			if ($this->more_model->saveConfinedWorker()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the record!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the record!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -1106,7 +1106,7 @@ class More extends CI_Controller {
 									
 			if ($idRetesting = $this->more_model->saveRetesting()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the ENVIRONMENTAL CONDITIONS - RE TESTING");
+				$this->session->set_flashdata('retornoExito', "You have saved the ENVIRONMENTAL CONDITIONS - RE TESTING");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -1166,8 +1166,8 @@ class More extends CI_Controller {
 			if ($idConfined = $this->more_model->save_post_entry()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Post-entry Inspection.";
-				$this->session->set_flashdata('retornoExito', 'You have save the Post-entry Inspection.');
+				$data["mensaje"] = "You have saved the Post-entry Inspection.";
+				$this->session->set_flashdata('retornoExito', 'You have saved the Post-entry Inspection.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -1349,9 +1349,9 @@ ob_end_clean();
 			if ($idTaskControl = $this->more_model->add_task_control()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Task Assessment and Control, don't forget to sign..";
+				$data["mensaje"] = "You have saved the Task Assessment and Control, don't forget to sign..";
 				$data["idTaskControl"] = $idTaskControl;
-				$this->session->set_flashdata('retornoExito', "You have save the Task Assessment and Control, don't forget to sign.!!");
+				$this->session->set_flashdata('retornoExito', "You haved save the Task Assessment and Control, don't forget to sign.!!");
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";

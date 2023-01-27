@@ -86,9 +86,9 @@ class Claims extends CI_Controller {
 			
 			$idClaimInicial = $this->input->post('hddId');
 		
-			$msj = "You have add a Claim, continue uploading the information.";
+			$msj = "You have added a Claim, continue uploading the information.";
 			if ($idClaimInicial != '') {
-				$msj = "You have update the Claim, continue uploading the information.";
+				$msj = "You have updated the Claim, continue uploading the information.";
 			}
 			
 			if ($idClaim = $this->claims_model->guardarClaim()) 
@@ -259,7 +259,7 @@ class Claims extends CI_Controller {
 			
 			$idClaim = $data['idRecord'] = $this->input->post("hddIdClaim");
 				
-			$msj = "You have update the information!";
+			$msj = "You have updated the information!";
 
 			$claimState = $this->input->post("state");
 

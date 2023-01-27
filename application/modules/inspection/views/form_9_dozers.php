@@ -80,7 +80,7 @@ if ($retornoError) {
 				<div class="col-lg-12">	
 					<div class="alert alert-success ">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-						Thanks you have finish your Inspection Report.
+						You have finished your Inspection Report.
 					</div>
 				</div>
 <?php   }  ?>

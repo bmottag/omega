@@ -65,9 +65,9 @@ class Template extends CI_Controller {
 			
 			$idTemplate = $this->input->post('hddId');
 			
-			$msj = "You have add a new Template!!";
+			$msj = "You have added a new Template!!";
 			if ($idTemplate != '') {
-				$msj = "You have update a Template!!";
+				$msj = "You have updated a Template!!";
 			}
 
 			if ($idTemplate = $this->template_model->saveTemplate()) {
@@ -161,7 +161,7 @@ class Template extends CI_Controller {
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idTemplate"] = $idTemplate;
 				
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -270,7 +270,7 @@ class Template extends CI_Controller {
 			
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -285,7 +285,7 @@ class Template extends CI_Controller {
 			$idTemplate = $this->input->post('hddId');
 
 			if ($this->template_model->saveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}

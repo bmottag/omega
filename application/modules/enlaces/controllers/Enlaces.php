@@ -362,7 +362,7 @@ class Enlaces extends CI_Controller {
 			//insertar datos
 			if($this->enlaces_model->saveManual($path))
 			{
-				$this->session->set_flashdata('retornoExito', 'You have upload the information.');
+				$this->session->set_flashdata('retornoExito', 'You have uploaded the information.');
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -388,7 +388,7 @@ class Enlaces extends CI_Controller {
 			
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete the image.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted the image.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}

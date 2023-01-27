@@ -129,9 +129,9 @@ class Jobs extends CI_Controller {
 			if ($idToolBox = $this->jobs_model->add_TOOLBOX()) 
 			{
 				$data["result"] = true;
-				$data["mensaje"] = "You have save the Tool Box, continue uploading the information.";
+				$data["mensaje"] = "You have saved the Tool Box, continue uploading the information.";
 				$data["idToolBox"] = $idToolBox;
-				$this->session->set_flashdata('retornoExito', 'You have save the Tool Box, continue uploading the information!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the Tool Box, continue uploading the information!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -263,7 +263,7 @@ class Jobs extends CI_Controller {
 
 			if ($this->jobs_model->saveNewHazard()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have add a new record!!");
+				$this->session->set_flashdata('retornoExito', "You have added a new record!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -285,7 +285,7 @@ class Jobs extends CI_Controller {
 
 			if ($this->jobs_model->updateNewHazard()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the record!!");
+				$this->session->set_flashdata('retornoExito', "You have updated the record!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -320,8 +320,8 @@ class Jobs extends CI_Controller {
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
 				$data["result"] = true;
-				$data["mensaje"] = "You have delete one record.";
-				$this->session->set_flashdata('retornoExito', 'You have delete one record');
+				$data["mensaje"] = "You have deleted one record.";
+				$this->session->set_flashdata('retornoExito', 'You have deleted one record');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -373,7 +373,7 @@ class Jobs extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 								
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -400,7 +400,7 @@ class Jobs extends CI_Controller {
 			);
 
 			if ($this->jobs_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -464,7 +464,7 @@ class Jobs extends CI_Controller {
 			{
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the ERP.";
-				$this->session->set_flashdata('retornoExito', 'You have save the ERP!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the ERP!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -513,7 +513,7 @@ class Jobs extends CI_Controller {
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 								
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -540,7 +540,7 @@ class Jobs extends CI_Controller {
 			);
 
 			if ($this->jobs_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -555,7 +555,7 @@ class Jobs extends CI_Controller {
 			$idJob = $this->input->post('hddId');
 
 			if ($this->jobs_model->saveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -969,7 +969,7 @@ ob_end_clean();
 				
 				$this->jobs_model->add_hazard_log();
 				
-				$this->session->set_flashdata('retornoExito', 'You have add Hazards.');
+				$this->session->set_flashdata('retornoExito', 'You have added Hazards.');
 			} else {
 				$data["result"] = "error";
 				
@@ -1011,7 +1011,7 @@ ob_end_clean();
 			
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one hazard.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one hazard.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1073,7 +1073,7 @@ ob_end_clean();
 			//insertar datos
 			if($this->jobs_model->add_locates($path))
 			{
-				$this->session->set_flashdata('retornoExito', 'You have upload the image.');
+				$this->session->set_flashdata('retornoExito', 'You have uploaded the image.');
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1099,7 +1099,7 @@ ob_end_clean();
 			
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete the image.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted the image.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1225,7 +1225,7 @@ ob_end_clean();
 				$data["result"] = true;
 				$data["mensaje"] = "You have save the JSO.";
 				$data["idJSO"] = $idJSO;
-				$this->session->set_flashdata('retornoExito', 'You have save the JSO!!');
+				$this->session->set_flashdata('retornoExito', 'You have saved the JSO!!');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Ask for help.";
@@ -1374,9 +1374,9 @@ ob_end_clean();
 			$data["idJSO"] = $idJobJso;
 			$data["idRecordExternal"] = $idJobWorker;
 
-			$msj = "You have add a new worker.";
+			$msj = "You have added a new worker.";
 			if ($idJobWorker != '') {
-				$msj = "You have edit the information.";
+				$msj = "You have edited the information.";
 			}
 
 			if ($this->jobs_model->saveJSOWorker()) {
@@ -1533,7 +1533,7 @@ ob_end_clean();
 
 			if ($this->jobs_model->updateERPWorker()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the Worker Information!!");
+				$this->session->set_flashdata('retornoExito', "You have saved the Worker Information!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -1582,7 +1582,7 @@ ob_end_clean();
 			$idToolBox = $this->input->post('hddIdToolBox');
 
 			if ($this->jobs_model->toolBoxSaveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1687,7 +1687,7 @@ ob_end_clean();
 			$idToolBox= $this->input->post('hddIdToolBox');
 
 			if ($this->jobs_model->saveSubcontractorWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1710,7 +1710,7 @@ ob_end_clean();
 			);
 
 			if ($this->jobs_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -1915,7 +1915,7 @@ ob_end_clean();
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idExcavation"] = $idExcavation;
-				$this->session->set_flashdata('retornoExito', 'You have save your Excavation and Trenching Plan, do not forget to add Workers and signatures.');
+				$this->session->set_flashdata('retornoExito', 'You have saved your Excavation and Trenching Plan, do not forget to add Workers and signatures.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -1978,7 +1978,7 @@ ob_end_clean();
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idExcavation"] = $idExcavation;
-				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the information of  your Excavation and Trenching Plan.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -2044,7 +2044,7 @@ ob_end_clean();
 			//insertar datos
 			if($this->jobs_model->updateExcavation($archivo))
 			{
-				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the information of  your Excavation and Trenching Plan.');
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2086,7 +2086,7 @@ ob_end_clean();
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idExcavation"] = $idExcavation;
-				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the information of  your Excavation and Trenching Plan.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -2151,7 +2151,7 @@ ob_end_clean();
 			//insertar datos
 			if($this->jobs_model->updateExcavationAffectedZone($archivo))
 			{
-				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the information of  your Excavation and Trenching Plan.');
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2193,7 +2193,7 @@ ob_end_clean();
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 				$data["idExcavation"] = $idExcavation;
-				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the information of  your Excavation and Trenching Plan.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -2243,7 +2243,7 @@ ob_end_clean();
 				$data["result"] = true;
 				$data["mensaje"] = "Solicitud guardada correctamente.";
 								
-				$this->session->set_flashdata('retornoExito', 'You have add the Workers, remember to get the signature of each one.');
+				$this->session->set_flashdata('retornoExito', 'You have added the Workers, remember to get the signature of each one.');
 			} else {
 				$data["result"] = "error";
 				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
@@ -2270,7 +2270,7 @@ ob_end_clean();
 				"id" => $idWorker
 			);
 			if ($this->jobs_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2287,7 +2287,7 @@ ob_end_clean();
 			$idExcavation = $this->input->post('hddIdExcavation');
 
 			if ($this->jobs_model->excavationSaveOneWorker()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2304,7 +2304,7 @@ ob_end_clean();
 			$idExcavation = $this->input->post('hddIdExcavation');
 
 			if ($this->jobs_model->saveSubcontractorWorkerExcavation()) {
-				$this->session->set_flashdata('retornoExito', 'You have Add one Worker.');
+				$this->session->set_flashdata('retornoExito', 'You have added one Worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2327,7 +2327,7 @@ ob_end_clean();
 				"id" => $idSubcontractor
 			);
 			if ($this->jobs_model->deleteRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+				$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2505,7 +2505,7 @@ ob_end_clean();
 			$this->load->model("general_model");
 			if ($this->general_model->updateRecord($arrParam))
 			{
-				$this->session->set_flashdata('retornoExito', 'You have update the information of  your Excavation and Trenching Plan.');
+				$this->session->set_flashdata('retornoExito', 'You have updated the information of  your Excavation and Trenching Plan.');
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -2791,7 +2791,7 @@ ob_end_clean();
 
 			if ($this->jobs_model->updateJobDetail($jobDetails, $totalExtendedAmount)) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have save the Worker Information!!");
+				$this->session->set_flashdata('retornoExito', "You have saved the Worker Information!!");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
