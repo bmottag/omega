@@ -67,7 +67,7 @@ class Employee extends CI_Controller {
 	/**
 	 * photo
 	 */
-	public function photo($error = '')
+	public function profile($error = '')
 	{
 			$idUser = $this->session->userdata("id");
 			
@@ -123,13 +123,13 @@ class Employee extends CI_Controller {
 				);
 
 				$this->load->model("general_model");
-				$data['linkBack'] = "employee/photo";
+				$data['linkBack'] = "employee/profile";
 				$data['titulo'] = "<i class='fa fa-user fa-fw'></i>USER PROFILE";
 				
 				if($this->general_model->updateRecord($arrParam))
 				{
 					$data['clase'] = "alert-success";
-					$data['msj'] = "Good job, you have update your photo.";			
+					$data['msj'] = "Good job, you have updated your photo.";			
 				}else{
 					$data['clase'] = "alert-danger";
 					$data['msj'] = "Ask for help.";
@@ -156,6 +156,55 @@ class Employee extends CI_Controller {
         $this->load->library('image_lib', $config);
         $this->image_lib->resize();
     }
+
+	/**
+	 * Signature
+     * @since 27/1/2023
+     * @author BMOTTAG
+	 */
+	public function add_signature($idUser)
+	{
+			if (empty($idUser)) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		
+			if($_POST){
+				
+				//update signature with the name of de file
+				$name = "images/employee/signature/" . $idUser . ".png";
+				
+				$arrParam = array(
+					"table" => "user",
+					"primaryKey" => "id_user",
+					"id" => $idUser,
+					"column" => "user_signature",
+					"value" => $name
+				);
+
+				//enlace para regresar al formulario
+				$data['linkBack'] = "employee/profile";
+				
+				$data_uri = $this->input->post("image");
+				$encoded_image = explode(",", $data_uri)[1];
+				$decoded_image = base64_decode($encoded_image);
+				file_put_contents($name, $decoded_image);
+				
+				$this->load->model("general_model");
+				$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
+				if ($this->general_model->updateRecord($arrParam)) {				
+					$data['clase'] = "alert-success";
+					$data['msj'] = "Good job, you have saved your signature.";	
+				} else {			
+					$data['clase'] = "alert-danger";
+					$data['msj'] = "Ask for help.";
+				}
+				
+				$data["view"] = 'template/answer';
+				$this->load->view("layout", $data);
+			}else{			
+				$this->load->view('template/make_signature');
+			}
+	}
 
 	
 }
