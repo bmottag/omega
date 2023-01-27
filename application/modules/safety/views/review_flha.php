@@ -143,6 +143,12 @@ if ($retornoError) {
 							?>
 						
 								<a class="btn <?php echo $class; ?>" href="<?php echo base_url("safety/add_signature/advisor/" . $information[0]["id_safety"] . "/x"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a>
+								
+								<!-- campo para enviar el ID de SAFETY al MODAL -->
+								<input type="hidden" id="hddIdSafety" name="hddIdSafety" value="<?php echo $information[0]['id_safety']; ?>"/>
+								<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modal" id="<?php echo "advisor-" . $information[0]['fk_id_user'] . "-x"; ?>" title="System Signature" >
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> System Signature
+								</button>
 
 							</div>
 						</div>
@@ -243,8 +249,6 @@ if ($retornoError) {
 							</tr>
 						</thead>
 
-						<!-- campo para enviar el ID de SAFETY al MODAL -->
-						<input type="hidden" id="hddIdSafety" name="hddIdSafety" value="<?php echo $data['fk_id_safety']; ?>"/>
 					<?php
 						foreach ($safetyWorkers as $data):
 							echo "<tr>";					
