@@ -1222,6 +1222,37 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				}
 		}
 
+		/**
+		 * Add/Edit FIRE WATCH
+		 * @since 27/1/2023
+		 */
+		public function saveFireWatch() 
+		{		
+				$idUser = $this->session->userdata("id");
+				$idFireWatch = $this->input->post('hddIdFireWatch');
+
+				$data = array(
+					'fk_id_job' => $this->input->post('hddIdJob'),
+					'fk_id_user' => $idUser,
+					'fk_id_conducted_by' => $this->input->post('conductedby'),
+					'building_address' => $this->input->post('address'),
+					'date' => $this->input->post('date')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idFireWatch == '') {
+					$query = $this->db->insert('job_fire_watch', $data);				
+				} else {
+					$this->db->where('id_job_fire_watch', $idFireWatch);
+					$query = $this->db->update('job_fire_watch', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 		
 	    
 	}

@@ -2800,6 +2800,87 @@ ob_end_clean();
 			redirect(base_url('jobs/job_detail/' . $idJob), 'refresh');
     }
 
+	/**
+	 * Fire watch list
+     * @since 27/1/2023
+     * @author BMOTTAG
+	 */
+	public function fire_watch($idJob)
+	{		
+			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			
+			//tool box info
+			$arrParam = array(
+				"idJob" => $idJob
+			);				
+			$data['information'] = $this->general_model->get_fire_watch($arrParam);
+
+			$data["view"] ='fire_watch_list';
+			$this->load->view("layout", $data);
+	}
+
+    /**
+     * Cargo modal - formulario fire watch
+     * @since 27/1/2023
+     */
+    public function cargarModalFireWatch() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idFireWatch"] = $this->input->post("idFireWatch");
+			$data["idJob"] = $this->input->post("idJob");
+			
+			if ($data["idFireWatch"] != 'x') {
+				$arrParam = array(
+					"table" => "job_fire_watch",
+					"order" => "id_job_fire_watch",
+					"column" => "id_job_fire_watch",
+					"id" => $data["idFireWatch"]
+				);
+				$data['information'] = $this->general_model->get_basic_search($arrParam);
+			}
+			
+			$this->load->view("fire_watch_modal", $data);
+    }
+	
+	/**
+	 * Save fire watch
+     * @since 27/1/2023
+     * @author BMOTTAG
+	 */
+	public function save_fire_watch()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idRecord"] = $this->input->post('hddIdJob');
+			$idFireWatch = $this->input->post('hddIdFireWatch');
+			
+			$msj = "You have added a new Fire Watch!!";
+			if ($idFireWatch != '') {
+				$msj = "You have updated a Fire Watch!!";
+			}
+
+			if ($idFireWatch = $this->jobs_model->saveFireWatch()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";			
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
+
 
 	
 	

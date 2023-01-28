@@ -265,7 +265,7 @@ class Admin extends CI_Controller {
     }
 	
 	/**
-	 * Update material
+	 * Update company
      * @since 15/12/2016
      * @author BMOTTAG
 	 */

@@ -1759,5 +1759,32 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Fire watch list
+		 * @since 27/1/2023
+		 */
+		public function get_fire_watch($arrDatos) 
+		{
+				$this->db->select('F.*, CONCAT(U.first_name, " " , U.last_name) reportedby, CONCAT(X.first_name, " " , X.last_name) conductedby, J.id_job, J.job_description');
+				$this->db->join('param_jobs J', 'J.id_job = F.fk_id_job', 'INNER');
+				$this->db->join('user U', 'U.id_user = F.fk_id_user', 'INNER');
+				$this->db->join('user X', 'X.id_user = F.fk_id_conducted_by', 'INNER');
+				if (array_key_exists("idJob", $arrDatos)) {
+					$this->db->where('fk_id_job', $arrDatos["idJob"]);
+				}
+				if (array_key_exists("idFireWatch", $arrDatos)) {
+					$this->db->where('id_job_fire_watch', $arrDatos["idFireWatch"]);
+				}
+								
+				$this->db->order_by('id_job_fire_watch', 'desc');
+				$query = $this->db->get('job_fire_watch F');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 
 }
