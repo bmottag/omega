@@ -575,14 +575,11 @@ class Payroll extends CI_Controller {
 	public function payroll_check()
 	{
 			$this->load->model("general_model");
-			//search for the last 20 records
-			$to = date("Y-m-d");
+			//search for the last 35 records
 			$arrParam = array(
-				"toLimit" => $to,
-				"limit" => 20
+				"limit" => 35
 			);			
 			$records = $this->general_model->get_task($arrParam);
-
 			foreach ($records as $data):
 				if($data['finish'] == '0000-00-00 00:00:00'){
 					
@@ -594,12 +591,14 @@ class Payroll extends CI_Controller {
 					$hours = (strtotime($fechaStart)-strtotime($fechaActual))/3600;
 					$hours = abs($hours);  
 					$hours = round($hours);
-
-					if($hours > 24){
+echo $hours; 
+echo "<br>";
+					if($hours > 18){
 						//end the current task automatically
 						$this->updatePayrollAutomatically($data['id_task'], $data['start']);
-					}elseif($hours > 16 ){
+					}elseif($hours > 14 ){
 						//send sms to the employee
+						echo "entro a enviar mensaje de text";
 						$this->sendSMSWorkerTask($data['fk_id_user']);
 					}
 				}
@@ -656,7 +655,7 @@ class Payroll extends CI_Controller {
 		$mensaje = "VCI TIME SHEET";
 		$mensaje .= "\n" . $userInfo[0]['first_name'] . ' ' .  $userInfo[0]['last_name'];
 		$mensaje .= "\n";
-		$mensaje .= "This message is to remind you that you have been working more than 16 hours, it is possible that you forgot to check out, if it is the case please login the system and check out.";
+		$mensaje .= "This message is to remind you that you have been working more than 14 hours, it is possible that you forgot to check out, if it is the case please login the system and check out.";
 
 		$to = '+1' . $userInfo[0]['movil'];
 

@@ -41,6 +41,11 @@
                         <li>New form for flash Planning.</li>
                         <li>List for Employees with Day Off.</li>
                         </ul>
+                        <strong>Jobs</strong> 
+                        <ul>
+                        <li>New form for Fire Watch.</li>
+                        <li>New module for Job Details, this module have a relation with W.O..</li>
+                        </ul>
 					</p>
 				</div>
 				<div class="panel-footer">
@@ -92,13 +97,16 @@
                         <strong>Payroll Check:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/payroll/payroll_check</li>
-                            <li>Time: Every day at 12am </li>
+                            <li>Time: Every day at 12pm </li>
+                            <li>Time: Every day at 9pm </li>
+                            <li>If a worker has been working for more than 18 hours then the system close automatically the hours of the user. If the worker has been working form more than 14 hours, then the system send a text message to the worker.  </li>
                         </ul>
 
                         <strong>Timesheet for Job Code Check:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/admin/checkin_check  </li>
-                            <li>Time: Every day at 6am </li>
+                            <li>Time: Every day at 6pm </li>
+                            <li>Verify the peopple who work for specific JOB CODE at the side</li>
                         </ul>                        
 					</p>
 				</div>
