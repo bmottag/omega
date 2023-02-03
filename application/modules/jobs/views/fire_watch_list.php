@@ -3,7 +3,7 @@
 
 <script>
 $(function(){ 
-	$(".btn-primary").click(function () {
+	$(".btn-outline").click(function () {
 			var idJob = $('#hddIdJob').val();	
 			var oID = $(this).attr("id");
             $.ajax ({
@@ -53,7 +53,7 @@ $(function(){
 								<th>Conducted by</th>
 								<th>Facility/Building Address</th>
 								<th>Date</th>
-								<th>Edit</th>
+								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -65,12 +65,15 @@ $(function(){
 									echo "<td>" . $lista['conductedby'] . "</td>";
 									echo "<td>" . $lista['building_address'] . "</td>";
 									echo "<td>" . $lista['date'] . "</td>";
-									
 									echo "<td class='text-center'>";									
 						?>							
-									<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job_fire_watch']; ?>" title="Edit" >
+									<button type="button" class="btn btn-primary btn-outline btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job_fire_watch']; ?>" title="Edit" >
 										<i class='fa fa-pencil'></i>
 									</button>
+
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/fire_watch_checkin/' . $lista['id_job_fire_watch'] ) ?>'>
+											Log Sheet <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									</a>
 						<?php
 									echo "</td>";
 									echo "</tr>";

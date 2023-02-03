@@ -1257,6 +1257,49 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				}
 		}
 
+		/**
+		 * Add Fire Watch checkin
+		 * @since 3/02/2023
+		 */
+		public function saveFireWatchCheckin() 
+		{
+			$idWorker = $this->session->userdata("id");
+			$data = array(
+				'fk_id_job_fire_watch' => $this->input->post('idFireWatch'),
+				'fk_id_worker' => $idWorker,
+				'checkin_date' => date('Y-m-d'),
+				'checkin_time' => date("Y-m-d G:i:s"),
+			);	
+			$query = $this->db->insert('job_fire_watch_checkin', $data);
+			$idCheckin = $this->db->insert_id();	
+			if ($query) {
+				return $idCheckin;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Update Fire Watch Checkin - Checkout
+		 * @since 3/02/2023
+		 */
+		public function saveFireWatchCheckout() 
+		{
+				$idCheckin = $this->input->post('hddId');
+				
+				$data = array(
+					'checkout_time' => date("Y-m-d G:i:s")
+				);
+				$this->db->where('id_checkin', $idCheckin);
+				$query = $this->db->update('job_fire_watch_checkin', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 		
 	    
 	}

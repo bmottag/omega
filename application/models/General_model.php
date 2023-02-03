@@ -1786,5 +1786,35 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Check In List for fire watch
+		 * @since 1/6/2022
+		 */
+		public function get_fire_watch_checkin($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->join('user U', 'U.id_user = C.fk_id_worker', 'INNER');
+				if (array_key_exists("idCheckin", $arrDatos)) {
+					$this->db->where('C.id_checkin', $arrDatos["idCheckin"]);
+				}
+				if (array_key_exists("idFireWatch", $arrDatos)) {
+					$this->db->where('C.fk_id_job_fire_watch', $arrDatos["idFireWatch"]);
+				}
+				if (array_key_exists("today", $arrDatos)) {
+					$this->db->where('C.checkin_date', $arrDatos["today"]);
+				}
+				if (array_key_exists("checkout", $arrDatos)) {
+					$this->db->where('C.checkout_time', '0000-00-00 00:00:00');
+				}
+				$this->db->order_by('C.fk_id_job_fire_watch, C.id_checkin', 'asc');
+				$query = $this->db->get('job_fire_watch_checkin C');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 
 }

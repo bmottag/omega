@@ -2817,7 +2817,7 @@ ob_end_clean();
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
-			//tool box info
+			//fire watch info
 			$arrParam = array(
 				"idJob" => $idJob
 			);				
@@ -2845,13 +2845,11 @@ ob_end_clean();
 			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
 			
 			if ($data["idFireWatch"] != 'x') {
+				//fire watch info
 				$arrParam = array(
-					"table" => "job_fire_watch",
-					"order" => "id_job_fire_watch",
-					"column" => "id_job_fire_watch",
-					"id" => $data["idFireWatch"]
-				);
-				$data['information'] = $this->general_model->get_basic_search($arrParam);
+					"idFireWatch" => $data["idFireWatch"]
+				);				
+				$data['information'] = $this->general_model->get_fire_watch($arrParam);
 			}
 			
 			$this->load->view("fire_watch_modal", $data);
@@ -2883,6 +2881,109 @@ ob_end_clean();
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
+			echo json_encode($data);	
+    }
+
+	/**
+	 * Form Checkin for Fire Watch
+     * @since 3/2/2023
+     * @author BMOTTAG
+	 */
+	public function fire_watch_checkin($idFireWatch, $idCheckin = 'x')
+	{
+			$data['idCheckin'] = FALSE;
+
+			//fire watch info
+			$arrParam = array(
+				"idFireWatch" => $idFireWatch
+			);
+			$this->load->model("general_model");		
+			$data['information'] = $this->general_model->get_fire_watch($arrParam);
+
+			$arrParam = array(
+				"today" => date('Y-m-d'),
+				"idFireWatch" => $idFireWatch
+			);
+			$data['checkinList'] = $this->general_model->get_fire_watch_checkin($arrParam);
+
+			if ($idCheckin != 'x') {
+				$data['idCheckin'] = $idCheckin;
+				$arrParam = array("idCheckin" => $idCheckin);
+				$data['checkinList'] = $this->general_model->get_fire_watch_checkin($arrParam);
+			}
+			$data["view"] = "form_fire_watch_checkin";
+			$this->load->view("layout_calendar", $data);
+	}
+
+	/**
+	 * Save Fire Watch Checkin
+     * @since 3/2/2023
+     * @author BMOTTAG
+	 */
+	public function save_fire_watch_checkin()
+	{
+			header('Content-Type: application/json');
+			$data = array();
+
+			$idFireWatch =  $this->input->post('idFireWatch');
+			$msj = "Welcome, work safe!";
+
+			if ($idCheckin = $this->jobs_model->saveFireWatchCheckin()) 
+			{
+				$data["result"] = true;
+				$data["idCheckin"] = $idFireWatch ."/".$idCheckin;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);
+    }
+
+    /**
+     * Cargo modal - formulario checkout
+     * @since 3/02/2023
+     */
+    public function cargarModalFireWatchCheckout() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idCheckin"] = $this->input->post("idCheckin");	
+
+			if ($data["idCheckin"] != 'x') {
+				$arrParam = array(
+					"idCheckin" => $data["idCheckin"]
+				);
+				$this->load->model("general_model");
+				$data['information'] = $this->general_model->get_fire_watch_checkin($arrParam);
+			}
+			$this->load->view("fire_watch_checkout_modal", $data);
+    }
+
+	/**
+	 * Update checkin - checkout FIRE WATCH
+     * @since 3/02/2023
+     * @author BMOTTAG
+	 */
+	public function save_fire_watch_checkout()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idCheckin = $this->input->post('hddId');
+			$idFireWatch = $this->input->post('idFireWatch');
+			$data["idCheckin"] = $idFireWatch ."/".$idCheckin;
+			$msj = "Thanks for coming, have a good day!";
+
+			if ($this->jobs_model->saveFireWatchCheckout()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
 			echo json_encode($data);	
     }
 
