@@ -113,7 +113,7 @@
 										<ul class="dropdown-menu pull-right" role="menu">
 											<li><a href="<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>"><i class="fa fa-list fa-fw"></i> View Job Details</a></li>	
 											<li><a href="<?php echo base_url('jobs/upload_job_detail/' . $lista['id_job']) ?>"><i class="fa fa-upload fa-fw"></i> Upload Job Details</a></li>
-											<li><a href="<?php echo base_url('jobs/fire_watch/' . $lista['id_job']) ?>"><i class="fa fa-upload fa-fw"></i> Fire Watch</a></li>
+											<li><a href="<?php echo base_url('jobs/fire_watch/' . $lista['id_job']) ?>"><i class="fa fa-fire fa-fw"></i> Fire Watch</a></li>
 										</ul>
 									</div>
 								</div>

@@ -14,8 +14,8 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="address">Facility/Building Address:</label>
-					<input type="text" id="address" name="address" class="form-control" value="<?php echo $information?$information[0]["building_address"]:""; ?>" placeholder="Contact" required >
+					<label class="control-label" for="address">Facility/Building Address: *</label>
+					<input type="text" id="address" name="address" class="form-control" value="<?php echo $information?$information[0]["building_address"]:""; ?>" placeholder="Facility/Building Address" required >
 				</div>
 			</div>
 		</div>
@@ -23,14 +23,28 @@
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="conductedby">Conducted by: </label>
-					<input type="text" id="conductedby" name="conductedby" class="form-control" value="<?php echo $information?$information[0]["fk_id_conducted_by"]:""; ?>" placeholder="Conducted by" required >
+					<label class="control-label" for="conductedby">Fire Watch Conducted by: *</label>
+					<select name="conductedby" id="conductedby" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+							<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_conducted_by"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+						<?php } ?>
+					</select>
 				</div>
 			</div>
 		</div>
 
+<?php
+	$date = "";
+	$time = "";
+	if($information) { 
+		$CompleteDate = $information[0]['date'];
+		$date = substr($CompleteDate, 0, 10); 
+		$time = substr($CompleteDate, 11, 2);
+	}
+?>
 		<div class="row">
-			<div class="col-sm-4">		
+			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<script>
 						$( function() {
@@ -41,21 +55,20 @@
 						});
 					</script>
 					<label class="control-label" for="date">Date: *</label>
-					<input type="text" class="form-control" id="date" name="date" placeholder="Date" required />
+					<input type="text" class="form-control" id="date" name="date" value="<?php echo $date; ?>" placeholder="Date" required />
 				</div>
 			</div>
 			
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Time: *</label>
 					<select name="time" id="time" class="form-control" required>
 						<option value='' >Select...</option>
 						<?php
-						for ($i = 0; $i < 24; $i++) {
-							
-							$i = $i<10?"0".$i:$i;
-							?>
-							<option value='<?php echo $i; ?>'><?php echo $i; ?></option>
+							for ($i = 0; $i < 24; $i++) {
+								$i = $i<10?"0".$i:$i;
+						?>
+								<option value='<?php echo $i; ?>' <?php if($time == $i) { echo "selected"; }  ?> ><?php echo $i; ?></option>
 						<?php } ?>									
 					</select>
 				</div>

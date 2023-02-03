@@ -1230,13 +1230,17 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		{		
 				$idUser = $this->session->userdata("id");
 				$idFireWatch = $this->input->post('hddIdFireWatch');
+				$date = $this->input->post('date');
+				$time = $this->input->post('time');
+
+				$completeDate = $date . " " . $time . ":00:00";
 
 				$data = array(
 					'fk_id_job' => $this->input->post('hddIdJob'),
 					'fk_id_user' => $idUser,
 					'fk_id_conducted_by' => $this->input->post('conductedby'),
 					'building_address' => $this->input->post('address'),
-					'date' => $this->input->post('date')
+					'date' => $completeDate
 				);
 				
 				//revisar si es para adicionar o editar

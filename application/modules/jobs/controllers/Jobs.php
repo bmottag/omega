@@ -429,9 +429,9 @@ class Jobs extends CI_Controller {
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 			
-			//worker´s list
+			//worker list
 			$arrParam = array("state" => 1);
-			$data['workersList'] = $this->general_model->get_user($arrParam);//workers list
+			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
 						
 			//ERP info
 			$arrParam = array(
@@ -2838,6 +2838,11 @@ ob_end_clean();
 			$data['information'] = FALSE;
 			$data["idFireWatch"] = $this->input->post("idFireWatch");
 			$data["idJob"] = $this->input->post("idJob");
+
+			//worker list
+			$arrParam = array("state" => 1);
+			$this->load->model("general_model");
+			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
 			
 			if ($data["idFireWatch"] != 'x') {
 				$arrParam = array(

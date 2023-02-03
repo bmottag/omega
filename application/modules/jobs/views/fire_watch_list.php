@@ -67,10 +67,10 @@ $(function(){
 									echo "<td>" . $lista['date'] . "</td>";
 									
 									echo "<td class='text-center'>";									
-						?>
-									<a class='btn btn-success btn-xs' href='<?php echo base_url('jobs/add_tool_box/' . $lista['fk_id_job'] . '/' . $lista['id_job_fire_watch'] ) ?>'>
-											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-									</a>								
+						?>							
+									<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job_fire_watch']; ?>" title="Edit" >
+										<i class='fa fa-pencil'></i>
+									</button>
 						<?php
 									echo "</td>";
 									echo "</tr>";
