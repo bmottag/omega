@@ -90,7 +90,7 @@
 						
 						$html.=		'<tr>
 									<th align="center">' . $items . '</th>
-									<th>' . $data['employee_type'] . ' - ' . $data['description'] . '</th>
+									<th>' . $data['employee_type'] . ' - ' . $data['description'] . ' by ' . $data['name'] . '</th>
 									<th align="center">Hours</th>
 									<th align="center">' . $data['hours'] . '</th>
 									<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
