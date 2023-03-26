@@ -34,6 +34,23 @@
 			</div>
 		</div>
 
+
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="systemsShutdown">Systems Shutdown: *</label>
+					<input type="checkbox" id="fire_alarm" name="fire_alarm" value=1 <?php if($information && $information[0]["fk_id_conducted_by"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Fire Alarm System<br> 	
+					<input type="checkbox" id="fire_sprinkler" name="fire_sprinkler" value=1 <?php if($information && $information[0]["fk_id_conducted_by"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Fire Sprinkler System<br>  	
+					<input type="checkbox" id="standpipe" name="standpipe" value=1 <?php if($information && $information[0]["fk_id_conducted_by"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Standpipe System<br>   		
+					<input type="checkbox" id="fire_pump" name="fire_pump" value=1 <?php if($information && $information[0]["fk_id_conducted_by"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Fire Pump System<br>
+					<input type="checkbox" id="fire_suppression" name="fire_suppression" value=1 <?php if($information && $information[0]["fk_id_conducted_by"]){echo "checked";}elseif(!$information){echo "checked";} ?> > Special Fire Suppression System						
+				</div>
+			</div>
+		</div>
+
+
+
+
 <?php
 	$date = "";
 	$time = "";
