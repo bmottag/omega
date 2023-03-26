@@ -32,34 +32,85 @@ $(function(){
 				<div class="panel-body">
 				<form  name="form" id="form" method="post" >
 					<input type="hidden" id="idFireWatch" name="idFireWatch" value="<?php echo $information[0]["id_job_fire_watch"]; ?>" >
+
+					<div class="row">
+						<div class="col-lg-12">
+							<h3><strong>Facility/Building Address: </strong><?php echo $information[0]["building_address"]; ?></h3>
+						</div>
+						<div class="col-lg-6">
+<?php
+$mobile = $information[0]["super_number"];
+// Separa en grupos de tres 
+$count = strlen($mobile); 
+	
+$num_tlf1 = substr($mobile, 0, 3); 
+$num_tlf2 = substr($mobile, 3, 3); 
+$num_tlf3 = substr($mobile, 6, 2); 
+$num_tlf4 = substr($mobile, -2); 
+
+if($count == 10){
+	$resultado = "$num_tlf1 $num_tlf2 $num_tlf3 $num_tlf4";  
+}else{
+	
+	$resultado = chunk_split($mobile,3," "); 
+}
+
+?>
+
+							<strong>Conducted by: </strong><?php echo $information[0]["conductedby"]; ?><br>
+							<strong>Supervisor’s Name: </strong><?php echo $information[0]["supervisor"]; ?>   <strong> Supervisor’s Contact Number: </strong><?php echo $resultado; ?> <br>
+							<strong>Fire Watch Commenced: </strong><?php echo $information[0]["date_out"]; ?><br>
+							<strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?><br>
+							<strong>Areas/Zones Requiring Fire Watch Patrols: </strong><br>
+							<?php echo $information[0]["areas"]; ?>
+						</div>
+						<div class="col-lg-6">
+							<strong>System(s) Out of Service: </strong><?php echo $information[0]["date_out"]; ?><br>
+							<strong>Systems(s) Restored Online: </strong><?php echo $information[0]['date_restored'] == "0000-00-00 00:00:00"?"":$information[0]['date_restored']; ?><br>
+							<strong>Systems Shutdown: </strong><br>
+							<?php 
+								echo $information[0]['fire_alarm']?"":"Fire Alarm System<br>";
+								echo $information[0]['fire_sprinkler']?"":"Fire Sprinkler System<br>";
+								echo $information[0]['standpipe']?"":"Standpipe System<br>";
+								echo $information[0]['fire_pump']?"":"Fire Pump System<br>";
+								echo $information[0]['fire_suppression']?"":"Special Fire Suppression System<br>";
+								echo $information[0]['other']?"":$information[0]['other'];
+							?>
+						</div>
+					</div>
+	
+					<br>
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="alert alert-info ">
 								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 									Fire Watch Log Sheet form
+									<br>
+
+									<div class="form-group">
+										<div class="row" align="center">
+											<div style="width:60%;" align="center">
+												<div class="form-group text-left">
+													<label class="control-label" for="notes">Notes/Observations: </label>
+													<textarea id="notes" name="notes" placeholder="Notes/Observations" class="form-control" rows="3"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row" align="center">
+											<div style="width:50%;" align="center">
+												<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+													Sign-In <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+												</button> 
+											</div>
+										</div>
+									</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-lg-12">
-							<h3><strong>Facility/Building Address: </strong><?php echo $information[0]["building_address"]; ?></h3>
-							<strong>Fire Watch Conducted by: </strong><?php echo $information[0]["conductedby"]; ?><br>
-							<strong>Fire Watch Commenced: </strong><?php echo $information[0]["job_description"]; ?><br>
-							<?php echo $information[0]["job_description"]; ?>
-						</div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="row" align="center">
-							<div style="width:50%;" align="center">
-								<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
-									Sign-In <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-								</button> 
-							</div>
-						</div>
-					</div>
-										
 					<div class="form-group">
 						<div class="row" align="center">
 							<div style="width:80%;" align="center">
@@ -76,6 +127,7 @@ $(function(){
 							</div>
 						</div>
 					</div>	
+
 				</form>	
 				</div>
 			</div>
@@ -131,6 +183,7 @@ if ($retornoError) {
 								<th class="text-center">Phone Number</th>
 								<th class="text-center">Sign-In</th>
 								<th class="text-center">Sign-Out</th>
+								<th >Notes/Observations</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -158,6 +211,7 @@ if ($retornoError) {
 								echo "<td class='text-center'>" . $lista['movil'] . "</td>";
 								echo "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
 								echo "<td class='text-center'>" . $checkOut . "</td>";
+								echo "<td >" . $lista['notes'] . "</td>";
 								echo "</tr>";
 							endforeach;
 						?>

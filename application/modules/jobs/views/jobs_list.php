@@ -93,6 +93,10 @@
 						<?php
 								}
 						?>
+
+									<a class='btn btn-dark btn-xs' href='<?php echo base_url('jobs/fire_watch/' . $lista['id_job']) ?>'>
+										Fire Watch <span class="fa fa-fire" aria-hidden="true">
+									</a>
 									<a class='btn btn-violeta btn-xs' href='<?php echo base_url('jobs/bitacora/' . $lista['id_job']) ?>'>
 										Bitacora <span class="fa fa-umbrella" aria-hidden="true">
 									</a>
@@ -113,7 +117,6 @@
 										<ul class="dropdown-menu pull-right" role="menu">
 											<li><a href="<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>"><i class="fa fa-list fa-fw"></i> View Job Details</a></li>	
 											<li><a href="<?php echo base_url('jobs/upload_job_detail/' . $lista['id_job']) ?>"><i class="fa fa-upload fa-fw"></i> Upload Job Details</a></li>
-											<li><a href="<?php echo base_url('jobs/fire_watch/' . $lista['id_job']) ?>"><i class="fa fa-fire fa-fw"></i> Fire Watch</a></li>
 										</ul>
 									</div>
 								</div>

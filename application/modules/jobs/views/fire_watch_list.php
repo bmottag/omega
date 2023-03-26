@@ -51,20 +51,25 @@ $(function(){
 								<th>#</th>
 								<th>Reported by</th>
 								<th>Conducted by</th>
+								<th>Supervisor</th>
 								<th>Facility/Building Address</th>
-								<th>Date</th>
+								<th>System(s) Out of Service</th>
+								<th>Systems(s) Restored Online </th>
 								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($information as $lista):
+									$dateRestored = $lista['date_restored'] == "0000-00-00 00:00:00"?"":$lista['date_restored'];
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['id_job_fire_watch'] . "</td>";
 									echo "<td>" . $lista['reportedby'] . "</td>";
 									echo "<td>" . $lista['conductedby'] . "</td>";
+									echo "<td>" . $lista['supervisor'] . "</td>";
 									echo "<td>" . $lista['building_address'] . "</td>";
-									echo "<td>" . $lista['date'] . "</td>";
+									echo "<td>" . $lista['date_out'] . "</td>";
+									echo "<td>" . $dateRestored. "</td>";
 									echo "<td class='text-center'>";									
 						?>							
 									<button type="button" class="btn btn-primary btn-outline btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job_fire_watch']; ?>" title="Edit" >

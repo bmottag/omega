@@ -24,6 +24,15 @@
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-sm-12">		
+				<div class="form-group text-left">
+					<label class="control-label" for="notes">Notes/Observations:</label>
+					<textarea id="notes" name="notes" placeholder="Notes/Observations" class="form-control" rows="3"><?php echo $information?$information[0]["notes"]:""; ?></textarea>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">

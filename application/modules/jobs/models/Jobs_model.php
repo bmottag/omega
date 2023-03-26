@@ -1232,15 +1232,27 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				$idFireWatch = $this->input->post('hddIdFireWatch');
 				$date = $this->input->post('date');
 				$time = $this->input->post('time');
-
 				$completeDate = $date . " " . $time . ":00:00";
+
+				$dateRestored = $this->input->post('dateRestored');
+				$timeRestored = $this->input->post('timeRestored');
+				$completeDateRestored = $dateRestored . " " . $timeRestored . ":00:00";
 
 				$data = array(
 					'fk_id_job' => $this->input->post('hddIdJob'),
 					'fk_id_user' => $idUser,
 					'fk_id_conducted_by' => $this->input->post('conductedby'),
+					'fk_id_supervisor' => $this->input->post('supervisor'),
 					'building_address' => $this->input->post('address'),
-					'date' => $completeDate
+					'date_out' => $completeDate,
+					'date_restored' => $completeDateRestored,
+					'fire_alarm' => $this->input->post('fire_alarm'),
+					'fire_sprinkler' => $this->input->post('fire_sprinkler'),
+					'standpipe' => $this->input->post('standpipe'),
+					'fire_pump' => $this->input->post('fire_pump'),
+					'fire_suppression' => $this->input->post('fire_suppression'),
+					'other' => $this->input->post('other'),
+					'areas' => $this->input->post('areas')
 				);
 				
 				//revisar si es para adicionar o editar
@@ -1269,6 +1281,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'fk_id_worker' => $idWorker,
 				'checkin_date' => date('Y-m-d'),
 				'checkin_time' => date("Y-m-d G:i:s"),
+				'notes' => $this->input->post('notes')
 			);	
 			$query = $this->db->insert('job_fire_watch_checkin', $data);
 			$idCheckin = $this->db->insert_id();	
@@ -1288,7 +1301,8 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				$idCheckin = $this->input->post('hddId');
 				
 				$data = array(
-					'checkout_time' => date("Y-m-d G:i:s")
+					'checkout_time' => date("Y-m-d G:i:s"),
+					'notes' => $this->input->post('notes')
 				);
 				$this->db->where('id_checkin', $idCheckin);
 				$query = $this->db->update('job_fire_watch_checkin', $data);

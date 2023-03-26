@@ -4,6 +4,7 @@ $( document ).ready( function () {
 		rules: {
 			address:				{ required: true, minlength: 3, maxlength:100 },
 			conductedby:			{ required: true },
+			supervisor:				{ required: true },
 			date:					{ required: true },
 			time:					{ required: true}
 			
