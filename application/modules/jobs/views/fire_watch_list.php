@@ -76,9 +76,19 @@ $(function(){
 										<i class='fa fa-pencil'></i>
 									</button>
 
-									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/fire_watch_checkin/' . $lista['id_job_fire_watch'] ) ?>'>
-											Log Sheet <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/fire_watch_checkin/' . $lista['id_job_fire_watch'] ) ?>' title="Log Sheet">
+										Log Sheet <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</a>
+
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Record">
+										<span class="fa fa-cloud-download" aria-hidden="true">
+									</a>
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Log Sheet">
+										<span class="fa fa-cloud-download" aria-hidden="true">
+									</a>
+
+
+
 						<?php
 									echo "</td>";
 									echo "</tr>";

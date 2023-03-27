@@ -1793,7 +1793,12 @@ class General_model extends CI_Model {
 		 */
 		public function get_fire_watch_checkin($arrDatos) 
 		{
-				$this->db->select();
+				if (array_key_exists("distinctUser", $arrDatos)) {
+					$this->db->select('distinct(id_user), first_name, last_name, movil');
+				}else{
+					$this->db->select();
+				}
+				
 				$this->db->join('user U', 'U.id_user = C.fk_id_worker', 'INNER');
 				if (array_key_exists("idCheckin", $arrDatos)) {
 					$this->db->where('C.id_checkin', $arrDatos["idCheckin"]);
@@ -1807,7 +1812,12 @@ class General_model extends CI_Model {
 				if (array_key_exists("checkout", $arrDatos)) {
 					$this->db->where('C.checkout_time', '0000-00-00 00:00:00');
 				}
-				$this->db->order_by('C.fk_id_job_fire_watch, C.id_checkin', 'asc');
+				
+				if (array_key_exists("distinctUser", $arrDatos)) {
+					$this->db->order_by('U.first_name, U.last_name', 'asc');
+				}else{
+					$this->db->order_by('C.fk_id_job_fire_watch, C.id_checkin', 'asc');
+				}
 				$query = $this->db->get('job_fire_watch_checkin C');
 
 				if ($query->num_rows() > 0) {
