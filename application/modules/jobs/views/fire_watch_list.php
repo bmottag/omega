@@ -83,7 +83,7 @@ $(function(){
 									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Record">
 										<span class="fa fa-cloud-download" aria-hidden="true">
 									</a>
-									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Log Sheet">
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHLOGPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Log Sheet">
 										<span class="fa fa-cloud-download" aria-hidden="true">
 									</a>
 

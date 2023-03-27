@@ -4,7 +4,7 @@
 	
 	$html .= '<br><h2 align="center" style="color:#337ab7;">Fire Watch Record</h2><br>';
 
-	$html .= '<table border="0" cellspacing="0" cellpadding="5">
+	$html .= '<table style="border-collapse: collapse; width: 100%; height: 90px;" border="0" cellspacing="0" cellpadding="5">
 				<tbody>
 					<tr>
 						<td style="width: 35%;">&nbsp;<strong>Facility/Building Address:</strong></td>
@@ -14,7 +14,7 @@
 			</table>';
 
 	$html.= '<p"><em><strong>Systems Shutdown</strong></em></p>';
-	$html .= '<table border="0" cellspacing="0" cellpadding="5">';
+	$html .= '<table style="border-collapse: collapse; width: 100%; height: 90px;" border="0" cellspacing="0" cellpadding="5">';
 	$html.='<tr>
 			<th>';
 			if($info[0]['fire_alarm'] == 1){
@@ -77,11 +77,6 @@
 	$html.='<th></th>';
 
 	$html.= '</tr>';
-
-	$html.= '<tr><th colspan="3">Areas/Zones Requiring Fire Watch Patrols</th></tr>';
-	$html.= '<tr><th colspan="3">';
-	$html.= $info[0]['areas'];
-	$html.= '</th></tr>';
 	$html.='</table><br>';
 
 	$CompleteDateOut = $info[0]['date_out'];
@@ -96,7 +91,7 @@
 		$time2 = substr($CompleteDateRestored, 11, 2). ':00';
 	}
 
-	$html .= '<table border="0" cellspacing="0" cellpadding="5">
+	$html .= '<table style="border-collapse: collapse; width: 100%; height: 90px;" border="0" cellspacing="0" cellpadding="5">
 				<tbody>
 					<tr>
 						<td colspan="2">&nbsp;<strong>System(s) Out of Service</strong></td>
@@ -116,6 +111,12 @@
 				</tbody>
 			</table>';
 
+	$html .= '<table style="border-collapse: collapse; width: 100%; height: 90px;" border="0" cellspacing="0" cellpadding="5">';
+	$html.= '<tr><th>Areas/Zones Requiring Fire Watch Patrols</th></tr>';
+	$html.= '<tr><th>';
+	$html.= $info[0]['areas'];
+	$html.= '</th></tr>';
+	$html.='</table><br>';
 
 	$html.= '<p"><em><strong>Persons Conducting Fire Watch Service</strong></em></p>';
 	$html .= '<style>
