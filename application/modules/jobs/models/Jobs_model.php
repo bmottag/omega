@@ -1224,7 +1224,53 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 
 		/**
 		 * Add/Edit FIRE WATCH
-		 * @since 27/1/2023
+		 * @since 27/3/2023
+		 */
+		public function saveFireWatchSetup() 
+		{		
+				$idUser = $this->session->userdata("id");
+				$metodo = $this->input->post('hddMetodo');
+				$date = $this->input->post('date');
+				$time = $this->input->post('time');
+				$completeDate = $date . " " . $time . ":00:00";
+
+				$dateRestored = $this->input->post('dateRestored');
+				$timeRestored = $this->input->post('timeRestored');
+				$completeDateRestored = $dateRestored . " " . $timeRestored . ":00:00";
+
+				$data = array(
+					'fk_id_user' => $idUser,
+					'fk_id_supervisor' => $this->input->post('supervisor'),
+					'building_address' => $this->input->post('address'),
+					'date_out' => $completeDate,
+					'date_restored' => $completeDateRestored,
+					'fire_alarm' => $this->input->post('fire_alarm'),
+					'fire_sprinkler' => $this->input->post('fire_sprinkler'),
+					'standpipe' => $this->input->post('standpipe'),
+					'fire_pump' => $this->input->post('fire_pump'),
+					'fire_suppression' => $this->input->post('fire_suppression'),
+					'other' => $this->input->post('other'),
+					'areas' => $this->input->post('areas')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($metodo == 'create') {
+					$data["fk_id_job"] = $this->input->post('hddIdJob');
+					$query = $this->db->insert('job_fire_watch_setttings', $data);				
+				} else {
+					$this->db->where('fk_id_job', $this->input->post('hddIdJob'));
+					$query = $this->db->update('job_fire_watch_setttings', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add/Edit FIRE WATCH
+		 * @since 27/3/2023
 		 */
 		public function saveFireWatch() 
 		{		
@@ -1241,7 +1287,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				$data = array(
 					'fk_id_job' => $this->input->post('hddIdJob'),
 					'fk_id_user' => $idUser,
-					'fk_id_conducted_by' => $this->input->post('conductedby'),
+					'fk_id_conducted_by' => $idUser,
 					'fk_id_supervisor' => $this->input->post('supervisor'),
 					'building_address' => $this->input->post('address'),
 					'date_out' => $completeDate,
@@ -1257,6 +1303,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				
 				//revisar si es para adicionar o editar
 				if ($idFireWatch == '') {
+					$data["date_commenced"] = date("Y-m-d G:i:s");
 					$query = $this->db->insert('job_fire_watch', $data);				
 				} else {
 					$this->db->where('id_job_fire_watch', $idFireWatch);
@@ -1284,9 +1331,8 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'notes' => $this->input->post('notes')
 			);	
 			$query = $this->db->insert('job_fire_watch_checkin', $data);
-			$idCheckin = $this->db->insert_id();	
 			if ($query) {
-				return $idCheckin;
+				return true;
 			} else {
 				return false;
 			}

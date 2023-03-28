@@ -2816,16 +2816,43 @@ ob_end_clean();
 				"id" => $idJob
 			);
 			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
-			
+
 			//fire watch info
-			$arrParam = array(
-				"idJob" => $idJob
-			);				
+			$arrParam = array("idJob" => $idJob);				
+			$data['infoFireWatchSetup'] = $this->general_model->get_fire_watch_setup($arrParam);
+			
+			//fire watch info			
 			$data['information'] = $this->general_model->get_fire_watch($arrParam);
 
 			$data["view"] ='fire_watch_list';
 			$this->load->view("layout", $data);
 	}
+
+    /**
+     * Cargo modal - formulario fire watch setup
+     * @since 27/1/2023
+     */
+    public function cargarModalFireWatchSetup() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idJob"] = $this->input->post("idJob");
+			$data["metodo"] = $this->input->post("metodo");
+
+			//worker list
+			$arrParam = array("state" => 1);
+			$this->load->model("general_model");
+			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
+			
+			//fire watch setup info
+			$arrParam = array(
+				"idJob" => $data["idJob"]
+			);				
+			$data['information'] = $this->general_model->get_fire_watch_setup($arrParam);
+
+			$this->load->view("fire_watch_setup_modal", $data);
+    }
 
     /**
      * Cargo modal - formulario fire watch
@@ -2850,9 +2877,35 @@ ob_end_clean();
 					"idFireWatch" => $data["idFireWatch"]
 				);				
 				$data['information'] = $this->general_model->get_fire_watch($arrParam);
+			}else{
+				$data['information'] = $this->general_model->get_fire_watch_setup($arrParam);
 			}
 			
 			$this->load->view("fire_watch_modal", $data);
+    }
+
+	/**
+	 * Save fire watch
+     * @since 27/1/2023
+     * @author BMOTTAG
+	 */
+	public function save_fire_watch_setup()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$data["idRecord"] = $this->input->post('hddIdJob');
+			$msj = "You have saved the information!!";
+
+			if ($this->jobs_model->saveFireWatchSetup()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";			
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
     }
 	
 	/**
@@ -2926,12 +2979,12 @@ ob_end_clean();
 			$data = array();
 
 			$idFireWatch =  $this->input->post('idFireWatch');
-			$msj = "Welcome, work safe!";
+			$msj = "Information saved successfully!";
 
-			if ($idCheckin = $this->jobs_model->saveFireWatchCheckin()) 
+			if ($this->jobs_model->saveFireWatchCheckin()) 
 			{
 				$data["result"] = true;
-				$data["idCheckin"] = $idFireWatch ."/".$idCheckin;
+				$data["idFireWatch"] = $idFireWatch;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
@@ -2971,11 +3024,10 @@ ob_end_clean();
 	{			
 			header('Content-Type: application/json');
 			$data = array();
-			
-			$idCheckin = $this->input->post('hddId');
+
 			$idFireWatch = $this->input->post('idFireWatch');
-			$data["idCheckin"] = $idFireWatch ."/".$idCheckin;
-			$msj = "Thanks for coming, have a good day!";
+			$data["idFireWatch"] = $idFireWatch;
+			$msj = "Information saved successfully!";
 
 			if ($this->jobs_model->saveFireWatchCheckout()) {
 				$data["result"] = true;

@@ -58,15 +58,16 @@ if($count == 10){
 ?>
 
 							<strong>Conducted by: </strong><?php echo $information[0]["conductedby"]; ?><br>
-							<strong>Supervisor’s Name: </strong><?php echo $information[0]["supervisor"]; ?>   <strong> Supervisor’s Contact Number: </strong><?php echo $resultado; ?> <br>
-							<strong>Fire Watch Commenced: </strong><?php echo $information[0]["date_out"]; ?><br>
+							<strong>Supervisor’s Name: </strong><?php echo $information[0]["supervisor"]; ?><br>   
+							<strong>Supervisor’s Contact Number: </strong><?php echo $resultado; ?> <br>
+							<strong>Fire Watch Commenced: </strong><?php echo $information[0]["date_commenced"]; ?><br>
 							<strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?><br>
 							<strong>Areas/Zones Requiring Fire Watch Patrols: </strong><br>
 							<?php echo $information[0]["areas"]; ?>
 						</div>
 						<div class="col-lg-6">
 							<strong>System(s) Out of Service: </strong><?php echo $information[0]["date_out"]; ?><br>
-							<strong>Systems(s) Restored Online: </strong><?php echo $information[0]['date_restored'] == "0000-00-00 00:00:00"?"":$information[0]['date_restored']; ?><br>
+							<strong>System(s) Restored Online: </strong><?php echo $information[0]['date_restored'] == "0000-00-00 00:00:00"?"":$information[0]['date_restored']; ?><br>
 							<strong>Systems Shutdown: </strong><br>
 							<?php 
 								echo $information[0]['fire_alarm']?"":"Fire Alarm System<br>";
@@ -102,7 +103,7 @@ if($count == 10){
 										<div class="row" align="center">
 											<div style="width:50%;" align="center">
 												<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
-													Sign-In <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Log
 												</button> 
 											</div>
 										</div>
@@ -178,16 +179,18 @@ if ($retornoError) {
 					<table width="100%" class="table table-hover" id="dataTables">
 						<thead>
 							<tr>
+								<th class="text-center">Patrol #</th>
 								<th class="text-center">Date</th>
 								<th >Worker</th>
 								<th class="text-center">Phone Number</th>
-								<th class="text-center">Sign-In</th>
-								<th class="text-center">Sign-Out</th>
+								<th class="text-center">Start Time</th>
+								<th class="text-center">End Time</th>
 								<th >Notes/Observations</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
+							$i=1;
 							foreach ($checkinList as $lista):
 								$checkOut = $lista['checkout_time'];
 								$flag = false;
@@ -197,22 +200,24 @@ if ($retornoError) {
 								}
 								
 								echo "<tr>";
-								echo "<td class='text-center'>" . ucfirst(strftime("%b %d, %G",strtotime($lista['checkin_date'])));
-								if($flag){
-						?>
-								<br>
-								<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_checkin']; ?>" >
-									Sign-Out <span class="glyphicon glyphicon-edit" aria-hidden="true">
-								</button>
-						<?php
-								}
-								echo "</td>";
+								echo "<td class='text-center'>" . $i. "</td>";
+								echo "<td class='text-center'>" . ucfirst(strftime("%b %d, %G",strtotime($lista['checkin_date']))) . "</td>";
 								echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
 								echo "<td class='text-center'>" . $lista['movil'] . "</td>";
 								echo "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
-								echo "<td class='text-center'>" . $checkOut . "</td>";
+								echo "<td class='text-center'>" . $checkOut;
+								if($flag){
+								?>
+										<br>
+										<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_checkin']; ?>" >
+											End Time <span class="glyphicon glyphicon-edit" aria-hidden="true">
+										</button>
+								<?php
+								}
+								echo "</td>";
 								echo "<td >" . $lista['notes'] . "</td>";
 								echo "</tr>";
+								$i++;
 							endforeach;
 						?>
 						</tbody>

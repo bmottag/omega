@@ -22,7 +22,7 @@
 				</tbody>
 			</table>';
 
-	$CompleteDateOut = $info[0]['date_out'];
+	$CompleteDateOut = $info[0]['date_commenced'];
 	$date = substr($CompleteDateOut, 0, 10); 
 	$time = substr($CompleteDateOut, 11, 2) . ':00';
 

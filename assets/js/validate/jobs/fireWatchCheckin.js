@@ -32,7 +32,7 @@ $( document ).ready( function () {
 					$("#div_load").css("display", "none");
 					$('#btnSubmit').removeAttr('disabled');
 
-					var url = base_url + "jobs/fire_watch_checkin/" + data.idCheckin;
+					var url = base_url + "jobs/fire_watch_checkin/" + data.idFireWatch;
 					$(location).attr("href", url);
 				}
 				else

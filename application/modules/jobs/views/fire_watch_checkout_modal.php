@@ -1,7 +1,7 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/fireWatchCheckout.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Sign-Out Form</h4>
+	<h4 class="modal-title" id="exampleModalLabel">End Time Form</h4>
 </div>
 
 <div class="modal-body">
@@ -18,7 +18,7 @@
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="contact">Time Sign-In:</label>
+					<label class="control-label" for="contact">Start Time:</label>
 					<input type="text" id="contact" name="contact" class="form-control" value="<?php echo $information?$information[0]["checkin_time"]:""; ?>" disabled >
 				</div>
 			</div>
@@ -36,7 +36,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<label class="control-label" for="contact">Time Sign-Out:</label><br>
+					<label class="control-label" for="contact">End Time:</label><br>
 					<?php echo date("Y-m-d G:i:s"); ?>
 				</div>
 			</div>

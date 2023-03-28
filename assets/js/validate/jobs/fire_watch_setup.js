@@ -6,7 +6,6 @@ $( document ).ready( function () {
 			supervisor:				{ required: true },
 			date:					{ required: true },
 			time:					{ required: true}
-			
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -39,7 +38,7 @@ $( document ).ready( function () {
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "jobs/save_fire_watch",	
+					url: base_url + "jobs/save_fire_watch_setup",	
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",

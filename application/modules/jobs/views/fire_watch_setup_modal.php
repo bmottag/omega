@@ -1,7 +1,7 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/fire_watch.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/fire_watch_setup.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Fire Watch Form
+	<h4 class="modal-title" id="exampleModalLabel">Fire Watch Information
 	<br><small>Add/Edit Fire Watch</small>
 	</h4>
 </div>
@@ -9,7 +9,7 @@
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $idJob; ?>"/>
-		<input type="hidden" id="hddIdFireWatch" name="hddIdFireWatch" value="<?php echo ($information && isset($information[0]["id_job_fire_watch"]))?$information[0]["id_job_fire_watch"]:""; ?>"/>
+		<input type="hidden" id="hddMetodo" name="hddMetodo" value="<?php echo $metodo; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-12">

@@ -102,7 +102,7 @@
 					</tr>
 
 					<tr>
-						<td colspan="2">&nbsp;<strong>Systems(s) Restored Online</strong></td>
+						<td colspan="2">&nbsp;<strong>System(s) Restored Online</strong></td>
 					</tr>
 					<tr>
 						<td style="width: 35%;">&nbsp;<strong>Date: </strong>' . $date2   . '</td>
