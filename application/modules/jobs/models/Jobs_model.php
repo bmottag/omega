@@ -1328,6 +1328,9 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				'fk_id_worker' => $idWorker,
 				'checkin_date' => date('Y-m-d'),
 				'checkin_time' => date("Y-m-d G:i:s"),
+				'address_start' => $this->input->post('address'),
+				'latitude_start' => $this->input->post('latitude'),
+				'longitude_start' => $this->input->post('longitude'),
 				'notes' => $this->input->post('notes')
 			);	
 			$query = $this->db->insert('job_fire_watch_checkin', $data);

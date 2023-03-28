@@ -30,6 +30,35 @@ $(function(){
 					<i class="fa fa-tasks"></i><strong> FIRE WATCH LOG SHEET </strong>
 				</div>
 				<div class="panel-body">
+				<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
+		</div>
+	</div>
+    <?php
+}
+
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
+		</div>
+	</div>
+    <?php
+}
+?>
 				<form  name="form" id="form" method="post" >
 					<input type="hidden" id="idFireWatch" name="idFireWatch" value="<?php echo $information[0]["id_job_fire_watch"]; ?>" >
 
@@ -88,22 +117,38 @@ if($count == 10){
 									Fire Watch Log Sheet form
 									<br>
 
-									<div class="form-group">
-										<div class="row" align="center">
-											<div style="width:60%;" align="center">
-												<div class="form-group text-left">
-													<label class="control-label" for="notes">Notes/Observations: </label>
-													<textarea id="notes" name="notes" placeholder="Notes/Observations" class="form-control" rows="3"></textarea>
-												</div>
-											</div>
-										</div>
+									<div class="form-group text-left">
+										<label class="control-label" for="address">Address:</label>
+										<input id="viewaddress" name="viewaddress" class="form-control" type="text" disabled >
+										<input id="address" name="address" type="hidden">
+										<input id="latitude" name="latitude" type="hidden">
+										<input id="longitude" name="longitude" type="hidden">									
+										<a class="btn btn-success btn-circle" href=" <?php echo base_url().'jobs/fire_watch_checkin/'.$information[0]["id_job_fire_watch"]; ?> "><i class="fa fa-refresh "></i> </a> 
+									</div>
+									<div class="form-group text-left">
+										<label class="control-label" for="address">Latitude:</label>
+										<input id="latitud" name="latitud" class="form-control" type="text" disabled>					
+									</div>
+									<div class="form-group text-left">
+										<label class="control-label" for="address">Longitude:</label>					
+										<input id="longitud" name="longitud" class="form-control" type="text" disabled>	
+									</div>
+
+
+									<div class="form-group text-left">	
+										<div id="map" style="width: 100%; height: 280px"></div>	
+									</div>
+
+									<div class="form-group text-left">	
+										<label class="control-label" for="notes">Notes/Observations: </label>
+										<textarea id="notes" name="notes" placeholder="Notes/Observations" class="form-control" rows="3"></textarea>
 									</div>
 
 									<div class="form-group">
 										<div class="row" align="center">
 											<div style="width:50%;" align="center">
 												<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
-													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Log
+													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Log Record
 												</button> 
 											</div>
 										</div>
@@ -185,6 +230,7 @@ if ($retornoError) {
 								<th class="text-center">Phone Number</th>
 								<th class="text-center">Start Time</th>
 								<th class="text-center">End Time</th>
+								<th>Address</th>
 								<th >Notes/Observations</th>
 							</tr>
 						</thead>
@@ -215,6 +261,10 @@ if ($retornoError) {
 								<?php
 								}
 								echo "</td>";
+								echo "<td>" . $lista['address_start'];
+								echo "<br><b>Latitud</b>" . $lista['latitude_start'];
+								echo "<br><b>Longitud</b>" . $lista['longitude_start'];
+								echo "</td>";
 								echo "<td >" . $lista['notes'] . "</td>";
 								echo "</tr>";
 								$i++;
@@ -240,7 +290,6 @@ if ($retornoError) {
 </div>                       
 <!--FIN Modal -->
 
-
 <!-- Tables -->
 <script>
 $(document).ready(function() {
@@ -251,4 +300,105 @@ $(document).ready(function() {
 		"searching": false
 	});
 });
+</script>
+
+		
+<script>
+    // The following example creates complex markers to indicate beaches near
+	// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
+	// to the base of the flagpole.
+
+	var options = {
+	  enableHighAccuracy: true,
+	  timeout: 5000,
+	  maximumAge: 0
+	};
+
+	function success(pos) {
+		var crd = pos.coords;
+
+		console.log('Your current position is:');
+		console.log('Latitude : ' + crd.latitude);
+		console.log('Longitude: ' + crd.longitude);
+		console.log('More or less ' + crd.accuracy + ' meters.');
+		$("#latitud").val(crd.latitude);
+		$("#longitud").val(crd.longitude);
+		$("#latitude").val(crd.latitude);
+		$("#longitude").val(crd.longitude);
+		var pos = {
+					lat: crd.latitude,
+					lng: crd.longitude
+				};
+		map.setCenter(pos);
+		map.setZoom(17);
+
+		showLatLong(crd.latitude, crd.longitude);
+
+		ultimaPosicionUsuario = new google.maps.LatLng(crd.latitude, crd.longitude);
+		marcadorUsuario = new google.maps.Marker({
+			position: ultimaPosicionUsuario,
+			map: map
+		});
+	};
+
+	function error(err) {
+		console.warn('ERROR(' + err.code + '): ' + err.message);
+	};
+
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+		infoWindow.setPosition(pos);
+		infoWindow.setContent(browserHasGeolocation ?
+							  'Error: Error en el servicio de localizacion.' :
+							  'Error: Navegador no soporta geolocalizacion.');
+	}
+	
+	/**
+	 * INICIO --- Capturar direccion
+	 * http://www.elclubdelprogramador.com/2012/04/22/html5-obteniendo-direcciones-a-partir-de-latitud-y-longitud-geolocalizacion/
+	 */
+	function showLatLong(lat, longi) {
+		var geocoder = new google.maps.Geocoder();
+		var yourLocation = new google.maps.LatLng(lat, longi);
+		geocoder.geocode({ 'latLng': yourLocation },processGeocoder);
+	}
+	function processGeocoder(results, status){
+		if (status == google.maps.GeocoderStatus.OK) {
+			if (results[0]) {
+				document.forms[0].address.value=results[0].formatted_address;
+				document.forms[0].viewaddress.value=results[0].formatted_address;
+			} else {
+				error('Google no retorno resultado alguno.');
+			}
+		} else {
+			error("Geocoding fallo debido a : " + status);
+		}
+	}
+	/**
+	 * FIN
+	 */	
+	
+	function initMap() {
+		var pais = new google.maps.LatLng(51.0209884,-114.1591999);
+		var mapOptions = {
+			center: pais,
+			zoom: 17,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		
+		map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		//Inicializa el objeto geocoder
+		geocoder = new google.maps.Geocoder();
+				
+		navigator.geolocation.getCurrentPosition(success, error, options);
+	}	
+
+</script>
+
+			
+<!--<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
+	http://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap"
+</script>-->
+<script async defer		
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
 </script>
