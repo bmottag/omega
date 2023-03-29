@@ -87,6 +87,9 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
  * Custom defines
  */
 defined('ID_ROL_SUPER_ADMIN')   OR define('ID_ROL_SUPER_ADMIN', 99);
+defined('ID_ROL_MANAGER')   OR define('ID_ROL_MANAGER', 2);
+defined('ID_ROL_SAFETY')   OR define('ID_ROL_SAFETY', 4);
+defined('ID_ROL_SUPERVISOR')   OR define('ID_ROL_SUPERVISOR', 6);
 defined('ID_NOTIFICATION_CERTIFICATION')   OR define('ID_NOTIFICATION_CERTIFICATION', 1);
 defined('ID_NOTIFICATION_FLHA')   OR define('ID_NOTIFICATION_FLHA', 2);
 defined('ID_NOTIFICATION_TOOL_BOX')   OR define('ID_NOTIFICATION_TOOL_BOX', 3);

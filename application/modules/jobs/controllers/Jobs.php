@@ -2841,7 +2841,7 @@ ob_end_clean();
 			$data["metodo"] = $this->input->post("metodo");
 
 			//worker list
-			$arrParam = array("state" => 1);
+			$arrParam = array("state" => 1, "idRolesSupervisors" => true);
 			$this->load->model("general_model");
 			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
 			

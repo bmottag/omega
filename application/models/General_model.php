@@ -801,6 +801,10 @@ class General_model extends CI_Model {
 			if (array_key_exists("employee_subcontractor", $arrData)) {
 				$this->db->where('U.employee_subcontractor', $arrData["employee_subcontractor"]);
 			}
+			if (array_key_exists("idRolesSupervisors", $arrData)) {
+				$idRoles = array(ID_ROL_SUPER_ADMIN, ID_ROL_MANAGER,ID_ROL_SAFETY,ID_ROL_SUPERVISOR);
+				$this->db->where_in('U.perfil', $idRoles);
+			}
 
 			$this->db->order_by("first_name, last_name", "ASC");
 			$query = $this->db->get("user U");
