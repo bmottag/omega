@@ -146,19 +146,21 @@ if($count == 10){
 									echo "<td>" . $lista['date_out'] . "</td>";
 									echo "<td>" . $dateRestored. "</td>";
 									echo "<td class='text-center'>";									
-						?>							
+						?>					
+						
+						<!--
 									<button type="button" class="btn btn-primary btn-outline btn-xs btn-firewatch" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job_fire_watch']; ?>" title="Edit" >
 										<i class='fa fa-pencil'></i>
 									</button>
-
+						-->
 									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/fire_watch_checkin/' . $lista['id_job_fire_watch'] ) ?>' title="Log Sheet">
 										Log Sheet <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</a>
 
-									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Record">
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Record" target="_blank">
 										<span class="fa fa-cloud-download" aria-hidden="true">
 									</a>
-									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHLOGPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Log Sheet">
+									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHLOGPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Log Sheet" target="_blank">
 										<span class="fa fa-cloud-download" aria-hidden="true">
 									</a>
 

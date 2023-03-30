@@ -2819,10 +2819,10 @@ ob_end_clean();
 
 			//fire watch info
 			$arrParam = array("idJob" => $idJob);				
-			$data['infoFireWatchSetup'] = $this->general_model->get_fire_watch_setup($arrParam);
+			$data['infoFireWatchSetup'] = $this->jobs_model->get_fire_watch_setup($arrParam);
 			
 			//fire watch info			
-			$data['information'] = $this->general_model->get_fire_watch($arrParam);
+			$data['information'] = $this->jobs_model->get_fire_watch($arrParam);
 
 			$data["view"] ='fire_watch_list';
 			$this->load->view("layout", $data);
@@ -2849,7 +2849,7 @@ ob_end_clean();
 			$arrParam = array(
 				"idJob" => $data["idJob"]
 			);				
-			$data['information'] = $this->general_model->get_fire_watch_setup($arrParam);
+			$data['information'] = $this->jobs_model->get_fire_watch_setup($arrParam);
 
 			$this->load->view("fire_watch_setup_modal", $data);
     }
@@ -2876,9 +2876,9 @@ ob_end_clean();
 				$arrParam = array(
 					"idFireWatch" => $data["idFireWatch"]
 				);				
-				$data['information'] = $this->general_model->get_fire_watch($arrParam);
+				$data['information'] = $this->jobs_model->get_fire_watch($arrParam);
 			}else{
-				$data['information'] = $this->general_model->get_fire_watch_setup($arrParam);
+				$data['information'] = $this->jobs_model->get_fire_watch_setup($arrParam);
 			}
 			
 			$this->load->view("fire_watch_modal", $data);
@@ -2949,20 +2949,19 @@ ob_end_clean();
 			//fire watch info
 			$arrParam = array(
 				"idFireWatch" => $idFireWatch
-			);
-			$this->load->model("general_model");		
-			$data['information'] = $this->general_model->get_fire_watch($arrParam);
+			);	
+			$data['information'] = $this->jobs_model->get_fire_watch($arrParam);
 
 			$arrParam = array(
 				"today" => date('Y-m-d'),
 				"idFireWatch" => $idFireWatch
 			);
-			$data['checkinList'] = $this->general_model->get_fire_watch_checkin($arrParam);
+			$data['checkinList'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
 
 			if ($idCheckin != 'x') {
 				$data['idCheckin'] = $idCheckin;
 				$arrParam = array("idCheckin" => $idCheckin);
-				$data['checkinList'] = $this->general_model->get_fire_watch_checkin($arrParam);
+				$data['checkinList'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
 			}
 			$data["view"] = "form_fire_watch_checkin";
 			$this->load->view("layout_calendar", $data);
@@ -3009,8 +3008,7 @@ ob_end_clean();
 				$arrParam = array(
 					"idCheckin" => $data["idCheckin"]
 				);
-				$this->load->model("general_model");
-				$data['information'] = $this->general_model->get_fire_watch_checkin($arrParam);
+				$data['information'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
 			}
 			$this->load->view("fire_watch_checkout_modal", $data);
     }
@@ -3100,9 +3098,8 @@ ob_end_clean();
 				"idFireWatch" => $idFireWatch,
 				"distinctUser" => true
 			);
-			$this->load->model("general_model");
-			$data['info'] = $this->general_model->get_fire_watch($arrParam);
-			$data['checkinList'] = $this->general_model->get_fire_watch_checkin($arrParam);
+			$data['info'] = $this->jobs_model->get_fire_watch($arrParam);
+			$data['checkinList'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
 
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
@@ -3189,9 +3186,8 @@ ob_end_clean();
 			$arrParam = array(
 				"idFireWatch" => $idFireWatch
 			);
-			$this->load->model("general_model");
-			$data['info'] = $this->general_model->get_fire_watch($arrParam);
-			$data['checkinList'] = $this->general_model->get_fire_watch_checkin($arrParam);
+			$data['info'] = $this->jobs_model->get_fire_watch($arrParam);
+			$data['checkinList'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
 
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table

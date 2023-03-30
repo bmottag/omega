@@ -32,10 +32,7 @@
 					</select>
 				</div>
 			</div>
-		</div>
 
-
-		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="systemsShutdown">Systems Shutdown: </label><br>

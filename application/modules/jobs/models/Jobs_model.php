@@ -1298,7 +1298,21 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 					'fire_pump' => $this->input->post('fire_pump'),
 					'fire_suppression' => $this->input->post('fire_suppression'),
 					'other' => $this->input->post('other'),
-					'areas' => $this->input->post('areas')
+					'areas' => $this->input->post('areas'),
+					'training_completed' => $this->input->post('training'),
+					'safety_shoes' => $this->input->post('safety_shoes'),
+					'safety_vest' => $this->input->post('safety_vest'),
+					'safety_glasses' => $this->input->post('safety_glasses'),
+					'hearing_protection' => $this->input->post('hearing_protection'),
+					'snow_cleets' => $this->input->post('snow_cleets'),
+					'dust_proof_mask' => $this->input->post('dust_proof_mask'),
+					'other_ppe' => $this->input->post('other_ppe'),
+					'operational_impacts' => $this->input->post('operational_impacts'),
+					'map_routing' => $this->input->post('map_routing'),
+					'raic_access' => $this->input->post('raic_access'),
+					'radio' => $this->input->post('radio'),
+					'emergency_contacts' => $this->input->post('emergency_contacts'),
+					'keys_access' => $this->input->post('keys_access')
 				);
 				
 				//revisar si es para adicionar o editar
@@ -1358,6 +1372,97 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 
 				if ($query) {
 					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Fire watch setup
+		 * @since 27/1/2023
+		 */
+		public function get_fire_watch_setup($arrDatos) 
+		{
+				$this->db->select('F.*, CONCAT(U.first_name, " " , U.last_name) reportedby, CONCAT(Z.first_name, " " , Z.last_name) supervisor, Z.movil as super_number, J.id_job, J.job_description');
+				$this->db->join('param_jobs J', 'J.id_job = F.fk_id_job', 'INNER');
+				$this->db->join('user U', 'U.id_user = F.fk_id_user', 'INNER');
+				$this->db->join('user Z', 'Z.id_user = F.fk_id_supervisor', 'INNER');
+				if (array_key_exists("idJob", $arrDatos)) {
+					$this->db->where('fk_id_job', $arrDatos["idJob"]);
+				}						
+				$this->db->order_by('id_job_fire_watch_settings', 'desc');
+				$query = $this->db->get('job_fire_watch_setttings F');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Fire watch list
+		 * @since 27/1/2023
+		 */
+		public function get_fire_watch($arrDatos) 
+		{
+				$this->db->select('F.*, CONCAT(U.first_name, " " , U.last_name) reportedby, CONCAT(X.first_name, " " , X.last_name) conductedby, CONCAT(Z.first_name, " " , Z.last_name) supervisor, Z.movil as super_number, J.id_job, J.job_description');
+				$this->db->join('param_jobs J', 'J.id_job = F.fk_id_job', 'INNER');
+				$this->db->join('user U', 'U.id_user = F.fk_id_user', 'INNER');
+				$this->db->join('user X', 'X.id_user = F.fk_id_conducted_by', 'INNER');
+				$this->db->join('user Z', 'Z.id_user = F.fk_id_supervisor', 'INNER');
+				if (array_key_exists("idJob", $arrDatos)) {
+					$this->db->where('fk_id_job', $arrDatos["idJob"]);
+				}
+				if (array_key_exists("idFireWatch", $arrDatos)) {
+					$this->db->where('id_job_fire_watch', $arrDatos["idFireWatch"]);
+				}
+								
+				$this->db->order_by('id_job_fire_watch', 'desc');
+				$query = $this->db->get('job_fire_watch F');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Check In List for fire watch
+		 * @since 1/6/2022
+		 */
+		public function get_fire_watch_checkin($arrDatos) 
+		{
+				if (array_key_exists("distinctUser", $arrDatos)) {
+					$this->db->select('distinct(id_user), first_name, last_name, movil');
+				}else{
+					$this->db->select();
+				}
+				
+				$this->db->join('user U', 'U.id_user = C.fk_id_worker', 'INNER');
+				if (array_key_exists("idCheckin", $arrDatos)) {
+					$this->db->where('C.id_checkin', $arrDatos["idCheckin"]);
+				}
+				if (array_key_exists("idFireWatch", $arrDatos)) {
+					$this->db->where('C.fk_id_job_fire_watch', $arrDatos["idFireWatch"]);
+				}
+				if (array_key_exists("today", $arrDatos)) {
+					$this->db->where('C.checkin_date', $arrDatos["today"]);
+				}
+				if (array_key_exists("checkout", $arrDatos)) {
+					$this->db->where('C.checkout_time', '0000-00-00 00:00:00');
+				}
+				
+				if (array_key_exists("distinctUser", $arrDatos)) {
+					$this->db->order_by('U.first_name, U.last_name', 'asc');
+				}else{
+					$this->db->order_by('C.fk_id_job_fire_watch, C.id_checkin', 'asc');
+				}
+				$query = $this->db->get('job_fire_watch_checkin C');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
 				} else {
 					return false;
 				}

@@ -14,8 +14,9 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="address">Facility/Building Address: *</label>
-					<input type="text" id="address" name="address" class="form-control" value="<?php echo $information?$information[0]["building_address"]:""; ?>" placeholder="Facility/Building Address" required >
+					<label class="control-label" for="address">Facility/Building Address: *</label><br>
+					<?php echo $information?$information[0]["building_address"]:""; ?>
+					<input type="hidden" id="address" name="address" class="form-control" value="<?php echo $information?$information[0]["building_address"]:""; ?>" placeholder="Facility/Building Address" required >
 				</div>
 			</div>
 		</div>
@@ -23,28 +24,29 @@
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="supervisor">Supervisor: *</label>
-					<select name="supervisor" id="supervisor" class="form-control" >
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-							<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["fk_id_supervisor"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
-						<?php } ?>
-					</select>
+					<label class="control-label" for="supervisor">Supervisor: *</label><br>
+					<?php echo $information?$information[0]["supervisor"]:""; ?>
+					<input type="hidden" id="supervisor" name="supervisor" class="form-control" value="<?php echo $information?$information[0]["fk_id_supervisor"]:""; ?>" placeholder="Facility/Building Address" required >
 				</div>
 			</div>
-		</div>
 
-
-		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="systemsShutdown">Systems Shutdown: </label><br>
-					<input type="checkbox" id="fire_alarm" name="fire_alarm" value=1 <?php if($information && $information[0]["fire_alarm"]){echo "checked";} ?> > Fire Alarm System<br> 	
-					<input type="checkbox" id="fire_sprinkler" name="fire_sprinkler" value=1 <?php if($information && $information[0]["fire_sprinkler"]){echo "checked";} ?> > Fire Sprinkler System<br>  	
-					<input type="checkbox" id="standpipe" name="standpipe" value=1 <?php if($information && $information[0]["standpipe"]){echo "checked";} ?> > Standpipe System<br>   		
-					<input type="checkbox" id="fire_pump" name="fire_pump" value=1 <?php if($information && $information[0]["fire_pump"]){echo "checked";} ?> > Fire Pump System<br>
-					<input type="checkbox" id="fire_suppression" name="fire_suppression" value=1 <?php if($information && $information[0]["fire_suppression"]){echo "checked";} ?> > Special Fire Suppression System
-					<input type="text" id="other" name="other" class="form-control" value="<?php echo $information?$information[0]["other"]:""; ?>" placeholder="Other" >
+					<?php 
+						echo $information[0]['fire_alarm']?"Fire Alarm System<br>":"";
+						echo $information[0]['fire_sprinkler']?"Fire Sprinkler System<br>":"";
+						echo $information[0]['standpipe']?"Standpipe System<br>":"";
+						echo $information[0]['fire_pump']?"Fire Pump System<br>":"";
+						echo $information[0]['fire_suppression']?"Special Fire Suppression System<br>":"";
+						echo $information[0]['other']?$information[0]['other']:"";
+					?>
+					<input type="hidden" id="fire_alarm" name="fire_alarm" value="<?php echo $information?$information[0]["fire_alarm"]:""; ?>" > 
+					<input type="hidden" id="fire_sprinkler" name="fire_sprinkler" value="<?php echo $information?$information[0]["fire_sprinkler"]:""; ?>" > 
+					<input type="hidden" id="standpipe" name="standpipe" value="<?php echo $information?$information[0]["standpipe"]:""; ?>" > 
+					<input type="hidden" id="fire_pump" name="fire_pump" value="<?php echo $information?$information[0]["fire_pump"]:""; ?>" > 
+					<input type="hidden" id="fire_suppression" name="fire_suppression" value="<?php echo $information?$information[0]["fire_suppression"]:""; ?>" >
+					<input type="hidden" id="other" name="other" class="form-control" value="<?php echo $information?$information[0]["other"]:""; ?>" placeholder="Other" >
 				</div>
 			</div>
 		</div>
@@ -61,41 +63,12 @@
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="systemsShutdown">System(s) Out of Service </label>
+					<label class="control-label" for="systemsShutdown">System(s) Out of Service </label><br>
+					<?php echo $information[0]['date_out']; ?>
+					<input type="hidden" class="form-control" id="date" name="date" value="<?php echo $date; ?>" />
+					<input type="hidden" class="form-control" id="time" name="time" value="<?php echo $time; ?>" />
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">		
-				<div class="form-group text-left">
-					<script>
-						$( function() {
-							$( "#date" ).datepicker({
-								minDate: '1',
-								dateFormat: 'yy-mm-dd'
-							});
-						});
-					</script>
-					<label class="control-label" for="date">Date: *</label>
-					<input type="text" class="form-control" id="date" name="date" value="<?php echo $date; ?>" placeholder="Date" required />
-				</div>
-			</div>
-			
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Time: *</label>
-					<select name="time" id="time" class="form-control" required>
-						<option value='' >Select...</option>
-						<?php
-							for ($i = 0; $i < 24; $i++) {
-								$i = $i<10?"0".$i:$i;
-						?>
-								<option value='<?php echo $i; ?>' <?php if($time == $i) { echo "selected"; }  ?> ><?php echo $i; ?></option>
-						<?php } ?>									
-					</select>
-				</div>
-			</div>
-		</div>
 
 <?php
 	$date2 = "";
@@ -107,41 +80,12 @@
 	}
 ?>
 
-		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
-					<label class="control-label" for="systemsShutdown">System(s) Restored Online </label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">		
-				<div class="form-group text-left">
-					<script>
-						$( function() {
-							$( "#dateRestored" ).datepicker({
-								minDate: '1',
-								dateFormat: 'yy-mm-dd'
-							});
-						});
-					</script>
-					<label class="control-label" for="dateRestored">Date: *</label>
-					<input type="text" class="form-control" id="dateRestored" name="dateRestored" value="<?php echo $date2; ?>" placeholder="Date" />
-				</div>
-			</div>
-			
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Time: *</label>
-					<select name="timeRestored" id="timeRestored" class="form-control" >
-						<option value='' >Select...</option>
-						<?php
-							for ($i = 0; $i < 24; $i++) {
-								$i = $i<10?"0".$i:$i;
-						?>
-								<option value='<?php echo $i; ?>' <?php if($time2 == $i) { echo "selected"; }  ?> ><?php echo $i; ?></option>
-						<?php } ?>									
-					</select>
+					<label class="control-label" for="systemsShutdown">System(s) Restored Online </label><br>
+					<?php echo $information[0]['date_restored']; ?>
+					<input type="hidden" class="form-control" id="dateRestored" name="dateRestored" value="<?php echo $date2; ?>" />
+					<input type="hidden" class="form-control" id="timeRestored" name="timeRestored" value="<?php echo $time2; ?>" />
 				</div>
 			</div>
 		</div>
@@ -149,8 +93,49 @@
 		<div class="row">
 			<div class="col-sm-12">		
 				<div class="form-group text-left">
-					<label class="control-label" for="areas">Areas/Zones Requiring Fire Watch Patrols: </label>
-					<textarea id="areas" name="areas" placeholder="Areas/Zones Requiring Fire Watch Patrols" class="form-control" rows="3"><?php echo $information?$information[0]["areas"]:""; ?></textarea>
+					<label class="control-label" for="areas">Areas/Zones Requiring Fire Watch Patrols: </label><br>
+					<?php echo $information[0]["areas"]; ?>
+					<input type="hidden" class="form-control" id="areas" name="areas" value="<?php echo $information?$information[0]["areas"]:""; ?>" />
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="training">Fire Watch Training Completed? *</label>
+					<select name="training" id="training" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 >Yes</option>
+						<option value=2 >No</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="training">Mandatory PPE Required, select those that apply *</label><br>
+					<input type="checkbox" id="safety_shoes" name="safety_shoes" value=1 > Safety Shoes  <br>
+					<input type="checkbox" id="safety_vest" name="safety_vest" value=1 > Safety Vest  <br>
+					<input type="checkbox" id="safety_glasses" name="safety_glasses" value=1 > Safety Glasses <br>
+					<input type="checkbox" id="hearing_protection" name="hearing_protection" value=1 >  Hearing Protection<br>
+					<input type="checkbox" id="snow_cleets" name="snow_cleets" value=1 > Snow Cleets<br>
+					<input type="checkbox" id="dust_proof_mask" name="dust_proof_mask" value=1 > Dust Proof Mask  <br>
+					<input type="text" id="other_ppe" name="other_ppe" class="form-control" placeholder="Other, specify" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="documents">Documents, Directives, and Equipment *</label><br>
+					<input type="checkbox" id="operational_impacts" name="operational_impacts" value=1 > Operational Impacts    <br>
+					<input type="checkbox" id="map_routing" name="map_routing" value=1 > Map's Routing  <br>
+					<input type="checkbox" id="raic_access" name="raic_access" value=1 > RAIC Access  <br>
+					<input type="checkbox" id="radio" name="radio" value=1 >  Radio/Cell Phone<br>
+					<input type="checkbox" id="emergency_contacts" name="emergency_contacts" value=1 > Emergency Contacts<br>
+					<input type="checkbox" id="keys_access" name="keys_access" value=1 > Keys and Access
 				</div>
 			</div>
 		</div>
