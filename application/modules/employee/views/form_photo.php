@@ -95,9 +95,7 @@
 								Maximum size: 3000 KB<br>
 								Maximum width: 2024 pixels<br>
 								Maximum height: 2008 pixels<br>
-
 						</div>
-						
 					</form>
 				</div>
 			</div>
@@ -111,6 +109,9 @@
 
                 <div class="panel-body">						
 					<div class="form-group">
+						<div class="alert alert-danger">
+							The signature is only used by the owner of the signature and whenever it is used it must be authorized with the user's credentials.
+						</div>
 						<div class="row" align="center">
 							<div style="width:80%;" align="center">
 							<?php 								

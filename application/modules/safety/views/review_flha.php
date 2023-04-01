@@ -283,7 +283,7 @@ if ($retornoError) {
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
 
-							<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modal" id="<?php echo "worker-" . $data['fk_id_user'] . "-". $data['id_safety_worker']; ?>" title="System Signature" >
+							<button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modal" id="<?php echo "worker-" . $data['fk_id_user'] . "-". $data['id_safety_worker']; ?>" title="System Signature" >
 								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> System Signature
 							</button>
 

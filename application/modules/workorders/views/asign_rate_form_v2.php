@@ -311,6 +311,10 @@ if ($retornoError) {
 <?php if($information){ ?>
 
 <!--INICIO WO EXPENSE -->
+<?php 
+	$userRol = $this->session->userdata("rol");
+	if($userRol == 99){ 
+?>
 <div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-dark">
@@ -377,6 +381,9 @@ if ($retornoError) {
 			</div>
 		</div>
 	</div>
+<?php 
+	}
+?>
 <!--FIN WO EXPENSE -->
 	
 <!--INICIO PERSONAL -->

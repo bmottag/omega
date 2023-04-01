@@ -775,7 +775,7 @@ class Safety extends CI_Controller {
 			}else{
 				if(!$user["user_signature"]){
 					$data["result"] = "error";
-					$data["mensaje"] = " Error. You have not saved your signature.";
+					$data["mensaje"] = " Error. You have not saved your signature. Go to User Profile to set your signature.";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> You have not saved your signature in the system.');
 				}else{
 					if($userType == "advisor"){

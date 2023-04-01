@@ -1355,7 +1355,8 @@ class Admin extends CI_Controller {
 			$arrParam = array(
 				"table" => "notifications",
 				"order" => "notification",
-				"id" => "x"
+				"column" => "setup",
+				"id" => 1
 			);
 			$data['notificationsList'] = $this->general_model->get_basic_search($arrParam);
 			
