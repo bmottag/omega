@@ -432,7 +432,6 @@ class External extends CI_Controller {
 	
 					$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 					$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-					$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
 					$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
 
 					//enviar correo

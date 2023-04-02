@@ -151,145 +151,137 @@ class Inspection extends CI_Controller {
 							$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 							$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-							//busco datos del parametricos
-							$arrParam = array(
-								"table" => "parametric",
-								"order" => "id_parametric",
-								"id" => "x"
-							);
 							$subjet = "Inspection with comments";
-							$parametric = $this->general_model->get_basic_search($arrParam);						
-							$user = $parametric[2]["value"];
-							$to = $parametric[0]["value"];
-
-
 							$mensaje = "<html>
-							<head>
-							  <title> $subjet </title>
-							</head>
-							<body>
-								<p>Dear	$user:<br/>
-								</p>
+										<head>
+										<title> $subjet </title>
+										</head>
+										<body>
+											<p>Dear	Administrator:</p>
+											<p>$emailMsn</p>
+											<p>Cordially,</p>
+											<p><strong>V-CONTRACTING INC</strong></p>
+										</body>
+										</html>";
 
-								<p>$emailMsn</p>
+							//mensaje de texto
+							$mensajeSMS = "APP VCI - " . $subjet ;
+							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+							$mensajeSMS .= "\nComments: " . $comments;
 
-								<p>Cordially,</p>
-								<p><strong>V-CONTRACTING INC</strong></p>
-							</body>
-							</html>";
-
-							$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-							$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-							$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-							//enviar correo
-							mail($to, $subjet, $mensaje, $cabeceras);
+							//enviar correo a VCI
+							$arrParam = array(
+								"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+								"subjet" => $subjet,
+								"msjEmail" => $mensaje,
+								"msjPhone" => $mensajeSMS
+							);
+							send_notification($arrParam);
 						}
 						
-//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
-$headLamps = $this->input->post('headLamps');
-$hazardLights = $this->input->post('hazardLights');
-$bakeLights = $this->input->post('bakeLights');
-$workLights = $this->input->post('workLights');
-$turnSignals = $this->input->post('turnSignals');
-$beaconLight = $this->input->post('beaconLight');
-$clearanceLights = $this->input->post('clearanceLights');
+						//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+						$headLamps = $this->input->post('headLamps');
+						$hazardLights = $this->input->post('hazardLights');
+						$bakeLights = $this->input->post('bakeLights');
+						$workLights = $this->input->post('workLights');
+						$turnSignals = $this->input->post('turnSignals');
+						$beaconLight = $this->input->post('beaconLight');
+						$clearanceLights = $this->input->post('clearanceLights');
 
-$lights_check = 1;
-if($headLamps == 0 || $hazardLights == 0 || $bakeLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
-	$lights_check = 0;
-}
-						
-$heater_check = $this->input->post('heater');
-$brakes_check = $this->input->post('brakePedal');
-$steering_wheel_check = $this->input->post('steering_wheel');
-$suspension_system_check = $this->input->post('suspension_system');
-$tires_check = $this->input->post('nuts');
-$wipers_check = $this->input->post('wipers');
-$air_brake_check = $this->input->post('air_brake');
-$driver_seat_check = $this->input->post('passengerDoor');
-$fuel_system_check = $this->input->post('fuel_system');
+						$lights_check = 1;
+						if($headLamps == 0 || $hazardLights == 0 || $bakeLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+							$lights_check = 0;
+						}
+												
+						$heater_check = $this->input->post('heater');
+						$brakes_check = $this->input->post('brakePedal');
+						$steering_wheel_check = $this->input->post('steering_wheel');
+						$suspension_system_check = $this->input->post('suspension_system');
+						$tires_check = $this->input->post('nuts');
+						$wipers_check = $this->input->post('wipers');
+						$air_brake_check = $this->input->post('air_brake');
+						$driver_seat_check = $this->input->post('passengerDoor');
+						$fuel_system_check = $this->input->post('fuel_system');
 
-//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
-if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+						//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+						if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
 
-						//mensaje del correo
-						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br>";
+							//mensaje del correo
+							$emailMsn = "<p>A major defect has been identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+							$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
+							$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
+							$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
+							$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
+							$emailMsn .= "<br>";
 
-						
-if ($heater_check == 0) {
-	$emailMsn .= "<br>Heater - Fail"; 
-}
-if ($brakes_check == 0) {
-	$emailMsn .= "<br>Brake pedal - Fail"; 
-}
-if ($lights_check == 0) {
-	$emailMsn .= "<br>Lamps and reflectors - Fail"; 
-}
-if ($steering_wheel_check == 0) {
-	$emailMsn .= "<br>Steering wheel - Fail"; 
-}
-if ($suspension_system_check == 0) {
-	$emailMsn .= "<br>Suspension system - Fail"; 
-}
-if ($tires_check == 0) {
-	$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail"; 
-}
-if ($wipers_check == 0) {
-	$emailMsn .= "<br>Wipers/Washers - Fail"; 
-}
-if ($air_brake_check == 0) {
-	$emailMsn .= "<br>Air brake system - Fail"; 
-}
-if ($driver_seat_check == 0) {
-	$emailMsn .= "<br>Driver and Passenger door - Fail"; 
-}
-if ($fuel_system_check == 0) {
-	$emailMsn .= "<br>Fuel system - Fail"; 
-}
-						
-						
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
-						$subjet = "Inspection with major defect";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
+							$fails = "";						
+							if ($heater_check == 0) {
+								$emailMsn .= "<br>Heater - Fail"; 
+								$fails .= "\nHeater - Fail"; 
+							}
+							if ($brakes_check == 0) {
+								$emailMsn .= "<br>Heater - Fail"; 
+								$fails .= "\nHeater - Fail"; }
+							if ($lights_check == 0) {
+								$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+								$fails .= "\nLamps and reflectors - Fail"; 
+							}
+							if ($steering_wheel_check == 0) {
+								$emailMsn .= "<br>Steering wheel - Fail"; 
+								$fails .= "\nSteering wheel - Fail"; 
+							}
+							if ($suspension_system_check == 0) {
+								$emailMsn .= "<br>Suspension system - Fail";
+								$fails .= "\nSuspension system - Fail"; 
+							}
+							if ($tires_check == 0) {
+								$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail";
+								$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
+							}
+							if ($wipers_check == 0) {
+								$emailMsn .= "<br>Wipers/Washers - Fail"; 
+								$fails .= "\nWipers/Washers - Fail"; 
+							}
+							if ($air_brake_check == 0) {
+								$emailMsn .= "<br>Air brake system - Fail"; 
+								$fails .= "\nAir brake system - Fail"; 
+							}
+							if ($driver_seat_check == 0) {
+								$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+								$fails .= "\nDriver and Passenger door - Fail"; 
+							}
+							if ($fuel_system_check == 0) {
+								$emailMsn .= "<br>Fuel system - Fail"; 
+								$fails .= "\nFuel system - Fail"; 
+							}
+									
+							$subjet = "Inspection with major defect";
+							$mensaje = "<html>
+										<head>
+										<title> $subjet </title>
+										</head>
+										<body>
+											<p>Dear Administrator:</p>
+											<p>$emailMsn</p>
+											<p>Cordially,</p>
+											<p><strong>V-CONTRACTING INC</strong></p>
+										</body>
+										</html>";
 
-						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+							//mensaje de texto
+							$mensajeSMS = "APP VCI - " . $subjet;
+							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+							$mensajeSMS .= $fails;
 
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
-					
-}
+							//enviar correo a VCI
+							$arrParam = array(
+								"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+								"subjet" => $subjet,
+								"msjEmail" => $mensaje,
+								"msjPhone" => $mensajeSMS
+							);
+							send_notification($arrParam);
+						}
 					
 						$state = 1;//Inspection
 						$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idDailyInspection);
@@ -304,7 +296,7 @@ if ($fuel_system_check == 0) {
 							//enviar correo
 							
 							//mensaje del correo
-							$emailMsn = "<p>The following vehicle need to chage the oil as soon as posible.</p>";
+							$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
 							$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 							$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 							$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -313,40 +305,32 @@ if ($fuel_system_check == 0) {
 							$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 							$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
 
-							//busco datos del parametricos
-							$arrParam = array(
-								"table" => "parametric",
-								"order" => "id_parametric",
-								"id" => "x"
-							);
 							$subjet = "Oil Change";
-							$parametric = $this->general_model->get_basic_search($arrParam);						
-							$user = $parametric[2]["value"];
-							$to = $parametric[0]["value"];
-
-
 							$mensaje = "<html>
-							<head>
-							  <title> $subjet </title>
-							</head>
-							<body>
-								<p>Dear	$user:<br/>
-								</p>
+										<head>
+										<title> $subjet </title>
+										</head>
+										<body>
+											<p>Dear	Administrator:</p>
+											<p>$emailMsn</p>
+											<p>Cordially,</p>
+											<p><strong>V-CONTRACTING INC</strong></p>
+										</body>
+										</html>";
 
-								<p>$emailMsn</p>
-
-								<p>Cordially,</p>
-								<p><strong>V-CONTRACTING INC</strong></p>
-							</body>
-							</html>";
-
-							$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-							$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-							$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-							//enviar correo
-							mail($to, $subjet, $mensaje, $cabeceras);
+							//mensaje de texto
+							$mensajeSMS = "APP VCI - " . $subjet ;
+							$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+							
+							//enviar correo a VCI
+							$arrParam = array(
+								"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+								"subjet" => $subjet,
+								"msjEmail" => $mensaje,
+								"msjPhone" => $mensajeSMS
+							);
+							send_notification($arrParam);
 						} 
 						
 					}
@@ -454,40 +438,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Inspection with comments";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= "\nComments: " . $comments;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					}
 					
 					$state = 1;//Inspection
@@ -503,7 +479,7 @@ if ($fuel_system_check == 0) {
 						//enviar correo
 						
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle need to chage the oil as soon as posible.</p>";
+						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -512,40 +488,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Oil Change";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					} 
 					
 				}
@@ -701,40 +669,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Inspection with comments";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= "\nComments: " . $comments;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					}
 					
 					$state = 1;//Inspection
@@ -750,7 +710,7 @@ if ($fuel_system_check == 0) {
 						//enviar correo
 						
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle need to chage the oil as soon as posible.</p>";
+						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -759,40 +719,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Oil Change";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					} 
 					
 				}
@@ -899,40 +851,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Inspection with comments";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= "\nComments: " . $comments;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					}
 					
 					$state = 1;//Inspection
@@ -952,7 +896,7 @@ if ($fuel_system_check == 0) {
 						//enviar correo
 						
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle need to chage the oil as soon as posible.</p>";
+						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -961,40 +905,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Oil Change";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					} 
 					
 				}
@@ -1104,69 +1040,61 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Inspection with comments";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= "\nComments: " . $comments;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					}
 					
-//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
-$headLamps = $this->input->post('headLamps');
-$hazardLights = $this->input->post('hazardLights');
-$clearanceLights = $this->input->post('clearanceLights');
-$tailLights = $this->input->post('tailLights');
-$workLights = $this->input->post('workLights');
-$turnSignals = $this->input->post('turnSignals');
-$beaconLight = $this->input->post('beaconLights');
+					//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+					$headLamps = $this->input->post('headLamps');
+					$hazardLights = $this->input->post('hazardLights');
+					$clearanceLights = $this->input->post('clearanceLights');
+					$tailLights = $this->input->post('tailLights');
+					$workLights = $this->input->post('workLights');
+					$turnSignals = $this->input->post('turnSignals');
+					$beaconLight = $this->input->post('beaconLights');
 
 
-$lights_check = 1;
-if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
-	$lights_check = 0;
-}
+					$lights_check = 1;
+					if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+						$lights_check = 0;
+					}
 						
-$heater_check = $this->input->post('heater');
-$brakes_check = $this->input->post('brake');
-$steering_wheel_check = $this->input->post('steering_wheel');
-$suspension_system_check = $this->input->post('suspension_system');
-$tires_check = $this->input->post('tires');
-$wipers_check = $this->input->post('wipers');
-$air_brake_check = $this->input->post('air_brake');
-$driver_seat_check = $this->input->post('door');
-$fuel_system_check = $this->input->post('fuel_system');
+					$heater_check = $this->input->post('heater');
+					$brakes_check = $this->input->post('brake');
+					$steering_wheel_check = $this->input->post('steering_wheel');
+					$suspension_system_check = $this->input->post('suspension_system');
+					$tires_check = $this->input->post('tires');
+					$wipers_check = $this->input->post('wipers');
+					$air_brake_check = $this->input->post('air_brake');
+					$driver_seat_check = $this->input->post('door');
+					$fuel_system_check = $this->input->post('fuel_system');
 
-//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
-if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+					//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+					if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
 
 						//mensaje del correo
 						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
@@ -1176,74 +1104,74 @@ if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br>";
 
-						
-if ($heater_check == 0) {
-	$emailMsn .= "<br>Heater - Fail"; 
-}
-if ($brakes_check == 0) {
-	$emailMsn .= "<br>Brake pedal - Fail"; 
-}
-if ($lights_check == 0) {
-	$emailMsn .= "<br>Lamps and reflectors - Fail"; 
-}
-if ($steering_wheel_check == 0) {
-	$emailMsn .= "<br>Steering wheel - Fail"; 
-}
-if ($suspension_system_check == 0) {
-	$emailMsn .= "<br>Suspension system - Fail"; 
-}
-if ($tires_check == 0) {
-	$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail"; 
-}
-if ($wipers_check == 0) {
-	$emailMsn .= "<br>Wipers/Washers - Fail"; 
-}
-if ($air_brake_check == 0) {
-	$emailMsn .= "<br>Air brake system - Fail"; 
-}
-if ($driver_seat_check == 0) {
-	$emailMsn .= "<br>Driver and Passenger door - Fail"; 
-}
-if ($fuel_system_check == 0) {
-	$emailMsn .= "<br>Fuel system - Fail"; 
-}
-						
-						
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
+						$fails = "";						
+						if ($heater_check == 0) {
+							$emailMsn .= "<br>Heater - Fail"; 
+							$fails .= "\nHeater - Fail"; 
+						}
+						if ($brakes_check == 0) {
+							$emailMsn .= "<br>Brake pedal - Fail"; 
+							$fails .= "\Brake pedal - Fail"; }
+						if ($lights_check == 0) {
+							$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+							$fails .= "\nLamps and reflectors - Fail"; 
+						}
+						if ($steering_wheel_check == 0) {
+							$emailMsn .= "<br>Steering wheel - Fail"; 
+							$fails .= "\nSteering wheel - Fail"; 
+						}
+						if ($suspension_system_check == 0) {
+							$emailMsn .= "<br>Suspension system - Fail";
+							$fails .= "\nSuspension system - Fail"; 
+						}
+						if ($tires_check == 0) {
+							$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail";
+							$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
+						}
+						if ($wipers_check == 0) {
+							$emailMsn .= "<br>Wipers/Washers - Fail"; 
+							$fails .= "\nWipers/Washers - Fail"; 
+						}
+						if ($air_brake_check == 0) {
+							$emailMsn .= "<br>Air brake system - Fail"; 
+							$fails .= "\nAir brake system - Fail"; 
+						}
+						if ($driver_seat_check == 0) {
+							$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+							$fails .= "\nDriver and Passenger door - Fail"; 
+						}
+						if ($fuel_system_check == 0) {
+							$emailMsn .= "<br>Fuel system - Fail"; 
+							$fails .= "\nFuel system - Fail"; 
+						}
+
 						$subjet = "Inspection with major defect";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $fails;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
-					
-}
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
+					}
 					
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idHydrovacInspection);
@@ -1266,7 +1194,7 @@ if ($fuel_system_check == 0) {
 						//enviar correo
 						
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle need to chage the oil as soon as posible.</p>";
+						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -1275,40 +1203,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Oil Change";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					} 
 					
 				}
@@ -1418,40 +1338,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Inspection with comments";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= "\nComments: " . $comments;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					}
 					
 //si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
@@ -1490,72 +1402,73 @@ if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 						$emailMsn .= "<br>";
 
-						
-if ($heater_check == 0) {
-	$emailMsn .= "<br>Heater - Fail"; 
-}
-if ($brakes_check == 0) {
-	$emailMsn .= "<br>Brake pedal - Fail"; 
-}
-if ($lights_check == 0) {
-	$emailMsn .= "<br>Lamps and reflectors - Fail"; 
-}
-if ($steering_wheel_check == 0) {
-	$emailMsn .= "<br>Steering wheel - Fail"; 
-}
-if ($suspension_system_check == 0) {
-	$emailMsn .= "<br>Suspension system - Fail"; 
-}
-if ($tires_check == 0) {
-	$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail"; 
-}
-if ($wipers_check == 0) {
-	$emailMsn .= "<br>Wipers/Washers - Fail"; 
-}
-if ($air_brake_check == 0) {
-	$emailMsn .= "<br>Air brake system - Fail"; 
-}
-if ($driver_seat_check == 0) {
-	$emailMsn .= "<br>Driver and Passenger door - Fail"; 
-}
-if ($fuel_system_check == 0) {
-	$emailMsn .= "<br>Fuel system - Fail"; 
-}
-						
-						
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
+						$fails = "";						
+						if ($heater_check == 0) {
+							$emailMsn .= "<br>Heater - Fail"; 
+							$fails .= "\nHeater - Fail"; 
+						}
+						if ($brakes_check == 0) {
+							$emailMsn .= "<br>Brake pedal - Fail"; 
+							$fails .= "\nBrake pedal - Fail"; }
+						if ($lights_check == 0) {
+							$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+							$fails .= "\nLamps and reflectors - Fail"; 
+						}
+						if ($steering_wheel_check == 0) {
+							$emailMsn .= "<br>Steering wheel - Fail"; 
+							$fails .= "\nSteering wheel - Fail"; 
+						}
+						if ($suspension_system_check == 0) {
+							$emailMsn .= "<br>Suspension system - Fail";
+							$fails .= "\nSuspension system - Fail"; 
+						}
+						if ($tires_check == 0) {
+							$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail";
+							$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
+						}
+						if ($wipers_check == 0) {
+							$emailMsn .= "<br>Wipers/Washers - Fail"; 
+							$fails .= "\nWipers/Washers - Fail"; 
+						}
+						if ($air_brake_check == 0) {
+							$emailMsn .= "<br>Air brake system - Fail"; 
+							$fails .= "\nAir brake system - Fail"; 
+						}
+						if ($driver_seat_check == 0) {
+							$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+							$fails .= "\nDriver and Passenger door - Fail"; 
+						}
+						if ($fuel_system_check == 0) {
+							$emailMsn .= "<br>Fuel system - Fail"; 
+							$fails .= "\nFuel system - Fail"; 
+						}
+
 						$subjet = "Inspection with major defect";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet;
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $fails;
 
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					
 }
 					
@@ -1572,7 +1485,7 @@ if ($fuel_system_check == 0) {
 						//enviar correo
 						
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle need to chage the oil as soon as posible.</p>";
+						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -1581,40 +1494,32 @@ if ($fuel_system_check == 0) {
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
 
-						//busco datos del parametricos
-						$arrParam = array(
-							"table" => "parametric",
-							"order" => "id_parametric",
-							"id" => "x"
-						);
 						$subjet = "Oil Change";
-						$parametric = $this->general_model->get_basic_search($arrParam);						
-						$user = $parametric[2]["value"];
-						$to = $parametric[0]["value"];
-
-
 						$mensaje = "<html>
-						<head>
-						  <title> $subjet </title>
-						</head>
-						<body>
-							<p>Dear	$user:<br/>
-							</p>
+									<head>
+									<title> $subjet </title>
+									</head>
+									<body>
+										<p>Dear	Administrator:</p>
+										<p>$emailMsn</p>
+										<p>Cordially,</p>
+										<p><strong>V-CONTRACTING INC</strong></p>
+									</body>
+									</html>";
 
-							<p>$emailMsn</p>
-
-							<p>Cordially,</p>
-							<p><strong>V-CONTRACTING INC</strong></p>
-						</body>
-						</html>";
-
-						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-
-						//enviar correo
-						mail($to, $subjet, $mensaje, $cabeceras);
+						//mensaje de texto
+						$mensajeSMS = "APP VCI - " . $subjet ;
+						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						
+						//enviar correo a VCI
+						$arrParam = array(
+							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
+							"subjet" => $subjet,
+							"msjEmail" => $mensaje,
+							"msjPhone" => $mensajeSMS
+						);
+						send_notification($arrParam);
 					} 
 					
 				}

@@ -59,14 +59,19 @@ class Hauling extends CI_Controller {
 
 			$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 			$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
 			$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
 
 			//enviar correo al cliente
 			mail($to, $subjet, $mensaje, $cabeceras);
 			
 			//enviar correo a VCI
-			mail('info@v-contracting.ca', $subjet, $mensaje, $cabeceras);
+			$arrParam = array(
+				"idNotification" => ID_NOTIFICATION_HAULING,
+				"subjet" => $subjet,
+				"msjEmail" => $mensaje,
+				"msjPhone" => false
+			);
+			send_notification($arrParam);
 			
 			$nota = 'You have send an email to <strong>' . $infoHauling["company_name"] . '</strong> with the information.';
 			
@@ -399,14 +404,19 @@ class Hauling extends CI_Controller {
 
 			$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 			$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
 			$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
 
 			//enviar correo al cliente
 			mail($to, $subjet, $mensaje, $cabeceras);
 			
 			//enviar correo a VCI
-			mail('info@v-contracting.ca', $subjet, $mensaje, $cabeceras);
+			$arrParam = array(
+				"idNotification" => ID_NOTIFICATION_HAULING,
+				"subjet" => $subjet,
+				"msjEmail" => $mensaje,
+				"msjPhone" => false
+			);
+			send_notification($arrParam);
 			
 			return true;
 	}	

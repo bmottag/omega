@@ -767,7 +767,6 @@ class Workorders extends CI_Controller {
 				
 					$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 					$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-					$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
 					$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
 
 					//enviar correo al cliente
@@ -780,7 +779,6 @@ class Workorders extends CI_Controller {
 						
 						$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 						$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$cabeceras .= 'To: ' . $lista['foreman_name'] . '<' . $lista['foreman_email'] . '>' . "\r\n";
 						$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
 						
 						//enviar correo al FOREMAN
@@ -948,20 +946,29 @@ class Workorders extends CI_Controller {
 
 			$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 			$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
 			$cabeceras .= 'From: VCI APP <hugo@v-contracting.com>' . "\r\n";
 
 			//enviar correo al cliente
 			mail($to, $subjet, $mensaje, $cabeceras);
 
+			//mensaje de texto
+			$mensajeSMS = "APP VCI - Work Order Email";
+			$mensajeSMS .= "\nAn email was sent to the client with the Work Order information.";
+			$mensajeSMS .= "\nWorkorder number: " . $id;
+
 			//enviar correo a VCI
-			mail('info@v-contracting.ca', $subjet, $mensaje, $cabeceras);
+			$arrParam = array(
+				"idNotification" => ID_NOTIFICATION_WORKORDER,
+				"subjet" => $subjet,
+				"msjEmail" => $mensaje,
+				"msjPhone" => $mensajeSMS
+			);
+			send_notification($arrParam);
 			
 			if($lista['foreman_name'] && $lista['foreman_email']){
 				
 				$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 				$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-				$cabeceras .= 'To: ' . $lista['foreman_name'] . '<' . $lista['foreman_email'] . '>' . "\r\n";
 				$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
 				
 				//enviar correo al FOREMAN

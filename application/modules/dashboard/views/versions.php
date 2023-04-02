@@ -46,6 +46,26 @@
                         <li>New form for Fire Watch.</li>
                         <li>New module for Job Details, this module have a relation with W.O..</li>
                         </ul>
+                        <strong>Payroll Check</strong> 
+                        <ul>
+                            <li>If a worker has been working for more than 18 hours then the system close automatically the hours of the user. If the worker has been working form more than 14 hours, then the system send a text message to the worker.  </li>
+                            <li>Time: Every day at 12pm </li>
+                            <li>Time: Every day at 9pm </li>
+                        </ul>
+                        <strong>Settings - Nottifications settings</strong> 
+                        <ul>
+                        <li>A notification table and another notification access table were added to be able to add several people to a notification</li>
+                        </ul>
+                        <strong>Settings - Nottifications settings</strong> 
+                        <ul>
+                        <li>A notification table and another notification access table were added to be able to add several people to a notification</li>
+                        <li>It is working to set the Day Off Request, Certifications Check, Copy of the Hauling Email, Incident Notification,  Copy of the Work Order Email and Inspection Notification.</li>
+                        </ul>
+                        <strong>FLHA - Signature</strong> 
+                        <ul>
+                            <li>New option to save the signature of each worker in User Profile. </li>
+                            <li>For FLHA you will have the option to use the System Signature. </li>
+                        </ul>
 					</p>
 				</div>
 				<div class="panel-footer">
@@ -96,10 +116,10 @@
 
                         <strong>Payroll Check:</strong>
                         <ul>
+                        <li>If a worker has been working for more than 18 hours then the system close automatically the hours of the user. If the worker has been working form more than 14 hours, then the system send a text message to the worker.  </li>
                             <li>URL: https://v-contracting.ca/app/payroll/payroll_check</li>
                             <li>Time: Every day at 12pm </li>
                             <li>Time: Every day at 9pm </li>
-                            <li>If a worker has been working for more than 18 hours then the system close automatically the hours of the user. If the worker has been working form more than 14 hours, then the system send a text message to the worker.  </li>
                         </ul>
 
                         <strong>Timesheet for Job Code Check:</strong>

@@ -245,17 +245,6 @@ class Incidences extends CI_Controller {
 	    	}
 			$infoIncident = $this->incidences_model->$model($arrParam);
 			
-			//busco datos de la tabla parametric para buscar el correo del jefe
-			$arrParam = array(
-				"table" => "parametric",
-				"order" => "id_parametric",
-				"id" => "x"
-			);
-			$this->load->model("general_model");
-			$parametric = $this->general_model->get_basic_search($arrParam);						
-			$user = $parametric[2]["value"];
-			$to = $parametric[0]["value"];
-		
 			//mensaje del correo
 			$msj = "<p>It is a new " . $subjet . ":</p>";
 			$msj .= "<strong>Report by: </strong>" . $infoIncident[0]["name"];
@@ -271,20 +260,30 @@ class Incidences extends CI_Controller {
 			  <title> $subjet </title>
 			</head>
 			<body>
-				<p>Dear	$user:</p>
 				<p>$msj</p>
 				<p>Cordially,</p>
 				<p><strong>V-CONTRACTING INC</strong></p>
 			</body>
 			</html>";
 
-			$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-			$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$cabeceras .= 'To: ' . $user . '<' . $to . '>' . "\r\n";
-			$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+			//mensaje de texto
+			$mensajeSMS = "APP VCI - Incident Notification";
+			$mensajeSMS .= "\nIt is a new " . $subjet . ":";
+			$mensajeSMS .= "\nReport by: " . $infoIncident[0]["name"];
+			if($incidencesType == 3){
+				$mensajeSMS .= "\nBrief explanation: " . $infoIncident[0]["brief_explanation"];
+			}else{
+				$mensajeSMS .= "\nWhat happened: " . $infoIncident[0]["what_happened"];
+			}
 
-			//enviar correo
-			mail($to, $subjet, $mensaje, $cabeceras);
+			//enviar correo a VCI
+			$arrParam = array(
+				"idNotification" => ID_NOTIFICATION_INCIDENT,
+				"subjet" => $subjet,
+				"msjEmail" => $mensaje,
+				"msjPhone" => $mensajeSMS 
+			);
+			send_notification($arrParam);
 	}
 	
 	/**
