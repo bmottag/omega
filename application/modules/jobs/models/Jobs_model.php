@@ -1306,6 +1306,8 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 					'hearing_protection' => $this->input->post('hearing_protection'),
 					'snow_cleets' => $this->input->post('snow_cleets'),
 					'dust_proof_mask' => $this->input->post('dust_proof_mask'),
+					'hard_hat' => $this->input->post('hard_hat'),
+					'gloves' => $this->input->post('gloves'),
 					'other_ppe' => $this->input->post('other_ppe'),
 					'operational_impacts' => $this->input->post('operational_impacts'),
 					'map_routing' => $this->input->post('map_routing'),
@@ -1447,9 +1449,11 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				if (array_key_exists("idFireWatch", $arrDatos)) {
 					$this->db->where('C.fk_id_job_fire_watch', $arrDatos["idFireWatch"]);
 				}
+				/*
 				if (array_key_exists("today", $arrDatos)) {
 					$this->db->where('C.checkin_date', $arrDatos["today"]);
 				}
+				*/
 				if (array_key_exists("checkout", $arrDatos)) {
 					$this->db->where('C.checkout_time', '0000-00-00 00:00:00');
 				}

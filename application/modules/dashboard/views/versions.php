@@ -32,10 +32,12 @@
                         <li>The administrator has the option to set who is the person to receive the notification.</li>
                         <li>The notification comes with the new path to update the status of the day off.</li>
                         </ul>
+<!--
                         <strong>Settings - Employee</strong> 
                         <ul>
                         <li>New field for Employee form, postal code.</li>
                         </ul>
+-->
                         <strong>Settings - Planning</strong> 
                         <ul>
                         <li>New form for flash Planning.</li>
@@ -46,16 +48,14 @@
                         <li>New form for Fire Watch.</li>
                         <li>New module for Job Details, this module have a relation with W.O..</li>
                         </ul>
+<!--
                         <strong>Payroll Check</strong> 
                         <ul>
                             <li>If a worker has been working for more than 18 hours then the system close automatically the hours of the user. If the worker has been working form more than 14 hours, then the system send a text message to the worker.  </li>
                             <li>Time: Every day at 12pm </li>
                             <li>Time: Every day at 9pm </li>
                         </ul>
-                        <strong>Settings - Nottifications settings</strong> 
-                        <ul>
-                        <li>A notification table and another notification access table were added to be able to add several people to a notification</li>
-                        </ul>
+-->
                         <strong>Settings - Nottifications settings</strong> 
                         <ul>
                         <li>A notification table and another notification access table were added to be able to add several people to a notification</li>

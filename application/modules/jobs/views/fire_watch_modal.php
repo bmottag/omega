@@ -117,12 +117,14 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="training">Mandatory PPE Required, select those that apply *</label><br>
-					<input type="checkbox" id="safety_shoes" name="safety_shoes" value=1 > Safety Shoes  <br>
+					<input type="checkbox" id="safety_shoes" name="safety_shoes" value=1 > Safety Boots  <br>
 					<input type="checkbox" id="safety_vest" name="safety_vest" value=1 > Safety Vest  <br>
 					<input type="checkbox" id="safety_glasses" name="safety_glasses" value=1 > Safety Glasses <br>
 					<input type="checkbox" id="hearing_protection" name="hearing_protection" value=1 >  Hearing Protection<br>
 					<input type="checkbox" id="snow_cleets" name="snow_cleets" value=1 > Snow Cleets<br>
 					<input type="checkbox" id="dust_proof_mask" name="dust_proof_mask" value=1 > Dust Proof Mask  <br>
+					<input type="checkbox" id="hard_hat" name="hard_hat" value=1 > Hard Hat <br>
+					<input type="checkbox" id="gloves" name="gloves" value=1 > Gloves  <br>
 					<input type="text" id="other_ppe" name="other_ppe" class="form-control" placeholder="Other, specify" >
 				</div>
 			</div>

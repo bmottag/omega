@@ -47,18 +47,15 @@
 	$html .= '<table cellspacing="0" cellpadding="5">
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Name </strong></th>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Start Time </strong></th>
-					<th bgcolor="#337ab7" style="color:white;"><strong>End Time </strong></th>
+					<th bgcolor="#337ab7" style="color:white;"><strong>Date & Time </strong></th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Notes/Observations</strong></th>
 				</tr>';
 
 	if($checkinList){
 		foreach ($checkinList as $lista):
-			$checkOut = $lista['checkout_time']=="0000-00-00 00:00:00"?"":$lista['checkout_time'];
 			$html .=  "<tr>";
 			$html .=  "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
 			$html .=  "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
-			$html .=  "<td class='text-center'>" . $checkOut . "</td>";
 			$html .=  "<td >" . $lista['notes'] . "</td>";
 			$html .=  "</tr>";
 		endforeach;

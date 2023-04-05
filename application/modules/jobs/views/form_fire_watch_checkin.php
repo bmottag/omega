@@ -225,11 +225,11 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Patrol #</th>
-								<th class="text-center">Date</th>
+								<!-- <th class="text-center">Date</th> -->
 								<th >Worker</th>
 								<th class="text-center">Phone Number</th>
-								<th class="text-center">Start Time</th>
-								<th class="text-center">End Time</th>
+								<th class="text-center">Date & Time</th>
+								<!-- <th class="text-center">End Time</th> -->
 								<th>Address</th>
 								<th >Notes/Observations</th>
 							</tr>
@@ -238,19 +238,21 @@ if ($retornoError) {
 						<?php
 							$i=1;
 							foreach ($checkinList as $lista):
+								/*
 								$checkOut = $lista['checkout_time'];
 								$flag = false;
 								if($lista['checkout_time']=="0000-00-00 00:00:00"){
 									$checkOut = "<p class='text-danger'><i class='fa fa-refresh fa-fw'></i><b>Still working</b><p>";
 									$flag = true;
 								}
-								
+								*/
 								echo "<tr>";
 								echo "<td class='text-center'>" . $i. "</td>";
-								echo "<td class='text-center'>" . ucfirst(strftime("%b %d, %G",strtotime($lista['checkin_date']))) . "</td>";
+								/* echo "<td class='text-center'>" . ucfirst(strftime("%b %d, %G",strtotime($lista['checkin_date']))) . "</td>"; */
 								echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
-								echo "<td class='text-center'>" . $lista['movil'] . "</td>";
+								echo "<td class='text-center'>" . mobile_adjustment($lista['movil']) . "</td>";
 								echo "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
+								/*
 								echo "<td class='text-center'>" . $checkOut;
 								if($flag){
 								?>
@@ -261,9 +263,10 @@ if ($retornoError) {
 								<?php
 								}
 								echo "</td>";
+								*/
 								echo "<td>" . $lista['address_start'];
-								echo "<br><b>Latitud</b>" . $lista['latitude_start'];
-								echo "<br><b>Longitud</b>" . $lista['longitude_start'];
+								echo "<br><b>Latitud</b> " . $lista['latitude_start'];
+								echo "<br><b>Longitud</b> " . $lista['longitude_start'];
 								echo "</td>";
 								echo "<td >" . $lista['notes'] . "</td>";
 								echo "</tr>";
