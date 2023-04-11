@@ -181,7 +181,7 @@ if ($retornoError) {
 													</a>
 												</li>	
 												<li>
-													<a href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
+													<a href='<?php echo base_url('prices/equipmentUnitPrice/' . $lista['id_job'] . '/1') ?>'>
 														<i class="fa fa-flag fa-fw"></i> Equipment
 													</a>
 												</li>
