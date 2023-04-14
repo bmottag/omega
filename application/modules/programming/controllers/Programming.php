@@ -329,7 +329,21 @@ class Programming extends CI_Controller {
 		if($data['informationWorker']){
 			foreach ($data['informationWorker'] as $data):
 				$mensaje .= "\n";
-				$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+				switch ( $data['site'] )
+				{
+					case 1:
+						$mensaje .= "At the yard - ";
+						break;
+					case 2:
+						$mensaje .= "At the site - ";
+						break;
+					case 3:
+						$mensaje .= "At Terminal - ";
+						break;
+					default:
+						$mensaje .= "At the yard - ";
+						break;
+				}
 				$mensaje .= $data['hora']; 
 
 				$mensaje .= "\n" . $data['name']; 

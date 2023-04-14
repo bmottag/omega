@@ -215,7 +215,21 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 							
 								foreach ($informationWorker as $data):
 									$mensaje .= "<br>";
-									$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+									switch ( $data['site'] )
+									{
+										case 1:
+											$mensaje .= "At the yard - ";
+											break;
+										case 2:
+											$mensaje .= "At the site - ";
+											break;
+										case 3:
+											$mensaje .= "At Terminal - ";
+											break;
+										default:
+											$mensaje .= "At the yard - ";
+											break;
+									}
 									$mensaje .= $data['hora']; 
 
 									$mensaje .= "<br>" . $data['name']; 
@@ -264,6 +278,7 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 								<option value="">Select...</option>
 								<option value=1 <?php if($data["site"] == 1) { echo "selected"; }  ?>>At the yard</option>
 								<option value=2 <?php if($data["site"] == 2) { echo "selected"; }  ?>>At the site</option>
+								<option value=2 <?php if($data["site"] == 3) { echo "selected"; }  ?>>At Terminal</option>
 							</select>
 						</td>
 						
