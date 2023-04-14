@@ -278,7 +278,7 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 								<option value="">Select...</option>
 								<option value=1 <?php if($data["site"] == 1) { echo "selected"; }  ?>>At the yard</option>
 								<option value=2 <?php if($data["site"] == 2) { echo "selected"; }  ?>>At the site</option>
-								<option value=2 <?php if($data["site"] == 3) { echo "selected"; }  ?>>At Terminal</option>
+								<option value=3 <?php if($data["site"] == 3) { echo "selected"; }  ?>>At Terminal</option>
 							</select>
 						</td>
 						
