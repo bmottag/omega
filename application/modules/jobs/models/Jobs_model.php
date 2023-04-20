@@ -1206,7 +1206,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 				if ($jobDetails) {
 					$tot = count($jobDetails);
 					for ($i = 0; $i < $tot; $i++) {
-						$percentage = number_format($jobDetails[$i]["extended_amount"] * 100 / $totalExtendedAmount);
+						$percentage = number_format($jobDetails[$i]["extended_amount"] * 100 / $totalExtendedAmount , 2);
 
 						$data = array(
 							'percentage' => $percentage

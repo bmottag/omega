@@ -627,21 +627,22 @@ class Workorders extends CI_Controller {
 			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 
 			//search for total WO INCOME
-			$arrParam['idJob'] = $data['information'][0]['fk_id_job'];
-			$arrParam['table'] = "workorder_personal";
-			$data['incomePersonal'] = $this->workorders_model->countIncome($arrParam);//INCOME PERSOMAL
+			$arrParam2 = array('idWorkOrder' =>$id);
+			$arrParam2['idJob'] = $data['information'][0]['fk_id_job'];
+			$arrParam2['table'] = "workorder_personal";
+			$data['incomePersonal'] = $this->workorders_model->countIncome($arrParam2);//INCOME PERSOMAL
 
-			$arrParam['table'] = "workorder_materials";
-			$data['incomeMaterial'] = $this->workorders_model->countIncome($arrParam);//INCOME MATERIAL
+			$arrParam2['table'] = "workorder_materials";
+			$data['incomeMaterial'] = $this->workorders_model->countIncome($arrParam2);//INCOME MATERIAL
 
-			$arrParam['table'] = "workorder_equipment";
-			$data['incomeEquipment'] = $this->workorders_model->countIncome($arrParam);//INCOME EQUIPMENT
+			$arrParam2['table'] = "workorder_equipment";
+			$data['incomeEquipment'] = $this->workorders_model->countIncome($arrParam2);//INCOME EQUIPMENT
 
-			$arrParam['table'] = "workorder_ocasional";
-			$data['incomeSubcontractor'] = $this->workorders_model->countIncome($arrParam);//INCOME OCASIONAL
+			$arrParam2['table'] = "workorder_ocasional";
+			$data['incomeSubcontractor'] = $this->workorders_model->countIncome($arrParam2);//INCOME OCASIONAL
 
-			$arrParam['table'] = "workorder_receipt ";
-			$data['incomeReceipt'] = $this->workorders_model->countIncome($arrParam);//INCOME RECEIPT
+			$arrParam2['table'] = "workorder_receipt";
+			$data['incomeReceipt'] = $this->workorders_model->countIncome($arrParam2);//INCOME RECEIPT
 
 			$data['totalWOIncome'] = $data['incomePersonal'] + $data['incomeMaterial'] + $data['incomeEquipment'] + $data['incomeSubcontractor'] + $data['incomeReceipt'];
 			

@@ -669,12 +669,14 @@
 		 * @since  10/2/2020
 		 */
 		public function countIncome($arrDatos)
-		{					
+		{	
 				$sql = "SELECT ROUND(SUM(value),2) TOTAL";
 				$sql.= " FROM " . $arrDatos["table"] . " P";
 				$sql.= " INNER JOIN workorder W on W.id_workorder = P.fk_id_workorder";
 				$sql.= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
-								
+				if(array_key_exists("idWorkOrder", $arrDatos)) {
+					$sql.= " AND P.fk_id_workorder =" . $arrDatos["idWorkOrder"];
+				}
 				if (array_key_exists("from", $arrDatos) && $arrDatos["from"] != '') {
 					$sql.= " AND date >= '" . $arrDatos["from"] ."'";
 				}				
