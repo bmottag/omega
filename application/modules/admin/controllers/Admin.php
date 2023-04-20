@@ -1119,13 +1119,15 @@ class Admin extends CI_Controller {
 	 */
 	public function certificate()
 	{
-			$arrParam = array(
-				"table" => "param_certificates ",
-				"order" => "certificate",
-				"id" => "x"
-			);
-			$data['info'] = $this->general_model->get_basic_search($arrParam);
-			
+			$arrParam = array();
+			$data['certificateList'] = $this->general_model->get_certificate_list($arrParam);
+
+			//se filtra por id_certificate
+			if($_POST && $_POST['idCertificate'] != ""){
+				$arrParam['idCertificate'] = $this->input->post('idCertificate');
+			}
+			$data['info'] = $this->general_model->get_certificate_list($arrParam);
+
 			$data["view"] = 'certificate';
 			$this->load->view("layout", $data);
 	}

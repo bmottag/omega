@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script>
 $(function(){ 
 	$(".btn-success").click(function () {	
@@ -38,9 +41,17 @@ $(function(){
 					<i class="fa fa-link"></i> CERTIFICATES
 				</div>
 				<div class="panel-body">
+<?php
+	//DESHABILITAR EDICION
+	$deshabilitar = '';
+	$userRol = $this->session->rol;
+	//SOLO SE HABILITA EL BOTON DE CERTIFICADOS PARA EL USUARIO SUPER ADMINISTRADOR Y SAFETY 
+?>
+				<?php if($userRol == 99 || $userRol == 4){ ?>
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Certificate
 					</button><br>
+				<?php } ?>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -70,17 +81,64 @@ if ($retornoError) {
     <?php
 }
 ?>
+
+					<form name="formCheckin" id="formCheckin" method="post">
+						<div class="panel panel-default">
+							<div class="panel-footer">
+								<div class="row">
+									<div class="col-lg-4">
+										<div class="form-group input-group-sm">	
+											<label class="control-label" for="idCertificate">Certificate:</label>								
+											<select name="idCertificate" id="idCertificate" class="form-control" >
+												<option value="">Seleccione...</option>
+												<?php for ($i = 0; $i < count($certificateList); $i++) { ?>
+													<option value="<?php echo $certificateList[$i]["id_certificate"]; ?>" <?php if($_POST && $_POST["idCertificate"] == $certificateList[$i]["id_certificate"]) { echo "selected"; }  ?>><?php echo $certificateList[$i]["certificate"]; ?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+
+<script>
+	$( function() {
+		$( "#date" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'yy-mm-dd'
+		});
+	});
+</script>
+									<div class="col-lg-2">
+										<div class="form-group input-group-sm">	
+											<label class="control-label" for="date">Date Throught (YYYY-MM-DD): </label>								
+											<input type="text" class="form-control" id="date" name="date" value="<?php if($_POST && $_POST["date"]) { echo $_POST["date"]; }  ?>" placeholder="Date Throught" />
+										</div>
+									</div>
+
+									<div class="col-lg-4">
+										<div class="form-group"><br>
+											<button type="submit" id="btnSearch" name="btnSearch" class="btn btn-primary btn-sm" >
+												Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+											</button> 
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
 				<?php
 					if($info){
 				?>
 
-					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+					<table class="table table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Certificate</th>
-								<th class="text-center">Description</th>
-								<th class="text-center">Employees</th>
+								<th >Certificate</th>
+								<th >Description</th>
+								<th >Employees</th>
+								<?php if($userRol == 99 || $userRol == 4){ ?>
 								<th class="text-center">Edit</th>
+								<?php } ?>
 							</tr>
 						</thead>
 						<tbody>							
@@ -90,7 +148,8 @@ if ($retornoError) {
 								echo "<td><small>" . $lista['certificate'] . "</small></td>";
 								echo "<td><small>" . $lista['certificate_description'] . "</small></td>";
 								echo "<td>";
-								$arrParam['idCertificate'] = $lista['id_certificate'] ;			
+								$arrParam['idCertificate'] = $lista['id_certificate'];
+								if($_POST && $_POST["date"]) { $arrParam['date'] = $_POST["date"]; } 		
 								$certificateList = $this->general_model->get_user_certificates($arrParam);
 								if($certificateList){
 									echo "<ol><small>";
@@ -100,13 +159,15 @@ if ($retornoError) {
 									echo "</small></ol>";
 								}
 								echo "</td>";
-								echo "<td class='text-center'>";
-						?>
-								<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_certificate']; ?>" >
-									Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-								</button>
-						<?php
-								echo "</td>";
+								if($userRol == 99 || $userRol == 4){
+									echo "<td class='text-center'>";
+							?>
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_certificate']; ?>" >
+										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									</button>
+							<?php
+									echo "</td>";
+								}
 							endforeach;
 						?>
 						</tbody>
@@ -139,7 +200,7 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
-		"pageLength": 25
+		"pageLength": 100
 	});
 });
 </script>

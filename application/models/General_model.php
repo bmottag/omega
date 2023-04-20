@@ -1238,6 +1238,10 @@ class General_model extends CI_Model {
 				if (array_key_exists("idCertificate", $arrData)) {
 					$this->db->where('C.id_certificate', $arrData["idCertificate"]);
 				}
+				if (array_key_exists("date", $arrData)) {
+					$this->db->where('X.date_through <=', $arrData["date"]);
+					$this->db->where('X.expires', 1);
+				}
 				$this->db->order_by('C.certificate', 'asc');
 				$query = $this->db->get('user_certificates X');
 
@@ -1759,6 +1763,25 @@ class General_model extends CI_Model {
 
 				if ($query->num_rows() > 0) {
 					return $query->row_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Get workorder expenses info
+		 * @since 18/4/2023
+		 */
+		public function get_certificate_list($arrData) 
+		{
+				if(array_key_exists("idCertificate", $arrData)) {
+					$this->db->where('id_certificate', $arrData["idCertificate"]);
+				}
+				$this->db->order_by('certificate', 'asc');
+				$query = $this->db->get('param_certificates');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
 				} else {
 					return false;
 				}
