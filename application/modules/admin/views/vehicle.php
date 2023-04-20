@@ -68,6 +68,8 @@ $(function(){
 						</li>
 						<li <?php if($vehicleType == 99){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/vehicle/1/99"); ?>">Survey - Trailer</a>
 						</li>
+						<li <?php if($vehicleType == 5){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/vehicle/1/5"); ?>">Small Equipment</a>
+						</li>
 						<li <?php if($vehicleState == 2){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/vehicle/1/x/2"); ?>">Inactive Vehicles - VCI</a>
 						</li>
 					</ul>
