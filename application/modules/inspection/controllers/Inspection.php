@@ -142,43 +142,17 @@ class Inspection extends CI_Controller {
 						
 						//el que vaya con comentario le envio correo al administrador
 						$comments = $this->input->post('comments');
-						if($comments != ""){
-							//mensaje del correo
-							$emailMsn = "<p>The following inspection have comments please check the complete report in the system.</p>";
-							$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-							$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-							$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-							$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-							$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-							$subjet = "Inspection with comments";
-							$mensaje = "<html>
-										<head>
-										<title> $subjet </title>
-										</head>
-										<body>
-											<p>Dear	Administrator:</p>
-											<p>$emailMsn</p>
-											<p>Cordially,</p>
-											<p><strong>V-CONTRACTING INC</strong></p>
-										</body>
-										</html>";
-
-							//mensaje de texto
-							$mensajeSMS = "APP VCI - " . $subjet ;
-							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-							$mensajeSMS .= "\nComments: " . $comments;
-
-							//enviar correo a VCI
-							$arrParam = array(
-								"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-								"subjet" => $subjet,
-								"msjEmail" => $mensaje,
-								"msjPhone" => $mensajeSMS
-							);
-							send_notification($arrParam);
-						}
+						//OIL CAHNGE
+						$state = 1;//Inspection
+						$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idDailyInspection);
 						
+						//verificar el kilometraje
+						//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
+						$hours = $this->input->post('hours');
+						$oilChange = $this->input->post('oilChange');
+						$diferencia = $oilChange - $hours;
+
 						//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
 						$headLamps = $this->input->post('headLamps');
 						$hazardLights = $this->input->post('hazardLights');
@@ -203,100 +177,83 @@ class Inspection extends CI_Controller {
 						$driver_seat_check = $this->input->post('passengerDoor');
 						$fuel_system_check = $this->input->post('fuel_system');
 
+						//flag
+						$sendNotification = false;
+						$subjet = "";
+						if($diferencia <= 50 && $comments == ""){
+							$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+							$subjet = "Oil Change";
+							$sendNotification = true;
+						} elseif($diferencia <= 50 && $comments != ""){
+							$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
+							$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
+							$subjet = "Oil Change & Inspection with comments";
+							$sendNotification = true;
+						} elseif($comments != ""){
+							$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
+							$subjet = "Inspection with comments";
+							$sendNotification = true;
+						}
+
+						$failsEmail = "";
+						$fails = "";
 						//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
 						if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
-
+							
 							//mensaje del correo
-							$emailMsn = "<p>A major defect has been identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
-							$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-							$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-							$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-							$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-							$emailMsn .= "<br>";
+							$majorDefect = "<p>A major defect has been identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+							$emailMsnTitle = $sendNotification?$emailMsnTitle . $majorDefect : $majorDefect;
 
-							$fails = "";						
 							if ($heater_check == 0) {
-								$emailMsn .= "<br>Heater - Fail"; 
+								$failsEmail .= "<br>Heater - Fail"; 
 								$fails .= "\nHeater - Fail"; 
 							}
 							if ($brakes_check == 0) {
-								$emailMsn .= "<br>Heater - Fail"; 
-								$fails .= "\nHeater - Fail"; }
+								$failsEmail .= "<br>Heater - Fail"; 
+								$fails .= "\nHeater - Fail"; 
+							}
 							if ($lights_check == 0) {
-								$emailMsn .= "<br>Lamps and reflectors - Fail"; 
+								$failsEmail .= "<br>Lamps and reflectors - Fail"; 
 								$fails .= "\nLamps and reflectors - Fail"; 
 							}
 							if ($steering_wheel_check == 0) {
-								$emailMsn .= "<br>Steering wheel - Fail"; 
+								$failsEmail .= "<br>Steering wheel - Fail"; 
 								$fails .= "\nSteering wheel - Fail"; 
 							}
 							if ($suspension_system_check == 0) {
-								$emailMsn .= "<br>Suspension system - Fail";
+								$failsEmail .= "<br>Suspension system - Fail";
 								$fails .= "\nSuspension system - Fail"; 
 							}
 							if ($tires_check == 0) {
-								$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail";
+								$failsEmail .= "<br>Tires/Lug Nuts/Pressure - Fail";
 								$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
 							}
 							if ($wipers_check == 0) {
-								$emailMsn .= "<br>Wipers/Washers - Fail"; 
+								$failsEmail .= "<br>Wipers/Washers - Fail"; 
 								$fails .= "\nWipers/Washers - Fail"; 
 							}
 							if ($air_brake_check == 0) {
-								$emailMsn .= "<br>Air brake system - Fail"; 
+								$failsEmail .= "<br>Air brake system - Fail"; 
 								$fails .= "\nAir brake system - Fail"; 
 							}
 							if ($driver_seat_check == 0) {
-								$emailMsn .= "<br>Driver and Passenger door - Fail"; 
+								$failsEmail .= "<br>Driver and Passenger door - Fail"; 
 								$fails .= "\nDriver and Passenger door - Fail"; 
 							}
 							if ($fuel_system_check == 0) {
-								$emailMsn .= "<br>Fuel system - Fail"; 
+								$failsEmail .= "<br>Fuel system - Fail"; 
 								$fails .= "\nFuel system - Fail"; 
 							}
-									
-							$subjet = "Inspection with major defect";
-							$mensaje = "<html>
-										<head>
-										<title> $subjet </title>
-										</head>
-										<body>
-											<p>Dear Administrator:</p>
-											<p>$emailMsn</p>
-											<p>Cordially,</p>
-											<p><strong>V-CONTRACTING INC</strong></p>
-										</body>
-										</html>";
-
-							//mensaje de texto
-							$mensajeSMS = "APP VCI - " . $subjet;
-							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-							$mensajeSMS .= $fails;
-
-							//enviar correo a VCI
-							$arrParam = array(
-								"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-								"subjet" => $subjet,
-								"msjEmail" => $mensaje,
-								"msjPhone" => $mensajeSMS
-							);
-							send_notification($arrParam);
-						}
-					
-						$state = 1;//Inspection
-						$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idDailyInspection);
-						
-						//verificar el kilometraje
-						//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
-						$hours = $this->input->post('hours');
-						$oilChange = $this->input->post('oilChange');
-						$diferencia = $oilChange - $hours;
-						
-						if($diferencia <= 50){
-							//enviar correo
 							
+							$subjet = $sendNotification?$subjet . " & ": "";
+							$subjet .= "Inspection with major defect"; 
+							$sendNotification = true;
+						}
+
+						//enviar correo
+						if($sendNotification){	
 							//mensaje del correo
-							$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+							$emailMsn = $emailMsnTitle;
 							$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 							$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 							$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -304,8 +261,9 @@ class Inspection extends CI_Controller {
 							$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
 							$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 							$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+							$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
+							$emailMsn .= $failsEmail;
 
-							$subjet = "Oil Change";
 							$mensaje = "<html>
 										<head>
 										<title> $subjet </title>
@@ -320,8 +278,10 @@ class Inspection extends CI_Controller {
 
 							//mensaje de texto
 							$mensajeSMS = "APP VCI - " . $subjet ;
-							$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+							$mensajeSMS .= $diferencia <= 50?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+							$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
+							$mensajeSMS .= $fails;
 							
 							//enviar correo a VCI
 							$arrParam = array(
@@ -332,7 +292,6 @@ class Inspection extends CI_Controller {
 							);
 							send_notification($arrParam);
 						} 
-						
 					}
 
 					$data["result"] = true;
@@ -429,43 +388,8 @@ class Inspection extends CI_Controller {
 					
 					//el que vaya con comentario le envio correo al administrador
 					$comments = $this->input->post('comments');
-					if($comments != ""){
-						//mensaje del correo
-						$emailMsn = "<p>The following inspection have comments please check the complete report in the system.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						$subjet = "Inspection with comments";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= "\nComments: " . $comments;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					}
-					
+					//OIL CAHNGE
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idHeavyInspection);
 					
@@ -474,12 +398,28 @@ class Inspection extends CI_Controller {
 					$hours = $this->input->post('hours');
 					$oilChange = $this->input->post('oilChange');
 					$diferencia = $oilChange - $hours;
-										
-					if($diferencia <= 50){
-						//enviar correo
-						
+
+					//flag
+					$sendNotification = false;
+					if($diferencia <= 50 && $comments == ""){
+						$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$subjet = "Oil Change";
+						$sendNotification = true;
+					} elseif($diferencia <= 50 && $comments != ""){
+						$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
+						$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
+						$subjet = "Oil Change & Inspection with comments";
+						$sendNotification = true;
+					} elseif($comments != ""){
+						$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
+						$subjet = "Inspection with comments";
+						$sendNotification = true;
+					}
+
+					//enviar correo
+					if($sendNotification){	
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$emailMsn = $emailMsnTitle;
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -487,8 +427,8 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 
-						$subjet = "Oil Change";
 						$mensaje = "<html>
 									<head>
 									<title> $subjet </title>
@@ -503,8 +443,9 @@ class Inspection extends CI_Controller {
 
 						//mensaje de texto
 						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= $diferencia <= 50?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
 						
 						//enviar correo a VCI
 						$arrParam = array(
@@ -660,43 +601,8 @@ class Inspection extends CI_Controller {
 					
 					//el que vaya con comentario le envio correo al administrador
 					$comments = $this->input->post('comments');
-					if($comments != ""){
-						//mensaje del correo
-						$emailMsn = "<p>The following inspection have comments please check the complete report in the system.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						$subjet = "Inspection with comments";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= "\nComments: " . $comments;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					}
-					
+					//OIL CAHNGE
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idGeneratorInspection);
 					
@@ -705,12 +611,28 @@ class Inspection extends CI_Controller {
 					$hours = $this->input->post('hours');
 					$oilChange = $this->input->post('oilChange');
 					$diferencia = $oilChange - $hours;
-										
-					if($diferencia <= 50){
-						//enviar correo
-						
+
+					//flag
+					$sendNotification = false;
+					if($diferencia <= 50 && $comments == ""){
+						$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$subjet = "Oil Change";
+						$sendNotification = true;
+					} elseif($diferencia <= 50 && $comments != ""){
+						$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
+						$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
+						$subjet = "Oil Change & Inspection with comments";
+						$sendNotification = true;
+					} elseif($comments != ""){
+						$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
+						$subjet = "Inspection with comments";
+						$sendNotification = true;
+					}
+
+					//enviar correo
+					if($sendNotification){						
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$emailMsn = $emailMsnTitle;
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -718,8 +640,8 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 
-						$subjet = "Oil Change";
 						$mensaje = "<html>
 									<head>
 									<title> $subjet </title>
@@ -733,9 +655,10 @@ class Inspection extends CI_Controller {
 									</html>";
 
 						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS = "APP VCI - " . $subjet;
+						$mensajeSMS .= $diferencia <= 50?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
 						
 						//enviar correo a VCI
 						$arrParam = array(
@@ -842,43 +765,8 @@ class Inspection extends CI_Controller {
 					
 					//el que vaya con comentario le envio correo al administrador
 					$comments = $this->input->post('comments');
-					if($comments != ""){
-						//mensaje del correo
-						$emailMsn = "<p>The following inspection have comments please check the complete report in the system.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						$subjet = "Inspection with comments";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= "\nComments: " . $comments;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					}
-					
+					//OIL CAHNGE
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idSweeperInspection);
 					
@@ -891,12 +779,28 @@ class Inspection extends CI_Controller {
 					$hours2 = $this->input->post('hours2');
 					$oilChange2 = $this->input->post('oilChange2');
 					$diferencia2 = $oilChange2 - $hours2;
-										
-					if($diferencia <= 50 || $diferencia2 <= 50){
-						//enviar correo
-						
+
+					//flag
+					$sendNotification = false;
+					if(($diferencia <= 50 || $diferencia2 <= 50) && $comments == ""){
+						$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$subjet = "Oil Change";
+						$sendNotification = true;
+					} elseif(($diferencia <= 50 || $diferencia2 <= 50) && $comments != ""){
+						$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
+						$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
+						$subjet = "Oil Change & Inspection with comments";
+						$sendNotification = true;
+					} elseif($comments != ""){
+						$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
+						$subjet = "Inspection with comments";
+						$sendNotification = true;
+					}
+
+					//enviar correo
+					if($sendNotification){
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$emailMsn = $emailMsnTitle ;
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -904,8 +808,8 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 
-						$subjet = "Oil Change";
 						$mensaje = "<html>
 									<head>
 									<title> $subjet </title>
@@ -920,8 +824,9 @@ class Inspection extends CI_Controller {
 
 						//mensaje de texto
 						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= ($diferencia <= 50 || $diferencia2 <= 50)?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
 						
 						//enviar correo a VCI
 						$arrParam = array(
@@ -1031,148 +936,8 @@ class Inspection extends CI_Controller {
 					
 					//el que vaya con comentario le envio correo al administrador
 					$comments = $this->input->post('comments');
-					if($comments != ""){
-						//mensaje del correo
-						$emailMsn = "<p>The following inspection have comments please check the complete report in the system.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						$subjet = "Inspection with comments";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= "\nComments: " . $comments;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					}
-					
-					//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
-					$headLamps = $this->input->post('headLamps');
-					$hazardLights = $this->input->post('hazardLights');
-					$clearanceLights = $this->input->post('clearanceLights');
-					$tailLights = $this->input->post('tailLights');
-					$workLights = $this->input->post('workLights');
-					$turnSignals = $this->input->post('turnSignals');
-					$beaconLight = $this->input->post('beaconLights');
-
-
-					$lights_check = 1;
-					if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
-						$lights_check = 0;
-					}
-						
-					$heater_check = $this->input->post('heater');
-					$brakes_check = $this->input->post('brake');
-					$steering_wheel_check = $this->input->post('steering_wheel');
-					$suspension_system_check = $this->input->post('suspension_system');
-					$tires_check = $this->input->post('tires');
-					$wipers_check = $this->input->post('wipers');
-					$air_brake_check = $this->input->post('air_brake');
-					$driver_seat_check = $this->input->post('door');
-					$fuel_system_check = $this->input->post('fuel_system');
-
-					//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
-					if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
-
-						//mensaje del correo
-						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br>";
-
-						$fails = "";						
-						if ($heater_check == 0) {
-							$emailMsn .= "<br>Heater - Fail"; 
-							$fails .= "\nHeater - Fail"; 
-						}
-						if ($brakes_check == 0) {
-							$emailMsn .= "<br>Brake pedal - Fail"; 
-							$fails .= "\Brake pedal - Fail"; }
-						if ($lights_check == 0) {
-							$emailMsn .= "<br>Lamps and reflectors - Fail"; 
-							$fails .= "\nLamps and reflectors - Fail"; 
-						}
-						if ($steering_wheel_check == 0) {
-							$emailMsn .= "<br>Steering wheel - Fail"; 
-							$fails .= "\nSteering wheel - Fail"; 
-						}
-						if ($suspension_system_check == 0) {
-							$emailMsn .= "<br>Suspension system - Fail";
-							$fails .= "\nSuspension system - Fail"; 
-						}
-						if ($tires_check == 0) {
-							$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail";
-							$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
-						}
-						if ($wipers_check == 0) {
-							$emailMsn .= "<br>Wipers/Washers - Fail"; 
-							$fails .= "\nWipers/Washers - Fail"; 
-						}
-						if ($air_brake_check == 0) {
-							$emailMsn .= "<br>Air brake system - Fail"; 
-							$fails .= "\nAir brake system - Fail"; 
-						}
-						if ($driver_seat_check == 0) {
-							$emailMsn .= "<br>Driver and Passenger door - Fail"; 
-							$fails .= "\nDriver and Passenger door - Fail"; 
-						}
-						if ($fuel_system_check == 0) {
-							$emailMsn .= "<br>Fuel system - Fail"; 
-							$fails .= "\nFuel system - Fail"; 
-						}
-
-						$subjet = "Inspection with major defect";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= $fails;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					}
-					
+					//OIL CAHNGE
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idHydrovacInspection);
 					
@@ -1189,12 +954,106 @@ class Inspection extends CI_Controller {
 					$hours3 = $this->input->post('hours3');
 					$oilChange3 = $this->input->post('oilChange3');
 					$diferencia3 = $oilChange3 - $hours3;
-										
-					if($diferencia <= 50 || $diferencia2 <= 50 || $diferencia3 <= 50){
-						//enviar correo
+
+					//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+					$headLamps = $this->input->post('headLamps');
+					$hazardLights = $this->input->post('hazardLights');
+					$clearanceLights = $this->input->post('clearanceLights');
+					$tailLights = $this->input->post('tailLights');
+					$workLights = $this->input->post('workLights');
+					$turnSignals = $this->input->post('turnSignals');
+					$beaconLight = $this->input->post('beaconLights');
+
+					$lights_check = 1;
+					if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+						$lights_check = 0;
+					}
 						
+					$heater_check = $this->input->post('heater');
+					$brakes_check = $this->input->post('brake');
+					$steering_wheel_check = $this->input->post('steering_wheel');
+					$suspension_system_check = $this->input->post('suspension_system');
+					$tires_check = $this->input->post('tires');
+					$wipers_check = $this->input->post('wipers');
+					$air_brake_check = $this->input->post('air_brake');
+					$driver_seat_check = $this->input->post('door');
+					$fuel_system_check = $this->input->post('fuel_system');
+
+					//flag
+					$sendNotification = false;
+					$subjet = "";
+					if(($diferencia <= 50 || $diferencia2 <= 50 || $diferencia3 <= 50) && $comments == ""){
+						$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$subjet = "Oil Change";
+						$sendNotification = true;
+					} elseif(($diferencia <= 50 || $diferencia2 <= 50 || $diferencia3 <= 50) && $comments != ""){
+						$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
+						$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
+						$subjet = "Oil Change & Inspection with comments";
+						$sendNotification = true;
+					} elseif($comments != ""){
+						$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
+						$subjet = "Inspection with comments";
+						$sendNotification = true;
+					}
+
+					$failsEmail = "";
+					$fails = "";
+					//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+					if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$majorDefect = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+						$emailMsnTitle = $sendNotification?$emailMsnTitle . $majorDefect : $majorDefect;
+					
+						if ($heater_check == 0) {
+							$failsEmail .= "<br>Heater - Fail"; 
+							$fails .= "\nHeater - Fail"; 
+						}
+						if ($brakes_check == 0) {
+							$failsEmail .= "<br>Brake pedal - Fail"; 
+							$fails .= "\Brake pedal - Fail"; }
+						if ($lights_check == 0) {
+							$failsEmail .= "<br>Lamps and reflectors - Fail"; 
+							$fails .= "\nLamps and reflectors - Fail"; 
+						}
+						if ($steering_wheel_check == 0) {
+							$failsEmail .= "<br>Steering wheel - Fail"; 
+							$fails .= "\nSteering wheel - Fail"; 
+						}
+						if ($suspension_system_check == 0) {
+							$failsEmail .= "<br>Suspension system - Fail";
+							$fails .= "\nSuspension system - Fail"; 
+						}
+						if ($tires_check == 0) {
+							$failsEmail .= "<br>Tires/Lug Nuts/Pressure - Fail";
+							$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
+						}
+						if ($wipers_check == 0) {
+							$failsEmail .= "<br>Wipers/Washers - Fail"; 
+							$fails .= "\nWipers/Washers - Fail"; 
+						}
+						if ($air_brake_check == 0) {
+							$failsEmail .= "<br>Air brake system - Fail"; 
+							$fails .= "\nAir brake system - Fail"; 
+						}
+						if ($driver_seat_check == 0) {
+							$failsEmail .= "<br>Driver and Passenger door - Fail"; 
+							$fails .= "\nDriver and Passenger door - Fail"; 
+						}
+						if ($fuel_system_check == 0) {
+							$failsEmail .= "<br>Fuel system - Fail"; 
+							$fails .= "\nFuel system - Fail"; 
+						}
+						$subjet = $sendNotification?$subjet . " & ": "";
+						$subjet .= "Inspection with major defect"; 
+						$sendNotification = true;
+					}
+
+					//enviar correo
+					if($sendNotification){	
+						//mensaje del correo
+						$emailMsn = $emailMsnTitle;
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -1202,8 +1061,9 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
+						$emailMsn .= $failsEmail;
 
-						$subjet = "Oil Change";
 						$mensaje = "<html>
 									<head>
 									<title> $subjet </title>
@@ -1218,8 +1078,10 @@ class Inspection extends CI_Controller {
 
 						//mensaje de texto
 						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= ($diferencia <= 50 || $diferencia2 <= 50 || $diferencia3 <= 50)?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
+						$mensajeSMS .= $fails;
 						
 						//enviar correo a VCI
 						$arrParam = array(
@@ -1329,149 +1191,8 @@ class Inspection extends CI_Controller {
 					
 					//el que vaya con comentario le envio correo al administrador
 					$comments = $this->input->post('comments');
-					if($comments != ""){
-						//mensaje del correo
-						$emailMsn = "<p>The following inspection have comments please check the complete report in the system.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Comments: </strong>" . $comments;
 
-						$subjet = "Inspection with comments";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= "\nComments: " . $comments;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					}
-					
-//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
-$headLamps = $this->input->post('headLamps');
-$hazardLights = $this->input->post('hazardLights');
-$clearanceLights = $this->input->post('clearanceLights');
-$tailLights = $this->input->post('tailLights');
-$workLights = $this->input->post('workLights');
-$turnSignals = $this->input->post('turnSignals');
-$beaconLight = $this->input->post('beaconLights');
-
-$lights_check = 1;
-if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
-	$lights_check = 0;
-}
-						
-$heater_check = $this->input->post('heater');
-$brakes_check = $this->input->post('brake');
-$steering_wheel_check = $this->input->post('steering_wheel');
-$suspension_system_check = $this->input->post('suspension_system');
-$tires_check = $this->input->post('tires');
-$wipers_check = $this->input->post('wipers');
-$air_brake_check = $this->input->post('air_brake');
-$driver_seat_check = $this->input->post('door');
-$fuel_system_check = $this->input->post('fuel_system');
-
-
-//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
-if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
-
-						//mensaje del correo
-						$emailMsn = "<p>A major defect has beed identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
-						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
-						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
-						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
-						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br>";
-
-						$fails = "";						
-						if ($heater_check == 0) {
-							$emailMsn .= "<br>Heater - Fail"; 
-							$fails .= "\nHeater - Fail"; 
-						}
-						if ($brakes_check == 0) {
-							$emailMsn .= "<br>Brake pedal - Fail"; 
-							$fails .= "\nBrake pedal - Fail"; }
-						if ($lights_check == 0) {
-							$emailMsn .= "<br>Lamps and reflectors - Fail"; 
-							$fails .= "\nLamps and reflectors - Fail"; 
-						}
-						if ($steering_wheel_check == 0) {
-							$emailMsn .= "<br>Steering wheel - Fail"; 
-							$fails .= "\nSteering wheel - Fail"; 
-						}
-						if ($suspension_system_check == 0) {
-							$emailMsn .= "<br>Suspension system - Fail";
-							$fails .= "\nSuspension system - Fail"; 
-						}
-						if ($tires_check == 0) {
-							$emailMsn .= "<br>Tires/Lug Nuts/Pressure - Fail";
-							$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
-						}
-						if ($wipers_check == 0) {
-							$emailMsn .= "<br>Wipers/Washers - Fail"; 
-							$fails .= "\nWipers/Washers - Fail"; 
-						}
-						if ($air_brake_check == 0) {
-							$emailMsn .= "<br>Air brake system - Fail"; 
-							$fails .= "\nAir brake system - Fail"; 
-						}
-						if ($driver_seat_check == 0) {
-							$emailMsn .= "<br>Driver and Passenger door - Fail"; 
-							$fails .= "\nDriver and Passenger door - Fail"; 
-						}
-						if ($fuel_system_check == 0) {
-							$emailMsn .= "<br>Fuel system - Fail"; 
-							$fails .= "\nFuel system - Fail"; 
-						}
-
-						$subjet = "Inspection with major defect";
-						$mensaje = "<html>
-									<head>
-									<title> $subjet </title>
-									</head>
-									<body>
-										<p>Dear	Administrator:</p>
-										<p>$emailMsn</p>
-										<p>Cordially,</p>
-										<p><strong>V-CONTRACTING INC</strong></p>
-									</body>
-									</html>";
-
-						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet;
-						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-						$mensajeSMS .= $fails;
-
-						//enviar correo a VCI
-						$arrParam = array(
-							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
-							"subjet" => $subjet,
-							"msjEmail" => $mensaje,
-							"msjPhone" => $mensajeSMS
-						);
-						send_notification($arrParam);
-					
-}
-					
+					//OIL CAHNGE
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idWatertruckInspection);
 					
@@ -1480,12 +1201,108 @@ if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_
 					$hours = $this->input->post('hours');
 					$oilChange = $this->input->post('oilChange');
 					$diferencia = $oilChange - $hours;
-										
-					if($diferencia <= 50){
-						//enviar correo
-						
+
+					//si hay un FAIL de los siguientes campos envio correo al ADMINISTRADOR
+					$headLamps = $this->input->post('headLamps');
+					$hazardLights = $this->input->post('hazardLights');
+					$clearanceLights = $this->input->post('clearanceLights');
+					$tailLights = $this->input->post('tailLights');
+					$workLights = $this->input->post('workLights');
+					$turnSignals = $this->input->post('turnSignals');
+					$beaconLight = $this->input->post('beaconLights');
+
+					$lights_check = 1;
+					if($headLamps == 0 || $hazardLights == 0 || $tailLights == 0 || $workLights == 0 || $turnSignals == 0 || $beaconLight == 0 || $clearanceLights == 0){
+						$lights_check = 0;
+					}
+											
+					$heater_check = $this->input->post('heater');
+					$brakes_check = $this->input->post('brake');
+					$steering_wheel_check = $this->input->post('steering_wheel');
+					$suspension_system_check = $this->input->post('suspension_system');
+					$tires_check = $this->input->post('tires');
+					$wipers_check = $this->input->post('wipers');
+					$air_brake_check = $this->input->post('air_brake');
+					$driver_seat_check = $this->input->post('door');
+					$fuel_system_check = $this->input->post('fuel_system');
+
+					//flag
+					$sendNotification = false;
+					$subjet = "";
+					if($diferencia <= 50 && $comments == ""){
+						$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$subjet = "Oil Change";
+						$sendNotification = true;
+					} elseif($diferencia <= 50 && $comments != ""){
+						$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
+						$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
+						$subjet = "Oil Change & Inspection with comments";
+						$sendNotification = true;
+					} elseif($comments != ""){
+						$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
+						$subjet = "Inspection with comments";
+						$sendNotification = true;
+					}
+
+					$failsEmail = "";
+					$fails = "";
+					//preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
+					if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
+
 						//mensaje del correo
-						$emailMsn = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
+						$majorDefect = "<p>A major defect has been identified in the last inspecton, a driver is not legally permitted to operate the vehicle until that defect is prepared.</p>";
+						$emailMsnTitle = $sendNotification?$emailMsnTitle . $majorDefect : $majorDefect;
+					
+						if ($heater_check == 0) {
+							$failsEmail .= "<br>Heater - Fail"; 
+							$fails .= "\nHeater - Fail"; 
+						}
+						if ($brakes_check == 0) {
+							$failsEmail .= "<br>Brake pedal - Fail"; 
+							$fails .= "\nBrake pedal - Fail"; }
+						if ($lights_check == 0) {
+							$failsEmail .= "<br>Lamps and reflectors - Fail"; 
+							$fails .= "\nLamps and reflectors - Fail"; 
+						}
+						if ($steering_wheel_check == 0) {
+							$failsEmail .= "<br>Steering wheel - Fail"; 
+							$fails .= "\nSteering wheel - Fail"; 
+						}
+						if ($suspension_system_check == 0) {
+							$failsEmail .= "<br>Suspension system - Fail";
+							$fails .= "\nSuspension system - Fail"; 
+						}
+						if ($tires_check == 0) {
+							$failsEmail .= "<br>Tires/Lug Nuts/Pressure - Fail";
+							$fails .= "\nTires/Lug Nuts/Pressure - Fail"; 
+						}
+						if ($wipers_check == 0) {
+							$failsEmail .= "<br>Wipers/Washers - Fail"; 
+							$fails .= "\nWipers/Washers - Fail"; 
+						}
+						if ($air_brake_check == 0) {
+							$failsEmail .= "<br>Air brake system - Fail"; 
+							$fails .= "\nAir brake system - Fail"; 
+						}
+						if ($driver_seat_check == 0) {
+							$failsEmail .= "<br>Driver and Passenger door - Fail"; 
+							$fails .= "\nDriver and Passenger door - Fail"; 
+						}
+						if ($fuel_system_check == 0) {
+							$failsEmail .= "<br>Fuel system - Fail"; 
+							$fails .= "\nFuel system - Fail"; 
+						}
+
+						$subjet = $sendNotification?$subjet . " & ": "";
+						$subjet .= "Inspection with major defect"; 
+						$sendNotification = true;
+					
+					}
+					
+					//enviar correo
+					if($sendNotification){	
+						//mensaje del correo
+						$emailMsn = $emailMsnTitle;
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
@@ -1493,8 +1310,9 @@ if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_
 						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
 						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
+						$emailMsn .= $failsEmail;
 
-						$subjet = "Oil Change";
 						$mensaje = "<html>
 									<head>
 									<title> $subjet </title>
@@ -1509,8 +1327,10 @@ if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_
 
 						//mensaje de texto
 						$mensajeSMS = "APP VCI - " . $subjet ;
-						$mensajeSMS .= "\nThe following vehicle needs to change the oil as soon as possible.";
+						$mensajeSMS .= $diferencia <= 50?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
+						$mensajeSMS .= $fails;
 						
 						//enviar correo a VCI
 						$arrParam = array(
