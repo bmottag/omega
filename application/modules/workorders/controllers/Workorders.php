@@ -392,12 +392,11 @@ class Workorders extends CI_Controller {
         header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
         $company = 1; //la empresa es VCI que el id es 1
 		$type = $this->input->post('type');
-		
+		$this->load->model("general_model");
 		//si es igual a 8 es miscellaneous entonces la informacion la debe sacar de la tabla param_miscellaneous
 		if($type == 8)
 		{
 			//miscellaneous list
-			$this->load->model("general_model");
 			$arrParam = array(
 				"table" => "param_miscellaneous",
 				"order" => "miscellaneous",
@@ -421,7 +420,7 @@ class Workorders extends CI_Controller {
 				}
 			}
 		}else{
-			$lista = $this->workorders_model->get_trucks_by_id2($company, $type);
+			$lista = $this->general_model->get_trucks_by_id2($company, $type);
 
 			echo "<option value=''>Select...</option>";
 			if ($lista) {

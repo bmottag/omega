@@ -217,31 +217,6 @@
 		}
 
 		/**
-		 * Trucks list by company and type2
-		 * @since 25/1/2017
-		 */
-		public function get_trucks_by_id2($idCompany, $type)
-		{
-				$trucks = array();
-				$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description
-					FROM param_vehicle 
-					WHERE fk_id_company = $idCompany AND type_level_2 = $type AND state = 1
-					ORDER BY unit_number";
-				
-				$query = $this->db->query($sql);
-				if ($query->num_rows() > 0) {
-					$i = 0;
-					foreach ($query->result() as $row) {
-						$trucks[$i]["id_truck"] = $row->id_vehicle;
-						$trucks[$i]["unit_number"] = $row->unit_description;
-						$i++;
-					}
-				}
-				$this->db->close();
-				return $trucks;
-		}
-
-		/**
 		 * Trucks list by type1 = rentals
 		 * que esten activas
 		 * @since 8/3/2017
