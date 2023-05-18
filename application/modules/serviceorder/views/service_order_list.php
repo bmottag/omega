@@ -24,7 +24,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading"> 
-					<i class="fa fa-wrench"></i> <strong>SERVICE ORDER</strong>
+					<i class="fa fa-filter"></i> <strong>SERVICE ORDER</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -42,8 +42,10 @@ $(function(){
 							<tr>
 								<th>Mechanic</th>
 								<th>Date Issue</th>
+								<th>Equipment</th>
 								<th>Current Hours</th>
 								<th>Comments</th>
+								<th>Status</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -52,15 +54,21 @@ $(function(){
 							foreach ($information as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['mechanic'] . "</td>";
-									echo "<td>" . $lista['created_at'] . "</td>";
-									echo "<td>" . $lista['current_hours'] . "</td>";
+									echo "<td>" . $fecha = date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
+									echo "<td>" . $lista['unit_description'] . "</td>";
+									echo "<td>" . $lista['current_hours'] . " hours</td>";
 									echo "<td>" . $lista['comments'] . "</td>";
-									echo "<td class='text-center'>";									
+									echo "<td class='text-center'>";
+									echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i>' . $lista['status_name'] . '</strong></p>';
+									echo "</td>";
+									echo "<td class='text-center'>";	
+									if($lista['service_status'] != 'closed'){
 						?>					
 									<button type="button" class="btn btn-primary btn-xs btn-service-order" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_service_order']; ?>" title="Edit" >
 										Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 									</button>
 						<?php
+									}
 									echo "</td>";
 									echo "</tr>";
 							endforeach;

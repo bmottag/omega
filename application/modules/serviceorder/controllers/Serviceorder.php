@@ -45,6 +45,15 @@ class Serviceorder extends CI_Controller {
 			$data['equipmentType'] = $this->general_model->get_basic_search($arrParam);//equipmentType list
 			
 			if ($data["idServiceOrder"] != 'x') {
+				//status list
+				$arrParam = array(
+					"table" => "param_status",
+					"order" => "status_name",
+					"column" => "status_key",
+					"id" => "serviceorder"
+				);
+				$data['statusList'] = $this->general_model->get_basic_search($arrParam);
+
 				//Service Order info
 				$arrParam = array(
 					"idServiceOrder" => $data["idServiceOrder"]

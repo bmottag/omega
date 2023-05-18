@@ -9,8 +9,11 @@
 		 */
 		public function get_service_order($arrDatos) 
 		{
-				$this->db->select('S.*, CONCAT(U.first_name, " " , U.last_name) mechanic');
+				$this->db->select('S.*, CONCAT(U.first_name, " " , U.last_name) mechanic, CONCAT(V.unit_number," -----> ", V.description) as unit_description, P.status_name, P.status_style, P.status_icon');
 				$this->db->join('user U', 'U.id_user = S.fk_id_user', 'INNER');
+				$this->db->join('param_vehicle V', 'V.id_vehicle = S.fk_id_equipment', 'INNER');
+				$this->db->join('param_status P', 'P.status_slug = S.service_status', 'INNER');
+				$this->db->where('P.status_key', "serviceorder");
 				if (array_key_exists("idServiceOrder", $arrDatos)) {
 					$this->db->where('id_service_order', $arrDatos["idServiceOrder"]);
 				}
@@ -55,10 +58,11 @@
 				
 				//revisar si es para adicionar o editar
 				if ($idServiceOrder == '') {
-					$data["services_status"] = 1;
+					$data["service_status"] = "in_progress";
 					$data["created_at"] = date("Y-m-d G:i:s");
 					$query = $this->db->insert('service_order', $data);				
 				} else {
+					$data["service_status"] = $this->input->post('status');
 					$data["updated_at"] = date("Y-m-d G:i:s");
 					$this->db->where('id_service_order', $idServiceOrder);
 					$query = $this->db->update('service_order', $data);

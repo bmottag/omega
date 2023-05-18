@@ -102,7 +102,27 @@
 				</div>
 			</div>
 		</div>
-
+		<?php if ($information) { ?>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group text-left">
+						<label class="control-label" for="status">Status: *</label>
+						<select name="status" id="status" class="form-control" required >
+							<option value=''>Select...</option>
+							<?php
+							if($statusList) {
+								foreach ($statusList as $status) {
+							?>
+								<option value="<?php echo $status["status_slug"]; ?>" <?php if($information && $information[0]["service_status"] == $status["status_slug"]) { echo "selected"; }  ?> ><?php echo $status["status_name"]; ?> </option>
+							<?php
+								}
+							}
+							?>
+						</select>
+					</div>
+				</div>
+			</div>
+		<?php } ?>
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">
