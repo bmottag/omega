@@ -160,10 +160,10 @@
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];
 						}else{
-							$equipment = $data['unit_number'] . " - " . $data['make'] . " - " . $data['model'];
+							$equipment = "<strong>Unit #: </strong>" .$data['unit_number'] . " <strong>Make: </strong>" . $data['make'] . " <strong>Model: </strong>" . $data['model'];
 						}
 						$description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
-						$html.= $equipment . ' - ' . $description . ', operated by ' . $data['operatedby'];
+						$html.= $equipment . ' <strong>Description: </strong>' . $description . ', operated by ' . $data['operatedby'];
 						
 						$html.=		'</th>
 									

@@ -778,12 +778,10 @@ if($information){
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];
 						}else{
-							//$equipment = $data['unit_number'] . " - " . $data['v_description'];
-							$equipment = $data['unit_number'] . " - " . $data['make'] . " - " . $data['model'];
+							$equipment = "<em><b>Unit #: </b>" . $data['unit_number'] . "<br><b>Make: </b>" . $data['make'] . "<br><b>Model: </b>" . $data['model'] . "</em>";
 						}
-						
 						echo "<br><small><strong>Equipment</strong><br>" . $equipment . "</small>";
-
+						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small>";
 						if($data['standby'] == 1){
 							echo "<br><small><strong>Standby?</strong> Yes</small>";
 						}else{
