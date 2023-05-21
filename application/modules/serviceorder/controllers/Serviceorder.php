@@ -97,4 +97,44 @@ class Serviceorder extends CI_Controller {
 			echo json_encode($data);	
     }
 
+	/**
+	 * Service Order Control Panel
+     * @since 19/5/2023
+     * @author BMOTTAG
+	 */
+	public function control()
+	{		
+			$this->load->model("general_model");
+			$data['infoEquipment'] = $this->general_model->countEquipmentByType();
+
+			$data["view"] ='dashboard_so';
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Equipment List
+     * @since 20/5/2022
+     * @author BMOTTAG
+	 */
+    public function equipmentList() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+	
+		//busco info de vehiculo
+		$this->load->model("general_model");
+		$arrParam = array(
+			"vehicleType" => $this->input->post('inspection_type'),
+			"vehicleState" => 1
+		);
+		$data["vehicleInfo"] = $this->general_model->get_vehicle_by($arrParam);//busco datos del vehiculo
+		
+		if($data["vehicleInfo"] )
+		{
+			echo $this->load->view("equipment_list", $data);
+		}else{				
+			echo "<p class='text-danger'>There are no records with that VIN number.</p>";
+		}
+	}
+
+
 }

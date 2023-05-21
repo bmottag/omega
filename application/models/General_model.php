@@ -419,7 +419,11 @@ class General_model extends CI_Model {
 			}
 			if (array_key_exists("vinNumber", $arrData)) {
 				$this->db->like('V.vin_number', $arrData["vinNumber"]); 
-			}			
+			}
+			if (array_key_exists("vehicleType", $arrData)) {
+				$this->db->where('V.fk_id_company', 1);
+				$this->db->where('T.inspection_type', $arrData["vehicleType"]);
+			}	
 			
 			$query = $this->db->get('param_vehicle V');
 
@@ -1811,6 +1815,27 @@ class General_model extends CI_Model {
 				$this->db->close();
 				return $trucks;
 		}
+
+		/**
+		 * Count equipment by Type
+		 * @author BMOTTAG
+		 * @since  19/05/2023
+		 */
+	    public function countEquipmentByType() 
+		{
+		        $this->db->select("inspection_type, header_inspection_type, count(id_vehicle) as number");
+				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = A.type_level_2', 'INNER');
+				$this->db->where('A.state', 1);
+
+				$this->db->group_by("T.inspection_type"); 
+		        $query = $this->db->get('param_vehicle A');
+
+		        if ($query->num_rows() > 0) {
+		            return $query->result_array();
+		        } else {
+		            return false;
+		        }
+	    }
 
 
 }

@@ -26,6 +26,22 @@ $(document).ready(function () {
 			$("#div_vehicle").css("display", "none");
 			$('#div_vehicle').html(data);
 		}
-    });
-    
+    });    
 });
+
+/*
+* Function to check mendatory questions in patient encounter exam.
+*/
+function loadEquipmentList(inspection_type) {
+	$("#div_equiment_list").css("display", "inline");
+	$.ajax ({
+		type: 'POST',
+		url: base_url + 'serviceorder/equipmentList',
+		data: {'inspection_type': inspection_type},
+		cache: false,
+		success: function (data)
+		{
+			$('#div_equiment_list').html(data);
+		}
+	});
+}
