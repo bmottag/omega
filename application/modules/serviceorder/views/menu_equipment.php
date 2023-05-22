@@ -30,7 +30,7 @@ if($vehicleInfo[0]["photo"]){
 ?>
 
 <div class="list-group">
-    <a class="<?php echo $tabview=='tab_so'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_so' )" >
+    <a class="<?php echo $tabview=='tab_service_order'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_service_order' )" >
         <i class="fa fa-briefcase"></i> Service Order
     </a>
     <a class="<?php echo $tabview=='tab_corrective_maintenance'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_corrective_maintenance' )" >

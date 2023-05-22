@@ -95,4 +95,26 @@
 				}
 		}
 
+		/**
+		 * Add/Edit PREVENTIVE MAINTENACE
+		 * @since 22/5/2023
+		 */
+		public function savePreventiveMaintenance() 
+		{		
+				$idServiceOrder = $this->input->post('hddIdServiceOrder');
+
+				$data = array(
+					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
+					'fk_id_maintenance_type' => $this->input->post('maintenance_type'),
+					'maintenance_description' => $this->input->post('description')
+				);
+				$query = $this->db->insert('preventive_maintenance', $data);				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 	}

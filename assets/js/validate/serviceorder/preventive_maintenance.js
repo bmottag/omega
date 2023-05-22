@@ -2,9 +2,8 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
-			truck:				{ required: true },
-			hour:				{ required: true, minlength: 3, maxlength:100 },
-			damages:			{ required: true}
+			maintenance_type:		{ required: true },
+			description:			{ required: true}
 			
 		},
 		errorElement: "em",
@@ -27,19 +26,19 @@ $( document ).ready( function () {
 		}
 	});
 	
-	$("#btnSubmit").click(function(){		
+	$("#btnSubmitMaintenance").click(function(){		
 	
-		if ($("#form").valid() == true){
+		if ($("#formMaintenance").valid() == true){
 		
 				//Activa icono guardando
-				$('#btnSubmit').attr('disabled','-1');
+				$('#btnSubmitMaintenance').attr('disabled','-1');
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "serviceorder/save_service_order",	
-					data: $("#form").serialize(),
+					url: base_url + "serviceorder/save_preventive_maintenance",	
+					data: $("#formMaintenance").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
@@ -49,15 +48,14 @@ $( document ).ready( function () {
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');							
+							$('#btnSubmitMaintenance').removeAttr('disabled');							
 							return false;
 						} 
 
 						if( data.result )//true
 						{	                                                        
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');
-
+							$('#btnSubmitMaintenance').removeAttr('disabled');
 							$('#modalMaintenance').modal('hide');
 							loadEquipmentDetail( data.idEquipment, 'tab_preventive_maintenance' );
 						}
@@ -66,14 +64,14 @@ $( document ).ready( function () {
 							alert('Error. Reload the web page.');
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
-							$('#btnSubmit').removeAttr('disabled');
+							$('#btnSubmitMaintenance').removeAttr('disabled');
 						}	
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
 						$("#div_load").css("display", "none");
 						$("#div_error").css("display", "inline");
-						$('#btnSubmit').removeAttr('disabled');
+						$('#btnSubmitMaintenance').removeAttr('disabled');
 					}
 					
 		

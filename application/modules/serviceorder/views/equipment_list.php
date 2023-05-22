@@ -17,6 +17,7 @@
 					<th class="text-center">Unit Number</th>
 					<th class="text-center">VIN Number</th>
 					<th class="text-center">Hours/Kilometers</th>
+					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
 			<tbody>							
@@ -40,7 +41,7 @@
 					echo "<td class='text-right'><p><strong>" . number_format($data["hours"]) . "</strong></p></td>";
 					echo "<td class='text-center'>";
 				?>
-					<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $data['id_vehicle']; ?>, 'tab_so' )">
+					<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $data['id_vehicle']; ?>, 'tab_service_order' )">
 						Details <span class="glyphicon glyphicon-edit" aria-hidden="true">
 					</a>
 				<?php

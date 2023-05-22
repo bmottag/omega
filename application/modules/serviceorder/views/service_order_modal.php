@@ -1,54 +1,19 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/service_order.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/ajaxTrucks_v2.js"); ?>"></script>
+
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Service Order Form
-	<br><small>Add/Edit Service Order</small>
+		<br><small>Add/Edit Service Order</small>
 	</h4>
 </div>
 
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo ($information && isset($information[0]["id_service_order"]))?$information[0]["id_service_order"]:""; ?>"/>
+		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $information?$information[0]["fk_id_equipment"]:$this->input->post("idEquipment"); ?>"/>
+		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idEquipment"); ?>"/>
+		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $information?$information[0]["maintenace_type"]:$this->input->post("maintenanceType"); ?>"/>
 		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label class="control-label" for="type">Type: *</label>
-					<select name="type" id="type" class="form-control" required>
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($equipmentType); $i++) { ?>
-							<option value="<?php echo $equipmentType[$i]["id_type_2"]; ?>" <?php if($information && $information[0]["fk_id_type_2"] == $equipmentType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $equipmentType[$i]["type_2"]; ?></option>	
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-		</div>
-					
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<div id="div_truck">
-						<label class="control-label" for="truck">Equipment: *</label>
-						<select name="truck" id="truck" class="form-control" >
-							<?php if ($information) { ?>
-								<option value=''>Select...</option>
-								<?php
-								if($equipmentList) {
-									foreach ($equipmentList as $data) {
-								?>
-									<option value="<?php echo $data["id_truck"]; ?>" <?php if($information && $information[0]["fk_id_equipment"] == $data["id_truck"]) { echo "selected"; }  ?> ><?php echo $data["unit_number"]; ?> </option>
-								<?php
-									}
-								}
-								?>
-							<?php } ?>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">

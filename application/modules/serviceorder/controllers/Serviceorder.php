@@ -33,16 +33,6 @@ class Serviceorder extends CI_Controller {
 			
 			$data['information'] = FALSE;
 			$data["idServiceOrder"] = $this->input->post("idServiceOrder");
-
-			$this->load->model("general_model");	
-			//buscar la lista de tipo de equipmentType
-			$arrParam = array(
-				"table" => "param_vehicle_type_2",
-				"order" => "type_2",
-				"column" => "show_serviceorder",
-				"id" => 1
-			);
-			$data['equipmentType'] = $this->general_model->get_basic_search($arrParam);//equipmentType list
 			
 			if ($data["idServiceOrder"] != 'x') {
 				//status list
@@ -156,10 +146,18 @@ class Serviceorder extends CI_Controller {
 
 		$data["tabview"] = $this->input->post('tabview');
 
-		if($data["tabview"] == "tab_so"){
+		if($data["tabview"] == "tab_service_order"){
 			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
 		}elseif($data["tabview"] == "tab_preventive_maintenance"){
 			$data['infoPreventiveMaintenance'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
+
+			//busco tipos de mantenimiento
+			$arrParam = array(
+				"table" => "maintenance_type",
+				"order" => "maintenance_type",
+				"id" => "x"
+			);
+			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 		}
 
 
@@ -170,6 +168,29 @@ class Serviceorder extends CI_Controller {
 			echo "<p class='text-danger'>There are no records.</p>";
 		}
 	}
+
+	/**
+	 * Save Preventive Maintenance
+     * @since 22/5/2023
+     * @author BMOTTAG
+	 */
+	public function save_preventive_maintenance()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$data["idEquipment"] = $this->input->post('hddIdEquipment');			
+			$msj = "You have added a new Preventive Maintenance!!";
+
+			if ($idServiceOrder = $this->serviceorder_model->savePreventiveMaintenance()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";			
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);	
+    }
 
 
 }
