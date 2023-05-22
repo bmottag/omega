@@ -4,8 +4,8 @@
 
 		
 		/**
-		 * Fire watch list
-		 * @since 27/1/2023
+		 * Service Order Info
+		 * @since 18/5/2023
 		 */
 		public function get_service_order($arrDatos) 
 		{
@@ -69,6 +69,27 @@
 				}
 				if ($query) {
 					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Preventive Maintenance Info
+		 * @since 22/5/2023
+		 */
+		public function get_preventive_maintenance($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->join('maintenance_type T', 'T.id_maintenance_type = P.fk_id_maintenance_type', 'INNER');
+				if (array_key_exists("idVehicle", $arrDatos)) {
+					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
+				}	
+				$this->db->order_by('id_preventive_maintenance', 'asc');
+				$query = $this->db->get('preventive_maintenance P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
 				} else {
 					return false;
 				}

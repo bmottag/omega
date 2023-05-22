@@ -1377,110 +1377,104 @@ class Inspection extends CI_Controller {
     public function vehicleInfo() 
 	{
         header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-        $vinNumber = $this->input->post('vinNumber');
-		
-		if(strlen($vinNumber) < 5){			
-			echo "<p class='text-danger'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER</strong></p>";
-		}
-		else
-		{				
-			//busco info de vehiculo
-			$this->load->model("general_model");
-			$arrParam = array(
-				"vinNumber" => $vinNumber,
-				"vehicleState" => 1
-			);
-			$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);//busco datos del vehiculo
 			
-			if($vehicleInfo)
-			{
-				foreach ($vehicleInfo as $lista):
+		//busco info de vehiculo
+		$this->load->model("general_model");
+		$arrParam = array(
+			"vinNumber" => $this->input->post('vinNumber'),
+			"vehicleState" => 1
+		);
+		$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);//busco datos del vehiculo
+		
+		if($vehicleInfo)
+		{
+			foreach ($vehicleInfo as $lista):
 
-					echo '<div class="panel panel-info">
-							<div class="panel-heading">
-								<i class="fa fa-automobile"></i> <b>INFO - </b>' . $lista['description'] . '
-							</div>
-							<div class="panel-body">';
-																	
-								if($lista["photo"]){
-									echo '<div class="form-group">
-											<div class="row" align="center">';
-									echo '<img src="' . base_url($lista["photo"]) . '" class="img-rounded" alt="Vehicle Photo" />';
-									echo '</div>
-										</div>';
-								}
-							
-								echo '<strong>Make: </strong>' . $lista['make'] . '<br>';
-								echo '<strong>Model: </strong>' . $lista['model'] . '<br>';
+				echo '<div class="panel panel-info">
+						<div class="panel-heading">
+							<i class="fa fa-automobile"></i> <b>INFO - </b>' . $lista['description'] . '
+						</div>
+						<div class="panel-body">';
+																
+							if($lista["photo"]){
+								echo '<div class="form-group">
+										<div class="row" align="center">';
+								echo '<img src="' . base_url($lista["photo"]) . '" class="img-rounded" alt="Vehicle Photo" />';
+								echo '</div>
+									</div>';
+							}
+						
+							echo '<strong>Make: </strong>' . $lista['make'] . '<br>';
+							echo '<strong>Model: </strong>' . $lista['model'] . '<br>';
 
-								echo '<strong>Description: </strong>' . $lista['description'] . '<br>';
-								echo '<strong>Unit Number: </strong>' . $lista['unit_number'] . '<br>';
-								echo '<strong>VIN Number: </strong>' . $lista['vin_number'] . '<br>';
-								echo '<strong>Type: </strong><br>';
+							echo '<strong>Description: </strong>' . $lista['description'] . '<br>';
+							echo '<strong>Unit Number: </strong>' . $lista['unit_number'] . '<br>';
+							echo '<strong>VIN Number: </strong>' . $lista['vin_number'] . '<br>';
+							echo '<strong>Type: </strong><br>';
 
-								switch ($lista['type_level_1']) {
-									case 1:
-										$type = 'Fleet';
-										break;
-									case 2:
-										$type = 'Rental';
-										break;
-									case 99:
-										$type = 'Other';
-										break;
-								}
-								echo $type . " - " . $lista['type_2'];
-								echo '<br>';
-								$tipo = $lista['type_level_2'];
-								echo "<p class='text-danger'>";
-								//si es sweeper
-								if($tipo == 15){
-									echo "<strong>Truck engine current hours:</strong><br>";
-									echo "Current: " . number_format($lista["hours"]);
-									echo "<br>Next oil change: " . number_format($lista["oil_change"]);
-									
-									echo "<br><strong>Sweeper engine current hours:</strong><br>";
-									echo "Current: " . number_format($lista["hours_2"]);
-									echo "<br>Next oil change: " . number_format($lista["oil_change_2"]);
-								//si es hydrovac
-								}elseif($tipo == 16){
-									echo "<strong>Engine hours:</strong><br>";
-									echo "Current: " . number_format($lista["hours"]);
-									echo "<br>Next oil change: " . number_format($lista["oil_change"]);
-
-									echo "<br><strong>Hydraulic pump hours:</strong><br>";
-									echo "Current: " . number_format($lista["hours_2"]);
-									echo "<br>Next oil change: " . number_format($lista["oil_change_2"]);
-									
-									echo "<br><strong>Blower hours:</strong><br>";
-									echo "Current: " . number_format($lista["hours_3"]);
-									echo "<br>Next oil change: " . number_format($lista["oil_change_3"]);
-								}else{
-									echo "<strong>Current Hours/Kilometers: </strong><br>";
-									echo "Current: " . number_format($lista["hours"]);
-									echo "<br>Next oil change: " . number_format($lista["oil_change"]);
-								}
-								echo "</p>";
+							switch ($lista['type_level_1']) {
+								case 1:
+									$type = 'Fleet';
+									break;
+								case 2:
+									$type = 'Rental';
+									break;
+								case 99:
+									$type = 'Other';
+									break;
+							}
+							echo $type . " - " . $lista['type_2'];
+							echo '<br>';
+							$tipo = $lista['type_level_2'];
+							echo "<p class='text-danger'>";
+							//si es sweeper
+							if($tipo == 15){
+								echo "<strong>Truck engine current hours:</strong><br>";
+								echo "Current: " . number_format($lista["hours"]);
+								echo "<br>Next oil change: " . number_format($lista["oil_change"]);
 								
-								$inspectionType = $lista['inspection_type'];
-								$linkInspection = $lista['link_inspection'];
+								echo "<br><strong>Sweeper engine current hours:</strong><br>";
+								echo "Current: " . number_format($lista["hours_2"]);
+								echo "<br>Next oil change: " . number_format($lista["oil_change_2"]);
+							//si es hydrovac
+							}elseif($tipo == 16){
+								echo "<strong>Engine hours:</strong><br>";
+								echo "Current: " . number_format($lista["hours"]);
+								echo "<br>Next oil change: " . number_format($lista["oil_change"]);
 
-								if($inspectionType == 99 || $linkInspection == "NA"){
-									echo "<div class='alert alert-danger'>";
-									echo "NO INSPECTION FORMAT";
-									echo "</div>";
-								}else{
-									echo "<a class='btn btn-info btn-block' href='" . base_url('inspection/set_vehicle/' . $lista['id_vehicle']) . "'>";
-									echo " Inspection Form <span class='fa fa-wrench' aria-hidden='true'>";
-									echo "</a>";
-								}
+								echo "<br><strong>Hydraulic pump hours:</strong><br>";
+								echo "Current: " . number_format($lista["hours_2"]);
+								echo "<br>Next oil change: " . number_format($lista["oil_change_2"]);
+								
+								echo "<br><strong>Blower hours:</strong><br>";
+								echo "Current: " . number_format($lista["hours_3"]);
+								echo "<br>Next oil change: " . number_format($lista["oil_change_3"]);
+							}else{
+								echo "<strong>Current Hours/Kilometers: </strong><br>";
+								echo "Current: " . number_format($lista["hours"]);
+								echo "<br>Next oil change: " . number_format($lista["oil_change"]);
+							}
+							echo "</p>";
 							
-							echo '</div></div>';
-				endforeach;
-			}else{				
-				echo "<p class='text-danger'>There are no records with that VIN number.</p>";
-			}
+							$inspectionType = $lista['inspection_type'];
+							$linkInspection = $lista['link_inspection'];
+
+							if($inspectionType == 99 || $linkInspection == "NA"){
+								echo "<div class='alert alert-danger'>";
+								echo "<b>No Inspection Format</b>";
+								echo "</div>";
+							}else{
+								echo "<a class='btn btn-info btn-block' href='" . base_url('inspection/set_vehicle/' . $lista['id_vehicle']) . "'>";
+								echo " Inspection Form <span class='fa fa-wrench' aria-hidden='true'>";
+								echo "</a>";
+							}
+						
+						echo '</div></div>';
+			endforeach;
+		}else{				
+			echo "<p class='text-danger'>There are no records with that VIN number.</p>";
 		}
+
     }
 
 	/**

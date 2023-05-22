@@ -418,11 +418,15 @@ class General_model extends CI_Model {
 				$this->db->where('V.state', $arrData["vehicleState"]);
 			}
 			if (array_key_exists("vinNumber", $arrData)) {
-				$this->db->like('V.vin_number', $arrData["vinNumber"]); 
+				if($arrData["vinNumber"] != "false"){
+					$this->db->like('V.vin_number', $arrData["vinNumber"]);
+				}
 			}
 			if (array_key_exists("vehicleType", $arrData)) {
-				$this->db->where('V.fk_id_company', 1);
-				$this->db->where('T.inspection_type', $arrData["vehicleType"]);
+				if($arrData["vehicleType"] != "false"){
+					$this->db->where('V.fk_id_company', 1);
+					$this->db->where('T.inspection_type', $arrData["vehicleType"]);
+				}
 			}	
 			
 			$query = $this->db->get('param_vehicle V');

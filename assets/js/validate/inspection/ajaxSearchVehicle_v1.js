@@ -6,11 +6,10 @@
 
 $(document).ready(function () {
 	   
-    $('#vinNumber').blur(function () {
+    $('#btnVINNumber').click(function () {
 		var vinNumber = $('#vinNumber').val();
-		if (vinNumber > 0 || vinNumber != '') {
-			$("#div_vehicle").css("display", "inline");
-			
+		$("#div_vehicle").css("display", "inline");
+		if (vinNumber.length > 4) {
 			$.ajax ({
 				type: 'POST',
 				url: base_url + 'inspection/vehicleInfo',
@@ -22,26 +21,8 @@ $(document).ready(function () {
 				}
 			});
 		} else {				
-			var data = '';
-			$("#div_vehicle").css("display", "none");
+			var data = "<p class='text-danger'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER</strong></p>";
 			$('#div_vehicle').html(data);
 		}
     });    
 });
-
-/*
-* Function to check mendatory questions in patient encounter exam.
-*/
-function loadEquipmentList(inspection_type) {
-	$("#div_equiment_list").css("display", "inline");
-	$.ajax ({
-		type: 'POST',
-		url: base_url + 'serviceorder/equipmentList',
-		data: {'inspection_type': inspection_type},
-		cache: false,
-		success: function (data)
-		{
-			$('#div_equiment_list').html(data);
-		}
-	});
-}

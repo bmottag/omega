@@ -119,11 +119,13 @@ class Serviceorder extends CI_Controller {
     public function equipmentList() 
 	{
         header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-	
+
 		//busco info de vehiculo
 		$this->load->model("general_model");
+		$data['subTitle'] = $this->input->post('headerInspectionType'); 
 		$arrParam = array(
-			"vehicleType" => $this->input->post('inspection_type'),
+			"vehicleType" => $this->input->post('inspectionType'),
+			"vinNumber" => $this->input->post('vinNumber'),
 			"vehicleState" => 1
 		);
 		$data["vehicleInfo"] = $this->general_model->get_vehicle_by($arrParam);//busco datos del vehiculo
@@ -132,7 +134,40 @@ class Serviceorder extends CI_Controller {
 		{
 			echo $this->load->view("equipment_list", $data);
 		}else{				
-			echo "<p class='text-danger'>There are no records with that VIN number.</p>";
+			echo "<p class='text-danger'>There are no records.</p>";
+		}
+	}
+
+	/**
+	 * Equipment Detail
+     * @since 21/5/2022
+     * @author BMOTTAG
+	 */
+    public function equipmentDetail() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		//busco info de vehiculo
+		$this->load->model("general_model");
+		$arrParam = array(
+			"idVehicle" => $this->input->post('equipmentId')
+		);
+		$data["vehicleInfo"] = $this->general_model->get_vehicle_by($arrParam);//busco datos del vehiculo
+
+		$data["tabview"] = $this->input->post('tabview');
+
+		if($data["tabview"] == "tab_so"){
+			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+		}elseif($data["tabview"] == "tab_preventive_maintenance"){
+			$data['infoPreventiveMaintenance'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
+		}
+
+
+		if($data["vehicleInfo"] )
+		{
+			echo $this->load->view("equipment_detail", $data);
+		}else{				
+			echo "<p class='text-danger'>There are no records.</p>";
 		}
 	}
 

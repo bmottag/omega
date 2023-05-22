@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/ajaxSearchVehicle_v1.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<div class="row"><br>
@@ -15,7 +15,7 @@
 
 	<div class="row">
 		<div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> Equipments
                 </div>
@@ -24,7 +24,7 @@
 					<?php
 						foreach ($infoEquipment as $data):
 					?>
-							<a class="list-group-item" onclick="loadEquipmentList( <?php echo $data['inspection_type']; ?> )">
+							<a class="list-group-item" onclick="loadEquipmentList( <?php echo $data['inspection_type']; ?>  , '<?php echo $data['header_inspection_type']; ?>')">
 								<i class="fa fa-filter fa-fw"></i> <?php echo $data["header_inspection_type"]; ?>
 								<span class="pull-right text-muted small"><em> <?php echo $data["number"]; ?></em>
 								</span>
@@ -47,11 +47,11 @@
 						<div class="panel-body">									
 							<div class="form-group">
 								<div class="col-md-8 col-sm-9 col-xs-10">
-									<input type="text" id="vinNumber" name="vinNumber" class="form-control" placeholder="VIN Number">
+									<input type="text" id="vinNumber" name="vinNumber" class="form-control" placeholder="VIN Number" minlength="5">
 								</div>						
 							
 								<div class="col-md-3 col-sm-2 col-xs-2">
-									<button type="submit" class="btn btn-purpura">
+									<button type="submit" class="btn btn-purpura" id="btnVINNumber">
 										<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
 									</button>
 								</div>
@@ -60,8 +60,6 @@
 								
 						</div>
 					</div>
-
-					<div id="div_vehicle" style="display:none"></div>
 				</div>
 
 				<div class="col-lg-6 col-md-12 col-sm-12">
@@ -85,16 +83,14 @@
 								
 						</div>
 					</div>
-
-					<div id="div_so" style="display:none"></div>
 				</div>
 			</div>
 
-			<div id="div_equiment_list" style="display:none"></div>
+			<div id="div_info_list" style="display:none"></div>
 		</div>
-
-		
-
+	</div>
+	<div class="row">
+		<div class="col-md-12" id="div_detail" style="display:none"></div>
 	</div>
 
 </div>
