@@ -9,13 +9,17 @@
 		 */
 		public function get_service_order($arrDatos) 
 		{
-				$this->db->select('S.*, CONCAT(U.first_name, " " , U.last_name) mechanic, CONCAT(V.unit_number," -----> ", V.description) as unit_description, P.status_name, P.status_style, P.status_icon');
-				$this->db->join('user U', 'U.id_user = S.fk_id_user', 'INNER');
+				$this->db->select('S.*, CONCAT(U.first_name, " " , U.last_name) assigned_by, CONCAT(Z.first_name, " " , Z.last_name) assigned_to, CONCAT(V.unit_number," -----> ", V.description) as unit_description, P.status_name, P.status_style, P.status_icon');
+				$this->db->join('user U', 'U.id_user = S.fk_id_assign_by', 'INNER');
+				$this->db->join('user Z', 'Z.id_user = S.fk_id_assign_to', 'INNER');
 				$this->db->join('param_vehicle V', 'V.id_vehicle = S.fk_id_equipment', 'INNER');
 				$this->db->join('param_status P', 'P.status_slug = S.service_status', 'INNER');
 				$this->db->where('P.status_key', "serviceorder");
 				if (array_key_exists("idServiceOrder", $arrDatos)) {
 					$this->db->where('id_service_order', $arrDatos["idServiceOrder"]);
+				}
+				if (array_key_exists("idVehicle", $arrDatos)) {
+					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
 				}
 								
 				$this->db->order_by('id_service_order', 'desc');
@@ -37,9 +41,10 @@
 				$idServiceOrder = $this->input->post('hddIdServiceOrder');
 
 				$data = array(
-					'fk_id_user' => $this->session->userdata("id"),
-					'fk_id_type_2' => $this->input->post('type'),
-					'fk_id_equipment' => $this->input->post('truck'),
+					'fk_id_assign_to' => $this->input->post('assign_to'),
+					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
+					'fk_id_maintenace' => $this->input->post('hddIdMaintenance'),
+					'maintenace_type' => $this->input->post('hddMaintenanceType'),
 					'current_hours' => $this->input->post('hour'),
 					'damages' => $this->input->post('damages'),
 					'shop_labour' => $this->input->post('shop_labour'),
@@ -58,6 +63,7 @@
 				
 				//revisar si es para adicionar o editar
 				if ($idServiceOrder == '') {
+					$data["fk_id_assign_by"] = $this->session->userdata("id");
 					$data["service_status"] = "in_progress";
 					$data["created_at"] = date("Y-m-d G:i:s");
 					$query = $this->db->insert('service_order', $data);				

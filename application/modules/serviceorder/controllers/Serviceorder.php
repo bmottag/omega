@@ -9,17 +9,16 @@ class Serviceorder extends CI_Controller {
     }
 	
 	/**
-	 * Service Order list
-     * @since 18/5/2023
+	 * Service Order Control Panel
+     * @since 19/5/2023
      * @author BMOTTAG
 	 */
 	public function index()
 	{		
-			//service order info
-			$arrParam = array();
-			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+			$this->load->model("general_model");
+			$data['infoEquipment'] = $this->general_model->countEquipmentByType();
 
-			$data["view"] ='service_order_list';
+			$data["view"] ='dashboard_so';
 			$this->load->view("layout", $data);
 	}
 
@@ -33,6 +32,11 @@ class Serviceorder extends CI_Controller {
 			
 			$data['information'] = FALSE;
 			$data["idServiceOrder"] = $this->input->post("idServiceOrder");
+
+			//worker list
+			$arrParam = array("state" => 1);
+			$this->load->model("general_model");
+			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
 			
 			if ($data["idServiceOrder"] != 'x') {
 				//status list
@@ -42,6 +46,7 @@ class Serviceorder extends CI_Controller {
 					"column" => "status_key",
 					"id" => "serviceorder"
 				);
+				$this->load->model("general_model");	
 				$data['statusList'] = $this->general_model->get_basic_search($arrParam);
 
 				//Service Order info
@@ -49,14 +54,35 @@ class Serviceorder extends CI_Controller {
 					"idServiceOrder" => $data["idServiceOrder"]
 				);				
 				$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
-
-				$company = 1;
-				$type = $data['information'][0]['fk_id_type_2'];
-				$this->load->model("general_model");
-				$data['equipmentList'] = $this->general_model->get_trucks_by_id2($company, $type);
 			}
 			
 			$this->load->view("service_order_modal", $data);
+    }
+
+    /**
+     * Cargo modal - Preventive Maintenace
+     * @since 23/5/2023
+     */
+    public function cargarModalPreventiveMaintenance() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idMaintenance"] = $this->input->post("idMaintenance");
+			//busco tipos de mantenimiento
+			$arrParam = array(
+				"table" => "maintenance_type",
+				"order" => "maintenance_type",
+				"id" => "x"
+			);
+			$this->load->model("general_model");
+			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
+			
+			if ($data["idMaintenance"] != 'x') {
+
+			}
+			
+			$this->load->view("preventive_maintenance_modal", $data);
     }
 
 	/**
@@ -70,6 +96,7 @@ class Serviceorder extends CI_Controller {
 			$data = array();
 			
 			$idServiceOrder = $this->input->post('hddIdServiceOrder');
+			$data["idEquipment"] = $this->input->post('hddIdEquipment');
 			
 			$msj = "You have added a new Service Order!!";
 			if ($idServiceOrder != '') {
@@ -86,20 +113,6 @@ class Serviceorder extends CI_Controller {
 
 			echo json_encode($data);	
     }
-
-	/**
-	 * Service Order Control Panel
-     * @since 19/5/2023
-     * @author BMOTTAG
-	 */
-	public function control()
-	{		
-			$this->load->model("general_model");
-			$data['infoEquipment'] = $this->general_model->countEquipmentByType();
-
-			$data["view"] ='dashboard_so';
-			$this->load->view("layout", $data);
-	}
 
 	/**
 	 * Equipment List
@@ -150,14 +163,6 @@ class Serviceorder extends CI_Controller {
 			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
 		}elseif($data["tabview"] == "tab_preventive_maintenance"){
 			$data['infoPreventiveMaintenance'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
-
-			//busco tipos de mantenimiento
-			$arrParam = array(
-				"table" => "maintenance_type",
-				"order" => "maintenance_type",
-				"id" => "x"
-			);
-			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 		}
 
 

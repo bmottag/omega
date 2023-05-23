@@ -1,6 +1,6 @@
 $( document ).ready( function () {
 	
-	$( "#form" ).validate( {
+	$( "#formMaintenance" ).validate( {
 		rules: {
 			maintenance_type:		{ required: true },
 			description:			{ required: true}

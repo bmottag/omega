@@ -11,9 +11,23 @@
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo ($information && isset($information[0]["id_service_order"]))?$information[0]["id_service_order"]:""; ?>"/>
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $information?$information[0]["fk_id_equipment"]:$this->input->post("idEquipment"); ?>"/>
-		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idEquipment"); ?>"/>
+		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idMaintenance"); ?>"/>
 		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $information?$information[0]["maintenace_type"]:$this->input->post("maintenanceType"); ?>"/>
 		
+		<div class="row">
+			<div class="col-sm-6">		
+				<div class="form-group text-left">
+					<label class="control-label" for="assign_to">Assign to: *</label>
+					<select name="assign_to" id="assign_to" class="form-control" required >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($workersList); $i++) { ?>
+							<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information){ if($information[0]["fk_id_assign_to"] == $workersList[$i]["id_user"]) { echo "selected"; }}  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">

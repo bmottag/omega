@@ -2,6 +2,7 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
+			assign_to:			{ required: true },
 			truck:				{ required: true },
 			hour:				{ required: true, minlength: 3, maxlength:100 },
 			damages:			{ required: true}
@@ -57,9 +58,8 @@ $( document ).ready( function () {
 						{	                                                        
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
-
-							$('#modalMaintenance').modal('hide');
-							loadEquipmentDetail( data.idEquipment, 'tab_preventive_maintenance' );
+							$('#modalServiceOrder').modal('hide');
+							loadEquipmentDetail( data.idEquipment, 'tab_service_order' );
 						}
 						else
 						{
