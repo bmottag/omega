@@ -767,7 +767,7 @@ if ($retornoError) {
 						}
 						
 						echo "<br><small><strong>Equipment</strong><br>" . $equipment . "</small>";
-						echo "<br><small><strong>Description</strong><br>" . $data['description'] . "</small>";
+						echo "<br><small><strong>Description</strong><br>" . $data['v_description'] . "</small>";
 						if($data['standby'] == 1){
 							echo "<br><small><strong>Standby?</strong> Yes</small>";
 						}else{

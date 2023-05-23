@@ -162,7 +162,7 @@
 						}else{
 							$equipment = "<strong>Unit #: </strong>" .$data['unit_number'] . " <strong>Make: </strong>" . $data['make'] . " <strong>Model: </strong>" . $data['model'];
 						}
-						$description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
+						$description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['v_description']);
 						$html.= $equipment . ' <strong>Description: </strong>' . $description . ', operated by ' . $data['operatedby'];
 						
 						$html.=		'</th>
