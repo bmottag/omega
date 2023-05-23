@@ -163,8 +163,9 @@ class Serviceorder extends CI_Controller {
 			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
 		}elseif($data["tabview"] == "tab_preventive_maintenance"){
 			$data['infoPreventiveMaintenance'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
+		}elseif($data["tabview"] == "tab_inspections"){
+			$data['infoInspections'] = $this->general_model->get_vehicle_oil_change($data['vehicleInfo']);//vehicle oil change history
 		}
-
 
 		if($data["vehicleInfo"] )
 		{

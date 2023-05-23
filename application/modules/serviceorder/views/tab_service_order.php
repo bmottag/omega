@@ -64,7 +64,6 @@ if ($retornoError) {
 					<th>S.O. #</th>
 					<th>Assigned To</th>
 					<th>Request Date</th>
-					<th>Equipment</th>
 					<th>Description</th>
 					<th>Comments</th>
 					<th>Status</th>
@@ -77,8 +76,7 @@ if ($retornoError) {
 						echo "<tr>";
 						echo "<td class='text-center'>" . $lista['id_service_order'] . "</td>";
 						echo "<td>" . $lista['assigned_to'] . "</td>";
-						echo "<td>" . $fecha = date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
-						echo "<td>" . $lista['unit_description'] . "</td>";
+						echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
 						echo "<td>" . $lista['current_hours'] . " hours</td>";
 						echo "<td>" . $lista['comments'] . "</td>";
 						echo "<td class='text-center'>";

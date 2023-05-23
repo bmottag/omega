@@ -756,7 +756,7 @@ class Admin extends CI_Controller {
 			$arrParam['idVehicle'] = $idVehicle;
 			$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
 			
-			$data['info'] = $this->admin_model->get_vehicle_oil_change($data['vehicleInfo']);//vehicle oil change history
+			$data['info'] = $this->general_model->get_vehicle_oil_change($data['vehicleInfo']);//vehicle oil change history
 
 			$data['idVehicle'] = $idVehicle;
 			$data["view"] = 'vehicle_inspections';

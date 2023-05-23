@@ -39,7 +39,7 @@ if($vehicleInfo[0]["photo"]){
     <a class="<?php echo $tabview=='tab_preventive_maintenance'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_preventive_maintenance' )" >
         <i class="fa fa-wrench"></i> Preventive Maintenance
     </a>
-    <a class="<?php echo $tabview=='tab_inpections'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_inpections' )" >
+    <a class="<?php echo $tabview=='tab_inspections'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_inspections' )" >
         <i class="fa fa-tasks"></i> Inspections
     </a>
 </div>

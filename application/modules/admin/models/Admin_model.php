@@ -294,30 +294,6 @@
 					return false;
 				}
 	    }
-
-		/**
-		 * Get vehicle oil change history
-		 * last 30 records
-		 * @since 17/1/2017
-		 */
-		public function get_vehicle_oil_change($infoVehicle) 
-		{		
-				$table = $infoVehicle[0]['table_inspection'] . ' T';
-				$idTable = 'T.' . $infoVehicle[0]['id_table_inspection'];
-		
-				$this->db->select("A.*, T.comments, CONCAT(first_name, ' ', last_name) name");
-				$this->db->join('user U', 'U.id_user = A.fk_id_user', 'INNER');
-				$this->db->join("$table", "$idTable = A.fk_id_inspection", "LEFT");
-				$this->db->where('A.fk_id_vehicle', $infoVehicle[0]['id_vehicle']);
-				$this->db->order_by('id_oil_change', 'desc');
-				$query = $this->db->get('vehicle_oil_change A');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
 		
 		/**
 		 * Add vehicle next oil change
