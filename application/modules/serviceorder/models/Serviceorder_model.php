@@ -112,7 +112,11 @@
 				$data = array(
 					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
 					'fk_id_maintenance_type' => $this->input->post('maintenance_type'),
-					'maintenance_description' => $this->input->post('description')
+					'maintenance_description' => $this->input->post('description'),
+					'veification_by' => $this->input->post('verification'),
+					'next_hours_maintenance' => $this->input->post('next_hours_maintenance'),
+					'next_date_maintenance' => $this->input->post('next_date_maintenance'),
+					'maintenance_status' => $this->input->post('maintenance_status')
 				);
 				$query = $this->db->insert('preventive_maintenance', $data);				
 

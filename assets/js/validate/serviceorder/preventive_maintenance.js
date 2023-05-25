@@ -1,10 +1,39 @@
 $( document ).ready( function () {
+
+    $('#verification').change(function () {
+        $('#verification option:selected').each(function () {
+            var verification = $('#verification').val();
+			$("#next_hours").css("display", "none");
+			$("#next_date").css("display", "none");
+			$('#next_hours_maintenance').val("");
+			$('#next_date_maintenance').val("");
+			if(verification==1){
+				$("#next_hours").css("display", "block");
+			}else if (verification==2){
+				$("#next_date").css("display", "block");
+			}
+        });
+    });
+
+	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
+		var verification = $('#verification').val();
+		var hours = $('#next_hours_maintenance').val();
+		var date = $('#next_date_maintenance').val();
+		if(verification==1 && hours == ""){
+			return false;
+		}else if(verification==2 && date == ""){
+			return false;
+		}else{
+			return true;
+		}
+	}, "This field is required.");
 	
 	$( "#formMaintenance" ).validate( {
 		rules: {
-			maintenance_type:		{ required: true },
-			description:			{ required: true}
-			
+			maintenance_type:				{ required: true },
+			description:					{ required: true},
+			next_hours_maintenance:			{ fieldSpecify: true },
+			next_date_maintenance:			{ fieldSpecify: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

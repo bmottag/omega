@@ -35,6 +35,41 @@
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="verification">System verification by?: *</label>
+					<select name="verification" id="verification" class="form-control" required >
+						<option value=''>Select...</option>
+						<option value=1 > Hours/Kilometers</option>
+						<option value=2 > Date</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-6" id="next_hours" style="display: none;">
+				<label class="control-label" for="type">Next Hours/Kilometers Maintenance: *</label>
+				<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="Next Hours/Kilometers Maintenance">
+			</div>
+			<div class="col-sm-6" id="next_date" style="display: none;">
+				<label class="control-label" for="type">Next Date Maintenance <small>(YYYY-MM-DD)</small>: *</label>
+				<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="Next Date Maintenance (YYYY-MM-DD)">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="maintenance_status">Status: *</label>
+					<select name="maintenance_status" id="maintenance_status" class="form-control" required >
+						<option value=''>Select...</option>
+						<option value=1 > Active</option>
+						<option value=2 > Inactive</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">

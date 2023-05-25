@@ -31,7 +31,7 @@ $(document).ready(function () {
 * Function to load Equipment List
 */
 function loadEquipmentList(inspectionType, headerInspectionType) {
-	$("#div_info_list").css("display", "inline");
+	$("#div_info_list").css("display", "block");
 	$.ajax ({
 		type: 'POST',
 		url: base_url + 'serviceorder/equipmentList',
@@ -48,7 +48,7 @@ function loadEquipmentList(inspectionType, headerInspectionType) {
 * Function to load Equipment Detail
 */
 function loadEquipmentDetail(equipmentId, tabview) {
-	$("#div_detail").css("display", "inline");
+	$("#div_detail").css("display", "block");
 	$("#div_info_list").css("display", "none");
 	$.ajax ({
 		type: 'POST',
