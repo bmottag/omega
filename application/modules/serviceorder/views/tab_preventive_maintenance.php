@@ -95,6 +95,16 @@ if ($retornoError) {
                 foreach ($infoPreventiveMaintenance as $lista):
                     $nextHpursMaintenance = $lista['next_hours_maintenance'] == 0?"":number_format($lista['next_hours_maintenance']);
                     $nextDateMaintenance = $lista['next_date_maintenance'] == "0000-00-00"?"":date('F j, Y', strtotime($lista['next_date_maintenance']));
+                    switch ($lista['maintenance_status']) {
+                        case 1:
+                            $valor = 'Active';
+                            $clase = "text-success";
+                            break;
+                        case 2:
+                            $valor = 'Inactive';
+                            $clase = "text-danger";
+                            break;
+                    }
                     echo "<tr>";
                     echo "<td>" . $lista['maintenance_type'] . "</td>";
                     echo "<td>" . $lista['maintenance_description'] . "</td>";
@@ -105,11 +115,13 @@ if ($retornoError) {
 						<button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_preventive_maintenance']; ?>" title="Edit" >
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 						</button>
-
+<!--
                         <button type="button" class="btn btn-violeta btn-xs btn-block btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>">
                             Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
                         </button>
+-->
                     <?php
+                     echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
                     echo "</td>";
                     echo "</tr>";
                 endforeach;

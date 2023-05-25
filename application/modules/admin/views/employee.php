@@ -114,9 +114,9 @@ if ($retornoError) {
 
 								switch ($lista['state']) {
 									case 0:
-											$valor = 'New User';
-											$clase = "text-primary";
-											break;
+										$valor = 'New User';
+										$clase = "text-primary";
+										break;
 									case 1:
 										$valor = 'Active';
 										$clase = "text-success";

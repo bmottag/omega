@@ -54,10 +54,13 @@ if ($retornoError) {
     <?php
 }
 ?>
-	
-	<?php
-		if($information){
-	?>
+        <?php 										
+            if(!$information){ 
+                echo '<div class="col-lg-12">
+                        <p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> There are no records in the system.</p>
+                    </div>';
+            } else {
+        ?>
 		<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 			<thead>
 				<tr>
