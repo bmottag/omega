@@ -59,11 +59,13 @@
 	}
 ?>
 
-			<div class="col-sm-6" id="next_hours" style="display: <?php echo $viewHours; ?>">
+			<!--<div class="col-sm-6" id="next_hours" style="display: <?php echo $viewHours; ?>">-->
+			<div class="col-sm-6" id="next_hours">
 				<label class="control-label" for="type">Next Hours/Kilometers Maintenance: *</label>
 				<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="Next Hours/Kilometers Maintenance" value="<?php echo $information?$information[0]["next_hours_maintenance"]:""; ?>" >
 			</div>
-			<div class="col-sm-6" id="next_date" style="display: <?php echo $viewDate; ?>">
+			<!--<div class="col-sm-6" id="next_date" style="display: <?php echo $viewDate; ?>">-->
+			<div class="col-sm-6" id="next_date" >
 				<label class="control-label" for="type">Next Date Maintenance <small>(YYYY-MM-DD)</small>: *</label>
 				<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="Next Date Maintenance (YYYY-MM-DD)" value="<?php echo $information?$information[0]["next_date_maintenance"]:""; ?>" >
 			</div>
