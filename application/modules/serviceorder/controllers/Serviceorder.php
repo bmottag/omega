@@ -79,7 +79,10 @@ class Serviceorder extends CI_Controller {
 			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 			
 			if ($data["idMaintenance"] != 'x') {
-
+				$arrParam = array(
+					"idMaintenance" => $data["idMaintenance"]
+				);				
+				$data['information'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
 			}
 			
 			$this->load->view("preventive_maintenance_modal", $data);
@@ -185,10 +188,15 @@ class Serviceorder extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 
-			$data["idEquipment"] = $this->input->post('hddIdEquipment');			
+			$idMaintenance = $this->input->post('hddIdMaintenance');
+			$data["idEquipment"] = $this->input->post('hddIdEquipment');
+			
 			$msj = "You have added a new Preventive Maintenance!!";
+			if ($idMaintenance != '') {
+				$msj = "You have updated the Preventive Maintenance!!";
+			}
 
-			if ($idServiceOrder = $this->serviceorder_model->savePreventiveMaintenance()) {
+			if ($idMaintenance = $this->serviceorder_model->savePreventiveMaintenance()) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {

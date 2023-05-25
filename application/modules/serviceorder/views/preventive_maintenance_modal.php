@@ -10,7 +10,7 @@
 <div class="modal-body">
 	<form name="formMaintenance" id="formMaintenance" role="form" method="post" >
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $this->input->post("idEquipment"); ?>"/>
-		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idMaintenance"); ?>"/>
+		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["id_preventive_maintenance"]:$this->input->post("idMaintenance"); ?>"/>
 
 		<div class="row">
 			<div class="col-sm-12">
@@ -19,7 +19,7 @@
 					<select name="maintenance_type" id="maintenance_type" class="form-control" required >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($infoTypeMaintenance); $i++) { ?>
-							<option value="<?php echo $infoTypeMaintenance[$i]["id_maintenance_type"]; ?>" ><?php echo $infoTypeMaintenance[$i]["maintenance_type"]; ?></option>	
+							<option value="<?php echo $infoTypeMaintenance[$i]["id_maintenance_type"]; ?>" <?php if($information){ if($information[0]["fk_id_maintenance_type"] == $infoTypeMaintenance[$i]["id_maintenance_type"]) { echo "selected"; }}  ?>><?php echo $infoTypeMaintenance[$i]["maintenance_type"]; ?></option>		
 						<?php } ?>
 					</select>
 				</div>
@@ -30,7 +30,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="type">Maintenance Description: *</label>
-					<textarea id="description" name="description" placeholder="Maintenance Description" class="form-control" rows="3" required></textarea>
+					<textarea id="description" name="description" placeholder="Maintenance Description" class="form-control" rows="3" required><?php echo $information?$information[0]["maintenance_description"]:""; ?></textarea>
 				</div>
 			</div>
 		</div>
@@ -41,19 +41,31 @@
 					<label class="control-label" for="verification">System verification by?: *</label>
 					<select name="verification" id="verification" class="form-control" required >
 						<option value=''>Select...</option>
-						<option value=1 > Hours/Kilometers</option>
-						<option value=2 > Date</option>
+						<option value=1 <?php if($information){if($information[0]["veification_by"] == 1) { echo "selected"; }} ?> > Hours/Kilometers</option>
+						<option value=2 <?php if($information){if($information[0]["veification_by"] == 2) { echo "selected"; }} ?> > Date</option>
 					</select>
 				</div>
 			</div>
 
-			<div class="col-sm-6" id="next_hours" style="display: none;">
+<?php 
+	$viewHours = "none";
+	$viewDate = "none";
+	if($information){
+		if($information[0]["veification_by"]==1){
+			$viewHours = "block";
+		}else{
+			$viewDate = "block";
+		}
+	}
+?>
+
+			<div class="col-sm-6" id="next_hours" style="display: <?php echo $viewHours; ?>">
 				<label class="control-label" for="type">Next Hours/Kilometers Maintenance: *</label>
-				<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="Next Hours/Kilometers Maintenance">
+				<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="Next Hours/Kilometers Maintenance" value="<?php echo $information?$information[0]["next_hours_maintenance"]:""; ?>" >
 			</div>
-			<div class="col-sm-6" id="next_date" style="display: none;">
+			<div class="col-sm-6" id="next_date" style="display: <?php echo $viewDate; ?>">
 				<label class="control-label" for="type">Next Date Maintenance <small>(YYYY-MM-DD)</small>: *</label>
-				<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="Next Date Maintenance (YYYY-MM-DD)">
+				<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="Next Date Maintenance (YYYY-MM-DD)" value="<?php echo $information?$information[0]["next_date_maintenance"]:""; ?>" >
 			</div>
 		</div>
 
@@ -63,8 +75,8 @@
 					<label class="control-label" for="maintenance_status">Status: *</label>
 					<select name="maintenance_status" id="maintenance_status" class="form-control" required >
 						<option value=''>Select...</option>
-						<option value=1 > Active</option>
-						<option value=2 > Inactive</option>
+						<option value=1 <?php if($information){if($information[0]["maintenance_status"] == 1) { echo "selected"; }} ?>  > Active</option>
+						<option value=2 <?php if($information){if($information[0]["maintenance_status"] == 2) { echo "selected"; }} ?>  > Inactive</option>
 					</select>
 				</div>
 			</div>

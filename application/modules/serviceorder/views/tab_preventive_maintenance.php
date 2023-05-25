@@ -102,9 +102,13 @@ if ($retornoError) {
                     echo "<td class='text-right'>" . $nextDateMaintenance . "</td>";
                     echo "<td class='text-center'>";
                     ?>
-					<button type="button" class="btn btn-violeta btn-xs btn-block btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>">
-                        Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
-					</button>
+						<button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_preventive_maintenance']; ?>" title="Edit" >
+							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
+						</button>
+
+                        <button type="button" class="btn btn-violeta btn-xs btn-block btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>">
+                            Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
+                        </button>
                     <?php
                     echo "</td>";
                     echo "</tr>";

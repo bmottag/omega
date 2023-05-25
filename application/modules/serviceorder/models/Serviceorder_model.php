@@ -90,6 +90,9 @@
 				$this->db->join('maintenance_type T', 'T.id_maintenance_type = P.fk_id_maintenance_type', 'INNER');
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
+				}
+				if (array_key_exists("idMaintenance", $arrDatos)) {
+					$this->db->where('id_preventive_maintenance', $arrDatos["idMaintenance"]);
 				}	
 				$this->db->order_by('id_preventive_maintenance', 'asc');
 				$query = $this->db->get('preventive_maintenance P');
@@ -107,7 +110,7 @@
 		 */
 		public function savePreventiveMaintenance() 
 		{		
-				$idServiceOrder = $this->input->post('hddIdServiceOrder');
+				$idMaintenance = $this->input->post('hddIdMaintenance');
 
 				$data = array(
 					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
@@ -118,8 +121,13 @@
 					'next_date_maintenance' => $this->input->post('next_date_maintenance'),
 					'maintenance_status' => $this->input->post('maintenance_status')
 				);
-				$query = $this->db->insert('preventive_maintenance', $data);				
-
+				//revisar si es para adicionar o editar
+				if ($idMaintenance == '') {
+					$query = $this->db->insert('preventive_maintenance', $data);				
+				} else {
+					$this->db->where('id_preventive_maintenance', $idMaintenance);
+					$query = $this->db->update('preventive_maintenance', $data);
+				}
 				if ($query) {
 					return true;
 				} else {
