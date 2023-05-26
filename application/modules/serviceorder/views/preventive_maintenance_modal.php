@@ -10,7 +10,7 @@
 <div class="modal-body">
 	<form name="formMaintenance" id="formMaintenance" role="form" method="post" >
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $this->input->post("idEquipment"); ?>"/>
-		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["id_preventive_maintenance"]:$this->input->post("idMaintenance"); ?>"/>
+		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["id_preventive_maintenance"]:""; ?>"/>
 
 		<div class="row">
 			<div class="col-sm-12">

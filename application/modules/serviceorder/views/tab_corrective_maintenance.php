@@ -14,12 +14,12 @@ $(function(){
             });
 	});	
 
-	$(".btn-preventive-maintenance").click(function () {
+	$(".btn-corrective-maintenance").click(function () {
 			var oID = $(this).attr("id");
             var idEquipment = $('#hddIdEquipment').val();
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'serviceorder/cargarModalPreventiveMaintenance',
+				url: base_url + 'serviceorder/cargarModalCorrectiveMaintenance',
 				data: { "idMaintenance": oID, idEquipment },
                 cache: false,
                 success: function (data) {
@@ -32,11 +32,11 @@ $(function(){
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <i class="fa fa-wrench"></i> <strong>Preventive Maintenance</strong>
+        <i class="fa fa-wrench"></i> <strong>Corrective Maintenance</strong>
         <div class="pull-right">
             <input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
-            <button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Preventive Maintenance
+            <button type="button" class="btn btn-primary btn-xs btn-corrective-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Corrective Maintenance
             </button>
         </div>
     </div>
@@ -72,54 +72,41 @@ if ($retornoError) {
 }
 ?>
         <?php 										
-            if(!$infoPreventiveMaintenance){ 
+            if(!$infoCorrectiveMaintenance){ 
                 echo '<div class="col-lg-12">
                         <p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> There are no records in the system.</p>
                     </div>';
             } else {
         ?>
-        <table width="100%" class="table table-striped table-bordered table-hover" id="dataPreventiveMaintenance">
+        <table width="100%" class="table table-striped table-bordered table-hover" id="dataCorrectiveMaintenance">
             <thead>
                 <tr>
+                    <th class="text-center">Date Request</th>
                     <th class="text-center">Maintenance Type</th>
-                    <th class="text-center">Description</th>
-                    <th class="text-center">Next Hours/Kilometers maintenance </th>
-                    <th class="text-center">Next date maintenance  </th>
+                    <th class="text-center">Description of Failure or Damage</th>
+                    <th class="text-center">Request By </th>
                     <th class="text-center">Service Order</th>
                 </tr>
             </thead>
             <tbody>							
             <?php
-                foreach ($infoPreventiveMaintenance as $lista):
-                    $nextHpursMaintenance = $lista['next_hours_maintenance'] == 0?"":number_format($lista['next_hours_maintenance']);
-                    $nextDateMaintenance = $lista['next_date_maintenance'] == "0000-00-00"?"":date('F j, Y', strtotime($lista['next_date_maintenance']));
-                    switch ($lista['maintenance_status']) {
-                        case 1:
-                            $valor = 'Active';
-                            $clase = "text-success";
-                            break;
-                        case 2:
-                            $valor = 'Inactive';
-                            $clase = "text-danger";
-                            break;
-                    }
+                foreach ($infoCorrectiveMaintenance as $lista):
                     echo "<tr>";
+                    echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
                     echo "<td>" . $lista['maintenance_type'] . "</td>";
-                    echo "<td>" . $lista['maintenance_description'] . "</td>";
-                    echo "<td class='text-right'>" . $nextHpursMaintenance. "</td>";
-                    echo "<td class='text-right'>" . $nextDateMaintenance . "</td>";
+                    echo "<td>" . $lista['description_failure'] . "</td>";
+                    echo "<td>" . $lista['request_by'] . "</td>";
                     echo "<td class='text-center'>";
                     ?>
-						<button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_preventive_maintenance']; ?>" title="Edit" >
+						<button type="button" class="btn btn-primary btn-xs btn-corrective-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_corrective_maintenance']; ?>" title="Edit" >
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 						</button>
-<!--
-                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>">
+
+                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_corrective_maintenance']; ?>">
                             Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
                         </button>
--->
                     <?php
-                     echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+                     //echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
                     echo "</td>";
                     echo "</tr>";
                 endforeach;
@@ -132,7 +119,7 @@ if ($retornoError) {
 
 <script>
 $(document).ready(function() {
-    $('#dataPreventiveMaintenance').DataTable({
+    $('#dataCorrectiveMaintenance').DataTable({
         responsive: true,
 		"ordering": false,
 		paging: false,

@@ -142,4 +142,57 @@
 				}
 		}
 
+		/**
+		 * Corrective Maintenance Info
+		 * @since 26/5/2023
+		 */
+		public function get_corrective_maintenance($arrDatos) 
+		{
+				$this->db->select('P.*, T.*, CONCAT(U.first_name, " " , U.last_name) request_by');
+				$this->db->join('maintenance_type T', 'T.id_maintenance_type = P.fk_id_maintenance_type', 'INNER');
+				$this->db->join('user U', 'U.id_user = P.request_by', 'INNER');
+				if (array_key_exists("idVehicle", $arrDatos)) {
+					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
+				}
+				if (array_key_exists("idMaintenance", $arrDatos)) {
+					$this->db->where('id_corrective_maintenance', $arrDatos["idMaintenance"]);
+				}	
+				$this->db->order_by('id_corrective_maintenance', 'asc');
+				$query = $this->db->get('corrective_maintenance P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add/Edit CORRECTIVE MAINTENACE
+		 * @since 22/5/2023
+		 */
+		public function saveCorrectiveMaintenance() 
+		{		
+				$idMaintenance = $this->input->post('hddIdMaintenance');
+				$data = array(
+					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
+					'fk_id_maintenance_type' => $this->input->post('maintenance_type'),					
+					'description_failure' => $this->input->post('description')
+				);
+				//revisar si es para adicionar o editar
+				if ($idMaintenance == '') {
+					$data["request_by"] = $this->session->userdata("id");
+					$data["created_at"] = date("Y-m-d G:i:s");
+					$query = $this->db->insert('corrective_maintenance', $data);				
+				} else {
+					$this->db->where('id_corrective_maintenance', $idMaintenance);
+					$query = $this->db->update('corrective_maintenance', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 	}

@@ -102,11 +102,9 @@
 	</div>
 </div>
 
-<!--INICIO Modal para adicionar MANTENIMIENTO -->
 <div class="modal fade text-center" id="modalMaintenance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
 	<div class="modal-dialog" role="document">
 		<div class="modal-content" id="tablaDatosMaintenace">
 		</div>
 	</div>
 </div>                       
-<!--FIN Modal para adicionar MANTENIMIENTO -->

@@ -164,6 +164,8 @@ class Serviceorder extends CI_Controller {
 
 		if($data["tabview"] == "tab_service_order"){
 			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+		}elseif($data["tabview"] == "tab_corrective_maintenance"){
+			$data['infoCorrectiveMaintenance'] = $this->serviceorder_model->get_corrective_maintenance($arrParam);
 		}elseif($data["tabview"] == "tab_preventive_maintenance"){
 			$data['infoPreventiveMaintenance'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
 		}elseif($data["tabview"] == "tab_inspections"){
@@ -197,6 +199,63 @@ class Serviceorder extends CI_Controller {
 			}
 
 			if ($idMaintenance = $this->serviceorder_model->savePreventiveMaintenance()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";			
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);	
+    }
+
+    /**
+     * Cargo modal - Corrective Maintenace
+     * @since 26/5/2023
+     */
+    public function cargarModalCorrectiveMaintenance() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idMaintenance"] = $this->input->post("idMaintenance");
+			//busco tipos de mantenimiento
+			$arrParam = array(
+				"table" => "maintenance_type",
+				"order" => "maintenance_type",
+				"id" => "x"
+			);
+			$this->load->model("general_model");
+			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
+			
+			if ($data["idMaintenance"] != 'x') {
+				$arrParam = array(
+					"idMaintenance" => $data["idMaintenance"]
+				);				
+				$data['information'] = $this->serviceorder_model->get_corrective_maintenance($arrParam);
+			}
+			
+			$this->load->view("corrective_maintenance_modal", $data);
+    }
+
+	/**
+	 * Save Corrective Maintenance
+     * @since 26/5/2023
+     * @author BMOTTAG
+	 */
+	public function save_corrective_maintenance()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$idMaintenance = $this->input->post('hddIdMaintenance');
+			$data["idEquipment"] = $this->input->post('hddIdEquipment');
+			
+			$msj = "You have added a new Corrective Maintenance!!";
+			if ($idMaintenance != '') {
+				$msj = "You have updated the Corrective Maintenance!!";
+			}
+
+			if ($idMaintenance = $this->serviceorder_model->saveCorrectiveMaintenance()) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
