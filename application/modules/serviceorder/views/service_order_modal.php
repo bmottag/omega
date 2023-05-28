@@ -3,7 +3,12 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Service Order Form
-		<br><small>Add/Edit Service Order</small>
+		<br><small>
+				<?php 
+					echo "<b>Description: </b>" . $maintenanceDescription; 
+					echo "<br><b>" . $maintenanceTypeDescription . "</b>"; 
+				?>
+			</small>
 	</h4>
 </div>
 
@@ -12,17 +17,43 @@
 		<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo ($information && isset($information[0]["id_service_order"]))?$information[0]["id_service_order"]:""; ?>"/>
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $information?$information[0]["fk_id_equipment"]:$this->input->post("idEquipment"); ?>"/>
 		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idMaintenance"); ?>"/>
-		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $information?$information[0]["maintenace_type"]:$this->input->post("maintenanceType"); ?>"/>
-		
+		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $maintenanceType; ?>"/>
+		<input type="hidden" id="hddMaintenanceDescription" name="hddMaintenanceDescription" value="<?php echo $maintenanceDescription; ?>"/>
+<?php
+	//Disabled fields
+	$deshabilitar = 'disabled';
+	$userRol = $this->session->rol;
+	if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_SAFETY){
+		$deshabilitar = '';
+	}
+?>	
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="assign_to">Assign to: *</label>
-					<select name="assign_to" id="assign_to" class="form-control" required >
+					<select name="assign_to" id="assign_to" class="form-control" required <?php echo $deshabilitar; ?> >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 							<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information){ if($information[0]["fk_id_assign_to"] == $workersList[$i]["id_user"]) { echo "selected"; }}  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
 						<?php } ?>
+					</select>
+				</div>
+			</div>
+	
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="priority">Priority: *</label>
+					<select name="priority" id="priority" class="form-control" required <?php echo $deshabilitar; ?> >
+						<option value=''>Select...</option>
+						<?php
+						if($priorityList) {
+							foreach ($priorityList as $priority) {
+						?>
+							<option value="<?php echo $priority["status_slug"]; ?>" <?php if($information && $information[0]["priority"] == $priority["status_slug"]) { echo "selected"; }  ?> ><?php echo $priority["status_name"]; ?> </option>
+						<?php
+							}
+						}
+						?>
 					</select>
 				</div>
 			</div>
@@ -31,8 +62,8 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="hour">Current Hours: *</label>
-					<input type="text" id="hour" name="hour" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["current_hours"]:""; ?>" required >
+					<label class="control-label" for="hour">Current Hours: </label>
+					<input type="text" id="hour" name="hour" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["current_hours"]:""; ?>" >
 				</div>
 			</div>
 			

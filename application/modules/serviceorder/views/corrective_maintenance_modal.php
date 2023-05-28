@@ -15,20 +15,6 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="maintenance_type"> Maintenance Type: * </label>
-					<select name="maintenance_type" id="maintenance_type" class="form-control" required >
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($infoTypeMaintenance); $i++) { ?>
-							<option value="<?php echo $infoTypeMaintenance[$i]["id_maintenance_type"]; ?>" <?php if($information){ if($information[0]["fk_id_maintenance_type"] == $infoTypeMaintenance[$i]["id_maintenance_type"]) { echo "selected"; }}  ?>><?php echo $infoTypeMaintenance[$i]["maintenance_type"]; ?></option>		
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
 					<label class="control-label" for="type">Description of Failure or Damage: *</label>
 					<textarea id="description" name="description" placeholder="Description of Failure or Damage" class="form-control" rows="3" required><?php echo $information?$information[0]["description_failure"]:""; ?></textarea>
 				</div>

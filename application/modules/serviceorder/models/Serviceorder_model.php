@@ -41,10 +41,7 @@
 				$idServiceOrder = $this->input->post('hddIdServiceOrder');
 
 				$data = array(
-					'fk_id_assign_to' => $this->input->post('assign_to'),
-					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
-					'fk_id_maintenace' => $this->input->post('hddIdMaintenance'),
-					'maintenace_type' => $this->input->post('hddMaintenanceType'),
+					'fk_id_assign_to' => $this->input->post('assign_to'),					
 					'current_hours' => $this->input->post('hour'),
 					'damages' => $this->input->post('damages'),
 					'shop_labour' => $this->input->post('shop_labour'),
@@ -64,8 +61,13 @@
 				//revisar si es para adicionar o editar
 				if ($idServiceOrder == '') {
 					$data["fk_id_assign_by"] = $this->session->userdata("id");
-					$data["service_status"] = "in_progress";
+					$data["fk_id_equipment"] = $this->input->post('hddIdEquipment');
+					$data["fk_id_maintenace"] = $this->input->post('hddIdMaintenance');
+					$data["maintenace_type"] = $this->input->post('hddMaintenanceType');
+					$data["maintenance_description"] = $this->input->post('hddMaintenanceDescription');
 					$data["created_at"] = date("Y-m-d G:i:s");
+					$data["service_status"] = "new";
+					$data["priority"] = $this->input->post('priority');
 					$query = $this->db->insert('service_order', $data);				
 				} else {
 					$data["service_status"] = $this->input->post('status');
@@ -148,9 +150,9 @@
 		 */
 		public function get_corrective_maintenance($arrDatos) 
 		{
-				$this->db->select('P.*, T.*, CONCAT(U.first_name, " " , U.last_name) request_by');
-				$this->db->join('maintenance_type T', 'T.id_maintenance_type = P.fk_id_maintenance_type', 'INNER');
+				$this->db->select('P.*, CONCAT(U.first_name, " " , U.last_name) request_by, S.status_name, S.status_style, S.status_icon');
 				$this->db->join('user U', 'U.id_user = P.request_by', 'INNER');
+				$this->db->join('param_status S', 'S.status_slug = P.maintenance_status', 'INNER');
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
 				}
@@ -175,14 +177,14 @@
 		{		
 				$idMaintenance = $this->input->post('hddIdMaintenance');
 				$data = array(
-					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
-					'fk_id_maintenance_type' => $this->input->post('maintenance_type'),					
+					'fk_id_equipment' => $this->input->post('hddIdEquipment'),			
 					'description_failure' => $this->input->post('description')
 				);
 				//revisar si es para adicionar o editar
 				if ($idMaintenance == '') {
 					$data["request_by"] = $this->session->userdata("id");
 					$data["created_at"] = date("Y-m-d G:i:s");
+					$data["maintenance_status"] = "pending";
 					$query = $this->db->insert('corrective_maintenance', $data);				
 				} else {
 					$this->db->where('id_corrective_maintenance', $idMaintenance);

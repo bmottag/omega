@@ -2,11 +2,7 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
-			assign_to:			{ required: true },
-			truck:				{ required: true },
-			hour:				{ required: true, minlength: 3, maxlength:100 },
-			damages:			{ required: true}
-			
+			damages:			{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

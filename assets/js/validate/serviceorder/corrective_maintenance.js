@@ -2,7 +2,6 @@ $( document ).ready( function () {
 	
 	$( "#formPreventiveMaintenance" ).validate( {
 		rules: {
-			maintenance_type:				{ required: true },
 			description:					{ required: true}
 		},
 		errorElement: "em",

@@ -80,10 +80,10 @@ if ($retornoError) {
 						echo "<td class='text-center'>" . $lista['id_service_order'] . "</td>";
 						echo "<td>" . $lista['assigned_to'] . "</td>";
 						echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
-						echo "<td>" . $lista['current_hours'] . " hours</td>";
+						echo "<td>" . $lista['maintenance_description'] . "</td>";
 						echo "<td>" . $lista['comments'] . "</td>";
 						echo "<td class='text-center'>";
-						echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i>' . $lista['status_name'] . '</strong></p>';
+						echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i><b>' . $lista['status_name'] . '</b></p>';
 						echo "</td>";
 						echo "<td class='text-center'>";	
 						if($lista['service_status'] != 'closed'){

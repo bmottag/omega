@@ -6,7 +6,7 @@ $(function(){
             $.ajax ({
                 type: 'POST',
 				url: base_url + 'serviceorder/cargarModalServiceOrder',
-				data: { "idServiceOrder": "x", "idMaintenance": oID, "maintenanceType": "preventive", idEquipment },
+				data: { "idServiceOrder": "x", "idMaintenance": oID, "maintenanceType": "corrective", idEquipment },
                 cache: false,
                 success: function (data) {
                     $('#tablaDatosServiceOrder').html(data);
@@ -82,9 +82,9 @@ if ($retornoError) {
             <thead>
                 <tr>
                     <th class="text-center">Date Request</th>
-                    <th class="text-center">Maintenance Type</th>
                     <th class="text-center">Description of Failure or Damage</th>
                     <th class="text-center">Request By </th>
+                    <th class="text-center">Status</th>
                     <th class="text-center">Service Order</th>
                 </tr>
             </thead>
@@ -93,10 +93,15 @@ if ($retornoError) {
                 foreach ($infoCorrectiveMaintenance as $lista):
                     echo "<tr>";
                     echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
-                    echo "<td>" . $lista['maintenance_type'] . "</td>";
                     echo "<td>" . $lista['description_failure'] . "</td>";
                     echo "<td>" . $lista['request_by'] . "</td>";
                     echo "<td class='text-center'>";
+                    echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i><b>' . $lista['status_name'] . '</b></p>';
+                    echo "</td>";
+                    echo "<td class='text-center'>";
+                        if($lista['maintenance_status'] != "pending"){
+                            echo "-";
+                        }else{
                     ?>
 						<button type="button" class="btn btn-primary btn-xs btn-corrective-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_corrective_maintenance']; ?>" title="Edit" >
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
@@ -106,7 +111,7 @@ if ($retornoError) {
                             Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
                         </button>
                     <?php
-                     //echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+                        }
                     echo "</td>";
                     echo "</tr>";
                 endforeach;

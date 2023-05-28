@@ -37,16 +37,23 @@ class Serviceorder extends CI_Controller {
 			$arrParam = array("state" => 1);
 			$this->load->model("general_model");
 			$data['workersList'] = $this->general_model->get_user($arrParam);//worker list
-			
+
+			$arrParam = array(
+				"table" => "param_status",
+				"order" => "status_order",
+				"column" => "status_key",
+				"id" => "priority"
+			);
+			$data['priorityList'] = $this->general_model->get_basic_search($arrParam);
+
 			if ($data["idServiceOrder"] != 'x') {
 				//status list
 				$arrParam = array(
 					"table" => "param_status",
-					"order" => "status_name",
+					"order" => "status_order",
 					"column" => "status_key",
 					"id" => "serviceorder"
 				);
-				$this->load->model("general_model");	
 				$data['statusList'] = $this->general_model->get_basic_search($arrParam);
 
 				//Service Order info
@@ -54,6 +61,23 @@ class Serviceorder extends CI_Controller {
 					"idServiceOrder" => $data["idServiceOrder"]
 				);				
 				$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+
+				$data['maintenanceType'] = $data['information'][0]["maintenace_type"];
+				$idMaintenance = $data['information'][0]["fk_id_maintenace"];
+			}else{
+				$data['maintenanceType']  = $this->input->post("maintenanceType");
+				$idMaintenance = $this->input->post("idMaintenance");
+			}
+
+			$arrParam = array("idMaintenance" => $idMaintenance);	
+			if ($data['maintenanceType'] == "corrective") {			
+				$infoMaintenance = $this->serviceorder_model->get_corrective_maintenance($arrParam);
+				$data['maintenanceDescription'] = $infoMaintenance[0]["description_failure"]; 
+				$data['maintenanceTypeDescription'] = "Corrective Maintenance"; 
+			}else{
+				$infoMaintenance = $this->serviceorder_model->get_preventive_maintenance($arrParam);
+				$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"]; 
+				$data['maintenanceTypeDescription'] = "Preventive Maintenance"; 
 			}
 			
 			$this->load->view("service_order_modal", $data);
@@ -100,13 +124,37 @@ class Serviceorder extends CI_Controller {
 			
 			$idServiceOrder = $this->input->post('hddIdServiceOrder');
 			$data["idEquipment"] = $this->input->post('hddIdEquipment');
+			$maintenace_type = $this->input->post('hddMaintenanceType');
+			$status = $this->input->post('status');
+			$this->load->model("general_model");
 			
 			$msj = "You have added a new Service Order!!";
 			if ($idServiceOrder != '') {
 				$msj = "You have updated the Service Order!!";
 			}
 
-			if ($idServiceOrder = $this->serviceorder_model->saveServiceOrder()) {
+			if ($this->serviceorder_model->saveServiceOrder()) {
+				if ($idServiceOrder == '' && $maintenace_type == "corrective") {
+					//change corrective maintenance status to in_progress
+					$arrParam = array(
+						"table" => "corrective_maintenance",
+						"primaryKey" => "id_corrective_maintenance",
+						"id" => $this->input->post('hddIdMaintenance'),
+						"column" => "maintenance_status",
+						"value" => "in_progress"
+					);
+					$this->general_model->updateRecord($arrParam);
+				}elseif ($idServiceOrder != '' && $maintenace_type == "corrective" && $status == "closed_so" ) {
+					//change corrective maintenance status to closed
+					$arrParam = array(
+						"table" => "corrective_maintenance",
+						"primaryKey" => "id_corrective_maintenance",
+						"id" => $this->input->post('hddIdMaintenance'),
+						"column" => "maintenance_status",
+						"value" => "closed"
+					);
+					$this->general_model->updateRecord($arrParam);
+				}
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
@@ -218,14 +266,6 @@ class Serviceorder extends CI_Controller {
 			
 			$data['information'] = FALSE;
 			$data["idMaintenance"] = $this->input->post("idMaintenance");
-			//busco tipos de mantenimiento
-			$arrParam = array(
-				"table" => "maintenance_type",
-				"order" => "maintenance_type",
-				"id" => "x"
-			);
-			$this->load->model("general_model");
-			$data['infoTypeMaintenance'] = $this->general_model->get_basic_search($arrParam);
 			
 			if ($data["idMaintenance"] != 'x') {
 				$arrParam = array(
