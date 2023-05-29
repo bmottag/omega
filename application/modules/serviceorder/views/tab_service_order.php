@@ -91,6 +91,10 @@ if ($retornoError) {
 						<button type="button" class="btn btn-primary btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_service_order']; ?>" title="Edit" >
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 						</button>
+
+						<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_service_order_detail', <?php echo $lista['id_service_order']; ?>)" >
+							<i class="fa fa-eye"></i> View
+						</a>
 			<?php
 						}
 						echo "</td>";

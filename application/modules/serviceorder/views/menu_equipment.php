@@ -30,11 +30,11 @@ if($vehicleInfo[0]["photo"]){
 ?>
 
 <div class="list-group">
-    <a class="<?php echo $tabview=='tab_service_order'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_service_order' )" >
+    <a class="<?php echo ($tabview=='tab_service_order' || $tabview=='tab_service_order_detail')?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_service_order' )" >
         <i class="fa fa-briefcase"></i> Service Order
     </a>
     <a class="<?php echo $tabview=='tab_corrective_maintenance'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_corrective_maintenance' )" >
-        <i class="fa fa-wrench"></i> Corrective maintenance
+        <i class="fa fa-wrench"></i> Corrective Maintenance
     </a>
     <a class="<?php echo $tabview=='tab_preventive_maintenance'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_preventive_maintenance' )" >
         <i class="fa fa-wrench"></i> Preventive Maintenance
