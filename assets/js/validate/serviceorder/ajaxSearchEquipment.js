@@ -47,16 +47,18 @@ function loadEquipmentList(inspectionType, headerInspectionType) {
 /*
 * Function to load Equipment Detail
 */
-function loadEquipmentDetail(equipmentId, tabview) {
+function loadEquipmentDetail(equipmentId, tabview, serviceOrderId=false) {
 	$("#div_detail").css("display", "block");
 	$("#div_info_list").css("display", "none");
+    $("#loader").addClass("loader");
 	$.ajax ({
 		type: 'POST',
 		url: base_url + 'serviceorder/equipmentDetail',
-		data: {'equipmentId': equipmentId, 'tabview': tabview},
+		data: {equipmentId, tabview, serviceOrderId},
 		cache: false,
 		success: function (data)
 		{
+			$("#loader").removeClass("loader");
 			$('#div_detail').html(data);
 		}
 	});

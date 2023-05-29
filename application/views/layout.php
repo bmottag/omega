@@ -41,7 +41,7 @@
     <![endif]-->
 </head>
     <body>
-		
+		<div id="loader"></div>
 		<div id="wrapper">
 		
 			<?php
