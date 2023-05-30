@@ -336,5 +336,69 @@ class Serviceorder extends CI_Controller {
 
 	}
 
+    /**
+     * Cargo modal - service order Parts
+     * @since 30/5/2023
+     */
+    public function cargarModalParts() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idPart"] = $this->input->post("idPart");
+
+			if ($data["idPart"] != 'x') {
+				//status list
+				$arrParam = array(
+					"table" => "param_status",
+					"order" => "status_order",
+					"column" => "status_key",
+					"id" => "serviceorder"
+				);
+				$data['statusList'] = $this->general_model->get_basic_search($arrParam);
+
+				//Service Order info
+				$arrParam = array(
+					"idPart" => $data["idPart"]
+				);				
+				$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+
+				$data['maintenanceType'] = $data['information'][0]["maintenace_type"];
+				$idMaintenance = $data['information'][0]["fk_id_maintenace"];
+			}
+			
+			$this->load->view("parts_modal", $data);
+    }
+
+	/**
+	 * Save Parts
+     * @since 30/5/2023
+     * @author BMOTTAG
+	 */
+	public function save_parts()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idParts = $this->input->post('hddIdPart');
+			$data["idServiceOrder"] = $this->input->post('hddIdServiceOrder');
+			$data["idEquipment"] = $this->input->post('hddIdEquipment');
+			
+			$msj = "You have added a new Part!!";
+			if ($idParts != '') {
+				$msj = "You have updated the information!!";
+			}
+
+			if ($this->serviceorder_model->saveParts()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";			
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
+
 
 }

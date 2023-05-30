@@ -219,4 +219,38 @@
 			}
 		}
 
+		/**
+		 * Add/Edit PARTS
+		 * @since 18/5/2023
+		 */
+		public function saveParts() 
+		{		
+				$idParts = $this->input->post('hddIdPart');
+
+				$data = array(
+					'part_description' => $this->input->post('part_description'),					
+					'quantity' => $this->input->post('quantity'),
+					'value' => $this->input->post('value'),
+					'supplier' => $this->input->post('supplier')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idParts == '') {
+					$data["fk_id_service_order"] = $this->session->userdata("id");
+					$data["created_at"] = date("Y-m-d G:i:s");
+					$data["part_status"] = "new_request";
+					$query = $this->db->insert('service_order_parts', $data);				
+				} else {
+					$data["part_status"] = $this->input->post('status');
+					$data["updated_at"] = date("Y-m-d G:i:s");
+					$this->db->where('id_part', $idParts);
+					$query = $this->db->update('service_order_parts', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
 	}

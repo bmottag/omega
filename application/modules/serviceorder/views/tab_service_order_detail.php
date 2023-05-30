@@ -2,12 +2,14 @@
 
 <script>
 $(function(){ 
-	$(".btn-service-order").click(function () {
+	$(".btn-service-order-parts").click(function () {
 			var oID = $(this).attr("id");
+			var idServiceOrder = $('#hddIdServiceOrder').val();
+			var idEquipment = $('#hddIdEquipment').val();
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'serviceorder/cargarModalServiceOrder',
-				data: {"idServiceOrder": oID },
+				url: base_url + 'serviceorder/cargarModalParts',
+				data: {"idPart": oID, idServiceOrder, idEquipment },
                 cache: false,
                 success: function (data) {
                     $('#tablaDatosServiceOrder').html(data);
@@ -22,6 +24,8 @@ $(function(){
 	<div class="panel-body">
 		<div class="alert alert-default">
 			<h3><i class="fa fa-briefcase"></i> <b>S.O. #: </b> <?php echo $information[0]['id_service_order']; ?>
+				<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo $information[0]['id_service_order']; ?>" />
+				<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>" />
 				<small>
 					<br><b>Assigned By: </b><?php echo $information[0]['assigned_by']; ?>
 					<br><b>Assigned To: </b><?php echo $information[0]['assigned_to']; ?>
@@ -69,66 +73,90 @@ if ($retornoError) {
     <?php
 }
 ?>
-		<!--INICIO ADDITIONAL INFORMATION -->
-		<div class="row">
-			<div class="col-lg-6">	
-				<div class="chat-panel panel panel-primary">
-					<div class="panel-heading">
-						<i class="fa fa-comments fa-fw"></i> Chat
-					</div>
 
-					<div class="panel-body">
-						<ul class="chat">
-							<?php 
-								if($chatInfo)
-								{
-									foreach ($chatInfo as $data):		
-							?>
-										<li class="right clearfix">
-											<span class="chat-img pull-right">
-												<small class="pull-right text-muted">
-													<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['created_at']; ?>
-												</small>
-											</span>
-											<div class="chat-body clearfix">
-												<div class="header">
-													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-													<strong class="primary-font"><?php echo $data['user_from']; ?></strong>
-												</div>
-												<p>
-													<?php echo $data['message']; ?>
-												</p>
-											</div>
-										</li>
-							<?php
-									endforeach;
-								}
-							?>
-						</ul>
-					</div>
-					<form name="formChat" id="formChat" method="post">
-						<div class="panel-footer">
-							<div class="input-group">					
-									<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_service_order"]:""; ?>"/>
-									<input type="hidden" id="hddModule" name="hddModule" value="<?php echo ID_MODULE_SERVICE_ORDER; ?>"/>
-									<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
-									<input type="hidden" id="hddView" name="hddView" value="tab_service_order_detail"/>
-									<input id="message" name="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-									<span class="input-group-btn">
-										<button type="button" id="btnChat" name="btnChat"  class="btn btn-primmary btn-sm" id="btn-chat">
-											Send
-										</button>
-									</span>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!--FIN ADDITIONAL INFORMATION -->
 
 	</div>
 </div>
+
+<div class="row">
+
+	<div class="col-lg-6">	
+		<div class="chat-panel panel panel-primary">
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"></i> Chat
+			</div>
+
+			<div class="panel-body">
+				<ul class="chat">
+					<?php 
+						if($chatInfo)
+						{
+							foreach ($chatInfo as $data):		
+					?>
+								<li class="right clearfix">
+									<span class="chat-img pull-right">
+										<small class="pull-right text-muted">
+											<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['created_at']; ?>
+										</small>
+									</span>
+									<div class="chat-body clearfix">
+										<div class="header">
+											<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+											<strong class="primary-font"><?php echo $data['user_from']; ?></strong>
+										</div>
+										<p>
+											<?php echo $data['message']; ?>
+										</p>
+									</div>
+								</li>
+					<?php
+							endforeach;
+						}
+					?>
+				</ul>
+			</div>
+			<form name="formChat" id="formChat" method="post">
+				<div class="panel-footer">
+					<div class="input-group">					
+							<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_service_order"]:""; ?>"/>
+							<input type="hidden" id="hddModule" name="hddModule" value="<?php echo ID_MODULE_SERVICE_ORDER; ?>"/>
+							<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
+							<input type="hidden" id="hddView" name="hddView" value="tab_service_order_detail"/>
+							<input id="message" name="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+							<span class="input-group-btn">
+								<button type="button" id="btnChat" name="btnChat"  class="btn btn-primmary btn-sm" id="btn-chat">
+									Send
+								</button>
+							</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="col-lg-6">	
+		<div class="chat-panel panel panel-primary">
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"></i> Parts
+			</div>
+
+			<div class="panel-body">
+
+			</div>
+			<div class="panel-footer">
+				<div class="input-group">					
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-primary btn-sm btn-service-order-parts" data-toggle="modal" data-target="#modalServiceOrder" id="x">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Parts
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
 
 <!-- Tables -->
 <script>
