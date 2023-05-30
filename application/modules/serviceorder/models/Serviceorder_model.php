@@ -198,4 +198,25 @@
 				}
 		}
 
+		/**
+		 * Save Chat
+		 * @since 29/5/2023
+		 */
+		public function saveChat() 
+		{
+			$data = array(
+				'fk_id_module' => $this->input->post('hddId'),
+				'module' => $this->input->post('hddModule'),
+				'fk_id_user_from' => $this->session->userdata("id"),
+				'created_at' => date("Y-m-d G:i:s"),
+				'message' => addslashes($this->security->xss_clean($this->input->post('message')))
+			);
+			$query = $this->db->insert('chat', $data);
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
 	}

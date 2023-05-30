@@ -1865,5 +1865,33 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Get Chat
+		 * @since 29/5/2023
+		 */
+		public function get_chat_info($arrData) 
+		{		
+				$this->db->select("C.*, U.first_name user_from, W.first_name user_to");
+				$this->db->join('user U', 'U.id_user = C.fk_id_user_from', 'INNER');
+				$this->db->join('user W', 'W.id_user = C.fk_id_uset_to', 'LEFT');
+				if (array_key_exists("idChat", $arrData)) {
+					$this->db->where('C.id_chat', $arrData["idChat"]);
+				}
+				if (array_key_exists("idModule", $arrData)) {
+					$this->db->where('C.fk_id_module', $arrData["idModule"]);
+				}
+				if (array_key_exists("module", $arrData)) {
+					$this->db->where('C.module', $arrData["module"]);
+				}
+				$this->db->order_by('C.id_chat', 'asc');
+				$query = $this->db->get('chat C');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 
 }

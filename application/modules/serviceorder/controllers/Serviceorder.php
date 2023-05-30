@@ -221,6 +221,11 @@ class Serviceorder extends CI_Controller {
 		}elseif($data["tabview"] == "tab_service_order_detail"){
 			$arrParam["idServiceOrder"] = $this->input->post('serviceOrderId');
 			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+			$arrParam = array(
+				"idModule" => $this->input->post('serviceOrderId'),
+				"module" => ID_MODULE_SERVICE_ORDER
+			);
+			$data['chatInfo'] = $this->general_model->get_chat_info($arrParam);
 		}
 
 		if($data["vehicleInfo"] )
@@ -307,6 +312,29 @@ class Serviceorder extends CI_Controller {
 			}
 			echo json_encode($data);	
     }
+
+	/**
+	 * Save chat
+     * @since 29/5/2023
+     * @author BMOTTAG
+	 */
+	public function save_chat()
+	{	
+			header('Content-Type: application/json');
+			$data["idEquipment"] = $this->input->post('hddIdEquipment');
+			$data["view"] = $this->input->post('hddView');
+			$data["idModule"] = $this->input->post('hddId');
+			
+			if ($this->serviceorder_model->saveChat()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have added a message");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);
+
+	}
 
 
 }
