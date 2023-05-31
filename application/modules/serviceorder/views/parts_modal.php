@@ -9,7 +9,7 @@
 
 <div class="modal-body">
 	<form name="formParts" id="formParts" role="form" method="post" >
-		<input type="hidden" id="hddIdPart" name="hddIdPart" value="<?php echo ($information && isset($information[0]["id_service_order"]))?$information[0]["id_part"]:""; ?>"/>
+		<input type="hidden" id="hddIdPart" name="hddIdPart" value="<?php echo $information?$information[0]["id_part"]:""; ?>"/>
 		<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo $this->input->post("idServiceOrder"); ?>"/>
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $this->input->post("idEquipment"); ?>" />
 
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 		</div>
-
+<!--
 		<?php if ($information) { ?>
 			<div class="row">
 				<div class="col-sm-6">
@@ -66,6 +66,7 @@
 				</div>
 			</div>
 		<?php } ?>
+						-->
 		<div class="form-group">
 			<div id="div_load" style="display:none">		
 				<div class="progress progress-striped active">

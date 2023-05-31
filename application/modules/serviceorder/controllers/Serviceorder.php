@@ -226,6 +226,9 @@ class Serviceorder extends CI_Controller {
 				"module" => ID_MODULE_SERVICE_ORDER
 			);
 			$data['chatInfo'] = $this->general_model->get_chat_info($arrParam);
+
+			$arrParam = array("idServiceOrder" => $this->input->post('serviceOrderId'));
+			$data['infoParts'] = $this->serviceorder_model->get_parts($arrParam);
 		}
 
 		if($data["vehicleInfo"] )
@@ -348,23 +351,8 @@ class Serviceorder extends CI_Controller {
 			$data["idPart"] = $this->input->post("idPart");
 
 			if ($data["idPart"] != 'x') {
-				//status list
-				$arrParam = array(
-					"table" => "param_status",
-					"order" => "status_order",
-					"column" => "status_key",
-					"id" => "serviceorder"
-				);
-				$data['statusList'] = $this->general_model->get_basic_search($arrParam);
-
-				//Service Order info
-				$arrParam = array(
-					"idPart" => $data["idPart"]
-				);				
-				$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
-
-				$data['maintenanceType'] = $data['information'][0]["maintenace_type"];
-				$idMaintenance = $data['information'][0]["fk_id_maintenace"];
+				$arrParam = array("idPart" => $data["idPart"]);				
+				$data['information'] = $this->serviceorder_model->get_parts($arrParam);
 			}
 			
 			$this->load->view("parts_modal", $data);

@@ -253,4 +253,28 @@
 				}
 		}
 
+		/**
+		 * Parts info
+		 * @since 30/5/2023
+		 */
+		public function get_parts($arrDatos) 
+		{
+				//$this->db->join('user U', 'U.id_user = P.request_by', 'INNER');
+				//$this->db->join('param_status S', 'S.status_slug = P.maintenance_status', 'INNER');
+				if (array_key_exists("idServiceOrder", $arrDatos)) {
+					$this->db->where('fk_id_service_order', $arrDatos["idServiceOrder"]);
+				}
+				if (array_key_exists("idPart", $arrDatos)) {
+					$this->db->where('id_part', $arrDatos["idPart"]);
+				}	
+				$this->db->order_by('id_part', 'asc');
+				$query = $this->db->get('service_order_parts P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 	}

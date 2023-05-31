@@ -137,11 +137,44 @@ if ($retornoError) {
 	<div class="col-lg-6">	
 		<div class="chat-panel panel panel-primary">
 			<div class="panel-heading">
-				<i class="fa fa-comments fa-fw"></i> Parts
+				<i class="fa fa-legal fa-fw"></i> Parts
 			</div>
 
 			<div class="panel-body">
-
+				<ul class="chat">
+					<?php 										
+						if(!$infoParts){ 
+							echo '<div class="col-lg-12">
+									<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> There are no records in the system.</p>
+								</div>';
+						} else {
+							foreach ($infoParts as $data):		
+					?>
+								<li class="right clearfix">
+									<span class="chat-img pull-right">
+										<small class="pull-right text-muted">
+											<i class="fa fa-dollar fa-fw"></i> <?php echo $data['value']; ?>
+										</small>
+										<br>
+										<button type="button" class="btn btn-primary btn-xs btn-service-order-parts" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $data['id_part']; ?>" title="Edit" >
+											<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
+										</button>
+									</span>
+									<div class="chat-body clearfix">
+										<div class="header">
+											<strong class="primary-font"><?php echo $data['part_description']; ?></strong>
+										</div>
+										<p>
+											Quantity: <?php echo $data['quantity']; ?>
+											<br>Supplier: <?php echo $data['supplier']; ?>
+										</p>
+									</div>
+								</li>
+					<?php
+							endforeach;
+						}
+					?>
+				</ul>
 			</div>
 			<div class="panel-footer">
 				<div class="input-group">					
@@ -156,17 +189,3 @@ if ($retornoError) {
 	</div>
 
 </div>
-
-
-<!-- Tables -->
-<script>
-$(document).ready(function() {
-	$('#dataTables').DataTable({
-		responsive: true,
-			"ordering": false,
-			paging: false,
-		"searching": false,
-		"info": false
-	});
-});
-</script>
