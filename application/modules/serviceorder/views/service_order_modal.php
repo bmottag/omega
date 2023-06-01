@@ -59,6 +59,7 @@
 			</div>
 		</div>
 
+		<?php if ($information) { ?>
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
@@ -103,6 +104,7 @@
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 
 		<div class="row">
 			<div class="col-sm-12">

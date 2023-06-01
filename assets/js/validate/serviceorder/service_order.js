@@ -1,8 +1,17 @@
 $( document ).ready( function () {
 	
+	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
+		var status = $('#status').val();
+		if(status=="closed_so" && (value=="" || value== 0)){
+			return false;
+		}else{
+			return true;
+		}
+	}, "This field is required.");
+
 	$( "#form" ).validate( {
 		rules: {
-			damages:			{ required: true }
+			hour:			{ fieldSpecify: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -55,7 +64,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 							$('#modalServiceOrder').modal('hide');
-							loadEquipmentDetail( data.idEquipment, 'tab_service_order' );
+							loadEquipmentDetail( data.idEquipment, 'tab_service_order_detail', data.idServiceOrder );
 						}
 						else
 						{

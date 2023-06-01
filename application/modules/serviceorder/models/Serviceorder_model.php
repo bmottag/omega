@@ -42,21 +42,8 @@
 				$idServiceOrder = $this->input->post('hddIdServiceOrder');
 
 				$data = array(
-					'fk_id_assign_to' => $this->input->post('assign_to'),					
-					'current_hours' => $this->input->post('hour'),
-					'damages' => $this->input->post('damages'),
-					'shop_labour' => $this->input->post('shop_labour'),
-					'field_labour' => $this->input->post('field_labour'),
-					'engine_oil' => $this->input->post('engine_oil'),
-					'transmission_oil' => $this->input->post('transmission_oil'),
-					'hydraulic_oil' => $this->input->post('hydraulic_oil'),
-					'fuel' => $this->input->post('fuel'),
-					'filters' => $this->input->post('filters'),
-					'parts' => $this->input->post('parts'),
-					'blade' => $this->input->post('blade'),
-					'ripper' => $this->input->post('ripper'),
-					'other' => $this->input->post('other'),
-					'comments' => $this->input->post('comments'),
+					'fk_id_assign_to' => $this->input->post('assign_to'),
+					'comments' => $this->input->post('comments')
 				);
 				
 				//revisar si es para adicionar o editar
@@ -67,17 +54,32 @@
 					$data["maintenace_type"] = $this->input->post('hddMaintenanceType');
 					$data["maintenance_description"] = $this->input->post('hddMaintenanceDescription');
 					$data["created_at"] = date("Y-m-d G:i:s");
+					$data["current_hours"] = 0;
 					$data["service_status"] = "new";
 					$data["priority"] = $this->input->post('priority');
-					$query = $this->db->insert('service_order', $data);				
+					$query = $this->db->insert('service_order', $data);
+					$idServiceOrder = $this->db->insert_id();				
 				} else {
 					$data["service_status"] = $this->input->post('status');
 					$data["updated_at"] = date("Y-m-d G:i:s");
+					$data["current_hours"] = $this->input->post('hour');
+					$data["damages"] = $this->input->post('damages');
+					$data["shop_labour"] = $this->input->post('shop_labour');
+					$data["field_labour"] = $this->input->post('field_labour');
+					$data["engine_oil"] = $this->input->post('engine_oil');
+					$data["transmission_oil"] = $this->input->post('transmission_oil');
+					$data["hydraulic_oil"] = $this->input->post('hydraulic_oil');
+					$data["fuel"] = $this->input->post('fuel');
+					$data["filters"] = $this->input->post('filters');
+					$data["parts"] = $this->input->post('parts');
+					$data["blade"] = $this->input->post('blade');
+					$data["ripper"] = $this->input->post('ripper');
+					$data["other"] = $this->input->post('other');
 					$this->db->where('id_service_order', $idServiceOrder);
 					$query = $this->db->update('service_order', $data);
 				}
 				if ($query) {
-					return true;
+					return $idServiceOrder;
 				} else {
 					return false;
 				}

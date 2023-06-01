@@ -1,24 +1,3 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<script>
-$(function(){ 
-	$(".btn-service-order").click(function () {
-			var oID = $(this).attr("id");
-            $.ajax ({
-                type: 'POST',
-				url: base_url + 'serviceorder/cargarModalServiceOrder',
-				data: {"idServiceOrder": oID },
-                cache: false,
-                success: function (data) {
-                    $('#tablaDatosServiceOrder').html(data);
-                }
-            });
-	});	
-});
-</script>
-
-
 <div class="panel panel-info">
 	<div class="panel-heading"> 
 		<i class="fa fa-briefcase"></i> <strong>Service Order</strong>
@@ -88,10 +67,6 @@ if ($retornoError) {
 						echo "<td class='text-center'>";	
 						if($lista['service_status'] != 'closed'){
 			?>					
-						<button type="button" class="btn btn-primary btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_service_order']; ?>" title="Edit" >
-							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
-						</button>
-
 						<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_service_order_detail', <?php echo $lista['id_service_order']; ?>)" >
 							<i class="fa fa-eye"></i> View
 						</a>

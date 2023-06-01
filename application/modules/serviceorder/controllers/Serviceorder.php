@@ -133,7 +133,7 @@ class Serviceorder extends CI_Controller {
 				$msj = "You have updated the Service Order!!";
 			}
 
-			if ($this->serviceorder_model->saveServiceOrder()) {
+			if ($data["idServiceOrder"] = $this->serviceorder_model->saveServiceOrder()) {
 				if ($idServiceOrder == '' && $maintenace_type == "corrective") {
 					//change corrective maintenance status to in_progress
 					$arrParam = array(
