@@ -54,9 +54,13 @@ $(function(){
 					<br><b>Assigned To: </b><?php echo $information[0]['assigned_to']; ?>
 					<br><b>Request Date: </b><?php echo date('F j, Y - G:i:s', strtotime($information[0]['created_at'])); ?>
 					<br><b>Description: </b><?php echo $information[0]['maintenance_description']; ?>
-					<br><b><?php echo $information[0]['maintenace_type']=='corrective'?'Corrective Maintenance':'Preventive Maintenance'; ?></b>
-					<br><b>Priority: </b>
-				</small>
+				</small><br>
+					<?php if($information[0]['maintenace_type']=='corrective'){  ?>
+						<small class="text-danger"><b>Corrective Maintenance</b></small>
+					<?php }else{  ?>
+						<small class="text-danger"><b>Preventive Maintenance</b></small>
+					<?php }  ?>
+					<br><small><b>Priority: </b></small>
 					<small class="text-<?php echo $information[0]['priority_style']; ?>"><i class="fa <?php echo $information[0]['priority_icon']; ?> fa-fw"></i><?php echo $information[0]['priority_name']; ?> </small>
 					<br><small><b>Status: </b></small>
 					<small class="text-<?php echo $information[0]['status_style']; ?>"><i class="fa <?php echo $information[0]['status_icon']; ?> fa-fw"></i><?php echo $information[0]['status_name']; ?> </small>

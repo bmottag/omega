@@ -41,8 +41,8 @@
 					<label class="control-label" for="verification">System verification by?: *</label>
 					<select name="verification" id="verification" class="form-control" required >
 						<option value=''>Select...</option>
-						<option value=1 <?php if($information){if($information[0]["veification_by"] == 1) { echo "selected"; }} ?> > Hours/Kilometers</option>
-						<option value=2 <?php if($information){if($information[0]["veification_by"] == 2) { echo "selected"; }} ?> > Date</option>
+						<option value=1 <?php if($information){if($information[0]["verification_by"] == 1) { echo "selected"; }} ?> > Hours/Kilometers</option>
+						<option value=2 <?php if($information){if($information[0]["verification_by"] == 2) { echo "selected"; }} ?> > Date</option>
 					</select>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 	$viewHours = "none";
 	$viewDate = "none";
 	if($information){
-		if($information[0]["veification_by"]==1){
+		if($information[0]["verification_by"]==1){
 			$viewHours = "block";
 		}else{
 			$viewDate = "block";

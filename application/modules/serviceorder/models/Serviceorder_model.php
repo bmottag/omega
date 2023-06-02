@@ -9,22 +9,34 @@
 		 */
 		public function get_service_order($arrDatos) 
 		{
-				$this->db->select('S.*, CONCAT(U.first_name, " " , U.last_name) assigned_by, CONCAT(Z.first_name, " " , Z.last_name) assigned_to, CONCAT(V.unit_number," -----> ", V.description) as unit_description, P.status_name, P.status_style, P.status_icon, W.status_name priority_name, W.status_style priority_style, W.status_icon priority_icon');
-				$this->db->join('user U', 'U.id_user = S.fk_id_assign_by', 'INNER');
-				$this->db->join('user Z', 'Z.id_user = S.fk_id_assign_to', 'INNER');
-				$this->db->join('param_vehicle V', 'V.id_vehicle = S.fk_id_equipment', 'INNER');
-				$this->db->join('param_status P', 'P.status_slug = S.service_status', 'INNER');
-				$this->db->join('param_status W', 'W.status_slug = S.priority', 'INNER');
-				$this->db->where('P.status_key', "serviceorder");
+				$sql = 'SELECT S.*, CONCAT(U.first_name, " ", U.last_name) assigned_by, CONCAT(Z.first_name, " ", Z.last_name) assigned_to, 
+						CONCAT(V.unit_number, " -----> ", V.description) as unit_description, 
+						P.status_name, P.status_style, P.status_icon, W.status_name priority_name, 
+						W.status_style priority_style, W.status_icon priority_icon, 
+						CASE 
+							WHEN S.maintenace_type = "preventive" THEN PM.maintenance_description 
+							WHEN S.maintenace_type = "corrective" THEN CM.description_failure 
+						END as main_description, 
+						PM.verification_by
+						FROM service_order S
+						INNER JOIN user U ON U.id_user = S.fk_id_assign_by
+						INNER JOIN user Z ON Z.id_user = S.fk_id_assign_to
+						INNER JOIN param_vehicle V ON V.id_vehicle = S.fk_id_equipment
+						INNER JOIN param_status P ON P.status_slug = S.service_status
+						INNER JOIN param_status W ON W.status_slug = S.priority
+						LEFT JOIN preventive_maintenance PM ON S.maintenace_type = "preventive" AND PM.id_preventive_maintenance = S.fk_id_maintenace
+						LEFT JOIN corrective_maintenance CM ON S.maintenace_type = "corrective" AND CM.id_corrective_maintenance = S.fk_id_maintenace
+						WHERE P.status_key = "serviceorder"';
 				if (array_key_exists("idServiceOrder", $arrDatos)) {
-					$this->db->where('id_service_order', $arrDatos["idServiceOrder"]);
+					$sql .= ' AND id_service_order = ' . $arrDatos["idServiceOrder"];
 				}
 				if (array_key_exists("idVehicle", $arrDatos)) {
-					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
+					$sql .= ' AND S.fk_id_equipment = ' . $arrDatos["idVehicle"];
 				}
-								
-				$this->db->order_by('id_service_order', 'desc');
-				$query = $this->db->get('service_order S');
+				
+				$sql .= ' ORDER BY id_service_order DESC';
+
+				$query = $this->db->query($sql);
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
@@ -128,7 +140,7 @@
 					'fk_id_equipment' => $this->input->post('hddIdEquipment'),
 					'fk_id_maintenance_type' => $this->input->post('maintenance_type'),
 					'maintenance_description' => $this->input->post('description'),
-					'veification_by' => $this->input->post('verification'),
+					'verification_by' => $this->input->post('verification'),
 					'next_hours_maintenance' => $nextHours,
 					'next_date_maintenance' => $nextDate,
 					'maintenance_status' => $this->input->post('maintenance_status')
