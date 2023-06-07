@@ -98,17 +98,22 @@ class Workorders extends CI_Controller {
 				$userRol = $this->session->rol;
 				$workorderState = $data['information'][0]['state'];
 				//si es diferente al rol de SUPER ADMIN
-				if($userRol != 99)
+				if($userRol != ID_ROL_SUPER_ADMIN)
 				{
-					//si esta cerrada deshabilito los botones
+					//si esta "Closed" deshabilito los botones
 					if($workorderState == 4){
 						$data['deshabilitar'] = 'disabled';
-					//If it is DIFERRENT THAN ON FILD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
-					}elseif($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)){ 
+					//If it is DIFERRENT THAN ON FIELD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
+					}elseif($workorderState != 0 && ($userRol == ID_ROL_SAFETY || $userRol == ID_ROL_SUPERVISOR || $userRol == ID_ROL_BASIC)){ 
 						$data['deshabilitar'] = 'disabled';
-					}elseif(($workorderState == 2 || $workorderState == 3) && $userRol == 5){ //WORK ORDER  USER
+					//If it is "Rivised" or "Send to Client" and USER is Work Order 
+					}elseif(($workorderState == 2 || $workorderState == 3) && $userRol == ID_ROL_WORKORDER){
 						$data['deshabilitar'] = 'disabled';
-					}elseif($workorderState == 1 && ($userRol == 2 || $userRol == 3)){ //MANAGEMENT AND ACCOUNTING USER
+					//If it is "Send to Client" and USER is Engineer
+					}elseif(($workorderState == 3) && $userRol == ID_ROL_ENGINEER){
+						$data['deshabilitar'] = 'disabled';
+					//If it is "In Progress" and USER is Manager or Accounting
+					}elseif($workorderState == 1 && ($userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING)){
 						$data['deshabilitar'] = 'disabled';
 					}
 				}

@@ -102,7 +102,7 @@
 								//estado
 								switch ($lista['state']) {
 										case 0:
-												$valor = 'On field';
+												$valor = 'On Field';
 												$clase = "text-danger";
 												$icono = "fa-thumb-tack";
 												break;
@@ -117,7 +117,7 @@
 												$icono = "fa-check";
 												break;
 										case 3:
-												$valor = 'Send to the client';
+												$valor = 'Send to the Client';
 												$clase = "text-success";
 												$icono = "fa-envelope-o";
 												break;

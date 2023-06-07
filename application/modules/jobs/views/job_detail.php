@@ -104,7 +104,7 @@ echo $jobInfo[0]['job_description'];
                             foreach ($workOrderInfo as $lista):
                                 switch ($lista['state']) {
                                         case 0:
-                                                $valor = 'On field';
+                                                $valor = 'On Field';
                                                 $clase = "text-danger";
                                                 $icono = "fa-thumb-tack";
                                                 break;
@@ -119,7 +119,7 @@ echo $jobInfo[0]['job_description'];
                                                 $icono = "fa-check";
                                                 break;
                                         case 3:
-                                                $valor = 'Send to the client';
+                                                $valor = 'Send to the Client';
                                                 $clase = "text-success";
                                                 $icono = "fa-envelope-o";
                                                 break;

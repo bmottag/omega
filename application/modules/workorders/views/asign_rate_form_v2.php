@@ -238,7 +238,7 @@ if ($retornoError) {
 	{ 
 			switch ($information[0]['state']) {
 					case 0:
-							$valor = 'On field';
+							$valor = 'On Field';
 							$clase = "alert-danger";
 							break;
 					case 1:
@@ -250,7 +250,7 @@ if ($retornoError) {
 							$clase = "alert-info";
 							break;
 					case 3:
-							$valor = 'Send to the client';
+							$valor = 'Send to the Client';
 							$clase = "alert-success";
 							break;
 					case 4:

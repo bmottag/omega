@@ -164,7 +164,7 @@ if ($retornoError) {
 	{ 
 			switch ($information[0]['state']) {
 					case 0:
-							$valor = 'On field';
+							$valor = 'On Field';
 							$clase = "alert-danger";
 							break;
 					case 1:
@@ -176,7 +176,7 @@ if ($retornoError) {
 							$clase = "alert-info";
 							break;
 					case 3:
-							$valor = 'Send to the client';
+							$valor = 'Send to the Client';
 							$clase = "alert-success";
 							break;
 					case 4:
@@ -388,10 +388,10 @@ if($information){
 									<div class="col-sm-8">
 										<select name="state" id="state" class="form-control" required <?php echo $deshabilitar; ?>>
 											<option value="">Select...</option>
-											<option value=0 >On field</option>
+											<option value=0 >On Field</option>
 											<option value=1 >In Progress</option>
 											<option value=2 >Revised</option>
-											<option value=3 >Send to the client</option>
+											<option value=3 >Send to the Client</option>
 											<option value=4 >Closed</option>
 										</select>
 									</div>
@@ -449,7 +449,7 @@ if($information){
 
 			switch ($data['state']) {
 					case 0:
-							$valor = 'On field';
+							$valor = 'On Field';
 							$clase = "text-danger";
 							$icono = "fa-thumb-tack";
 							break;
@@ -464,7 +464,7 @@ if($information){
 							$icono = "fa-check";
 							break;
 					case 3:
-							$valor = 'Send to the client';
+							$valor = 'Send to the Client';
 							$clase = "text-success";
 							$icono = "fa-envelope-o";
 							break;

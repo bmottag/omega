@@ -119,7 +119,7 @@ return date;
 				<div class="panel-body">
 					<div class="list-group">
 						<a href="<?php echo base_url("workorders/wo_by_state/0/" . date("Y")); ?>" class="list-group-item">
-							<p class="text-danger"><i class="fa fa-thumb-tack fa-fw"></i><strong> On field</strong>
+							<p class="text-danger"><i class="fa fa-thumb-tack fa-fw"></i><strong> On Field</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noOnfield; ?></em>
 								</span>
 							</p>
@@ -137,7 +137,7 @@ return date;
 							</p>
 						</a>
 						<a href="<?php echo base_url("workorders/wo_by_state/3/" . date("Y")); ?>" class="list-group-item">
-							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the client</strong>
+							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the Client</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noSend; ?></em>
 								</span>
 							</p>
@@ -188,7 +188,7 @@ return date;
 				<div class="panel-body">
 					<div class="list-group">
 						<a href="<?php echo base_url('workorders/wo_by_state/0/' . $year); ?>" class="list-group-item">
-							<p class="text-danger"><i class="fa fa-thumb-tack fa-fw"></i><strong> On field</strong>
+							<p class="text-danger"><i class="fa fa-thumb-tack fa-fw"></i><strong> On Field</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noOnfieldLastYear; ?></em>
 								</span>
 							</p>
@@ -206,7 +206,7 @@ return date;
 							</p>
 						</a>
 						<a href="<?php echo base_url('workorders/wo_by_state/3/' . $year); ?>" class="list-group-item">
-							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the client</strong>
+							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the Client</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noSendLastYear; ?></em>
 								</span>
 							</p>

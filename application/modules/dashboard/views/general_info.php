@@ -34,7 +34,7 @@
 						<br>* <strong>Work order:</strong>
 						<ul>
 						<li>Add/Edit</li>
-						<li>This user can edit their own work orders if it is ON FIELD.</li>
+						<li>This user can edit their own work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
 						----------------------------
@@ -74,7 +74,7 @@
 						<ul>
 						<li>Add/Edit</li>
 						<li>Search</li>
-						<li>This user can edit any work orders if it is ON FIELD.</li>
+						<li>This user can edit any work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
 						----------------------------
@@ -116,7 +116,7 @@
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
-						<li>This role can edit work orders that are On field and In Progress.</li>
+						<li>This role can edit Work Orders that are "On Field" and "In Progress".</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -172,7 +172,7 @@
 						<br>* <strong>Work order:</strong>
 						<ul>
 						<li>Add/Edit</li>
-						<li>This user can edit their own work orders if it is ON FIELD.</li>
+						<li>This user can edit their own work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
 						----------------------------
@@ -236,7 +236,7 @@
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
-						<li>This role can edit work orders that are Revised and Send to the client.</li>
+						<li>This role can edit work orders that are "Revised" and "Send to the Client".</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -303,7 +303,7 @@
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
-						<li>This role can edit work orders that are On field and In Progress.</li>
+						<li>This role can edit Work Orders that are "On Field", "In Progress" and "Revised".</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -365,7 +365,7 @@
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
-						<li>This role can edit work orders that are Revised and Send to the client.</li>
+						<li>This role can edit work orders that are "Revised" and "Send to the Client".</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
