@@ -40,7 +40,7 @@
 									</a>									
 						
 						<?php
-								if($userRol != 7){ //Para BASIC no se muestra el enlace
+								if($userRol != ID_ROL_BASIC){ //Para BASIC no se muestra el enlace
 						?>
 									<a class='btn btn-success primary btn-xs' href='<?php echo base_url('jobs/erp/' . $lista['id_job']) ?>'>
 										ERP <span class="fa fa-fire-extinguisher" aria-hidden="true">
@@ -50,7 +50,7 @@
 						?>						
 									
 						<?php
-								if($userRol != 6 && $userRol != 7){ //Para ROL SUPERVISOR Y BASIC no se muestra el enlace
+								if($userRol != ID_ROL_SUPERVISOR && $userRol != ID_ROL_BASIC){ //Para ROL SUPERVISOR Y BASIC no se muestra el enlace
 						?>
 									<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/hazards/' . $lista['id_job']) ?>'>
 										JHA <span class="fa fa-life-saver" aria-hidden="true">
@@ -62,7 +62,7 @@
 										FLHA <span class="fa fa-life-saver" aria-hidden="true">
 									</a>
 						<?php
-								if($userRol != 7){ //Para BASIC no se muestra el enlace
+								if($userRol != ID_ROL_BASIC){ //Para BASIC no se muestra el enlace
 						?>
 									<a class='btn btn-info btn-xs' href='<?php echo base_url('jobs/jso/' . $lista['id_job']) ?>'>
 										JSO <span class="fa fa-bullhorn" aria-hidden="true">
@@ -85,7 +85,7 @@
 									</a>
 
 						<?php
-								if($userRol == 99 || $userRol == 4){ //Para ROL SUPERVISOR Y BASIC no se muestra el enlace
+								if($userRol != ID_ROL_BASIC){ //Para BASIC no se muestra el enlace
 						?>
 									<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/excavation/' . $lista['id_job']) ?>'>
 										ETP <span class="fa fa-pied-piper-alt" aria-hidden="true">
@@ -106,7 +106,7 @@
 						<?php
 								echo "</td>";
 								echo "<td class='text-center'>";
-								if($userRol == 99){ 
+								if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
 						?>
 								<div class="pull-right">
 									<div class="btn-group">

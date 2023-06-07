@@ -88,7 +88,7 @@ $(function(){
 				
 					<?php
 					$userRol = $this->session->rol;
-					if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ //If it is a SUPER ADMIN user, show GO BACK MENU
+					if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER){ //If it is a SUPER ADMIN user, show GO BACK MENU
 					?>
 					<a class="btn btn-gris btn-xs" href=" <?php echo base_url().'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<?php } ?>
@@ -105,7 +105,7 @@ $(function(){
 					 */
 					if($information){
 						
-						if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5){ 
+						if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER){ 
 						?>				
 						<ul class="nav nav-pills">
 							<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
@@ -377,10 +377,10 @@ if($information){
 	/**
 	 * Estado work order
      * Solo se puede editar por los siguientes ROLES
-	 * SUPER ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER ROLES
+	 * SUPER ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER, ENGINEER ROLES
 	 */
 	$userRol = $this->session->userdata("rol");
-	if($userRol == 99 || $userRol == 2 || $userRol == 3 || $userRol == 5)
+	if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER)
 	{ 
 ?>
 								<div class="form-group">

@@ -88,8 +88,11 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
  */
 defined('ID_ROL_SUPER_ADMIN')   OR define('ID_ROL_SUPER_ADMIN', 99);
 defined('ID_ROL_MANAGER')   OR define('ID_ROL_MANAGER', 2);
+defined('ID_ROL_ACCOUNTING')   OR define('ID_ROL_ACCOUNTING', 3);
 defined('ID_ROL_SAFETY')   OR define('ID_ROL_SAFETY', 4);
+defined('ID_ROL_WORKORDER')   OR define('ID_ROL_WORKORDER', 5);
 defined('ID_ROL_SUPERVISOR')   OR define('ID_ROL_SUPERVISOR', 6);
+defined('ID_ROL_BASIC')   OR define('ID_ROL_BASIC', 7);
 defined('ID_ROL_ENGINEER')   OR define('ID_ROL_ENGINEER', 8);
 
 defined('ID_NOTIFICATION_CERTIFICATION')   OR define('ID_NOTIFICATION_CERTIFICATION', 1);

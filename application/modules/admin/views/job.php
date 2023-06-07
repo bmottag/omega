@@ -175,6 +175,10 @@ if ($retornoError) {
 											</button>
 
 											<ul class="dropdown-menu pull-right" role="menu">
+												<?php 
+													$userRol = $this->session->userdata("rol");
+													if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
+												?>
 												<li>
 													<a href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
 														<i class="fa fa-flag fa-fw"></i> Employee Type
@@ -185,6 +189,7 @@ if ($retornoError) {
 														<i class="fa fa-flag fa-fw"></i> Equipment
 													</a>
 												</li>
+												<?php } ?>
 												<li>
 													<a href='<?php echo base_url('admin/job_qr_code/' . $lista['id_job'] . '/1') ?>'>
 														<i class="fa fa-qrcode fa-fw"></i> Timesheet QR CODE 
