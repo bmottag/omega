@@ -1732,6 +1732,22 @@ class General_model extends CI_Model {
 		}
 
 		/**
+		 * Sumatoria de valores de porcentage para un job
+		 * Int idJob
+		 * @author BMOTTAG
+		 * @since  6/6/2023
+		 */
+		public function sumPercentageByJob($arrDatos)
+		{					
+				$sql = "SELECT ROUND(SUM(percentage),2) TOTAL";
+				$sql.= " FROM job_details";
+				$sql.= " WHERE fk_id_job =" . $arrDatos["idJob"];
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->TOTAL;
+		}
+
+		/**
 		 * Get workorder expenses info
 		 * @since 13/1/2023
 		 */

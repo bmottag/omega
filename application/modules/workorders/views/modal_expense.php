@@ -13,7 +13,18 @@
 					<div class="col-lg-12">	
 						<div class="alert alert-danger ">
 							<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-							There are no items for this Job Code/Name
+							There are no items for this Job Code/Name.
+						</div>
+					</div>
+				</div>
+		<?php
+			}elseif($sumPercentage < 100 ){
+		?>
+				<div class="row">
+					<div class="col-lg-12">	
+						<div class="alert alert-danger ">
+							<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+							The percentage of each item is not correctly calculated, contact the administrator.
 						</div>
 					</div>
 				</div>
@@ -24,7 +35,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<i class="fa fa-list"></i> ADD Items from Job Details
+						<i class="fa fa-list"></i> ADD Items from Job Details 
 					</div>
 
 					<div class="panel-body small">

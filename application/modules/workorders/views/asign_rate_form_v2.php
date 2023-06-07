@@ -313,7 +313,7 @@ if ($retornoError) {
 <!--INICIO WO EXPENSE -->
 <?php 
 	$userRol = $this->session->userdata("rol");
-	if($userRol == 99){ 
+	if(($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $information[0]['state'] >= 2){ 
 ?>
 <div class="row">
 		<div class="col-lg-12">				
