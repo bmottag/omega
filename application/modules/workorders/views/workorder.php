@@ -65,6 +65,12 @@
 									echo "<td class='text-center'>";
 									echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'>" . $lista['id_workorder'] . "</a>";
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
+
+									$userRol = $this->session->userdata("rol");
+									if(($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $lista['expenses_flag'] == 1){ 
+										echo '<p class="text-dark"><i class="fa fa-flag fa-fw"></i> With Expenses</p>';
+									}
+
 									echo "<a class='btn btn-success btn-xs' href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "'> Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></a>";
 									echo "</td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
