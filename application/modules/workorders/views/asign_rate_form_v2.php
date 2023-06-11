@@ -87,7 +87,7 @@ $(function(){
 			}
 	});
 
-	$(".btn-dark").click(function () {	
+	$(".btn-load-expenses").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -99,6 +99,47 @@ $(function(){
                 }
             });
 	});	
+
+	$(".btn-calculate-expenses").click(function () {	
+			var oID = $(this).attr("id");
+			
+			//Activa icono guardando
+			if(window.confirm('Do you want to recalculate expenses?'))
+			{
+				$(".btn-calculate-expenses").attr('disabled','-1');
+				$.ajax ({
+					type: 'POST',
+					url: base_url + 'workorders/recalculate_expenses',
+					data: {'identificador': oID},
+					cache: false,
+					success: function(data){		
+						if( data.result == "error" )
+						{
+							$(".btn-calculate-expenses").removeAttr('disabled');							
+							return false;
+						} 
+										
+						if( data.result )//true
+						{	                                                        
+							$(".btn-calculate-expenses").removeAttr('disabled');
+
+							var url = base_url + "workorders/view_workorder/" + data.idWO
+							$(location).attr("href", url);
+						}
+						else
+						{
+							alert('Error. Reload the web page.');
+							$(".btn-calculate-expenses").removeAttr('disabled');
+						}	
+					},
+					error: function(result) {
+						alert('Error. Reload the web page.');
+						$(".btn-calculate-expenses").removeAttr('disabled');
+					}
+
+				});
+			}
+	});
 
 	$(".btn-warning").click(function () {	
 			var oID = $(this).attr("id");
@@ -329,13 +370,18 @@ if ($retornoError) {
 							<div class="panel-footer">
 								<div class="row">
 									<div class="col-lg-6">
-										<label class="control-label"><b>Total Income for this W.O.:</b> $<?php echo number_format($totalWOIncome, 2); ?></label>
+										<label class="control-label"><b>Total Income for this W.O.:</b> $<?php echo number_format($totalWOIncome, 2); ?></label>&nbsp;
+										<?php if($workorderExpense){ ?>
+											<button type="button" id="<?php echo $information[0]["id_workorder"]; ?>" class='btn btn-dark btn-xs btn-calculate-expenses' title="Recalculate Expenses" <?php echo $deshabilitar; ?>>
+												Recalculate Expenses <i class="fa fa-refresh"></i>
+											</button>
+										<?php } ?>
 									</div>
 								</div>
 							</div>
 						</div>
 					
-						<button type="button" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalExpense" id="<?php echo $information[0]["id_workorder"]; ?>">
+						<button type="button" class="btn btn-dark btn-block btn-load-expenses" data-toggle="modal" data-target="#modalExpense" id="<?php echo $information[0]["id_workorder"]; ?>">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add WO Expense
 						</button><br>
 					</div>

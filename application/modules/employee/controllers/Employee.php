@@ -102,7 +102,7 @@ class Employee extends CI_Controller {
 			//SI LA IMAGEN FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
 			if (!$this->upload->do_upload()) {
 				$error = $this->upload->display_errors();
-				$this->photo($error);
+				$this->profile($error);
 			} else {
 				$file_info = $this->upload->data();//subimos la imagen
 				

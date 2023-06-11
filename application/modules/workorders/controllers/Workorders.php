@@ -272,13 +272,23 @@ class Workorders extends CI_Controller {
 			header('Content-Type: application/json');
 			$data = array();
 		
-			$data["idRecord"] = $idWorkorder = $this->input->post('hddidWorkorder');
+			$data["idRecord"] = $idWorkOrder = $this->input->post('hddidWorkorder');
 
 			if ($this->workorders_model->$modalToUse()) 
 			{
 				if($modalToUse == 'saveExpense'){
 					$idJob = $this->input->post('hddidJob');
-					$this->update_wo_expenses_values($idWorkorder, $idJob);
+					$this->update_wo_expenses_values($idWorkOrder, $idJob);
+					//add a flag in the WO table, for the expenses
+					$arrParam = array(
+						"table" => "workorder",
+						"primaryKey" => "id_workorder",
+						"id" => $idWorkOrder,
+						"column" => "expenses_flag",
+						"value" => 1
+					);
+					$this->load->model("general_model");
+					$this->general_model->updateRecord($arrParam);
 				}
 				
 				$data["result"] = true;
@@ -304,12 +314,11 @@ class Workorders extends CI_Controller {
 	 * @param int $idValue: id que se va a borrar
 	 * @param int $idWorkorder: llave  primaria de workorder
      */
-    public function deleteRecord($tabla, $idValue, $idWorkorder, $vista) 
+    public function deleteRecord($tabla, $idValue, $idWorkOrder, $vista) 
 	{
-			if (empty($tabla) || empty($idValue) || empty($idWorkorder) ) {
+			if (empty($tabla) || empty($idValue) || empty($idWorkOrder) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
-			}
-		
+			}		
 			$arrParam = array(
 				"table" => "workorder_" . $tabla,
 				"primaryKey" => "id_workorder_"  . $tabla,
@@ -319,17 +328,32 @@ class Workorders extends CI_Controller {
 			if ($this->general_model->deleteRecord($arrParam)) {
 				//para expenses recalculo los valores gastados para cada item
 				if($tabla == 'expense'){
-					$arrParam = array('idWorkOrder' => $idWorkorder);
+					$arrParam = array('idWorkOrder' => $idWorkOrder);
 					$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
 					$idJob = $data['information'][0]["fk_id_job"];
-					$this->update_wo_expenses_values($idWorkorder, $idJob);
+					$this->update_wo_expenses_values($idWorkOrder, $idJob);
+					/**
+					 * If table is expense then check if there are more records 
+					 * if not then delete put flag of expenses in 0 on WO table
+					 */
+					$workorderExpense = $this->workorders_model->get_workorder_expense($arrParam);//workorder expense list
+					if(!$workorderExpense){
+						$arrParam = array(
+							"table" => "workorder",
+							"primaryKey" => "id_workorder",
+							"id" => $idWorkOrder,
+							"column" => "expenses_flag",
+							"value" => 0
+						);
+						$this->general_model->updateRecord($arrParam);
+					}
 				}
 
 				$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>'.$tabla.'</strong> table.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-			redirect(base_url('workorders/' . $vista . '/' . $idWorkorder), 'refresh');
+			redirect(base_url('workorders/' . $vista . '/' . $idWorkOrder), 'refresh');
     }
 	
     /**
@@ -2307,6 +2331,33 @@ class Workorders extends CI_Controller {
 				$this->workorders_model->updateExpensesValues($workorderExpenses, $totalWOIncome, $sumPercentageExpense);
 			}
 			return true;
+    }
+
+	/**
+	 * Recalculate Expenses
+     * @since 9/06/2023
+     * @author BMOTTAG
+	 */
+	public function recalculate_expenses()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$data["idWO"] = $idWorkorder = $this->input->post('identificador');
+			
+			$arrParam['idWorkOrder'] =  $idWorkorder;
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);//info workorder
+			$idJob = $data['information'][0]['fk_id_job'];
+				
+			if ($this->update_wo_expenses_values($idWorkorder, $idJob)) 
+			{				
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "The information was saved successfully!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+			echo json_encode($data);
     }
 	
 	
