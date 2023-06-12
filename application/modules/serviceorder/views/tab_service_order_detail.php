@@ -65,7 +65,7 @@ $(function(){
 					<br><small><b>Status: </b></small>
 					<small class="text-<?php echo $information[0]['status_style']; ?>"><i class="fa <?php echo $information[0]['status_icon']; ?> fa-fw"></i><?php echo $information[0]['status_name']; ?> </small>
 				<br>
-				<button type="button" class="btn btn-primary btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $information[0]['id_service_order']; ?>" title="Edit" >
+				<button type="button" class="btn btn-primary btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $information[0]['id_service_order']; ?>" title="Edit" <?php echo $deshabilitar; ?> >
 					Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 				</button>
 			</h3>

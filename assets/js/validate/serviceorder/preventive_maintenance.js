@@ -5,8 +5,8 @@ $( document ).ready( function () {
             var verification = $('#verification').val();
 			$("#next_hours").css("display", "none");
 			$("#next_date").css("display", "none");
-			//$('#next_hours_maintenance').val("");
-			//$('#next_date_maintenance').val("");
+			$('#next_hours_maintenance').val("");
+			$('#next_date_maintenance').val("");
 			if(verification==1){
 				$("#next_hours").css("display", "block");
 			}else if (verification==2){
@@ -19,9 +19,9 @@ $( document ).ready( function () {
 		var verification = $('#verification').val();
 		var hours = $('#next_hours_maintenance').val();
 		var date = $('#next_date_maintenance').val();
-		if(verification==1 && hours == ""){
+		if(verification==1 && (hours == "" | hours== 0)){
 			return false;
-		}else if(verification==2 && date == ""){
+		}else if(verification==2 && (date == "" || date == "0000-00-00")){
 			return false;
 		}else{
 			return true;

@@ -73,11 +73,13 @@ class Serviceorder extends CI_Controller {
 			if ($data['maintenanceType'] == "corrective") {			
 				$infoMaintenance = $this->serviceorder_model->get_corrective_maintenance($arrParam);
 				$data['maintenanceDescription'] = $infoMaintenance[0]["description_failure"]; 
-				$data['maintenanceTypeDescription'] = "Corrective Maintenance"; 
+				$data['maintenanceTypeDescription'] = "Corrective Maintenance";
+				$data['nextMaintenance'] = "";
 			}else{
 				$infoMaintenance = $this->serviceorder_model->get_preventive_maintenance($arrParam);
 				$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"]; 
-				$data['maintenanceTypeDescription'] = "Preventive Maintenance"; 
+				$data['maintenanceTypeDescription'] = "Preventive Maintenance";
+				$data['nextMaintenance'] = $infoMaintenance[0]["verification_by"]==1?"<br><b>Next Hours/Kilometers Maintenance: </b>" . number_format($infoMaintenance[0]["next_hours_maintenance"]) :"<br><b>Next Date Maintenance: </b>" . $infoMaintenance[0]["next_date_maintenance"];
 			}
 			
 			$this->load->view("service_order_modal", $data);
@@ -183,6 +185,26 @@ class Serviceorder extends CI_Controller {
 						$arrParam["value"] = $can_be_used;
 						$this->general_model->updateRecord($arrParam);
 					}
+
+					//update preventive maintenance
+					$verification = $this->input->post('hddVerificationBy');
+					if ($maintenace_type == "preventive" && $status == "closed_so" && $verification == 1) {
+						$arrParam = array(
+							"table" => "preventive_maintenance",
+							"primaryKey" => "id_preventive_maintenance",
+							"id" => $this->input->post('hddIdMaintenance')
+						);
+						if($verification == 1){
+							$arrParam["column"] = "next_hours_maintenance";
+							$arrParam["value"] = $this->input->post('next_hours_maintenance');
+							$this->general_model->updateRecord($arrParam);
+						}else{
+							$arrParam["column"] = "next_date_maintenance";
+							$arrParam["value"] = $this->input->post('next_date_maintenance');
+							$this->general_model->updateRecord($arrParam);
+						}
+					}					
+
 				}
 
 				$data["result"] = true;

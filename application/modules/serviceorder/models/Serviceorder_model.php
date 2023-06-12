@@ -87,6 +87,13 @@
 					$data["blade"] = $this->input->post('blade');
 					$data["ripper"] = $this->input->post('ripper');
 					$data["other"] = $this->input->post('other');
+					if($this->input->post('status') == "closed_so"){
+						if($this->input->post('hddVerificationBy') == 1){
+							$data["next_hours"] = $this->input->post('next_hours_maintenance');
+						}else{
+							$data["next_date"] = $this->input->post('next_date_maintenance');
+						}
+					}
 					$this->db->where('id_service_order', $idServiceOrder);
 					$query = $this->db->update('service_order', $data);
 				}

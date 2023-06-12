@@ -7,6 +7,7 @@
 				<?php 
 					echo "<b>Description: </b>" . $maintenanceDescription; 
 					echo "<br><b>" . $maintenanceTypeDescription . "</b>"; 
+					echo $nextMaintenance;
 				?>
 			</small>
 	</h4>
@@ -63,13 +64,6 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="hour">Current Hours: </label>
-					<input type="text" id="hour" name="hour" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["current_hours"]:""; ?>" >
-				</div>
-			</div>
-			
-			<div class="col-sm-6">
-				<div class="form-group text-left">
 					<label class="control-label" for="damages">Damages: *</label>
 					<select name="damages" id="damages" class="form-control" required>
 						<option value=''>Select...</option>
@@ -78,9 +72,7 @@
 					</select>
 				</div>
 			</div>
-		</div>
 
-		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="can_be_used">Equipment can be used?: *</label>
@@ -144,6 +136,24 @@
 							?>
 						</select>
 					</div>
+				</div>
+			</div>
+
+			<input type="hidden" id="hddVerificationBy" name="hddVerificationBy" value="<?php echo $information[0]["verification_by"]; ?>"/>
+			<div class="row">
+				<div class="col-sm-6" id="current_hours" style="display: none">
+					<div class="form-group text-left">
+						<label class="control-label" for="hour">Current Hours: *</label>
+						<input type="text" id="hour" name="hour" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["current_hours"]:""; ?>" >
+					</div>
+				</div>
+				<div class="col-sm-6" id="next_hours" style="display: none">
+					<label class="control-label" for="type">Next Hours/Kilometers Maintenance: *</label>
+					<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="Next Hours/Kilometers Maintenance" value="<?php echo $information?$information[0]["next_hours"]:""; ?>" >
+				</div>
+				<div class="col-sm-6" id="next_date" style="display: none">
+					<label class="control-label" for="type">Next Date Maintenance <small>(YYYY-MM-DD)</small>: *</label>
+					<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="Next Date Maintenance (YYYY-MM-DD)" value="<?php echo $information?$information[0]["next_date"]:""; ?>" >
 				</div>
 			</div>
 		<?php } ?>

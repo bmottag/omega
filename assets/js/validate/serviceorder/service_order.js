@@ -1,5 +1,26 @@
 $( document ).ready( function () {
-	
+
+    $('#status').change(function () {
+        $('#status option:selected').each(function () {
+            var status = $('#status').val();
+			var verification = $('#hddVerificationBy').val();
+			$("#next_hours").css("display", "none");
+			$("#next_date").css("display", "none");
+			$('#next_hours_maintenance').val("");
+			$('#next_date_maintenance').val("");
+			if(status=="closed_so"){
+				$("#current_hours").css("display", "block");
+				if(verification==1){
+					$("#next_hours").css("display", "block");
+				}else if (verification==2){
+					$("#next_date").css("display", "block");
+				}
+			}else{
+				$("#current_hours").css("display", "none");
+			}
+        });
+    });
+
 	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
 		var status = $('#status').val();
 		if(status=="closed_so" && (value=="" || value== 0)){
@@ -9,9 +30,24 @@ $( document ).ready( function () {
 		}
 	}, "This field is required.");
 
+	jQuery.validator.addMethod("fieldNext", function(value, element, param) {
+		var verification = $('#hddVerificationBy').val();
+		var hours = $('#next_hours_maintenance').val();
+		var date = $('#next_date_maintenance').val();
+		if(verification==1 && (hours == "" | hours== 0)){
+			return false;
+		}else if(verification==2 && (date == "" || date == "0000-00-00")){
+			return false;
+		}else{
+			return true;
+		}
+	}, "This field is required.");
+
 	$( "#form" ).validate( {
 		rules: {
-			hour:			{ fieldSpecify: true }
+			hour:							{ fieldSpecify: true },
+			next_hours_maintenance:			{ fieldNext: true },
+			next_date_maintenance:			{ fieldNext: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
