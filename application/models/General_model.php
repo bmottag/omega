@@ -1889,7 +1889,7 @@ class General_model extends CI_Model {
 		{		
 				$this->db->select("C.*, U.first_name user_from, W.first_name user_to");
 				$this->db->join('user U', 'U.id_user = C.fk_id_user_from', 'INNER');
-				$this->db->join('user W', 'W.id_user = C.fk_id_uset_to', 'LEFT');
+				$this->db->join('user W', 'W.id_user = C.fk_id_user_to', 'LEFT');
 				if (array_key_exists("idChat", $arrData)) {
 					$this->db->where('C.id_chat', $arrData["idChat"]);
 				}
@@ -1907,6 +1907,27 @@ class General_model extends CI_Model {
 				} else {
 					return false;
 				}
+		}
+
+		/**
+		 * Save Chat
+		 * @since 29/5/2023
+		 */
+		public function saveChat($arrData) 
+		{
+			$data = array(
+				'fk_id_module' => $arrData["fk_id_module"],
+				'module' => $arrData["module"],
+				'fk_id_user_from' => $this->session->userdata("id"),
+				'created_at' => date("Y-m-d G:i:s"),
+				'message' => $arrData["message"]
+			);
+			$query = $this->db->insert('chat', $data);
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
 		}
 
 

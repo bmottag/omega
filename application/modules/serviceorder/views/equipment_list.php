@@ -35,7 +35,12 @@
 					echo "</td>";
 					echo "<td>" . $data['make'] . "</td>";
 					echo "<td>" . $data['model'] . "</td>";
-					echo "<td>" . $data['description'] . "</td>";
+					echo "<td>";
+					echo $data['description'];
+					if($data['so_blocked'] == 2){
+						echo '<p class="text-danger"><i class="fa fa-flag fa-fw"></i><b> Blocked by SO</b></p>';
+					}
+					echo "</td>";
 					echo "<td class='text-center'><p class='text-danger'><strong>" . $data['unit_number'] . "</strong></p></td>";
 					echo "<td class='text-center'><p class='text-danger'><strong>" . $data['vin_number'] . "</strong></p></td>";									
 					echo "<td class='text-right'><p><strong>" . number_format($data["hours"]) . "</strong></p></td>";

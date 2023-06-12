@@ -197,7 +197,12 @@ if($lista["inspection_type"] == 99 ){
 
 									echo "<td>" . $lista['make'] . "</td>";
 									echo "<td>" . $lista['model'] . "</td>";
-									echo "<td>" . $lista['description'] . "</td>";
+									echo "<td>";
+									echo $lista['description'];
+									if($lista['so_blocked'] == 2){
+										echo '<p class="text-danger"><i class="fa fa-flag fa-fw"></i><b> Blocked by SO</b></p>';
+									}
+									echo "</td>";
 									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['unit_number'] . "</strong></p></td>";
 									echo "<td class='text-center'><p class='text-danger'><strong>" . $lista['vin_number'] . "</strong></p></td>";									
 									echo "<td class='text-right'><p><strong>" . number_format($lista["hours"]) . "</strong>";

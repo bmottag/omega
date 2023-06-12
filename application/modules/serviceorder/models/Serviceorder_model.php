@@ -64,7 +64,6 @@
 					$data["fk_id_equipment"] = $this->input->post('hddIdEquipment');
 					$data["fk_id_maintenace"] = $this->input->post('hddIdMaintenance');
 					$data["maintenace_type"] = $this->input->post('hddMaintenanceType');
-					$data["maintenance_description"] = $this->input->post('hddMaintenanceDescription');
 					$data["created_at"] = date("Y-m-d G:i:s");
 					$data["current_hours"] = 0;
 					$data["service_status"] = "new";
@@ -76,6 +75,7 @@
 					$data["updated_at"] = date("Y-m-d G:i:s");
 					$data["current_hours"] = $this->input->post('hour');
 					$data["damages"] = $this->input->post('damages');
+					$data["can_be_used"] = $this->input->post('can_be_used');
 					$data["shop_labour"] = $this->input->post('shop_labour');
 					$data["field_labour"] = $this->input->post('field_labour');
 					$data["engine_oil"] = $this->input->post('engine_oil');
@@ -210,27 +210,6 @@
 				} else {
 					return false;
 				}
-		}
-
-		/**
-		 * Save Chat
-		 * @since 29/5/2023
-		 */
-		public function saveChat() 
-		{
-			$data = array(
-				'fk_id_module' => $this->input->post('hddId'),
-				'module' => $this->input->post('hddModule'),
-				'fk_id_user_from' => $this->session->userdata("id"),
-				'created_at' => date("Y-m-d G:i:s"),
-				'message' => addslashes($this->security->xss_clean($this->input->post('message')))
-			);
-			$query = $this->db->insert('chat', $data);
-			if ($query) {
-				return true;
-			} else{
-				return false;
-			}
 		}
 
 		/**

@@ -155,6 +155,36 @@ class Serviceorder extends CI_Controller {
 					);
 					$this->general_model->updateRecord($arrParam);
 				}
+
+				if ($idServiceOrder == ''){
+					$arrParam = array(
+						"fk_id_module" => $data["idServiceOrder"],
+						"module" => ID_MODULE_SERVICE_ORDER,
+						"message" => "New Service Order"
+					);
+					$this->load->model("general_model");		
+					$this->general_model->saveChat($arrParam);
+				}else{
+					$hddIdCanBeUsed = $this->input->post('hddIdCanBeUsed');
+					$can_be_used = $this->input->post('can_be_used');
+
+					$arrParam = array(
+						"table" => "param_vehicle",
+						"primaryKey" => "id_vehicle",
+						"id" => $data["idEquipment"],
+						"column" => "so_blocked"
+					);
+					if($can_be_used == 2 && $status == "closed_so"){
+						//update param_vehicle, field so_blocked
+						$arrParam["value"] = 1;
+						$this->general_model->updateRecord($arrParam);
+					}elseif($can_be_used != $hddIdCanBeUsed){
+						//update param_vehicle, field so_blocked
+						$arrParam["value"] = $can_be_used;
+						$this->general_model->updateRecord($arrParam);
+					}
+				}
+
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
@@ -327,8 +357,15 @@ class Serviceorder extends CI_Controller {
 			$data["idEquipment"] = $this->input->post('hddIdEquipment');
 			$data["view"] = $this->input->post('hddView');
 			$data["idModule"] = $this->input->post('hddId');
-			
-			if ($this->serviceorder_model->saveChat()) {
+
+			$arrParam = array(
+				"fk_id_module" => $this->input->post('hddId'),
+				"module" => ID_MODULE_SERVICE_ORDER,
+				"fk_id_user_from" => $this->input->post('id'),
+				"message" => addslashes($this->security->xss_clean($this->input->post('message')))
+			);
+			$this->load->model("general_model");		
+			if ($this->general_model->saveChat($arrParam)) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have added a message");
 			} else {

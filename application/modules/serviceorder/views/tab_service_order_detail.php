@@ -53,7 +53,7 @@ $(function(){
 					<br><b>Assigned By: </b><?php echo $information[0]['assigned_by']; ?>
 					<br><b>Assigned To: </b><?php echo $information[0]['assigned_to']; ?>
 					<br><b>Request Date: </b><?php echo date('F j, Y - G:i:s', strtotime($information[0]['created_at'])); ?>
-					<br><b>Description: </b><?php echo $information[0]['maintenance_description']; ?>
+					<br><b>Description: </b><?php echo $information[0]['main_description']; ?>
 				</small><br>
 					<?php if($information[0]['maintenace_type']=='corrective'){  ?>
 						<small class="text-danger"><b>Corrective Maintenance</b></small>
@@ -146,7 +146,6 @@ if ($retornoError) {
 				<div class="panel-footer">
 					<div class="input-group">					
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_service_order"]:""; ?>"/>
-							<input type="hidden" id="hddModule" name="hddModule" value="<?php echo ID_MODULE_SERVICE_ORDER; ?>"/>
 							<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
 							<input type="hidden" id="hddView" name="hddView" value="tab_service_order_detail"/>
 							<input id="message" name="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />

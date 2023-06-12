@@ -18,7 +18,7 @@
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $information?$information[0]["fk_id_equipment"]:$this->input->post("idEquipment"); ?>"/>
 		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idMaintenance"); ?>"/>
 		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $maintenanceType; ?>"/>
-		<input type="hidden" id="hddMaintenanceDescription" name="hddMaintenanceDescription" value="<?php echo $maintenanceDescription; ?>"/>
+		<input type="hidden" id="hddIdCanBeUsed" name="hddIdCanBeUsed" value="<?php echo $information?$information[0]["can_be_used"]:1; ?>"/>
 <?php
 	//Disabled fields
 	$deshabilitar = 'disabled';
@@ -81,6 +81,18 @@
 		</div>
 
 		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="can_be_used">Equipment can be used?: *</label>
+					<select name="can_be_used" id="can_be_used" class="form-control" required>
+						<option value=1 <?php if($information && $information[0]["can_be_used"] == 1 ) { echo "selected"; }  ?> >Yes</option>
+						<option value=2 <?php if($information && $information[0]["can_be_used"] == 2 ) { echo "selected"; }  ?> >No</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="services">Services: *</label><br>
@@ -109,7 +121,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="type">Comments: *</label>
+					<label class="control-label" for="type">Comments:</label>
 					<textarea id="comments" name="comments" placeholder="Notes/Observations" class="form-control" rows="3"><?php echo $information?$information[0]["comments"]:""; ?></textarea>
 				</div>
 			</div>
