@@ -135,7 +135,8 @@ class Serviceorder extends CI_Controller {
 				$msj = "You have updated the Service Order!!";
 			}
 
-			if ($data["idServiceOrder"] = $this->serviceorder_model->saveServiceOrder()) {
+			if ($data["idServiceOrder"] = $this->serviceorder_model->saveServiceOrder()) 
+			{
 				if ($idServiceOrder == '' && $maintenace_type == "corrective") {
 					//change corrective maintenance status to in_progress
 					$arrParam = array(
@@ -159,13 +160,41 @@ class Serviceorder extends CI_Controller {
 				}
 
 				if ($idServiceOrder == ''){
+					//chat first message
 					$arrParam = array(
 						"fk_id_module" => $data["idServiceOrder"],
 						"module" => ID_MODULE_SERVICE_ORDER,
 						"message" => "New Service Order"
-					);
-					$this->load->model("general_model");		
+					);	
 					$this->general_model->saveChat($arrParam);
+					//send Twilio message
+					//busco datos del vehiculo
+					$arrParam = array(
+						"table" => "param_vehicle",
+						"order" => "id_vehicle",
+						"column" => "id_vehicle",
+						"id" => $data["idEquipment"] 
+					);
+					$vehicleInfo = $this->general_model->get_basic_search($arrParam);
+
+					$comments = $this->input->post('comments');
+					$arrParamUser = array("idUser" => $this->input->post('assign_to'));				
+					$userInfo = $this->general_model->get_user($arrParamUser);
+
+					$mensajeSMS = "APP VCI - New Service Order";
+					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
+					$mensajeSMS .= "\nVIN Number: " . $vehicleInfo[0]["vin_number"];
+					$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
+
+					$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
+					$urlMovil = base_url("login/index/x/" . $module);
+					$mensajeSMS .= "\n".$urlMovil;
+
+					$arrParam = array(
+						"msjPhone" => $mensajeSMS,
+						"userMovil" => $userInfo[0]['movil'] 
+					);
+					send_twilio_message($arrParam);
 				}else{
 					$hddIdCanBeUsed = $this->input->post('hddIdCanBeUsed');
 					$can_be_used = $this->input->post('can_be_used');

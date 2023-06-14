@@ -61,14 +61,16 @@
 			$state = $this->session->userdata("state");
 			$userRol = $this->session->userdata("rol");
 			$dashboardURL = $this->session->userdata("dashboardURL");
+			$moduleURL = $this->session->userdata("moduleURL");
 
-			if($idVehicle != "x"){				
+			if($moduleURL != "x"){	
+				$state = 10;
+			}elseif($idVehicle != "x"){				
 				if($inspectionType == 99 || $linkInspection == "NA"){
 					$state = 99;//NO HAY FORMATO DE INSPECTION
 				}else{
 					$state = 88;
 				}
-				
 			}
 		
 	    	switch($state){
@@ -82,6 +84,9 @@
 	    				$this->session->sess_destroy();
 	    				redirect("/login","location",301);
 	    				break;
+				case 10: //ES PARA UN MODULO, VIENE DE UN ENLACE ENVIADO POR CORREO O POR MENSAJE DE TEXTO
+						redirect($moduleURL,"location",301);
+						break;
 	    		case 99: //NO HAY FORMATO DE INSPECCION, ENTONCES MUESTRO MENSAJE 
 						$data['linkBack'] = "dashboard/";
 						$data['titulo'] = "<i class='fa fa-unlock fa-fw'></i>QR CODE SCAN";				

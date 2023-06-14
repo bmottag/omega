@@ -45,7 +45,8 @@ $(function(){
 <?php
 	//Disabled fields
 	$deshabilitar = '';
-	if($information[0]['service_status'] == 'closed_so'){
+	$userRol = $this->session->userdata("rol");
+	if($userRol != ID_ROL_SUPER_ADMIN && $information[0]['service_status'] == 'closed_so'){
 		$deshabilitar = 'disabled';
 	}
 ?>	

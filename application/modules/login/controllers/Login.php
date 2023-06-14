@@ -13,19 +13,31 @@ class Login extends CI_Controller {
 	 * Index Page for this controller.
 	 * @param int $id: id del vehiculo encriptado para el hauling
 	 */
-	public function index($id = 'x')
+	public function index($id = 'x', $module = 'x')
 	{
 			$this->session->sess_destroy();
 			$data['idVehicle'] = FALSE;
 			$data['inspectionType'] = FALSE;
+			$data['moduleInfo'] = $module;
+			$this->load->model("general_model");
 			//si envio llave encriptada, entonces busco el ID del vehiculo para pasarlo a la vista
 			if ($id != 'x') {				
-				$this->load->model("general_model");
 				$arrParam['encryption'] = $id;
 				$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
 
 				$data['idVehicle'] = $data['vehicleInfo'][0]['id_vehicle'];	
 				$data['inspectionType'] = $data['vehicleInfo'][0]['inspection_type'];					
+			}
+			if ($module != 'x') {
+				$module = base64_decode($module);
+				$arrParam = array(
+					"table" => "param_module",
+					"order" => "id_module",
+					"column" => "module_tag",
+					"id" => $module 
+				);
+				$moduleInfo = $this->general_model->get_basic_search($arrParam);
+				$data['moduleInfo'] = $moduleInfo[0]['module_url'];	
 			}
 			$this->load->view('login', $data);
 	}
@@ -36,6 +48,7 @@ class Login extends CI_Controller {
 			$passwd = $this->security->xss_clean($this->input->post("inputPassword"));
 			$data['idVehicle'] = $this->input->post("hddId");
 			$data['inspectionType'] = $this->input->post("hddInpectionType");
+			$data['moduleURL'] = $this->input->post("hddModuleURL");
 			
 			$this->load->model("general_model");
 			
@@ -93,7 +106,8 @@ class Login extends CI_Controller {
 							"idVehicle" => $data['idVehicle'],
 							"inspectionType" => $data['inspectionType'],
 							"linkInspection" => $data['linkInspection'],
-							"formInspection" => $data['formInspection']
+							"formInspection" => $data['formInspection'],
+							"moduleURL" => $data['moduleURL']
 						);
 												
 						$this->session->set_userdata($sessionData);

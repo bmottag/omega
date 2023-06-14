@@ -174,3 +174,45 @@ if (!function_exists("send_notification")) {
     }
 
 }
+
+/**
+ * Send Twilio message
+ * @author bmottag
+ * @param mixed $objVar
+ */
+if (!function_exists("send_twilio_message")) {
+
+    function send_twilio_message($arrDatos) 
+    {
+        $CI = &get_instance();
+        $CI->load->model('general_model');
+        if($arrDatos["msjPhone"] && $arrDatos["userMovil"]){
+            //configuracion para envio de mensaje de texto
+            $CI->load->library('encrypt');
+            require 'vendor/Twilio/autoload.php';
+
+            //busco datos parametricos twilio
+            $arrParam = array(
+                "table" => "parametric",
+                "order" => "id_parametric",
+                "id" => "x"
+            );
+            $parametric = $CI->general_model->general_model->get_basic_search($arrParam);						
+            $dato1 = $CI->encrypt->decode($parametric[3]["value"]);
+            $dato2 = $CI->encrypt->decode($parametric[4]["value"]);
+            $twilioPhone = $parametric[5]["value"];
+            
+            $client = new Twilio\Rest\Client($dato1, $dato2);
+            //envio mensaje de texto
+            $to = '+1' . $arrDatos["userMovil"];
+            $client->messages->create(
+                $to,
+                array(
+                    'from' => $twilioPhone,
+                    'body' => $arrDatos["msjPhone"]
+                )
+            );
+
+        }
+    }
+}
