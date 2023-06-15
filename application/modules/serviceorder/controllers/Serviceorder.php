@@ -18,6 +18,11 @@ class Serviceorder extends CI_Controller {
 			$this->load->model("general_model");
 			$data['infoEquipment'] = $this->general_model->countEquipmentByType();
 
+			$arrParam = array(
+				"limit" => 10
+			);
+			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+
 			$data["view"] ='dashboard_so';
 			$this->load->view("layout", $data);
 	}
@@ -181,7 +186,7 @@ class Serviceorder extends CI_Controller {
 					$arrParamUser = array("idUser" => $this->input->post('assign_to'));				
 					$userInfo = $this->general_model->get_user($arrParamUser);
 
-					$mensajeSMS = "APP VCI - New Service Order";
+					$mensajeSMS = "APP VCI - New Service Order #" . $data["idServiceOrder"];
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= "\nVIN Number: " . $vehicleInfo[0]["vin_number"];
 					$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";

@@ -8,7 +8,7 @@ $(document).ready(function () {
 	   
     $('#btnVINNumber').click(function () {
 		var vinNumber = $('#vinNumber').val();
-		$("#div_info_list").css("display", "inline");
+		$("#div_info_list").css("display", "block");
 		if (vinNumber.length > 4) {
 			$.ajax ({
 				type: 'POST',
@@ -50,6 +50,7 @@ function loadEquipmentList(inspectionType, headerInspectionType) {
 function loadEquipmentDetail(equipmentId, tabview, serviceOrderId=false) {
 	$("#div_detail").css("display", "block");
 	$("#div_info_list").css("display", "none");
+	$("#div_info_SO_main").css("display", "none");
     $("#loader").addClass("loader");
 	$.ajax ({
 		type: 'POST',

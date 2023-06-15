@@ -65,13 +65,11 @@ if ($retornoError) {
 						echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i><b>' . $lista['status_name'] . '</b></p>';
 						echo "</td>";
 						echo "<td class='text-center'>";	
-						if($lista['service_status'] != 'closed'){
 			?>					
 						<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_service_order_detail', <?php echo $lista['id_service_order']; ?>)" >
 							<i class="fa fa-eye"></i> View
 						</a>
 			<?php
-						}
 						echo "</td>";
 						echo "</tr>";
 				endforeach;

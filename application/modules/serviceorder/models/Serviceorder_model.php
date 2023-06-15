@@ -33,7 +33,9 @@
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$sql .= ' AND S.fk_id_equipment = ' . $arrDatos["idVehicle"];
 				}
-				
+				if (array_key_exists("limit", $arrDatos)) {
+					$sql .= ' LIMIT ' . $arrDatos["limit"];
+				}
 				$sql .= ' ORDER BY id_service_order DESC';
 
 				$query = $this->db->query($sql);

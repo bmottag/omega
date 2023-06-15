@@ -21,9 +21,9 @@
                 </div>
                 <div class="panel-body">
                     <div class="list-group">
-					<?php
-						foreach ($infoEquipment as $data):
-					?>
+						<?php
+							foreach ($infoEquipment as $data):
+						?>
 							<a class="list-group-item" onclick="loadEquipmentList( <?php echo $data['inspection_type']; ?>  , '<?php echo $data['header_inspection_type']; ?>')">
 								<i class="fa fa-filter fa-fw"></i> <?php echo $data["header_inspection_type"]; ?>
 								<span class="pull-right text-muted small"><em> <?php echo $data["number"]; ?></em>
@@ -86,6 +86,64 @@
 				</div>
 			</div>
 
+			<div class="row" id="div_info_SO_main" >
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="panel panel-info">
+						<div class="panel-heading"> 
+							<i class="fa fa-briefcase"></i> <strong>Last 10 Service Orders</strong>
+						</div>
+						<div class="panel-body small">
+							<?php 										
+								if(!$information){ 
+									echo '<div class="col-lg-12">
+											<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> There are no records in the system.</p>
+										</div>';
+								} else {
+							?>
+							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesMainSO">
+								<thead>
+									<tr>
+										<th>S.O. #</th>
+										<th>Assigned To</th>
+										<th>Request Date</th>
+										<th>Unit Number</th>
+										<th>Description</th>
+										<th>Status</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>							
+								<?php
+									foreach ($information as $lista):
+											echo "<tr>";
+											echo "<td class='text-center'>" . $lista['id_service_order'] . "</td>";
+											echo "<td>" . $lista['assigned_to'] . "</td>";
+											echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
+											echo "<td>" . $lista['unit_description'] . "</td>";
+											echo "<td>" . $lista['main_description'] . "</td>";
+											echo "<td class='text-center'>";
+											echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i><b>' . $lista['status_name'] . '</b></p>';
+											echo "</td>";
+											echo "<td class='text-center'>";	
+								?>					
+											<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $lista['fk_id_equipment']; ?>, 'tab_service_order_detail', <?php echo $lista['id_service_order']; ?>)" >
+												<i class="fa fa-eye"></i> View
+											</a>
+								<?php
+											echo "</td>";
+											echo "</tr>";
+									endforeach;
+								?>
+								</tbody>
+							</table>
+							<?php 
+								}
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div id="div_info_list" style="display:none"></div>
 		</div>
 	</div>
@@ -107,4 +165,17 @@
 		<div class="modal-content" id="tablaDatosMaintenace">
 		</div>
 	</div>
-</div>                       
+</div>
+
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+	$('#dataTablesMainSO').DataTable({
+		responsive: true,
+			"ordering": false,
+			paging: false,
+		"searching": false,
+		"info": false
+	});
+});
+</script>
