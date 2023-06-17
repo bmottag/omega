@@ -244,7 +244,7 @@
 				
 				//revisar si es para adicionar o editar
 				if ($idParts == '') {
-					$data["fk_id_service_order"] = $this->session->userdata("id");
+					$data["fk_id_service_order"] = $this->input->post('hddIdServiceOrder');
 					$data["created_at"] = date("Y-m-d G:i:s");
 					$data["part_status"] = "new_request";
 					$query = $this->db->insert('service_order_parts', $data);				
