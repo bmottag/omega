@@ -18,7 +18,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="part_description">Part Description: *</label>
-					<input type="text" id="part_description" name="part_description" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["part_description"]:""; ?>" >
+					<input type="text" id="part_description" name="part_description" class="form-control" placeholder="Part Description" value="<?php echo $information?$information[0]["part_description"]:""; ?>" >
 				</div>
 			</div>
 		</div>
@@ -34,13 +34,13 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="quantity">Quantity: *</label>
-					<input type="number" id="quantity" name="quantity" min=1 maxlength="3" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["quantity"]:""; ?>" >
+					<input type="number" id="quantity" name="quantity" min=1 maxlength="3" class="form-control" placeholder="Quantity" value="<?php echo $information?$information[0]["quantity"]:""; ?>" >
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="value">Value: </label>
-					<input type="text" id="value" name="value" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["value"]:""; ?>" >
+					<input type="text" id="value" name="value" class="form-control" placeholder="Value" value="<?php echo $information?$information[0]["value"]:""; ?>" >
 				</div>
 			</div>
 		</div>

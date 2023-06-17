@@ -148,10 +148,12 @@ if ($retornoError) {
 					<div class="input-group">					
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_service_order"]:""; ?>"/>
 							<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
+							<input type="hidden" id="hddIdAssignedTo" name="hddIdAssignedTo" value="<?php echo $information[0]['fk_id_assign_to']; ?>"/>
+							<input type="hidden" id="hddIdAssignedBy" name="hddIdAssignedBy" value="<?php echo $information[0]['fk_id_assign_by']; ?>"/>
 							<input type="hidden" id="hddView" name="hddView" value="tab_service_order_detail"/>
 							<input id="message" name="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
 							<span class="input-group-btn">
-								<button type="button" id="btnChat" name="btnChat"  class="btn btn-primary btn-sm" id="btn-chat" <?php echo $deshabilitar; ?>>
+								<button type="button" id="btnChat" name="btnChat" class="btn btn-primary btn-sm" <?php echo $deshabilitar; ?>>
 									Send
 								</button>
 							</span>

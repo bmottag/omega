@@ -267,8 +267,6 @@
 		 */
 		public function get_parts($arrDatos) 
 		{
-				//$this->db->join('user U', 'U.id_user = P.request_by', 'INNER');
-				//$this->db->join('param_status S', 'S.status_slug = P.maintenance_status', 'INNER');
 				if (array_key_exists("idServiceOrder", $arrDatos)) {
 					$this->db->where('fk_id_service_order', $arrDatos["idServiceOrder"]);
 				}

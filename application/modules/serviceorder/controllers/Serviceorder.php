@@ -195,7 +195,7 @@ class Serviceorder extends CI_Controller {
 
 					$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
 					$urlMovil = base_url("login/index/x/" . $module);
-					$mensajeSMS .= "\n".$urlMovil;
+					$mensajeSMS .= "\n\nSee: ".$urlMovil;
 
 					$arrParam = array(
 						"msjPhone" => $mensajeSMS,
@@ -434,17 +434,39 @@ class Serviceorder extends CI_Controller {
 	{	
 			header('Content-Type: application/json');
 			$data["idEquipment"] = $this->input->post('hddIdEquipment');
+			$idServiceOrder= $this->input->post('hddId');
+			$idAssignedTo = $this->input->post('hddIdAssignedTo');
+			$idAssignedBy = $this->input->post('hddIdAssignedBy');
 			$data["view"] = $this->input->post('hddView');
 			$data["idModule"] = $this->input->post('hddId');
 
 			$arrParam = array(
-				"fk_id_module" => $this->input->post('hddId'),
+				"fk_id_module" => $idServiceOrder,
 				"module" => ID_MODULE_SERVICE_ORDER,
-				"fk_id_user_from" => $this->input->post('id'),
 				"message" => addslashes($this->security->xss_clean($this->input->post('message')))
 			);
 			$this->load->model("general_model");		
 			if ($this->general_model->saveChat($arrParam)) {
+				//BEGIN send Twilio message
+				$idUser = $this->session->userdata("id");
+				
+				$idUserTo = $idUser == $idAssignedTo ? $idAssignedBy : $idAssignedTo;
+				$arrParamUser = array("idUser" => $idUserTo);				
+				$userInfo = $this->general_model->get_user($arrParamUser);
+
+				$mensajeSMS = "APP VCI - Service Order #" . $idServiceOrder;
+				$mensajeSMS .= "\nMessage: " . addslashes($this->security->xss_clean($this->input->post('message')));
+
+				$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
+				$urlMovil = base_url("login/index/x/" . $module);
+				$mensajeSMS .= "\n\nSee: ".$urlMovil;
+
+				$arrParamTwilio = array(
+					"msjPhone" => $mensajeSMS,
+					"userMovil" => $userInfo[0]['movil'] 
+				);
+				send_twilio_message($arrParamTwilio);
+				//END send Twilio message
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "You have added a message");
 			} else {
