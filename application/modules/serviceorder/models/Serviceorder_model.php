@@ -285,4 +285,27 @@
 				}
 		}
 
+		/**
+		 * Update current kilometers
+		 * @since 17/6/2023
+		 */
+		public function saveEquipmentCurrentHours() 
+		{
+				$data = array(
+					'hours' => $this->input->post('hour')
+					//'hours_2' => $this->input->post('hours2'),
+					//'hours_3' => $this->input->post('hours3')
+				);
+
+				$this->db->where('id_vehicle', $this->input->post('hddIdEquipment'));
+				$query = $this->db->update('param_vehicle', $data);
+
+				if ($query) {
+					return true;
+				}else{
+					return false;
+				}
+
+		}
+
 	}

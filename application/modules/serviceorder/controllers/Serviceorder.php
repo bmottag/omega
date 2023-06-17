@@ -239,8 +239,11 @@ class Serviceorder extends CI_Controller {
 							$arrParam["value"] = $this->input->post('next_date_maintenance');
 							$this->general_model->updateRecord($arrParam);
 						}
-					}					
-
+					}
+					//If we close the service orden then we update the current equipment hours
+					if ($status == "closed_so") {
+						$this->serviceorder_model->saveEquipmentCurrentHours();
+					}
 				}
 
 				$data["result"] = true;
