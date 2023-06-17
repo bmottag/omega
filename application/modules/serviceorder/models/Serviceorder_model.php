@@ -62,8 +62,7 @@
 				$idServiceOrder = $this->input->post('hddIdServiceOrder');
 
 				$data = array(
-					'fk_id_assign_to' => $this->input->post('assign_to'),
-					'comments' => $this->input->post('comments')
+					'fk_id_assign_to' => $this->input->post('assign_to')
 				);
 				
 				//revisar si es para adicionar o editar
@@ -95,6 +94,7 @@
 					$data["blade"] = $this->input->post('blade');
 					$data["ripper"] = $this->input->post('ripper');
 					$data["other"] = $this->input->post('other');
+					$data["comments"] = $this->input->post('comments');
 					if($this->input->post('status') == "closed_so"){
 						if($this->input->post('hddVerificationBy') == 1){
 							$data["next_hours"] = $this->input->post('next_hours_maintenance');

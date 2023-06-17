@@ -184,14 +184,12 @@ class Serviceorder extends CI_Controller {
 					);
 					$vehicleInfo = $this->general_model->get_basic_search($arrParam);
 
-					$comments = $this->input->post('comments');
 					$arrParamUser = array("idUser" => $this->input->post('assign_to'));				
 					$userInfo = $this->general_model->get_user($arrParamUser);
 
 					$mensajeSMS = "APP VCI - New Service Order #" . $data["idServiceOrder"];
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= "\nVIN Number: " . $vehicleInfo[0]["vin_number"];
-					$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
 
 					$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
 					$urlMovil = base_url("login/index/x/" . $module);
@@ -243,6 +241,25 @@ class Serviceorder extends CI_Controller {
 					//If we close the service orden then we update the current equipment hours
 					if ($status == "closed_so") {
 						$this->serviceorder_model->saveEquipmentCurrentHours();
+
+						//BEGIN send Twilio message
+						$comments = $this->input->post('comments');
+						$arrParamUser = array("idUser" => $this->input->post('hddIdAssignedBy'));				
+						$userInfo = $this->general_model->get_user($arrParamUser);
+
+						$mensajeSMS = "APP VCI - Service Order #" . $data["idServiceOrder"] . " closed.";
+						$mensajeSMS .= "\nComments: " . $comments;
+
+						$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
+						$urlMovil = base_url("login/index/x/" . $module);
+						$mensajeSMS .= "\n\nSee: ".$urlMovil;
+
+						$arrParamTwilio = array(
+							"msjPhone" => $mensajeSMS,
+							"userMovil" => $userInfo[0]['movil'] 
+						);
+						send_twilio_message($arrParamTwilio);
+						//END send Twilio message
 					}
 				}
 

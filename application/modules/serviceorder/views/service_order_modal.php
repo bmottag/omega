@@ -20,6 +20,7 @@
 		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idMaintenance"); ?>"/>
 		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $maintenanceType; ?>"/>
 		<input type="hidden" id="hddIdCanBeUsed" name="hddIdCanBeUsed" value="<?php echo $information?$information[0]["can_be_used"]:1; ?>"/>
+		<input type="hidden" id="hddIdAssignedBy" name="hddIdAssignedBy" value="<?php echo $information?$information[0]["fk_id_assign_by"]:""; ?>"/>
 <?php
 	//Disabled fields
 	$deshabilitar = 'disabled';
@@ -110,14 +111,6 @@
 		</div>
 		<?php } ?>
 
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label class="control-label" for="type">Comments:</label>
-					<textarea id="comments" name="comments" placeholder="Notes/Observations" class="form-control" rows="3"><?php echo $information?$information[0]["comments"]:""; ?></textarea>
-				</div>
-			</div>
-		</div>
 		<?php if ($information) { ?>
 			<div class="row">
 				<div class="col-sm-6">
@@ -135,6 +128,15 @@
 							}
 							?>
 						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" id="div_comments" style="display: none">
+				<div class="col-sm-12">
+					<div class="form-group text-left">
+						<label class="control-label" for="type">Comments: *</label>
+						<textarea id="comments" name="comments" placeholder="Notes/Observations" class="form-control" rows="3"><?php echo $information?$information[0]["comments"]:""; ?></textarea>
 					</div>
 				</div>
 			</div>

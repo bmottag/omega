@@ -6,9 +6,11 @@ $( document ).ready( function () {
 			var verification = $('#hddVerificationBy').val();
 			$("#next_hours").css("display", "none");
 			$("#next_date").css("display", "none");
+			$('#comments').val("");
 			$('#next_hours_maintenance').val("");
 			$('#next_date_maintenance').val("");
 			if(status=="closed_so"){
+				$("#div_comments").css("display", "block");
 				$("#current_hours").css("display", "block");
 				if(verification==1){
 					$("#next_hours").css("display", "block");
@@ -16,13 +18,15 @@ $( document ).ready( function () {
 					$("#next_date").css("display", "block");
 				}
 			}else{
+				$("#div_comments").css("display", "none");
 				$("#current_hours").css("display", "none");
 			}
         });
     });
 
 	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
-		var status = $('#status').val();
+		var status = $(param).val();
+		console.log(status);
 		if(status=="closed_so" && (value=="" || value== 0)){
 			return false;
 		}else{
@@ -50,7 +54,8 @@ $( document ).ready( function () {
 
 	$( "#form" ).validate( {
 		rules: {
-			hour:							{ fieldSpecify: true },
+			hour:							{ fieldSpecify: "#status" },
+			comments:						{ fieldSpecify: "#status" },
 			next_hours_maintenance:			{ fieldNext: true },
 			next_date_maintenance:			{ fieldNext: true }
 		},
