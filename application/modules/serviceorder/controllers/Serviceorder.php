@@ -311,9 +311,12 @@ class Serviceorder extends CI_Controller {
 
 		//busco info de vehiculo
 		$this->load->model("general_model");
-		$arrParam = array(
-			"status" => $this->input->post('status')
-		);
+		$status = $this->input->post('status');
+		if($status != 'x'){
+			$arrParam = array("status" => $this->input->post('status'));
+		}else{
+			$arrParam = array("idServiceOrder" => $this->input->post('soNumber'));
+		}
 		$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
 		echo $this->load->view("service_order_list", $data);
 	}

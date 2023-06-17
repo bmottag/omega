@@ -23,10 +23,34 @@ $(document).ready(function () {
 				}
 			});
 		} else {				
-			var data = "<p class='text-danger'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER</strong></p>";
+			var data = "<p class='text-danger'>Enter at least 5 consecutive characters of the<strong> VIN NUMBER.</strong></p>";
 			$('#div_info_list').html(data);
 		}
-    });    
+    });
+	
+    $('#btnSONumber').click(function () {
+		$("#loader").addClass("loader");
+		var soNumber = $('#soNumber').val();
+		$("#div_info_SO_main").css("display", "none");
+		$("#div_info_list").css("display", "block");
+		if (soNumber != "" && soNumber != 0) {
+			$.ajax ({
+				type: 'POST',
+				url: base_url + 'serviceorder/serviceOrderList',
+				data: {'soNumber': soNumber, 'status': "x"},
+				cache: false,
+				success: function (data)
+				{
+					$('#div_info_list').html(data);
+					$("#loader").removeClass("loader");
+				}
+			});
+		} else {				
+			var data = "<p class='text-danger'><strong> SERVICE ORDER NUMBER</strong> required.</p>";
+			$('#div_info_list').html(data);
+		}
+    }); 
+
 });
 
 /*

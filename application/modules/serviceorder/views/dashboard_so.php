@@ -96,7 +96,7 @@
 								</div>						
 							
 								<div class="col-md-3 col-sm-2 col-xs-2">
-									<button type="submit" class="btn btn-purpura">
+									<button type="submit" class="btn btn-purpura" id="btnSONumber">
 										<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
 									</button>
 								</div>
