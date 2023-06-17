@@ -6,14 +6,14 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-						EQUIPMENT CONTROL PANEL
+						SERVICE ORDER CONTROL PANEL
 					</h4>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row" id="div_panel_main">
 		<div class="col-lg-4 col-md-6 col-sm-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -28,6 +28,28 @@
 								<i class="fa fa-filter fa-fw"></i> <?php echo $data["header_inspection_type"]; ?>
 								<span class="pull-right text-muted small"><em> <?php echo $data["number"]; ?></em>
 								</span>
+							</a>
+						<?php
+							endforeach;
+						?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> Service Order by Status - <b><?php echo date('Y'); ?></b>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+						<?php
+							foreach ($infoSO as $data):
+						?>
+							<a class="list-group-item" onclick="loadSOList( '<?php echo $data['status_slug']; ?>')">
+								<p class="text-<?php echo $data["status_style"] ?>"><i class="fa <?php echo $data["status_icon"] ?> fa-fw"></i><strong> <?php echo $data["status_name"]; ?></strong>
+									<span class="pull-right text-muted small"><em> <?php echo $data["number"]; ?></em>
+									</span>
+								</p>
 							</a>
 						<?php
 							endforeach;

@@ -34,13 +34,18 @@ $( document ).ready( function () {
 		var verification = $('#hddVerificationBy').val();
 		var hours = $('#next_hours_maintenance').val();
 		var date = $('#next_date_maintenance').val();
-		if(verification==1 && (hours == "" | hours== 0)){
-			return false;
-		}else if(verification==2 && (date == "" || date == "0000-00-00")){
-			return false;
+		var status = $('#status').val();
+		if(status=="closed_so"){
+			if(verification==1 && (hours == "" | hours== 0)){
+				return false;
+			}else if(verification==2 && (date == "" || date == "0000-00-00")){
+				return false;
+			}else{
+				return true;
+			}
 		}else{
 			return true;
-		}
+		}	
 	}, "This field is required.");
 
 	$( "#form" ).validate( {

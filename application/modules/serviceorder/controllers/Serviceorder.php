@@ -18,6 +18,8 @@ class Serviceorder extends CI_Controller {
 			$this->load->model("general_model");
 			$data['infoEquipment'] = $this->general_model->countEquipmentByType();
 
+			$data['infoSO'] = $this->general_model->countSOByStatus();
+
 			$arrParam = array(
 				"limit" => 10
 			);
@@ -276,6 +278,24 @@ class Serviceorder extends CI_Controller {
 		}else{				
 			echo "<p class='text-danger'>There are no records.</p>";
 		}
+	}
+
+	/**
+	 * SO List
+     * @since 14/6/2022
+     * @author BMOTTAG
+	 */
+    public function serviceOrderList() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		//busco info de vehiculo
+		$this->load->model("general_model");
+		$arrParam = array(
+			"status" => $this->input->post('status')
+		);
+		$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+		echo $this->load->view("service_order_list", $data);
 	}
 
 	/**

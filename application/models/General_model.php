@@ -1930,5 +1930,29 @@ class General_model extends CI_Model {
 			}
 		}
 
+		/**
+		 * Count SO by status and by Year
+		 * @author BMOTTAG
+		 * @since  14/06/2023
+		 */
+	    public function countSOByStatus() 
+		{
+			$year = date('Y');
+			$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+
+			$this->db->select("status_name, status_slug, status_style, status_icon, count(id_service_order) as number");
+			$this->db->join('param_status P', 'P.status_slug = S.service_status', 'INNER');
+			$this->db->where('P.status_key', 'serviceorder');
+			$this->db->where('S.created_at >=', $firstDay);
+			$this->db->group_by("S.service_status"); 
+			$query = $this->db->get('service_order S');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+	    }
+
 
 }

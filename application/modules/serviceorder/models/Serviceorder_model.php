@@ -33,10 +33,16 @@
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$sql .= ' AND S.fk_id_equipment = ' . $arrDatos["idVehicle"];
 				}
+				if (array_key_exists("status", $arrDatos)) {
+					$year = date('Y');
+					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+					$sql .= ' AND S.service_status = "' . $arrDatos["status"] . '"';
+					$sql .= ' AND S.created_at >= "' . $firstDay. '"';
+				}
+				$sql .= ' ORDER BY id_service_order DESC';
 				if (array_key_exists("limit", $arrDatos)) {
 					$sql .= ' LIMIT ' . $arrDatos["limit"];
 				}
-				$sql .= ' ORDER BY id_service_order DESC';
 
 				$query = $this->db->query($sql);
 
