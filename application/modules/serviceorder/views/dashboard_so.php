@@ -36,6 +36,7 @@
                 </div>
             </div>
 
+			<?php if($infoSO){ ?>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> Service Order by Status - <b><?php echo date('Y'); ?></b>
@@ -57,6 +58,7 @@
                     </div>
                 </div>
             </div>
+			<?php }?>
         </div>
 
 		<div class="col-lg-8 col-md-6 col-sm-6">
