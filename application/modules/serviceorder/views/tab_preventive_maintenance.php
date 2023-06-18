@@ -30,12 +30,21 @@ $(function(){
 });
 </script>
 
+<?php
+	//Disabled fields
+	$deshabilitar = '';
+	$userRol = $this->session->userdata("rol");
+	if($userRol != ID_ROL_SUPER_ADMIN){
+		$deshabilitar = 'disabled';
+	}
+?>
+
 <div class="panel panel-info">
     <div class="panel-heading">
         <i class="fa fa-wrench"></i> <strong>Preventive Maintenance</strong>
         <div class="pull-right">
             <input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
-            <button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x">
+            <button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x" <?php echo $deshabilitar; ?>>
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Preventive Maintenance
             </button>
         </div>
@@ -110,11 +119,11 @@ if ($retornoError) {
                     echo "<td>" . $nextDateMaintenance . "</td>";
                     echo "<td class='text-center'>";
                     ?>
-						<button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_preventive_maintenance']; ?>" title="Edit" >
+						<button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="<?php echo $lista['id_preventive_maintenance']; ?>" title="Edit" <?php echo $deshabilitar; ?> >
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 						</button>
 
-                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>">
+                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>" <?php echo $deshabilitar; ?>>
                             Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
                         </button>
                     <?php
