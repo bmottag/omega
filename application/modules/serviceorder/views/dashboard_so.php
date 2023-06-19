@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v2.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<div class="row"><br>
@@ -62,7 +62,7 @@
         </div>
 
 		<div class="col-lg-8 col-md-6 col-sm-6">
-			<div class="row">
+			<div class="row" id="div_search">
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="panel panel-purpura">
 						<div class="panel-heading">

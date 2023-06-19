@@ -84,9 +84,15 @@ class Serviceorder extends CI_Controller {
 				$data['nextMaintenance'] = "";
 			}else{
 				$infoMaintenance = $this->serviceorder_model->get_preventive_maintenance($arrParam);
-				$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"]; 
-				$data['maintenanceTypeDescription'] = "Preventive Maintenance";
-				$data['nextMaintenance'] = $infoMaintenance[0]["verification_by"]==1?"<br><b>Next Hours/Kilometers Maintenance: </b>" . number_format($infoMaintenance[0]["next_hours_maintenance"]) :"<br><b>Next Date Maintenance: </b>" . $infoMaintenance[0]["next_date_maintenance"];
+				if($infoMaintenance){
+					$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"]; 
+					$data['maintenanceTypeDescription'] = "Preventive Maintenance";
+					$data['nextMaintenance'] = $infoMaintenance[0]["verification_by"]==1?"<br><b>Next Hours/Kilometers Maintenance: </b>" . number_format($infoMaintenance[0]["next_hours_maintenance"]) :"<br><b>Next Date Maintenance: </b>" . $infoMaintenance[0]["next_date_maintenance"];
+				}else{
+					$data['maintenanceDescription'] = "";
+					$data['maintenanceTypeDescription'] = "";
+					$data['nextMaintenance'] = "";
+				}
 			}
 			
 			$this->load->view("service_order_modal", $data);
