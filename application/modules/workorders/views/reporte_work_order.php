@@ -159,10 +159,12 @@
 						//si es tipo miscellaneous -> 8, entonces la description es diferente
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];
+							$description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
 						}else{
 							$equipment = "<strong>Unit #: </strong>" .$data['unit_number'] . " <strong>Make: </strong>" . $data['make'] . " <strong>Model: </strong>" . $data['model'];
+							$description = $data['v_description'] . " - " . preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
 						}
-						$description = $data['v_description'] . " - " . preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
+						
 						$html.= $equipment . ' <strong>Description: </strong>' . $description . ', operated by ' . $data['operatedby'];
 						
 						$html.=		'</th>
