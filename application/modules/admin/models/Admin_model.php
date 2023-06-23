@@ -638,6 +638,57 @@
 				return false;
 			}
 		}
+
+		/**
+		 * Add/Edit Attachment
+		 * @since 23/06/2023
+		 */
+		public function saveAttachment() 
+		{
+				$idAttachment = $this->input->post('hddId');
+
+				$data = array(
+					'attachment_number' => $this->input->post('attachment_number'),
+					'attachment_description' => addslashes($this->security->xss_clean($this->input->post('attachment_description')))
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idAttachment == '') {
+					$query = $this->db->insert('param_attachments', $data);			
+				} else {
+					$this->db->where('id_attachment', $idAttachment);
+					$query = $this->db->update('param_attachments', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Attachments list
+		 * @since 23/6/2023
+		 */
+		public function get_attachments($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->join('param_status S', 'S.status_slug = P.attachment_status', 'INNER');
+				if (array_key_exists("idAttachment", $arrDatos)) {
+					$this->db->where('id_attachment', $arrDatos["idAttachment"]);
+				}
+				if (array_key_exists("status", $arrDatos)) {
+					$this->db->where('attachment_status', $arrDatos["status"]);
+				}
+				$this->db->order_by('attachment_number', 'asc');
+				$query = $this->db->get('param_attachments P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 		
 		
 	    

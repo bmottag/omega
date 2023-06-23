@@ -4,8 +4,8 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/admin/cargarModalCompany',
-                data: {'idCompany': oID},
+				url: base_url + '/admin/cargarModalAttachments',
+                data: {'idAttachment': oID},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -13,6 +13,28 @@ $(function(){
             });
 	});	
 });
+
+/*
+* Function Active/inactive attachments
+*/
+function activeAttachments(attachmentId, status) {
+	if(window.confirm('Are you sure you want to change the status?'))
+	{
+		$("#loader").addClass("loader");
+		$.ajax ({
+			type: 'POST',
+			url: base_url + 'admin/update_status',
+			data: {attachmentId, status},
+			cache: false,
+			success: function (data)
+			{
+				$("#loader").removeClass("loader");
+				var url = base_url + "admin/attachments/active";
+				$(location).attr("href", url);
+			}
+		});
+	}
+}
 </script>
 
 <div id="page-wrapper">
@@ -22,26 +44,33 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - COMPANY
+					<i class="fa fa-gear fa-fw"></i> SETTINGS - ATTACHMENT
 					</h4>
 				</div>
 			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
+		</div>			
 	</div>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> COMPANY LIST
+					<i class="fa fa-anchor fa-fw"></i> ATTACHMENT LIST
 				</div>
 				<div class="panel-body">
+
+					<ul class="nav nav-pills">
+						<li <?php if($status == "active"){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/attachments/active"); ?>">List of active employees</a>
+						</li>
+						<li <?php if($status == "inactive"){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/attachments/inactive"); ?>">List of inactive employees</a>
+						</li>
+					</ul>
+					<br>	
+
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Company
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Attachment
 					</button><br>
-					<?php
+<?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
@@ -76,40 +105,29 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Company</th>
-								<th class="text-center">Contact</th>
-								<th class="text-center">Movil</th>
-								<th class="text-center">Email</th>
-								<th class="text-center">Edit</th>
+								<th class="text-center">Number</th>
+								<th class="text-center">Attachment</th>
+								<th class="text-center">Status</th>
+								<th class="text-center">Actions</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['company_name'] . "</td>";
-									echo "<td>" . $lista['contact'] . "</td>";
-$movil = $lista["movil_number"];
-// Separa en grupos de tres 
-$count = strlen($movil); 
-	
-$num_tlf1 = substr($movil, 0, 3); 
-$num_tlf2 = substr($movil, 3, 3); 
-$num_tlf3 = substr($movil, 6, 2); 
-$num_tlf4 = substr($movil, -2); 
-
-if($count == 10){
-	$resultado = "$num_tlf1 $num_tlf2 $num_tlf3 $num_tlf4";  
-}else{
-	
-	$resultado = chunk_split($movil,3," "); 
-}
-								
-									echo "<td class='text-center'>" . $resultado . "</td>";
-									echo "<td>" . $lista['email'] . "</td>";
+									echo "<td>" . $lista['attachment_number'] . "</td>";
+									echo "<td>" . $lista['attachment_description'] . "</td>";
+									echo "<td class='text-center'>";
+									$style = $lista['attachment_status'] == "active" ? "" : "btn-outline";
+						?>				
+									<a class="btn <?php echo $style; ?> btn-<?php echo $lista['status_style']; ?> btn-xs" onclick="activeAttachments( <?php echo $lista['id_attachment']; ?> ,  '<?php echo $lista['attachment_status']; ?>' )" title="Change Attachment status">
+										<?php echo ucfirst($lista['attachment_status']); ?>
+									</a>
+						<?php
+									echo "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_company']; ?>" >
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_attachment']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php
@@ -120,15 +138,10 @@ if($count == 10){
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->

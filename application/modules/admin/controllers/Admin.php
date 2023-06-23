@@ -1755,5 +1755,103 @@ class Admin extends CI_Controller {
 			$data["view"] = 'job_qr_code';
 			$this->load->view("layout", $data);
 	}
+
+	/**
+	 * Attachments List
+     * @since 23/06/2023
+     * @author BMOTTAG
+	 */
+	public function attachments($status)
+	{
+			$data['status'] = $status;
+			$arrParam = array(
+				"status" => $status
+			);
+			$data['info'] = $this->admin_model->get_attachments($arrParam);
+			
+			$data["view"] = 'attachment';
+			$this->load->view("layout", $data);
+	}
 	
+    /**
+     * Cargo modal - formulario company
+     * @since 23/06/2023
+     */
+    public function cargarModalAttachments() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idAttachment"] = $this->input->post("idAttachment");	
+			
+			if ($data["idAttachment"] != 'x') {
+				$arrParam = array(
+					"idAttachment" => $data["idAttachment"]
+				);
+				$data['information'] = $this->admin_model->get_attachments($arrParam);
+			}
+			
+			$this->load->view("attachment_modal", $data);
+    }
+	
+	/**
+	 * Update Attachments
+     * @since 23/06/2023
+     * @author BMOTTAG
+	 */
+	public function save_attachments()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idAttachment = $this->input->post('hddId');
+			
+			$msj = "You have added a new Attachment!!";
+			if ($idAttachment != '') {
+				$msj = "You have updated an Attachment!!";
+			}
+
+			if ($idAttachment = $this->admin_model->saveAttachment()) {
+				$data["result"] = true;				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
+
+	/**
+	 * Update Attachments
+     * @since 23/06/2023
+     * @author BMOTTAG
+	 */
+	public function update_status()
+	{			
+			header('Content-Type: application/json');
+
+			$data = array();
+			
+			$idAttachment = $this->input->post('attachmentId');	
+			$status = $this->input->post('status');			
+			$value = $status == "active" ? "inactive" : "active";
+
+			$arrParam = array(
+				"table" => "param_attachments",
+				"primaryKey" => "id_attachment",
+				"id" => $idAttachment,
+				"column" => "attachment_status",
+				"value" => $value
+			);			
+			if($this->general_model->updateRecord($arrParam)) {
+				$data["result"] = true;				
+				$this->session->set_flashdata('retornoExito', "You have changed the Attachment status!!");
+			} else {
+				$data["result"] = "error";				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }	
 }
