@@ -1954,5 +1954,23 @@ class General_model extends CI_Model {
 			}
 	    }
 
+		/**
+		 * Equipment by Type
+		 * @author BMOTTAG
+		 * @since  24/06/2023
+		 */
+	    public function equipmentByTypeList() 
+		{
+			$this->db->select();
+			$this->db->group_by("inspection_type"); 
+			$query = $this->db->get('param_vehicle_type_2');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+	    }
+
 
 }

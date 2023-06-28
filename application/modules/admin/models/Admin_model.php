@@ -654,13 +654,14 @@
 				
 				//revisar si es para adicionar o editar
 				if ($idAttachment == '') {
-					$query = $this->db->insert('param_attachments', $data);			
+					$query = $this->db->insert('param_attachments', $data);	
+					$idAttachment = $this->db->insert_id();			
 				} else {
 					$this->db->where('id_attachment', $idAttachment);
 					$query = $this->db->update('param_attachments', $data);
 				}
 				if ($query) {
-					return true;
+					return $idAttachment;
 				} else {
 					return false;
 				}
@@ -682,6 +683,73 @@
 				}
 				$this->db->order_by('attachment_number', 'asc');
 				$query = $this->db->get('param_attachments P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add Equipment to Attachements
+		 * @since 26/06/2023
+		 */
+		public function add_equipment_attachement($idAttachment) 
+		{
+			//delete Attachements 
+			$this->db->delete('param_attachments_equipment', array('fk_id_attachment' => $idAttachment));
+
+			$query = 1;
+			if ($equipment = $this->input->post('equipment')) {
+				$tot = count($equipment);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_attachment' => $idAttachment,
+						'fk_id_equipment' => $equipment[$i]
+					);
+					$query = $this->db->insert('param_attachments_equipment', $data);
+				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
+		/**
+		 * Attachments list
+		 * @since 26/6/2023
+		 */
+		public function get_attachments_equipment($arrDatos) 
+		{
+				$this->db->select('P.*, T.inspection_type');
+				$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_equipment', 'INNER');
+				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
+				if (array_key_exists("idAttachment", $arrDatos)) {
+					$this->db->where('fk_id_attachment', $arrDatos["idAttachment"]);
+				}
+				$query = $this->db->get('param_attachments_equipment P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Attachments list
+		 * @since 26/6/2023
+		 */
+		public function get_attachments_equipment__pruebas($arrDatos) 
+		{
+				$this->db->select('P.fk_id_equipment');
+				if (array_key_exists("idAttachment", $arrDatos)) {
+					$this->db->where('fk_id_attachment', $arrDatos["idAttachment"]);
+				}
+				$query = $this->db->get('param_attachments_equipment P');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();

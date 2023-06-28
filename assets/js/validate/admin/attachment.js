@@ -1,5 +1,20 @@
 $( document ).ready( function () {
 
+    $('#type').change(function () {
+        $('#type option:selected').each(function () {
+			var type = $('#type').val();
+			var idAttachment = $('#hddId').val();
+			loadEquipmentList(type,idAttachment);
+
+        });
+    });
+
+	$(function() {
+		var type = $('#type').val();
+		var idAttachment = $('#hddId').val();
+		loadEquipmentList(type,idAttachment);
+	})
+
 	$("#contact").bloquearNumeros().maxlength(50);		
 	$("#movilNumber").bloquearTexto().maxlength(10);
 	
@@ -81,3 +96,26 @@ $( document ).ready( function () {
 		}//if			
 	});
 });
+
+/*
+* Function to load Equipment List
+*/
+function loadEquipmentList(type,idAttachment) {
+	if (type > 0 || type != '') {
+		$.ajax ({
+			type: 'POST',
+			url: base_url + 'admin/equipmentList',
+			data: {'type': type, idAttachment},
+			cache: false,
+			success: function (data)
+			{
+				$('#equipment').html(data);
+			}
+		});
+		$("#div_equipment").css("display", "inline");
+		$('#equipment').val("");
+	} else {
+		var data = '';
+		$('#equipment').html(data);
+	}
+}

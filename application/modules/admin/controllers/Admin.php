@@ -1782,13 +1782,17 @@ class Admin extends CI_Controller {
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
+			$data['informationAttachments'] = FALSE;
 			$data["idAttachment"] = $this->input->post("idAttachment");	
+
+			$data['equipmentType'] = $this->general_model->equipmentByTypeList();
 			
 			if ($data["idAttachment"] != 'x') {
 				$arrParam = array(
 					"idAttachment" => $data["idAttachment"]
 				);
 				$data['information'] = $this->admin_model->get_attachments($arrParam);
+				$data['informationAttachments'] = $this->admin_model->get_attachments_equipment($arrParam);
 			}
 			
 			$this->load->view("attachment_modal", $data);
@@ -1803,7 +1807,7 @@ class Admin extends CI_Controller {
 	{			
 			header('Content-Type: application/json');
 			$data = array();
-			
+		
 			$idAttachment = $this->input->post('hddId');
 			
 			$msj = "You have added a new Attachment!!";
@@ -1811,7 +1815,9 @@ class Admin extends CI_Controller {
 				$msj = "You have updated an Attachment!!";
 			}
 
-			if ($idAttachment = $this->admin_model->saveAttachment()) {
+			if ($idAttachment = $this->admin_model->saveAttachment()) 
+			{
+				$this->admin_model->add_equipment_attachement($idAttachment);
 				$data["result"] = true;				
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
@@ -1853,5 +1859,48 @@ class Admin extends CI_Controller {
 			}
 
 			echo json_encode($data);	
-    }	
+    }
+
+	/**
+	 * Equipment list
+     * @since 24/6/2023
+     * @author BMOTTAG
+	 */
+    public function equipmentList() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$arrParam = array(
+			"vehicleType" => $this->input->post('type'),
+			"vehicleState" => 1
+		);
+		$lista= $this->general_model->get_vehicle_by($arrParam);
+
+		if( $this->input->post('idAttachment') != ""){
+			$arrParam = array(
+				"idAttachment" => $this->input->post('idAttachment')
+			);
+			$arrayInformationAttachments = $this->admin_model->get_attachments_equipment__pruebas($arrParam);
+		}
+
+		echo "<option value=''>Select...</option>";
+		if ($lista) {
+			foreach ($lista as $fila) {
+				$s = "";
+				if($arrayInformationAttachments){
+					$found = false;					
+					foreach ($arrayInformationAttachments as $idVehicle) {
+						if (in_array($fila['id_vehicle'], $idVehicle)) {
+							$found = true;
+							break;
+						}
+					}
+					$s = $found ? "selected" : "";
+				}
+				echo "<option value='" . $fila["id_vehicle"] . "'" . $s . ">" . $fila["unit_number"] . " -----> " . $fila["description"]  . "</option>";
+			}
+		}
+
+    }
+
 }

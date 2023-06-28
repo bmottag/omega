@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/attachment.js"); ?>"></script>
+
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Attachment Form
@@ -24,6 +25,33 @@
 				<div class="form-group text-left">
 					<label class="control-label" for="attachment_description">Description: *</label>
 					<input type="text" id="attachment_description" name="attachment_description" class="form-control" value="<?php echo $information?$information[0]["attachment_description"]:""; ?>" placeholder="Description" required >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="type">Type: *</label>
+					<select name="type" id="type" class="form-control" required>
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($equipmentType); $i++) { ?>
+							<option value="<?php echo $equipmentType[$i]["id_type_2"]; ?>" <?php if($informationAttachments && $informationAttachments[0]["inspection_type"] == $equipmentType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $equipmentType[$i]["header_inspection_type"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<div id="div_equipment">
+						<label class="control-label" for="equipment">Equipment: *</label>
+						<select name="equipment[]" id="equipment" class="form-control" multiple="multiple">
+
+						</select>
+					</div>
 				</div>
 			</div>
 		</div>
