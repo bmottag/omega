@@ -107,6 +107,7 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">Number</th>
 								<th class="text-center">Attachment</th>
+								<th class="text-center">Equipments</th>
 								<th class="text-center">Status</th>
 								<th class="text-center">Actions</th>
 							</tr>
@@ -117,6 +118,7 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['attachment_number'] . "</td>";
 									echo "<td>" . $lista['attachment_description'] . "</td>";
+									echo "<td>" . $lista['equipments'] . "</td>";
 									echo "<td class='text-center'>";
 									$style = $lista['attachment_status'] == "active" ? "" : "btn-outline";
 						?>				

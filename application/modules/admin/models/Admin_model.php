@@ -673,7 +673,12 @@
 		 */
 		public function get_attachments($arrDatos) 
 		{
-				$this->db->select();
+				$this->db->select('P.*, S.*, 
+						(SELECT GROUP_CONCAT(V.unit_number, " -----> ", V.description SEPARATOR "<br>") 
+						FROM param_attachments_equipment A 
+						JOIN param_vehicle V ON V.id_vehicle = A.fk_id_equipment 
+						WHERE A.fk_id_attachment = P.id_attachment 
+						GROUP BY P.id_attachment) AS equipments');
 				$this->db->join('param_status S', 'S.status_slug = P.attachment_status', 'INNER');
 				if (array_key_exists("idAttachment", $arrDatos)) {
 					$this->db->where('id_attachment', $arrDatos["idAttachment"]);
