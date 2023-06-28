@@ -724,9 +724,14 @@
 		 */
 		public function get_attachments_equipment($arrDatos) 
 		{
-				$this->db->select('P.*, T.inspection_type');
-				$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_equipment', 'INNER');
-				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
+
+				if (array_key_exists("relation", $arrDatos)) {
+					$this->db->select('P.fk_id_equipment');
+				}else{
+					$this->db->select('P.*, T.inspection_type');
+					$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_equipment', 'INNER');
+					$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
+				}
 				if (array_key_exists("idAttachment", $arrDatos)) {
 					$this->db->where('fk_id_attachment', $arrDatos["idAttachment"]);
 				}
@@ -738,26 +743,6 @@
 					return false;
 				}
 		}
-
-		/**
-		 * Attachments list
-		 * @since 26/6/2023
-		 */
-		public function get_attachments_equipment__pruebas($arrDatos) 
-		{
-				$this->db->select('P.fk_id_equipment');
-				if (array_key_exists("idAttachment", $arrDatos)) {
-					$this->db->where('fk_id_attachment', $arrDatos["idAttachment"]);
-				}
-				$query = $this->db->get('param_attachments_equipment P');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();
-				} else {
-					return false;
-				}
-		}
-		
-		
+				
 	    
 	}

@@ -1,6 +1,7 @@
 $( document ).ready( function () {
 
     $('#type').change(function () {
+		$("#loader").addClass("loader");
         $('#type option:selected').each(function () {
 			var type = $('#type').val();
 			var idAttachment = $('#hddId').val();
@@ -10,6 +11,7 @@ $( document ).ready( function () {
     });
 
 	$(function() {
+		$("#loader").addClass("loader");
 		var type = $('#type').val();
 		var idAttachment = $('#hddId').val();
 		loadEquipmentList(type,idAttachment);
@@ -118,4 +120,5 @@ function loadEquipmentList(type,idAttachment) {
 		var data = '';
 		$('#equipment').html(data);
 	}
+	$("#loader").removeClass("loader");
 }

@@ -1768,7 +1768,7 @@ class Admin extends CI_Controller {
 				"status" => $status
 			);
 			$data['info'] = $this->admin_model->get_attachments($arrParam);
-			
+		
 			$data["view"] = 'attachment';
 			$this->load->view("layout", $data);
 	}
@@ -1878,9 +1878,10 @@ class Admin extends CI_Controller {
 
 		if( $this->input->post('idAttachment') != ""){
 			$arrParam = array(
-				"idAttachment" => $this->input->post('idAttachment')
+				"idAttachment" => $this->input->post('idAttachment'),
+				"relation" => true
 			);
-			$arrayInformationAttachments = $this->admin_model->get_attachments_equipment__pruebas($arrParam);
+			$arrayInformationAttachments = $this->admin_model->get_attachments_equipment($arrParam);
 		}
 
 		echo "<option value=''>Select...</option>";
