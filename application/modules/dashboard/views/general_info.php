@@ -47,6 +47,55 @@
 			</div>
 		</div>
 
+		<!-- MECHANIC USER -->
+		<div class="col-lg-4">
+			<div class="panel panel-purpura">
+				<div class="panel-heading">
+					<strong>Mechanic User Access</strong>
+				</div>
+				<div class="panel-body">
+					<p>
+						* <strong>Dashboard:</strong> 
+						<ul>
+						<li>Own Payroll Records</li>
+						<li>Last FLHA Records</li>
+						<li>Last Hauling Records</li>
+						<li>Own Inspections Records</li>
+						</ul>
+						<strong>Service Order</strong>
+						<ul>
+						<li>View, edit and changes status of Service Orders</li>
+						</ul>
+						<strong>Record Task:</strong> Payroll
+						<br><strong>Record Task:</strong> Hauling
+						<br><strong>Record Task:</strong> Rental Inspection
+						<br>* <strong>Jobs Info:</strong> 
+						<ul>
+						<li>TOOL BOX</li>
+						<li>FLHA</li>
+						<li>Locates</li>
+						<li>CSEP</li>
+						</ul>
+						<strong>Incidences:</strong> Near miss report
+						<br><strong>Incidences:</strong> Incident/Accident report
+						<br><strong>Day off</strong> (Ask for)
+						<br>----------------------------
+						<br>* <strong>Work order:</strong>
+						<ul>
+						<li>Add/Edit</li>
+						<li>This user can edit their own work orders if it is "On Field".</li>
+						<li>This user cannot change the status of the work order.</li>
+						</ul>
+						----------------------------
+						<br><strong>Manuals</strong>
+					</p>
+				</div>
+				<div class="panel-footer">
+					* Specific modifications to the module
+				</div>
+			</div>
+		</div>
+
 		<!-- SUPERVISOR USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-success">
@@ -88,7 +137,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
+	<div class="row">
 		<!-- WORK ORDER USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-warning">
@@ -142,9 +193,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="row">
 		<!-- SAFETY&MAINTENANCE USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-info">
@@ -160,6 +208,13 @@
 						<li>Jobs Info</li>
 						<li>Last Inspections Records</li>
 						<li>Last FLHA Records</li>
+						</ul>
+						<strong>Service Order</strong>
+						<ul>
+						<li>View, edit and changes status of Service Orders</li>
+						<li>Add Service Orders</li>
+						<li>Add and edit Corective Maintenance</li>
+						<li>Add and edit Preventive Maintenance</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
 						<br><strong>Record Task:</strong> PPE inspection
@@ -275,7 +330,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
+	<div class="row">
 		<!-- ENGINEER USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-dark">
@@ -324,6 +381,7 @@
 						<br><strong>Accounting:</strong> Review Total Yearly
 						<br>----------------------------
 						<br><strong>Settings:</strong> Job Code/Name
+						<br><strong>Settings:</strong> Attachments
 						<br><strong>Settings:</strong> Planning
 						<br><strong>Settings:</strong> Material Type
 						<br>----------------------------
@@ -335,9 +393,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="row">
 		<!-- MANAGEMENT USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-green">

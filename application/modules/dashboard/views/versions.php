@@ -1,6 +1,42 @@
 <div id="page-wrapper">
 	<br>
 	<div class="row">
+    <div class="col-lg-4">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<strong>New Features Spring 2023</strong>
+				</div>
+				<div class="panel-body">
+					<p>
+                        <strong>New Module: Service Order</strong>
+						<ul>
+						<li>View, edit and changes status of Service Orders</li>
+						<li>Add Service Orders</li>
+						<li>Add and edit Corective Maintenance</li>
+						<li>Add and edit Preventive Maintenance</li>
+						</ul>
+                        <strong>New Roles:</strong> 
+						<ul>
+                        <li>Engineer User</li>
+						<li>Mechanic User</li>
+						</ul>
+                        <strong>Work Orders:</strong> 
+                        <ul>
+                        <li>Added attachments field to Equipment form.</li>
+                        </ul>
+                        <strong>Settings</strong> 
+                        <ul>
+                        <li>Attachment form, to add, edit and change status.</li>
+                        </ul>
+
+					</p>
+				</div>
+				<div class="panel-footer">
+		
+				</div>
+			</div>
+		</div>
+
 		<div class="col-lg-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
