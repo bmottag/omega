@@ -1972,5 +1972,26 @@ class General_model extends CI_Model {
 			}
 	    }
 
+		/**
+		 * Attachments by Equipment ID
+		 * @since 28/6/2023
+		 */
+		public function get_attachments_by_equipment($arrDatos) 
+		{
+				$this->db->select('id_attachment, attachment_number, attachment_description');
+				$this->db->join('param_attachments_equipment A', 'A.fk_id_attachment = P.id_attachment', 'INNER');
+				if (array_key_exists("idEquipment", $arrDatos)) {
+					$this->db->where('fk_id_equipment', $arrDatos["idEquipment"]);
+				}
+				$this->db->order_by('attachment_number', 'asc');
+				$query = $this->db->get('param_attachments P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
 
 }

@@ -264,6 +264,7 @@
 					'fk_id_workorder' => $this->input->post('hddidWorkorder'),
 					'fk_id_type_2' => $this->input->post('type'),
 					'fk_id_vehicle' => $truck,
+					'fk_id_attachment' => $this->input->post('attachment'),
 					'other' => $this->input->post('otherEquipment'),
 					'operatedby' => $this->input->post('operatedby'),
 					'hours' => $this->input->post('hour'),
@@ -287,8 +288,9 @@
 		 */
 		public function get_workorder_equipment($arrData) 
 		{		
-				$this->db->select("W.*, V.make, V.model, V.unit_number, V.description v_description, M.miscellaneous, T.type_2, C.*, CONCAT(U.first_name,' ', U.last_name) as operatedby");
+				$this->db->select("W.*, V.make, V.model, V.unit_number, V.description v_description, M.miscellaneous, T.type_2, C.*, CONCAT(U.first_name,' ', U.last_name) as operatedby, A.attachment_number, A.attachment_description");
 				$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_vehicle', 'LEFT');
+				$this->db->join('param_attachments A', 'A.id_attachment = W.fk_id_attachment', 'LEFT');
 				$this->db->join('param_miscellaneous M', 'M.id_miscellaneous = W.fk_id_vehicle', 'LEFT');
 				$this->db->join('user U', 'U.id_user = W.operatedby', 'LEFT');
 				$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = W.fk_id_type_2', 'INNER');

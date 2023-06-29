@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/ajaxTrucks_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/ajaxTrucks_v3.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/equipment.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -33,6 +33,19 @@
 					<div id="div_truck">
 						<label class="control-label" for="truck">Equipment: *</label>
 						<select name="truck" id="truck" class="form-control" >
+
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<div id="div_attachment" style="display:none">
+						<label for="standby">Attachment: </label> <button class="btn btn-danger btn-xs" disabled >New </button>
+						<select name="attachment" id="attachment" class="form-control" >
 
 						</select>
 					</div>

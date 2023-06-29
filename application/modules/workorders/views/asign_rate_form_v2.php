@@ -805,6 +805,11 @@ if ($retornoError) {
 						echo "</td>";
 
 						echo "<td ><small><strong>Type</strong><br>" . $data['type_2'] . "</small>";
+						if($data['fk_id_attachment'] != ""){
+							echo "<p class='text-danger text-left'><small><strong>ATTACHMENT: </strong>" . $data["attachment_number"] . " - " . $data["attachment_description"] . "</small></p>";
+						}else{
+							echo "<br>";
+						}
 						//si es tipo miscellaneous -> 8, entonces la description es diferente
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];

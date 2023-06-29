@@ -1,7 +1,8 @@
 /**
- * Trucks´list by company
+ * Trucks list by company
  * @author bmottag
  * @since  25/1/2017
+ * @review  28/06/2023
  */
 
 $(document).ready(function () {
@@ -10,6 +11,9 @@ $(document).ready(function () {
         $('#type option:selected').each(function () {
 
 			var type = $('#type').val();
+			var data = '';
+			$('#attachment').html(data);
+			$("#div_attachment").css("display", "none");
 
 			if (type > 0 || type != '') {
 				
@@ -26,17 +30,17 @@ $(document).ready(function () {
 					});
 					
 					if(type == 3) {
-						$("#div_standby").css("display", "inline");
+						$("#div_standby").css("display", "block");
 					}else{
 						$("#div_standby").css("display", "none");
 					}
 					
 					$("#div_other").css("display", "none");
-					$("#div_truck").css("display", "inline");
+					$("#div_truck").css("display", "block");
 					$('#otherEquipment').val("");
 					$('#truck').val("");
 				}else{
-					$("#div_other").css("display", "inline");
+					$("#div_other").css("display", "block");
 					$("#div_truck").css("display", "none");
 					$('#otherEquipment').val("");
 					$('#truck').val(5);
@@ -45,6 +49,38 @@ $(document).ready(function () {
 			} else {
 				var data = '';
 				$('#truck').html(data);
+			}
+
+        });
+    });
+
+    $('#truck').change(function () {
+        $('#type option:selected').each(function () {
+
+			var equipmentId = $('#truck').val();
+
+			if (equipmentId > 0 || equipmentId != '') 
+			{
+				$.ajax ({
+					type: 'POST',
+					url: base_url + 'workorders/attachmentList',
+					data: {equipmentId},
+					cache: false,
+					success: function (data)
+					{
+						$('#attachment').html(data);
+						if( data == "" )
+						{
+							$("#div_attachment").css("display", "none");
+						} else {
+							$("#div_attachment").css("display", "block");
+						}
+					}
+				});
+			} else {
+				var data = '';
+				$('#attachment').html(data);
+				$("#div_attachment").css("display", "none");
 			}
 
         });

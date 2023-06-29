@@ -156,6 +156,10 @@
 									<th align="center">' . $items . '</th>
 									<th>';
 									
+									if($data['fk_id_attachment'] != ""){
+										$html.=	'<strong>ATTACHMENT: </strong>' . $data["attachment_number"] . " - " . $data["attachment_description"] . ' ';
+									}
+
 						//si es tipo miscellaneous -> 8, entonces la description es diferente
 						if($data['fk_id_type_2'] == 8){
 							$equipment = $data['miscellaneous'] . " - " . $data['other'];

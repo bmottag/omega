@@ -2359,6 +2359,29 @@ class Workorders extends CI_Controller {
 			}
 			echo json_encode($data);
     }
+
+	/**
+	 * Attachement List
+     * @since 28/6/2023
+     * @author BMOTTAG
+	 */
+    public function attachmentList() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$this->load->model("general_model");
+		$arrParam = array(
+			"idEquipment" => $this->input->post('equipmentId')
+		);
+		$lista= $this->general_model->get_attachments_by_equipment($arrParam);
+		
+		if ($lista) {
+			echo "<option value=''>Select...</option>";
+			foreach ($lista as $fila) {
+				echo "<option value='" . $fila["id_attachment"] . "'>" . $fila["attachment_number"] . " - " . $fila["attachment_description"]  . "</option>";
+			}
+		}
+    }
 	
 	
 	
