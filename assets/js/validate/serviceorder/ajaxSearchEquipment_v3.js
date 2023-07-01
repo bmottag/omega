@@ -5,6 +5,14 @@
  */
 
 $(document).ready(function () {
+
+	$(function() {
+		var serviceOrderId = $('#hddSpecificIdServiceOrder').val();
+		var equipmentId = $('#hddSpecificIdEquipment').val();
+		if(serviceOrderId != ""){
+			loadEquipmentDetail( equipmentId , 'tab_service_order_detail', serviceOrderId );
+		}
+	})
 	   
     $('#btnVINNumber').click(function () {
 		$("#loader").addClass("loader");

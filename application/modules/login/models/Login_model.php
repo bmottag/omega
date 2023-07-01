@@ -59,12 +59,13 @@
 			$inspectionType = $this->session->userdata("inspectionType");
 			$linkInspection = $this->session->userdata("linkInspection");
 			$state = $this->session->userdata("state");
-			$userRol = $this->session->userdata("rol");
 			$dashboardURL = $this->session->userdata("dashboardURL");
-			$moduleURL = $this->session->userdata("moduleURL");
+			$moduleURL = $this->input->post("hddModuleURL");
+			$moduleId = $this->input->post("hddModuleId");
 
 			if($moduleURL != "x"){	
 				$state = 10;
+				$moduleURL .= "/" . $moduleId;
 			}elseif($idVehicle != "x"){				
 				if($inspectionType == 99 || $linkInspection == "NA"){
 					$state = 99;//NO HAY FORMATO DE INSPECTION

@@ -13,17 +13,26 @@ class Serviceorder extends CI_Controller {
      * @since 19/5/2023
      * @author BMOTTAG
 	 */
-	public function index()
+	public function index($idServiceOrder = 'x')
 	{		
-			$this->load->model("general_model");
-			$data['infoEquipment'] = $this->general_model->countEquipmentByType();
-
-			$data['infoSO'] = $this->general_model->countSOByStatus();
-
-			$arrParam = array(
-				"limit" => 10
-			);
-			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+			$data['infoSpecificSO'] = false;
+			$data['infoEquipment'] = false;
+			$data['infoSO'] = false;
+			$data['information'] = false;
+			if ($idServiceOrder != 'x') {
+				//Service Order info. When comes form the twilio message
+				$idServiceOrder = base64_decode($idServiceOrder);
+				$arrParam = array("idServiceOrder" => $idServiceOrder);				
+				$data['infoSpecificSO'] = $this->serviceorder_model->get_service_order($arrParam);
+			}else{
+				$this->load->model("general_model");
+				$data['infoEquipment'] = $this->general_model->countEquipmentByType();
+				$data['infoSO'] = $this->general_model->countSOByStatus();
+				$arrParam = array(
+					"limit" => 10
+				);
+				$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
+			}
 
 			$data["view"] ='dashboard_so';
 			$this->load->view("layout", $data);
@@ -194,7 +203,8 @@ class Serviceorder extends CI_Controller {
 					$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
 
 					$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
-					$urlMovil = base_url("login/index/x/" . $module);
+					$idModule = base64_encode($data["idServiceOrder"]); 
+					$urlMovil = base_url("login/index/x/" . $module . "/" . $idModule);
 					$mensajeSMS .= "\n\nSee: ".$urlMovil;
 
 					$arrParam = array(
@@ -260,7 +270,8 @@ class Serviceorder extends CI_Controller {
 						$mensajeSMS .= "\nComments: " . $comments;
 
 						$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
-						$urlMovil = base_url("login/index/x/" . $module);
+						$idModule = base64_encode($data["idServiceOrder"]); 
+						$urlMovil = base_url("login/index/x/" . $module . "/" . $idModule);
 						$mensajeSMS .= "\n\nSee: ".$urlMovil;
 
 						$arrParamTwilio = array(
@@ -493,7 +504,8 @@ class Serviceorder extends CI_Controller {
 				$mensajeSMS .= "\nMessage: " . addslashes($this->security->xss_clean($this->input->post('message')));
 
 				$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
-				$urlMovil = base_url("login/index/x/" . $module);
+				$idModule = base64_encode($idServiceOrder); 
+				$urlMovil = base_url("login/index/x/" . $module . "/" . $idModule);
 				$mensajeSMS .= "\n\nSee: ".$urlMovil;
 
 				$arrParamTwilio = array(

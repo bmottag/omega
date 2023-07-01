@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v3.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<div class="row"><br>
@@ -18,19 +18,23 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> Equipments
+					<input type="hidden" id="hddSpecificIdServiceOrder" name="hddSpecificIdServiceOrder" value="<?php echo $infoSpecificSO ? $infoSpecificSO[0]['id_service_order'] : '' ?>"/>
+					<input type="hidden" id="hddSpecificIdEquipment" name="hddSpecificIdEquipment" value="<?php echo $infoSpecificSO ? $infoSpecificSO[0]['fk_id_equipment'] : '' ?>"/>
                 </div>
                 <div class="panel-body">
                     <div class="list-group">
 						<?php
-							foreach ($infoEquipment as $data):
-						?>
-							<a class="list-group-item" onclick="loadEquipmentList( <?php echo $data['inspection_type']; ?>  , '<?php echo $data['header_inspection_type']; ?>')">
-								<i class="fa fa-filter fa-fw"></i> <?php echo $data["header_inspection_type"]; ?>
-								<span class="pull-right text-muted small"><em> <?php echo $data["number"]; ?></em>
-								</span>
-							</a>
-						<?php
-							endforeach;
+							if($infoEquipment){
+								foreach ($infoEquipment as $data):
+							?>
+								<a class="list-group-item" onclick="loadEquipmentList( <?php echo $data['inspection_type']; ?>  , '<?php echo $data['header_inspection_type']; ?>')">
+									<i class="fa fa-filter fa-fw"></i> <?php echo $data["header_inspection_type"]; ?>
+									<span class="pull-right text-muted small"><em> <?php echo $data["number"]; ?></em>
+									</span>
+								</a>
+							<?php
+								endforeach;
+							}
 						?>
                     </div>
                 </div>
