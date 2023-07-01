@@ -151,6 +151,7 @@ if ($retornoError) {
 							<input type="hidden" id="hddIdAssignedTo" name="hddIdAssignedTo" value="<?php echo $information[0]['fk_id_assign_to']; ?>"/>
 							<input type="hidden" id="hddIdAssignedBy" name="hddIdAssignedBy" value="<?php echo $information[0]['fk_id_assign_by']; ?>"/>
 							<input type="hidden" id="hddView" name="hddView" value="tab_service_order_detail"/>
+							<input type="hidden" id="hddMaintenanceDescription" name="hddMaintenanceDescription" value="<?php echo $information[0]['main_description']; ?>"/>
 							<input id="message" name="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
 							<span class="input-group-btn">
 								<button type="button" id="btnChat" name="btnChat" class="btn btn-primary btn-sm" <?php echo $deshabilitar; ?>>

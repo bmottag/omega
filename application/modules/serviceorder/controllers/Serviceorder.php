@@ -182,20 +182,16 @@ class Serviceorder extends CI_Controller {
 					$this->general_model->saveChat($arrParam);
 					//send Twilio message
 					//busco datos del vehiculo
-					$arrParam = array(
-						"table" => "param_vehicle",
-						"order" => "id_vehicle",
-						"column" => "id_vehicle",
-						"id" => $data["idEquipment"] 
-					);
-					$vehicleInfo = $this->general_model->get_basic_search($arrParam);
+					$arrParam = array("idVehicle" => $data["idEquipment"]);
+					$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);
 
 					$arrParamUser = array("idUser" => $this->input->post('assign_to'));				
 					$userInfo = $this->general_model->get_user($arrParamUser);
 
 					$mensajeSMS = "APP VCI - New Service Order #" . $data["idServiceOrder"];
-					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
-					$mensajeSMS .= "\nVIN Number: " . $vehicleInfo[0]["vin_number"];
+					$mensajeSMS .= "\nUnit #: " . $vehicleInfo[0]["unit_number"];
+					$mensajeSMS .= "\nVIN #: " . $vehicleInfo[0]["vin_number"];
+					$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
 
 					$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
 					$urlMovil = base_url("login/index/x/" . $module);
@@ -248,12 +244,19 @@ class Serviceorder extends CI_Controller {
 					if ($status == "closed_so") {
 						$this->serviceorder_model->saveEquipmentCurrentHours();
 
+						//busco datos del vehiculo
+						$arrParam = array("idVehicle" => $data["idEquipment"]);
+						$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);
+
 						//BEGIN send Twilio message
 						$comments = $this->input->post('comments');
 						$arrParamUser = array("idUser" => $this->input->post('hddIdAssignedBy'));				
 						$userInfo = $this->general_model->get_user($arrParamUser);
 
 						$mensajeSMS = "APP VCI - Service Order #" . $data["idServiceOrder"] . " closed.";
+						$mensajeSMS .= "\nUnit #: " . $vehicleInfo[0]["unit_number"];
+						$mensajeSMS .= "\nVIN #: " . $vehicleInfo[0]["vin_number"];
+						$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
 						$mensajeSMS .= "\nComments: " . $comments;
 
 						$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 
@@ -475,12 +478,18 @@ class Serviceorder extends CI_Controller {
 			if ($this->general_model->saveChat($arrParam)) {
 				//BEGIN send Twilio message
 				$idUser = $this->session->userdata("id");
+
+				$arrParam = array("idVehicle" => $data["idEquipment"]);
+				$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);//busco datos del vehiculo
 				
 				$idUserTo = $idUser == $idAssignedTo ? $idAssignedBy : $idAssignedTo;
 				$arrParamUser = array("idUser" => $idUserTo);				
 				$userInfo = $this->general_model->get_user($arrParamUser);
 
 				$mensajeSMS = "APP VCI - Service Order #" . $idServiceOrder;
+				$mensajeSMS .= "\nUnit #: " . $vehicleInfo[0]["unit_number"];
+				$mensajeSMS .= "\nVIN #: " . $vehicleInfo[0]["vin_number"];
+				$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
 				$mensajeSMS .= "\nMessage: " . addslashes($this->security->xss_clean($this->input->post('message')));
 
 				$module = base64_encode("ID_MODULE_SERVICE_ORDER"); 

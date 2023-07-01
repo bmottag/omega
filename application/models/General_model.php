@@ -428,7 +428,7 @@ class General_model extends CI_Model {
 					$this->db->where('T.inspection_type', $arrData["vehicleType"]);
 				}
 			}	
-			
+			$this->db->order_by('V.unit_number', 'asc');
 			$query = $this->db->get('param_vehicle V');
 
 			if ($query->num_rows() > 0) {
