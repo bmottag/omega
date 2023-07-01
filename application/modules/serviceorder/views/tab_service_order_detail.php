@@ -42,33 +42,40 @@ $(function(){
 			<h3><i class="fa fa-briefcase"></i> <b>S.O. #: </b> <?php echo $information[0]['id_service_order']; ?>
 				<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo $information[0]['id_service_order']; ?>" />
 				<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>" />
-<?php
-	//Disabled fields
-	$deshabilitar = '';
-	$userRol = $this->session->userdata("rol");
-	if($userRol != ID_ROL_SUPER_ADMIN && $information[0]['service_status'] == 'closed_so'){
-		$deshabilitar = 'disabled';
-	}
-?>	
-				<small>
-					<br><b>Assigned By: </b><?php echo $information[0]['assigned_by']; ?>
-					<br><b>Assigned To: </b><?php echo $information[0]['assigned_to']; ?>
-					<br><b>Request Date: </b><?php echo date('F j, Y - G:i:s', strtotime($information[0]['created_at'])); ?>
-					<br><b>Description: </b><?php echo $information[0]['main_description']; ?>
-				</small><br>
-					<?php if($information[0]['maintenace_type']=='corrective'){  ?>
-						<small class="text-danger"><b>Corrective Maintenance</b></small>
-					<?php }else{  ?>
-						<small class="text-danger"><b>Preventive Maintenance</b></small>
-					<?php }  ?>
-					<br><small><b>Priority: </b></small>
-					<small class="text-<?php echo $information[0]['priority_style']; ?>"><i class="fa <?php echo $information[0]['priority_icon']; ?> fa-fw"></i><?php echo $information[0]['priority_name']; ?> </small>
-					<br><small><b>Status: </b></small>
-					<small class="text-<?php echo $information[0]['status_style']; ?>"><i class="fa <?php echo $information[0]['status_icon']; ?> fa-fw"></i><?php echo $information[0]['status_name']; ?> </small>
-				<br>
-				<button type="button" class="btn btn-primary btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $information[0]['id_service_order']; ?>" title="Edit" <?php echo $deshabilitar; ?> >
+
+				<?php
+					//Disabled fields
+					$deshabilitar = '';
+					$userRol = $this->session->userdata("rol");
+					if($userRol != ID_ROL_SUPER_ADMIN && $information[0]['service_status'] == 'closed_so'){
+						$deshabilitar = 'disabled';
+					}
+				?>	
+
+				<button type="button" class="btn btn-primary btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $information[0]['id_service_order']; ?>" title="Edit" <?php echo $deshabilitar; ?> >
 					Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 				</button>
+
+				<br><br><?php echo $information[0]['main_description']; ?>
+
+				<div class="row">
+					<div class="col-lg-6">	
+						<small class="text-danger"><b>
+							<?php echo $information[0]['maintenace_type']=='corrective' ? "Corrective Maintenance" : "Preventive Maintenance"; ?>
+						</b></small>
+						<br><small><b>Priority: </b></small>
+						<small class="text-<?php echo $information[0]['priority_style']; ?>"><i class="fa <?php echo $information[0]['priority_icon']; ?> fa-fw"></i><?php echo $information[0]['priority_name']; ?> </small>
+						<br><small><b>Status: </b></small>
+						<small class="text-<?php echo $information[0]['status_style']; ?>"><i class="fa <?php echo $information[0]['status_icon']; ?> fa-fw"></i><?php echo $information[0]['status_name']; ?> </small>
+					</div>
+					<div class="col-lg-6">	
+						<small>
+							<b>By: </b><?php echo $information[0]['assigned_by']; ?>
+							<br><b>To: </b><?php echo $information[0]['assigned_to']; ?>
+							<br><b>Date: </b><?php echo date('F j, Y - G:i:s', strtotime($information[0]['created_at'])); ?>
+						</small>
+					</div>
+				</div>
 			</h3>
 		</div>
 

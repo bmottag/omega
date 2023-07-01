@@ -132,32 +132,33 @@
 								<thead>
 									<tr>
 										<th>S.O. #</th>
-										<th>Assigned To</th>
-										<th>Request Date</th>
 										<th>Unit Number</th>
 										<th>Description</th>
+										<th>Assigned To</th>
+										<th>Request Date</th>
 										<th>Status</th>
-										<th>Actions</th>
 									</tr>
 								</thead>
 								<tbody>							
 								<?php
 									foreach ($information as $lista):
 											echo "<tr>";
-											echo "<td class='text-center'>" . $lista['id_service_order'] . "</td>";
-											echo "<td>" . $lista['assigned_to'] . "</td>";
-											echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
-											echo "<td>" . $lista['unit_description'] . "</td>";
-											echo "<td>" . $lista['main_description'] . "</td>";
 											echo "<td class='text-center'>";
-											echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i><b>' . $lista['status_name'] . '</b></p>';
-											echo "</td>";
-											echo "<td class='text-center'>";	
-								?>					
-											<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $lista['fk_id_equipment']; ?>, 'tab_service_order_detail', <?php echo $lista['id_service_order']; ?>)" >
+											echo $lista['id_service_order'];
+								?>
+											<p class="text-<?php echo $lista['priority_style']; ?>"><i class="fa <?php echo $lista['priority_icon']; ?> fa-fw"></i><?php echo $lista['priority_name']; ?> </p>
+
+											<a class="btn btn-primary btn-xs" onclick="loadEquipmentDetail( <?php echo $lista['fk_id_equipment']; ?>, 'tab_service_order_detail', <?php echo $lista['id_service_order']; ?>)" title="View">
 												<i class="fa fa-eye"></i> View
 											</a>
-								<?php
+								<?php			
+											echo "</td>";
+											echo "<td>" . $lista['unit_description'] . "</td>";
+											echo "<td>" . $lista['main_description'] . "</td>";
+											echo "<td>" . $lista['assigned_to'] . "</td>";
+											echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
+											echo "<td class='text-center'>";
+											echo '<p class="text-' . $lista['status_style'] . '"><i class="fa ' . $lista['status_icon'] . ' fa-fw"></i><b>' . $lista['status_name'] . '</b></p>';
 											echo "</td>";
 											echo "</tr>";
 									endforeach;
