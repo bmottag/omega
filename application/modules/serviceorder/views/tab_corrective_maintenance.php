@@ -30,12 +30,12 @@ $(function(){
 });
 </script>
 
-<div class="panel panel-info">
+<div class="panel panel-violeta">
     <div class="panel-heading">
         <i class="fa fa-wrench"></i> <strong>Corrective Maintenance</strong>
         <div class="pull-right">
             <input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
-            <button type="button" class="btn btn-primary btn-xs btn-corrective-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x">
+            <button type="button" class="btn btn-violeta btn-xs btn-corrective-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Corrective Maintenance
             </button>
         </div>

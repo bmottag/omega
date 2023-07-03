@@ -5,7 +5,7 @@
 	<h4 class="modal-title" id="exampleModalLabel">Service Order Form
 		<br><small>
 				<?php 
-					echo "<b>Description: </b>" . $maintenanceDescription; 
+					echo "<b>Description: </b><br>" . $maintenanceDescription; 
 					echo "<br><b>" . $maintenanceTypeDescription . "</b>"; 
 					echo $nextMaintenance;
 				?>
@@ -180,7 +180,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-violeta" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>

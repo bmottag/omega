@@ -37,7 +37,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmitCorrectiveMaintenance" name="btnSubmitCorrectiveMaintenance" class="btn btn-primary" >
+					<button type="button" id="btnSubmitCorrectiveMaintenance" name="btnSubmitCorrectiveMaintenance" class="btn btn-violeta" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>

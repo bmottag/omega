@@ -1,7 +1,8 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v3.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v4.js"); ?>"></script>
 
 <div id="page-wrapper">
-	<div class="row"><br>
+	<br>
+	<div class="row" id="div_main_title">
 		<div class="col-md-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
@@ -68,9 +69,9 @@
 		<div class="col-lg-8 col-md-6 col-sm-6">
 			<div class="row" id="div_search">
 				<div class="col-lg-6 col-md-12 col-sm-12">
-					<div class="panel panel-purpura">
+					<div class="panel panel-violeta">
 						<div class="panel-heading">
-							<i class="fa fa-wrench"></i> <strong>Search Equipment by VIN Number</strong>
+							<i class="fa fa-wrench fa-fw"></i> <strong>Search Equipment by VIN Number</strong>
 						</div>
 						<div class="panel-body">									
 							<div class="form-group">
@@ -79,7 +80,7 @@
 								</div>						
 							
 								<div class="col-md-3 col-sm-2 col-xs-2">
-									<button type="submit" class="btn btn-purpura" id="btnVINNumber">
+									<button type="submit" class="btn btn-violeta" id="btnVINNumber">
 										<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
 									</button>
 								</div>
@@ -91,9 +92,9 @@
 				</div>
 
 				<div class="col-lg-6 col-md-12 col-sm-12">
-					<div class="panel panel-purpura">
+					<div class="panel panel-violeta">
 						<div class="panel-heading">
-							<i class="fa fa-wrench"></i> <strong>Search Service Order</strong>
+							<i class="fa fa-wrench fa-fw"></i> <strong>Search Service Order</strong>
 						</div>
 						<div class="panel-body">									
 							<div class="form-group">
@@ -102,7 +103,7 @@
 								</div>						
 							
 								<div class="col-md-3 col-sm-2 col-xs-2">
-									<button type="submit" class="btn btn-purpura" id="btnSONumber">
+									<button type="submit" class="btn btn-violeta" id="btnSONumber">
 										<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
 									</button>
 								</div>

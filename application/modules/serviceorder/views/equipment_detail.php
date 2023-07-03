@@ -1,6 +1,7 @@
-<div class="panel panel-primary">
+<div class="panel panel-violeta">
 	<div class="panel-heading"> 
-		<i class="fa fa-car"></i> <strong>EQUIPMENT DETAIL</strong> 
+		<a class="btn btn-violeta btn-xs" href=" <?php echo base_url("serviceorder"); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Service Order Control Panel </a> 
+		<i class="fa fa-car fa-fw"></i> <strong>EQUIPMENT DETAIL</strong> 
 	</div>
 	<div class="panel-body">
 		<div class="col-lg-3">

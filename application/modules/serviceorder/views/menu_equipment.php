@@ -26,7 +26,7 @@ if($vehicleInfo[0]["photo"]){
 
 <?php
     $classInactivo = "btn btn-outline btn-default btn-block";
-    $classActivo = "btn btn-info btn-block";
+    $classActivo = "btn btn-violeta btn-block";
 ?>
 
 <div class="list-group">

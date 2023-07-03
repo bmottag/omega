@@ -39,12 +39,12 @@ $(function(){
 	}
 ?>
 
-<div class="panel panel-info">
+<div class="panel panel-violeta">
     <div class="panel-heading">
         <i class="fa fa-wrench"></i> <strong>Preventive Maintenance</strong>
         <div class="pull-right">
             <input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>"/>
-            <button type="button" class="btn btn-primary btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x" <?php echo $deshabilitar; ?>>
+            <button type="button" class="btn btn-violeta btn-xs btn-preventive-maintenance" data-toggle="modal" data-target="#modalMaintenance" id="x" <?php echo $deshabilitar; ?>>
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Preventive Maintenance
             </button>
         </div>

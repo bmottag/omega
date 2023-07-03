@@ -1,4 +1,4 @@
-<div class="panel panel-info">
+<div class="panel panel-violeta">
     <div class="panel-heading">
         <i class="fa fa-tasks"></i> <strong>Inspections</strong>
     </div>
@@ -120,7 +120,7 @@ if ($retornoError) {
                                 //boton para editar la inspeccion
                                 $linkInspection = $vehicleInfo[0]['link_inspection'] . "/". $lista['fk_id_inspection'];
                                 if($i==1){
-                                    echo "<br><a class='btn btn-success btn-xs' href='" . base_url($linkInspection) . "'>
+                                    echo "<br><a class='btn btn-violeta btn-xs' href='" . base_url($linkInspection) . "'>
                                     Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'>
                                     </a>";
                                 }

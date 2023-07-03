@@ -111,6 +111,7 @@ function loadEquipmentDetail(equipmentId, tabview, serviceOrderId=false) {
 	$("#div_detail").css("display", "block");
 	$("#div_info_list").css("display", "none");
 	$("#div_panel_main").css("display", "none");
+	$("#div_main_title").css("display", "none");
     $("#loader").addClass("loader");
 	$.ajax ({
 		type: 'POST',
