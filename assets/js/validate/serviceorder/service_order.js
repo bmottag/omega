@@ -26,7 +26,6 @@ $( document ).ready( function () {
 
 	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
 		var status = $(param).val();
-		console.log(status);
 		if(status=="closed_so" && (value=="" || value== 0)){
 			return false;
 		}else{

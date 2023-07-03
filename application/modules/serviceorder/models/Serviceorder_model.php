@@ -17,7 +17,8 @@
 							WHEN S.maintenace_type = "preventive" THEN PM.maintenance_description 
 							WHEN S.maintenace_type = "corrective" THEN CM.description_failure 
 						END as main_description, 
-						PM.verification_by
+						PM.verification_by,
+						T.id_time, T.time_date, T.time
 						FROM service_order S
 						INNER JOIN user U ON U.id_user = S.fk_id_assign_by
 						INNER JOIN user Z ON Z.id_user = S.fk_id_assign_to
@@ -26,6 +27,7 @@
 						INNER JOIN param_status W ON W.status_slug = S.priority
 						LEFT JOIN preventive_maintenance PM ON S.maintenace_type = "preventive" AND PM.id_preventive_maintenance = S.fk_id_maintenace
 						LEFT JOIN corrective_maintenance CM ON S.maintenace_type = "corrective" AND CM.id_corrective_maintenance = S.fk_id_maintenace
+						LEFT JOIN service_order_time T ON T.fk_id_service_order = S.id_service_order
 						WHERE P.status_key = "serviceorder"';
 				if (array_key_exists("idServiceOrder", $arrDatos)) {
 					$sql .= ' AND id_service_order = ' . $arrDatos["idServiceOrder"];
@@ -33,7 +35,11 @@
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$sql .= ' AND S.fk_id_equipment = ' . $arrDatos["idVehicle"];
 				}
-				if (array_key_exists("status", $arrDatos)) {
+				if (array_key_exists("idAssignTo", $arrDatos)) {
+					$sql .= ' AND S.fk_id_assign_to = ' . $arrDatos["idAssignTo"];
+					$sql .= ' AND S.id_service_order != ' . $arrDatos["diffIdServiceOrder"];
+					$sql .= ' AND S.service_status = "' . $arrDatos["status"] . '"';
+				}elseif (array_key_exists("status", $arrDatos)) {
 					$year = date('Y');
 					$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
 					$sql .= ' AND S.service_status = "' . $arrDatos["status"] . '"';
@@ -83,8 +89,8 @@
 					$data["current_hours"] = $this->input->post('hour');
 					$data["damages"] = $this->input->post('damages');
 					$data["can_be_used"] = $this->input->post('can_be_used');
-					$data["shop_labour"] = $this->input->post('shop_labour');
-					$data["field_labour"] = $this->input->post('field_labour');
+					$data["purchasing_staff"] = $this->input->post('purchasing_staff');
+					$data["mechanic"] = $this->input->post('mechanic');
 					$data["engine_oil"] = $this->input->post('engine_oil');
 					$data["transmission_oil"] = $this->input->post('transmission_oil');
 					$data["hydraulic_oil"] = $this->input->post('hydraulic_oil');
@@ -303,7 +309,41 @@
 				}else{
 					return false;
 				}
+		}
 
+		/**
+		 * Add/Edit TIME
+		 * @since 1/7/2023
+		 */
+		public function saveTime($arrDatos) 
+		{		
+				$date = date("Y-m-d G:i:s");
+				$data = array(
+					'time_date' => $date
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($arrDatos["idTime"] == '') {
+					$data["fk_id_service_order"] = $arrDatos["idServiceOrder"];
+					$data["time"] = 0;
+					$query = $this->db->insert('service_order_time', $data);				
+				} else {
+					if (array_key_exists("timeDate", $arrDatos)) {
+						$minutes = (strtotime($arrDatos["timeDate"])-strtotime($date))/60;
+						$minutes = abs($minutes);  
+						$minutes = round($minutes);
+				
+						$hours = $minutes/60;
+						$data["time"] = round($hours,2) + $arrDatos["time"];
+					}	
+					$this->db->where('id_time', $arrDatos["idTime"] );
+					$query = $this->db->update('service_order_time', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
 		}
 
 	}

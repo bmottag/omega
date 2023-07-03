@@ -17,6 +17,10 @@
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo ($information && isset($information[0]["id_service_order"]))?$information[0]["id_service_order"]:""; ?>"/>
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $information?$information[0]["fk_id_equipment"]:$this->input->post("idEquipment"); ?>"/>
+		<input type="hidden" id="hddIdTime" name="hddIdTime" value="<?php echo ($information && isset($information[0]["id_time"]))?$information[0]["id_time"]:""; ?>"/>
+		<input type="hidden" id="hddTimeDate" name="hddTimeDate" value="<?php echo ($information && isset($information[0]["time_date"]))?$information[0]["time_date"]:""; ?>"/>
+		<input type="hidden" id="hddTime" name="hddTime" value="<?php echo ($information && isset($information[0]["time"]))?$information[0]["time"]:""; ?>"/>
+		<input type="hidden" id="hddStatus" name="hddStatus" value="<?php echo ($information && isset($information[0]["service_status"]))?$information[0]["service_status"]:""; ?>"/>
 		<input type="hidden" id="hddIdMaintenance" name="hddIdMaintenance" value="<?php echo $information?$information[0]["fk_id_maintenace"]:$this->input->post("idMaintenance"); ?>"/>
 		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $maintenanceType; ?>"/>
 		<input type="hidden" id="hddIdCanBeUsed" name="hddIdCanBeUsed" value="<?php echo $information?$information[0]["can_be_used"]:1; ?>"/>
@@ -90,8 +94,8 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="services">Services: *</label><br>
-					<input type="checkbox" id="shop_labour" name="shop_labour" value=1 <?php if($information && $information[0]["shop_labour"]){echo "checked";} ?> > Shop Labour <br>
-					<input type="checkbox" id="field_labour" name="field_labour" value=1 <?php if($information && $information[0]["field_labour"]){echo "checked";} ?> > Field Labour <br>
+					<input type="checkbox" id="purchasing_staff" name="purchasing_staff" value=1 <?php if($information && $information[0]["purchasing_staff"]){echo "checked";} ?> > Purchasing Staff <br>
+					<input type="checkbox" id="mechanic" name="mechanic" value=1 <?php if($information && $information[0]["mechanic"]){echo "checked";} ?> > In-house Mechanic <br>
 					<input type="checkbox" id="engine_oil" name="engine_oil" value=1 <?php if($information && $information[0]["engine_oil"]){echo "checked";} ?> > Engine Oil <br>
 					<input type="checkbox" id="transmission_oil" name="transmission_oil" value=1 <?php if($information && $information[0]["transmission_oil"]){echo "checked";} ?> >  Transmission Oil<br>
 					<input type="checkbox" id="hydraulic_oil" name="hydraulic_oil" value=1 <?php if($information && $information[0]["hydraulic_oil"]){echo "checked";} ?> > Hydraulic Oil<br>
@@ -146,7 +150,7 @@
 			<div class="row">
 				<div class="col-sm-6" id="current_hours" style="display: none">
 					<div class="form-group text-left">
-						<label class="control-label" for="hour">Current Hours: *</label>
+						<label class="control-label" for="hour">Current Equipment Hours/Kilometers: *</label>
 						<input type="text" id="hour" name="hour" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["current_hours"]:""; ?>" >
 					</div>
 				</div>

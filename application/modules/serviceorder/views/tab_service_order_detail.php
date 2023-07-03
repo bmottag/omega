@@ -35,26 +35,36 @@ $(function(){
 });
 </script>
 
+<?php
+	//Disabled fields
+	$deshabilitar = '';
+	$userRol = $this->session->userdata("rol");
+	if($userRol != ID_ROL_SUPER_ADMIN && $information[0]['service_status'] == 'closed_so'){
+		$deshabilitar = 'disabled';
+	}
+?>
 
 <div class="panel panel-primary">
 	<div class="panel-body">
 		<div class="alert alert-default">
-			<h3><i class="fa fa-briefcase"></i> <b>S.O. #: </b> <?php echo $information[0]['id_service_order']; ?>
-				<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo $information[0]['id_service_order']; ?>" />
-				<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>" />
+			<h3>
+				<div class="row">
+					<div class="col-lg-6">		
 
-				<?php
-					//Disabled fields
-					$deshabilitar = '';
-					$userRol = $this->session->userdata("rol");
-					if($userRol != ID_ROL_SUPER_ADMIN && $information[0]['service_status'] == 'closed_so'){
-						$deshabilitar = 'disabled';
-					}
-				?>	
+						<i class="fa fa-briefcase"></i> <b>S.O. #: </b> <?php echo $information[0]['id_service_order']; ?>
+						<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo $information[0]['id_service_order']; ?>" />
+						<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $vehicleInfo[0]['id_vehicle']; ?>" />
 
-				<button type="button" class="btn btn-primary btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $information[0]['id_service_order']; ?>" title="Edit" <?php echo $deshabilitar; ?> >
-					Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
-				</button>
+						<button type="button" class="btn btn-primary btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $information[0]['id_service_order']; ?>" title="Edit" <?php echo $deshabilitar; ?> >
+							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
+						</button>
+					</div>
+					<div class="col-lg-6">	
+						<?php if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_SAFETY){ 	?>
+							<small><b>Invested Time: </b> <?php echo $information[0]['time']; ?></small>
+						<?php } ?>
+					</div>
+				</div>
 
 				<br><br><?php echo $information[0]['main_description']; ?>
 

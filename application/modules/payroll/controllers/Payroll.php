@@ -54,7 +54,17 @@ class Payroll extends CI_Controller {
 	{			
 			$hour = date("G:i");
 			
-			if ($this->payroll_model->savePayroll()) {
+			if ($this->payroll_model->savePayroll()) 
+			{
+				/**
+				 * Busco si tiene una Service Order con estado in progress
+			     * Actualizo la fecha
+				 */
+				$infoServiceOrder = $this->payroll_model->get_in_progress_service_order();
+				if($infoServiceOrder){
+					$this->payroll_model->updateServiceOrderTime($infoServiceOrder, "start");
+				}
+
                 $this->session->set_flashdata('retornoExito', 'have a nice shift, you started at ' . $hour . '.');
             } else {
                 $this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -89,6 +99,15 @@ class Payroll extends CI_Controller {
 			     * busco el periodo, sino existe lo creo
 				 */
 				$periodo = $this->save_period($idTask);
+				/**
+				 * Busco si tiene una Service Order con estado in progress
+			     * Actualizo el tiempo de trabajo de ese service order
+				 */
+				$infoServiceOrder = $this->payroll_model->get_in_progress_service_order();
+				if($infoServiceOrder){
+					$this->payroll_model->updateServiceOrderTime($infoServiceOrder, "finish");
+				}
+
 				$this->session->set_flashdata('retornoExito', 'have a good night, you finished at ' . $hour . '.');
 			}else{
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> bad at math.');

@@ -566,5 +566,53 @@
 		        }
 	    }
 
+		/**
+		 * In progress service order
+		 * @since 1/7/2023
+		 */
+		public function get_in_progress_service_order() 
+		{
+				$this->db->select('T.*');
+				$this->db->join('service_order_time T', 'T.fk_id_service_order = S.id_service_order', 'LEFT');
+				$this->db->where('S.service_status', 'in_progress_so');
+				$this->db->where('S.fk_id_assign_to', $this->session->userdata("id"));
+				$query = $this->db->get('service_order S');
+
+				if ($query->num_rows() > 0) {
+					return $query->row_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Update SERVICE ORDER TIME
+		 * @since 1/7/2023
+		 */
+		public function updateServiceOrderTime($infoServiceOrder, $path) 
+		{
+				$date = date("Y-m-d G:i:s");
+				if($path == "start"){
+					$data = array('time_date' => $date);
+				}else{
+					$minutes = (strtotime($infoServiceOrder["time_date"])-strtotime($date))/60;
+					$minutes = abs($minutes);  
+					$minutes = round($minutes);
+			
+					$hours = $minutes/60;
+					$hours = round($hours,2) + $infoServiceOrder["time"];
+
+					$data = array('time' => $hours);
+				}
+				$this->db->where('id_time', $infoServiceOrder["id_time"]);
+				$query = $this->db->update('service_order_time', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}	
+
 	    
 	}

@@ -34,7 +34,7 @@ $(function(){
 	//Disabled fields
 	$deshabilitar = '';
 	$userRol = $this->session->userdata("rol");
-	if($userRol != ID_ROL_SUPER_ADMIN){
+	if($userRol != ID_ROL_SUPER_ADMIN && $userRol != ID_ROL_SAFETY ){
 		$deshabilitar = 'disabled';
 	}
 ?>

@@ -281,6 +281,62 @@ class Serviceorder extends CI_Controller {
 						send_twilio_message($arrParamTwilio);
 						//END send Twilio message
 					}
+
+					//If the user change the status to in_progress, then the systmen have to check if any other SO is in progress
+					if ($status == "in_progress_so" && $this->input->post('hddStatus') != "in_progress_so") 
+					{
+						$arrParam = array(
+							"idAssignTo" => $this->input->post('assign_to'),
+							"diffIdServiceOrder" => $data["idServiceOrder"],
+							"status" => $status
+						);
+						if($inProgressSO = $this->serviceorder_model->get_service_order($arrParam)){
+							$msj .= " <b>Remember that you can only have one SO as In Progress.</b>";
+							//update time for the OTHER SO
+							$arrParam = array(
+								"idServiceOrder" => $inProgressSO[0]["id_service_order"],
+								"idTime" => $inProgressSO[0]["id_time"],
+								"timeDate" => $inProgressSO[0]["time_date"],
+								"time" => $inProgressSO[0]["time"]
+							);
+							$this->serviceorder_model->saveTime($arrParam);
+							//update SO status
+							$arrParam = array(
+								"table" => "service_order",
+								"primaryKey" => "id_service_order",
+								"id" => $inProgressSO[0]["id_service_order"],
+								"column" => "service_status",
+								"value" => "on_hold"
+							);
+							$this->general_model->updateRecord($arrParam);
+						}
+						//update time for the current SO
+						$arrParam = array(
+							"idServiceOrder" => $this->input->post('hddIdServiceOrder'),
+							"idTime" => $this->input->post('hddIdTime')
+						);
+						$this->serviceorder_model->saveTime($arrParam);
+					}elseif($status != "in_progress_so" && $this->input->post('hddStatus') == "in_progress_so"){
+						//update time for the current SO
+						$arrParam = array(
+							"idServiceOrder" => $this->input->post('hddIdServiceOrder'),
+							"idTime" => $this->input->post('hddIdTime'),
+							"timeDate" => $this->input->post('hddTimeDate'),
+							"time" => $this->input->post('hddTime')
+						);
+						$this->serviceorder_model->saveTime($arrParam);
+					}
+					//If the user change the status to closed, then the systmen have to calculate the time
+					if ($status == "closed_so" && $this->input->post('hddStatus') != "closed_so") 
+					{
+						$arrParam = array(
+							"idServiceOrder" => $this->input->post('hddIdServiceOrder'),
+							"idTime" => $this->input->post('hddIdTime'),
+							"timeDate" => $this->input->post('hddTimeDate'),
+							"time" => $this->input->post('hddTime')
+						);
+						$this->serviceorder_model->saveTime($arrParam);
+					}
 				}
 
 				$data["result"] = true;

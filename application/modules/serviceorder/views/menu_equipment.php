@@ -14,7 +14,7 @@ if($vehicleInfo[0]["photo"]){
         <div class="col-lg-6">
             <strong>Unit Number: </strong><br><?php echo $vehicleInfo[0]['unit_number']; ?><br>
             <strong>VIN Number: </strong><br><?php echo  $vehicleInfo[0]['vin_number']; ?><br>
-            <strong>Hours/Kilometers: </strong><br><?php echo  number_format($vehicleInfo[0]['hours']); ?>
+            <strong>Equipment Hours/Kilometers: </strong><br><?php echo  number_format($vehicleInfo[0]['hours']); ?>
         </div>
         <div class="col-lg-6">
             <strong>Make: </strong><br><?php echo $vehicleInfo[0]['make']; ?><br>
