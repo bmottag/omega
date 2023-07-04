@@ -140,7 +140,7 @@
 
                         <strong>Maintenance Check:</strong>
                         <ul>
-                            <li>URL: https://v-contracting.ca/app/maintenance/maintenance_check </li>
+                            <li>URL: https://v-contracting.ca/app/serviceorder/maintenance_check </li>
                             <li>Time: Every Day at 12am </li>
                         </ul>
 
