@@ -13,17 +13,21 @@ class Serviceorder extends CI_Controller {
      * @since 19/5/2023
      * @author BMOTTAG
 	 */
-	public function index($idServiceOrder = 'x')
+	public function index($idServiceOrder = 'x', $idEquipment = 'x')
 	{		
 			$data['infoSpecificSO'] = false;
 			$data['infoEquipment'] = false;
 			$data['infoSO'] = false;
 			$data['information'] = false;
+			$data['idEquipment'] = false;
 			if ($idServiceOrder != 'x') {
 				//Service Order info. When comes form the twilio message
 				$idServiceOrder = base64_decode($idServiceOrder);
 				$arrParam = array("idServiceOrder" => $idServiceOrder);				
 				$data['infoSpecificSO'] = $this->serviceorder_model->get_service_order($arrParam);
+			}elseif ($idEquipment != 'x') {
+				//Preventive Maintenace When comes form maintenance List
+				$data['idEquipment'] = base64_decode($idEquipment);				
 			}else{
 				$this->load->model("general_model");
 				$data['infoEquipment'] = $this->general_model->countEquipmentByType();
@@ -628,6 +632,40 @@ class Serviceorder extends CI_Controller {
 
 			echo json_encode($data);	
     }
+
+	/**
+	 * Maintenance Check
+	 * CRON: Time: Every Day at 12am 
+	 */
+	public function maintenance_check()
+	{				
+			$fecha = date('Y-m-d');
+			$filtroFecha = strtotime ( '+7 day' , strtotime ( $fecha ) ) ;
+
+			//listado de registros mantenimientos PREVENTIVOS activos
+			$arrParam = array("maintenanceStatus" => 1);
+			$infoMaintenance = $this->serviceorder_model->get_preventive_maintenance($arrParam);	
+
+			$this->serviceorder_model->delete_maintenance_check();//elimino los registros de maintenance_check
+			//revisar cuales estan proximo a vencerse por kilometros o fechas
+			foreach ($infoMaintenance as $lista):
+				$diferencia = $lista["next_hours_maintenance"] - $lista["hours"];
+				
+				if($lista["fk_id_maintenance_type"] == 8 || $lista["fk_id_maintenance_type"] == 9){
+					$diferencia = $lista["next_hours_maintenance"] - $lista["hours_2"];
+				}elseif($lista["fk_id_maintenance_type"] == 10){
+					$diferencia = $lista["next_hours_maintenance"] - $lista["hours_3"];
+				}
+					
+				$nextDateMaintenance = strtotime($lista["next_date_maintenance"]);
+				
+				if(($lista["verification_by"] == 1 && $lista["next_hours_maintenance"] != 0 && $diferencia <= 50) || ($lista["verification_by"] == 2 && $lista["next_date_maintenance"] != "" && $lista['next_date_maintenance'] != "0000-00-00" && $nextDateMaintenance <= $filtroFecha)){					
+					$this->serviceorder_model->add_maintenance_check($lista["id_preventive_maintenance"]);
+				}
+			endforeach;
+			
+			return true;
+	}
 
 
 }

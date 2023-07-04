@@ -11,6 +11,8 @@ $(document).ready(function () {
 		var equipmentId = $('#hddSpecificIdEquipment').val();
 		if(serviceOrderId != ""){
 			loadEquipmentDetail( equipmentId , 'tab_service_order_detail', serviceOrderId );
+		}else if(equipmentId != ""){
+			loadEquipmentDetail( equipmentId, 'tab_preventive_maintenance' );
 		}
 	})
 	   

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v4.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v5.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -20,7 +20,8 @@
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> Equipments
 					<input type="hidden" id="hddSpecificIdServiceOrder" name="hddSpecificIdServiceOrder" value="<?php echo $infoSpecificSO ? $infoSpecificSO[0]['id_service_order'] : '' ?>"/>
-					<input type="hidden" id="hddSpecificIdEquipment" name="hddSpecificIdEquipment" value="<?php echo $infoSpecificSO ? $infoSpecificSO[0]['fk_id_equipment'] : '' ?>"/>
+					<?php $idSpecificEquipment = $infoSpecificSO ? $infoSpecificSO[0]['fk_id_equipment'] : ($idEquipment ? $idEquipment : '');?>
+					<input type="hidden" id="hddSpecificIdEquipment" name="hddSpecificIdEquipment" value="<?php echo $idSpecificEquipment; ?>"/>
                 </div>
                 <div class="panel-body">
                     <div class="list-group">

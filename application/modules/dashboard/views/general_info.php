@@ -67,7 +67,6 @@
 						<li>View, edit and changes status of Service Orders</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
-						<br><strong>Record Task:</strong> Hauling
 						<br><strong>Record Task:</strong> Rental Inspection
 						<br>* <strong>Jobs Info:</strong> 
 						<ul>

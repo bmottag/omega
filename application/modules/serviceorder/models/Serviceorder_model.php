@@ -126,12 +126,16 @@
 		{
 				$this->db->select();
 				$this->db->join('maintenance_type T', 'T.id_maintenance_type = P.fk_id_maintenance_type', 'INNER');
+				$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_equipment', 'INNER');
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
 				}
 				if (array_key_exists("idMaintenance", $arrDatos)) {
 					$this->db->where('id_preventive_maintenance', $arrDatos["idMaintenance"]);
-				}	
+				}
+				if (array_key_exists("maintenanceStatus", $arrDatos)) {
+					$this->db->where('P.maintenance_status', $arrDatos["maintenanceStatus"]);
+				}
 				$this->db->order_by('id_preventive_maintenance', 'asc');
 				$query = $this->db->get('preventive_maintenance P');
 
@@ -344,6 +348,42 @@
 				} else {
 					return false;
 				}
+		}
+
+		/**
+		 * Delete Maintenance check
+		 * @since 13/2/2020
+		 */
+		public function delete_maintenance_check()
+		{
+			//delete maintenance check
+			$sql = "TRUNCATE maintenance_check";		
+			$query = $this->db->query($sql);
+
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
+		/**
+		 * Add Maintenance check
+		 * @since 13/2/2020
+		 */
+		public function add_maintenance_check($idMaintenace) 
+		{
+			//add the new hazards
+			$data = array(
+				'fk_id_maintenance' => $idMaintenace
+			);
+			$query = $this->db->insert('maintenance_check', $data);
+			
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
 		}
 
 	}
