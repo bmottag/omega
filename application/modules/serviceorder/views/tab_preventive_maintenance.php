@@ -123,7 +123,7 @@ if ($retornoError) {
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 						</button>
 
-                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>" <?php echo $deshabilitar; ?>>
+                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>" >
                             Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
                         </button>
                     <?php

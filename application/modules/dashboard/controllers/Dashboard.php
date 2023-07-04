@@ -11,7 +11,7 @@ class Dashboard extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
-	 * Basic dashboard
+	 * BASIC dashboard
 	 */
 	public function index()
 	{	
@@ -23,6 +23,38 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = TRUE;
 			$data['noHeavyInspection'] = TRUE;
 			
+			//informacion de un dayoff si lo aprobaron y lo negaron
+			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
+
+			//Filtro datos por id del Usuario
+			$arrParam["idEmployee"] = $this->session->userdata("id");
+
+			$arrParam["limit"] = 30;//Limite de registros para la consulta
+			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
+			
+			$data['infoSafety'] = $this->general_model->get_safety($arrParam);//info de safety
+			
+			$arrParam["limit"] = 6;//Limite de registros para la consulta
+			$data['infoWaterTruck'] = $this->general_model->get_special_inspection_water_truck($arrParam);//info de water truck
+			$data['infoHydrovac'] = $this->general_model->get_special_inspection_hydrovac($arrParam);//info de hydrovac
+			$data['infoSweeper'] = $this->general_model->get_special_inspection_sweeper($arrParam);//info de sweeper
+			$data['infoGenerator'] = $this->general_model->get_special_inspection_generator($arrParam);//info de generador
+		
+			$data["view"] = "dashboard";
+			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * MECHANIC DASHBOARD
+	 */
+	public function mechanic()
+	{				
+			$data['noJobs'] = FALSE;
+			$data['noHauling'] = TRUE;
+			$data['noDailyInspection'] = TRUE;
+			$data['noHeavyInspection'] = TRUE;
+			
+			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
 

@@ -49,7 +49,7 @@
 
 		<!-- MECHANIC USER -->
 		<div class="col-lg-4">
-			<div class="panel panel-purpura">
+			<div class="panel panel-violeta">
 				<div class="panel-heading">
 					<strong>Mechanic User Access</strong>
 				</div>
@@ -57,6 +57,7 @@
 					<p>
 						* <strong>Dashboard:</strong> 
 						<ul>
+						<li>Maintenance Program</li>
 						<li>Own Payroll Records</li>
 						<li>Last FLHA Records</li>
 						<li>Last Hauling Records</li>

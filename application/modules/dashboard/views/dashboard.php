@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 						
 					<a class="btn btn-block btn-social btn-pinterest" href="<?php echo base_url('dashboard/maintenance'); ?>">
-						<i class="fa fa-wrench"></i> You have some preventive maintenance
+						<i class="fa fa-wrench"></i> There are <b>Preventive Maintenance</b> that must be attended to as soon as possible.
 					</a>
 					<br>
 				</div>	
