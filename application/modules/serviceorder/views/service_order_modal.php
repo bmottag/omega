@@ -1,12 +1,13 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/service_order.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/service_order_v1.js"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Service Order Form
 		<br><small>
 				<?php 
-					echo "<b>Description: </b><br>" . $maintenanceDescription; 
-					echo "<br><b>" . $maintenanceTypeDescription . "</b>"; 
+					echo "<b>" . $maintenanceTypeDescription . "</b>"; 
+					echo "<br><b>Description: </b><br>" . $maintenanceDescription; 
+					echo $currentMaintenance;
 					echo $nextMaintenance;
 				?>
 			</small>
@@ -26,6 +27,7 @@
 		<input type="hidden" id="hddIdCanBeUsed" name="hddIdCanBeUsed" value="<?php echo $information?$information[0]["can_be_used"]:1; ?>"/>
 		<input type="hidden" id="hddIdAssignedBy" name="hddIdAssignedBy" value="<?php echo $information?$information[0]["fk_id_assign_by"]:""; ?>"/>
 		<input type="hidden" id="hddMaintenanceDescription" name="hddMaintenanceDescription" value="<?php echo $maintenanceDescription; ?>"/>
+		<input type="hidden" id="hour" name="hour" value="<?php echo $information?$information[0]["hours"]:""; ?>" >
 <?php
 	//Disabled fields
 	$deshabilitar = 'disabled';
@@ -135,6 +137,16 @@
 						</select>
 					</div>
 				</div>
+
+				<input type="hidden" id="hddVerificationBy" name="hddVerificationBy" value="<?php echo $information[0]["verification_by"]; ?>"/>
+				<div class="col-sm-6" id="next_hours" style="display: none">
+					<label class="control-label" for="type">Next Hours/Kilometers Maintenance: *</label>
+					<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="<?php echo $nextMaintenanceValue; ?>" value="<?php echo $information?$information[0]["next_hours"]:""; ?>" >
+				</div>
+				<div class="col-sm-6" id="next_date" style="display: none">
+					<label class="control-label" for="type">Next Date Maintenance <small>(YYYY-MM-DD)</small>: *</label>
+					<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="<?php echo $nextMaintenanceValue; ?>" value="<?php echo $information?$information[0]["next_date"]:""; ?>" >
+				</div>
 			</div>
 
 			<div class="row" id="div_comments" style="display: none">
@@ -143,24 +155,6 @@
 						<label class="control-label" for="type">Comments: *</label>
 						<textarea id="comments" name="comments" placeholder="Notes/Observations" class="form-control" rows="3"><?php echo $information?$information[0]["comments"]:""; ?></textarea>
 					</div>
-				</div>
-			</div>
-
-			<input type="hidden" id="hddVerificationBy" name="hddVerificationBy" value="<?php echo $information[0]["verification_by"]; ?>"/>
-			<div class="row">
-				<div class="col-sm-6" id="current_hours" style="display: none">
-					<div class="form-group text-left">
-						<label class="control-label" for="hour">Current Equipment Hours/Kilometers: *</label>
-						<input type="text" id="hour" name="hour" class="form-control" placeholder="Current Hours" value="<?php echo $information?$information[0]["current_hours"]:""; ?>" >
-					</div>
-				</div>
-				<div class="col-sm-6" id="next_hours" style="display: none">
-					<label class="control-label" for="type">Next Hours/Kilometers Maintenance: *</label>
-					<input type="text" id="next_hours_maintenance" name="next_hours_maintenance" class="form-control" placeholder="Next Hours/Kilometers Maintenance" value="<?php echo $information?$information[0]["next_hours"]:""; ?>" >
-				</div>
-				<div class="col-sm-6" id="next_date" style="display: none">
-					<label class="control-label" for="type">Next Date Maintenance <small>(YYYY-MM-DD)</small>: *</label>
-					<input type="text" id="next_date_maintenance" name="next_date_maintenance" class="form-control" placeholder="Next Date Maintenance (YYYY-MM-DD)" value="<?php echo $information?$information[0]["next_date"]:""; ?>" >
 				</div>
 			</div>
 		<?php } ?>

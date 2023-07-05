@@ -106,10 +106,12 @@ if ($retornoError) {
                         case 1:
                             $valor = 'Active';
                             $clase = "text-success";
+                            $buttonSO = '';
                             break;
                         case 2:
                             $valor = 'Inactive';
                             $clase = "text-danger";
+                            $buttonSO = 'disabled';
                             break;
                     }
                     echo "<tr>";
@@ -123,7 +125,7 @@ if ($retornoError) {
 							Edit  <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
 						</button>
 
-                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>" >
+                        <button type="button" class="btn btn-violeta btn-xs btn-service-order" data-toggle="modal" data-target="#modalServiceOrder" id="<?php echo $lista['id_preventive_maintenance']; ?>" <?php echo $buttonSO; ?> >
                             Creat S.O. <span class="glyphicon glyphicon-briefcase" aria-hidden="true">
                         </button>
                     <?php

@@ -10,7 +10,7 @@
 		public function get_service_order($arrDatos) 
 		{
 				$sql = 'SELECT S.*, CONCAT(U.first_name, " ", U.last_name) assigned_by, CONCAT(Z.first_name, " ", Z.last_name) assigned_to, 
-						CONCAT(V.unit_number, " -----> ", V.description) as unit_description, 
+						CONCAT(V.unit_number, " -----> ", V.description) as unit_description, V.hours, V.hours_2, V.hours_3, V.type_level_2,
 						P.status_name, P.status_style, P.status_icon, W.status_name priority_name, 
 						W.status_style priority_style, W.status_icon priority_icon, 
 						CASE 
@@ -289,28 +289,6 @@
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
 				} else {
-					return false;
-				}
-		}
-
-		/**
-		 * Update current kilometers
-		 * @since 17/6/2023
-		 */
-		public function saveEquipmentCurrentHours() 
-		{
-				$data = array(
-					'hours' => $this->input->post('hour')
-					//'hours_2' => $this->input->post('hours2'),
-					//'hours_3' => $this->input->post('hours3')
-				);
-
-				$this->db->where('id_vehicle', $this->input->post('hddIdEquipment'));
-				$query = $this->db->update('param_vehicle', $data);
-
-				if ($query) {
-					return true;
-				}else{
 					return false;
 				}
 		}

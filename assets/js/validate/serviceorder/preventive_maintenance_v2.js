@@ -5,12 +5,12 @@ $( document ).ready( function () {
             var verification = $('#verification').val();
 			$("#next_hours").css("display", "none");
 			$("#next_date").css("display", "none");
-			$('#next_hours_maintenance').val("");
-			$('#next_date_maintenance').val("");
 			if(verification==1){
 				$("#next_hours").css("display", "block");
+				$('#next_hours_maintenance').val("");
 			}else if (verification==2){
 				$("#next_date").css("display", "block");
+				$('#next_date_maintenance').val("");
 			}
         });
     });

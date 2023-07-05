@@ -11,7 +11,6 @@ $( document ).ready( function () {
 			$('#next_date_maintenance').val("");
 			if(status=="closed_so"){
 				$("#div_comments").css("display", "block");
-				$("#current_hours").css("display", "block");
 				if(verification==1){
 					$("#next_hours").css("display", "block");
 				}else if (verification==2){
@@ -19,7 +18,6 @@ $( document ).ready( function () {
 				}
 			}else{
 				$("#div_comments").css("display", "none");
-				$("#current_hours").css("display", "none");
 			}
         });
     });
@@ -53,7 +51,6 @@ $( document ).ready( function () {
 
 	$( "#form" ).validate( {
 		rules: {
-			hour:							{ fieldSpecify: "#status" },
 			comments:						{ fieldSpecify: "#status" },
 			next_hours_maintenance:			{ fieldNext: true },
 			next_date_maintenance:			{ fieldNext: true }
@@ -125,10 +122,7 @@ $( document ).ready( function () {
 						$("#div_error").css("display", "inline");
 						$('#btnSubmit').removeAttr('disabled');
 					}
-					
-		
 				});	
-		
-		}//if			
+		}//if	
 	});
 });

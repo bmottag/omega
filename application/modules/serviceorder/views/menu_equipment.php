@@ -12,14 +12,40 @@ if($vehicleInfo[0]["photo"]){
 <div class="form-group">
     <div class="row">
         <div class="col-lg-6">
-            <strong>Unit Number: </strong><br><?php echo $vehicleInfo[0]['unit_number']; ?><br>
-            <strong>VIN Number: </strong><br><?php echo  $vehicleInfo[0]['vin_number']; ?><br>
-            <strong>Equipment Hours/Kilometers: </strong><br><?php echo  number_format($vehicleInfo[0]['hours']); ?>
+            <b>Unit Number: </b><br><?php echo $vehicleInfo[0]['unit_number']; ?><br>
+            <b>VIN Number: </b><br><?php echo  $vehicleInfo[0]['vin_number']; ?><br>
         </div>
         <div class="col-lg-6">
-            <strong>Make: </strong><br><?php echo $vehicleInfo[0]['make']; ?><br>
-            <strong>Model: </strong><br><?php echo  $vehicleInfo[0]['model']; ?><br>
-            <strong>Description: </strong><br><?php echo  $vehicleInfo[0]['description']; ?>
+            <b>Make: </b><br><?php echo $vehicleInfo[0]['make']; ?><br>
+            <b>Model: </b><br><?php echo  $vehicleInfo[0]['model']; ?><br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <b>Description: </b><br><?php echo  $vehicleInfo[0]['description']; ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <p class='text-danger'>
+                <?php
+                    $tipo = $vehicleInfo[0]['type_level_2'];
+					//si es sweeper
+					if($tipo == 15){
+						echo "<b>Truck Engine Hours: </b>" . number_format($vehicleInfo[0]["hours"]);
+						echo "<br><b>Sweeper Engine Hours: </b>" . number_format($vehicleInfo[0]["hours_2"]);
+					//si es hydrovac
+					}elseif($tipo == 16){
+						echo "<b>Engine Hours: </b>" . number_format($vehicleInfo[0]["hours"]);
+						echo "<br><b>Hydraulic Pump Hours: </b>" . number_format($vehicleInfo[0]["hours_2"]);		
+						echo "<br><b>Blower Hours: </b>" . number_format($vehicleInfo[0]["hours_3"]);
+					}else{
+						echo "<b>Equipment Hours/Kilometers: </b>" . number_format($vehicleInfo[0]["hours"]);
+					}
+                ?>
+			</p>
         </div>
     </div>
 </div>

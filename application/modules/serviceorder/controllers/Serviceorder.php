@@ -89,22 +89,43 @@ class Serviceorder extends CI_Controller {
 				$idMaintenance = $this->input->post("idMaintenance");
 			}
 
-			$arrParam = array("idMaintenance" => $idMaintenance);	
+			$arrParam = array("idMaintenance" => $idMaintenance);
+			$data['currentMaintenance'] = "";
+			$data['nextMaintenance'] = "";
+			$data['nextMaintenanceValue'] = "";
+			$data['maintenanceDescription'] = "";
+			$data['maintenanceTypeDescription'] = "";
 			if ($data['maintenanceType'] == "corrective") {			
 				$infoMaintenance = $this->serviceorder_model->get_corrective_maintenance($arrParam);
 				$data['maintenanceDescription'] = $infoMaintenance[0]["description_failure"]; 
 				$data['maintenanceTypeDescription'] = "Corrective Maintenance";
-				$data['nextMaintenance'] = "";
 			}else{
 				$infoMaintenance = $this->serviceorder_model->get_preventive_maintenance($arrParam);
+
 				if($infoMaintenance){
-					$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"]; 
+					$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"] . "<br><strong>Maintennace Type: </strong>" . $infoMaintenance[0]["maintenance_type"] ; 
 					$data['maintenanceTypeDescription'] = "Preventive Maintenance";
+
+					if ($data["idServiceOrder"] != 'x') {
+						$tipo = $data['information'][0]['type_level_2'];
+						//si es sweeper
+						if($tipo == 15){
+							$data['currentMaintenance'] = $infoMaintenance[0]["id_maintenance_type"] == 8 ? "<br><b>Current Sweeper Engine Hours: </b>" . number_format($data['information'][0]["hours_2"]) : "<b>Current Truck Engine Hours: </b>" . number_format($data['information'][0]["hours"]);
+						//si es hydrovac
+						}elseif($tipo == 16){
+							if($infoMaintenance[0]["id_maintenance_type"] == 10){
+								$data['currentMaintenance'] = "<br><strong>Blower Hours: </strong>" . number_format($data['information'][0]["hours_3"]);
+							}elseif($infoMaintenance[0]["id_maintenance_type"] == 9){
+								$data['currentMaintenance'] = "<br><strong>Hydraulic Pump Hours: </strong>" . number_format($data['information'][0]["hours_2"]);
+							}else{
+								$data['currentMaintenance'] = "<br><strong>Engine Hours: </strong>" . number_format($data['information'][0]["hours"]);
+							}
+						}else{
+							$data['currentMaintenance'] = "<br><b>Current Equipment Hours/Kilometers: </b>" . number_format($data['information'][0]["hours"]);
+						}
+					}
 					$data['nextMaintenance'] = $infoMaintenance[0]["verification_by"]==1?"<br><b>Next Hours/Kilometers Maintenance: </b>" . number_format($infoMaintenance[0]["next_hours_maintenance"]) :"<br><b>Next Date Maintenance: </b>" . $infoMaintenance[0]["next_date_maintenance"];
-				}else{
-					$data['maintenanceDescription'] = "";
-					$data['maintenanceTypeDescription'] = "";
-					$data['nextMaintenance'] = "";
+					$data['nextMaintenanceValue'] = $infoMaintenance[0]["verification_by"]==1 ? $infoMaintenance[0]["next_hours_maintenance"] : $infoMaintenance[0]["next_date_maintenance"];
 				}
 			}
 			
@@ -238,7 +259,7 @@ class Serviceorder extends CI_Controller {
 
 					//update preventive maintenance
 					$verification = $this->input->post('hddVerificationBy');
-					if ($maintenace_type == "preventive" && $status == "closed_so" && $verification == 1) {
+					if ($maintenace_type == "preventive" && $status == "closed_so") {
 						$arrParam = array(
 							"table" => "preventive_maintenance",
 							"primaryKey" => "id_preventive_maintenance",
@@ -254,10 +275,8 @@ class Serviceorder extends CI_Controller {
 							$this->general_model->updateRecord($arrParam);
 						}
 					}
-					//If we close the service orden then we update the current equipment hours
+					//If we close the service orden then we send a twilio message
 					if ($status == "closed_so") {
-						$this->serviceorder_model->saveEquipmentCurrentHours();
-
 						//busco datos del vehiculo
 						$arrParam = array("idVehicle" => $data["idEquipment"]);
 						$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);
