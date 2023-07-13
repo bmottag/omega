@@ -38,10 +38,12 @@ if($userRol==99){
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -50,10 +52,12 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
@@ -76,47 +80,46 @@ $fuel_system_check = $vehicleInfo[0]["fuel_system_check"];
 //preguntar especiales para HYDROVAC para que muestre mensaje si es inseguro sacar el camion
 if ($heater_check == 0 || $brakes_check == 0 || $lights_check == 0 || $steering_wheel_check == 0 || $suspension_system_check == 0 || $tires_check == 0 || $wipers_check == 0 || $air_brake_check == 0 || $driver_seat_check == 0 || $fuel_system_check == 0) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			A major defect has beed identified in the last inspecton, a driver is not legally permitted
-			to operate the vehicle until that defect is prepared.
+	<div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					A major defect has beed identified in the last inspecton, a driver is not legally permitted
+					to operate the vehicle until that defect is prepared.
 			
-<?php 
-if ($heater_check == 0) {
-	echo "<br>Heater - Fail"; 
-}
-if ($brakes_check == 0) {
-	echo "<br>Brake pedal - Fail"; 
-}
-if ($lights_check == 0) {
-	echo "<br>Lamps and reflectors - Fail"; 
-}
-if ($steering_wheel_check == 0) {
-	echo "<br>Steering wheel - Fail"; 
-}
-if ($suspension_system_check == 0) {
-	echo "<br>Suspension system - Fail"; 
-}
-if ($tires_check == 0) {
-	echo "<br>Tires/Lug Nuts/Pressure - Fail"; 
-}
-if ($wipers_check == 0) {
-	echo "<br>Wipers/Washers - Fail"; 
-}
-if ($air_brake_check == 0) {
-	echo "<br>Air brake system - Fail"; 
-}
-if ($driver_seat_check == 0) {
-	echo "<br>Driver and Passenger door - Fail"; 
-}
-if ($fuel_system_check == 0) {
-	echo "<br>Fuel system - Fail"; 
-}
-			
-?>
-			
-			
+					<?php 
+						if ($heater_check == 0) {
+							echo "<br>Heater - Fail"; 
+						}
+						if ($brakes_check == 0) {
+							echo "<br>Brake pedal - Fail"; 
+						}
+						if ($lights_check == 0) {
+							echo "<br>Lamps and reflectors - Fail"; 
+						}
+						if ($steering_wheel_check == 0) {
+							echo "<br>Steering wheel - Fail"; 
+						}
+						if ($suspension_system_check == 0) {
+							echo "<br>Suspension system - Fail"; 
+						}
+						if ($tires_check == 0) {
+							echo "<br>Tires/Lug Nuts/Pressure - Fail"; 
+						}
+						if ($wipers_check == 0) {
+							echo "<br>Wipers/Washers - Fail"; 
+						}
+						if ($air_brake_check == 0) {
+							echo "<br>Air brake system - Fail"; 
+						}
+						if ($driver_seat_check == 0) {
+							echo "<br>Driver and Passenger door - Fail"; 
+						}
+						if ($fuel_system_check == 0) {
+							echo "<br>Fuel system - Fail"; 
+						}		
+					?>
+			</div>
 		</div>
 	</div>
 <?php
@@ -135,8 +138,7 @@ if ($fuel_system_check == 0) {
 					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
 					<strong>VIN Number: </strong><?php echo $vehicleInfo[0]['vin_number']; ?><br>
 					<p class='text-danger'>
-						<strong>Current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
-						<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change"]); ?> hours
+						<strong>Equipment Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
 					</p>
 					
 <!-- INICIO Firma del conductor -->					

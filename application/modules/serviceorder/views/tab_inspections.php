@@ -97,13 +97,13 @@ if ($retornoError) {
 
                         //si es sweeper
                         if($tipo == 15){
-                            echo "Truck engine current hours: " . number_format($lista["current_hours"]);
-                            echo "<br>Sweeper engine current hours: " . number_format($lista["current_hours_2"]);
+                            echo "<b>Truck Engine Hours: </b>" . number_format($lista["current_hours"]);
+                            echo "<br><b>Sweeper Engine Hours: </b>" . number_format($lista["current_hours_2"]);
                         //si es hydrovac
                         }elseif($tipo == 16){
-                            echo "Engine current hours: " . number_format($lista["current_hours"]);
-                            echo "<br>Hydraulic pump current hours: " . number_format($lista["current_hours_2"]);
-                            echo "<br>Blower current hours: " . number_format($lista["current_hours_3"]);
+                            echo "<b>Engine Hours: </b>" . number_format($lista["current_hours"]);
+                            echo "<br><b>Hydraulic Pump Hours: </b>" . number_format($lista["current_hours_2"]);
+                            echo "<br><b>Blower Hours: </b>" . number_format($lista["current_hours_3"]);
                         }else{
                             echo number_format($lista["current_hours"]);
                         }
