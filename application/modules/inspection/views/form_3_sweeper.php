@@ -35,10 +35,12 @@ if($userRol==99){
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -47,10 +49,12 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
@@ -69,11 +73,8 @@ if ($retornoError) {
 					<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
 					<strong>VIN Number: </strong><?php echo $vehicleInfo[0]['vin_number']; ?><br>
 					<p class='text-danger'>
-						<strong>Truck engine current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
-						<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change"]); ?> hours
-						
-						<br><strong>Sweeper engine current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_2"]); ?> hours
-						<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change_2"]); ?> hours
+						<strong>Truck Engine Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
+						<br><strong>Sweeper Engine Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_2"]); ?> hours
 					</p>
 					
 <!-- INICIO Firma del conductor -->					
@@ -160,14 +161,14 @@ if ($retornoError) {
 				<div class="panel-body">
 				
 					<div class="form-group">									
-						<label class="col-sm-4 control-label" for="hours">Truck engine current hours <small class="text-primary">(Horas actuales)</small></label>
+						<label class="col-sm-4 control-label" for="hours">Truck Engine Current Hours <small class="text-primary">(Horas actuales)</small></label>
 						<div class="col-sm-5">
 							<input type="text" id="hours" name="hours" class="form-control" value="<?php if($information){ echo $vehicleInfo[0]["hours"]; }?>" placeholder="Hours" required >
 						</div>
 					</div>
 					
 					<div class="form-group">									
-						<label class="col-sm-4 control-label" for="hours2">Sweeper engine current hours <small class="text-primary">(Horas actuales)</small></label>
+						<label class="col-sm-4 control-label" for="hours2">Sweeper Engine Current Hours <small class="text-primary">(Horas actuales)</small></label>
 						<div class="col-sm-5">
 							<input type="text" id="hours2" name="hours2" class="form-control" value="<?php if($information){ echo $vehicleInfo[0]["hours_2"]; }?>" placeholder="Hours" required >
 						</div>
