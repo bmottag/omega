@@ -34,7 +34,6 @@
 								<th>Unit Number</th>
 								<th>VIN Number</th>
 								<th>Hours/Kilometers</th>
-								<th>Next Oil Change</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -45,15 +44,7 @@
 								echo "<td>" . $vehicleInfo[0]["description"] . "</td>";
 								echo "<td class='text-center'>" . $vehicleInfo[0]["unit_number"] . "</td>";
 								echo "<td class='text-center'>" . $vehicleInfo[0]["vin_number"] . "</td>";
-								
-								$diferencia = $vehicleInfo[0]["oil_change"] - $vehicleInfo[0]["hours"];
-								$class = "";
-								if($diferencia <= 50){
-									$class = "danger";
-								}
-								
-								echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($vehicleInfo[0]["hours"]) . "</strong></p></td>";
-								echo "<td class='text-right " . $class . "'><p class='text-" . $class . "'><strong>" . number_format($vehicleInfo[0]["oil_change"]) . "</strong></p></td>";
+								echo "<td class='text-right'><strong>" . number_format($vehicleInfo[0]["hours"]) . "</strong></td>";
 								echo "</tr>";
 						?>
 						</tbody>
@@ -72,7 +63,7 @@
 						<div class="col-lg-12">				
 							<div class="panel panel-info">
 								<div class="panel-heading">
-									Upload vehicle photo
+									<b>Upload Equipment Photo</b>
 								</div>
 								<div class="panel-body">
 									<div class="form-group">

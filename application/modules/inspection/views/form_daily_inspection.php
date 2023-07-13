@@ -20,13 +20,13 @@ if($userRol==99){
 	$truck = FALSE; //cargo bandera para utilizarla en los campos que son para TRUCK -> inpection type 3
 	$tituloHorn = "Electrical Horn";
 	$tituloHours = "KILOMETERS";
-	$tituloSmallHours = "Current Kilometers";
+	$tituloSmallHours = "Kilometers";
 	$tituloShort = " km";
 	if($inspectionType == 3){
 		$truck = TRUE;
 		$tituloHorn = "Electrical & Air Horn";
 		$tituloHours = "HOURS";	
-		$tituloSmallHours = "Current Hours";	
+		$tituloSmallHours = "Hours";	
 		$tituloShort = " hours";
 	}
 ?>
@@ -60,10 +60,12 @@ if($userRol==99){
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -72,10 +74,12 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
@@ -163,30 +167,24 @@ if ($fuel_system_check == 0) {
 					echo "<p class='text-danger'>";
 					//si es sweeper
 					if($tipo == 15){
-						echo "<strong>Truck engine " . $tituloSmallHours . ":</strong>";
+						echo "<strong>Truck Engine " . $tituloSmallHours . ":</strong>";
 						echo number_format($vehicleInfo[0]["hours"]);
-						echo "<br><strong>Next oil change: </strong>" . number_format($vehicleInfo[0]["oil_change"]);
 						
-						echo "<br><strong>Sweeper engine " . $tituloSmallHours . ":</strong>";
+						echo "<br><strong>Sweeper Engine " . $tituloSmallHours . ":</strong>";
 						echo number_format($vehicleInfo[0]["hours_2"]) . $tituloShort;
-						echo "<br><strong>Next oil change: </strong>" . number_format($vehicleInfo[0]["oil_change_2"]). $tituloShort;
 					//si es hydrovac
 					}elseif($tipo == 16){
 						echo "<strong>Engine " . $tituloSmallHours . ":</strong>";
 						echo number_format($vehicleInfo[0]["hours"]). $tituloShort;
-						echo "<br><strong>Next oil change: </strong>" . number_format($vehicleInfo[0]["oil_change"]). $tituloShort;
 
-						echo "<br><strong>Hydraulic pump " . $tituloSmallHours . ":</strong>";
+						echo "<br><strong>Hydraulic Pump " . $tituloSmallHours . ":</strong>";
 						echo number_format($vehicleInfo[0]["hours_2"]). $tituloShort;
-						echo "<br><strong>Next oil change: </strong>" . number_format($vehicleInfo[0]["oil_change_2"]). $tituloShort;
 						
 						echo "<br><strong>Blower " . $tituloSmallHours . ":</strong>";
 						echo number_format($vehicleInfo[0]["hours_3"]). $tituloShort;
-						echo "<br><strong>Next oil change: </strong>" . number_format($vehicleInfo[0]["oil_change_3"]). $tituloShort;
 					}else{
 						echo "<strong>" . $tituloSmallHours . ": </strong>";
 						echo number_format($vehicleInfo[0]["hours"]). $tituloShort;
-						echo "<br><strong>Next oil change: </strong>" . number_format($vehicleInfo[0]["oil_change"]). $tituloShort;
 					}
 					echo "</p>";
 					
