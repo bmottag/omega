@@ -244,7 +244,7 @@ class Inspection extends CI_Controller {
 							$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 							$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
 							$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-							$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
+							$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 							$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 							$emailMsn .= $failsEmail;
 
@@ -394,7 +394,7 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
+						$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 
 						$mensaje = "<html>
@@ -555,58 +555,43 @@ class Inspection extends CI_Controller {
 				 * y verifico si hay comentarios y envio correo al administrador
 				 */
 				if($flag)
-				{
-					//busco datos del vehiculo
-					$arrParam = array(
-						"table" => "param_vehicle",
-						"order" => "id_vehicle",
-						"column" => "id_vehicle",
-						"id" => $idVehicle
-					);
-					$this->load->model("general_model");
-					$vehicleInfo = $this->general_model->get_basic_search($arrParam);
-					
+				{			
 					//el que vaya con comentario le envio correo al administrador
 					$comments = $this->input->post('comments');
+					$hours = $this->input->post('hours');
 
 					//OIL CAHNGE
 					$state = 1;//Inspection
 					$this->inspection_model->saveVehicleNextOilChange($idVehicle, $state, $idGeneratorInspection);
 					
-					//verificar el kilometraje
-					//si se paso del cambio de aceite o esta cerca entonces enviar correo al administrador
-					$hours = $this->input->post('hours');
-					$oilChange = $this->input->post('oilChange');
-					$diferencia = $oilChange - $hours;
-
 					//flag
 					$sendNotification = false;
-					if($diferencia <= 50 && $comments == ""){
-						$emailMsnTitle = "<p>The following vehicle needs to change the oil as soon as possible.</p>";
-						$subjet = "Oil Change";
-						$sendNotification = true;
-					} elseif($diferencia <= 50 && $comments != ""){
-						$emailMsnTitle = "<ul><li>The following vehicle needs to change the oil as soon as possible.</li>";
-						$emailMsnTitle .= "<li>The following inspection have comments please check the complete report in the system.</li></ul>";
-						$subjet = "Oil Change & Inspection with comments";
-						$sendNotification = true;
-					} elseif($comments != ""){
+					if($comments != ""){
 						$emailMsnTitle = "<p>The following inspection have comments please check the complete report in the system.</p>";
 						$subjet = "Inspection with comments";
 						$sendNotification = true;
 					}
 
 					//enviar correo
-					if($sendNotification){						
+					if($sendNotification)
+					{
+						//busco datos del vehiculo
+						$arrParam = array(
+							"table" => "param_vehicle",
+							"order" => "id_vehicle",
+							"column" => "id_vehicle",
+							"id" => $idVehicle
+						);
+						$this->load->model("general_model");
+						$vehicleInfo = $this->general_model->get_basic_search($arrParam);
+
 						//mensaje del correo
 						$emailMsn = $emailMsnTitle;
 						$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
-						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
-						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 
 						$mensaje = "<html>
@@ -623,7 +608,6 @@ class Inspection extends CI_Controller {
 
 						//mensaje de texto
 						$mensajeSMS = "APP VCI - " . $subjet;
-						$mensajeSMS .= $diferencia <= 50?"\nThe following vehicle needs to change the oil as soon as possible.":"";
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 						$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
 						
@@ -772,9 +756,7 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
-						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
-						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 
 						$mensaje = "<html>
@@ -1025,9 +1007,7 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
-						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
-						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 						$emailMsn .= $failsEmail;
 
@@ -1274,9 +1254,7 @@ class Inspection extends CI_Controller {
 						$emailMsn .= "<br><strong>Model: </strong>" . $vehicleInfo[0]["model"];
 						$emailMsn .= "<br><strong>Unit Number: </strong>" . $vehicleInfo[0]["unit_number"];
 						$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
-						$emailMsn .= "<br><strong>Current Hours/Kilometers: </strong>" . number_format($hours);
-						$emailMsn .= "<br><strong>Next Oil Change: </strong>" . number_format($oilChange);
-						$emailMsn .= "<p>If you change the Oil, do not forget to update the next Oil Change in the system.</p>";
+						$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 						$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
 						$emailMsn .= $failsEmail;
 

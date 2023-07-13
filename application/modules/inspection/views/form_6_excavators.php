@@ -30,7 +30,7 @@ if($userRol==99){
 				</div>
 				<div class="panel-body">
 
-				<?php
+<?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
