@@ -682,6 +682,44 @@ class Serviceorder extends CI_Controller {
 					$this->serviceorder_model->add_maintenance_check($lista["id_preventive_maintenance"]);
 				}
 			endforeach;
+
+			$this->load->model("general_model");
+			$infoMaintenance = $this->general_model->get_maintenance_check();
+			if($infoMaintenance){
+				//send notifiation
+				$subjet = "Preventive Maintenance List";
+				$module = base64_encode("DASHBOARD_MAINTENANCE_LIST"); 
+				$emailMsn = "There is an urgent need to carry out <b>Preventive Maintenance</b> as soon as possible.";
+				$emailMsn .= "<br>Follow the link to see the list. ";
+				$emailMsn .= "<a href='" . base_url("login/index/x/" . $module . "/x") . "' >Click here </a>";
+
+				$mensaje = "<html>
+							<head>
+							<title> $subjet </title>
+							</head>
+							<body>
+								<p>Dear	Administrator:</p>
+								<p>$emailMsn</p>
+								<p>Cordially,</p>
+								<p><strong>V-CONTRACTING INC</strong></p>
+							</body>
+							</html>";
+
+				//mensaje de texto
+				$mensajeSMS = "APP VCI - " . $subjet ;
+				$mensajeSMS .= "\nThere is an urgent need to carry out Preventive Maintenance as soon as possible.";
+				$mensajeSMS .= "\n>Follow the link to see the list.";
+				$mensajeSMS .= "\n\n" . base_url("login/index/x/" . $module . "/x");
+				
+				//enviar correo a VCI
+				$arrParam = array(
+					"idNotification" => ID_NOTIFICATION_MAINTENANCE,
+					"subjet" => $subjet,
+					"msjEmail" => $mensaje,
+					"msjPhone" => $mensajeSMS
+				);
+				send_notification($arrParam);
+			}
 			
 			return true;
 	}

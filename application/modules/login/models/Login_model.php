@@ -65,7 +65,7 @@
 
 			if($moduleURL != "x"){	
 				$state = 10;
-				$moduleURL .= "/" . $moduleId;
+				$moduleURL .= $moduleId != "x" ? "/" . $moduleId : "";
 			}elseif($idVehicle != "x"){				
 				if($inspectionType == 99 || $linkInspection == "NA"){
 					$state = 99;//NO HAY FORMATO DE INSPECTION

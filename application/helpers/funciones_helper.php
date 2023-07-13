@@ -122,55 +122,56 @@ if (!function_exists("send_notification")) {
 
         $CI = &get_instance();
         $CI->load->model('general_model');
-        $configuracionAlertas = $CI->general_model->get_notifications_access($arrParam);
+        $notificationSettings = $CI->general_model->get_notifications_access($arrParam);
 
-        if($arrDatos["msjPhone"]){
-            //configuracion para envio de mensaje de texto
-            $CI->load->library('encrypt');
-            require 'vendor/Twilio/autoload.php';
+        if( $notificationSettings)
+        {
+            if($arrDatos["msjPhone"]){
+                //configuracion para envio de mensaje de texto
+                $CI->load->library('encrypt');
+                require 'vendor/Twilio/autoload.php';
 
-            //busco datos parametricos twilio
-            $arrParam = array(
-                "table" => "parametric",
-                "order" => "id_parametric",
-                "id" => "x"
-            );
-            $parametric = $CI->general_model->general_model->get_basic_search($arrParam);						
-            $dato1 = $CI->encrypt->decode($parametric[3]["value"]);
-            $dato2 = $CI->encrypt->decode($parametric[4]["value"]);
-            $twilioPhone = $parametric[5]["value"];
-            
-            $client = new Twilio\Rest\Client($dato1, $dato2);
-        }
-
-        foreach($configuracionAlertas as $envioAlerta):
-            //envio correo 
-            if($envioAlerta['email'] && $arrDatos["msjEmail"])
-            {
-                $to = $envioAlerta['email'];
-
-                $headers  = 'MIME-Version: 1.0' . "\r\n";
-                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                $headers .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
-                //enviar correo
-                $envio = mail($to, $arrDatos["subjet"], $arrDatos["msjEmail"], $headers);
-            }
-
-            //envio mensaje de texto
-            if($envioAlerta['movil'] && $arrDatos["msjPhone"]){
-                $to = '+1' . $envioAlerta['movil'];
-
-                $client->messages->create(
-                    $to,
-                    array(
-                        'from' => $twilioPhone,
-                        'body' => $arrDatos["msjPhone"]
-                    )
+                //busco datos parametricos twilio
+                $arrParam = array(
+                    "table" => "parametric",
+                    "order" => "id_parametric",
+                    "id" => "x"
                 );
+                $parametric = $CI->general_model->general_model->get_basic_search($arrParam);						
+                $dato1 = $CI->encrypt->decode($parametric[3]["value"]);
+                $dato2 = $CI->encrypt->decode($parametric[4]["value"]);
+                $twilioPhone = $parametric[5]["value"];
+                
+                $client = new Twilio\Rest\Client($dato1, $dato2);
             }
 
-        endforeach;
+            foreach($notificationSettings as $envioAlerta):
+                //envio correo 
+                if($envioAlerta['email'] && $arrDatos["msjEmail"])
+                {
+                    $to = $envioAlerta['email'];
 
+                    $headers  = 'MIME-Version: 1.0' . "\r\n";
+                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                    $headers .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+                    //enviar correo
+                    $envio = mail($to, $arrDatos["subjet"], $arrDatos["msjEmail"], $headers);
+                }
+
+                //envio mensaje de texto
+                if($envioAlerta['movil'] && $arrDatos["msjPhone"]){
+                    $to = '+1' . $envioAlerta['movil'];
+
+                    $client->messages->create(
+                        $to,
+                        array(
+                            'from' => $twilioPhone,
+                            'body' => $arrDatos["msjPhone"]
+                        )
+                    );
+                }
+            endforeach;
+        }
     }
 
 }
