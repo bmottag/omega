@@ -708,7 +708,7 @@ class Serviceorder extends CI_Controller {
 				//mensaje de texto
 				$mensajeSMS = "APP VCI - " . $subjet ;
 				$mensajeSMS .= "\nThere is an urgent need to carry out Preventive Maintenance as soon as possible.";
-				$mensajeSMS .= "\n>Follow the link to see the list.";
+				$mensajeSMS .= "\nFollow the link to see the list.";
 				$mensajeSMS .= "\n\n" . base_url("login/index/x/" . $module . "/x");
 				
 				//enviar correo a VCI

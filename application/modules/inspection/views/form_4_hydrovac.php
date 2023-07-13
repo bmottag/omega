@@ -40,10 +40,12 @@ if($userRol==99){
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -52,15 +54,17 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+    <div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
 }
-?> 
+?>  
 
 <?php
 $heater_check = $vehicleInfo[0]["heater_check"];
@@ -137,14 +141,9 @@ if ($fuel_system_check == 0) {
 			<strong>Unit Number: </strong><?php echo $vehicleInfo[0]['unit_number']; ?><br>
 			<strong>VIN Number: </strong><?php echo $vehicleInfo[0]['vin_number']; ?><br>
 			<p class='text-danger'>
-				<strong>Engine current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
-				<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change"]); ?> hours
-				
-				<br><strong>Hydraulic pump current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_2"]); ?> hours
-				<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change_2"]); ?> hours
-				
-				<br><strong>Blower current Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_3"]); ?> hours
-				<br><strong>Next oil change: </strong><?php echo number_format($vehicleInfo[0]["oil_change_3"]); ?> hours
+				<strong>Engine Hours: </strong><?php echo number_format($vehicleInfo[0]["hours"]); ?> hours
+				<br><strong>Hydraulic Pump Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_2"]); ?> hours
+				<br><strong>Blower Hours: </strong><?php echo number_format($vehicleInfo[0]["hours_3"]); ?> hours
 			</p>
 					
 <!-- INICIO Firma del conductor -->					
