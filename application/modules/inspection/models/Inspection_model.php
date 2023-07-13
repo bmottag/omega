@@ -208,6 +208,22 @@
 				);	
 				$query = $this->db->insert('vehicle_oil_change', $data);
 				if ($query) {
+
+					$data = array(
+						'hours' => $this->input->post('hours'),
+						'hours_2' => $this->input->post('hours2'),
+						'hours_3' => $this->input->post('hours3')
+					);
+
+					$this->db->where('id_vehicle', $idVehicle);
+					$query = $this->db->update('param_vehicle', $data);
+
+					if ($query) {
+						return true;
+					}else{
+						//se debe borrar el registro en la tabla vehicle_oil_change
+						return false;
+					}
 					return true;
 				} else {
 					return false;

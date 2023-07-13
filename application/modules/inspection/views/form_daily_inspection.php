@@ -183,7 +183,7 @@ if ($fuel_system_check == 0) {
 						echo "<br><strong>Blower " . $tituloSmallHours . ":</strong>";
 						echo number_format($vehicleInfo[0]["hours_3"]). $tituloShort;
 					}else{
-						echo "<strong>" . $tituloSmallHours . ": </strong>";
+						echo "<strong>Equipment " . $tituloSmallHours . ": </strong>";
 						echo number_format($vehicleInfo[0]["hours"]). $tituloShort;
 					}
 					echo "</p>";
