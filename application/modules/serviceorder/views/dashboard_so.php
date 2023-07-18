@@ -22,6 +22,7 @@
 					<input type="hidden" id="hddSpecificIdServiceOrder" name="hddSpecificIdServiceOrder" value="<?php echo $infoSpecificSO ? $infoSpecificSO[0]['id_service_order'] : '' ?>"/>
 					<?php $idSpecificEquipment = $infoSpecificSO ? $infoSpecificSO[0]['fk_id_equipment'] : ($idEquipment ? $idEquipment : '');?>
 					<input type="hidden" id="hddSpecificIdEquipment" name="hddSpecificIdEquipment" value="<?php echo $idSpecificEquipment; ?>"/>
+					<input type="hidden" id="hddModuleView" name="hddModuleView" value="<?php echo $moduleView; ?>"/>
                 </div>
                 <div class="panel-body">
                     <div class="list-group">

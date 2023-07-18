@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/preventive_maintenance.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/preventive_maintenance_v2.js"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -98,7 +98,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmitMaintenance" name="btnSubmitMaintenance" class="btn btn-primary" >
+					<button type="button" id="btnSubmitMaintenance" name="btnSubmitMaintenance" class="btn btn-violeta" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>

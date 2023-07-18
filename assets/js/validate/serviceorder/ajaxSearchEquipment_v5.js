@@ -9,10 +9,15 @@ $(document).ready(function () {
 	$(function() {
 		var serviceOrderId = $('#hddSpecificIdServiceOrder').val();
 		var equipmentId = $('#hddSpecificIdEquipment').val();
+		var moduleView = $('#hddModuleView').val();
 		if(serviceOrderId != ""){
 			loadEquipmentDetail( equipmentId , 'tab_service_order_detail', serviceOrderId );
 		}else if(equipmentId != ""){
-			loadEquipmentDetail( equipmentId, 'tab_preventive_maintenance' );
+			if(moduleView != ""){
+				loadEquipmentDetail( equipmentId, moduleView );
+			}else{
+				loadEquipmentDetail( equipmentId, 'tab_preventive_maintenance' );
+			}
 		}
 	})
 	   

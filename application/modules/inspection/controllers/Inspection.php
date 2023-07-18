@@ -238,6 +238,10 @@ class Inspection extends CI_Controller {
 							$this->load->model("general_model");
 							$vehicleInfo = $this->general_model->get_basic_search($arrParam);	
 
+							$module = base64_encode("INSPECTION_LIST_BY_EQUIPMENT_ID"); 
+							$idModule = base64_encode($idVehicle); 
+							$urlMovil = base_url("login/index/x/" . $module . "/" . $idModule);
+
 							//mensaje del correo
 							$emailMsn = $emailMsnTitle;
 							$emailMsn .= "<strong>Make: </strong>" . $vehicleInfo[0]["make"];
@@ -246,7 +250,8 @@ class Inspection extends CI_Controller {
 							$emailMsn .= "<br><strong>Description: </strong>" . $vehicleInfo[0]["description"];
 							$emailMsn .= "<br><strong>Equipment Hours/Kilometers: </strong>" . number_format($hours);
 							$emailMsn .= $comments != ""?"<br><strong>Comments: </strong>" . $comments:"";
-							$emailMsn .= $failsEmail;
+							$emailMsn .= $failsEmail ? "<p><b>Fails:</b><br>" . $failsEmail . "</p>" : "" ;
+							$emailMsn .= "<p>Follow the link to see the list. <a href='" . $urlMovil . "' >Click here </a></p>";
 
 							$mensaje = "<html>
 										<head>
@@ -265,6 +270,7 @@ class Inspection extends CI_Controller {
 							$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 							$mensajeSMS .= $comments != ""?"\nComments: " . $comments:"";
 							$mensajeSMS .= $fails;
+							$mensajeSMS .= "\n\nSee: ".$urlMovil;
 							
 							//enviar correo a VCI
 							$arrParam = array(

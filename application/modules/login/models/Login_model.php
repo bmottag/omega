@@ -64,8 +64,11 @@
 			$moduleId = $this->input->post("hddModuleId");
 
 			if($moduleURL != "x"){	
-				$state = 10;
-				$moduleURL .= $moduleId != "x" ? "/" . $moduleId : "";
+				$state = 10;		
+				if($moduleId != "x"){
+					$pattern = '/ID_REPLACE/i';
+					$moduleURL = preg_replace($pattern, $moduleId, $moduleURL);
+				}
 			}elseif($idVehicle != "x"){				
 				if($inspectionType == 99 || $linkInspection == "NA"){
 					$state = 99;//NO HAY FORMATO DE INSPECTION

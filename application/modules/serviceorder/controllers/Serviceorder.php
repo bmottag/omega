@@ -13,13 +13,14 @@ class Serviceorder extends CI_Controller {
      * @since 19/5/2023
      * @author BMOTTAG
 	 */
-	public function index($idServiceOrder = 'x', $idEquipment = 'x')
+	public function index($idServiceOrder = 'x', $idEquipment = 'x', $moduleView = 'x')
 	{		
 			$data['infoSpecificSO'] = false;
 			$data['infoEquipment'] = false;
 			$data['infoSO'] = false;
 			$data['information'] = false;
 			$data['idEquipment'] = false;
+			$data['moduleView'] = $moduleView;
 			if ($idServiceOrder != 'x') {
 				//Service Order info. When comes form the twilio message
 				$idServiceOrder = base64_decode($idServiceOrder);

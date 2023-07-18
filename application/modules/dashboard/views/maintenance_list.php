@@ -63,7 +63,7 @@
 											echo "<br><strong>Hydraulic pump current hours: </strong><br>" . number_format($listaMaintenance["hours_2"]);
 											echo "<br><strong>Blower current hours: </strong><br>" . number_format($listaMaintenance["hours_3"]);
 										}else{
-											echo "<strong>Engine current hours/Kilometers: </strong><br>" .number_format($listaMaintenance["hours"]);
+											echo "<strong>Engine current Hours/Kilometers: </strong><br>" .number_format($listaMaintenance["hours"]);
 										}
 									}
 								echo "</td>";
