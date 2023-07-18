@@ -637,7 +637,7 @@ class Serviceorder extends CI_Controller {
 			$data["idServiceOrder"] = $this->input->post('hddIdServiceOrder');
 			$data["idEquipment"] = $this->input->post('hddIdEquipment');
 			
-			$msj = "You have added a new Part!!";
+			$msj = "You have added a new record!!";
 			if ($idParts != '') {
 				$msj = "You have updated the information!!";
 			}

@@ -187,7 +187,7 @@ if ($retornoError) {
 	<div class="col-lg-6">	
 		<div class="chat-panel panel panel-violeta">
 			<div class="panel-heading">
-				<i class="fa fa-legal fa-fw"></i> Parts
+				<i class="fa fa-legal fa-fw"></i> Parts or Additional Cost
 			</div>
 
 			<div class="panel-body">
@@ -230,7 +230,7 @@ if ($retornoError) {
 				<div class="input-group">					
 					<span class="input-group-btn">
 						<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" data-toggle="modal" data-target="#modalServiceOrder" id="x" <?php echo $deshabilitar; ?>>
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Parts
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Parts or Additional Cost
 						</button>
 					</span>
 				</div>

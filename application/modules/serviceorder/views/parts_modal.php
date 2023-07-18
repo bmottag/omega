@@ -2,9 +2,7 @@
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Parts Form
-		<br><small>Add/Edit Part</small>
-	</h4>
+	<h4 class="modal-title" id="exampleModalLabel">Parts or Additional Cost	</h4>
 </div>
 
 <div class="modal-body">
@@ -13,12 +11,11 @@
 		<input type="hidden" id="hddIdServiceOrder" name="hddIdServiceOrder" value="<?php echo $this->input->post("idServiceOrder"); ?>"/>
 		<input type="hidden" id="hddIdEquipment" name="hddIdEquipment" value="<?php echo $this->input->post("idEquipment"); ?>" />
 
-
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="part_description">Part Description: *</label>
-					<input type="text" id="part_description" name="part_description" class="form-control" placeholder="Part Description" value="<?php echo $information?$information[0]["part_description"]:""; ?>" >
+					<label class="control-label" for="part_description">Description: *</label>
+					<input type="text" id="part_description" name="part_description" class="form-control" placeholder="Description" value="<?php echo $information?$information[0]["part_description"]:""; ?>" >
 				</div>
 			</div>
 		</div>
