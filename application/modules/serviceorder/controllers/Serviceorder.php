@@ -34,7 +34,7 @@ class Serviceorder extends CI_Controller {
 				$data['infoEquipment'] = $this->general_model->countEquipmentByType();
 				$data['infoSO'] = $this->general_model->countSOByStatus();
 				$arrParam = array(
-					"limit" => 10
+					"limit" => 50
 				);
 				$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
 			}

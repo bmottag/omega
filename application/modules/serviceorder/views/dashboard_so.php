@@ -121,7 +121,7 @@
 				<div class="col-lg-12 col-md-12 col-sm-12">
 					<div class="panel panel-info">
 						<div class="panel-heading"> 
-							<i class="fa fa-briefcase"></i> <strong>Last 10 Service Orders</strong>
+							<i class="fa fa-briefcase"></i> <strong>Last 50 Service Orders</strong>
 						</div>
 						<div class="panel-body small">
 							<?php 										
