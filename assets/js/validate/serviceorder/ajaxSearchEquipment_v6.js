@@ -13,7 +13,7 @@ $(document).ready(function () {
 		if(serviceOrderId != ""){
 			loadEquipmentDetail( equipmentId , 'tab_service_order_detail', serviceOrderId );
 		}else if(equipmentId != ""){
-			if(moduleView != ""){
+			if(moduleView != "x"){
 				loadEquipmentDetail( equipmentId, moduleView );
 			}else{
 				loadEquipmentDetail( equipmentId, 'tab_preventive_maintenance' );
