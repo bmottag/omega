@@ -118,6 +118,11 @@ class Home {
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
 					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
+            } else if ($this->ci->uri->segment(1) == "serviceorder") {
+                $arrControllers = array("generateSOReportPDF");
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
             } else if ($this->ci->uri->segment(1) == "jobs") {
                 $arrControllers = array("generaERPPDF", "generaTemplatePDF", "generaJSOPDF", "generaJHAPDF", "generaFIREWATCHPDF", "generaFIREWATCHLOGPDF");
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {

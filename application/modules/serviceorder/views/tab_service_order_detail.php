@@ -80,6 +80,9 @@ $(function(){
 						<small class="text-<?php echo $information[0]['priority_style']; ?>"><i class="fa <?php echo $information[0]['priority_icon']; ?> fa-fw"></i><?php echo $information[0]['priority_name']; ?> </small>
 						<br><small><b>Status: </b></small>
 						<small class="text-<?php echo $information[0]['status_style']; ?>"><i class="fa <?php echo $information[0]['status_icon']; ?> fa-fw"></i><?php echo $information[0]['status_name']; ?> </small>
+						<?php if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_SAFETY){ 	?>
+							<br><a href='<?php echo base_url('serviceorder/generateSOReportPDF/' . $information[0]["id_service_order"] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
+						<?php } ?>
 					</div>
 					<div class="col-lg-6">	
 						<small>

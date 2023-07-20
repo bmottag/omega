@@ -737,5 +737,102 @@ class Serviceorder extends CI_Controller {
 			return true;
 	}
 
+	/**
+	 * Generate Service Order Report in PDF
+	 * @param int $idServiceOrder
+     * @since 20/07/2023
+     * @author BMOTTAG
+	 */
+	public function generateSOReportPDF($idServiceOrder)
+	{
+			$this->load->library('Pdf');
+			
+			// create new PDF document
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			
+			$arrParam = array("idServiceOrder" => $idServiceOrder);		
+			$data['info'] = $this->serviceorder_model->get_service_order($arrParam);
+			
+			$fecha = date('F j, Y', strtotime($data['info'][0]['created_at']));
+
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor('VCI');
+			$pdf->SetTitle('WORK ORDER');
+			$pdf->SetSubject('TCPDF Tutorial');
+
+			// set default header data
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SERVICE ORDER', 'S.O. #: ' . $idServiceOrder . "\nS.O. date: " . $fecha, array(0,64,255), array(0,64,128));			
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			
+			$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+			// set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			// set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			// set some language-dependent strings (optional)
+			if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+				require_once(dirname(__FILE__).'/lang/eng.php');
+				$pdf->setLanguageArray($l);
+			}
+
+			// ---------------------------------------------------------
+
+			// set font
+			$pdf->SetFont('dejavusans', '', 8);
+
+			// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+			// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+			
+			$arrParam = array(
+				"idModule" => $idServiceOrder,
+				"module" => ID_MODULE_SERVICE_ORDER
+			);
+			$data['chatInfo'] = $this->serviceorder_model->get_chat_info($arrParam);
+
+			$arrParam = array("idServiceOrder" => $idServiceOrder);
+			$data['infoParts'] = $this->serviceorder_model->get_parts($arrParam);
+
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// Print a table
+				
+			// add a page
+			//$pdf->AddPage('L', 'A4');
+			$pdf->AddPage();
+
+			$html = $this->load->view("service_order_report", $data, true);
+	
+			// output the HTML content
+			$pdf->writeHTML($html, true, false, true, false, '');
+			
+			// Print some HTML Cells
+
+			// reset pointer to the last page
+			$pdf->lastPage();
+
+
+			//Close and output PDF document
+			$pdf->Output('service_order_report' . $idServiceOrder . '.pdf', 'I');
+
+			//============================================================+
+			// END OF FILE
+			//============================================================+
+		
+	}	
+
 
 }
