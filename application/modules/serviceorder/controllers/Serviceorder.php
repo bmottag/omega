@@ -95,16 +95,18 @@ class Serviceorder extends CI_Controller {
 			$data['nextMaintenance'] = "";
 			$data['nextMaintenanceValue'] = "";
 			$data['maintenanceDescription'] = "";
+			$data['maintenanceDescriptionSMS'] = "";
 			$data['maintenanceTypeDescription'] = "";
 			if ($data['maintenanceType'] == "corrective") {			
 				$infoMaintenance = $this->serviceorder_model->get_corrective_maintenance($arrParam);
-				$data['maintenanceDescription'] = $infoMaintenance[0]["description_failure"]; 
+				$data['maintenanceDescriptionSMS'] = $data['maintenanceDescription'] = $infoMaintenance[0]["description_failure"]; 
 				$data['maintenanceTypeDescription'] = "Corrective Maintenance";
 			}else{
 				$infoMaintenance = $this->serviceorder_model->get_preventive_maintenance($arrParam);
 
 				if($infoMaintenance){
 					$data['maintenanceDescription'] = $infoMaintenance[0]["maintenance_description"] . "<br><strong>Maintennace Type: </strong>" . $infoMaintenance[0]["maintenance_type"] ; 
+					$data['maintenanceDescriptionSMS'] = $infoMaintenance[0]["maintenance_description"];
 					$data['maintenanceTypeDescription'] = "Preventive Maintenance";
 
 					if ($data["idServiceOrder"] != 'x') {
@@ -322,7 +324,7 @@ class Serviceorder extends CI_Controller {
 						$arrParam = array(
 							"fk_id_module" => $data["idServiceOrder"],
 							"module" => ID_MODULE_SERVICE_ORDER,
-							"message" => "The Service Order status has been updated. From " . $oldStatus . "to " . $status
+							"message" => "The Service Order status has been updated: " . $oldStatus . " ---> " . $status . "."
 						);	
 						$this->general_model->saveChat($arrParam);
 					}
