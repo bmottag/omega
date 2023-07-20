@@ -75,8 +75,11 @@ $(document).ready(function () {
 function loadEquipmentList(inspectionType, headerInspectionType) {
 	$("#loader").addClass("loader");
 	$("#div_info_list").css("display", "block");
+	$("#div_main_title").css("display", "block");
+	$("#div_panel_main").css("display", "block");
 	$("#div_info_SO_main").css("display", "none");
 	$("#div_search").css("display", "none");
+	$("#div_detail").css("display", "none");
 	$.ajax ({
 		type: 'POST',
 		url: base_url + 'serviceorder/equipmentList',
