@@ -176,6 +176,7 @@ class Serviceorder extends CI_Controller {
 			$data["idEquipment"] = $this->input->post('hddIdEquipment');
 			$maintenace_type = $this->input->post('hddMaintenanceType');
 			$status = $this->input->post('status');
+			$oldStatus = $this->input->post('hddStatus');
 			$this->load->model("general_model");
 			
 			$msj = "You have added a new Service Order!!";
@@ -277,7 +278,8 @@ class Serviceorder extends CI_Controller {
 						}
 					}
 					//If we close the service orden then we send a twilio message
-					if ($status == "closed_so") {
+					if ($status == "closed_so" && $oldStatus != $status) 
+					{
 						//busco datos del vehiculo
 						$arrParam = array("idVehicle" => $data["idEquipment"]);
 						$vehicleInfo = $this->general_model->get_vehicle_by($arrParam);
@@ -304,10 +306,29 @@ class Serviceorder extends CI_Controller {
 						);
 						send_twilio_message($arrParamTwilio);
 						//END send Twilio message
+
+						//If the user change the status to closed, then the systmen have to calculate the time
+						$arrParam = array(
+							"idServiceOrder" => $this->input->post('hddIdServiceOrder'),
+							"idTime" => $this->input->post('hddIdTime'),
+							"timeDate" => $this->input->post('hddTimeDate'),
+							"time" => $this->input->post('hddTime')
+						);
+						$this->serviceorder_model->saveTime($arrParam);
+					}
+
+					//when the status is chnaged then a new message in the chat table is inserted
+					if($oldStatus != $status){
+						$arrParam = array(
+							"fk_id_module" => $data["idServiceOrder"],
+							"module" => ID_MODULE_SERVICE_ORDER,
+							"message" => "The Service Order status has been updated. From " . $oldStatus . "to " . $status
+						);	
+						$this->general_model->saveChat($arrParam);
 					}
 
 					//If the user change the status to in_progress, then the systmen have to check if any other SO is in progress
-					if ($status == "in_progress_so" && $this->input->post('hddStatus') != "in_progress_so") 
+					if ($status == "in_progress_so" && $oldStatus != "in_progress_so") 
 					{
 						$arrParam = array(
 							"idAssignTo" => $this->input->post('assign_to'),
@@ -340,19 +361,8 @@ class Serviceorder extends CI_Controller {
 							"idTime" => $this->input->post('hddIdTime')
 						);
 						$this->serviceorder_model->saveTime($arrParam);
-					}elseif($status != "in_progress_so" && $this->input->post('hddStatus') == "in_progress_so"){
+					}elseif($status != "in_progress_so" && $oldStatus == "in_progress_so"){
 						//update time for the current SO
-						$arrParam = array(
-							"idServiceOrder" => $this->input->post('hddIdServiceOrder'),
-							"idTime" => $this->input->post('hddIdTime'),
-							"timeDate" => $this->input->post('hddTimeDate'),
-							"time" => $this->input->post('hddTime')
-						);
-						$this->serviceorder_model->saveTime($arrParam);
-					}
-					//If the user change the status to closed, then the systmen have to calculate the time
-					if ($status == "closed_so" && $this->input->post('hddStatus') != "closed_so") 
-					{
 						$arrParam = array(
 							"idServiceOrder" => $this->input->post('hddIdServiceOrder'),
 							"idTime" => $this->input->post('hddIdTime'),
