@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
 	<div class="panel-heading"> 
-		<i class="fa fa-car"></i> <strong>EQUIPMENT LIST - <?php echo $subTitle; ?></strong> 
+		<i class="fa fa-car fa-fw"></i> <strong>EQUIPMENT LIST - <?php echo $subTitle; ?></strong> 
 	</div>
 	<div class="panel-body small">
 	

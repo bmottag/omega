@@ -387,7 +387,7 @@ class Serviceorder extends CI_Controller {
 
 	/**
 	 * Equipment List
-     * @since 20/5/2022
+     * @since 20/5/2023
      * @author BMOTTAG
 	 */
     public function equipmentList() 
@@ -414,15 +414,13 @@ class Serviceorder extends CI_Controller {
 
 	/**
 	 * SO List
-     * @since 14/6/2022
+     * @since 14/6/2023
      * @author BMOTTAG
 	 */
     public function serviceOrderList() 
 	{
         header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
-		//busco info de vehiculo
-		$this->load->model("general_model");
 		$status = $this->input->post('status');
 		if($status != 'x'){
 			$arrParam = array("status" => $this->input->post('status'));
@@ -435,7 +433,7 @@ class Serviceorder extends CI_Controller {
 
 	/**
 	 * Equipment Detail
-     * @since 21/5/2022
+     * @since 21/5/2023
      * @author BMOTTAG
 	 */
     public function equipmentDetail() 
@@ -832,7 +830,27 @@ class Serviceorder extends CI_Controller {
 			// END OF FILE
 			//============================================================+
 		
-	}	
+	}
+
+	/**
+	 * Expenses
+     * @since 21/7/2023
+     * @author BMOTTAG
+	 */
+    public function expenses() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$arrParam = array();
+		$data['information'] = $this->serviceorder_model->get_expenses($arrParam);
+		
+		if($data["information"] )
+		{
+			echo $this->load->view("expenses", $data);
+		}else{				
+			echo "<p class='text-danger'>There are no records.</p>";
+		}
+	}
 
 
 }

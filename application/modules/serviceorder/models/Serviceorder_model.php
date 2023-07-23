@@ -392,4 +392,39 @@
 				}
 		}
 
+		/**
+		 * Expenses Info
+		 * Var year
+		 * @author BMOTTAG
+		 * @since  10/2/2020
+		 */
+		public function get_expenses($arrDatos)
+		{	
+			$year = date('Y');
+			$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+
+			$sql = 'SELECT 
+						V.unit_number, V.description,
+						COUNT(S.fk_id_equipment) AS so_number,
+						ROUND(SUM(T.time),2) AS time_expenses,
+						ROUND(SUM(P.value),2) AS parts_expenses
+					FROM param_vehicle V
+					INNER JOIN service_order S ON V.id_vehicle = S.fk_id_equipment
+					LEFT JOIN service_order_time T ON S.id_service_order = T.fk_id_service_order
+					LEFT JOIN service_order_parts P ON S.id_service_order = P.fk_id_service_order
+					WHERE 
+						V.fk_id_company = 1 
+						AND V.state = 1
+						AND S.created_at >= ' . $firstDay . '
+					GROUP BY V.id_vehicle
+					ORDER BY V.unit_number;';
+			$query = $this->db->query($sql);
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+
 	}

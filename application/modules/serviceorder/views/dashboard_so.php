@@ -65,7 +65,18 @@
                     </div>
                 </div>
             </div>
-			<?php }?>
+			<?php } ?>
+
+			<?php
+				$userRol = $this->session->userdata("rol");
+				if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_SAFETY){ 
+			?>
+			<div class="list-group">
+				<a class="btn btn-outline btn-primary btn-block" onclick="loadExpenses()" >
+					<i class="fa fa-money"></i> Expenses - <?php echo date('Y'); ?>
+				</a>
+			</div>
+			<?php } ?>
         </div>
 
 		<div class="col-lg-8 col-md-6 col-sm-6">
