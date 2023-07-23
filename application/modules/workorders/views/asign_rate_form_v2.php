@@ -805,7 +805,7 @@ if ($retornoError) {
 						echo "</td>";
 
 						echo "<td ><small><strong>Type</strong><br>" . $data['type_2'] . "</small>";
-						if($data['fk_id_attachment'] != ""){
+						if($data['fk_id_attachment'] != "" && $data['fk_id_attachment'] != 0){
 							echo "<p class='text-danger text-left'><small><strong>ATTACHMENT: </strong>" . $data["attachment_number"] . " - " . $data["attachment_description"] . "</small></p>";
 						}else{
 							echo "<br>";

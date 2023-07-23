@@ -156,7 +156,7 @@
 									<th align="center">' . $items . '</th>
 									<th>';
 									
-									if($data['fk_id_attachment'] != ""){
+									if($data['fk_id_attachment'] != "" && $data['fk_id_attachment'] != 0){
 										$html.=	'<strong>ATTACHMENT: </strong>' . $data["attachment_number"] . " - " . $data["attachment_description"] . ' ';
 									}
 
