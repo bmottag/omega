@@ -1,7 +1,64 @@
 <div id="page-wrapper">
 	<br>
 	<div class="row">
-    <div class="col-lg-4">
+        <div class="col-lg-4">
+			<div class="panel panel-violeta">
+				<div class="panel-heading">
+					<strong>New Features Summer 2023</strong>
+				</div>
+				<div class="panel-body">
+					<p>
+                        <b>Settings & Work Orders Attachments</b>
+                        <ul>
+                            <li>A new form was developed to manage attachments. This form allows users to add, edit, and organize attachments related to specific equipment.</li>
+                            <li>A new feature was introduced in the W.O. - equipment form, enabling users to indicate whether equipment was used with attachments. This information is captured and presented in the work order report.</li>
+                        </ul>
+                        <b>Work Orders - Expenses</b>
+                        <br>The following changes were made for expenses in the Work Orders:
+                        <ol>
+                            <li>Expenses are only enabled in WOs when the WO status is set to "Revised."</li>
+                            <li>If expense items have been uploaded without calculating the weight of each item, display an alert in the WO indicating that the calculation needs to be done.</li>
+                            <li>Create the new role of ""Engineer"" with the permissions requested in the previous email.</li>
+                            <li>Add a button in the WO interface to recalculate the Expenses. This addition is necessary because WOs can be edited.</li>
+                            <li>In the WO listing, mark which WOs have not been assigned any Expenses. To achieve this, create a new field in the WO table to place the marker.</li>
+                        </ol>
+                        <b>Service Order</b>	
+                        <br>New Module for Mechanic Work Management
+                        <br>Service Order Control Panel: Summary View and Easy Search Options
+                        <br>The Service Order Control Panel now includes the following features:
+                        <ol>
+                            <li>Easy Links to Find Equipments by Type: The control panel offers convenient links to quickly locate equipment based on their types. This feature streamlines the process of searching for specific types of equipment, optimizing workflow and navigation.</li>
+                            <li>Summary of Service Orders by Status: Users can now access a comprehensive summary of service orders categorized by their status. This provides a quick overview of ongoing, completed, and pending service orders, enabling efficient tracking and management.</li>
+                            <li>Efficient Search Option for Equipment by VIN Number: Users can now perform a seamless search for equipment using their unique VIN. This search option simplifies equipment identification, saving time and effort.</li>
+                            <li>Quick Search for Service Orders by Service Order Number: The control panel also includes an easy-to-use search function for locating service orders by their unique service order numbers. This feature facilitates swift access to specific service order details.</li>
+                        </ol>
+                        This module includes three primary forms:
+                        <ol>
+                            <li>Service Order Form: Allows users to create service orders for tracking maintenance tasks.</li>
+                            <li>Corrective Maintenance Form: Enables users to address and resolve equipment issues or breakdowns.</li>
+                            <li>Preventive Maintenance Form: Facilitates planning and executing routine maintenance tasks to prevent potential equipment failures.</li>
+                        </ol>
+                        More Features:
+                        <ul>
+                            <li>Summary of Equipment Information: The module provides a summarized view of equipment information, allowing users to access crucial details about each piece of equipment easily.</li>
+                            <li>Summary of Expenses: Additionally, the module offers a summarized view of expenses related to Service Orders, aiding in better financial tracking and analysis.</li>
+                            <li>Notification Feature for Preventive Maintenance: A notification system has been integrated into the module. Users will receive notifications when a new preventive maintenance task is ready to be executed, ensuring proactive maintenance planning.</li>
+
+                        </ul>
+                        <b>More	changes</b>
+                        <ul>
+                            <li>In the WO report, adjustments were made to include additional headers for equipment details. The headers ""Make,"" ""Model,"" and ""Description"" have been incorporated into the WO report.</li>
+                            <li>Two new options have been added to the WO Personnel Type, the new options are "Firewatcher" and "Scort".</li>
+                        </ul>
+					</p>
+				</div>
+				<div class="panel-footer">
+		
+				</div>
+			</div>
+		</div>
+
+        <div class="col-lg-4">
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<strong>New Features Spring 2023</strong>
