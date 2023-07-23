@@ -396,7 +396,7 @@
 		 * Expenses Info
 		 * Var year
 		 * @author BMOTTAG
-		 * @since  10/2/2020
+		 * @since  22/7/2023
 		 */
 		public function get_expenses($arrDatos)
 		{	
@@ -404,7 +404,7 @@
 			$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
 
 			$sql = 'SELECT 
-						V.unit_number, V.description,
+						V.id_vehicle, V.unit_number, V.description,
 						COUNT(S.fk_id_equipment) AS so_number,
 						ROUND(SUM(T.time),2) AS time_expenses,
 						ROUND(SUM(P.value),2) AS parts_expenses
@@ -415,9 +415,46 @@
 					WHERE 
 						V.fk_id_company = 1 
 						AND V.state = 1
-						AND S.created_at >= ' . $firstDay . '
+						AND S.created_at >= "' . $firstDay . '"
 					GROUP BY V.id_vehicle
 					ORDER BY V.unit_number;';
+			$query = $this->db->query($sql);
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Expenses Info by Equipment
+		 * Var year
+		 * @author BMOTTAG
+		 * @since  22/7/2023
+		 */
+		public function get_expenses_by_equipment($arrDatos)
+		{	
+			$year = date('Y');
+			$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+
+			$sql = 'SELECT 
+						S.id_service_order, S.maintenace_type, S.fk_id_equipment,
+						ROUND(T.time,2) AS time_expenses,
+						ROUND(SUM(P.value),2) AS parts_expenses,
+						CASE 
+							WHEN S.maintenace_type = "preventive" THEN PM.maintenance_description 
+							WHEN S.maintenace_type = "corrective" THEN CM.description_failure 
+						END as main_description
+					FROM service_order S
+					LEFT JOIN service_order_time T ON S.id_service_order = T.fk_id_service_order
+					LEFT JOIN service_order_parts P ON S.id_service_order = P.fk_id_service_order
+					LEFT JOIN preventive_maintenance PM ON S.maintenace_type = "preventive" AND PM.id_preventive_maintenance = S.fk_id_maintenace
+					LEFT JOIN corrective_maintenance CM ON S.maintenace_type = "corrective" AND CM.id_corrective_maintenance = S.fk_id_maintenace
+					WHERE S.created_at >= "' . $firstDay . '"
+					AND S.fk_id_equipment = ' . $arrDatos["idVehicle"]. '
+					GROUP BY S.id_service_order
+					ORDER BY S.id_service_order DESC;';
 			$query = $this->db->query($sql);
 
 			if ($query->num_rows() > 0) {

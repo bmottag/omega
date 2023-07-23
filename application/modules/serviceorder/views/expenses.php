@@ -16,9 +16,14 @@
 			<tbody>							
 			<?php
 				foreach ($information as $data):
-				
 					echo "<tr>";
-					echo "<td><p class='text-danger'><strong>" . $data['unit_number'] . "</strong></p>" . $data['description']  . "</td>";
+					echo "<td><strong>" . $data['unit_number'] . " </strong>" . $data['description']  . "<br>";
+			?>
+					<a class="btn btn-primary btn-xs" onclick="loadExpensesByEquipment( <?php echo $data['id_vehicle']; ?>)" title="Expenses Detail">
+						<i class="fa fa-eye"></i> Expenses Detail
+					</a>
+			<?php 
+					echo "</td>";
 					echo "<td class='text-right'>" . $data['so_number'] . "</td>";
 					echo "<td class='text-right'>" . number_format($data["time_expenses"]) . "</td>";								
 					echo "<td class='text-right'>$ " . number_format($data["parts_expenses"]) . "</td>";

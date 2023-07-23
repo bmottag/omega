@@ -158,3 +158,27 @@ function loadExpenses() {
 		}
 	});
 }
+
+/*
+* Function to load Expenses
+*/
+function loadExpensesByEquipment(equipmentId) {
+	$("#loader").addClass("loader");
+	$("#div_info_list").css("display", "block");
+	$("#div_main_title").css("display", "block");
+	$("#div_panel_main").css("display", "block");
+	$("#div_info_SO_main").css("display", "none");
+	$("#div_search").css("display", "none");
+	$("#div_detail").css("display", "none");
+	$.ajax ({
+		type: 'POST',
+		url: base_url + 'serviceorder/expensesByEquipment',
+		data: {equipmentId},
+		cache: false,
+		success: function (data)
+		{
+			$('#div_info_list').html(data);
+			$("#loader").removeClass("loader");
+		}
+	});
+}

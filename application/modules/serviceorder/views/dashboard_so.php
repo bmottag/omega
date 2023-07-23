@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v7.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/serviceorder/ajaxSearchEquipment_v8.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>

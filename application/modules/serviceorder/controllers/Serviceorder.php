@@ -852,5 +852,27 @@ class Serviceorder extends CI_Controller {
 		}
 	}
 
+	/**
+	 * Expenses
+     * @since 21/7/2023
+     * @author BMOTTAG
+	 */
+    public function expensesByEquipment() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$arrParam = array("idVehicle" => $this->input->post("equipmentId"));	
+		$data['information'] = $this->serviceorder_model->get_expenses_by_equipment($arrParam);
+		$this->load->model("general_model");
+		$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
+
+		if($data["information"] )
+		{
+			echo $this->load->view("expenses_by_equipment", $data);
+		}else{				
+			echo "<p class='text-danger'>There are no records.</p>";
+		}
+	}
+
 
 }
