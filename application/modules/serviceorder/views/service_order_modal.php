@@ -26,6 +26,7 @@
 		<input type="hidden" id="hddMaintenanceType" name="hddMaintenanceType" value="<?php echo $maintenanceType; ?>"/>
 		<input type="hidden" id="hddIdCanBeUsed" name="hddIdCanBeUsed" value="<?php echo $information?$information[0]["can_be_used"]:1; ?>"/>
 		<input type="hidden" id="hddIdAssignedBy" name="hddIdAssignedBy" value="<?php echo $information?$information[0]["fk_id_assign_by"]:""; ?>"/>
+		<input type="hidden" id="hddIdAssignedTo" name="hddIdAssignedTo" value="<?php echo $information?$information[0]["fk_id_assign_to"]:""; ?>"/>
 		<input type="hidden" id="hddMaintenanceDescription" name="hddMaintenanceDescription" value="<?php echo $maintenanceDescriptionSMS; ?>"/>
 		<input type="hidden" id="hour" name="hour" value="<?php echo $information?$information[0]["hours"]:""; ?>" >
 <?php

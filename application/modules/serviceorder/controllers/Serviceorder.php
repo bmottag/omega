@@ -333,7 +333,7 @@ class Serviceorder extends CI_Controller {
 					if ($status == "in_progress_so" && $oldStatus != "in_progress_so") 
 					{
 						$arrParam = array(
-							"idAssignTo" => $this->input->post('assign_to'),
+							"idAssignTo" => $this->input->post('hddIdAssignedTo'),
 							"diffIdServiceOrder" => $data["idServiceOrder"],
 							"status" => $status
 						);
