@@ -67,13 +67,10 @@
 		{		
 				$idServiceOrder = $this->input->post('hddIdServiceOrder');
 
-				$data = array(
-					'fk_id_assign_to' => $this->input->post('assign_to')
-				);
-				
 				//revisar si es para adicionar o editar
 				if ($idServiceOrder == '') {
 					$data["fk_id_assign_by"] = $this->session->userdata("id");
+					$data["fk_id_assign_to"] = $this->input->post('assign_to');
 					$data["fk_id_equipment"] = $this->input->post('hddIdEquipment');
 					$data["fk_id_maintenace"] = $this->input->post('hddIdMaintenance');
 					$data["maintenace_type"] = $this->input->post('hddMaintenanceType');
