@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart_V3.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart_V4.js"); ?>"></script>
 
 <div id="page-wrapper">
 	<br>
@@ -58,6 +58,19 @@ the fitness of my work performance.
 							</label>
 							<div class="col-sm-3">
 								<select name="certify" id="certify" class="form-control" required>
+									<option value="">Select...</option>
+									<option value=1 >Yes</option>
+									<option value=2 >No</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-6 control-label" for="certify">
+									I certify to be well-rested, having slept a minimun of 6 - 8 hours. I certify my ability or alertness to perform my work for this shift will NOT be impaired by the amount or quality of sleep I had before coming to work.
+							</label>
+							<div class="col-sm-3">
+								<select name="slept_certify" id="slept_certify" class="form-control" required>
 									<option value="">Select...</option>
 									<option value=1 >Yes</option>
 									<option value=2 >No</option>
