@@ -626,6 +626,29 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Get workorder Receipt info
+		 * @since 4/1/2021
+		 */
+		public function get_workorder_receipt($arrData) 
+		{		
+				$this->db->select();
+				if(array_key_exists("idWorkOrder", $arrData)) {
+					$this->db->where('O.fk_id_workorder', $arrData["idWorkOrder"]);
+				}
+				if(array_key_exists("view_pdf", $arrData)) {
+					$this->db->where('O.view_pdf', 1);
+				}
+				$this->db->order_by('O.place', 'asc');
+				$query = $this->db->get('workorder_receipt O');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 		
 		
 		

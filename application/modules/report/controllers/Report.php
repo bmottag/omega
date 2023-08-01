@@ -2501,54 +2501,40 @@ if($lista["with_trailer"] == 1){
 
 			$info = $this->report_model->get_workorder($arrParam);
 
-			// Create new PHPExcel object	
-			$spreadsheet = new PHPExcel();
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition:attachment;filename=workorder_report.xlsx');
 
-			// Set document properties
-			$spreadsheet->getProperties()->setCreator("VCI APP")
-										 ->setLastModifiedBy("VCI APP")
-										 ->setTitle("Report")
-										 ->setSubject("Report")
-										 ->setDescription("VCI Report.")
-										 ->setKeywords("office 2007 openxml php")
-										 ->setCategory("Report");
-										 
-			// Create a first sheet
-			$dateRange = $from . '-' . $to;
-			$spreadsheet->setActiveSheetIndex(0);
-			$spreadsheet->getActiveSheet()->setCellValue('A1', 'WORK ORDER REPORT');
-			
-			$spreadsheet->getActiveSheet()->setCellValue('A2', 'Date Range:')
-										->setCellValue('B2', $dateRange);
-			
-			$spreadsheet->getActiveSheet()->setCellValue('A4', 'Work Order #')
-										->setCellValue('B4', 'Supervisor')
-										->setCellValue('C4', 'Date of Issue')
-										->setCellValue('D4', 'Date Work Order')
-										->setCellValue('E4', 'Job Code/Name')
-										->setCellValue('F4', 'Task Description')
-										->setCellValue('G4', 'Employee Name')
-										->setCellValue('H4', 'Employee Type')
-										->setCellValue('I4', 'Material')
-										->setCellValue('J4', 'Equipment')
-										->setCellValue('K4', 'Hours')
-										->setCellValue('L4', 'Quantity')
-										->setCellValue('M4', 'Unit')
-										->setCellValue('N4', 'Rate')
-										->setCellValue('O4', 'Value')
-										->setCellValue('P4', 'Observation');
-										
-			$j=5;
-			$total = 0; 
-			foreach ($info as $data):
+			$spreadsheet = new Spreadsheet();
+			$spreadsheet->getActiveSheet()->setTitle('Work Order Report');
+	
+			$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Work Order #')
+										->setCellValue('B1', 'Supervisor')
+										->setCellValue('C1', 'Date of Issue')
+										->setCellValue('D1', 'Work Order Date')
+										->setCellValue('E1', 'Job Code/Name')
+										->setCellValue('F1', 'Work Done')
+										->setCellValue('G1', 'Description')
+										->setCellValue('H1', 'Employee Name')
+										->setCellValue('I1', 'Employee Type')
+										->setCellValue('J1', 'Material')
+										->setCellValue('K1', 'Equipment')
+										->setCellValue('L1', 'Hours')
+										->setCellValue('M1', 'Quantity')
+										->setCellValue('N1', 'Unit')
+										->setCellValue('O1', 'Unit price')
+										->setCellValue('P1', 'Operated by')
+										->setCellValue('Q1', 'Line Total');
 					
+			$j=2;
+			foreach ($info as $data):
 				$idWorkOrder = $data['id_workorder'];
+				$arrParam = array('idWorkOrder' =>$idWorkOrder);
 				$workorderPersonal = $this->report_model->get_workorder_personal($idWorkOrder);//workorder personal list
 				$workorderMaterials = $this->report_model->get_workorder_materials($idWorkOrder);//workorder material list
+				$workorderReceipt = $this->report_model->get_workorder_receipt($arrParam);//workorder ocasional list
 				$workorderEquipment = $this->report_model->get_workorder_equipment($idWorkOrder);//workorder equipment list
 				$workorderOcasional = $this->report_model->get_workorder_ocasional($idWorkOrder);//workorder ocasional list
-				$workorderReceipt = $this->workorders_model->get_workorder_receipt($idWorkOrder);//workorder ocasional list
-
+				
 				$observation = $data['observation']?$data['observation']:'';
 				if($workorderPersonal){
 					foreach ($workorderPersonal as $infoP):
@@ -2558,13 +2544,13 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('D'.$j, $data['date'])
 													  ->setCellValue('E'.$j, $data['job_description'])
 													  ->setCellValue('F'.$j, $observation)
-													  ->setCellValue('G'.$j, $infoP['name'])
-													  ->setCellValue('H'.$j, $infoP['type'])
-													  ->setCellValue('K'.$j, $infoP['hours'])
-													  ->setCellValue('M'.$j, 'Hours')
-													  ->setCellValue('N'.$j, $infoP['rate'])
-													  ->setCellValue('O'.$j, $infoP['value'])
-													  ->setCellValue('P'.$j, $infoP['description']);
+													  ->setCellValue('G'.$j, $infoP['description'])
+													  ->setCellValue('H'.$j, $infoP['name'])
+													  ->setCellValue('I'.$j, $infoP['type'])
+													  ->setCellValue('L'.$j, $infoP['hours'])
+													  ->setCellValue('N'.$j, 'Hours')
+													  ->setCellValue('O'.$j, $infoP['rate'])
+													  ->setCellValue('Q'.$j, $infoP['value']);
 						$j++;
 					endforeach;
 				}
@@ -2577,22 +2563,22 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('D'.$j, $data['date'])
 													  ->setCellValue('E'.$j, $data['job_description'])
 													  ->setCellValue('F'.$j, $observation)
-													  ->setCellValue('I'.$j, $infoM['material'])
-													  ->setCellValue('L'.$j, $infoM['quantity'])
-													  ->setCellValue('M'.$j, $infoM['unit'])
-													  ->setCellValue('N'.$j, $infoM['rate'])
-													  ->setCellValue('O'.$j, $infoM['value'])
-													  ->setCellValue('P'.$j, $infoM['description']);
+													  ->setCellValue('G'.$j, $infoM['description'])
+													  ->setCellValue('J'.$j, $infoM['material'])
+													  ->setCellValue('M'.$j, $infoM['quantity'])
+													  ->setCellValue('N'.$j, $infoM['unit'])
+													  ->setCellValue('O'.$j, $infoM['rate'])
+													  ->setCellValue('Q'.$j, $infoM['value']);
 						$j++;
 					endforeach;
 				}
-				
+
 				if($workorderReceipt){
 					foreach ($workorderReceipt as $infoR):
 
-						$description = $data['description'] . ' - ' . $data['place'];
-						if($data['markup'] > 0){
-							$description = $description . ' - Plus ' . $data['markup'] . '% M.U.';
+						$description = $infoR['description'] . ' - ' . $infoR['place'];
+						if($infoR['markup'] > 0){
+							$description = $description . ' - Plus M.U.';
 						}
 					
 						$spreadsheet->getActiveSheet()->setCellValue('A'.$j, $data['id_workorder'])
@@ -2601,9 +2587,8 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('D'.$j, $data['date'])
 													  ->setCellValue('E'.$j, $data['job_description'])
 													  ->setCellValue('F'.$j, $observation)
-													  ->setCellValue('N'.$j, $infoM['price'])
-													  ->setCellValue('O'.$j, $infoM['value'])
-													  ->setCellValue('P'.$j, $description);
+													  ->setCellValue('G'.$j, $description)
+													  ->setCellValue('Q'.$j, $infoM['value']);
 						$j++;
 					endforeach;
 				}
@@ -2626,13 +2611,14 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('D'.$j, $data['date'])
 													  ->setCellValue('E'.$j, $data['job_description'])
 													  ->setCellValue('F'.$j, $observation)
-													  ->setCellValue('J'.$j, $equipment)
-													  ->setCellValue('K'.$j, $infoE['hours'])
-													  ->setCellValue('L'.$j, $quantity)
-													  ->setCellValue('M'.$j, 'Hours')
-													  ->setCellValue('N'.$j, $infoE['rate'])
-													  ->setCellValue('O'.$j, $infoE['value'])
-													  ->setCellValue('P'.$j, $infoE['description']);
+													  ->setCellValue('G'.$j, $infoE['description'])
+													  ->setCellValue('K'.$j, $equipment)
+													  ->setCellValue('L'.$j, $infoE['hours'])
+													  ->setCellValue('M'.$j, $quantity)
+													  ->setCellValue('N'.$j, 'Hours')
+													  ->setCellValue('O'.$j, $infoE['rate'])
+													  ->setCellValue('P'.$j, $infoE['operatedby'])
+													  ->setCellValue('Q'.$j, $infoE['value']);
 						$j++;
 					endforeach;
 				}
@@ -2648,103 +2634,55 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('D'.$j, $data['date'])
 													  ->setCellValue('E'.$j, $data['job_description'])
 													  ->setCellValue('F'.$j, $observation)
-													  
-													  ->setCellValue('J'.$j, $equipment)
-													  ->setCellValue('K'.$j, $hours)
-													  ->setCellValue('L'.$j, $infoO['quantity'])
-													  ->setCellValue('M'.$j, $infoO['unit'])
-													  ->setCellValue('N'.$j, $infoO['rate'])
-													  ->setCellValue('O'.$j, $infoO['value'])
-													  ->setCellValue('P'.$j, $infoO['description']);
+													  ->setCellValue('G'.$j, $infoO['description'])
+													  ->setCellValue('K'.$j, $equipment)
+													  ->setCellValue('L'.$j, $hours)
+													  ->setCellValue('M'.$j, $infoO['quantity'])
+													  ->setCellValue('N'.$j, $infoO['unit'])
+													  ->setCellValue('O'.$j, $infoO['rate'])
+													  ->setCellValue('Q'.$j, $infoO['value']);
 						$j++;
 					endforeach;
 				}
-				
+
 			endforeach;
+
+			$spreadsheet->getActiveSheet()->getStyle('P'.$j.':Q'.$j)->getFont()->setBold(true);
 
 			// Set column widths							  
 			$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(22);
 			$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(22);
 			$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
-			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(50);
+			$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(60);
+			$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(60);
 			$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
-			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(40);
-			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(50);
 			$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
 			$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(40);
+			$spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+			$spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
 
 			// Add conditional formatting
-			$objConditional1 = new PHPExcel_Style_Conditional();
-			$objConditional1->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_BETWEEN)
-							->addCondition('200')
-							->addCondition('400');
-			$objConditional1->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_YELLOW);
-			$objConditional1->getStyle()->getFont()->setBold(true);
-			$objConditional1->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setSize(11);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->setBold(true);
 
-			$objConditional2 = new PHPExcel_Style_Conditional();
-			$objConditional2->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_LESSTHAN)
-							->addCondition('0');
-			$objConditional2->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
-			$objConditional2->getStyle()->getFont()->setItalic(true);
-			$objConditional2->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+	 		$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()->getStartColor()->setARGB('236e09');
 
-			$objConditional3 = new PHPExcel_Style_Conditional();
-			$objConditional3->setConditionType(PHPExcel_Style_Conditional::CONDITION_CELLIS)
-							->setOperatorType(PHPExcel_Style_Conditional::OPERATOR_GREATERTHANOREQUAL)
-							->addCondition('0');
-			$objConditional3->getStyle()->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_GREEN);
-			$objConditional3->getStyle()->getFont()->setItalic(true);
-			$objConditional3->getStyle()->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+			$spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-			$conditionalStyles = $spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles();
-			array_push($conditionalStyles, $objConditional1);
-			array_push($conditionalStyles, $objConditional2);
-			array_push($conditionalStyles, $objConditional3);
-			$spreadsheet->getActiveSheet()->getStyle('B2')->setConditionalStyles($conditionalStyles);
-
-			//	duplicate the conditional styles across a range of cells
-			$spreadsheet->getActiveSheet()->duplicateConditionalStyle(
-							$spreadsheet->getActiveSheet()->getStyle('B2')->getConditionalStyles(),
-							'B3:B7'
-						  );
-
-			// Set fonts			  
-			$spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-			$spreadsheet->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-			$spreadsheet->getActiveSheet()->getStyle('A4:P4')->getFont()->setBold(true);
-
-			// Set header and footer. When no different headers for odd/even are used, odd header is assumed.
-			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BPersonal cash register&RPrinted on &D');
-			$spreadsheet->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $spreadsheet->getProperties()->getTitle() . '&RPage &P of &N');
-
-			// Set page orientation and size
-			$spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
-			$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-
-			// Rename worksheet
-			$spreadsheet->getActiveSheet()->setTitle('Work Order');
-
-			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 			$spreadsheet->setActiveSheetIndex(0);
 
-			// redireccionamos la salida al navegador del cliente (Excel2007)
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="workorder.xlsx"');
-			header('Cache-Control: max-age=0');
-			 
-			$objWriter = PHPExcel_IOFactory::createWriter($spreadsheet, 'Excel2007');
-			$objWriter->save('php://output');
-			  
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');  
     }
 	
 	/**
