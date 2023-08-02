@@ -7,11 +7,21 @@ jQuery.validator.addMethod("fieldOperated", function(value, element, param) {
 	}else{
 		return true;
 	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("equipmentValidation", function(value, element, param) {
+	var type = $('#type').val();
+	if(type != 8 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
 }, "This field is required.");	
 
 	$( "#formEquipment" ).validate( {
 		rules: {
 			type: 				{ required: true },
+			truck: 				{ equipmentValidation: true },
 			hour: 				{ required: true, number: true, maxlength:10 },
 			quantity: 			{ number: true, maxlength:10 },
 			operatedby:			{ fieldOperated: true },
