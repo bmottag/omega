@@ -81,6 +81,7 @@
 					$query = $this->db->insert('service_order', $data);
 					$idServiceOrder = $this->db->insert_id();				
 				} else {
+					$data["fk_id_assign_to"] = $this->input->post('assign_to');
 					$data["service_status"] = $this->input->post('status');
 					$data["updated_at"] = date("Y-m-d G:i:s");
 					$data["current_hours"] = $this->input->post('hour');

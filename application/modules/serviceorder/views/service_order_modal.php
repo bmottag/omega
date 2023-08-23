@@ -41,7 +41,7 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="assign_to">Assign to: *</label>
-					<select name="assign_to" id="assign_to" class="form-control" required <?php echo $deshabilitar; ?> >
+					<select name="assign_to" id="assign_to" class="form-control" required >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 							<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information){ if($information[0]["fk_id_assign_to"] == $workersList[$i]["id_user"]) { echo "selected"; }}  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
