@@ -1992,5 +1992,62 @@ class General_model extends CI_Model {
 				}
 		}
 
+		/**
+		 * Search user by movil for planning
+		 * @since 27/8/2023
+		 */
+		public function get_programming_user($arrData) 
+		{
+			$this->db->select("id_programming_worker");
+			$this->db->where('confirmation', 2);
+			if (array_key_exists("movil", $arrData)) {
+				$this->db->where('U.movil', $arrData["movil"]);
+			}
+			$this->db->join('user U', 'U.id_user = P.fk_id_programming_user', 'INNER');				
+			$this->db->order_by("P.id_programming_worker", "desc");
+			$this->db->limit(1);
+			
+			$query = $this->db->get("programming_worker P");
+
+			if ($query->num_rows() >= 1) {
+				return $query->row_array(); 
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Info Planning for the Employee
+		 * @since 27/8/2023
+		 */
+		public function get_planning_for_employee($arrData) 
+		{
+			$this->db->select("P.date_programming, P.observation, X.job_description, W.*, CONCAT(V.unit_number,' -----> ', V.description) as unit_description, H.hora");
+			$this->db->join('programming_worker W', 'W.fk_id_programming = P.id_programming', 'INNER');
+			$this->db->join('param_jobs X', 'X.id_job = P.fk_id_job', 'INNER');
+			$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_machine', 'LEFT');
+			$this->db->join('param_horas H', 'H.id_hora = W.fk_id_hour', 'LEFT');
+			
+			if (array_key_exists("idUser", $arrData)) {
+				$this->db->where('W.fk_id_programming_user', $arrData["idUser"]);
+			}
+			if (array_key_exists("fecha", $arrData)) {
+				$this->db->where('P.date_programming', $arrData["fecha"]);
+			}
+			if (array_key_exists("nextPlanning", $arrData)) {
+				$this->db->where('P.date_programming >=', date('Y-m-d'));
+			}
+			$this->db->where('P.state !=', 3);
+
+					
+			$this->db->order_by("P.date_programming ASC"); 
+			$query = $this->db->get("programming P");
+
+			if ($query->num_rows() >= 1) {
+				return $query->result_array();
+			} else
+				return false;
+		}
+
 
 }

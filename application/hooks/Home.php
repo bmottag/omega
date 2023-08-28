@@ -35,7 +35,7 @@ class Home {
                     $flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
             } else if ($this->ci->uri->segment(1) == "programming") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
-                $arrControllers = array($this->ci->uri->segment(1), "verificacion", "verificacion_flha", "verificacion_tool_box");
+                $arrControllers = array($this->ci->uri->segment(1), "verificacion", "verificacion_flha", "verificacion_tool_box", "receive_sms");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
                     if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
                         $error = TRUE;

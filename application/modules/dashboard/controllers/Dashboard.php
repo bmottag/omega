@@ -26,6 +26,13 @@ class Dashboard extends CI_Controller {
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
 
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
+
 			//Filtro datos por id del Usuario
 			$arrParam["idEmployee"] = $this->session->userdata("id");
 
@@ -57,6 +64,13 @@ class Dashboard extends CI_Controller {
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 
 			//Filtro datos por id del Usuario
 			$arrParam["idEmployee"] = $this->session->userdata("id");
@@ -180,6 +194,13 @@ class Dashboard extends CI_Controller {
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 										
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
@@ -214,6 +235,13 @@ class Dashboard extends CI_Controller {
 						
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 	
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
@@ -236,6 +264,13 @@ class Dashboard extends CI_Controller {
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 	
 			$arrParam["idEmployee"] = $this->session->userdata("id");
 			
@@ -272,6 +307,13 @@ class Dashboard extends CI_Controller {
 			$data['infoHydrovac'] = FALSE;
 			$data['infoSweeper'] = FALSE;
 			$data['infoGenerator'] = FALSE;
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 						
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
@@ -294,6 +336,13 @@ class Dashboard extends CI_Controller {
 
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 						
 			$arrParam["limit"] = 30;//Limite de registros para la consulta
 			$data['info'] = $this->general_model->get_task($arrParam);//search the last 5 records 
@@ -322,6 +371,13 @@ class Dashboard extends CI_Controller {
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
+
+			//info next planning
+			$arrParam = array(
+				"idUser" => $this->session->userdata("id"),
+				"nextPlanning" => true
+			);
+			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
 				
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 						
@@ -574,6 +630,34 @@ class Dashboard extends CI_Controller {
 	{		
 			$data["view"] ='versions';
 			$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Update planning confirmation
+	 * @since 15/1/2022
+	 */
+	public function confirmPlanning()
+	{
+			header('Content-Type: application/json');
+
+			$data["dashboardURL"] = $this->session->userdata("dashboardURL");
+			$arrParam = array(
+				"table" => "programming_worker",
+				"primaryKey" => "id_programming_worker",
+				"id" => $this->input->post('identificador'),
+				"column" => "confirmation",
+				"value" => 1
+			);
+			if ($this->general_model->updateRecord($arrParam)) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', 'You have updated the information');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error!!! Ask for help.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}			
+
+			echo json_encode($data);
 	}
 	
 	

@@ -1,7 +1,5 @@
 <div id="page-wrapper">
-
     <br>		
-    <!-- /.row -->
     <div class="row">
 			
         <div class="col-lg-3">
@@ -10,8 +8,6 @@
                 <a class="btn btn-danger btn-xs" href=" <?php echo base_url('dashboard/calendar'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the Calendar</a> <br>
                     <i class="fa fa-bell fa-fw"></i> <strong>SUMMARY</strong> - <?php echo date('F j, Y', strtotime($fecha)); ?>
                 </div>
-                <!-- /.panel-heading -->
-
                 <?php 
                     $noPlanning = 0;
                     $noPayroll = 0;
@@ -78,15 +74,9 @@
                             </p>
                         </a>
                     </div>
-                    <!-- /.list-group -->
-
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
-
         </div>
-        <!-- /.col-lg-4 -->
 
         <div class="col-lg-9">
 <?php
@@ -96,7 +86,6 @@
                 <div class="panel-heading">
                     <i class="fa fa-list fa-fw"></i> <strong>PLANNING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
-                <!-- /.panel-heading -->
                 <div class="panel-body">
 					
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
@@ -111,7 +100,7 @@
 						<?php
 							foreach ($planningInfo as $lista):
 								echo "<tr>";
-                                echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
+                                echo "<td>" . $lista['job_description'] . "</td>";
                                 echo "<td>" . $lista['observation'] . "</td>";
                                 echo "<td>";
 
@@ -130,14 +119,15 @@
                                     $mensaje .= "<br>" . $data['name']; 
                                     $mensaje .= $data['description']?"<br>" . $data['description']:"";
                                     $mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+
+                                    
                                     
                                     if($data['safety']==1){
                                         $mensaje .= "<br>Do FLHA";
                                     }elseif($data['safety']==2){
                                         $mensaje .= "<br>Do Tool Box";
                                     }
-                                    
-                                    $mensaje .= "<br><br>";
+                                    $mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
                                 endforeach;
 
                                 echo $mensaje;
@@ -148,9 +138,7 @@
 						?>
 						</tbody>
 					</table>					
-					<!-- /.table-responsive -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
 <?php   } ?>
         </div>

@@ -247,7 +247,7 @@ class Programming extends CI_Controller {
 			}else{
 				if ($this->programming_model->saveWorker()) {
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', "You have update the record!!");
+					$this->session->set_flashdata('retornoExito', "You have updated the record!!");
 				} else {
 					$data["result"] = "error";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -348,15 +348,15 @@ class Programming extends CI_Controller {
 
 				$mensaje .= "\n" . $data['name']; 
 				$mensaje .= $data['description']?"\n" . $data['description']:"";
-				$mensaje .= $data['unit_description']?"\n" . $data['unit_description']:"";
+				$mensaje .= $data['unit_description'] ? "\nInspect following unit(s):\n" . $data['unit_description'] : "";
 				
 				if($data['safety']==1){
-					$mensaje .= "\nDo FLHA";
+					$mensaje .= "\nFLHA has being assigned to you.";
 				}elseif($data['safety']==2){
-					$mensaje .= "\nDo Tool Box";
+					$mensaje .= "\nTool Box has being assigned to you.";
 				}
 				
-				$mensaje .= "\n";
+				$mensaje .= "\nThe confirmation should be sent by replying with the number 1";
 			endforeach;
 			
 			foreach ($copiaInfoWorker as $data):
@@ -379,7 +379,7 @@ class Programming extends CI_Controller {
 			$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
 			
 			$data['clase'] = "alert-info";
-			$data['msj'] = "Message is sent to the workers.";
+			$data['msj'] = "The message has been sent to the workers.";
 	
 			$data["view"] = 'template/answer';
 			$this->load->view("layout", $data);
@@ -1019,6 +1019,45 @@ if($bandera){
 			echo json_encode($data);
     }
 
+	/**
+	 * Receive SMS
+     * @since 27/8/2023
+     * @author BMOTTAG
+	 */
+	public function receive_sms()
+	{			
+		$twilio_signature = $_SERVER['HTTP_X_TWILIO_SIGNATURE'];
+		$twilio_post_data = file_get_contents('php://input');
+		
+		$post_data = $_POST;
+		// Get the incoming message and sender's phone number
+		$incoming_message = $post_data['Body'];
+		$sender_number = $post_data['From'];
+		
+		header("Content-Type: text/xml");
+		// Process the response
+		$arrParam = array("movil" => str_replace("+1", "", $sender_number));
+		$this->load->model("general_model");
+		if($informationWorker = $this->general_model->get_programming_user($arrParam)){
+			if ($incoming_message === '1')
+			{
+				$arrParam = array(
+					"table" => "programming_worker",
+					"primaryKey" => "id_programming_worker",
+					"id" => $informationWorker["id_programming_worker"],
+					"column" => "confirmation",
+					"value" => 1
+				);
+
+				if ($this->general_model->updateRecord($arrParam)) {
+					echo "<Response><Message>Thank you for your response!</Message></Response>";
+				}
+			} else {
+				echo "<Response><Message>The confirmation should be sent by replying with the number 1.</Message></Response>";
+			}
+		}
+
+	}
 
 	
 }
