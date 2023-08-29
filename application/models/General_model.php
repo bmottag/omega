@@ -1998,16 +1998,19 @@ class General_model extends CI_Model {
 		 */
 		public function get_programming_user($arrData) 
 		{
-			$this->db->select("id_programming_worker");
+			$this->db->select("id_programming_worker, CONCAT(U.first_name, ' ', U.last_name) as employee, Z.movil, P.date_programming, H.hora");
 			$this->db->where('confirmation', 2);
 			if (array_key_exists("movil", $arrData)) {
 				$this->db->where('U.movil', $arrData["movil"]);
 			}
-			$this->db->join('user U', 'U.id_user = P.fk_id_programming_user', 'INNER');				
-			$this->db->order_by("P.id_programming_worker", "desc");
+			$this->db->join('user U', 'U.id_user = W.fk_id_programming_user', 'INNER');
+			$this->db->join('programming P', 'P.id_programming = W.fk_id_programming', 'INNER');
+			$this->db->join('user Z', 'Z.id_user = P.fk_id_user', 'INNER');	
+			$this->db->join('param_horas H', 'H.id_hora = W.fk_id_hour', 'LEFT');
+			$this->db->order_by("W.id_programming_worker", "desc");
 			$this->db->limit(1);
 			
-			$query = $this->db->get("programming_worker P");
+			$query = $this->db->get("programming_worker W");
 
 			if ($query->num_rows() >= 1) {
 				return $query->row_array(); 

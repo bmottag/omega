@@ -325,6 +325,8 @@ class Programming extends CI_Controller {
 		$mensaje .= "\n" . $data['information'][0]['job_description'];
 		$mensaje .= "\n" . $data['information'][0]['observation'];
 		$mensaje .= "\n";
+		$mensaje .= "\nPlease confirm by replying '1' to this text message!";
+		$mensaje .= "\n";
 
 		if($data['informationWorker']){
 			foreach ($data['informationWorker'] as $data):
@@ -355,8 +357,7 @@ class Programming extends CI_Controller {
 				}elseif($data['safety']==2){
 					$mensaje .= "\nTool Box has being assigned to you.";
 				}
-				
-				$mensaje .= "\nThe confirmation should be sent by replying with the number 1";
+				$mensaje .= "\n";
 			endforeach;
 			
 			foreach ($copiaInfoWorker as $data):
@@ -1051,6 +1052,8 @@ if($bandera){
 
 				if ($this->general_model->updateRecord($arrParam)) {
 					echo "<Response><Message>Thank you for your response!</Message></Response>";
+
+					$this->send_confirmation($informationWorker['employee'], $informationWorker['date_programming'], $informationWorker['hora'], $informationWorker['movil']);
 				}
 			} else {
 				echo "<Response><Message>The confirmation should be sent by replying with the number 1.</Message></Response>";
@@ -1059,5 +1062,40 @@ if($bandera){
 
 	}
 
+	/**
+	 * Send confirmation to supervisor
+     * @since 29/08/2023
+	 */
+    function send_confirmation($employee, $dateProgramming, $hora, $movil) 
+	{
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		$twilioPhone = $parametric[5]["value"];
+
+		$client = new Twilio\Rest\Client($dato1, $dato2);
+			
+		$mensaje = "APP VCI - Planning";
+		$mensaje .= "\n\n" . $employee . " confirmed the plan for " . $dateProgramming  . " at " . $hora .  ".";
+
+		$to = '+1' . $movil;			
+		$client->messages->create(
+			$to,
+			array(
+				'from' => $twilioPhone,
+				'body' => $mensaje
+			)
+		);
+			
+		return true;
+    }
 	
 }
