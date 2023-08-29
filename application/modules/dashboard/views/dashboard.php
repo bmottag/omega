@@ -196,6 +196,72 @@ if ($retornoError) {
 	</div>
 
 	<!-- PLANNING -->
+	<?php if($infoNextPlanning){ ?>
+		<div class="row">		
+			<div class="col-lg-12">
+				<div class="panel panel-violeta">
+					<div class="panel-heading">
+						<i class="fa fa-list fa-fw"></i> <strong>Planning Records</strong>
+					</div>
+					<div class="panel-body">					
+						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesPlanning">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Job Code/Name</th>
+									<th>Observation</th>
+									<th>Message</th>
+								</tr>
+							</thead>
+							<tbody>							
+							<?php
+								foreach ($infoNextPlanning as $data):
+									echo "<tr>";
+									echo "<td class='text-center'>" . date('l, F j, Y', strtotime($data['date_programming'])) . "</td>";
+									echo "<td class='text-center'>" . $data['job_description'] . "</td>";
+									echo "<td>" . $data['observation'] . "</td>";
+									echo "<td>";
+
+									//Buscar lista de trabajadores para esta programacion
+									$ci = &get_instance();
+									$ci->load->model("general_model");
+									
+									$arrParam = array("idProgramming" => $data['id_programming']);
+									$informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores
+	
+									$mensaje = "";                            
+									foreach ($informationWorker as $data):
+										$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+										$mensaje .= $data['hora']; 
+	
+										$mensaje .= "<br>" . $data['name']; 
+										$mensaje .= $data['description']?"<br>" . $data['description']:"";
+										$mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+	
+										if($data['safety']==1){
+											$mensaje .= "<br>Do FLHA";
+										}elseif($data['safety']==2){
+											$mensaje .= "<br>Do Tool Box";
+										}
+										$mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
+									endforeach;
+	
+									echo $mensaje;
+	
+									echo "</td>";
+									echo "</tr>";
+								endforeach;
+							?>
+							</tbody>
+						</table>			
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+	<!-- FIN PLANNING-->
+
+	<!-- OWN PLANNING -->
 	<?php if($infoPlanning){ ?>
 		<div class="row">		
 			<div class="col-lg-12">

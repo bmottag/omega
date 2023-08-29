@@ -19,6 +19,7 @@ class Dashboard extends CI_Controller {
 			
 			$data['infoMaintenance'] = FALSE;
 			$data['noJobs'] = FALSE;
+			$data['infoNextPlanning']  = FALSE;
 			$data['noHauling'] = TRUE;
 			$data['noDailyInspection'] = TRUE;
 			$data['noHeavyInspection'] = TRUE;
@@ -60,6 +61,7 @@ class Dashboard extends CI_Controller {
 			$data['noHauling'] = TRUE;
 			$data['noDailyInspection'] = TRUE;
 			$data['noHeavyInspection'] = TRUE;
+			$data['infoNextPlanning']  = FALSE;
 			
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 			//informacion de un dayoff si lo aprobaron y lo negaron
@@ -191,6 +193,7 @@ class Dashboard extends CI_Controller {
 			$data['noDailyInspection'] = TRUE;
 			$data['noHeavyInspection'] = TRUE;
 			$data['infoMaintenance'] = FALSE;
+			$data['infoNextPlanning']  = FALSE;
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -232,6 +235,7 @@ class Dashboard extends CI_Controller {
 			$data['infoHydrovac'] = FALSE;
 			$data['infoSweeper'] = FALSE;
 			$data['infoWaterTruck'] = FALSE;
+			$data['infoNextPlanning']  = FALSE;
 						
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -261,6 +265,7 @@ class Dashboard extends CI_Controller {
 			$data['noHauling'] = FALSE;
 			$data['noDailyInspection'] = TRUE;
 			$data['noHeavyInspection'] = TRUE;
+			$data['infoNextPlanning']  = FALSE;
 			
 			//informacion de un dayoff si lo aprobaron y lo negaron
 			$data['dayoff'] = $this->dashboard_model->dayOffInfo();
@@ -300,6 +305,7 @@ class Dashboard extends CI_Controller {
 			$data['noHauling'] = TRUE;
 			$data['noDailyInspection'] = FALSE;
 			$data['noHeavyInspection'] = FALSE;
+			$data['infoNextPlanning']  = FALSE;
 
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
@@ -333,6 +339,7 @@ class Dashboard extends CI_Controller {
 			$data['noHauling'] = TRUE;
 			$data['noDailyInspection'] = TRUE;
 			$data['noHeavyInspection'] = TRUE;
+			$data['infoNextPlanning']  = FALSE;
 
 			$data['dayoff'] = FALSE;
 			$data['infoMaintenance'] = FALSE;
@@ -378,6 +385,8 @@ class Dashboard extends CI_Controller {
 				"nextPlanning" => true
 			);
 			$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam);//info planning
+
+			$data['infoNextPlanning'] = $this->general_model->get_programming_info($arrParam);//info planning
 				
 			$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 						
