@@ -2588,7 +2588,7 @@ if($lista["with_trailer"] == 1){
 													  ->setCellValue('E'.$j, $data['job_description'])
 													  ->setCellValue('F'.$j, $observation)
 													  ->setCellValue('G'.$j, $description)
-													  ->setCellValue('Q'.$j, $infoM['value']);
+													  ->setCellValue('Q'.$j, $infoR['value']);
 						$j++;
 					endforeach;
 				}
