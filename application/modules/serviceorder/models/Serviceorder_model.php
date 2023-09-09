@@ -66,22 +66,23 @@
 		public function saveServiceOrder() 
 		{		
 				$idServiceOrder = $this->input->post('hddIdServiceOrder');
+				$data = array(
+					'fk_id_assign_to' => $this->input->post('assign_to'),
+					'priority' => $this->input->post('priority'),
+				);
 
 				//revisar si es para adicionar o editar
 				if ($idServiceOrder == '') {
 					$data["fk_id_assign_by"] = $this->session->userdata("id");
-					$data["fk_id_assign_to"] = $this->input->post('assign_to');
 					$data["fk_id_equipment"] = $this->input->post('hddIdEquipment');
 					$data["fk_id_maintenace"] = $this->input->post('hddIdMaintenance');
 					$data["maintenace_type"] = $this->input->post('hddMaintenanceType');
 					$data["created_at"] = date("Y-m-d G:i:s");
 					$data["current_hours"] = 0;
 					$data["service_status"] = "new";
-					$data["priority"] = $this->input->post('priority');
 					$query = $this->db->insert('service_order', $data);
 					$idServiceOrder = $this->db->insert_id();				
 				} else {
-					$data["fk_id_assign_to"] = $this->input->post('assign_to');
 					$data["service_status"] = $this->input->post('status');
 					$data["updated_at"] = date("Y-m-d G:i:s");
 					$data["current_hours"] = $this->input->post('hour');
