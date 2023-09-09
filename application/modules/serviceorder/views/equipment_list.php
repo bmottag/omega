@@ -68,9 +68,9 @@
 $(document).ready(function() {
 	$('#dataEquipmentList').DataTable({
 		responsive: true,
-			"ordering": false,
-			paging: false,
-		"searching": false,
+		"ordering": false,
+		paging: false,
+		"searching": true,
 		"info": false
 	});
 });

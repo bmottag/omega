@@ -10,7 +10,7 @@
 		public function get_service_order($arrDatos) 
 		{
 				$sql = 'SELECT S.*, CONCAT(U.first_name, " ", U.last_name) assigned_by, CONCAT(Z.first_name, " ", Z.last_name) assigned_to, 
-						CONCAT(V.unit_number, " -----> ", V.description) as unit_description, V.hours, V.hours_2, V.hours_3, V.type_level_2,
+						CONCAT(V.unit_number, " -----> ", V.description) as unit_description, V.vin_number, V.hours, V.hours_2, V.hours_3, V.type_level_2,
 						P.status_name, P.status_style, P.status_icon, W.status_name priority_name, 
 						W.status_style priority_style, W.status_icon priority_icon, S.maintenace_type,
 						CASE 
