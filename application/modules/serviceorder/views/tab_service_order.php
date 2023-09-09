@@ -45,7 +45,7 @@ if ($retornoError) {
 				<tr>
 					<th>S.O. #</th>
 					<th>Description</th>
-					<th>Comments</th>
+					<th>Maintenance Type</th>
 					<th>Assigned To</th>
 					<th>Request Date</th>
 					<th>Status</th>
@@ -54,6 +54,7 @@ if ($retornoError) {
 			<tbody>							
 			<?php
 				foreach ($information as $lista):
+						$maintenanceType = $lista['maintenace_type']=='corrective' ? "Corrective" : "Preventive";
 						echo "<tr>";
 						echo "<td class='text-center'>";
 						echo $lista['id_service_order'];
@@ -66,7 +67,8 @@ if ($retornoError) {
 			<?php			
 						echo "</td>";
 						echo "<td>" . $lista['main_description'] . "</td>";
-						echo "<td>" . $lista['comments'] . "</td>";
+						echo "<td><p class='text-danger'><b>" . $maintenanceType  . "</b></p>";
+						echo "</td>";
 						echo "<td>" . $lista['assigned_to'] . "</td>";
 						echo "<td>" . date('F j, Y - G:i:s', strtotime($lista['created_at'])) . "</td>";
 						echo "<td class='text-center'>";
