@@ -29,6 +29,9 @@ class Programming extends CI_Controller {
 			$data['information'] = $this->general_model->get_programming($arrParam);//info programacion
 			
 			//lista de trabajadores para esta programacion
+			if($data['information'][0]["parent_id"] != null && $data['information'][0]["parent_id"] != ''){
+				$arrParam = array("idProgramming" => $data['information'][0]["parent_id"]);
+			}
 			$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
 			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
@@ -308,10 +311,13 @@ class Programming extends CI_Controller {
 			);
 			
 			$this->load->model("general_model");
-			if ($this->general_model->deleteRecord($arrParam)) {
-				
+			if ($this->general_model->deleteRecord($arrParam)) 
+			{
+				$arrParam = array("idProgramming" => $idProgramming);
+				$data['information'] = $this->general_model->get_programming($arrParam);//info programacion	
+				$idMainProgramming = ($data['information'][0]["parent_id"] != null && $data['information'][0]["parent_id"] != '') ? $data['information'][0]["parent_id"] : $idProgramming;
 				//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
-				$updateState = $this->update_state($idProgramming);
+				$updateState = $this->update_state($idMainProgramming);
 				
 				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
 			} else {
@@ -449,6 +455,15 @@ class Programming extends CI_Controller {
 			);
 
 			if ($this->general_model->updateRecord($arrParam)) {
+				//guardo estado de la programacion PARA LOS HIJOS		
+				$arrParam = array(
+					"table" => "programming",
+					"primaryKey" => "parent_id",
+					"id" => $idProgramming,
+					"column" => "state",
+					"value" => $state
+				);
+				$this->general_model->updateRecord($arrParam);
 				return TRUE;
 			}else{
 				return FALSE;

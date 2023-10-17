@@ -211,9 +211,13 @@
 		 * @since 19/1/2019
 		 */
 		public function saveOneWorkerProgramming() 
-		{							
+		{				
+				$idProgramming = $this->input->post('hddId');
+				if($this->input->post('hddIdParent') != null && $this->input->post('hddIdParent') != ''){
+					$idProgramming = $this->input->post('hddIdParent');
+				}			
 				$data = array(
-					'fk_id_programming' => $this->input->post('hddId'),
+					'fk_id_programming' => $idProgramming,
 					'fk_id_programming_user' => $this->input->post('worker'),
 					'fk_id_hour' => 15, // Se coloca por defecto que ingresen a las 7 am
 					'site' => 1 // Se coloca por defecto 1 -> At the yard

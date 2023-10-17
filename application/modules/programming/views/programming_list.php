@@ -67,6 +67,7 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
+								<th class='text-center'>ID</th>
 								<th class='text-center'>Date</th>
 								<th class='text-center'>Job Code/Name</th>
 								<th class='text-center'>Observation</th>
@@ -77,7 +78,16 @@ if ($retornoError) {
 						<tbody>							
 						<?php
 							foreach ($information as $lista):
-								echo "<tr>";
+								$flag = '';
+								$flagText = '';
+								if($lista["flag_date"] == 2){
+									$flag = "info";
+									$flagText = "text-primary";
+								}
+								echo "<tr class='".$flag." " . $flagText. "'>";
+								echo "<td class='text-center'>";
+								echo ($lista["parent_id"] != null && $lista["parent_id"] != '') ? $lista["parent_id"] : $lista["id_programming"];
+								echo "</td>";
 								echo "<td class='text-center'>" . $lista['date_programming'] . "</td>";
 								echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
 								echo "<td>" . $lista['observation'] . "</td>";
@@ -97,33 +107,38 @@ $datetime2 = date_create(date("Y-m-d"));
 			
 			if($lista['state'] == 2)
 			{
-				echo '<p class="text-success"><strong>DONE</strong></p>';
+				echo '<p class="text-success"><strong>COMPLETE</strong></p>';
 			}elseif($lista['state'] == 1){
 				echo '<p class="text-danger"><strong>INCOMPLETE</strong></p>';
 			}
+
+
+			$idParent = $lista["parent_id"];
+
 ?>
 
 		<?php 
 			if(!$deshabilitar){ 
-				$idParent = $idProgramming = $lista['id_programming'];
-				if($lista["parent_id"] !== null && $lista["parent_id"]  != ''){
-					$idParent = $lista["parent_id"];
-				}
 		?>
 
-			<a href='<?php echo base_url("programming/add_programming/" . $idParent); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
+		<?php 
+			if($lista["parent_id"] == null || $lista["parent_id"] == ''){
+		?>
+			<a href='<?php echo base_url("programming/add_programming/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
 
-
+		<?php 
+			}
+		?>
 <?php if($informationWorker){ ?>
 			<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalWorker" id="x">
 					<i class="fa fa-user"></i>
 			</button>
-<?php }elseif($lista['state'] == 1){ ?>
-			<a href='<?php echo base_url("programming/add_programming_workers/" . $idParent); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
+<?php }elseif($lista['state'] == 1 && $idProgramming != 'x'){ ?>
+			<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
 <?php } ?>
 		
 
-			<button type="button" id="<?php echo $idProgramming; ?>" class='btn btn-danger btn-xs' title="Delete">
+			<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs' title="Delete">
 					<i class="fa fa-trash-o"></i>
 			</button>
 			
@@ -132,7 +147,7 @@ $datetime2 = date_create(date("Y-m-d"));
 		}
 ?>
 
-			<a href='<?php echo base_url("programming/index/$idParent"); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
+			<a href='<?php echo base_url("programming/index/$lista[id_programming]"); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
 
 
 <?php								
@@ -255,13 +270,13 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 									echo "<td ><small>$data[name]</small></td>";
 									
 									$idRecord = $data['id_programming_worker'];
-									$idProgramming = $data['fk_id_programming'];
+									$fkIdProgramming = $data['fk_id_programming'];
 							?>		
 									
 						<form  name="worker_<?php echo $idRecord ?>" id="worker_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/update_worker"); ?>">
 
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>"/>
-							<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>"/>
+							<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $fkIdProgramming; ?>"/>
 						
 						<td>
 							<select name="hora_inicio" id="hora_inicio" class="form-control" required>
@@ -421,7 +436,8 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 
 			<div class="modal-body">
 				<form name="formWorkerProgramming" id="formWorkerProgramming" role="form" method="post" action="<?php echo base_url("programming/safet_One_Worker_programming") ?>" >
-					<input type="hidden" id="hddId" name="hddId" value="<?php echo $idParent; ?>"/>
+					<input type="hidden" id="hddId" name="hddId" value="<?php echo $idProgramming; ?>"/>
+					<input type="hidden" id="hddIdParent" name="hddIdParent" value="<?php echo $idParent; ?>"/>
 					
 					<div class="form-group text-left">
 						<label class="control-label" for="worker">Worker</label>

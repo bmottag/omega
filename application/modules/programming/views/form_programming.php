@@ -31,7 +31,15 @@
 								</select>
 							</div>
 						</div>
-												
+
+						<?php 
+							$mostrar = "block";
+							$mostrarPeriod = "none";
+							if($information && $information[0]["flag_date"]==2){
+								$mostrar = "none";
+								$mostrarPeriod = "block";
+							}
+						?>
 <script>
 	$( function() {
 		$( "#date" ).datepicker({
@@ -42,7 +50,7 @@
 		});
 	});
 </script>
-						<div class="form-group date-fields">									
+						<div class="form-group date-fields" style="display:<?php echo $mostrar; ?>">									
 							<label class="col-sm-4 control-label" for="date">Date:</label>
 							<div class="col-sm-2">
 								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="Date" />
@@ -81,7 +89,7 @@
 	});
 </script>
 
-						<div class="form-group period-fields" style="display:none">									
+						<div class="form-group period-fields" style="display:<?php echo $mostrarPeriod; ?>">									
 							<label class="col-sm-4 control-label" for="from">From Date:</label>
 							<div class="col-sm-2">
 								<input type="text" class="form-control" id="from" name="from" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="From Date" />
@@ -93,7 +101,7 @@
 							</div>
 						</div>
 
-						<div class="form-group period-fields" style="display:none">									
+						<div class="form-group period-fields" style="display:<?php echo $mostrarPeriod; ?>">									
 							<label class="col-sm-4 control-label" for="date">Apply for:</label>
 							<div class="col-sm-2">
 								<select name="apply_for" id="apply_for" class="form-control" required>
