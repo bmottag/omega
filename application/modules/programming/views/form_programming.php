@@ -21,6 +21,16 @@
 						<div class="alert alert-info">
 							<strong>Info:</strong> Form to add or update a Planning.
 						</div>
+
+						<div class="form-group">									
+							<label class="col-sm-4 control-label" for="date">Date or Range:</label>
+							<div class="col-sm-2">
+								<select name="flag_date" id="flag_date" class="form-control" required>
+									<option value=1 <?php if(!$information){ echo "selected"; }elseif($information[0]["flag_date"] == 1) { echo "selected"; }  ?>>Specific Day</option>
+									<option value=2 <?php if($information && $information[0]["flag_date"] == 2) { echo "selected"; }  ?>>Time Frame</option>
+								</select>
+							</div>
+						</div>
 												
 <script>
 	$( function() {
@@ -32,12 +42,67 @@
 		});
 	});
 </script>
-						<div class="form-group">									
+						<div class="form-group date-fields">									
 							<label class="col-sm-4 control-label" for="date">Date:</label>
-							<div class="col-sm-5">
+							<div class="col-sm-2">
 								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="Date" />
 							</div>
-						</div>			
+						</div>
+						
+<script>
+	$( function() {
+		var dateFormat = "mm/dd/yy",
+		from = $( "#from" )
+		.datepicker({
+			changeMonth: true,
+			numberOfMonths: 2
+		})
+		.on( "change", function() {
+			to.datepicker( "option", "minDate", getDate( this ) );
+		}),
+		to = $( "#to" ).datepicker({
+			changeMonth: true,
+			numberOfMonths: 2
+		})
+		.on( "change", function() {
+			from.datepicker( "option", "maxDate", getDate( this ) );
+		});
+
+		function getDate( element ) {
+			var date;
+			try {
+				date = $.datepicker.parseDate( dateFormat, element.value );
+			} catch( error ) {
+				date = null;
+			}
+
+			return date;
+		}
+	});
+</script>
+
+						<div class="form-group period-fields" style="display:none">									
+							<label class="col-sm-4 control-label" for="from">From Date:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="from" name="from" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="From Date" />
+							</div>
+
+							<label class="col-sm-1 control-label" for="to">To Date:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="to" name="to" value="<?php echo $information?$information[0]["date_programming"]:""; ?>" placeholder="To Date" />
+							</div>
+						</div>
+
+						<div class="form-group period-fields" style="display:none">									
+							<label class="col-sm-4 control-label" for="date">Apply for:</label>
+							<div class="col-sm-2">
+								<select name="apply_for" id="apply_for" class="form-control" required>
+									<option value=1 <?php if($information && $information[0]["apply_for"] == 1) { echo "selected"; }  ?>>All Days</option>
+									<option value=2 <?php if($information && $information[0]["apply_for"] == 2) { echo "selected"; }  ?>>Only During The Week</option>
+									<option value=3 <?php if($information && $information[0]["apply_for"] == 2) { echo "selected"; }  ?>>Only Weekends</option>
+								</select>
+							</div>
+						</div>
 												
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>

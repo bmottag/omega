@@ -103,9 +103,15 @@ $datetime2 = date_create(date("Y-m-d"));
 			}
 ?>
 
-		<?php if(!$deshabilitar){ ?>
+		<?php 
+			if(!$deshabilitar){ 
+				$idParent = $idProgramming = $lista['id_programming'];
+				if($lista["parent_id"] !== null && $lista["parent_id"]  != ''){
+					$idParent = $lista["parent_id"];
+				}
+		?>
 
-			<a href='<?php echo base_url("programming/add_programming/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
+			<a href='<?php echo base_url("programming/add_programming/" . $idParent); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
 
 
 <?php if($informationWorker){ ?>
@@ -113,11 +119,11 @@ $datetime2 = date_create(date("Y-m-d"));
 					<i class="fa fa-user"></i>
 			</button>
 <?php }elseif($lista['state'] == 1){ ?>
-			<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
+			<a href='<?php echo base_url("programming/add_programming_workers/" . $idParent); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
 <?php } ?>
 		
 
-			<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs' title="Delete">
+			<button type="button" id="<?php echo $idProgramming; ?>" class='btn btn-danger btn-xs' title="Delete">
 					<i class="fa fa-trash-o"></i>
 			</button>
 			
@@ -126,7 +132,7 @@ $datetime2 = date_create(date("Y-m-d"));
 		}
 ?>
 
-			<a href='<?php echo base_url("programming/index/$lista[id_programming]"); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
+			<a href='<?php echo base_url("programming/index/$idParent"); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
 
 
 <?php								
@@ -415,7 +421,7 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 
 			<div class="modal-body">
 				<form name="formWorkerProgramming" id="formWorkerProgramming" role="form" method="post" action="<?php echo base_url("programming/safet_One_Worker_programming") ?>" >
-					<input type="hidden" id="hddId" name="hddId" value="<?php echo $idProgramming; ?>"/>
+					<input type="hidden" id="hddId" name="hddId" value="<?php echo $idParent; ?>"/>
 					
 					<div class="form-group text-left">
 						<label class="control-label" for="worker">Worker</label>

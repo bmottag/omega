@@ -1,8 +1,47 @@
 $( document ).ready( function () {
+
+	jQuery.validator.addMethod("fieldValidationDate", function(value, element, param) {
+		var flag = $('#flag_date').val();
+		if(flag == 1 && value == ""){
+			return false;
+		}else{
+			return true;
+		}
+	}, "This field is required.");
+
+	jQuery.validator.addMethod("fieldValidationPeriod", function(value, element, param) {
+		var flag = $('#flag_date').val();
+		if(flag == 2 && value == ""){
+			return false;
+		}else{
+			return true;
+		}
+	}, "This field is required.");
+
+    $('#flag_date').change(function () {
+        $('#flag_date option:selected').each(function () {
+
+			var flag = $('#flag_date').val();
+			if (flag == 1) {
+				$(".period-fields").css("display", "none");
+				$(".date-fields").css("display", "block");
+
+				$('#from').val("");
+				$('#to').val("");
+			}else{
+				$(".period-fields").css("display", "block");
+				$(".date-fields").css("display", "none");
+				$('#date').val("");
+			}
+        });
+    });
 					
 	$( "#form" ).validate( {
 		rules: {
-			date:					{ required: true },
+			date:					{ fieldValidationDate: true },
+			from:					{ fieldValidationPeriod: true },
+			to:						{ fieldValidationPeriod: true },
+			apply_for:				{ fieldValidationPeriod: true },
 			jobName: 				{ required: true },
 			observation: 			{ required: true }
 		},

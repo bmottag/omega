@@ -94,7 +94,7 @@ class Programming extends CI_Controller {
 	public function save_programming()
 	{			
 			header('Content-Type: application/json');
-			
+
 			$idProgramming = $this->input->post('hddId');
 			$idJob = $this->input->post('jobName');
 			$date = $this->input->post('date');
@@ -120,7 +120,42 @@ class Programming extends CI_Controller {
 			} else {
 			
 				if ($data["idProgramming"] = $this->programming_model->saveProgramming()) 
-				{					
+				{
+					$flagDate = $this->input->post('flag_date');
+					if($flagDate == 2)
+					{
+						//delete previous records
+						$arrParam = array(
+							"table" => "programming",
+							"primaryKey" => "parent_id",
+							"id" => $data["idProgramming"]
+						);
+						$this->load->model("general_model");
+						$this->general_model->deleteRecord($arrParam);
+						
+						//add new records
+						$date_from = strtotime(formatear_fecha($this->input->post('from')));
+						$date_to = strtotime(formatear_fecha($this->input->post('to')));
+
+						$diferencia = $date_to - $date_from;
+						$diferencia_en_dias = floor($diferencia / (60 * 60 * 24));
+					
+						for ($i = 1; $i <= $diferencia_en_dias; $i++) {
+							$applyFor = $this->input->post('apply_for');
+							$nextDate = date('Y-m-d',strtotime ( '+'.$i.' day ' , strtotime ( formatear_fecha($this->input->post('from')) ) ) );
+							if($applyFor == 1){
+								$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"] );
+							}else{
+								$numero_dia_semana = date("N", strtotime($nextDate));
+
+								if ($applyFor == 2 && $numero_dia_semana >= 1 && $numero_dia_semana <= 5) {
+									$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"] );
+								} elseif ($applyFor == 3 && $numero_dia_semana >= 6 && $numero_dia_semana <= 7) {
+									$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"] );
+								}
+							}	
+						}						
+					}
 					$data["result"] = true;
 					$this->session->set_flashdata('retornoExito', $msj);
 					

@@ -11,12 +11,21 @@
 		{
 				$idUser = $this->session->userdata("id");
 				$idProgramming = $this->input->post('hddId');
+				$flagDate = $this->input->post('flag_date');
 				
 				$data = array(
 					'fk_id_job' => $this->input->post('jobName'),
-					'date_programming' => $this->input->post('date'),
-					'observation' => $this->input->post('observation')
+					'observation' => $this->input->post('observation'),
+					'flag_date' => $flagDate
 				);
+
+				if ($flagDate == 1) {
+					$data['date_programming'] = $this->input->post('date');
+				}else{
+					$data['date_programming'] = formatear_fecha($this->input->post('from'));
+					$data['date_to'] = formatear_fecha($this->input->post('to'));
+					$data['apply_for'] = $this->input->post('apply_for');
+				}
 				
 				//revisar si es para adicionar o editar
 				if ($idProgramming == '') {
@@ -30,6 +39,33 @@
 					$this->db->where('id_programming', $idProgramming);
 					$query = $this->db->update('programming', $data);
 				}
+				if ($query) {
+					return $idProgramming;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add Period Programming
+		 * @since 16/10/2023
+		 */
+		public function savePeriodProgramming($date, $idParent) 
+		{		
+				$data = array(
+					'fk_id_user' => $this->session->userdata("id"),
+					'date_issue' => date("Y-m-d G:i:s"),
+					'fk_id_job' => $this->input->post('jobName'),
+					'observation' => $this->input->post('observation'),
+					'date_programming' => $date,
+					'parent_id' => $idParent,
+					'apply_for' => $this->input->post('apply_for'),
+					'flag_date' => $this->input->post('flag_date'),
+					'state' => 1
+				);				
+				$query = $this->db->insert('programming', $data);
+				$idProgramming = $this->db->insert_id();
+
 				if ($query) {
 					return $idProgramming;
 				} else {
