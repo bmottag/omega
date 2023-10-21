@@ -46,7 +46,7 @@ $(function(){
 					<ul class="nav nav-pills">
 						<li ><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
 						</li>
-						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">WORKER(s) IN CHARGE OF ENTRY</a>
+						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENTRANT(S)</a>
 						</li>
 						<li class='active'><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - RE-TESTING</a>
 						</li>

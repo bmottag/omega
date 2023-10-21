@@ -1,8 +1,5 @@
 $( document ).ready( function () {
-		
-	$("#re_oxygen").bloquearTexto().maxlength(5);
-	$("#re_explosive_limit").bloquearTexto().maxlength(5);
-		
+				
 	$( "#form" ).validate( {
 		rules: {
 			re_oxygen:						{ required: true },

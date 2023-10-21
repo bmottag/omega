@@ -25,7 +25,7 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Oxygen (%) : *</label>
-					<input type="text" id="re_oxygen" name="re_oxygen" class="form-control" value="<?php echo $information?$information[0]["re_oxygen"]:""; ?>" placeholder="Oxygen" Required>
+					<input type="number" step="any" id="re_oxygen" name="re_oxygen" class="form-control" value="<?php echo $information?$information[0]["re_oxygen"]:""; ?>" placeholder="Oxygen" Required>
 				</div>
 			</div>
 			
@@ -53,7 +53,7 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Lower Explosive Limit (%): *</label>
-					<input type="text" id="re_explosive_limit" name="re_explosive_limit" class="form-control" value="<?php echo $information?$information[0]["re_explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" Required>
+					<input type="number" step="any" id="re_explosive_limit" name="re_explosive_limit" class="form-control" value="<?php echo $information?$information[0]["re_explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" Required>
 				</div>
 			</div>
 			

@@ -19,7 +19,7 @@
 					<ul class="nav nav-pills">
 						<li ><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
 						</li>
-						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">WORKER(s) IN CHARGE OF ENTRY</a>
+						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENTRANT(S)</a>
 						</li>
 						<li ><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - Re-Testing</a>
 						</li>
@@ -115,6 +115,7 @@ if ($retornoError) {
 									<option value="">Select...</option>
 									<option value=1 <?php if($information[0]["isolation"] == 1) { echo "selected"; }  ?>>Yes</option>
 									<option value=2 <?php if($information[0]["isolation"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=3 <?php if($information[0]["isolation"] == 3) { echo "selected"; }  ?>>N/A</option>
 								</select>
 							</div>
 						</div>
@@ -127,7 +128,9 @@ if ($retornoError) {
 								<select name="lockouts_removed" id="lockouts_removed" class="form-control" required>
 									<option value="">Select...</option>
 									<option value=1 <?php if($information[0]["lockouts_removed"] == 1) { echo "selected"; }  ?>>Yes</option>
-									<option value=2 <?php if($information[0]["lockouts_removed"] == 2) { echo "selected"; }  ?>>No</option>								</select>
+									<option value=2 <?php if($information[0]["lockouts_removed"] == 2) { echo "selected"; }  ?>>No</option>								
+									<option value=3 <?php if($information[0]["lockouts_removed"] == 3) { echo "selected"; }  ?>>N/A</option>
+								</select>
 							</div>
 						</div>
 						
@@ -140,6 +143,7 @@ if ($retornoError) {
 									<option value="">Select...</option>
 									<option value=1 <?php if($information[0]["tags_removed"] == 1) { echo "selected"; }  ?>>Yes</option>
 									<option value=2 <?php if($information[0]["tags_removed"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=3 <?php if($information[0]["tags_removed"] == 3) { echo "selected"; }  ?>>N/A</option>
 								</select>
 							</div>
 						</div>
@@ -179,6 +183,7 @@ if ($retornoError) {
 									<option value="">Select...</option>
 									<option value=1 <?php if($information[0]["rescue_equipment"] == 1) { echo "selected"; }  ?>>Yes</option>
 									<option value=2 <?php if($information[0]["rescue_equipment"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=3 <?php if($information[0]["rescue_equipment"] == 3) { echo "selected"; }  ?>>N/A</option>
 								</select>
 							</div>
 						</div>
@@ -205,6 +210,7 @@ if ($retornoError) {
 									<option value="">Select...</option>
 									<option value=1 <?php if($information[0]["areas_notified"] == 1) { echo "selected"; }  ?>>Yes</option>
 									<option value=2 <?php if($information[0]["areas_notified"] == 2) { echo "selected"; }  ?>>No</option>
+									<option value=3 <?php if($information[0]["areas_notified"] == 3) { echo "selected"; }  ?>>N/A</option>
 								</select>
 							</div>
 						</div>

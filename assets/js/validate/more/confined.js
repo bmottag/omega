@@ -1,7 +1,5 @@
 $( document ).ready( function () {
 	
-	$("#oxygen").bloquearTexto().maxlength(10);
-	$("#explosive_limit").bloquearTexto().maxlength(10);
 	$("#re_oxygen").bloquearTexto().maxlength(10);
 	$("#re_explosive_limit").bloquearTexto().maxlength(10);
 			

@@ -1239,6 +1239,14 @@ class More extends CI_Controller {
 			
 			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined);//workers list
 
+			$arrParam = array(
+				"table" => "job_confined_re_testing",
+				"order" => "id_job_confined_re_testing",
+				"column" => " 	fk_id_job_confined",
+				"id" => $idConfined
+			);
+			$data['retesting'] = $this->general_model->get_basic_search($arrParam);
+
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// Print a table
 				

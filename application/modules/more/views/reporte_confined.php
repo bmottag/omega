@@ -47,58 +47,55 @@
 			</table>';
 
 $html.= '<br><br>';
+				
+$html .= '<h2 align="center" style="color:#337ab7;">Entrant(s)<br></h2>';
 			
 				if(!$confinedWorkers){			
-						$html.= 'No data was found for workers';
-				}else{				
-				
-						$html.= '<table border="1" cellspacing="0" cellpadding="5">';
-								
-						//pintar las firmas de a 4 por fila
-						$total = count($confinedWorkers);//contar numero de trabajadores
-						$totalFilas  = 1;
-						if($total>=4)
-						{//si es mayor 4 entonces calcular cuantas filas deben ser
-							$div = $total / 4;
-							$totalFilas = ceil($div); //redondeo hace arriba
-						}
-
-						$n = 1;
-						for($i=0;$i<$totalFilas;$i++){
-							$html.= '<tr>
-										<th align="center" width="20%"><strong><p>Worker(s) in charge of entry:</p></strong></th>';	
+					$html.= 'No data was found for workers';
+				}else{		
+					$html.= '<table border="0" cellspacing="0" cellpadding="5">
+								<tr>
+									<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Worker</strong></th>
+									<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Time In</strong></th>
+									<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Time Out</strong></th>
+									<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Task</strong></th>
+									<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Signature</strong></th>
+								</tr>';
 							
-									$finish = $n * 4;
-									$star = $finish - 4;
-									if($finish > $total){
-										$finish = $total;
+					foreach ($confinedWorkers as $data):
+						$html.= '<tr>
+									<th>' . $data['name'] . '</th>
+									<th align="center">';
+									if($data['signature'] && $data['date_time_in']){ 
+										$html.= $data['date_time_in'];
 									}
-									$n++;			
-																							
-									for ($j = $star; $j < $finish; $j++) {
-				
-										$html.= '<th align="center" width="20%">';
-										
-										if($confinedWorkers[$j]['signature']){
-											$html.= '<img src="'.$confinedWorkers[$j]['signature'].'" border="0" width="70" height="70" />';
-										}
-										$html.= '</th>';
+									$html.= '</th>
+											<th align="center">';
+									if($data['signature'] && $data['date_time_in']){ 
+										$html.= $data['date_time_out'];
 									}
-
-							$html.= '</tr>';
-														
-							$html.= '<tr bgcolor="#337ab7" style="color:white;">
-										<th align="center"><strong>Worker Name</strong></th>';		
-										for ($j = $star; $j < $finish; $j++) {	
-											$html.= '<th align="center"><strong>' . $confinedWorkers[$j]['name'] . '</strong></th>';
-										}
-							$html.= '</tr>';
-						}
-						
-						$html.= '</table>';
+									$html.= '</th>
+									<th>' . $data['task'] . '</th>';
+						$html.= '<th align="center"><img src="'.$data['signature'].'" border="0" width="70" height="70" /></th>';
+						$html.= '</tr>';
+					endforeach;
+					$html.= '</table>';
 				}
 
 				$html.= '<br><br>';
+
+				$html .= '<table border="0" cellspacing="0" cellpadding="5">';
+				$html.='<tr>
+							<th>';
+				$html .= '<img src="http://v-contracting.ca/app/images/check_mark.png" height="12" width="12"/>';
+				$html.= ' <b>Oxygen (Acceptable Level)</b>			19.5 % - 22 %<br>';	
+				$html .= '<img src="http://v-contracting.ca/app/images/check_mark.png" height="12" width="12"/>';
+				$html.= ' <b>Carbon Monoxide (Ocupational Exposure Limit)</b>	25 ppm <br>';	
+				$html .= '<img src="http://v-contracting.ca/app/images/check_mark.png" height="12" width="12"/>';
+				$html.= ' <b>Hydrogen Sulphide (Ocupational Exposure Limit)</b>	10 ppm';	
+				$html .= '</th>';					
+				$html.= '</tr>';	
+				$html.='</table><br><br>';
 				
 $html .= '<h2 align="center" style="color:#337ab7;">Pre-Entry Authorizartion<br></h2>';
 			
@@ -328,15 +325,115 @@ $html .= '<h2 align="center" style="color:#337ab7;">Environmental conditions - T
 			</table>';
 
 $html.= '<br><br>';
-			
-			$html.='<table border="0" cellspacing="0" cellpadding="5">
-				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Remarks on the overall condition of the confined space : </strong></th>
-				</tr>
-				<tr>
-					<th>' . $info[0]['remarks'] . '</th>
-				</tr>
-			</table>';
+
+$html.='<table border="0" cellspacing="0" cellpadding="5">
+<tr>
+	<th bgcolor="#337ab7" style="color:white;"><strong>Remarks on the overall condition of the confined space : </strong></th>
+</tr>
+<tr>
+	<th>' . $info[0]['remarks'] . '</th>
+</tr>
+</table>';
+
+$html.= '<br><br>';
+
+if($retesting){
+	$html .= '<h2 align="center" style="color:#337ab7;">Environmental conditions - Re-Testing<br></h2>';
+
+	$html.= '<table border="0" cellspacing="0" cellpadding="5">
+	<tr>
+		<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Oxigen</strong></th>
+		<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Date/Time</strong></th>
+		<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Lower/Explosive Limit</strong></th>
+		<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Date/Time</strong></th>
+		<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Toxic Atmosphere</strong></th>
+		<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Instruments Used</strong></th>
+	</tr>';
+
+	foreach ($retesting as $data):
+		$html.= '<tr>
+				<th align="center">' . $data['re_oxygen'] . ' %</th>
+				<th align="center">' . $data['re_oxygen_time'] . '</th>
+				<th align="center">' . $data['re_explosive_limit'] . '%</th>
+				<th align="center">' . $data['re_explosive_limit_time'] . '</th>
+				<th align="center">' . $data['re_toxic_atmosphere'] . '</th>
+				<th>' . $data['re_instruments_used'] . '</th>';
+		$html.= '</tr>';
+	endforeach;
+	$html.= '</table>';
+	
+	$html.= '<br><br>';
+}
+
+
+	$html .= '<h2 align="center" style="color:#337ab7;">Post-entry Inspection<br></h2>';
+
+	$html.= '<table border="0" cellspacing="0" cellpadding="5">';
+	$html.= '<tr>
+			<th>Are all personnel out of the confined space and accounted for? </th>
+			<th align="center">';
+	$html.= $info[0]["personnel_out"] == 1 ? 'Yes' : ($info[0]["personnel_out"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Have isolation devices been removed and pipes been restored to their original positions? </th>
+			<th align="center">';
+	$html.= $info[0]["isolation"] == 1 ? 'Yes' : ($info[0]["isolation"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Have all lockouts been removed? </th>
+			<th align="center">';
+	$html.= $info[0]["lockouts_removed"] == 1 ? 'Yes' : ($info[0]["lockouts_removed"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Have all safe entry tags and sings been removed? </th>
+			<th align="center">';
+	$html.= $info[0]["tags_removed"] == 1 ? 'Yes' : ($info[0]["tags_removed"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Have all equipment and waste been removed from the work area? </th>
+			<th align="center">';
+	$html.= $info[0]["equipment_removed"] == 1 ? 'Yes' : ($info[0]["equipment_removed"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Has all specialized PPE been cleaned, post-inspected and put away? </th>
+			<th align="center">';
+	$html.= $info[0]["ppe_cleaned"] == 1 ? 'Yes' : ($info[0]["ppe_cleaned"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Has all rescue equipment been post -inspected, cleaned and stored (If Applicable)? </th>
+			<th align="center">';
+	$html.= $info[0]["rescue_equipment"] == 1 ? 'Yes' : ($info[0]["rescue_equipment"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Have all permits been signed out and filed properly? </th>
+			<th align="center">';
+	$html.= $info[0]["permits_signed"] == 1 ? 'Yes' : ($info[0]["permits_signed"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '<tr>
+			<th>Have other applicable areas of the facility been notified that the work in the confined space is complete and operations are ready to be resumed? </th>
+			<th align="center">';
+	$html.= $info[0]["areas_notified"] == 1 ? 'Yes' : ($info[0]["areas_notified"] == 2 ? 'No' : 'N/A' );
+	$html.= '</th>';
+	$html.= '</tr>';
+
+	$html.= '</table>';
+	$html.= '<br><br>';
 
 $html.= '<br><br>';			
 //FIRMAS SUPERVISOR Y MANAGER

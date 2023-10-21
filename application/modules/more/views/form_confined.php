@@ -38,7 +38,7 @@ if($userRol==99){
 					<ul class="nav nav-pills">
 						<li class='active'><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
 						</li>
-						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">WORKER(s) IN CHARGE OF ENTRY</a>
+						<li ><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENTRANT(S)</a>
 						</li>
 						<li ><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"]. "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - Re-Testing</a>
 						</li>
@@ -309,6 +309,19 @@ if($information)
 			</div>
 		</div>
 	</div>
+
+	<div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<b>Oxygen (Acceptable Level)</b>			19.5 % - 22 % <br>
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<b>Carbon Monoxide (Ocupational Exposure Limit)</b>	25 ppm <br>
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<b>Hydrogen Sulphide (Ocupational Exposure Limit)</b>	10 ppm
+			</div>
+		</div>
+	</div>
 	
 	<div class="row">
 		<div class="col-lg-12">				
@@ -413,7 +426,7 @@ if($information)
 				
 						<div class="col-sm-6">
 							<label for="type" class="control-label">Oxygen (%): </label>
-							<input type="text" id="oxygen" name="oxygen" class="form-control" value="<?php echo $information?$information[0]["oxygen"]:""; ?>" placeholder="Oxygen" >
+							<input type="number" step="any" id="oxygen" name="oxygen" class="form-control" value="<?php echo $information?$information[0]["oxygen"]:""; ?>" placeholder="Oxygen" >
 						</div>
 
 						<div class='col-sm-6'>
@@ -437,7 +450,7 @@ if($information)
 						
 						<div class="col-sm-6">
 							<label for="type" class="control-label">Lower Explosive Limit (%): </label>
-							<input type="text" id="explosive_limit" name="explosive_limit" class="form-control" value="<?php echo $information?$information[0]["explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" >
+							<input type="number" step="any" id="explosive_limit" name="explosive_limit" class="form-control" value="<?php echo $information?$information[0]["explosive_limit"]:""; ?>" placeholder="Lower Explosive Limit" >
 						</div>
 					
 						<div class='col-sm-6'>
