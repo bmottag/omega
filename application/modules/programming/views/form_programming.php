@@ -17,6 +17,7 @@
 
 					<form  name="form" id="form" class="form-horizontal" method="post" >
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_programming"]:""; ?>"/>
+						<input type="hidden" id="hddIdParent" name="hddIdParent" value="<?php echo $information?$information[0]["parent_id"]:""; ?>"/>
 																					
 						<div class="alert alert-info">
 							<strong>Info:</strong> Form to add or update a Planning.
@@ -35,7 +36,7 @@
 						<?php 
 							$mostrar = "block";
 							$mostrarPeriod = "none";
-							if($information && $information[0]["flag_date"]==2){
+							if($information && $information[0]["flag_date"]==2 && ($information[0]["parent_id"] == null || $information[0]["parent_id"] == '')){
 								$mostrar = "none";
 								$mostrarPeriod = "block";
 							}

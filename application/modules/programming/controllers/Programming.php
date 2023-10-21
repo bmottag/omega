@@ -29,9 +29,6 @@ class Programming extends CI_Controller {
 			$data['information'] = $this->general_model->get_programming($arrParam);//info programacion
 			
 			//lista de trabajadores para esta programacion
-			if($data['information'][0]["parent_id"] != null && $data['information'][0]["parent_id"] != ''){
-				$arrParam = array("idProgramming" => $data['information'][0]["parent_id"]);
-			}
 			$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 
 			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
@@ -125,7 +122,8 @@ class Programming extends CI_Controller {
 				if ($data["idProgramming"] = $this->programming_model->saveProgramming()) 
 				{
 					$flagDate = $this->input->post('flag_date');
-					if($flagDate == 2)
+					$parentId = $this->input->post('hddIdParent');
+					if($flagDate == 2 && $parentId == "")
 					{
 						//delete previous records
 						$arrParam = array(
@@ -455,15 +453,6 @@ class Programming extends CI_Controller {
 			);
 
 			if ($this->general_model->updateRecord($arrParam)) {
-				//guardo estado de la programacion PARA LOS HIJOS		
-				$arrParam = array(
-					"table" => "programming",
-					"primaryKey" => "parent_id",
-					"id" => $idProgramming,
-					"column" => "state",
-					"value" => $state
-				);
-				$this->general_model->updateRecord($arrParam);
 				return TRUE;
 			}else{
 				return FALSE;

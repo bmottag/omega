@@ -78,15 +78,14 @@ if ($retornoError) {
 						<tbody>							
 						<?php
 							foreach ($information as $lista):
-								$flag = '';
+								$idParent = $lista["parent_id"];
 								$flagText = '';
 								if($lista["flag_date"] == 2){
-									$flag = "info";
-									$flagText = "text-primary";
+									$flagText = "text-violeta";
 								}
-								echo "<tr class='".$flag." " . $flagText. "'>";
+								echo "<tr class='" . $flagText. "'>";
 								echo "<td class='text-center'>";
-								echo ($lista["parent_id"] != null && $lista["parent_id"] != '') ? $lista["parent_id"] : $lista["id_programming"];
+								echo ($lista["flag_date"] == 2 && $lista["parent_id"] != null && $lista["parent_id"] != '') ? "<b>Child</b><br>" . $lista["parent_id"] : ($lista["flag_date"] == 1 ? "" : "<b>Parent</b><br>" . $lista["id_programming"]);
 								echo "</td>";
 								echo "<td class='text-center'>" . $lista['date_programming'] . "</td>";
 								echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
@@ -111,24 +110,14 @@ $datetime2 = date_create(date("Y-m-d"));
 			}elseif($lista['state'] == 1){
 				echo '<p class="text-danger"><strong>INCOMPLETE</strong></p>';
 			}
-
-
-			$idParent = $lista["parent_id"];
-
 ?>
 
 		<?php 
 			if(!$deshabilitar){ 
 		?>
 
-		<?php 
-			if($lista["parent_id"] == null || $lista["parent_id"] == ''){
-		?>
 			<a href='<?php echo base_url("programming/add_programming/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
 
-		<?php 
-			}
-		?>
 <?php if($informationWorker){ ?>
 			<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalWorker" id="x">
 					<i class="fa fa-user"></i>

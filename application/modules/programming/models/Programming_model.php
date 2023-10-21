@@ -12,6 +12,7 @@
 				$idUser = $this->session->userdata("id");
 				$idProgramming = $this->input->post('hddId');
 				$flagDate = $this->input->post('flag_date');
+				$parentId = $this->input->post('hddIdParent');
 				
 				$data = array(
 					'fk_id_job' => $this->input->post('jobName'),
@@ -19,12 +20,12 @@
 					'flag_date' => $flagDate
 				);
 
-				if ($flagDate == 1) {
-					$data['date_programming'] = $this->input->post('date');
-				}else{
+				if($flagDate == 2 && $parentId == ""){
 					$data['date_programming'] = formatear_fecha($this->input->post('from'));
 					$data['date_to'] = formatear_fecha($this->input->post('to'));
 					$data['apply_for'] = $this->input->post('apply_for');
+				}else{
+					$data['date_programming'] = $this->input->post('date');
 				}
 				
 				//revisar si es para adicionar o editar
