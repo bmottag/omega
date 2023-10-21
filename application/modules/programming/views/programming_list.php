@@ -439,7 +439,6 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar){
 			<div class="modal-body">
 				<form name="formWorkerProgramming" id="formWorkerProgramming" role="form" method="post" action="<?php echo base_url("programming/safet_One_Worker_programming") ?>" >
 					<input type="hidden" id="hddId" name="hddId" value="<?php echo $idProgramming; ?>"/>
-					<input type="hidden" id="hddIdParent" name="hddIdParent" value="<?php echo $idParent; ?>"/>
 					
 					<div class="form-group text-left">
 						<label class="control-label" for="worker">Worker</label>

@@ -214,9 +214,7 @@
 		public function saveOneWorkerProgramming() 
 		{				
 				$idProgramming = $this->input->post('hddId');
-				if($this->input->post('hddIdParent') != null && $this->input->post('hddIdParent') != ''){
-					$idProgramming = $this->input->post('hddIdParent');
-				}			
+		
 				$data = array(
 					'fk_id_programming' => $idProgramming,
 					'fk_id_programming_user' => $this->input->post('worker'),

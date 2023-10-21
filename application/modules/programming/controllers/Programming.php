@@ -344,11 +344,8 @@ class Programming extends CI_Controller {
 			$this->load->model("general_model");
 			if ($this->general_model->deleteRecord($arrParam)) 
 			{
-				$arrParam = array("idProgramming" => $idProgramming);
-				$data['information'] = $this->general_model->get_programming($arrParam);//info programacion	
-				$idMainProgramming = ($data['information'][0]["parent_id"] != null && $data['information'][0]["parent_id"] != '') ? $data['information'][0]["parent_id"] : $idProgramming;
 				//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
-				$updateState = $this->update_state($idMainProgramming);
+				$updateState = $this->update_state($idProgramming);
 				
 				$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
 			} else {
