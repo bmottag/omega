@@ -505,6 +505,9 @@ class General_model extends CI_Model {
 			if (array_key_exists("idProgramming", $arrData)) {
 				$this->db->where('P.id_programming', $arrData["idProgramming"]);
 			}
+			if (array_key_exists("idParent", $arrData)) {
+				$this->db->where('P.parent_id', $arrData["idParent"]);
+			}
 			if (array_key_exists("fecha", $arrData)) {
 				$this->db->where('P.date_programming', $arrData["fecha"]);
 			}

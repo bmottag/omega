@@ -79,13 +79,14 @@ if ($retornoError) {
 						<?php
 							foreach ($information as $lista):
 								$idParent = $lista["parent_id"];
+								$flagDate = $lista["flag_date"];
 								$flagText = '';
 								if($lista["flag_date"] == 2){
 									$flagText = "text-violeta";
 								}
 								echo "<tr class='" . $flagText. "'>";
 								echo "<td class='text-center'>";
-								echo ($lista["flag_date"] == 2 && $lista["parent_id"] != null && $lista["parent_id"] != '') ? "<b>Child</b><br>" . $lista["parent_id"] : ($lista["flag_date"] == 1 ? "" : "<b>Parent</b><br>" . $lista["id_programming"]);
+								echo ($flagDate == 2 && $idParent != null && $idParent != '') ? "<b>Child</b><br>" . $idParent : ($flagDate == 1 ? "" : "<b>Parent</b><br>" . $lista["id_programming"]);
 								echo "</td>";
 								echo "<td class='text-center'>" . $lista['date_programming'] . "</td>";
 								echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
@@ -204,7 +205,19 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 
 							<thead>
 								<tr class="headings">
-									<th class="column-title" colspan="9">-- WORKERS --</th>
+									<th class="column-title" colspan="6">-- WORKERS --</th>
+									<th class="column-title" >
+										<?php
+											if($flagDate == 2 && ($idParent == null || $idParent == '')){
+										?>
+											<form  name="generateChildWorkers" id="generateChildWorkers" method="post" action="<?php echo base_url("programming/generate_child_workers"); ?>">
+												<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>"/>
+												<input type="submit" id="btnSubmit" name="btnSubmit" value="Generate Child Workers" class="btn btn-violeta"/>
+											</form>
+										<?php
+											}
+										?>
+									</th>
 								</tr>
 								
 								<tr class="headings">

@@ -292,6 +292,39 @@ class Programming extends CI_Controller {
 
 			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
     }
+
+	/**
+	 * Generate child workers
+     * @since 21/10/2023
+     * @author BMOTTAG
+	 */
+	public function generate_child_workers()
+	{					
+			$this->load->model("general_model");
+			$idProgramming = $this->input->post('hddIdProgramming');
+
+			$arrParam = array("idParent" => $idProgramming);
+			$childList = $this->general_model->get_programming($arrParam);
+
+			if(!$childList){
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', 'This Planning does not have any child.');
+			}else{
+				$arrParam = array("idProgramming" => $idProgramming);
+				$informationWorker = $this->general_model->get_programming_workers($arrParam);
+
+				foreach ($childList as $data):
+					$this->delete_child_workers($data['id_programming']);
+					$this->programming_model->saveChildWorkers($data['id_programming'], $informationWorker);
+					$this->update_state($data["id_programming"]);
+				endforeach;
+
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have updated the record!!");
+			}
+
+			redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+    }
 	
     /**
      * Delete worker
@@ -1135,6 +1168,28 @@ if($bandera){
 		);
 			
 		return true;
+    }
+
+	/**
+	 * Delete child workers whene generate the workers information
+     * @since 21/10/2023
+	 */
+    function delete_child_workers($idProgramming) 
+	{
+			//programming info
+			$this->load->model("general_model");
+					
+			$arrParam = array(
+				"table" => "programming_worker",
+				"primaryKey" => "fk_id_programming",
+				"id" => $idProgramming
+			);
+			$this->load->model("general_model");
+			if ($this->general_model->deleteRecord($arrParam)){
+				return TRUE;
+			}else{
+				return FALSE;
+			}
     }
 	
 }

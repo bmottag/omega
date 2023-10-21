@@ -255,6 +255,31 @@
 					return false;
 				}
 		}
+
+		/**
+		 * Save child workers for chields
+		 * @since 21/10/2023
+		 */
+		public function saveChildWorkers($idProgramming, $informationWorker) 
+		{				
+			$query = 1;
+			$tot = count($informationWorker);
+			for ($i = 0; $i < $tot; $i++) {
+				$data = array(
+					'fk_id_programming' => $idProgramming,
+					'fk_id_programming_user' => $informationWorker[$i]["fk_id_programming_user"],
+					'fk_id_hour' => $informationWorker[$i]["fk_id_hour"],
+					'site' => $informationWorker[$i]["site"]
+				);
+				$query = $this->db->insert('programming_worker', $data);
+			}
+
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
 					
 		
 	    
