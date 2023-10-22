@@ -229,22 +229,24 @@ if ($retornoError) {
 									$arrParam = array("idProgramming" => $data['id_programming']);
 									$informationWorker = $this->general_model->get_programming_workers($arrParam);//info trabajadores
 	
-									$mensaje = "";                            
-									foreach ($informationWorker as $data):
-										$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
-										$mensaje .= $data['hora']; 
-	
-										$mensaje .= "<br>" . $data['name']; 
-										$mensaje .= $data['description']?"<br>" . $data['description']:"";
-										$mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
-	
-										if($data['safety']==1){
-											$mensaje .= "<br>Do FLHA";
-										}elseif($data['safety']==2){
-											$mensaje .= "<br>Do Tool Box";
-										}
-										$mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
-									endforeach;
+									$mensaje = "";   
+									if($informationWorker){
+										foreach ($informationWorker as $data):
+											$mensaje .= $data['site']==1?"At the yard - ":"At the site - ";
+											$mensaje .= $data['hora']; 
+		
+											$mensaje .= "<br>" . $data['name']; 
+											$mensaje .= $data['description']?"<br>" . $data['description']:"";
+											$mensaje .= $data['unit_description']?"<br>" . $data['unit_description']:"";
+		
+											if($data['safety']==1){
+												$mensaje .= "<br>Do FLHA";
+											}elseif($data['safety']==2){
+												$mensaje .= "<br>Do Tool Box";
+											}
+											$mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
+										endforeach;
+									}                      
 	
 									echo $mensaje;
 	

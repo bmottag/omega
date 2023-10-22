@@ -1078,7 +1078,11 @@ class General_model extends CI_Model {
 			$this->db->join('param_jobs X', 'X.id_job = P.fk_id_job', 'INNER');
 			
 			if (array_key_exists("nextPlanning", $arrData)) {
-				$this->db->where('P.date_programming >', date('Y-m-d'));
+				$currentDate = date('Y-m-d');
+				$plus2 = date('Y-m-d', strtotime($currentDate . ' +2 days'));
+			
+				$this->db->where('P.date_programming >', $currentDate);
+				$this->db->where('P.date_programming <', $plus2);
 				$this->db->where('P.state !=', 3);
 			}
 			if (array_key_exists("idProgramming", $arrData)) {
