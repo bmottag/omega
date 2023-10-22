@@ -64,6 +64,19 @@
 				</div>
 			</div>
 		</div>
+
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="planning_message">Automatic Planning Message: *</label>
+					<select name="planning_message" id="planning_message" class="form-control" >
+						<option value='2' <?php if($information && $information[0]["planning_message"] == '2') { echo "selected"; }  ?>>No</option>
+						<option value='1' <?php if($information && $information[0]["planning_message"] == '1') { echo "selected"; }  ?>>Yes</option>
+					</select>
+				</div>
+			</div>
+		</div>
 						
 		<div class="form-group">
 			<div id="div_load" style="display:none">		

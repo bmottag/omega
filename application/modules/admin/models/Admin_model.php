@@ -56,7 +56,8 @@
 					'markup' => $this->input->post('markup'),
 					'profit' => $this->input->post('profit'),
 					'state' => $this->input->post('stateJob'),
-					'notes' => addslashes($this->security->xss_clean($this->input->post('notes')))
+					'notes' => addslashes($this->security->xss_clean($this->input->post('notes'))),
+					'planning_message' => $this->input->post('planning_message'),
 				);			
 
 				//revisar si es para adicionar o editar
