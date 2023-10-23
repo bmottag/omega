@@ -1196,5 +1196,29 @@ if($bandera){
 				return FALSE;
 			}
     }
+
+	/**
+	 * CRON
+	 * Emvio aotomatico de programacion 
+	 * El CRON se corre a las 12:00 PM de todos los dias
+     * @since 22/10/2023
+	 */
+    function automatic_planning_message() 
+	{
+			$this->load->model("general_model");
+			$nextDate = date('Y-m-d',strtotime ( '+1 day ' , strtotime ( date("Y-m-d") ) ) );
+			$arrParam = array(
+							"fecha" => $nextDate,
+							"estado" => "ACTIVAS",
+							"smsAutomatic" => true
+						);
+			$information = $this->general_model->get_programming($arrParam);//info programacion
+			if($information)
+			{
+				foreach($information as $lista):
+					$this->send($lista["id_programming"], true);
+				endforeach;
+			}
+    }
 	
 }

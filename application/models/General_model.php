@@ -511,6 +511,9 @@ class General_model extends CI_Model {
 			if (array_key_exists("fecha", $arrData)) {
 				$this->db->where('P.date_programming', $arrData["fecha"]);
 			}
+			if (array_key_exists("smsAutomatic", $arrData)) {
+				$this->db->where('X.planning_message', 1);
+			}
 			if (array_key_exists("estado", $arrData)) {
 				if($arrData["estado"] == "ACTIVAS"){
 					$this->db->where('P.state !=', 3);
