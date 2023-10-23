@@ -432,13 +432,21 @@ class Programming extends CI_Controller {
 			foreach ($copiaInfoWorker as $data):
 				$to = '+1' . $data['movil'];
 			
-				$client->messages->create(
-					$to,
-					array(
-						'from' => $twilioPhone,
-						'body' => $mensaje
-					)
-				);
+				$message = $client->messages->create(
+													$to,
+													array(
+														'from' => $twilioPhone,
+														'body' => $mensaje
+													)
+												);
+				$this->programming_model->updateSMSWorkerStatus($data['id_programming_worker'], $message->status, $message->sid);
+				/*
+					$message = $client->account->messages('SM111470ab4fff00527665b73d7fcbe421')->fetch();
+					while ($message->status != 'sent') {
+						$message = $client->account->messages($message->sid)->fetch();
+						sleep(5);
+					}
+				*/
 			endforeach;
 		}
 		

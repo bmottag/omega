@@ -278,6 +278,28 @@
 				return false;
 			}
 		}
+
+		/**
+		 * Update worker status
+		 * @since 22/10/2023
+		 */
+		public function updateSMSWorkerStatus($idProgrammingWorker, $smsStatus, $smsSID) 
+		{										
+				$data = array(
+					'sms_sent' => 1,
+					'sms_status' => $smsStatus,
+					'sms_sid' => $smsSID
+				);
+				
+				$this->db->where('id_programming_worker', $idProgrammingWorker);
+				$query = $this->db->update('programming_worker', $data);			
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 					
 		
 	    

@@ -2008,6 +2008,7 @@ class General_model extends CI_Model {
 		{
 			$this->db->select("id_programming_worker, CONCAT(U.first_name, ' ', U.last_name) as employee, Z.movil, P.date_programming, H.hora");
 			$this->db->where('confirmation', 2);
+			$this->db->where('sms_sent', 1);
 			if (array_key_exists("movil", $arrData)) {
 				$this->db->where('U.movil', $arrData["movil"]);
 			}
