@@ -19,6 +19,8 @@
 				'fk_id_job' => $idJob,
 				'muster_point' => $this->input->post('musterPoint'),
 				'muster_point_2' => $this->input->post('musterPoint2'),
+				'primary_head_counter' => $this->input->post('primaryHeadCounter'),
+				'secondary_head_counter' => $this->input->post('secondaryHeadCounter'),
 				'specify_ppe' => $this->input->post('specify')
 			);
 			

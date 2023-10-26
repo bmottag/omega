@@ -95,6 +95,12 @@ if ($retornoError) {
 					<strong>Primary muster point: </strong><?php echo $information[0]["muster_point"]; ?><br>
 					<?php if($information[0]["muster_point_2"]){ ?>
 					<strong>Secondary muster point: </strong><?php echo $information?$information[0]["muster_point_2"]:""; ?><br>
+					<?php }
+						if($information[0]["primary_head_counter"]){ ?>
+							<strong>Primary head counter: </strong><?php echo $information?$information[0]["primary_head_counter"]:""; ?><br>
+					<?php } 
+						if($information[0]["secondary_head_counter"]){ ?>
+							<strong>Secondary head counter: </strong><?php echo $information?$information[0]["secondary_head_counter"]:""; ?><br>
 					<?php } 
 					$ppe=$information[0]['ppe']==1?"Yes":"No";
 					?>

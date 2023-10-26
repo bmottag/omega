@@ -88,25 +88,39 @@ if(!$hazards){
 						<input type="hidden" id="hddTask" name="hddTask" value="2"/>
 														
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="work">Task(s) to be done</label>
+							<label class="col-sm-4 control-label" for="work">Task(s) to be done:</label>
 							<div class="col-sm-5">
 							<textarea id="work" name="work" class="form-control" placeholder="Task(s) to be done" rows="3"><?php echo $information?$information[0]["work"]:""; ?></textarea>
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="musterPoint">Primary muster point</label>
+							<label class="col-sm-4 control-label" for="musterPoint">Primary muster point:</label>
 							<div class="col-sm-5">
 							<input type="text" id="musterPoint" name="musterPoint" class="form-control" value="<?php echo $information?$information[0]["muster_point"]:""; ?>" placeholder="Primary muster point" required >
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="musterPoint">Secondary muster point</label>
+							<label class="col-sm-4 control-label" for="musterPoint">Secondary muster point:</label>
 							<div class="col-sm-5">
 							<input type="text" id="musterPoint2" name="musterPoint2" class="form-control" value="<?php echo $information?$information[0]["muster_point_2"]:""; ?>" placeholder="Secondary muster point" >
 							</div>
-						</div>						
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="primaryHeadCounter">Primary head counter:</label>
+							<div class="col-sm-5">
+							<input type="text" id="primaryHeadCounter" name="primaryHeadCounter" class="form-control" value="<?php echo $information?$information[0]["primary_head_counter"]:""; ?>" placeholder="Primary head counter" required>
+							</div>
+						</div>	
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="secondaryHeadCounter">Secondary head counter:</label>
+							<div class="col-sm-5">
+							<input type="text" id="secondaryHeadCounter" name="secondaryHeadCounter" class="form-control" value="<?php echo $information?$information[0]["secondary_head_counter"]:""; ?>" placeholder="Secondary head counter" required>
+							</div>
+						</div>	
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="ppe">PPE (Basic)</label>

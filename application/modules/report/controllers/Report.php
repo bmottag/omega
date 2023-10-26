@@ -421,6 +421,18 @@ set_time_limit(60);
 								<th colspan="3" >' . $lista['muster_point_2']. '</th>
 							</tr>';
 				}
+				if($lista['primary_head_counter']){
+					$html .= '<tr>
+								<th bgcolor="#337ab7" style="color:white;"><strong>Primary head counter: </strong></th>
+								<th colspan="3" >' . $lista['primary_head_counter']. '</th>
+							</tr>';
+				}
+				if($lista['secondary_head_counter']){
+					$html .= '<tr>
+								<th bgcolor="#337ab7" style="color:white;"><strong>Secondary head counter: </strong></th>
+								<th colspan="3" >' . $lista['secondary_head_counter']. '</th>
+							</tr>';
+				}
 				$html .= '</table>';
 
 
