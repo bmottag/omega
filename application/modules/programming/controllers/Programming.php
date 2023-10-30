@@ -1220,5 +1220,35 @@ if($bandera){
 				endforeach;
 			}
     }
+
+	/**
+	 * Clone Planning
+     * @since 28/10/2023
+     * @author BMOTTAG
+	 */
+	public function clone_planning()
+	{	
+		header('Content-Type: application/json');
+
+		$idProgramming = $this->input->post('hddIdProgramming');
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoPlanning= $this->general_model->get_programming($arrParam);
+
+		if ($idProgrammingClone = $this->programming_model->createClone($infoPlanning)) 
+		{
+			$arrParam = array("idProgramming" => $idProgramming);
+			$informationWorker = $this->general_model->get_programming_workers($arrParam);
+
+			//insert workers to the clone planning
+			$this->programming_model->saveChildWorkers($idProgrammingClone, $informationWorker);
+			$this->update_state($idProgrammingClone);
+
+			$data["result"] = true;
+		} else {
+			$data["result"] = "error";
+		}
+		echo json_encode($data);
+    }
 	
 }

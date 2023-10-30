@@ -267,7 +267,10 @@
 					'fk_id_programming' => $idProgramming,
 					'fk_id_programming_user' => $informationWorker[$i]["fk_id_programming_user"],
 					'fk_id_hour' => $informationWorker[$i]["fk_id_hour"],
-					'site' => $informationWorker[$i]["site"]
+					'site' => $informationWorker[$i]["site"],
+					'description' => $informationWorker[$i]["description"],
+					'fk_id_machine' => $informationWorker[$i]["fk_id_machine"],
+					'safety' => $informationWorker[$i]["safety"]
 				);
 				$query = $this->db->insert('programming_worker', $data);
 			}
@@ -296,6 +299,33 @@
 
 				if ($query) {
 					return true;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add Clone
+		 * @since 28/10/2023
+		 */
+		public function createClone($infoPlanning) 
+		{		
+				$data = array(
+					'fk_id_user' => $this->session->userdata("id"),
+					'date_issue' => date("Y-m-d G:i:s"),
+					'fk_id_job' => $infoPlanning[0]["fk_id_job"],
+					'observation' => $infoPlanning[0]["observation"],
+					'date_programming' => $this->input->post('date'),
+					'parent_id' => "",
+					'apply_for' => "",
+					'flag_date' => "",
+					'state' => 1
+				);				
+				$query = $this->db->insert('programming', $data);
+				$idProgramming = $this->db->insert_id();
+
+				if ($query) {
+					return $idProgramming;
 				} else {
 					return false;
 				}

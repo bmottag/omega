@@ -1,5 +1,8 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/programming.js"); ?>"></script>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <div id="page-wrapper">
 	<br>
 
@@ -59,8 +62,7 @@ if ($retornoError) {
 	</div>	
     <?php
 }
-?> 
-	
+?>	
 				<?php
 					if($information){ 
 				?>
@@ -200,12 +202,13 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 		<?php
 			if($informationWorker){
 		?>
+
 					<div class="table-responsive">					
 						<table id="dataTablesWorker" class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
 
 							<thead>
 								<tr class="headings">
-									<th class="column-title" colspan="6">-- WORKERS --</th>
+									<th class="column-title" colspan="4">-- WORKERS --</th>
 									<th class="column-title" >
 										<?php
 											if($flagDate == 2 && ($idParent == null || $idParent == '')){
@@ -217,6 +220,49 @@ if(($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar)
 										<?php
 											}
 										?>
+									</th>
+									<th colspan="2">
+										<div class="col-lg-12">	
+											<div class="chat-panel panel panel-violeta">
+												<div class="panel-heading">
+													<i class="fa fa-copy fa-fw"></i> Clone this Planning for the following Date
+												</div>
+									
+												<div class="panel-footer">
+													<form  name="clonePlanning" id="clonePlanning" method="post">									
+														<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>"/>
+														<script>
+														$( function() {
+															$( "#date" ).datepicker({
+																changeMonth: true,
+																changeYear: true,
+																dateFormat: 'yy-mm-dd',
+																minDate: '0'
+															});
+														});
+														</script>
+
+														<div class="input-group">
+															<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
+															<span class="input-group-btn">
+																<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone" >
+																		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
+																</button>
+															</span>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-12">	
+											<div id="div_error" style="display:none">			
+												<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
+											</div>
+
+											<div id="div_guardado" style="display:none">			
+												<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
+											</div>
+										</div>
 									</th>
 								</tr>
 								

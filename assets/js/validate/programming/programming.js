@@ -164,4 +164,55 @@ $( document ).ready( function () {
 		}//if			
 	});
 
+	$("#btnSubmitClone").click(function(){		
+	
+		if ($("#clonePlanning").valid() == true){
+		
+				//Activa icono guardando
+				$('#btnSubmitClone').attr('disabled','-1');
+				$("#loader").addClass("loader");
+			
+				$.ajax({
+					type: "POST",	
+					url: base_url + "programming/clone_planning",	
+					data: $("#clonePlanning").serialize(),
+					dataType: "json",
+					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+					cache: false,
+					
+					success: function(data){
+						$("#loader").removeClass("loader");
+						if( data.result == "error" )
+						{
+							$("#div_error").css("display", "block");
+							$('#btnSubmitClone').removeAttr('disabled');	
+							return false;
+						} 
+
+						if( data.result )//true
+						{	                                                        
+							$("#div_guardado").css("display", "block");
+							$('#btnSubmitClone').removeAttr('disabled');
+						}
+						else
+						{
+							alert('Error. Reload the web page.');
+							$("#div_cargando").css("display", "none");
+							$("#div_error").css("display", "inline");
+							$('#btnSubmitClone').removeAttr('disabled');
+						}	
+					},
+					error: function(result) {
+						alert('Error. Reload the web page.');
+						$("#div_cargando").css("display", "none");
+						$("#div_error").css("display", "inline");
+						$('#btnSubmitClone').removeAttr('disabled');
+					}
+					
+		
+				});	
+		
+		}//if			
+	});
+
 });
