@@ -371,7 +371,6 @@ class Programming extends CI_Controller {
 			"order" => "id_parametric",
 			"id" => "x"
 		);
-		$this->load->model("general_model");
 		$parametric = $this->general_model->get_basic_search($arrParam);						
 		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 		$dato2 = $this->encrypt->decode($parametric[4]["value"]);

@@ -4,8 +4,8 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + '/admin/cargarModalAttachments',
-                data: {'idAttachment': oID},
+				url: base_url + '/serviceorder/cargarModalShopParts',
+                data: {'idPartShop': oID},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -13,28 +13,6 @@ $(function(){
             });
 	});	
 });
-
-/*
-* Function Active/inactive attachments
-*/
-function activeAttachments(attachmentId, status) {
-	if(window.confirm('Are you sure you want to change the status?'))
-	{
-		$("#loader").addClass("loader");
-		$.ajax ({
-			type: 'POST',
-			url: base_url + 'admin/update_status',
-			data: {attachmentId, status},
-			cache: false,
-			success: function (data)
-			{
-				$("#loader").removeClass("loader");
-				var url = base_url + "admin/attachments/active";
-				$(location).attr("href", url);
-			}
-		});
-	}
-}
 </script>
 
 <div id="page-wrapper">
@@ -44,7 +22,7 @@ function activeAttachments(attachmentId, status) {
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - ATTACHMENT
+					<i class="fa fa-gear fa-fw"></i> SETTINGS - EQUIPMENT PARTS
 					</h4>
 				</div>
 			</div>
@@ -55,20 +33,14 @@ function activeAttachments(attachmentId, status) {
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-anchor fa-fw"></i> ATTACHMENT LIST
+					<i class="fa fa-anchor fa-fw"></i> EQUIPMENT PARTS LIST
 				</div>
 				<div class="panel-body">
 
-					<ul class="nav nav-pills">
-						<li <?php if($status == "active"){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/attachments/active"); ?>">List of active Attachments</a>
-						</li>
-						<li <?php if($status == "inactive"){ echo "class='active'";} ?>><a href="<?php echo base_url("admin/attachments/inactive"); ?>">List of inactive Attachments</a>
-						</li>
-					</ul>
 					<br>	
 
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Attachment
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment Part
 					</button><br>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -105,10 +77,13 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Number</th>
-								<th class="text-center">Attachment</th>
+								<th class="text-center">Description</th>
+								<th class="text-center">Shop Name</th>
+								<th class="text-center">Contact</th>
+								<th class="text-center">Address</th>
+								<th class="text-center">Mobile number</th>
+								<th class="text-center">Email</th>
 								<th class="text-center">Equipments</th>
-								<th class="text-center">Status</th>
 								<th class="text-center">Actions</th>
 							</tr>
 						</thead>
@@ -116,20 +91,16 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['attachment_number'] . "</td>";
-									echo "<td>" . $lista['attachment_description'] . "</td>";
+									echo "<td>" . $lista['part_description'] . "</td>";
+									echo "<td>" . $lista['shop_name'] . "</td>";
+									echo "<td>" . $lista['shop_contact'] . "</td>";
+									echo "<td>" . $lista['shop_address'] . "</td>";
+									echo "<td>" . $lista['mobile_number'] . "</td>";
+									echo "<td>" . $lista['shop_email'] . "</td>";
 									echo "<td>" . $lista['equipments'] . "</td>";
 									echo "<td class='text-center'>";
-									$style = $lista['attachment_status'] == "active" ? "" : "btn-outline";
-						?>				
-									<a class="btn <?php echo $style; ?> btn-<?php echo $lista['status_style']; ?> btn-xs" onclick="activeAttachments( <?php echo $lista['id_attachment']; ?> ,  '<?php echo $lista['attachment_status']; ?>' )" title="Change Attachment status">
-										<?php echo ucfirst($lista['attachment_status']); ?>
-									</a>
-						<?php
-									echo "</td>";
-									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_attachment']; ?>" >
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_part_shop']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php

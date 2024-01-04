@@ -468,6 +468,8 @@ class Serviceorder extends CI_Controller {
 
 			$arrParam = array("idServiceOrder" => $this->input->post('serviceOrderId'));
 			$data['infoParts'] = $this->serviceorder_model->get_parts($arrParam);
+		}elseif($data["tabview"] == "tab_parts_by_store"){
+			$data['infoPartsByStore'] = $this->serviceorder_model->get_parts_store_by_equipment($arrParam);
 		}
 
 		if($data["vehicleInfo"] )
@@ -873,6 +875,83 @@ class Serviceorder extends CI_Controller {
 			echo "<p class='text-danger'>There are no records.</p>";
 		}
 	}
+
+	/**
+	 * Parts List
+     * @since 30/10/2023
+     * @author BMOTTAG
+	 */
+	public function parts_by_store()
+	{
+			$arrParam = array();
+			$data['info'] = $this->serviceorder_model->get_parts_by_store($arrParam);
+		
+			$data["view"] = 'parts_list';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - part form
+     * @since 30/10/2023
+     */
+    public function cargarModalShopParts() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data['informationParts'] = FALSE;
+			$data["idPartShop"] = $this->input->post("idPartShop");	
+
+			$this->load->model("general_model");
+			$data['equipmentType'] = $this->general_model->equipmentByTypeList();
+
+			$arrParam = array(
+				"table" => "param_shop",
+				"order" => "shop_name",
+				"id" => "x"
+			);
+			$data['shopList'] = $this->general_model->get_basic_search($arrParam);
+			
+			if ($data["idPartShop"] != 'x') {
+				$arrParam = array(
+					"idPartShop" => $data["idPartShop"]
+				);
+				$data['information'] = $this->serviceorder_model->get_parts_by_store($arrParam);
+				$data['informationParts'] = $this->admin_model->get_attachments_equipment($arrParam);
+			}
+			
+			$this->load->view("parts_shop_modal", $data);
+    }
+	
+	/**
+	 * Save Shop Parts
+     * @since 30/10/2023
+     * @author BMOTTAG
+	 */
+	public function save_shop_parts()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+		
+			$idPartShop = $this->input->post('hddId');
+			
+			$msj = "You have added a Part!!";
+			if ($idPartShop != '') {
+				$msj = "You have updated a Part!!";
+			}
+
+			if ($idPartShop = $this->serviceorder_model->saveShopParts()) 
+			{
+				$this->serviceorder_model->add_equipment_shop_parts($idPartShop);
+				$data["result"] = true;				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);	
+    }
 
 
 }

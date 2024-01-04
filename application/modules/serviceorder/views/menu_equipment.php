@@ -68,4 +68,7 @@ if($vehicleInfo[0]["photo"]){
     <a class="<?php echo $tabview=='tab_inspections'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_inspections' )" >
         <i class="fa fa-tasks"></i> Inspections
     </a>
+    <a class="<?php echo $tabview=='tab_parts_by_store'?$classActivo:$classInactivo; ?>" onclick="loadEquipmentDetail( <?php echo $vehicleInfo[0]['id_vehicle']; ?>, 'tab_parts_by_store' )" >
+        <i class="fa fa-wrench"></i> Parts by Store
+    </a>
 </div>

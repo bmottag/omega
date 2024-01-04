@@ -463,4 +463,147 @@
 			}
 		}
 
+		/**
+		 * Add/Edit Shop Parts
+		 * @since 30/10/2023
+		 */
+		public function saveShopParts() 
+		{
+				$idPartShop = $this->input->post('hddId');
+				$idShop = $this->input->post('id_shop');
+
+				if($idShop == ""){
+					$data = array(
+						'shop_name' => addslashes($this->security->xss_clean($this->input->post('shop_name'))),
+						'shop_contact' => addslashes($this->security->xss_clean($this->input->post('shop_contact'))),
+						'shop_address' => addslashes($this->security->xss_clean($this->input->post('shop_address'))),
+						'mobile_number' => addslashes($this->security->xss_clean($this->input->post('mobile_number'))),
+						'shop_email' => addslashes($this->security->xss_clean($this->input->post('shop_email')))
+					);
+
+					$query = $this->db->insert('param_shop', $data);	
+					$idShop = $this->db->insert_id();		
+				}
+
+				$data = array(
+					'part_description' => $this->input->post('part_description'),
+					'fk_id_shop' => $idShop
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idPartShop == '') {
+					$query = $this->db->insert('param_parts_shop', $data);	
+					$idPartShop = $this->db->insert_id();			
+				} else {
+					$this->db->where('id_part_shop', $idPartShop);
+					$query = $this->db->update('param_parts_shop', $data);
+				}
+				if ($query) {
+					return $idPartShop;
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Get parts list by store
+		 * @since 30/10/2023
+		 */
+		public function get_parts_by_store($arrDatos) 
+		{
+				$this->db->select('P.*, S.*, 
+						(SELECT GROUP_CONCAT(V.unit_number, " -----> ", V.description SEPARATOR "<br>") 
+						FROM param_equipment_parts E 
+						JOIN param_vehicle V ON V.id_vehicle = E.fk_id_equipment 
+						WHERE E.fk_id_part_shop = P.id_part_shop 
+						GROUP BY P.id_part_shop) AS equipments');
+				$this->db->join('param_shop S', 'S.id_shop = P.fk_id_shop', 'INNER');
+				if (array_key_exists("idPartShop", $arrDatos)) {
+					$this->db->where('id_part_shop', $arrDatos["idPartShop"]);
+				}
+				$this->db->order_by('P.part_description', 'asc');
+				$query = $this->db->get('param_parts_shop P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Get parts list by store by equipment
+		 * @since 3/01/2024
+		 */
+		public function get_parts_store_by_equipment($arrDatos) 
+		{
+				$this->db->join('param_shop S', 'S.id_shop = P.fk_id_shop', 'INNER');
+				$this->db->join('param_equipment_parts E', 'E.fk_id_part_shop = P.fk_id_shop', 'INNER');
+				if (array_key_exists("idVehicle", $arrDatos)) {
+					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
+				}
+				$this->db->order_by('P.part_description', 'asc');
+				$query = $this->db->get('param_parts_shop P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+		/**
+		 * Add Equipment to Shop Parts
+		 * @since 13/12/2023
+		 */
+		public function add_equipment_shop_parts($idPartShop) 
+		{
+			//delete Attachements 
+			$this->db->delete('param_equipment_parts', array('fk_id_part_shop' => $idPartShop));
+
+			$query = 1;
+			if ($equipment = $this->input->post('equipment')) {
+				$tot = count($equipment);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_part_shop' => $idPartShop,
+						'fk_id_equipment' => $equipment[$i]
+					);
+					$query = $this->db->insert('param_equipment_parts', $data);
+				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+
+		/**
+		 * Equipment list
+		 * @since 16/12/2023
+		 */
+		public function get_attachments_equipment($arrDatos) 
+		{
+
+				if (array_key_exists("relation", $arrDatos)) {
+					$this->db->select('P.fk_id_equipment');
+				}else{
+					$this->db->select('P.*, T.inspection_type');
+					$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_equipment', 'INNER');
+					$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
+				}
+				if (array_key_exists("idAttachment", $arrDatos)) {
+					$this->db->where('fk_id_attachment', $arrDatos["idAttachment"]);
+				}
+				$query = $this->db->get('param_attachments_equipment P');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+
+
 	}
