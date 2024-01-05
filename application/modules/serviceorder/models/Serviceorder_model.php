@@ -487,7 +487,8 @@
 
 				$data = array(
 					'part_description' => $this->input->post('part_description'),
-					'fk_id_shop' => $idShop
+					'fk_id_shop' => $idShop,
+					'fk_inspection_type' => $this->input->post('type')
 				);
 				
 				//revisar si es para adicionar o editar
@@ -583,9 +584,8 @@
 		 * Equipment list
 		 * @since 16/12/2023
 		 */
-		public function get_attachments_equipment($arrDatos) 
+		public function get_parts_equipment($arrDatos) 
 		{
-
 				if (array_key_exists("relation", $arrDatos)) {
 					$this->db->select('P.fk_id_equipment');
 				}else{
@@ -593,10 +593,10 @@
 					$this->db->join('param_vehicle V', 'V.id_vehicle = P.fk_id_equipment', 'INNER');
 					$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = V.type_level_2', 'INNER');
 				}
-				if (array_key_exists("idAttachment", $arrDatos)) {
-					$this->db->where('fk_id_attachment', $arrDatos["idAttachment"]);
+				if (array_key_exists("idEquipmentPart", $arrDatos)) {
+					$this->db->where('fk_id_part_shop', $arrDatos["idEquipmentPart"]);
 				}
-				$query = $this->db->get('param_attachments_equipment P');
+				$query = $this->db->get('param_equipment_parts P');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();

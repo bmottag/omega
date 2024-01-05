@@ -917,7 +917,7 @@ class Serviceorder extends CI_Controller {
 					"idPartShop" => $data["idPartShop"]
 				);
 				$data['information'] = $this->serviceorder_model->get_parts_by_store($arrParam);
-				$data['informationParts'] = $this->admin_model->get_attachments_equipment($arrParam);
+				$data['informationParts'] = $this->serviceorder_model->get_parts_equipment($arrParam);
 			}
 			
 			$this->load->view("parts_shop_modal", $data);
@@ -951,6 +951,50 @@ class Serviceorder extends CI_Controller {
 			}
 
 			echo json_encode($data);	
+    }
+
+	/**
+	 * Equipment list
+     * @since 24/6/2023
+     * @author BMOTTAG
+	 */
+    public function equipmentListForPartsShop() 
+	{
+        header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$arrParam = array(
+			"vehicleType" => $this->input->post('type'),
+			"vehicleState" => 1
+		);
+		$this->load->model("general_model");
+		$lista= $this->general_model->get_vehicle_by($arrParam);
+
+		if( $this->input->post('idEquipmentPart') != ""){
+			$arrParam = array(
+				"idEquipmentPart" => $this->input->post('idEquipmentPart'),
+				"relation" => true
+			);
+			$arrayInformationAttachments = $this->serviceorder_model->get_parts_equipment($arrParam);
+		}
+
+		echo "<option value=''>Select...</option>";
+		if ($lista) {
+			foreach ($lista as $fila) {
+				$s = "";
+				if($arrayInformationAttachments){
+					$found = false;					
+					foreach ($arrayInformationAttachments as $idVehicle) {
+						if (in_array($fila['id_vehicle'], $idVehicle)) {
+							$found = true;
+							break;
+						}
+					}
+					$s = $found ? "selected" : "";
+				}
+				echo "<option value='" . $fila["id_vehicle"] . "'" . $s . ">" . $fila["unit_number"] . " -----> " . $fila["description"]  . "</option>";
+			}
+		}
+
     }
 
 

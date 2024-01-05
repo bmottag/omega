@@ -29,7 +29,7 @@
 					<select name="id_shop" id="id_shop" class="form-control" >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($shopList); $i++) { ?>
-							<option value="<?php echo $shopList[$i]["id_shop"]; ?>" <?php if($informationParts && $informationParts[0]["inspection_type"] == $shopList[$i]["id_shop"]) { echo "selected"; }  ?>><?php echo $shopList[$i]["shop_name"]; ?></option>	
+							<option value="<?php echo $shopList[$i]["id_shop"]; ?>" <?php if($information && $information[0]["fk_id_shop"] == $shopList[$i]["id_shop"]) { echo "selected"; }  ?>><?php echo $shopList[$i]["shop_name"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>
@@ -37,7 +37,14 @@
 		</div>
 		<?php } ?>
 
-		<div id="div_shop_detail">
+<?php 
+	$mostrar = "inline";
+	if($information){
+		$mostrar = "none";
+	}
+?>
+
+		<div id="div_shop_detail" style="display:<?php echo $mostrar; ?>">
 			<hr>
 			<div class="row">
 				<div class="col-sm-6">		
@@ -89,7 +96,7 @@
 					<select name="type" id="type" class="form-control" required>
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($equipmentType); $i++) { ?>
-							<option value="<?php echo $equipmentType[$i]["id_type_2"]; ?>" <?php if($informationParts && $informationParts[0]["inspection_type"] == $equipmentType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $equipmentType[$i]["header_inspection_type"]; ?></option>	
+							<option value="<?php echo $equipmentType[$i]["id_type_2"]; ?>" <?php if($information && $information[0]["fk_inspection_type"] == $equipmentType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $equipmentType[$i]["header_inspection_type"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>

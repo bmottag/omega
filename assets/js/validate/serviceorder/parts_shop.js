@@ -16,8 +16,8 @@ $( document ).ready( function () {
 		$("#loader").addClass("loader");
         $('#type option:selected').each(function () {
 			var type = $('#type').val();
-			var idAttachment = $('#hddId').val();
-			loadEquipmentList(type,idAttachment);
+			var idEquipmentPart = $('#hddId').val();
+			loadEquipmentList(type,idEquipmentPart);
 
         });
     });
@@ -25,8 +25,8 @@ $( document ).ready( function () {
 	$(function() {
 		$("#loader").addClass("loader");
 		var type = $('#type').val();
-		var idAttachment = $('#hddId').val();
-		loadEquipmentList(type,idAttachment);
+		var idEquipmentPart = $('#hddId').val();
+		loadEquipmentList(type,idEquipmentPart);
 	})
 
 	jQuery.validator.addMethod("fieldSpecify", function(value, element, param) {
@@ -129,12 +129,12 @@ $( document ).ready( function () {
 /*
 * Function to load Equipment List
 */
-function loadEquipmentList(type,idAttachment) {
+function loadEquipmentList(type,idEquipmentPart) {
 	if (type > 0 || type != '') {
 		$.ajax ({
 			type: 'POST',
-			url: base_url + 'admin/equipmentList',
-			data: {'type': type, idAttachment},
+			url: base_url + 'serviceorder/equipmentListForPartsShop',
+			data: {'type': type, idEquipmentPart},
 			cache: false,
 			success: function (data)
 			{
