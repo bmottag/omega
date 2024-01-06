@@ -61,7 +61,8 @@ class Inspection_model extends CI_Model
 			'emergency_brake' => $this->input->post('brake'),
 			'transmission' => $this->input->post('transmission'),
 			'hydrolic' => $this->input->post('hydrolic'),
-			'comments' => $this->input->post('comments')
+			'comments' => $this->input->post('comments'),
+			'def' => $this->input->post('def')
 		);
 
 		//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
@@ -157,7 +158,8 @@ class Inspection_model extends CI_Model
 			'trailer_clean' => $this->input->post('trailerClean'),
 			'trailer_chains' => $this->input->post('trailerChains'),
 			'trailer_ratchet' => $this->input->post('trailerRatchet'),
-			'trailer_comments' => $this->input->post('trailerComments')
+			'trailer_comments' => $this->input->post('trailerComments'),
+			'def' => $this->input->post('def'),
 		);
 
 		//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
@@ -452,7 +454,8 @@ class Inspection_model extends CI_Model
 			'suspension_system' => $this->input->post('suspension_system'),
 			'air_brake' => $this->input->post('air_brake'),
 			'fuel_system' => $this->input->post('fuel_system'),
-			'comments' => $this->input->post('comments')
+			'comments' => $this->input->post('comments'),
+			'def' => $this->input->post('def')
 		);
 
 		//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion

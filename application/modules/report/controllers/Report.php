@@ -1230,8 +1230,10 @@ class Report extends CI_Controller
 			if ($truck) {
 				$change = 'rowspan="2"';
 			}
-			$html .= '<tr>
-								<th colspan="3" ' . $change . '></th>';
+			$html .= '<tr>';
+
+			$html .= '<th align="center"><strong>DEF Level:</strong></th>';
+			$html .= '<th colspan="2" align="center"><strong>' . $lista["def"] . ' %</strong></th>';
 
 			$html .= '<th align="center"><strong>Beacon Light:</strong></th>';
 			if ($lista["beacon_light"] == 1) {

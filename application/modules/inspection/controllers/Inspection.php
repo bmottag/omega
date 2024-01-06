@@ -49,7 +49,7 @@ class Inspection extends CI_Controller
 		$data['information'] = FALSE;
 		$view = 'form_daily_inspection';
 
-		//si envio el id, entonces busco la informacion 
+		//si envio el id, entonces busco la informacion
 		if ($id != 'x') {
 			$arrParam = array(
 				"table" => "inspection_daily",
@@ -307,7 +307,7 @@ class Inspection extends CI_Controller
 
 		$data['information'] = FALSE;
 
-		//si envio el id, entonces busco la informacion 
+		//si envio el id, entonces busco la informacion
 		if ($id != 'x') {
 			$arrParam = array(
 				"table" => "inspection_heavy",

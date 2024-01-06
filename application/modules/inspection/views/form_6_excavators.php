@@ -310,6 +310,35 @@ if ($userRol == 99) {
 							</div>
 						</div>
 
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="def">
+								DEF Level
+								<small class="text-primary">(Diesel Exhaust Fluid) </small>
+							</label>
+							<div class="col-sm-5">
+								<label class="radio-inline">
+									<input type="radio" name="def" id="def1" value=25 <?php if ($information && $information[0]["def"] == 25) {
+																							echo "checked";
+																						}  ?>>25%
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="def" id="def2" value=50 <?php if ($information && $information[0]["def"] == 50) {
+																							echo "checked";
+																						}  ?>>50%
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="def" id="def3" value=100 <?php if ($information && $information[0]["def"] == 100) {
+																							echo "checked";
+																						}  ?>>100%
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="def" id="def4" value=0 <?php if ($information && $information[0]["def"] == 0) {
+																							echo "checked";
+																						}  ?>>N/A
+								</label>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
