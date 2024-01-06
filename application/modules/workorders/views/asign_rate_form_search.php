@@ -22,7 +22,7 @@
 						<div class="form-group">
 							<div class="col-sm-5 col-sm-offset-1">
 								<label for="from">Job Code/Name </label>
-								<select name="jobName" id="jobName" class="form-control" >
+								<select name="jobName" id="jobName" class="form-control js-example-basic-single" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobList); $i++) { ?>
 										<option value="<?php echo $jobList[$i]["id_job"]; ?>" ><?php echo $jobList[$i]["job_description"]; ?></option>	
@@ -236,6 +236,10 @@ $(document).ready(function() {
 		"ordering": true,
 		paging: false,
 		"info": false
+	});
+
+	$('.js-example-basic-single').select2({
+			width: '100%'
 	});
 });
 </script>
