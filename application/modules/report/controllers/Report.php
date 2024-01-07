@@ -2423,40 +2423,44 @@ class Report extends CI_Controller
 		$spreadsheet = new Spreadsheet();
 		$spreadsheet->getActiveSheet()->setTitle('Hauling Report');
 
-		$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Hauling done by')
-			->setCellValue('B1', 'Employee')
-			->setCellValue('C1', 'Truck - Unit Number')
-			->setCellValue('D1', 'Truck Type')
-			->setCellValue('E1', 'Plate')
-			->setCellValue('F1', 'Material Type')
-			->setCellValue('G1', 'From Site')
-			->setCellValue('H1', 'To Site')
-			->setCellValue('I1', 'Payment')
-			->setCellValue('J1', 'Date of Issue')
-			->setCellValue('K1', 'Time In')
-			->setCellValue('L1', 'Time Out')
-			->setCellValue('M1', 'Comments');
+		$spreadsheet->getActiveSheet(0)
+			->setCellValue('A1', 'ID')
+			->setCellValue('B1', 'Hauling done by')
+			->setCellValue('C1', 'Employee')
+			->setCellValue('D1', 'Truck - Unit Number')
+			->setCellValue('E1', 'Truck Type')
+			->setCellValue('F1', 'Plate')
+			->setCellValue('G1', 'Material Type')
+			->setCellValue('H1', 'From Site')
+			->setCellValue('I1', 'To Site')
+			->setCellValue('J1', 'Payment')
+			->setCellValue('K1', 'Date of Issue')
+			->setCellValue('L1', 'Time In')
+			->setCellValue('M1', 'Time Out')
+			->setCellValue('N1', 'Comments');
 
 		$j = 2;
 		foreach ($info as $data) :
-			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['company_name'])
-				->setCellValue('B' . $j, $data['name'])
-				->setCellValue('C' . $j, $data['unit_number'])
-				->setCellValue('D' . $j, $data['truck_type'])
-				->setCellValue('E' . $j, $data['plate'])
-				->setCellValue('F' . $j, $data['material'])
-				->setCellValue('G' . $j, $data['site_from'])
-				->setCellValue('H' . $j, $data['site_to'])
-				->setCellValue('I' . $j, $data['payment'])
-				->setCellValue('J' . $j, $data['date_issue'])
-				->setCellValue('K' . $j, $data['time_in'])
-				->setCellValue('L' . $j, $data['time_out'])
-				->setCellValue('M' . $j, $data['comments']);
+			$spreadsheet->getActiveSheet()
+				->setCellValue('A' . $j, $data['id_hauling'])
+				->setCellValue('B' . $j, $data['company_name'])
+				->setCellValue('C' . $j, $data['name'])
+				->setCellValue('D' . $j, $data['unit_number'])
+				->setCellValue('E' . $j, $data['truck_type'])
+				->setCellValue('F' . $j, $data['plate'])
+				->setCellValue('G' . $j, $data['material'])
+				->setCellValue('H' . $j, $data['site_from'])
+				->setCellValue('I' . $j, $data['site_to'])
+				->setCellValue('J' . $j, $data['payment'])
+				->setCellValue('K' . $j, $data['date_issue'])
+				->setCellValue('L' . $j, $data['time_in'])
+				->setCellValue('M' . $j, $data['time_out'])
+				->setCellValue('N' . $j, $data['comments']);
 			$j++;
 		endforeach;
 
-		// Set column widths							  
-		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(23);
+		// Set column widths
+		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
 		$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
 		$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(30);
@@ -2469,17 +2473,18 @@ class Report extends CI_Controller
 		$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
 		$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(30);
 		$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(50);
+		$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(100);
 
 		// Add conditional formatting
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFont()->setSize(11);
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFont()->setBold(true);
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getFont()->setSize(11);
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getFont()->setBold(true);
 
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFill()->setFillType(Fill::FILL_SOLID);
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getFill()->getStartColor()->setARGB('236e09');
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getFill()->setFillType(Fill::FILL_SOLID);
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getFill()->getStartColor()->setARGB('236e09');
 
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-		$spreadsheet->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
 		$spreadsheet->setActiveSheetIndex(0);
 

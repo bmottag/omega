@@ -1,6 +1,12 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/hauling/ajaxTruck.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/hauling/hauling_v2.js"); ?>"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
+
 <?php
 /**
  * If it is an ADMIN user, show date 
@@ -220,7 +226,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="company">VCI or Subcontractor</label>
 								<div class="col-sm-5">
-									<select name="CompanyType" id="CompanyType" class="form-control" required>
+									<select name="CompanyType" id="CompanyType" class="form-control js-example-basic-single" required>
 										<option value="">Select...</option>
 										<option value=1 <?php if ($information && $information["company_type"] == 1) {
 															echo "selected";
@@ -235,7 +241,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="company">Hauling done by</label>
 								<div class="col-sm-5">
-									<select name="company" id="company" class="form-control">
+									<select name="company" id="company" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($companyList); $i++) { ?>
 											<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if ($information && $information["fk_id_company"] == $companyList[$i]["id_company"]) {
@@ -263,7 +269,7 @@ if ($userRol == 99) {
 							<div class="form-group" id="div_truck" style="display:<?php echo $mostrarTruck; ?>">
 								<label class="col-sm-4 control-label" for="truck">Truck</label>
 								<div class="col-sm-5">
-									<select name="truck" id="truck" class="form-control" <?php echo $truckRequired; ?>>
+									<select name="truck" id="truck" class="form-control js-example-basic-single" <?php echo $truckRequired; ?>>
 
 										<?php if ($information) { ?>
 											<option value=''>Select...</option>
@@ -281,7 +287,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="truckType">Truck Type</label>
 								<div class="col-sm-5">
-									<select name="truckType" id="truckType" class="form-control">
+									<select name="truckType" id="truckType" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($truckTypeList); $i++) { ?>
 											<option value="<?php echo $truckTypeList[$i]["id_truck_type"]; ?>" <?php if ($information && $information["fk_id_truck_type"] == $truckTypeList[$i]["id_truck_type"]) {
@@ -302,7 +308,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="materialType">Material Type</label>
 								<div class="col-sm-5">
-									<select name="materialType" id="materialType" class="form-control">
+									<select name="materialType" id="materialType" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($materialTypeList); $i++) { ?>
 											<option value="<?php echo $materialTypeList[$i]["id_material"]; ?>" <?php if ($information && $information["fk_id_material"] == $materialTypeList[$i]["id_material"]) {
@@ -316,7 +322,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="fromSite">From Site</label>
 								<div class="col-sm-5">
-									<select name="fromSite" id="fromSite" class="form-control">
+									<select name="fromSite" id="fromSite" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 											<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information["fk_id_site_from"] == $jobs[$i]["id_job"]) {
@@ -330,7 +336,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="toSite">To Site</label>
 								<div class="col-sm-5">
-									<select name="toSite" id="toSite" class="form-control">
+									<select name="toSite" id="toSite" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 											<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information["fk_id_site_to"] == $jobs[$i]["id_job"]) {
@@ -351,7 +357,7 @@ if ($userRol == 99) {
 										$minIn = $timeIn[1];
 									}
 									?>
-									<select name="hourIn" id="hourIn" class="form-control" required>
+									<select name="hourIn" id="hourIn" class="form-control js-example-basic-single" required>
 										<option value=''>Select...</option>
 										<?php
 										for ($i = 0; $i < 24; $i++) {
@@ -365,7 +371,7 @@ if ($userRol == 99) {
 									</select>
 								</div>
 								<div class="col-sm-2">
-									<select name="minIn" id="minIn" class="form-control" required>
+									<select name="minIn" id="minIn" class="form-control js-example-basic-single" required>
 										<option value="00" <?php if ($information && $minIn == "00") {
 																echo "selected";
 															}  ?>>00</option>
@@ -392,7 +398,7 @@ if ($userRol == 99) {
 										$minOut = $timeOut[1];
 									}
 									?>
-									<select name="hourOut" id="hourOut" class="form-control" required>
+									<select name="hourOut" id="hourOut" class="form-control js-example-basic-single" required>
 										<option value=''>Select...</option>
 										<?php
 										for ($i = 0; $i < 24; $i++) {
@@ -406,7 +412,7 @@ if ($userRol == 99) {
 									</select>
 								</div>
 								<div class="col-sm-2">
-									<select name="minOut" id="minOut" class="form-control" required>
+									<select name="minOut" id="minOut" class="form-control js-example-basic-single" required>
 										<option value="00" <?php if ($information && $minOut == "00") {
 																echo "selected";
 															}  ?>>00</option>
@@ -426,7 +432,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="payment">Payment</label>
 								<div class="col-sm-5">
-									<select name="payment" id="payment" class="form-control">
+									<select name="payment" id="payment" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($paymentList); $i++) { ?>
 											<option value="<?php echo $paymentList[$i]["id_payment"]; ?>" <?php if ($information && $information["fk_id_payment"] == $paymentList[$i]["id_payment"]) {
