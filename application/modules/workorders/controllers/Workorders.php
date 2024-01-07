@@ -2329,6 +2329,16 @@ class Workorders extends CI_Controller {
 
 			if($totalWOIncome > 0 && $sumPercentageExpense){
 				$this->workorders_model->updateExpensesValues($workorderExpenses, $totalWOIncome, $sumPercentageExpense);
+				//update WO expenses flag
+				$arrParam = array(
+					"table" => "param_jobs",
+					"primaryKey" => "id_job",
+					"id" => $idJob,
+					"column" => "flag_expenses",
+					"value" => 1
+				);
+				$this->load->model("general_model");
+				$this->general_model->updateRecord($arrParam);
 			}
 			return true;
     }

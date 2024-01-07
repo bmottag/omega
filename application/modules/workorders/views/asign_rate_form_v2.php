@@ -354,13 +354,13 @@ if ($retornoError) {
 <!--INICIO WO EXPENSE -->
 <?php 
 	$userRol = $this->session->userdata("rol");
-	if(($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $information[0]['state'] >= 2){ 
+	if(($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $information[0]['state'] >= 2 && $information[0]['state'] != 4){ 
 ?>
 <div class="row">
 		<div class="col-lg-12">				
 			<div class="panel panel-dark">
 				<div class="panel-heading">
-					WO EXPENSE
+					WO EXPENSES
 				</div>
 				<div class="panel-body">
 				
@@ -382,7 +382,7 @@ if ($retornoError) {
 						</div>
 					
 						<button type="button" class="btn btn-dark btn-block btn-load-expenses" data-toggle="modal" data-target="#modalExpense" id="<?php echo $information[0]["id_workorder"]; ?>">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add WO Expense
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add WO Expenses
 						</button><br>
 					</div>
 				<?php } ?>

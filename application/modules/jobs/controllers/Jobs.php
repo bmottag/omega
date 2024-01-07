@@ -2670,6 +2670,7 @@ class Jobs extends CI_Controller
 			$this->subir_archivo($msgError);
 		} else {
 			$idJob = $this->input->post("hddIdJob");
+			$this->load->model("general_model");
 
 			//DELETE PREVIOS INFORMATION
 			$arrParam = array(
@@ -2677,7 +2678,6 @@ class Jobs extends CI_Controller
 				"primaryKey" => "fk_id_job ",
 				"id" => $idJob 
 			);
-			$this->load->model("general_model");
 			$this->general_model->deleteRecord($arrParam);
 
 			$file_info = $this->upload->data();
@@ -2725,6 +2725,16 @@ class Jobs extends CI_Controller
 				}
 			}
 		}
+
+		//update upload field flag
+		$arrParam = array(
+			"table" => "param_jobs",
+			"primaryKey" => "id_job",
+			"id" => $idJob,
+			"column" => "flag_upload_details",
+			"value" => 1
+		);
+		$this->general_model->updateRecord($arrParam);
 
 		$success = 'The file was uploaded successfully.';
 
