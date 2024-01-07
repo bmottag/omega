@@ -2671,6 +2671,15 @@ class Jobs extends CI_Controller
 		} else {
 			$idJob = $this->input->post("hddIdJob");
 
+			//DELETE PREVIOS INFORMATION
+			$arrParam = array(
+				"table" => "job_details",
+				"primaryKey" => "fk_id_job ",
+				"id" => $idJob 
+			);
+			$this->load->model("general_model");
+			$this->general_model->deleteRecord($arrParam);
+
 			$file_info = $this->upload->data();
 			$data = array('upload_data' => $this->upload->data());
 
@@ -2694,6 +2703,10 @@ class Jobs extends CI_Controller
 						}
 						$registro[$nombres_campos[$icampo]] = utf8_encode($datos[$icampo]);
 					}
+					// Multiplicar columnas y guardar el resultado
+					$quantity = floatval($registro['quantity']);
+					$unitPrice = floatval($registro['unit_price']);
+					$registro['extended_amount'] = $quantity * $unitPrice;
 					// Añade el registro leido al array de registros
 					$registros[] = $registro;
 				}

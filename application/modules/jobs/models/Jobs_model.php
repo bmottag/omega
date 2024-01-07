@@ -1152,6 +1152,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 	public function saveJobDetail()
 	{
 		$idJobDetail = $this->input->post('hddId');
+		$extendedAmount = $this->input->post('quantity') * $this->input->post('unit_price');
 
 		$data = array(
 			'chapter_number' => $this->input->post('chapter_number'),
@@ -1161,7 +1162,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			'unit' => $this->input->post('unit'),
 			'quantity' => $this->input->post('quantity'),
 			'unit_price' => $this->input->post('unit_price'),
-			'extended_amount' => $this->input->post('extended_amount')
+			'extended_amount' => $extendedAmount
 		);
 		//revisar si es para adicionar o editar
 		if ($idJobDetail == '') {

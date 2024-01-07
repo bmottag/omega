@@ -69,18 +69,7 @@
 					<label class="control-label" for="unit_price">Unit Price  : *</label>
 					<input type="text" id="unit_price" name="unit_price" class="form-control" value="<?php echo $information?$information[0]["unit_price"]:""; ?>" placeholder="Unit Price" required >
 				</div>
-			</div>
-
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="extended_amount">Extended Amount : *</label>
-					<input type="text" id="extended_amount" name="extended_amount" class="form-control" value="<?php echo $information?$information[0]["extended_amount"]:""; ?>" placeholder="Extended Amount" required >
-				</div>
-			</div>
-
-
-			
-			
+			</div>			
 		</div>
 		
 		<div class="form-group">
