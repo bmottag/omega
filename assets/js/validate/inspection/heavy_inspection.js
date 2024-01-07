@@ -1,6 +1,6 @@
 $( document ).ready( function () {
-	
-	$("#hours").bloquearTexto().maxlength(10);	
+
+	$("#hours").bloquearTexto().maxlength(10);
 	$( "#form" ).validate( {
 		rules: {
 			hours: 			{ number: true, minlength: 2, maxlength: 10 },
@@ -12,9 +12,9 @@ $( document ).ready( function () {
 			beaconLights:	{ required: true },
 			heater:			{ required: true },
 			operatorSeat:	{ required: true },
-			gauges:			{ required: true }, 
+			gauges:			{ required: true },
 			horn:			{ required: true },
-			seatbelt:		{ required: true }, 
+			seatbelt:		{ required: true },
 			cleanInterior:	{ required: true },
 			windows:		{ required: true },
 			cleanExterior:	{ required: true },
@@ -49,7 +49,8 @@ $( document ).ready( function () {
 			rims:			{ required: true },
 			brake:			{ required: true },
 			transmission:	{ required: true },
-			hydrolic:		{ required: true }
+			hydrolic: 	    { required: true },
+			def:		    { required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -68,39 +69,39 @@ $( document ).ready( function () {
 			return true;
 		}
 	});
-						
-	$("#btnSubmit").click(function(){		
-	
+
+	$("#btnSubmit").click(function(){
+
 		if ($("#form").valid() == true){
-		
+
 				//Activa icono guardando
 				$('#btnSubmit').attr('disabled','-1');
 				$("#div_load").css("display", "inline");
 				$("#div_error").css("display", "none");
-			
+
 				$.ajax({
-					type: "POST",	
-					url: base_url + "inspection/save_heavy_inspection",	
+					type: "POST",
+					url: base_url + "inspection/save_heavy_inspection",
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
-					
+
 					success: function(data){
-                                            
+
 						if( data.result == "error" )
 						{
 							//alert(data.mensaje);
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');							
-							
+							$('#btnSubmit').removeAttr('disabled');
+
 							$("#span_msj").html(data.mensaje);
 							$("#div_msj").css("display", "inline");
 							return false;
-						} 
+						}
 
 						if( data.result )//true
-						{	                                                        
+						{
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
@@ -113,7 +114,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
 							$('#btnSubmit').removeAttr('disabled');
-						}	
+						}
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
@@ -121,15 +122,11 @@ $( document ).ready( function () {
 						$("#div_error").css("display", "inline");
 						$('#btnSubmit').removeAttr('disabled');
 					}
-					
-				});	
-		
-		}//if		
+				});
+		}
 		else
 		{
 			alert('There are missing fields that have not been filled.');
-			
-		}			
+		}
 	});
-
 });
