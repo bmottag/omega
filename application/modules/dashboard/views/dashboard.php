@@ -192,6 +192,13 @@
 			</a>
 			<br>
 		</div>
+
+		<div class="col-lg-3 col-md-6">
+			<a class="btn btn-block btn-social btn-warning" href="<?php echo base_url('trailers/index'); ?>">
+				<i class="fa fa-car"></i> <b> Trailers Inspections </b>
+			</a>
+			<br>
+		</div>
 	</div>
 
 	<!-- PLANNING -->
