@@ -12,8 +12,10 @@ class Programming_model extends CI_Model
 	{
 		$idUser = $this->session->userdata("id");
 		$idProgramming = $this->input->post('hddId');
-		$flagDate = $this->input->post('flag_date');
+		//$flagDate = $this->input->post('flag_date');
 		$parentId = $this->input->post('hddIdParent');
+
+		$flagDate = ($this->input->post('job_planning') == 1) ? $this->input->post('flag_date') : 1;
 
 		$data = array(
 			'fk_id_job' => $this->input->post('jobName'),

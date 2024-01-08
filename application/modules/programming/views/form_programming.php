@@ -18,12 +18,27 @@
 					<form name="form" id="form" class="form-horizontal" method="post">
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $information ? $information[0]["id_programming"] : ""; ?>" />
 						<input type="hidden" id="hddIdParent" name="hddIdParent" value="<?php echo $information ? $information[0]["parent_id"] : ""; ?>" />
+						<input type="hidden" id="job_planning" name="job_planning" />
 
 						<div class="alert alert-info">
 							<strong>Info:</strong> Form to add or update a Planning.
 						</div>
 
 						<div class="form-group">
+							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
+							<div class="col-sm-5">
+								<select name="jobName" id="jobName" class="form-control js-example-basic-single">
+									<option value=''>Select...</option>
+									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) {
+																								echo "selected";
+																							}  ?> data-planning="<?php echo $jobs[$i]["planning_message"]; ?>"><?php echo $jobs[$i]["job_description"]; ?></option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group date_range">
 							<label class="col-sm-4 control-label" for="date">Date or Range:</label>
 							<div class="col-sm-2">
 								<select name="flag_date" id="flag_date" class="form-control" required>
@@ -121,20 +136,6 @@
 									<option value=3 <?php if ($information && $information[0]["apply_for"] == 2) {
 														echo "selected";
 													}  ?>>Only Weekends</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
-							<div class="col-sm-5">
-								<select name="jobName" id="jobName" class="form-control">
-									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) {
-																								echo "selected";
-																							}  ?>><?php echo $jobs[$i]["job_description"]; ?></option>
-									<?php } ?>
 								</select>
 							</div>
 						</div>

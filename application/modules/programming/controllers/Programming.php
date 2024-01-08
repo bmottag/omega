@@ -98,7 +98,9 @@ class Programming extends CI_Controller
 
 		$idProgramming = $this->input->post('hddId');
 		$idJob = $this->input->post('jobName');
-		$date = $this->input->post('date');
+		//$date = $this->input->post('date');
+
+		$date = ($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d', strtotime($this->input->post('from')));
 
 		$msj = "You have added a new Planning. Do not forget to asign the workers.";
 		$result_project = false;
