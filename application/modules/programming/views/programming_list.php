@@ -218,7 +218,13 @@
 											}
 											?>
 										</th>
-										<th colspan="2">
+										<?php
+										$mostrar = "none";
+										if ($job_planning == 1) {
+											$mostrar = "block";
+										}
+										?>
+										<th colspan="2" style="display:<?php echo $mostrar; ?>">
 											<div class="col-lg-12">
 												<div class="chat-panel panel panel-violeta">
 													<div class="panel-heading">

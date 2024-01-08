@@ -50,6 +50,16 @@ class Programming extends CI_Controller
 				$data['memo_flha'] = $this->verificacion_flha($idProgramming, $data['information'][0]['date_programming']);
 				$data['memo_tool_box'] = $this->verificacion_tool_box($idProgramming, $data['information'][0]['date_programming']);
 			}
+
+			$id_job = $data['information'][0]['fk_id_job'];
+			//job´s list - (active´s items)
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "id_job",
+				"column" => "id_job",
+				"id" => $id_job
+			);
+			$data['job_planning'] = $this->general_model->get_basic_search($arrParam)[0]['planning_message'];
 		} else {
 			$arrParam = array("estado" => "ACTIVAS");
 			$data['information'] = $this->general_model->get_programming($arrParam); //info solicitudes
