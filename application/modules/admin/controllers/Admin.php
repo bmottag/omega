@@ -151,13 +151,7 @@ class Admin extends CI_Controller
 	 */
 	public function material()
 	{
-		$arrParam = array(
-			"table" => "param_material_type",
-			"order" => "material",
-			"id" => "x"
-		);
-		$data['info'] = $this->general_model->get_basic_search($arrParam);
-
+		$data['info'] = $this->admin_model->get_material_with_shop();
 		$data["view"] = 'material';
 		$this->load->view("layout", $data);
 	}
@@ -212,6 +206,54 @@ class Admin extends CI_Controller
 			$data["result"] = "error";
 			$data["idRecord"] = "";
 
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
+
+	/**
+	 * Cargo modal - Shop
+	 * @since 30/10/2023
+	 */
+	public function loadModalShop()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$data["idMaterial"] = $this->input->post("idMaterial");
+
+		$arrParam = array(
+			"table" => "param_shop",
+			"order" => "shop_name",
+			"id" => "x"
+		);
+		$data['shopList'] = $this->general_model->get_basic_search($arrParam);
+
+		$this->load->view("shop_modal", $data);
+	}
+
+	/**
+	 * Save Shop Parts
+	 * @since 30/10/2023
+	 * @author BMOTTAG
+	 */
+	public function save_shop_materials()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$idMaterial = $this->input->post('hddId');
+
+		$msj = "You have added a Part!!";
+		if ($idMaterial != '') {
+			$msj = "You have updated a Part!!";
+		}
+
+		if ($idMaterial = $this->admin_model->saveShopParts()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', $msj);
+		} else {
+			$data["result"] = "error";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
 

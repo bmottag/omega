@@ -164,6 +164,61 @@ class Admin_model extends CI_Model
 	}
 
 	/**
+	 * Add/Edit Shop Parts
+	 * @since 30/10/2023
+	 */
+	public function saveShopParts()
+	{
+		$idMaterial = $this->input->post('hddId');
+		$idShop = $this->input->post('id_shop');
+
+		if ($idShop == "") {
+			$data = array(
+				'shop_name' => addslashes($this->security->xss_clean($this->input->post('shop_name'))),
+				'shop_contact' => addslashes($this->security->xss_clean($this->input->post('shop_contact'))),
+				'shop_address' => addslashes($this->security->xss_clean($this->input->post('shop_address'))),
+				'mobile_number' => addslashes($this->security->xss_clean($this->input->post('mobile_number'))),
+				'shop_email' => addslashes($this->security->xss_clean($this->input->post('shop_email')))
+			);
+
+			$query = $this->db->insert('param_shop', $data);
+			$idShop = $this->db->insert_id();
+		}
+
+		$data = array(
+			'fk_id_material' => $idMaterial,
+			'fk_id_shop' => $idShop,
+			'date' => date('Y-m-d'),
+		);
+
+		$query = $this->db->insert('material_shop', $data);
+		$idMaterial = $this->db->insert_id();
+
+		if ($query) {
+			return $idMaterial;
+		} else {
+			return false;
+		}
+	}
+
+	public function get_material_with_shop()
+	{
+		$this->db->select('P.*,
+						(SELECT GROUP_CONCAT(V.shop_name, " -----> ", DATE_FORMAT(E.date,"%M %d %Y") SEPARATOR "<br>") 
+						FROM material_shop E
+						JOIN param_shop V ON V.id_shop = E.fk_id_shop
+ 						WHERE E.fk_id_material = P.id_material
+ 						GROUP BY P.id_material) AS shops');
+		$query = $this->db->get('param_material_type P');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Add/Edit vehicle
 	 * @since 15/12/2016
 	 * @review 27/12/2016
