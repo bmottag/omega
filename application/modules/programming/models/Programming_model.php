@@ -184,7 +184,8 @@ class Programming_model extends CI_Model
 			'fk_id_machine' => $this->input->post('machine'),
 			'fk_id_hour' => $this->input->post('hora_inicio'),
 			'site' => $this->input->post('site'),
-			'safety' => $this->input->post('safety')
+			'safety' => $this->input->post('safety'),
+			'creat_wo' => $this->input->post('creat_wo')
 		);
 
 		$this->db->where('id_programming_worker', $hddId);

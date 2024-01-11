@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/programming.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/validate/programming/programming.js'); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -276,6 +276,7 @@
 										<th class="column-title text-center" style="width: 13%"><small>FLHA/TOOL BOX</small></th>
 										<th class="column-title text-center" style="width: 21%"><small>Description</small></th>
 										<th class="column-title text-center" style="width: 22%"><small>Equipment</small></th>
+										<th class="column-title text-center" style="width: 9%"><small>Creat WO</small></th>
 										<th class="column-title text-center" style="width: 9%"><small>Links</small></th>
 									</tr>
 								</thead>
@@ -381,6 +382,18 @@
 																																echo "selected";
 																															}  ?>><?php echo $informationVehicles[$i]["unit_number"]; ?></option>
 													<?php } ?>
+												</select>
+											</td>
+
+											<td>
+												<select name="creat_wo" id="creat_wo" class="form-control">
+													<option value="">Select...</option>
+													<option value=1 <?php if ($data["creat_wo"] == 1) {
+																		echo "selected";
+																	}  ?>>Yes</option>
+													<option value=2 <?php if ($data["creat_wo"] == 2) {
+																		echo "selected";
+																	}  ?>>No</option>
 												</select>
 											</td>
 
