@@ -21,7 +21,6 @@ $(document).ready(function () {
 		}
 	}, "This field is required.");
 
-
 	$('#jobName').change(function () {
 		var planning = $('#jobName option:selected').data('planning');
 

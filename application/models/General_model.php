@@ -553,6 +553,9 @@ class General_model extends CI_Model
 			$this->db->where('P.fk_id_machine is NOT NULL');
 			$this->db->where('P.fk_id_machine != 0');
 		}
+		if (array_key_exists("wo", $arrData)) {
+			$this->db->where('P.creat_wo = 1');
+		}
 		if (array_key_exists("safety", $arrData)) {
 			$this->db->where('P.safety', $arrData["safety"]);
 		}
@@ -569,6 +572,25 @@ class General_model extends CI_Model
 		} else
 			return false;
 	}
+
+	/**
+	 * Lista de inspeccions para maquinas asignadas en una programacion
+	 * @since 15/1/2019
+	 */
+	public function get_programming_wo($arrData)
+	{
+		$this->db->select();
+		$this->db->where('fk_id_user', $arrData["idUser"]);
+		$this->db->where('date_issue', $arrData["fecha"]);
+
+		$query = $this->db->get("workorder");
+
+		if ($query->num_rows() >= 1) {
+			return $query->result_array();
+		} else
+			return false;
+	}
+
 
 	/**
 	 * Lista de inspeccions para maquinas asignadas en una programacion

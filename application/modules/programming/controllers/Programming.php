@@ -555,7 +555,7 @@ class Programming extends CI_Controller
 
 		if ($information) {
 
-			//inicio configuracion			
+			//inicio configuracion
 			if ($bandera) {
 				$this->load->library('encrypt');
 				require 'vendor/Twilio/autoload.php';
@@ -582,6 +582,88 @@ class Programming extends CI_Controller
 				//lista de trabajadores para esta programacion que tiene maquinas asignadas
 				$arrParam = array("idProgramming" => $lista['id_programming'], "machine" => TRUE);
 				$informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
+
+				$arrParam = array("idProgramming" => $lista['id_programming'], "wo" => TRUE);
+				$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajadores
+
+
+				if ($informationWorkerWO) {
+					//busco para la fecha y para esa wo si hay inspecciones
+					//si no hay inspecciones envio mensaje de alerta
+					foreach ($informationWorkerWO as $dato) :
+						$arrParam = array("fecha" => $fechaBusqueda, "idUser" => $dato['fk_id_programming_user']);
+						$wo = $this->general_model->get_programming_wo($arrParam); //inspecciones de wo asignadas en una programacion
+						if (!$wo) {
+							$i++;
+							$nombres .= "<br>" . $dato['name'] . " - " . $dato['unit_description'];
+							//ENVIO MENSAJE DE TEXTO
+							if ($bandera && $dato['sms_inspection'] != 2) {
+
+
+								//buscar si ya empezo la hora laboral del trabajador
+								$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
+
+								$datetime1 = date_create($fechaProgramacion);
+
+								//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+
+								$ajuste = strtotime('-2 hour', strtotime(date("Y-m-d G:i"))); //le resto 2 horas a la hora actual
+								$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
+
+								//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
+								if ($datetime1 < $datetime2) {
+
+									//si no le ha enviado sms entonces lo envio
+									if ($dato['sms_wo'] == null) {
+										//actualizo la bandera sms_wo a 1
+										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_wo", 1);
+
+										$to = '+1' . $dato['movil'];
+
+										$mensaje = "WO APP-VCI";
+										$mensaje .= "\nDo not forget to do the WO:";
+
+										// Use the client to do fun stuff like send text messages!
+										$message = $client->messages->create(
+											// the number you'd like to send the message to
+											$to,
+											array(
+												// A Twilio phone number you purchased at twilio.com/console
+												'from' => $phone,
+												'body' => $mensaje
+											)
+										);
+									}
+									//si ya se le evio al trabajador entonces se envio al ADMIN
+									if ($dato['sms_wo'] == 1) {
+										//actualizo la bandera sms_wo a 2
+										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_wo", 2);
+
+										$to = '+1' . $phoneAdmin;
+
+										$mensaje = "WO APP-VCI";
+										$mensaje .= "\nThe user has not done the WO:";
+										$mensaje .= "\n" . $dato['name'] . " - " . $dato['unit_description'];
+
+										// Use the client to do fun stuff like send text messages!
+										$message = $client->messages->create(
+											// the number you'd like to send the message to
+											$to,
+											array(
+												// A Twilio phone number you purchased at twilio.com/console
+												'from' => $phone,
+												'body' => $mensaje
+											)
+										);
+									}
+								}
+							}
+							//FIN MENSAJE DE TEXTO
+
+						}
+
+					endforeach;
+				}
 
 				if ($informationWorker) {
 					//busco para la fecha y para esa maquina si hay inspecciones
@@ -666,7 +748,6 @@ class Programming extends CI_Controller
 
 					endforeach;
 				}
-			//pr($informationWorker);
 
 			endforeach;
 		}
@@ -729,11 +810,13 @@ class Programming extends CI_Controller
 		$information = $this->general_model->get_programming($arrParam); //info programacion
 
 		$i = 0;
+		$j = 0;
 		$nombres = "";
+		$nombresJSO = "";
 
 		if ($information) {
 
-			//inicio configuracion			
+			//inicio configuracion
 			if ($bandera) {
 				$this->load->library('encrypt');
 				require 'vendor/Twilio/autoload.php';
@@ -756,14 +839,14 @@ class Programming extends CI_Controller
 
 			//para cada programacion buscar los trabajadores que tienen FLHA
 			foreach ($information as $lista) :
-				//lista de trabajadores para esta programacion que tiene FLHA 
+				//lista de trabajadores para esta programacion que tiene FLHA
 				$arrParam = array("idProgramming" => $lista['id_programming'], "safety" => 1);
-				$informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores con FLHA
+				$informationWorkerFLHA = $this->general_model->get_programming_workers($arrParam); //info trabajadores con FLHA
 
-				if ($informationWorker) {
+				if ($informationWorkerFLHA) {
 					//busco para la fecha, para ese JOB CODE si hay FLHA
 					//si no hay FLHA envio mensaje de alerta
-					foreach ($informationWorker as $dato) :
+					foreach ($informationWorkerFLHA as $dato) :
 						$arrParam = array(
 							"fecha" => $fechaBusqueda,
 							"idJob" => $lista['fk_id_job'],
@@ -844,7 +927,92 @@ class Programming extends CI_Controller
 
 					endforeach;
 				}
-			//pr($informationWorker);
+
+				$arrParam = array("idProgramming" => $lista['id_programming'], "safety" => 3);
+				$informationWorkerJSO = $this->general_model->get_programming_workers($arrParam); //info trabajadores con JSO
+
+				if ($informationWorkerJSO) {
+					//busco para la fecha, para ese JOB CODE si hay JSO
+					//si no hay JSO envio mensaje de alerta
+					foreach ($informationWorkerJSO as $dato) :
+						$arrParam = array(
+							"fecha" => $fechaBusqueda,
+							"idJob" => $lista['fk_id_job'],
+							"limit" => 30
+						);
+						$inspecciones = $this->general_model->get_safety($arrParam);
+
+						if (!$inspecciones) {
+							$j++;
+							$nombresJSO .= "<br>" . $dato['name'] . " - Missing JSO";
+							//ENVIO MENSAJE DE TEXTO
+							if ($bandera && $dato['sms_jso'] != 2) {
+
+								//buscar si ya empezo la hora laboral del trabajador
+								$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
+
+								$datetime1 = date_create($fechaProgramacion);
+								//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+
+								$ajuste = strtotime('-2 hour', strtotime(date("Y-m-d G:i"))); //le resto 2 horas a la hora actual
+								$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
+
+								//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
+								if ($datetime1 < $datetime2) {
+
+									//si no le ha enviado sms entonces lo envio
+									if ($dato['sms_jso'] == 0) {
+										//actualizo la bandera sms_jso a 1
+										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_jso", 1);
+
+										$to = '+1' . $dato['movil'];
+
+										$mensaje = "JSO APP-VCI";
+										$mensaje .= "\nDo not forget to do the JSO:";
+										$mensaje .= "\n" . $lista['job_description'];
+
+										// Use the client to do fun stuff like send text messages!
+										$message = $client->messages->create(
+											// the number you'd like to send the message to
+											$to,
+											array(
+												// A Twilio phone number you purchased at twilio.com/console
+												'from' => $phone,
+												'body' => $mensaje
+											)
+										);
+									}
+									//si ya se le evio al trabajador entonces se envio al ADMIN
+									elseif ($dato['sms_jso'] == 1) {
+										//actualizo la bandera sms_inspection a 2
+										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_jso", 2);
+
+										$to = '+1' . $phoneAdmin;
+
+										$mensaje = "JSO APP-VCI";
+										$mensaje .= "\nThe user has not done the JSO:";
+										$mensaje .= "\n" . $dato['name'];
+
+										// Use the client to do fun stuff like send text messages!
+										$message = $client->messages->create(
+											// the number you'd like to send the message to
+											$to,
+											array(
+												// A Twilio phone number you purchased at twilio.com/console
+												'from' => $phone,
+												'body' => $mensaje
+											)
+										);
+									}
+								}
+							}
+							//FIN MENSAJE DE TEXTO
+						}
+
+					//echo $this->db->last_query(); exit;
+
+					endforeach;
+				}
 
 			endforeach;
 		}
@@ -852,8 +1020,15 @@ class Programming extends CI_Controller
 		if ($i != 0) {
 			$memo =  "Missing FLHA:";
 			$memo .= $nombres;
-		} else {
+		} else if ($i == 0) {
 			$memo = "There is no FLHA missing";
+		}
+
+		if ($j != 0) {
+			$memo =  ", Missing JSO:";
+			$memo .= $nombresJSO;
+		} else if ($j == 0) {
+			$memo = "There is no JSO missing";
 		}
 
 		return $memo;

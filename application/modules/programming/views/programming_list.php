@@ -312,6 +312,8 @@
 											$mensaje .= "<br>Do FLHA";
 										} elseif ($data['safety'] == 2) {
 											$mensaje .= "<br>Do Tool Box";
+										} elseif ($data['safety'] == 3) {
+											$mensaje .= "<br>Job site orientation";
 										}
 
 										$mensaje .= "<br>";
@@ -367,6 +369,9 @@
 													<option value=2 <?php if ($data["safety"] == 2) {
 																		echo "selected";
 																	}  ?>>Tool Box</option>
+													<option value=3 <?php if ($data["safety"] == 3) {
+																		echo "selected";
+																	}  ?>>Job Site Orientation</option>
 												</select>
 											</td>
 
@@ -396,9 +401,7 @@
 																	}  ?>>No</option>
 												</select>
 											</td>
-
 											<td class='text-center'>
-
 												<?php
 												if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
 												?>
