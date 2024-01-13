@@ -16,7 +16,17 @@
 						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>
-				
+					<?php
+					if($jobInfo[0]['flag_expenses'] == 1){
+					?>
+						<div class="col-lg-12">
+							<div class="alert alert-danger ">
+								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+								Currently, there are entries in the WO (Work Orders) detailing various expenses related to this Job Code. Unfortunately, there is an inability to upload additional information at this time.
+							</div>
+						</div>
+					<?php } ?>
+					
 					<?php 
 						if (!empty($success)) {
 							echo '<div class="col-lg-12">';
@@ -27,6 +37,8 @@
 
 					<form  name="formCargue" id="formCargue" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url("jobs/do_upload_job_info"); ?>">
 						<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
+						<input type="hidden" id="hddFlagExpenses" name="hddFlagExpenses" value="<?php echo $jobInfo[0]["flag_expenses"]; ?>"/>
+						<input type="hidden" id="hddFlagUploadDetails" name="hddFlagUploadDetails" value="<?php echo $jobInfo[0]["flag_upload_details"]; ?>"/>
 							
 						<div class="col-lg-6">				
 							<div class="form-group">					

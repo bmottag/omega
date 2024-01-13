@@ -2670,15 +2670,73 @@ class Jobs extends CI_Controller
 			$this->subir_archivo($msgError);
 		} else {
 			$idJob = $this->input->post("hddIdJob");
+			$flagExpenses = $this->input->post("hddFlagExpenses");
+			$flagUploadDetails = $this->input->post("hddFlagUploadDetails");
 			$this->load->model("general_model");
 
-			//DELETE PREVIOS INFORMATION
-			$arrParam = array(
-				"table" => "job_details",
-				"primaryKey" => "fk_id_job ",
-				"id" => $idJob 
-			);
-			$this->general_model->deleteRecord($arrParam);
+			if($flagUploadDetails == 1){
+				//DELETE PREVIOS INFORMATION
+				$arrParam = array(
+					"table" => "job_details",
+					"primaryKey" => "fk_id_job ",
+					"id" => $idJob 
+				);
+				$this->general_model->deleteRecord($arrParam);
+			}
+
+			if($flagExpenses == 1){
+				//si tienes expenses eliminarlos
+				$arrParam = array(
+					"idJob" => $idJob 
+				);
+				$this->jobs_model->deleteWOExpenses($arrParam);
+
+				//update WO expenses flag in table param_job
+				$arrParam = array(
+					"table" => "param_jobs",
+					"primaryKey" => "id_job",
+					"id" => $idJob,
+					"column" => "flag_expenses",
+					"value" => 0
+				);
+				$this->general_model->updateRecord($arrParam);
+
+				//update WO expenses flag in table workorders
+
+				/*
+				$arrParam = array(
+					"idJob" => $idJob 
+				);
+				$this->jobs_model->deleteWOExpenses($arrParam);
+
+
+
+
+
+
+
+				$arrParam = array(
+					"table" => "workorder",
+					"primaryKey" => "id_workorder",
+					"id" => $idWorkOrder,
+					"column" => "expenses_flag",
+					"value" => 1
+				);
+				$this->load->model("general_model");
+				$this->general_model->updateRecord($arrParam);
+*/
+
+
+
+
+
+
+
+
+
+
+
+			}
 
 			$file_info = $this->upload->data();
 			$data = array('upload_data' => $this->upload->data());

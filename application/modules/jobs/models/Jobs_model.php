@@ -1516,4 +1516,25 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			return false;
 		}
 	}
+
+	/**
+	 * Delete WO Expenses
+	 * @since 1/07/2024
+	 */
+	public function deleteWOExpenses($arrDatos) 
+	{
+		$idJob = $arrDatos["idJob"];
+
+		$sql = "DELETE FROM workorder_expense ";
+		$sql .= "WHERE fk_id_job_detail IN (SELECT id_job_detail FROM job_details WHERE fk_id_job = ?)";
+		
+		$query = $this->db->query($sql, array($idJob));
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }
