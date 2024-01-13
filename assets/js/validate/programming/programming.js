@@ -1,4 +1,7 @@
-$( document ).ready( function () {
+$(document).ready(function () {
+
+	$('.js-example-basic-single').select2();
+	$(".date_range").css("display", "none");
 
 	jQuery.validator.addMethod("fieldValidationDate", function(value, element, param) {
 		var flag = $('#flag_date').val();
@@ -18,7 +21,21 @@ $( document ).ready( function () {
 		}
 	}, "This field is required.");
 
-    $('#flag_date').change(function () {
+	$('#jobName').change(function () {
+		var planning = $('#jobName option:selected').data('planning');
+
+		console.log('planning', planning)
+
+		if (planning == 1) {
+			$(".date_range").css("display", "block");
+			$('#job_planning').val(1);
+		}else{
+			$(".date_range").css("display", "none");
+			$('#job_planning').val(2);
+		}
+    });
+
+	$('#flag_date').change(function () {
         $('#flag_date option:selected').each(function () {
 
 			var flag = $('#flag_date').val();
@@ -35,7 +52,7 @@ $( document ).ready( function () {
 			}
         });
     });
-					
+
 	$( "#form" ).validate( {
 		rules: {
 			date:					{ fieldValidationDate: true },
@@ -62,10 +79,10 @@ $( document ).ready( function () {
 			return true;
 		}
 	});
-	
-	$(".btn-danger").click(function () {	
+
+	$(".btn-danger").click(function () {
 			var oID = $(this).attr("id");
-			
+
 			//Activa icono guardando
 			if(window.confirm('Are you sure to delete the programming?'))
 			{
@@ -76,16 +93,16 @@ $( document ).ready( function () {
 						data: {'identificador': oID},
 						cache: false,
 						success: function(data){
-												
+
 							if( data.result == "error" )
 							{
 								alert(data.mensaje);
-								$(".btn-danger").removeAttr('disabled');							
+								$(".btn-danger").removeAttr('disabled');
 								return false;
-							} 
-											
+							}
+
 							if( data.result )//true
-							{	                                                        
+							{
 								$(".btn-danger").removeAttr('disabled');
 
 								var url = base_url + "programming";
@@ -95,7 +112,7 @@ $( document ).ready( function () {
 							{
 								alert('Error. Reload the web page.');
 								$(".btn-danger").removeAttr('disabled');
-							}	
+							}
 						},
 						error: function(result) {
 							alert('Error. Reload the web page.');
@@ -105,38 +122,38 @@ $( document ).ready( function () {
 					});
 			}
 	});
-	
-	$("#btnSubmit").click(function(){		
-	
+
+	$("#btnSubmit").click(function(){
+
 		if ($("#form").valid() == true){
-		
+
 				//Activa icono guardando
 				$('#btnSubmit').attr('disabled','-1');
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
-			
+
 				$.ajax({
-					type: "POST",	
-					url: base_url + "programming/save_programming",	
+					type: "POST",
+					url: base_url + "programming/save_programming",
 					data: $("#form").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
-					
+
 					success: function(data){
-                                            
+
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
 							$("#span_msj").html(data.mensaje);
 							alert(data.mensaje);
-							$('#btnSubmit').removeAttr('disabled');							
+							$('#btnSubmit').removeAttr('disabled');
 							return false;
-						} 
+						}
 
 						if( data.result )//true
-						{	                                                        
+						{
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
@@ -149,7 +166,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
 							$('#btnSubmit').removeAttr('disabled');
-						}	
+						}
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
@@ -157,40 +174,37 @@ $( document ).ready( function () {
 						$("#div_error").css("display", "inline");
 						$('#btnSubmit').removeAttr('disabled');
 					}
-					
-		
-				});	
-		
-		}//if			
+				});
+		}
 	});
 
-	$("#btnSubmitClone").click(function(){		
-	
+	$("#btnSubmitClone").click(function(){
+
 		if ($("#clonePlanning").valid() == true){
-		
+
 				//Activa icono guardando
 				$('#btnSubmitClone').attr('disabled','-1');
 				$("#loader").addClass("loader");
-			
+
 				$.ajax({
-					type: "POST",	
-					url: base_url + "programming/clone_planning",	
+					type: "POST",
+					url: base_url + "programming/clone_planning",
 					data: $("#clonePlanning").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
-					
+
 					success: function(data){
 						$("#loader").removeClass("loader");
 						if( data.result == "error" )
 						{
 							$("#div_error").css("display", "block");
-							$('#btnSubmitClone').removeAttr('disabled');	
+							$('#btnSubmitClone').removeAttr('disabled');
 							return false;
-						} 
+						}
 
 						if( data.result )//true
-						{	                                                        
+						{
 							$("#div_guardado").css("display", "block");
 							$('#btnSubmitClone').removeAttr('disabled');
 						}
@@ -200,7 +214,7 @@ $( document ).ready( function () {
 							$("#div_cargando").css("display", "none");
 							$("#div_error").css("display", "inline");
 							$('#btnSubmitClone').removeAttr('disabled');
-						}	
+						}
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
@@ -208,11 +222,7 @@ $( document ).ready( function () {
 						$("#div_error").css("display", "inline");
 						$('#btnSubmitClone').removeAttr('disabled');
 					}
-					
-		
-				});	
-		
-		}//if			
+				});
+		}
 	});
-
 });
