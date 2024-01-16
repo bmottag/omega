@@ -616,7 +616,7 @@ class General_model extends CI_Model
 	 */
 	public function get_horas()
 	{
-		$this->db->order_by("id_hora", "ASC");
+		$this->db->order_by("order", "ASC");
 		$query = $this->db->get("param_horas");
 
 		if ($query->num_rows() >= 1) {
