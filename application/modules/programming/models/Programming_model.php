@@ -178,10 +178,11 @@ class Programming_model extends CI_Model
 	public function saveWorker()
 	{
 		$hddId = $this->input->post('hddId');
+		$maquina = '[' . implode(", ", $this->input->post('machine')) . ']';
 
 		$data = array(
 			'description' => $this->input->post('description'),
-			'fk_id_machine' => $this->input->post('machine'),
+			'fk_id_machine' => $maquina,
 			'fk_id_hour' => $this->input->post('hora_inicio'),
 			'site' => $this->input->post('site'),
 			'safety' => $this->input->post('safety'),
@@ -243,10 +244,11 @@ class Programming_model extends CI_Model
 	 */
 	public function saveWorkerFashPlanning($idProgramming, $idHora)
 	{
+		$machine = '[' . implode(", ", $this->input->post('machine')) . ']';
 		$data = array(
 			'fk_id_programming' => $idProgramming,
 			'fk_id_programming_user' => $this->input->post('worker'),
-			'fk_id_machine' => $this->input->post('machine'),
+			'fk_id_machine' => $machine,
 			'fk_id_hour' => $idHora,
 			'site' => 2, // Se coloca por defecto 2 -> At the Site
 			'safety' => 1 // Se coloca por defecto FLHA
