@@ -11,7 +11,7 @@
  Target Server Version : 80024
  File Encoding         : 65001
 
- Date: 13/01/2024 16:25:09
+ Date: 18/01/2024 22:09:25
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `programming_worker`  (
   `fk_id_programming_user` int(0) NOT NULL,
   `fk_id_programming` int(0) NOT NULL,
   `description` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `fk_id_machine` int(0) NULL DEFAULT NULL,
+  `fk_id_machine` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `fk_id_hour` tinyint(1) NOT NULL,
   `site` tinyint(0) NOT NULL COMMENT '1: At the yard; 2: At the site',
   `safety` tinyint(0) NULL DEFAULT NULL COMMENT '1: FLHA; 2: Tool box; 3: JSO',

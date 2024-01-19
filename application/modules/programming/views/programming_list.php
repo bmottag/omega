@@ -332,7 +332,7 @@
 											<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $fkIdProgramming; ?>" />
 
 											<td>
-												<select name="hora_inicio" id="hora_inicio" class="form-control" required>
+												<select name="hora_inicio" class="form-control js-example-basic-single" required>
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($horas); $i++) { ?>
 														<option value="<?php echo $horas[$i]["id_hora"]; ?>" <?php
@@ -346,7 +346,7 @@
 											</td>
 
 											<td>
-												<select name="site" id="site" class="form-control" required>
+												<select name="site" class="form-control js-example-basic-single" required>
 													<option value="">Select...</option>
 													<option value=1 <?php if ($data["site"] == 1) {
 																		echo "selected";
@@ -361,7 +361,7 @@
 											</td>
 
 											<td>
-												<select name="safety" id="safety" class="form-control">
+												<select name="safety" class="form-control js-example-basic-single">
 													<option value="">Select...</option>
 													<option value=1 <?php if ($data["safety"] == 1) {
 																		echo "selected";
@@ -380,10 +380,10 @@
 											</td>
 
 											<td>
-												<select name="machine" id="machine" class="form-control">
+												<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple">
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
-														<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"]) {
+														<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"]))) {
 																																echo "selected";
 																															}  ?>><?php echo $informationVehicles[$i]["unit_number"]; ?></option>
 													<?php } ?>
@@ -391,7 +391,7 @@
 											</td>
 
 											<td>
-												<select name="creat_wo" id="creat_wo" class="form-control">
+												<select name="creat_wo" class="form-control js-example-basic-single">
 													<option value="">Select...</option>
 													<option value=1 <?php if ($data["creat_wo"] == 1) {
 																		echo "selected";
@@ -423,15 +423,9 @@
 										?>
 
 										</td>
-
-
-
 									<?php
 
 										echo "<td class='text-center'><small>";
-
-
-
 										echo "</small></td>";
 										echo "</tr>";
 									endforeach;
@@ -554,7 +548,6 @@
 <?php } ?>
 <!--FIN Modal para adicionar WORKER -->
 
-
 <!-- Tables -->
 <script>
 	$(document).ready(function() {
@@ -564,5 +557,7 @@
 			"pageLength": 100,
 			"info": false
 		});
+
+		$('.js-example-basic-multiple').select2();
 	});
 </script>

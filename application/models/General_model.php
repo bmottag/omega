@@ -542,6 +542,54 @@ class General_model extends CI_Model
 	 */
 	public function get_programming_workers($arrData)
 	{
+		$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
+		$sql .= " FROM programming_worker P";
+
+		$sql .= " INNER JOIN user U ON U.id_user = P.fk_id_programming_user ";
+		$sql .= " LEFT JOIN param_horas H ON H.id_hora = P.fk_id_hour ";
+		$sql .= " LEFT JOIN param_vehicle ON JSON_CONTAINS(fk_id_machine, CAST(param_vehicle.id_vehicle AS JSON)) ";
+
+		$sql .= "  WHERE P.id_programming_worker is NOT NULL ";
+
+		if (array_key_exists("idUser", $arrData)) {
+			$idUser = $arrData['idUser'];
+			$sql .= " AND P.fk_id_programming_user = '$idUser'";
+		}
+
+		if (array_key_exists("idProgramming", $arrData)) {
+			$idProgramming = $arrData['idProgramming'];
+			$sql .= " AND P.fk_id_programming = '$idProgramming'";
+		}
+
+		if (array_key_exists("machine", $arrData)) {
+			$sql .= " AND P.fk_id_machine is NOT NULL AND P.fk_id_machine != 0 ";
+		}
+
+		if (array_key_exists("wo", $arrData)) {
+			$sql .= " AND P.creat_wo = 1";
+		}
+
+		if (array_key_exists("safety", $arrData)) {
+			$safety = $arrData['safety'];
+			$sql .= " AND P.safety = '$safety'";
+		}
+
+		$sql .= " GROUP BY P.fk_id_programming_user ORDER BY U.first_name, U.last_name ASC ";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() >= 1) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+
+	/*public function get_programming_workers($arrData)
+	{
+		// print_r($arrData);
+		// exit;
 		$this->db->select("U.movil, CONCAT(first_name, ' ', last_name) name, P.*, CONCAT(V.unit_number,' -----> ', V.description) as unit_description, H.hora, H.formato_24");
 		if (array_key_exists("idUser", $arrData)) {
 			$this->db->where('P.fk_id_programming_user', $arrData["idUser"]);
@@ -571,7 +619,7 @@ class General_model extends CI_Model
 			return $query->result_array();
 		} else
 			return false;
-	}
+	}*/
 
 	/**
 	 * Lista de inspeccions para maquinas asignadas en una programacion
@@ -1158,7 +1206,10 @@ class General_model extends CI_Model
 			$this->db->where('P.date_programming', $arrData["fechaProgramming"]);
 		}
 		if (array_key_exists("maquina", $arrData)) {
-			$this->db->where('W.fk_id_machine', $arrData["maquina"]);
+
+			$maquina = implode(", ", $arrData["maquina"]);
+			$where = "W.fk_id_machine IN ($maquina)";
+			$this->db->where($where);
 		}
 
 		$query = $this->db->get("programming_worker W");
@@ -2066,7 +2117,7 @@ class General_model extends CI_Model
 		$this->db->select("P.date_programming, P.observation, X.job_description, W.*, CONCAT(V.unit_number,' -----> ', V.description) as unit_description, H.hora");
 		$this->db->join('programming_worker W', 'W.fk_id_programming = P.id_programming', 'INNER');
 		$this->db->join('param_jobs X', 'X.id_job = P.fk_id_job', 'INNER');
-		$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_machine', 'LEFT');
+		$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_machine', 'LEFT'); //!AQUI
 		$this->db->join('param_horas H', 'H.id_hora = W.fk_id_hour', 'LEFT');
 
 		if (array_key_exists("idUser", $arrData)) {
