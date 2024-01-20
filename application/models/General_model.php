@@ -542,7 +542,11 @@ class General_model extends CI_Model
 	 */
 	public function get_programming_workers($arrData)
 	{
-		$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
+		if (array_key_exists("forTextMessague", $arrData)) {
+			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' / ')  as unit_description, H.hora, H.formato_24";
+		}else{
+			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
+		}
 		$sql .= " FROM programming_worker P";
 
 		$sql .= " INNER JOIN user U ON U.id_user = P.fk_id_programming_user ";
@@ -562,7 +566,7 @@ class General_model extends CI_Model
 		}
 
 		if (array_key_exists("machine", $arrData)) {
-			$sql .= " AND P.fk_id_machine is NOT NULL AND P.fk_id_machine != 0 ";
+			$sql .= " AND P.fk_id_machine is NOT NULL AND P.fk_id_machine != '' ";
 		}
 
 		if (array_key_exists("wo", $arrData)) {

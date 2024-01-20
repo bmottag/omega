@@ -387,7 +387,10 @@ class Programming extends CI_Controller
 		$data['informationWorker'] = FALSE;
 		$data['idProgramming'] = $idProgramming;
 
-		$arrParam = array("idProgramming" => $idProgramming);
+		$arrParam = array(
+						"idProgramming" => $idProgramming,
+						"forTextMessague" => true
+					);
 		$data['information'] = $this->general_model->get_programming($arrParam); //info programacion
 
 		//lista de trabajadores para esta programacion

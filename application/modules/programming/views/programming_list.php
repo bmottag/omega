@@ -383,7 +383,7 @@
 												<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple">
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
-														<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"]))) {
+														<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] != "" && ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"])))) {
 																																echo "selected";
 																															}  ?>><?php echo $informationVehicles[$i]["unit_number"]; ?></option>
 													<?php } ?>
