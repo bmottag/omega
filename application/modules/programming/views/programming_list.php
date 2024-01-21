@@ -219,16 +219,13 @@
 											?>
 										</th>
 										<?php
-										$mostrar = "none";
 										if ($job_planning == 1) {
-											$mostrar = "block";
-										}
 										?>
-										<th colspan="2" style="display:<?php echo $mostrar; ?>">
+										<th class="column-title" colspan="3">
 											<div class="col-lg-12">
 												<div class="chat-panel panel panel-violeta">
 													<div class="panel-heading">
-														<i class="fa fa-copy fa-fw"></i> Clone this Planning for the following Date
+														<i class="fa fa-copy fa-fw"></i> Clone this Planning for the asdfasdf Date
 													</div>
 
 													<div class="panel-footer">
@@ -267,6 +264,9 @@
 												</div>
 											</div>
 										</th>
+										<?php
+										}
+										?>
 									</tr>
 
 									<tr class="headings">

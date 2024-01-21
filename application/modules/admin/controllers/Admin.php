@@ -244,9 +244,9 @@ class Admin extends CI_Controller
 
 		$idMaterial = $this->input->post('hddId');
 
-		$msj = "You have added a Part!!";
+		$msj = "You have added the Shop Information for Material!!";
 		if ($idMaterial != '') {
-			$msj = "You have updated a Part!!";
+			$msj = "You have updated the Shop Information for Material!!";
 		}
 
 		if ($idMaterial = $this->admin_model->saveShopParts()) {
