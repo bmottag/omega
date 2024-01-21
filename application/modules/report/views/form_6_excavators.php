@@ -184,9 +184,8 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"></th>
-								<th align="center"></th>
-								<th align="center"></th>';
+								<th align="center"><strong>DEF Levels</strong></th>
+								<th colspan="2" align="center"><strong>' . $info[$consecutivo]["def"] . ' %</strong></th>';
 								
 						$html.='<th align="center"><strong>Thamper</strong></th>';
 							if($info[$consecutivo]["thamper"] == 1){

@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once(FCPATH . 'vendor/autoload.php');
-
 class Trailers extends CI_Controller
 {
     public function __construct()
