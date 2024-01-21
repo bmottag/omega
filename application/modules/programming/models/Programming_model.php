@@ -338,4 +338,70 @@ class Programming_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Get programming materials info
+	 * @since 20/1/2024
+	 */
+	public function get_programming_materials($arrData)
+	{
+		$this->db->select();
+		$this->db->join('param_material_type M', 'M.id_material = P.fk_id_material', 'INNER');
+		if (array_key_exists("idProgramming", $arrData)) {
+			$this->db->where('P.fk_id_programming', $arrData["idProgramming"]);
+		}
+		$this->db->order_by('M.material', 'asc');
+		$query = $this->db->get('programming_material P');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+	/**
+	 * Add Material
+	 * @since 20/1/2024
+	 */
+	public function saveMaterial()
+	{
+		$data = array(
+			'fk_id_programming' => $this->input->post('hddidProgramming'),
+			'fk_id_material' => $this->input->post('material'),
+			'quantity' => $this->input->post('quantity'),
+			'unit' => $this->input->post('unit'),
+			'description' => $this->input->post('description')
+		);
+
+		$query = $this->db->insert('programming_material', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Updated Material
+	 * @since 20/1/2024
+	 */
+	public function updatedMaterial()
+	{
+		$hddId = $this->input->post('hddId');
+		$data = array(
+			'quantity' => $this->input->post('quantity'),
+			'unit' => $this->input->post('unit'),
+			'description' => $this->input->post('description')
+		);
+
+		$this->db->where('id_programming_material', $hddId);
+		$query = $this->db->update('programming_material', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
