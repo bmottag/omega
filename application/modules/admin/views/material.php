@@ -64,10 +64,12 @@
 					$retornoExito = $this->session->flashdata('retornoExito');
 					if ($retornoExito) {
 					?>
-						<div class="col-lg-12">
-							<div class="alert alert-success ">
-								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-								<?php echo $retornoExito ?>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert alert-success ">
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+									<?php echo $retornoExito ?>
+								</div>
 							</div>
 						</div>
 					<?php
@@ -76,10 +78,12 @@
 					$retornoError = $this->session->flashdata('retornoError');
 					if ($retornoError) {
 					?>
-						<div class="col-lg-12">
-							<div class="alert alert-danger ">
-								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-								<?php echo $retornoError ?>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert alert-danger ">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									<?php echo $retornoError ?>
+								</div>
 							</div>
 						</div>
 					<?php
