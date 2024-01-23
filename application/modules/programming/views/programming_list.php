@@ -490,7 +490,7 @@
 
 							<button type="button" class="btn btn-success btn-block  btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																							?>">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials VCI
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials
 							</button><br>
 						</div>
 					<?php } ?>
