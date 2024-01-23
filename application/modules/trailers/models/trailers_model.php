@@ -31,6 +31,7 @@ class Trailers_model extends CI_Model
         $this->db->where('(fk_id_trailer, date_issue) IN (SELECT fk_id_trailer, MAX(date_issue) FROM inspection_daily GROUP BY fk_id_trailer)');
         $this->db->where('type_level_2 =', 5);
         $this->db->where('date_issue <', $date);
+        $this->db->where('state =', 1);
         $this->db->order_by('fk_id_trailer', 'asc');
 
         $trailersMonthsInspect = $this->db->get('inspection_daily');
@@ -56,6 +57,7 @@ class Trailers_model extends CI_Model
             AND type_level_2 = 5
             ORDER BY id_inspection_daily DESC
         )');
+        $this->db->where('state =', 1);
 
         $trailersNotInspect = $this->db->get('param_vehicle');
 

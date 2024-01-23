@@ -483,7 +483,76 @@
 
 				</div>
 
+				<!--INICIO MATERIALS -->
+				<div class="panel-body">
+					<?php if (!$deshabilitar) { ?>
+						<div class="col-lg-12">
 
+							<button type="button" class="btn btn-success btn-block  btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
+																																							?>">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials VCI
+							</button><br>
+						</div>
+					<?php } ?>
+
+					<?php
+					if ($programmingMaterials) {
+					?>
+						<table class="table table-bordered table-striped table-hover table-condensed">
+							<tr class="success">
+								<th class="text-center">Info. Material</th>
+								<th class="text-center">Description</th>
+								<th class="text-center">Quantity</th>
+								<th class="text-center">Unit</th>
+								<th class="text-center">Links</th>
+							</tr>
+							<?php
+							foreach ($programmingMaterials as $data) :
+								echo "<tr>";
+								echo "<td ><small><strong>Material</strong><br>" . $data['material'] . "</small></td>";
+
+								$idRecord = $data['id_programming_material'];
+							?>
+								<form name="material_<?php echo $idRecord ?>" id="material_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/updated_material"); ?>">
+									<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
+									<input type="hidden" id="hddidProgramming" name="hddidProgramming" value="<?php echo $data['fk_id_programming']; ?>" />
+									<td>
+										<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
+									</td>
+
+									<td>
+										<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
+									</td>
+
+									<td>
+										<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
+									</td>
+
+									<td class='text-center'>
+										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+										</button>
+								</form>
+
+								<br><br>
+								<?php if (!$deshabilitar) { ?>
+									<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteMaterial/' . $data['id_programming_material'] . '/' . $data['fk_id_programming']) ?>' id="btn-delete">
+										Delete <i class="fa fa-trash-o"></i>
+									</a>
+								<?php } else {
+									echo "---";
+								} ?>
+
+								</td>
+
+								</tr>
+							<?php
+							endforeach;
+							?>
+						</table>
+					<?php } ?>
+				</div>
+				<!--FIN MATERIALS -->
 				<!-- /.panel-body -->
 			</div>
 			<!-- /.panel -->
@@ -548,6 +617,16 @@
 <?php } ?>
 <!--FIN Modal para adicionar WORKER -->
 
+<!--INICIO Modal para MATERIAL -->
+<div class="modal fade text-center" id="modalMaterials" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tableDataMaterial">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para MATERIAL -->
+
 <!-- Tables -->
 <script>
 	$(document).ready(function() {
@@ -559,5 +638,20 @@
 		});
 
 		$('.js-example-basic-multiple').select2();
+	});
+
+	$(".btn-materials").click(function() {
+		var oID = $(this).attr("id");
+		$.ajax({
+			type: 'POST',
+			url: base_url + 'programming/loadModalMaterials',
+			data: {
+				'idProgramming': oID
+			},
+			cache: false,
+			success: function(data) {
+				$('#tableDataMaterial').html(data);
+			}
+		});
 	});
 </script>

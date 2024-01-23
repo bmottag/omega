@@ -544,7 +544,7 @@ class General_model extends CI_Model
 	{
 		if (array_key_exists("forTextMessague", $arrData)) {
 			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' / ')  as unit_description, H.hora, H.formato_24";
-		}else{
+		} else {
 			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
 		}
 		$sql .= " FROM programming_worker P";
@@ -650,8 +650,20 @@ class General_model extends CI_Model
 	 */
 	public function get_programming_inspecciones($arrData)
 	{
+		//Como la el campo fk_id_machine ahora es un string en donde se pueden guardar varias maquinas, convertimos en json para saber si tiene mas de una maquina
+		$encode = json_decode($arrData["maquina"]);
+
+		if (is_array($encode)) {
+			$machine = implode(",", json_decode($arrData["maquina"]));
+		} else {
+			$machine = json_decode($arrData["maquina"]);
+		}
+
 		$this->db->select();
-		$this->db->where('fk_id_machine', $arrData["maquina"]);
+
+		$where = "fk_id_machine IN ($machine)";
+		$this->db->where($where);
+		//$this->db->where('fk_id_machine', $arrData["maquina"]);
 		$this->db->where('date_inspection', $arrData["fecha"]);
 
 		$query = $this->db->get("inspection_total");

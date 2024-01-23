@@ -204,7 +204,7 @@ class Admin_model extends CI_Model
 	public function get_material_with_shop()
 	{
 		$this->db->select('P.*,
-						(SELECT GROUP_CONCAT(V.shop_name, " -----> ", DATE_FORMAT(E.date,"%M %d %Y") SEPARATOR "<br>") 
+						(SELECT GROUP_CONCAT("<b>",V.shop_name,"</b>: Contact: ",V.shop_contact,", Email : ",V.shop_email,", Address : ",V.shop_address,", Shop : ", DATE_FORMAT(E.date,"%M %d %Y") SEPARATOR "<br>") 
 						FROM material_shop E
 						JOIN param_shop V ON V.id_shop = E.fk_id_shop
  						WHERE E.fk_id_material = P.id_material

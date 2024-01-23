@@ -24,14 +24,15 @@ $(document).ready(function () {
 	$('#jobName').change(function () {
 		var planning = $('#jobName option:selected').data('planning');
 
-		console.log('planning', planning)
-
 		if (planning == 1) {
 			$(".date_range").css("display", "block");
 			$('#job_planning').val(1);
 		}else{
 			$(".date_range").css("display", "none");
 			$('#job_planning').val(2);
+			$('#flag_date').val(1);
+			$('.period-fields').css("display", "none");
+			$('.date-fields').css("display", "block");
 		}
     });
 

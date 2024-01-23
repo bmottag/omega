@@ -24,6 +24,7 @@ class Programming extends CI_Controller
 		$data['idProgramming'] = $idProgramming;
 		$data['workersList'] = FALSE;
 		$data['dayoffList'] = FALSE;
+		$data['programmingMaterials'] = FALSE;
 
 		//si envio el id, entonces busco la informacion 
 		if ($idProgramming != 'x') {
@@ -60,6 +61,8 @@ class Programming extends CI_Controller
 				"id" => $id_job
 			);
 			$data['job_planning'] = $this->general_model->get_basic_search($arrParam)[0]['planning_message'];
+			$arrParam = array("idProgramming" => $idProgramming);
+			$data['programmingMaterials'] = $this->programming_model->get_programming_materials($arrParam); //material list
 		} else {
 			$arrParam = array("estado" => "ACTIVAS");
 			$data['information'] = $this->general_model->get_programming($arrParam); //info solicitudes
@@ -388,9 +391,9 @@ class Programming extends CI_Controller
 		$data['idProgramming'] = $idProgramming;
 
 		$arrParam = array(
-						"idProgramming" => $idProgramming,
-						"forTextMessague" => true
-					);
+			"idProgramming" => $idProgramming,
+			"forTextMessague" => true
+		);
 		$data['information'] = $this->general_model->get_programming($arrParam); //info programacion
 
 		//lista de trabajadores para esta programacion
@@ -1412,5 +1415,95 @@ class Programming extends CI_Controller
 			$data["result"] = "error";
 		}
 		echo json_encode($data);
+	}
+
+	/**
+	 * Cargo modal- formulario de captura Material
+	 * @since 20/1/2024
+	 */
+	public function loadModalMaterials()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$idProgramming = $this->input->post("idProgramming");
+		//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
+		$porciones = explode("-", $idProgramming);
+		$data["idProgramming"] = $porciones[1];
+
+		//workers list
+		$this->load->model("general_model");
+		$arrParam = array(
+			"table" => "param_material_type",
+			"order" => "material",
+			"id" => "x"
+		);
+		$data['materialList'] = $this->general_model->get_basic_search($arrParam); //worker´s list
+
+		$this->load->view("modal_material", $data);
+	}
+
+	/**
+	 * Save material
+	 * @since 20/1/2024
+	 * @author BMOTTAG
+	 */
+	public function save_material()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$data["idRecord"] = $this->input->post('hddidProgramming');
+
+		if ($this->programming_model->saveMaterial()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		$data["controller"] = "index";
+
+		echo json_encode($data);
+	}
+
+	/**
+	 * Delete workorder record
+	 */
+	public function deleteMaterial($idProgrammingMaterial, $fk_id_programming)
+	{
+		if (empty($idProgrammingMaterial) || empty($fk_id_programming)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+		$arrParam = array(
+			"table" => "programming_material",
+			"primaryKey" => "id_programming_material",
+			"id" => $idProgrammingMaterial
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) {
+
+			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong> Materials </strong> table.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect(base_url('programming/index/' . $fk_id_programming), 'refresh');
+	}
+
+	public function updated_material()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		if ($this->programming_model->updatedMaterial()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		$hddidProgramming = $this->input->post('hddidProgramming');
+		redirect(base_url('programming/index/' . $hddidProgramming), 'refresh');
 	}
 }
