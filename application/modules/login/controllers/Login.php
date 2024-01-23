@@ -48,7 +48,9 @@ class Login extends CI_Controller {
 			$login = $this->security->xss_clean($this->input->post("inputLogin"));
 			$passwd = $this->security->xss_clean($this->input->post("inputPassword"));
 			$data['idVehicle'] = $this->input->post("hddId");
-			$data['inspectionType'] = $this->input->post("hddInpectionType");			
+			$data['inspectionType'] = $this->input->post("hddInpectionType");	
+			$data['moduleInfo'] = 'x';
+			$data['idModule'] = 'x';		
 			$this->load->model("general_model");
 			
 			//busco informacion del vehiculo si existe
