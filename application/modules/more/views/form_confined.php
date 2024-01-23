@@ -58,7 +58,7 @@ if($userRol==99){
 						if($information){
 								echo $information[0]["date_confined"]; 
 								
-								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand Confined Entry Permit Form: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download Confined Entry Permit Form: </strong>";
 						?>
 <a href='<?php echo base_url('more/generaConfinedPDF/' . $information[0]["id_job_confined"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 

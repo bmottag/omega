@@ -2,6 +2,11 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/report.js"); ?>"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
 
         <div id="page-wrapper">
 
@@ -38,7 +43,7 @@
 										<div class="form-group">
 											<div class="col-sm-5 col-sm-offset-1">
 												<label for="from">Employee <small>(This field is NOT required.)</small></label>
-												<select name="employee" id="employee" class="form-control" >
+												<select name="employee" id="employee" class="form-control js-example-basic-single" >
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 														<option value="<?php echo $workersList[$i]["id_user"]; ?>"><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
@@ -91,7 +96,7 @@
 										<div class="form-group">
 											<div class="col-sm-5 col-sm-offset-1">
 												<label for="from">Hauling done by <small>(This field is NOT required.)</small></label>
-												<select name="company" id="company" class="form-control" >
+												<select name="company" id="company" class="form-control js-example-basic-single" >
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($companyList); $i++) { ?>
 														<option value="<?php echo $companyList[$i]["id_company"]; ?>" ><?php echo $companyList[$i]["company_name"]; ?></option>	
@@ -101,7 +106,7 @@
 									<?php if($materialList){ ?>		
 											<div class="col-sm-5">
 												<label for="material">Material <small class="danger">(This field is NOT required.)</small></label>
-												<select name="material" id="material" class="form-control" >
+												<select name="material" id="material" class="form-control js-example-basic-single" >
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($materialList); $i++) { ?>
 														<option value="<?php echo $materialList[$i]["id_material"]; ?>" ><?php echo $materialList[$i]["material"]; ?></option>	
@@ -118,7 +123,7 @@
 										<div class="form-group">
 											<div class="col-sm-5 col-sm-offset-1">
 												<label for="from">Job Code/Name <small>(This field is NOT required.)</small></label>
-												<select name="jobName" id="jobName" class="form-control" >
+												<select name="jobName" id="jobName" class="form-control js-example-basic-single" >
 													<option value=''>Select...</option>
 													<?php for ($i = 0; $i < count($jobList); $i++) { ?>
 														<option value="<?php echo $jobList[$i]["id_job"]; ?>" ><?php echo $jobList[$i]["job_description"]; ?></option>	

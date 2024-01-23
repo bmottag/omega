@@ -12,11 +12,11 @@
 					<div class="alert alert-danger">
 						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $information?$information[0]["job_description"]:""; ?>
-						<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand Excavation and Trenching Plan: </strong>
+						<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download Excavation and Trenching Plan: </strong>
 						<a href='<?php echo base_url('jobs/generaExcavationPDF/' . $information[0]["id_job_excavation"] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						
 						<?php if($information[0]["fk_id_confined"]){ ?>
-						 	<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand Confined Space Entry Permit: </strong>
+						 	<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download Confined Space Entry Permit: </strong>
 							<a href='<?php echo base_url('more/generaConfinedPDF/' . $information[0]["fk_id_confined"] ); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php } ?>
 						<?php if($information[0]["method_system_doc"]){ ?>

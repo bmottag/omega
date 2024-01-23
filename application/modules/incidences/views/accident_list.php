@@ -38,7 +38,7 @@
 								<th>Brief explanation</th>
 								<th>Date of accident</th>
 								<th>Edit</th>
-								<th>Dowloand</th>
+								<th>Download</th>
 							</tr>
 						</thead>
 						<tbody>							

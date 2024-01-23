@@ -29,7 +29,7 @@
 							<strong>From Date: </strong><?php echo $from; ?> 
 							<strong>To Date: </strong><?php echo $to; ?>
 <?php if($info){ ?>
-							<br><strong>Dowloand to: </strong>
+							<br><strong>Download to: </strong>
 							
 <a href='<?php echo base_url('report/generaWorkOrderXLS/' . $jobId. '/' . $from . '/' . $to ); ?>'>Excel <img src='<?php echo base_url_images('xls.png'); ?>' ></a>	
 				 

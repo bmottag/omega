@@ -31,25 +31,25 @@
 								<strong>From Date: </strong><?php echo $from; ?> 
 								<strong>To Date: </strong><?php echo $to; ?> 
 	<?php if($infoWaterTruck){ ?>
-								<br><strong>Dowloand Water-Truck Report: </strong>
+								<br><strong>Download Water-Truck Report: </strong>
 								
 	<a href='<?php echo base_url('report/generaInsectionSpecialPDF/' . $employee . '/' . $vehicleId . '/' . $from . '/' . $to . '/watertruck'); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 					 
 	<?php } ?>
 	<?php if($infoHydrovac){ ?>
-								<br><strong>Dowloand Hydro-Vac Report: </strong>
+								<br><strong>Download Hydro-Vac Report: </strong>
 								
 	<a href='<?php echo base_url('report/generaInsectionSpecialPDF/' . $employee . '/' . $vehicleId . '/' . $from . '/' . $to . '/hydrovac'); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 					 
 	<?php } ?>
 	<?php if($infoSweeper){ ?>
-								<br><strong>Dowloand Sweeper Report: </strong>
+								<br><strong>Download Sweeper Report: </strong>
 								
 	<a href='<?php echo base_url('report/generaInsectionSpecialPDF/' . $employee . '/' . $vehicleId . '/' . $from . '/' . $to . '/sweeper'); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 					 
 	<?php } ?>
 	<?php if($infoGenerator){ ?>
-								<br><strong>Dowloand Generator Report: </strong>
+								<br><strong>Download Generator Report: </strong>
 								
 	<a href='<?php echo base_url('report/generaInsectionSpecialPDF/' . $employee . '/' . $vehicleId . '/' . $from . '/' . $to . '/generator'); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 					 

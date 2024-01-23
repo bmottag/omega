@@ -28,7 +28,7 @@
 						if($information){
 								echo $information[0]["date_erp"]; 
 								
-								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand ERP: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download ERP: </strong>";
 						?>
 <a href='<?php echo base_url('jobs/generaERPPDF/' . $information[0]["id_erp"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>
 						<?php 

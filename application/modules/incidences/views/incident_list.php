@@ -26,7 +26,7 @@
 								<th>Incident date</th>
 								<th>What happened?</th>
 								<th>Edit</th>
-								<th>Dowloand</th>
+								<th>Download</th>
 							</tr>
 						</thead>
 						<tbody>							
