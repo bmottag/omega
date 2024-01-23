@@ -209,8 +209,9 @@
 							}
 						$html.='</tr>';
 						
-						$html.='<tr>
-								<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>ENGINE SWEEPER  </strong></th>';
+						$html.='<tr>';
+						$html .= '<th align="center"><strong>DEF Level:</strong></th>';
+						$html .= '<th colspan="2" align="center"><strong>' . $info[$consecutivo]["def"] . ' %</strong></th>';
 
 						$html.='<th align="center"><strong>Left and Right Rotors</strong></th>';
 							if($info[$consecutivo]["lf_rotor"] == 1){
@@ -226,27 +227,17 @@
 						$html.='</tr>';
 												
 						$html.='<tr>
-								<th align="center"><strong>Belts/Hoses</strong></th>';
-							if($info[$consecutivo]["belt_sweeper"] == 1){
-								$html.= '<th align="center"><strong>Y</strong></th>
-										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["belt_sweeper"] == 0){
-								$html.='<th align="center"><strong></strong></th>
-										 <th align="center"><strong>X</strong></th>';					
-							}else{
-								$html.='<th align="center"><strong>N/A</strong></th>
-										 <th align="center"><strong>N/A</strong></th>';													
-							}
+								<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>ENGINE SWEEPER  </strong></th>';
 					
 						$html.='<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>SWEEPER  </strong></th>';
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Oil Level</strong></th>';
-							if($info[$consecutivo]["oil_level_sweeper"] == 1){
+								<th align="center"><strong>Belts/Hoses</strong></th>';
+							if($info[$consecutivo]["belt_sweeper"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["oil_level_sweeper"] == 0){
+							}elseif($info[$consecutivo]["belt_sweeper"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -268,11 +259,11 @@
 						$html.='</tr>';
 												
 						$html.='<tr>
-								<th align="center"><strong>Coolant Level</strong></th>';
-							if($info[$consecutivo]["coolant_level_sweeper"] == 1){
+								<th align="center"><strong>Oil Level</strong></th>';
+							if($info[$consecutivo]["oil_level_sweeper"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["coolant_level_sweeper"] == 0){
+							}elseif($info[$consecutivo]["oil_level_sweeper"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -294,11 +285,11 @@
 						$html.='</tr>';
 											
 						$html.='<tr>
-								<th align="center"><strong>Coolant/Oil Leaks</strong></th>';
-							if($info[$consecutivo]["coolant_leaks_sweeper"] == 1){
+								<th align="center"><strong>Coolant Level</strong></th>';
+							if($info[$consecutivo]["coolant_level_sweeper"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["coolant_leaks_sweeper"] == 0){
+							}elseif($info[$consecutivo]["coolant_level_sweeper"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -320,7 +311,17 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>LIGHTS </strong></th>';
+								<th align="center"><strong>Coolant/Oil Leaks</strong></th>';
+							if($info[$consecutivo]["coolant_leaks_sweeper"] == 1){
+								$html.= '<th align="center"><strong>Y</strong></th>
+										 <th align="center"><strong></strong></th>';
+							}elseif($info[$consecutivo]["coolant_leaks_sweeper"] == 0){
+								$html.='<th align="center"><strong></strong></th>
+										 <th align="center"><strong>X</strong></th>';					
+							}else{
+								$html.='<th align="center"><strong>N/A</strong></th>
+										 <th align="center"><strong>N/A</strong></th>';													
+							}
 								
 						$html.='<th align="center"><strong>Right broom</strong></th>';
 							if($info[$consecutivo]["right_broom"] == 1){
@@ -336,17 +337,7 @@
 						$html.='</tr>';						
 						
 						$html.='<tr>
-								<th align="center"><strong>Head Lamps</strong></th>';
-							if($info[$consecutivo]["head_lamps"] == 1){
-								$html.= '<th align="center"><strong>Y</strong></th>
-										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["head_lamps"] == 0){
-								$html.='<th align="center"><strong></strong></th>
-										 <th align="center"><strong>X</strong></th>';					
-							}else{
-								$html.='<th align="center"><strong>N/A</strong></th>
-										 <th align="center"><strong>N/A</strong></th>';													
-							}
+								<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>LIGHTS </strong></th>';
 					
 						$html.='<th align="center"><strong>Left broom</strong></th>';
 							if($info[$consecutivo]["left_broom"] == 1){
@@ -362,11 +353,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Hazard lights</strong></th>';
-							if($info[$consecutivo]["hazard_lights"] == 1){
+								<th align="center"><strong>Head Lamps</strong></th>';
+							if($info[$consecutivo]["head_lamps"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["hazard_lights"] == 0){
+							}elseif($info[$consecutivo]["head_lamps"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -388,11 +379,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Clearance lights </strong></th>';
-							if($info[$consecutivo]["clearance_lights"] == 1){
+								<th align="center"><strong>Hazard lights</strong></th>';
+							if($info[$consecutivo]["hazard_lights"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["clearance_lights"] == 0){
+							}elseif($info[$consecutivo]["hazard_lights"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -414,11 +405,11 @@
 						$html.='</tr>';
 																		
 						$html.='<tr>
-								<th align="center"><strong>Tail Lights </strong></th>';
-							if($info[$consecutivo]["tail_lights"] == 1){
+								<th align="center"><strong>Clearance lights </strong></th>';
+							if($info[$consecutivo]["clearance_lights"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["tail_lights"] == 0){
+							}elseif($info[$consecutivo]["clearance_lights"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -440,11 +431,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Work Lights </strong></th>';
-							if($info[$consecutivo]["work_lights"] == 1){
+								<th align="center"><strong>Tail Lights </strong></th>';
+							if($info[$consecutivo]["tail_lights"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["work_lights"] == 0){
+							}elseif($info[$consecutivo]["tail_lights"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -466,11 +457,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Turn signal lights</strong></th>';
-							if($info[$consecutivo]["turn_signals"] == 1){
+								<th align="center"><strong>Work Lights </strong></th>';
+							if($info[$consecutivo]["work_lights"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["turn_signals"] == 0){
+							}elseif($info[$consecutivo]["work_lights"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -482,11 +473,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Beacon Light</strong></th>';
-							if($info[$consecutivo]["beacon_lights"] == 1){
+								<th align="center"><strong>Turn signal lights</strong></th>';
+							if($info[$consecutivo]["turn_signals"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["beacon_lights"] == 0){
+							}elseif($info[$consecutivo]["turn_signals"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -508,7 +499,17 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>SERVICE  </strong></th>';
+								<th align="center"><strong>Beacon Light</strong></th>';
+							if($info[$consecutivo]["beacon_lights"] == 1){
+								$html.= '<th align="center"><strong>Y</strong></th>
+										 <th align="center"><strong></strong></th>';
+							}elseif($info[$consecutivo]["beacon_lights"] == 0){
+								$html.='<th align="center"><strong></strong></th>
+										 <th align="center"><strong>X</strong></th>';					
+							}else{
+								$html.='<th align="center"><strong>N/A</strong></th>
+										 <th align="center"><strong>N/A</strong></th>';													
+							}
 					
 						$html.='<th align="center"><strong>Glass (All) & Mirror(s) </strong></th>';
 							if($info[$consecutivo]["windows"] == 1){
@@ -525,17 +526,7 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Brake Pedal</strong></th>';
-							if($info[$consecutivo]["brake"] == 1){
-								$html.= '<th align="center"><strong>Y</strong></th>
-										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["brake"] == 0){
-								$html.='<th align="center"><strong></strong></th>
-										 <th align="center"><strong>X</strong></th>';					
-							}else{
-								$html.='<th align="center"><strong>N/A</strong></th>
-										 <th align="center"><strong>N/A</strong></th>';													
-							}
+								<th bgcolor="#337ab7" style="color:white;" align="center" colspan="3"><strong>SERVICE  </strong></th>';
 					
 						$html.='<th align="center"><strong>Clean Exterior </strong></th>';
 							if($info[$consecutivo]["clean_exterior"] == 1){
@@ -551,11 +542,11 @@
 						$html.='</tr>';
 													 
 						$html.='<tr>
-								<th align="center"><strong>Emergency Brake</strong></th>';
-							if($info[$consecutivo]["emergency_brake"] == 1){
+								<th align="center"><strong>Brake Pedal</strong></th>';
+							if($info[$consecutivo]["brake"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["emergency_brake"] == 0){
+							}elseif($info[$consecutivo]["brake"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -577,11 +568,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Gauges: Volt / Fuel / Temp / Oil</strong></th>';
-							if($info[$consecutivo]["gauges"] == 1){
+								<th align="center"><strong>Emergency Brake</strong></th>';
+							if($info[$consecutivo]["emergency_brake"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["gauges"] == 0){
+							}elseif($info[$consecutivo]["emergency_brake"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -603,11 +594,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Electrical & Air Horn </strong></th>';
-							if($info[$consecutivo]["horn"] == 1){
+								<th align="center"><strong>Gauges: Volt / Fuel / Temp / Oil</strong></th>';
+							if($info[$consecutivo]["gauges"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["horn"] == 0){
+							}elseif($info[$consecutivo]["gauges"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -629,11 +620,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Seatbelts</strong></th>';
-							if($info[$consecutivo]["seatbelt"] == 1){
+								<th align="center"><strong>Electrical & Air Horn </strong></th>';
+							if($info[$consecutivo]["horn"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["seatbelt"] == 0){
+							}elseif($info[$consecutivo]["horn"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -655,11 +646,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Driver & Passenger Seat</strong></th>';
-							if($info[$consecutivo]["seat"] == 1){
+								<th align="center"><strong>Seatbelts</strong></th>';
+							if($info[$consecutivo]["seatbelt"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["seat"] == 0){
+							}elseif($info[$consecutivo]["seatbelt"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -672,11 +663,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Insurance information</strong></th>';
-							if($info[$consecutivo]["insurance"] == 1){
+								<th align="center"><strong>Driver & Passenger Seat</strong></th>';
+							if($info[$consecutivo]["seat"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["insurance"] == 0){
+							}elseif($info[$consecutivo]["seat"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -698,11 +689,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Registration</strong></th>';
-							if($info[$consecutivo]["registration"] == 1){
+								<th align="center"><strong>Insurance information</strong></th>';
+							if($info[$consecutivo]["insurance"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["registration"] == 0){
+							}elseif($info[$consecutivo]["insurance"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -724,11 +715,11 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center"><strong>Clean Interior</strong></th>';
-							if($info[$consecutivo]["clean_interior"] == 1){
+								<th align="center"><strong>Registration</strong></th>';
+							if($info[$consecutivo]["registration"] == 1){
 								$html.= '<th align="center"><strong>Y</strong></th>
 										 <th align="center"><strong></strong></th>';
-							}elseif($info[$consecutivo]["clean_interior"] == 0){
+							}elseif($info[$consecutivo]["registration"] == 0){
 								$html.='<th align="center"><strong></strong></th>
 										 <th align="center"><strong>X</strong></th>';					
 							}else{
@@ -750,7 +741,17 @@
 						$html.='</tr>';
 						
 						$html.='<tr>
-								<th align="center" colspan="3"><strong></strong></th>';
+								<th align="center"><strong>Clean Interior</strong></th>';
+							if($info[$consecutivo]["clean_interior"] == 1){
+								$html.= '<th align="center"><strong>Y</strong></th>
+										 <th align="center"><strong></strong></th>';
+							}elseif($info[$consecutivo]["clean_interior"] == 0){
+								$html.='<th align="center"><strong></strong></th>
+										 <th align="center"><strong>X</strong></th>';					
+							}else{
+								$html.='<th align="center"><strong>N/A</strong></th>
+										 <th align="center"><strong>N/A</strong></th>';													
+							}
 					
 						$html.='<th align="center"><strong>Spill Kit </strong></th>';
 							if($info[$consecutivo]["spill_kit"] == 1){
