@@ -226,7 +226,7 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="company">VCI or Subcontractor</label>
 								<div class="col-sm-5">
-									<select name="CompanyType" id="CompanyType" class="form-control js-example-basic-single" required>
+									<select name="CompanyType" id="CompanyType" class="form-control" required>
 										<option value="">Select...</option>
 										<option value=1 <?php if ($information && $information["company_type"] == 1) {
 															echo "selected";

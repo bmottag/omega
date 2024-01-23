@@ -17,8 +17,8 @@
 					</div>
 
 					<div>
-						<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]['id_job']; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add info Bitacora
+						<button type="button" class="btn btn-violeta btn-block btn-notification" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]['id_job']; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Notification
 						</button>
 					</div>
 
@@ -26,19 +26,22 @@
 					<?php
 					if ($bitacora) {
 					?>
-						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 							<thead>
+								<tr class="headings">
+									<th class="column-title" colspan="3">-- Notifications --</th>
+								</tr>
 								<tr>
-									<th class='text-center'>User</th>
-									<th class='text-center'>Date Bitacora</th>
-									<th class='text-center'>Notification</th>
+									<th>User</th>
+									<th class='text-center'>Date Issue</th>
+									<th>Notification</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								foreach ($bitacora as $list) :
 									echo "<tr>";
-									echo "<td class='text-center'>" . $list['first_name'] . " " .  $list['last_name']  . "</td>";
+									echo "<td>" . $list['first_name'] . " " .  $list['last_name']  . "</td>";
 									echo "<td class='text-center'>" . $list['date_bitacora'] . "</td>";
 									echo "<td>" . $list['notification'] . "</td>";
 									echo "</tr>";
@@ -52,8 +55,11 @@
 					<?php
 					if ($workOrderInfo) {
 					?>
-						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 							<thead>
+								<tr class="headings">
+									<th class="column-title" colspan="3">-- Work Orders Descriptions --</th>
+								</tr>
 								<tr>
 									<th class='text-center'>W.O. #</th>
 									<th class='text-center'>Date W.O.</th>
@@ -107,7 +113,7 @@
 	});
 
 	$(function() {
-		$(".btn-success").click(function() {
+		$(".btn-notification").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
