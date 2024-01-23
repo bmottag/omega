@@ -1,57 +1,41 @@
 <script>
-$(function(){ 
-	$(".btn-success").click(function () {	
-			var oID = $(this).attr("id");
-            $.ajax ({
-                type: 'POST',
-				url: base_url + '/admin/cargarModalJob',
-                data: {'idJob': oID},
-                cache: false,
-                success: function (data) {
-                    $('#tablaDatos').html(data);
-                }
-            });
-	});	
-});
+	$(function(){ 
+		$(".btn-success").click(function () {	
+				var oID = $(this).attr("id");
+				$.ajax ({
+					type: 'POST',
+					url: base_url + '/admin/cargarModalJob',
+					data: {'idJob': oID},
+					cache: false,
+					success: function (data) {
+						$('#tablaDatos').html(data);
+					}
+				});
+		});	
+	});
 
-function seleccionar_todo(){
-   for (i=0;i<document.jobs_state.elements.length;i++)
-      if(document.jobs_state.elements[i].type == "checkbox")
-         document.jobs_state.elements[i].checked=1
-} 
-
-
-function deseleccionar_todo(){
-   for (i=0;i<document.jobs_state.elements.length;i++)
-      if(document.jobs_state.elements[i].type == "checkbox")
-         document.jobs_state.elements[i].checked=0
-} 
+	function seleccionar_todo(){
+	for (i=0;i<document.jobs_state.elements.length;i++)
+		if(document.jobs_state.elements[i].type == "checkbox")
+			document.jobs_state.elements[i].checked=1
+	} 
 
 
-
+	function deseleccionar_todo(){
+	for (i=0;i<document.jobs_state.elements.length;i++)
+		if(document.jobs_state.elements[i].type == "checkbox")
+			document.jobs_state.elements[i].checked=0
+	} 
 </script>
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - JOB CODE/NAME
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
-	
-	<!-- /.row -->
+
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-briefcase"></i> JOB CODE/NAME LIST
+					<i class="fa fa-briefcase"></i> SETTINGS - JOB CODE/NAME LIST
 				</div>
 				<div class="panel-body">
 				
@@ -108,13 +92,14 @@ if ($retornoError) {
 
 
 				
-					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+					<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 						<thead>
 							<tr>
 								<th class="text-center">Job Code/Name</th>
 								<th class="text-center">Markup (%)</th>
 								<th class="text-center">Profit (%)</th>
 								<th class="text-center">Notes</th>
+								<th class="text-center">Automatic Planning Message</th>
 								<th class="text-center">Status 
 
 <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
@@ -132,7 +117,20 @@ if ($retornoError) {
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td class='text-center'>" . $lista['markup'] . " %</td>";
 									echo "<td class='text-center'>" . $lista['profit'] . " %</td>";
-									echo "<td ><small>" . $lista['notes'] . "</small></td>";
+									echo "<td >" . $lista['notes'] . "</td>";
+									echo "<td class='text-center'>";
+									switch ($lista['planning_message']) {
+										case 1:
+											$valor = 'Yes';
+											$clase = "text-success";
+											break;
+										case 2:
+											$valor = 'No';
+											$clase = "text-danger";
+											break;
+									}
+									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+									echo "</td>";
 									echo "<td class='text-center'>";
 									switch ($lista['state']) {
 										case 1:
@@ -210,18 +208,13 @@ if ($retornoError) {
 					
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
-<!--INICIO Modal para adicionar HAZARDS -->
+<!--INICIO Modal para adicionar -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
 	<div class="modal-dialog" role="document">
 		<div class="modal-content" id="tablaDatos">
@@ -229,7 +222,7 @@ if ($retornoError) {
 		</div>
 	</div>
 </div>                       
-<!--FIN Modal para adicionar HAZARDS -->
+<!--FIN Modal para adicionar -->
 
 <!-- Tables -->
 <script>
