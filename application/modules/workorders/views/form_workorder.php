@@ -3,6 +3,11 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
 
 <script>
 $(function(){ 
@@ -217,7 +222,7 @@ if ($retornoError) {
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="taskDescription">Job Code/Name :</label>
 									<div class="col-sm-5">
-										<select name="jobName" id="jobName" class="form-control" <?php echo $deshabilitar; ?>>
+										<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 												<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
