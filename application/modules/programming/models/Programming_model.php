@@ -404,4 +404,27 @@ class Programming_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function add_workorder($arrDatos)
+	{
+		$data = array(
+			'fk_id_job' => $arrDatos["idJob"],
+			'date' => $arrDatos["date"],
+			'fk_id_user' => $arrDatos["idUser"],
+			'date_issue' => date("Y-m-d G:i:s"),
+			'state' => 0,
+			'last_message' => 'A new Work Order was created from the Planning',
+			'observation' =>  $arrDatos["observation"]
+		);
+
+		$query = $this->db->insert('workorder', $data);
+		$idWorkorder = $this->db->insert_id();
+
+		if ($query) {
+			return $idWorkorder;
+		} else {
+			return false;
+		}
+	}
+
 }

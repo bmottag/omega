@@ -54,7 +54,7 @@ $(function(){
 						if($information){
 								echo $information[0]["date_tool_box"]; 
 								
-								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand Tool Box: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download Tool Box: </strong>";
 						?>
 <a href='<?php echo base_url('jobs/generaTemplatePDF/' . $information[0]["id_tool_box"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 

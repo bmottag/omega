@@ -81,13 +81,13 @@ $(document).ready(function () {
 		}
 	});
 
-	$(".btn-danger").click(function () {
+	$(".btn-delete-programming").click(function () {
 			var oID = $(this).attr("id");
 
 			//Activa icono guardando
-			if(window.confirm('Are you sure to delete the programming?'))
+			if(window.confirm('Are you sure you want to delete the Planning ?'))
 			{
-					$(".btn-danger").attr('disabled','-1');
+					$(".btn-delete-programming").attr('disabled','-1');
 					$.ajax ({
 						type: 'POST',
 						url: base_url + 'programming/delete_programming',
@@ -98,13 +98,13 @@ $(document).ready(function () {
 							if( data.result == "error" )
 							{
 								alert(data.mensaje);
-								$(".btn-danger").removeAttr('disabled');
+								$(".btn-delete-programming").removeAttr('disabled');
 								return false;
 							}
 
 							if( data.result )//true
 							{
-								$(".btn-danger").removeAttr('disabled');
+								$(".btn-delete-programming").removeAttr('disabled');
 
 								var url = base_url + "programming";
 								$(location).attr("href", url);
@@ -112,12 +112,12 @@ $(document).ready(function () {
 							else
 							{
 								alert('Error. Reload the web page.');
-								$(".btn-danger").removeAttr('disabled');
+								$(".btn-delete-programming").removeAttr('disabled');
 							}
 						},
 						error: function(result) {
 							alert('Error. Reload the web page.');
-							$(".btn-danger").removeAttr('disabled');
+							$(".btn-delete-programmingr").removeAttr('disabled');
 						}
 
 					});
@@ -226,4 +226,47 @@ $(document).ready(function () {
 				});
 		}
 	});
+
+	$(".btn-create-workorder").click(function () {
+		var oID = $(this).attr("id");
+
+		//Activa icono guardando
+		if(window.confirm('Do you want to create the Work Order ?'))
+		{
+				$(".btn-create-workorder").attr('disabled','-1');
+				$.ajax ({
+					type: 'POST',
+					url: base_url + 'programming/create_work_order',
+					data: {'identificador': oID},
+					cache: false,
+					success: function(data){
+
+						if( data.result == "error" )
+						{
+							alert(data.mensaje);
+							$(".btn-create-workorder").removeAttr('disabled');
+							return false;
+						}
+
+						if( data.result )//true
+						{
+							$(".btn-create-workorder").removeAttr('disabled');
+
+							var url = base_url + "programming/index/" + data.idProgramming;
+							$(location).attr("href", url);
+						}
+						else
+						{
+							alert('Error. Reload the web page.');
+							$(".btn-create-workorder").removeAttr('disabled');
+						}
+					},
+					error: function(result) {
+						alert('Error. Reload the web page.');
+						$(".btn-create-workorder").removeAttr('disabled');
+					}
+
+				});
+		}
+});
 });

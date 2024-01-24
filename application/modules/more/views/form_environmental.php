@@ -22,7 +22,7 @@
 								echo "<br><strong>Date review: </strong>";
 								echo $information[0]["date_environmental"]; 
 								
-								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Dowloand ESI: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download ESI: </strong>";
 						?>
 <a href='<?php echo base_url('more/generaEnvironmentalPDF/' . $jobInfo[0]['id_job'] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 

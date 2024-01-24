@@ -30,7 +30,7 @@
 							<strong>To Date: </strong><?php echo $to; ?> 
 							
 <?php if($info){ ?>
-							<br><strong>Dowloand to: </strong>
+							<br><strong>Download to: </strong>
 							
 <a href='<?php echo base_url('report/generaSafetyPDF/' . $jobId. '/' . $from . '/' . $to ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 				 

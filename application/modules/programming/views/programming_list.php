@@ -72,7 +72,7 @@
 									<th class='text-center'>Date</th>
 									<th class='text-center'>Job Code/Name</th>
 									<th class='text-center'>Observation</th>
-									<th class='text-center'>Links</th>
+									<th class='text-center'>Action</th>
 									<th class='text-center'>Done by</th>
 								</tr>
 							</thead>
@@ -123,12 +123,16 @@
 												<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalWorker" id="x">
 													<i class="fa fa-user"></i>
 												</button>
+
+												<button type="button" class="btn btn-violeta btn-xs btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials" >
+													<i class="fa fa-tint"></i>
+												</button>
 											<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
 												<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
 											<?php } ?>
 
 
-											<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs' title="Delete">
+											<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs btn-delete-programming' title="Delete">
 												<i class="fa fa-trash-o"></i>
 											</button>
 
@@ -154,6 +158,10 @@
 
 									?>
 										<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
+
+										<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-info btn-xs btn-create-workorder' title="Crete Work Order">
+											<i class="fa fa-money"></i>
+										</button>
 								<?php
 									}
 									echo "</td>";
@@ -277,7 +285,7 @@
 										<th class="column-title text-center" style="width: 21%"><small>Description</small></th>
 										<th class="column-title text-center" style="width: 22%"><small>Equipment</small></th>
 										<th class="column-title text-center" style="width: 9%"><small>Creat WO</small></th>
-										<th class="column-title text-center" style="width: 9%"><small>Links</small></th>
+										<th class="column-title text-center" style="width: 9%"><small>Action</small></th>
 									</tr>
 								</thead>
 
@@ -484,27 +492,20 @@
 				</div>
 
 				<!--INICIO MATERIALS -->
-				<div class="panel-body">
-					<?php if (!$deshabilitar) { ?>
-						<div class="col-lg-12">
-
-							<button type="button" class="btn btn-success btn-block  btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
-																																							?>">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials VCI
-							</button><br>
-						</div>
-					<?php } ?>
-
-					<?php
+				<?php
 					if ($programmingMaterials) {
-					?>
-						<table class="table table-bordered table-striped table-hover table-condensed">
+				?>
+					<div class="panel-body">
+						<table class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
+							<tr class="headings">
+								<th class="column-title" colspan="5">-- MATERIALS --</th>
+							</tr>
 							<tr class="success">
-								<th class="text-center">Info. Material</th>
-								<th class="text-center">Description</th>
-								<th class="text-center">Quantity</th>
-								<th class="text-center">Unit</th>
-								<th class="text-center">Links</th>
+								<th >Info. Material</th>
+								<th >Description</th>
+								<th >Quantity</th>
+								<th >Unit</th>
+								<th class="text-center">Action</th>
 							</tr>
 							<?php
 							foreach ($programmingMaterials as $data) :
@@ -550,18 +551,13 @@
 							endforeach;
 							?>
 						</table>
-					<?php } ?>
-				</div>
+					</div>
+				<?php } ?>
 				<!--FIN MATERIALS -->
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 
 <!--INICIO Modal para adicionar WORKER -->
 <?php if ($workersList) { ?>
