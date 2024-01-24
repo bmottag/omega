@@ -1506,4 +1506,42 @@ class Programming extends CI_Controller
 		$hddidProgramming = $this->input->post('hddidProgramming');
 		redirect(base_url('programming/index/' . $hddidProgramming), 'refresh');
 	}
+
+	/**
+	 * Create work order form planning
+	 * @since 23/1/2023
+	 * @author BMOTTAG
+	 */
+	public function create_work_order()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$data["idProgramming"] = $this->input->post('identificador');
+
+		$arrParam = array("idProgramming" => $data["idProgramming"]);
+		$this->load->model("general_model");
+		$infoPlanning = $this->general_model->get_programming($arrParam); //info programacion
+		
+		//$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
+		//$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+		//$data['programmingMaterials'] = $this->programming_model->get_programming_materials($arrParam); //material list
+
+		$arrParam = array(
+			"idUser" => $infoPlanning[0]["fk_id_user"],
+			"idJob" => $infoPlanning[0]["fk_id_job"],
+			"date" => $infoPlanning[0]["date_programming"],
+			"observation" => $infoPlanning[0]["observation"],
+		);
+		if ($idWorkorder = $this->programming_model->add_workorder($arrParam)) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', 'You have added a new Work Order.');
+		} else {
+			$data["result"] = "error";
+			$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
 }

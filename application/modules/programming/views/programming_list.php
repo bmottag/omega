@@ -132,7 +132,7 @@
 											<?php } ?>
 
 
-											<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs' title="Delete">
+											<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs btn-delete-programming' title="Delete">
 												<i class="fa fa-trash-o"></i>
 											</button>
 
@@ -158,6 +158,10 @@
 
 									?>
 										<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
+
+										<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-info btn-xs btn-create-workorder' title="Crete Work Order">
+											<i class="fa fa-money"></i>
+										</button>
 								<?php
 									}
 									echo "</td>";
