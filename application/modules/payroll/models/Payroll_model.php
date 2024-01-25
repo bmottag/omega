@@ -109,6 +109,14 @@ class Payroll_model extends CI_Model
 		}
 		//FINISH hours calculation
 
+
+		//New cal hours
+		$init = new DateTime($fechaStart);
+		$end   = new DateTime($fechaCierre);
+
+		$newHours  = $init->diff($end)->format("%H:%I:%S");
+		//FINISH New cal hours
+
 		$idTask =  $this->input->post('hddIdentificador');
 		if ($adminUpdate == 'x') {
 			$idJob =  $this->input->post('jobName');
@@ -121,17 +129,17 @@ class Payroll_model extends CI_Model
 			$address =  addslashes($address);
 
 			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$newHours', regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 			$sql .= " WHERE id_task=$idTask";
 		} elseif ($adminUpdate == 2) {
 
 			$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
 			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$newHours', regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 			$sql .= " WHERE id_task=$id_task";
 		} else {
 			$sql = "UPDATE task";
-			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
+			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$newHours', regular_hours =  $regularHours, overtime_hours =  $overtimeHours";
 			$sql .= " WHERE id_task=$idTask";
 		}
 
@@ -576,7 +584,7 @@ class Payroll_model extends CI_Model
 		$this->db->select('T.*');
 		$this->db->join('service_order_time T', 'T.fk_id_service_order = S.id_service_order', 'LEFT');
 		$this->db->where('S.service_status', 'in_progress_so');
-		$this->db->where('S.fk_id_assign_to', $this->session->userdata("id"));
+		$this->db->where('S.fk_id_assign_to', 1);
 		$query = $this->db->get('service_order S');
 
 		if ($query->num_rows() > 0) {
