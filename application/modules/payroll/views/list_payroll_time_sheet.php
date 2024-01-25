@@ -86,7 +86,7 @@
 											echo "<td><small><strong>Start:</strong><br>" . $lista['address_start'] . "<br><strong>Finish:</strong><br>" . $lista['address_finish'] . "</small></td>";
 											echo "<td class='text-left'><small>" . $lista['task_description'] . "</small></td>";
 											echo "<td class='text-left'><small>" . $lista['observation'] . "</small></td>";
-											echo "<td class='text-right'><small>" . date("H:i", strtotime($lista['working_hours_new'])) . "</small></td>";
+											echo "<td class='text-right'><small>" . substr($lista['working_hours_new'], 0, 5) . "</small></td>";
 											echo "<td class='text-right'><small>" . $lista['regular_hours'] . "</small></td>";
 											echo "<td class='text-right'><small>" . $lista['overtime_hours'] . "</small></td>";
 											echo "</tr>";
