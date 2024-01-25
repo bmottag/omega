@@ -386,7 +386,7 @@
 									echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['start'] . "</td>";
 									echo "<td class='text-center'>" . $lista['finish'] . "</td>";
-									echo "<td class='text-right'>" . date("H:i", strtotime($lista['working_hours_new'])) . "</td>";
+									echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, 5)  . "</td>";
 									echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
 									echo "<td class='text-right'>" . $lista['address_start'] . "</td>";
 									echo "<td class='text-center'>" . $lista['job_finish'] . "</td>";

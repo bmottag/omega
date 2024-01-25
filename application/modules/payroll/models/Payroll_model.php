@@ -111,10 +111,13 @@ class Payroll_model extends CI_Model
 
 
 		//New cal hours
-		$init = new DateTime($fechaStart);
-		$end   = new DateTime($fechaCierre);
+		$init = $fechaStart;
+		$end = $fechaCierre;
+		$difference = abs(strtotime($init) - strtotime($end)) / 3600;
 
-		$newHours  = $init->diff($end)->format("%H:%I:%S");
+		$hours = floor($difference);
+		$minutes = round(($difference - $hours) * 60);
+		$newHours =  $hours . ':' . str_pad($minutes, 2, "0", STR_PAD_LEFT);
 		//FINISH New cal hours
 
 		$idTask =  $this->input->post('hddIdentificador');

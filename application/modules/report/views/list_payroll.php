@@ -109,7 +109,7 @@
 
 									echo "<td class='text-left'>" . $lista['task_description'] . "</td>";
 									echo "<td class='text-left'>" . $lista['observation'] . "</td>";
-									echo "<td class='text-right'>" . date("H:i", strtotime($lista['working_hours_new'])) . "</td>";
+									echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, 5) . "</td>";
 									$total = $lista['working_hours'] + $total;
 									echo "<td class='text-right'><strong>" . $total . "</strong></td>";
 									echo "</tr>";
