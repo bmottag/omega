@@ -253,7 +253,6 @@ class Hauling extends CI_Controller
 
 			$data["view"] = 'template/answer';
 			$this->load->view("layout", $data);
-			redirect("/hauling/add_hauling/", 'refresh');
 		} else {
 			$this->load->view('template/make_signature');
 		}
