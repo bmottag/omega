@@ -1525,15 +1525,50 @@ class Programming extends CI_Controller
 		
 		//$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 		//$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
-		//$data['programmingMaterials'] = $this->programming_model->get_programming_materials($arrParam); //material list
+		$data['programmingMaterials'] = $this->programming_model->get_programming_materials($arrParam); //material list
 
+		$message = "A new Work Order was created from the Planning.";
 		$arrParam = array(
 			"idUser" => $infoPlanning[0]["fk_id_user"],
 			"idJob" => $infoPlanning[0]["fk_id_job"],
 			"date" => $infoPlanning[0]["date_programming"],
 			"observation" => $infoPlanning[0]["observation"],
+			"message" => $message
 		);
-		if ($idWorkorder = $this->programming_model->add_workorder($arrParam)) {
+		if ($idWorkorder = $this->programming_model->add_workorder($arrParam))
+		{
+			//guardo el primer estado de la workorder
+			$arrParam = array(
+				"idUser" => $infoPlanning[0]["fk_id_user"],
+				"idWorkorder" => $idWorkorder,
+				"observation" => $message,
+				"state" => 0
+			);
+			$this->programming_model->add_workorder_state($arrParam);
+
+			//save material info
+			if ($data['programmingMaterials']) {
+				$columnas_mapeo = array(
+					'fk_id_material' => 'fk_id_material',
+					'quantity' => 'quantity',
+					'unit' => 'unit',
+					'description' => 'description',
+				);
+			
+				foreach ($data['programmingMaterials'] as $indice => $datos_indice) {
+					$datos_formateados = array();
+			
+					$datos_formateados["fk_id_workorder"] = $idWorkorder;
+					 foreach ($datos_indice as $columna => $valor) {
+						if (isset($columnas_mapeo[$columna])) {
+							$columna_destino = $columnas_mapeo[$columna];
+							$datos_formateados[$columna_destino] = $valor;
+						}
+					}
+					$this->programming_model->add_workorder_material($datos_formateados);
+				}
+			}
+
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', 'You have added a new Work Order.');
 		} else {

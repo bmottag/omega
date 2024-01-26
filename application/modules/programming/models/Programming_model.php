@@ -413,7 +413,7 @@ class Programming_model extends CI_Model
 			'fk_id_user' => $arrDatos["idUser"],
 			'date_issue' => date("Y-m-d G:i:s"),
 			'state' => 0,
-			'last_message' => 'A new Work Order was created from the Planning',
+			'last_message' => $arrDatos["message"],
 			'observation' =>  $arrDatos["observation"]
 		);
 
@@ -422,6 +422,44 @@ class Programming_model extends CI_Model
 
 		if ($query) {
 			return $idWorkorder;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Add workorder state
+	 * @since 24/01/2024
+	 */
+	public function add_workorder_state($arrData)
+	{
+		$data = array(
+			'fk_id_workorder' => $arrData["idWorkorder"],
+			'fk_id_user' => $arrData["idUser"],
+			'date_issue' => date("Y-m-d G:i:s"),
+			'observation' => $arrData["observation"],
+			'state' => $arrData["state"]
+		);
+
+		$query = $this->db->insert('workorder_state', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Add Material
+	 * @since 13/1/2017
+	 */
+	public function add_workorder_material($data)
+	{
+		$query = $this->db->insert('workorder_materials', $data);
+
+		if ($query) {
+			return true;
 		} else {
 			return false;
 		}
