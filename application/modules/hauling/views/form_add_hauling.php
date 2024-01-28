@@ -22,25 +22,15 @@ if ($userRol == 99) {
 
 <div id="page-wrapper">
 	<br>
+
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-						<i class="fa fa-edit fa-fw"></i> RECORD TASK(S)
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('dashboard/hauling'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+						<i class="fa fa-truck fa-fw"></i> RECORD TASK(S) - HAULING
 					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-
-	<!-- /.row -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<i class="fa fa-truck"></i> HAULING
 				</div>
 				<div class="panel-body">
 
@@ -189,9 +179,7 @@ if ($userRol == 99) {
 													</div>
 												</div>
 											</div>
-
 										</div>
-										<!-- /.panel-body -->
 									</div>
 								</div>
 							<?php } ?>
@@ -497,14 +485,8 @@ if ($userRol == 99) {
 					<?php
 					}
 					?>
-					<!-- /.row (nested) -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
