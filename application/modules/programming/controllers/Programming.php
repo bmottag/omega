@@ -435,6 +435,12 @@ class Programming extends CI_Controller
 					$mensaje .= "\nFLHA has being assigned to you.";
 				} elseif ($data['safety'] == 2) {
 					$mensaje .= "\nTool Box has being assigned to you.";
+				} elseif ($data['safety'] == 3) {
+					$mensaje .= "\nJSO has being assigned to you.";
+				}
+
+				if ($data['creat_wo'] == 1) {
+					$mensaje .= "\nYou are in charge of the W.O.";
 				}
 				$mensaje .= "\n";
 			endforeach;

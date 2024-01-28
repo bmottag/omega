@@ -323,9 +323,11 @@
 										} elseif ($data['safety'] == 3) {
 											$mensaje .= "<br>Job site orientation";
 										}
-
+										
+										if ($data['creat_wo'] == 1) {
+											$mensaje .= "<br>Create W.O.";
+										}
 										$mensaje .= "<br>";
-
 
 										echo "<tr>";
 										echo "<td ><small>$data[name]</small></td>";
@@ -354,7 +356,7 @@
 											</td>
 
 											<td>
-												<select name="site" class="form-control js-example-basic-single" required>
+												<select name="site" class="form-control" required>
 													<option value="">Select...</option>
 													<option value=1 <?php if ($data["site"] == 1) {
 																		echo "selected";
@@ -369,7 +371,7 @@
 											</td>
 
 											<td>
-												<select name="safety" class="form-control js-example-basic-single">
+												<select name="safety" class="form-control">
 													<option value="">Select...</option>
 													<option value=1 <?php if ($data["safety"] == 1) {
 																		echo "selected";
@@ -399,7 +401,7 @@
 											</td>
 
 											<td>
-												<select name="creat_wo" class="form-control js-example-basic-single">
+												<select name="creat_wo" class="form-control">
 													<option value="">Select...</option>
 													<option value=1 <?php if ($data["creat_wo"] == 1) {
 																		echo "selected";
@@ -451,7 +453,7 @@
 									<tr class="headings">
 										<th class="column-title">-- MESSAGE --</th>
 										<th class="column-title">-- INSPECTIONS --</th>
-										<th class="column-title">-- FLHA / TOOL BOX --</th>
+										<th class="column-title">-- FLHA / TOOL BOX / JSO --</th>
 									</tr>
 								</thead>
 
