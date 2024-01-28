@@ -164,6 +164,13 @@
 										</button>
 								<?php
 									}
+
+									if($lista['fk_id_workorder']){
+										echo "<br><br><a href='" . base_url('workorders/add_workorder/' . $lista['fk_id_workorder']) . "'>W.O. # " . $lista['fk_id_workorder'] . "</a>";
+									} else {
+										
+									}
+
 									echo "</td>";
 
 									echo "</tr>";

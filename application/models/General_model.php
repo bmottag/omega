@@ -565,6 +565,10 @@ class General_model extends CI_Model
 			$sql .= " AND P.fk_id_programming = '$idProgramming'";
 		}
 
+		if (array_key_exists("createWO", $arrData)) {
+			$sql .= " AND P.creat_wo = 1 ";
+		}
+
 		if (array_key_exists("machine", $arrData)) {
 			$sql .= " AND P.fk_id_machine is NOT NULL AND P.fk_id_machine != '' ";
 		}
