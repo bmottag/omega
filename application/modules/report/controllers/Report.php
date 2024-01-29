@@ -157,6 +157,17 @@ class Report extends CI_Controller
 				$data['vehicleRequired'] = 'required';
 				$data["titulo"] = "<i class='fa fa-money fa-fw'></i> MAINTENANCE PROGRAM";
 				break;
+			case 'csep_report':
+				//job list
+				$arrParam = array(
+					"table" => "param_jobs",
+					"order" => "job_description",
+					"column" => "state",
+					"id" => 1
+				);
+				$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
+				$data["titulo"] = "<i class='fa fa-life-saver fa-fw'></i> CSEP Report";
+				break;
 		}
 
 		$data["view"] = "form_search";
@@ -261,10 +272,16 @@ class Report extends CI_Controller
 					break;
 				case 'maintenance':
 					$arrParam['vehicleId'] =  $this->input->post('vehicleId');
-
 					$data['info'] = $this->report_model->get_maintenance($arrParam);
-					//pr($data['info']); exit;
 					$data["view"] = "list_maintenance";
+					break;
+				case 'csep_report':
+					$arrParam['jobId'] =  $this->input->post('jobName');
+					$arrParam['jobId'] = $arrParam['jobId'] == '' ? 'x' : $arrParam['jobId'];
+					$data['jobId'] = $arrParam['jobId'];
+
+					$data['info'] = $this->report_model->get_csep($arrParam);
+					$data["view"] = "list_csep_report";
 					break;
 			}
 		}
