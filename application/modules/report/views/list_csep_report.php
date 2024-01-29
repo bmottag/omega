@@ -86,7 +86,8 @@
 <script>
 	$(document).ready(function() {
 		$('#dataTables').DataTable({
-			responsive: true
+			responsive: true,
+			"pageLength": 25,
 		});
 	});
 </script>
