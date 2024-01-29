@@ -740,12 +740,19 @@ class General_model extends CI_Model
 		$this->db->join('user X', 'X.id_user = C.fk_id_user_authorization', 'INNER');
 		$this->db->join('user Z', 'Z.id_user = C.fk_id_user_cancellation', 'INNER');
 
-		if (array_key_exists("idJob", $arrDatos)) {
+		if (array_key_exists("idJob", $arrDatos) && $arrDatos["idJob"] != 'x') {
 			$this->db->where('fk_id_job', $arrDatos["idJob"]);
 		}
 
 		if (array_key_exists("idConfined", $arrDatos)) {
 			$this->db->where('id_job_confined', $arrDatos["idConfined"]);
+		}
+
+		if (array_key_exists("from", $arrDatos)) {
+			$this->db->where('date_confined >=', $arrDatos["from"]);
+		}
+		if (array_key_exists("to", $arrDatos)) {
+			$this->db->where('date_confined <=', $arrDatos["to"]);
 		}
 
 		$this->db->order_by('id_job_confined', 'asc');

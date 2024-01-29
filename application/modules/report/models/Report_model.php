@@ -73,6 +73,29 @@ class Report_model extends CI_Model
 	}
 
 	/**
+	 * Payroll
+	 * @since 6/01/2017
+	 */
+	public function get_csep($arrData)
+	{
+		$this->load->model("general_model");
+		//tool box info
+		$arrParam = array(
+			"idJob" => $arrData["jobId"],
+			"from" => $arrData["from"],
+			"to" => $arrData["to"],
+		);
+
+		$data['information'] = $this->general_model->get_confined_space($arrParam);
+
+		if ($data['information']) {
+			return $data['information'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Get safety hazard info
 	 * @since 4/12/2016
 	 */
