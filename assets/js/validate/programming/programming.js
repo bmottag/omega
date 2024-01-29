@@ -227,46 +227,4 @@ $(document).ready(function () {
 		}
 	});
 
-	$(".btn-create-workorder").click(function () {
-		var oID = $(this).attr("id");
-
-		//Activa icono guardando
-		if(window.confirm('Do you want to create the Work Order ?'))
-		{
-				$(".btn-create-workorder").attr('disabled','-1');
-				$.ajax ({
-					type: 'POST',
-					url: base_url + 'programming/create_work_order',
-					data: {'identificador': oID},
-					cache: false,
-					success: function(data){
-
-						if( data.result == "error" )
-						{
-							alert(data.mensaje);
-							$(".btn-create-workorder").removeAttr('disabled');
-							return false;
-						}
-
-						if( data.result )//true
-						{
-							$(".btn-create-workorder").removeAttr('disabled');
-
-							var url = base_url + "programming/index/" + data.idProgramming;
-							$(location).attr("href", url);
-						}
-						else
-						{
-							alert('Error. Reload the web page.');
-							$(".btn-create-workorder").removeAttr('disabled');
-						}
-					},
-					error: function(result) {
-						alert('Error. Reload the web page.');
-						$(".btn-create-workorder").removeAttr('disabled');
-					}
-
-				});
-		}
-});
 });

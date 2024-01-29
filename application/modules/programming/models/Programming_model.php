@@ -454,9 +454,9 @@ class Programming_model extends CI_Model
 	 * Add Material
 	 * @since 13/1/2017
 	 */
-	public function add_workorder_material($data)
+	public function add_item_workorder($table, $data)
 	{
-		$query = $this->db->insert('workorder_materials', $data);
+		$query = $this->db->insert($table, $data);
 
 		if ($query) {
 			return true;

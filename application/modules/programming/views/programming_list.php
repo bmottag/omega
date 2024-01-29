@@ -159,17 +159,12 @@
 									?>
 										<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
 
-										<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-info btn-xs btn-create-workorder' title="Crete Work Order">
-											<i class="fa fa-money"></i>
-										</button>
 								<?php
 									}
 
 									if($lista['fk_id_workorder']){
 										echo "<br><br><a href='" . base_url('workorders/add_workorder/' . $lista['fk_id_workorder']) . "'>W.O. # " . $lista['fk_id_workorder'] . "</a>";
-									} else {
-										
-									}
+									} 
 
 									echo "</td>";
 
@@ -332,7 +327,7 @@
 										}
 										
 										if ($data['creat_wo'] == 1) {
-											$mensaje .= "<br>Create W.O.";
+											$mensaje .= "<br>You are in charge of the W.O.";
 										}
 										$mensaje .= "<br>";
 
