@@ -539,7 +539,7 @@
 		public function get_parts_store_by_equipment($arrDatos) 
 		{
 				$this->db->join('param_shop S', 'S.id_shop = P.fk_id_shop', 'INNER');
-				$this->db->join('param_equipment_parts E', 'E.fk_id_part_shop = P.fk_id_shop', 'INNER');
+				$this->db->join('param_equipment_parts E', 'E.fk_id_part_shop = P.id_part_shop', 'INNER');
 				if (array_key_exists("idVehicle", $arrDatos)) {
 					$this->db->where('fk_id_equipment', $arrDatos["idVehicle"]);
 				}

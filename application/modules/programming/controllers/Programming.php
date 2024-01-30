@@ -396,6 +396,8 @@ class Programming extends CI_Controller
 		);
 		$data['information'] = $this->general_model->get_programming($arrParam); //info programacion
 
+		$idWorkorder = $data['information'][0]['fk_id_workorder'] ? : $this->create_work_order($data['information']);
+
 		//lista de trabajadores para esta programacion
 		$copiaInfoWorker = $data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 
@@ -440,7 +442,7 @@ class Programming extends CI_Controller
 				}
 
 				if ($data['creat_wo'] == 1) {
-					$mensaje .= "\nYou are in charge of the W.O.";
+					$mensaje .= "\nYou are in charge of the W.O. #" . $idWorkorder;
 				}
 				$mensaje .= "\n";
 			endforeach;
@@ -592,12 +594,11 @@ class Programming extends CI_Controller
 			//para cada programacion buscar los trabajadores que tienen maquinas asignadas
 			foreach ($information as $lista) :
 				//lista de trabajadores para esta programacion que tiene maquinas asignadas
-				$arrParam = array("idProgramming" => $lista['id_programming'], "machine" => TRUE);
+				$arrParam = array("idProgramming" => $lista['id_programming'], "withEquipment" => TRUE);
 				$informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 
-				$arrParam = array("idProgramming" => $lista['id_programming'], "wo" => TRUE);
+				$arrParam = array("idProgramming" => $lista['id_programming'], "createWO" => TRUE);
 				$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajadores
-
 
 				if ($informationWorkerWO) {
 					//busco para la fecha y para esa wo si hay inspecciones
@@ -1518,27 +1519,23 @@ class Programming extends CI_Controller
 	 * @since 23/1/2023
 	 * @author BMOTTAG
 	 */
-	public function create_work_order()
+	public function create_work_order($infoPlanning)
 	{
-		header('Content-Type: application/json');
-		$data = array();
-
-		$idProgramming = $this->input->post('identificador');
-
-		$arrParam = array("idProgramming" => $idProgramming);
+		$idProgramming = $infoPlanning[0]["id_programming"];
 		$this->load->model("general_model");
-		$infoPlanning = $this->general_model->get_programming($arrParam); //info programacion
-		
-		//$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
-		//$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+		$arrParam = array("idProgramming" => $idProgramming);
+		$informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
+
+		$informationWorkerWithEquipment = $this->general_model->get_programming_equipment($arrParam); //info trabajadores con maquinas
+
 		$programmingMaterials = $this->programming_model->get_programming_materials($arrParam); //material list
 
 		$arrParam = array(
 				"idProgramming" => $idProgramming,
-				"createWO" => true
+				"createWO" => TRUE
 		);
 		$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajado con WO	
-		$idUser = $informationWorkerWO ? $informationWorkerWO[0]["fk_id_programming_user "] :  $infoPlanning[0]["fk_id_user"];
+		$idUser = $informationWorkerWO ? $informationWorkerWO[0]["fk_id_programming_user"] :  $infoPlanning[0]["fk_id_user"];
 
 		$message = "A new Work Order was created from the Planning.";
 		$arrParam = array(
@@ -1569,6 +1566,57 @@ class Programming extends CI_Controller
 			);
 			$this->programming_model->add_workorder_state($arrParam);
 
+			//save workers info
+			if ($informationWorker) {
+				$columnas_mapeo = array(
+					'fk_id_programming_user' => 'fk_id_user',
+					'description' => 'description',
+				);
+			
+				foreach ($informationWorker as $indice => $datos_indice) {
+					$datos_formateados = array();
+			
+					$datos_formateados["fk_id_workorder"] = $idWorkorder;
+					$datos_formateados["fk_id_employee_type"] = 1;
+					$datos_formateados["hours"] = 0;
+					 foreach ($datos_indice as $columna => $valor) {
+						if (isset($columnas_mapeo[$columna])) {
+							$columna_destino = $columnas_mapeo[$columna];
+							$datos_formateados[$columna_destino] = $valor;
+						}
+					}
+					$table = 'workorder_personal';
+					$this->programming_model->add_item_workorder($table, $datos_formateados);
+				}
+			}
+
+			//save equipment info
+			if ($informationWorkerWithEquipment) {
+				$columnas_mapeo = array(
+					'type_level_2' => 'fk_id_type_2',
+					'id_vehicle' => 'fk_id_vehicle',
+					'fk_id_programming_user' => 'operatedby',
+					'description' => 'description',
+				);
+			
+				foreach ($informationWorkerWithEquipment as $indice => $datos_indice) {
+					$datos_formateados = array();
+			
+					$datos_formateados["fk_id_workorder"] = $idWorkorder;
+					$datos_formateados["quantity"] = 1;
+					$datos_formateados["hours"] = 0;
+					$datos_formateados["standby"] = 2;
+					 foreach ($datos_indice as $columna => $valor) {
+						if (isset($columnas_mapeo[$columna])) {
+							$columna_destino = $columnas_mapeo[$columna];
+							$datos_formateados[$columna_destino] = $valor;
+						}
+					}
+					$table = 'workorder_equipment';
+					$this->programming_model->add_item_workorder($table, $datos_formateados);
+				}
+			}
+
 			//save material info
 			if ($programmingMaterials) {
 				$columnas_mapeo = array(
@@ -1588,18 +1636,14 @@ class Programming extends CI_Controller
 							$datos_formateados[$columna_destino] = $valor;
 						}
 					}
-					$this->programming_model->add_workorder_material($datos_formateados);
+					$table = 'workorder_materials';
+					$this->programming_model->add_item_workorder($table, $datos_formateados);
 				}
 			}
 
-			$data["result"] = true;
-			$this->session->set_flashdata('retornoExito', 'You have added a new Work Order.');
+			return $idWorkorder;
 		} else {
-			$data["result"] = "error";
-			$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
-			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			return FALSE;
 		}
-
-		echo json_encode($data);
 	}
 }

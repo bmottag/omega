@@ -569,12 +569,8 @@ class General_model extends CI_Model
 			$sql .= " AND P.creat_wo = 1 ";
 		}
 
-		if (array_key_exists("machine", $arrData)) {
+		if (array_key_exists("withEquipment", $arrData)) {
 			$sql .= " AND P.fk_id_machine is NOT NULL AND P.fk_id_machine != '' ";
-		}
-
-		if (array_key_exists("wo", $arrData)) {
-			$sql .= " AND P.creat_wo = 1";
 		}
 
 		if (array_key_exists("safety", $arrData)) {
@@ -583,6 +579,31 @@ class General_model extends CI_Model
 		}
 
 		$sql .= " GROUP BY P.fk_id_programming_user ORDER BY U.first_name, U.last_name ASC ";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() >= 1) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Lista trabajadores para una programacion
+	 * @since 15/1/2019
+	 */
+	public function get_programming_equipment($arrData)
+	{
+		$sql = "SELECT P.fk_id_programming_user, P.description, V.id_vehicle, V.type_level_2 ";
+		$sql .= " FROM programming_worker P";
+		$sql .= " LEFT JOIN param_vehicle V ON JSON_CONTAINS(fk_id_machine, CAST(V.id_vehicle AS JSON)) ";
+		$sql .= " WHERE P.fk_id_machine is NOT NULL AND P.fk_id_machine != '' ";
+
+		if (array_key_exists("idProgramming", $arrData)) {
+			$idProgramming = $arrData['idProgramming'];
+			$sql .= " AND P.fk_id_programming = '$idProgramming'";
+		}
 
 		$query = $this->db->query($sql);
 
