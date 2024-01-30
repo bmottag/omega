@@ -374,11 +374,12 @@ class More_model extends CI_Model
 	 * Get confined workers info
 	 * @since 20/1/2020
 	 */
-	public function get_confined_workers($idConfined)
+	public function get_confined_workers($idConfined, $wos)
 	{
 		$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name");
 		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 		$this->db->where('W.fk_id_job_confined', $idConfined);
+		$this->db->where('W.flag_workers', $wos);
 		$this->db->order_by('U.first_name, U.last_name', 'asc');
 		$query = $this->db->get('job_confined_workers W');
 
@@ -440,6 +441,27 @@ class More_model extends CI_Model
 		$data = array(
 			'fk_id_job_confined' => $this->input->post('hddIdConfined'),
 			'fk_id_user' => $this->input->post('worker')
+		);
+
+		$query = $this->db->insert('job_confined_workers', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Save one worker CONFINED
+	 * @since 29/1/2024
+	 */
+	public function confinedSaveWorkerOnSite()
+	{
+		$data = array(
+			'fk_id_job_confined' => $this->input->post('hddIdConfined'),
+			'fk_id_user' => $this->input->post('worker'),
+			'flag_workers' => 1
 		);
 
 		$query = $this->db->insert('job_confined_workers', $data);

@@ -84,6 +84,26 @@ if (!$confinedWorkers) {
 
 $html .= '<br><br>';
 
+$html .= '<h2 align="center" style="color:#337ab7;">WORKERS ON SITE<br></h2>';
+
+if (!$WorkersOnSite) {
+	$html .= 'No data was found for workers';
+} else {
+	$html .= '<table border="0" cellspacing="0" cellpadding="5">
+				<tr>
+					<th align="center" bgcolor="#337ab7" style="color:white;"><strong>Worker</strong></th>
+				</tr>';
+
+	foreach ($WorkersOnSite as $data) :
+		$html .= '<tr>
+					<th>' . $data['name'] . '</th>';
+		$html .= '</tr>';
+	endforeach;
+	$html .= '</table>';
+}
+
+$html .= '<br><br>';
+
 $html .= '<table border="0" cellspacing="0" cellpadding="5">';
 $html .= '<tr>
 							<th>';

@@ -705,7 +705,7 @@ class More extends CI_Controller
 			);
 			$data['information'] = $this->general_model->get_confined_space($arrParam);
 
-			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined); //workers list
+			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, null); //workers list
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -773,7 +773,7 @@ class More extends CI_Controller
 			);
 			$data['information'] = $this->general_model->get_confined_space($arrParam);
 
-			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined); //workers list
+			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, null); //workers list
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -781,6 +781,47 @@ class More extends CI_Controller
 		}
 
 		$data["view"] = 'form_confined_workers';
+		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Form confined space entry permit WORKERS
+	 * @since 5/2/2020
+	 * @author BMOTTAG
+	 */
+	public function workers_site($idJob, $idConfined)
+	{
+		$data['information'] = FALSE;
+
+		$this->load->model("general_model");
+		//job info
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "id_job",
+			"id" => $idJob
+		);
+		$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+		//workers list
+		$arrParam = array("state" => 1);
+		$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
+
+		//si envio el id, entonces busco la informacion 
+		if ($idConfined != 'x') {
+			$arrParam = array(
+				"idConfined" => $idConfined
+			);
+			$data['information'] = $this->general_model->get_confined_space($arrParam);
+			$wos = 1;
+			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, $wos); //workers list
+
+			if (!$data['information']) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		}
+
+		$data["view"] = 'form_workers_site';
 		$this->load->view("layout", $data);
 	}
 
@@ -863,6 +904,30 @@ class More extends CI_Controller
 	}
 
 	/**
+	 * Delete confined worker
+	 */
+	public function deleteConfinedWorkerSite($idJob, $idConfined, $idConfinedWorker)
+	{
+		if (empty($idJob) || empty($idConfined) || empty($idConfinedWorker)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+
+		$arrParam = array(
+			"table" => "job_confined_workers",
+			"primaryKey" => "id_job_confined_worker",
+			"id" => $idConfinedWorker
+		);
+
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) {
+			$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect(base_url('more/workers_site/' . $idJob . '/' . $idConfined), 'refresh');
+	}
+
+	/**
 	 * Safe one worker to Confined Space Entry
 	 */
 	public function confined_One_Worker()
@@ -876,6 +941,22 @@ class More extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
 		redirect(base_url('more/confined_workers/' . $idJob . "/" . $idConfined), 'refresh');
+	}
+
+	/**
+	 * Safe one worker to Confined Space Entry
+	 */
+	public function confined_worker_site()
+	{
+		$idJob = $this->input->post('hddIdJob');
+		$idConfined = $this->input->post('hddIdConfined');
+
+		if ($this->more_model->confinedSaveWorkerOnSite()) {
+			$this->session->set_flashdata('retornoExito', "You have added one Worker. Don't forget to sign.");
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect(base_url('more/workers_site/' . $idJob . "/" . $idConfined), 'refresh');
 	}
 
 	/**
@@ -1232,7 +1313,9 @@ class More extends CI_Controller
 		$arrParam = array("idConfined" => $idConfined);
 		$data['info'] = $this->general_model->get_confined_space($arrParam);
 
-		$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined); //workers list
+		$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, null); //workers list
+
+		$data['WorkersOnSite'] = $this->more_model->get_confined_workers($idConfined, 1); //workers list
 
 		$arrParam = array(
 			"table" => "job_confined_re_testing",
