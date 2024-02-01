@@ -400,13 +400,28 @@ if ($retornoError) {
 					<th class="text-center">Delete</th>
 				</tr>
 				<?php
+					$ci = &get_instance();
+					$ci->load->model("general_model");
 					foreach ($workorderExpense as $data):
+
+						$arrParam = array("idJobDetail" => $data['id_job_detail']);
+						$expenses = $ci->general_model->sumExpense($arrParam);//sumatoria de gastos
+						$balance = $data['extended_amount'] - $expenses;
+						$veintePorciento = $data['extended_amount'] * 0.2;
+
+						$class = $balance <= $veintePorciento ? "danger" : "";
+						$title = $balance <= $veintePorciento ? "Total Expenses for this Item exceed 20%" : "";
+
 						echo "<tr>";					
-						echo "<td ><small>" . $data['chapter_name'] . "</small></td>";
-						echo "<td ><small>" . $data['chapter_number'] . "." . $data['item'] . "</small></td>";
-						echo "<td ><small>" . $data['description'] . "</small></td>";
-						echo "<td class='text-right'><small>" . $data['percentage'] . "%</small></td>";
-						echo "<td class='text-right'><small>$" . number_format($data['expense_value'],2) . "</small></td>";
+						echo "<td ><p class='text-" . $class . "' title='" . $title . "'><small>";
+						if($balance <= $veintePorciento){
+							echo '<span class="glyphicon glyphicon-alert" aria-hidden="true"></span> ';
+						}
+						echo $data['chapter_name'] . "</small></p></td>";
+						echo "<td ><p class='text-" . $class . "'><small>" . $data['chapter_number'] . "." . $data['item'] . "</small></p></td>";
+						echo "<td ><p class='text-" . $class . "'><small>" . $data['description'] . "</small></p></td>";
+						echo "<td class='text-right'><p class='text-" . $class . "'><small>" . $data['percentage'] . "%</small></p></td>";
+						echo "<td class='text-right'><p class='text-" . $class . "'><small>$ " . number_format($data['expense_value'],2) . "</small></p></td>";
 						
 						$idRecord = $data['id_workorder_expense'];
 				?>				

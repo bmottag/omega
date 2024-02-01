@@ -192,19 +192,23 @@ if ($retornoError) {
                                         $arrParam = array("idJobDetail" => $data['id_job_detail']);
                                         $expenses = $ci->general_model->sumExpense($arrParam);//sumatoria de gastos
                                         $balance = $data['extended_amount'] - $expenses;
+                                        $veintePorciento = $data['extended_amount'] * 0.2;
+
+                                        $class = $balance <= $veintePorciento ? "danger" : "";
+
                                         $totalExtendedAmount += $data['extended_amount'];
                                         $totalPercentage += $data['percentage'];
                                         $totalExpenses += $expenses;
-                                        echo "<tr>";
-                                        echo "<td class='text-center'>" . $data['chapter_number'] . "." . $data['item'] . "</td>";
-                                        echo "<td >" . $data['description'] . "</td>";
-                                        echo "<td class='text-center'>" . $data['unit'] . "</td>";
-                                        echo "<td class='text-center'>" . $data['quantity'] . "</td>";
-                                        echo "<td class='text-right'>$ " . $data['unit_price'] . "</td>";
-                                        echo "<td class='text-right'>$ " . number_format($data['extended_amount'],2) . "</td>";
-                                        echo "<td class='text-right'> " . $data['percentage'] . " %</td>";
-                                        echo "<td class='text-right'>$ " . number_format($expenses,2) . "</td>";
-                                        echo "<td class='text-right'>$ " . number_format($balance,2) . "</td>";
+                                        echo "<tr class='" . $class . "'>";
+                                        echo "<td class='text-center'><p class='text-" . $class . "'>" . $data['chapter_number'] . "." . $data['item'] . "</p></td>";
+                                        echo "<td ><p class='text-" . $class . "'>" . $data['description'] . "</p></td>";
+                                        echo "<td class='text-center'><p class='text-" . $class . "'>" . $data['unit'] . "</p></td>";
+                                        echo "<td class='text-center'><p class='text-" . $class . "'>" . $data['quantity'] . "</p></td>";
+                                        echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($data['unit_price'],2) . "</p></td>";
+                                        echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($data['extended_amount'],2) . "</p></td>";
+                                        echo "<td class='text-right'><p class='text-" . $class . "'>" . $data['percentage'] . " %</p></td>";
+                                        echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($expenses,2) . "</p></td>";
+                                        echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($balance,2) . "</p></td>";
                                         echo "<td class='text-center'>";
 
                                         if($jobInfo[0]['flag_expenses'] != 1){
