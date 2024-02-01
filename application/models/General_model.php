@@ -1821,6 +1821,11 @@ class General_model extends CI_Model
 			$this->db->where('chapter_number', $arrData["chapterNumber"]);
 		}
 
+		// Subconsulta para calcular la suma de los gastos
+		$this->db->select('D.*, (SELECT ROUND(SUM(W.expense_value), 2) 
+						FROM workorder_expense W 
+						WHERE W.fk_id_job_detail = D.id_job_detail) AS expenses');
+
 		$this->db->order_by('item', 'asc');
 		$query = $this->db->get('job_details D');
 

@@ -65,10 +65,12 @@
 												<th class="text-center">Check</th>
 												<th class="text-center">Item</th>
 												<th class="text-center">Description</th>
+												<th class="text-center">Balance</th>
 											</tr>
 										</thead>
 										<?php
 										foreach ($jobDetails as $value):
+											$balance = $value['extended_amount'] - $value['expenses'];
 											$arrParam = array('idWorkOrder' => $idWorkorder, "idJobDetail" => $value['id_job_detail']);
 											$found = $ci->general_model->get_workorder_expense($arrParam);
 						
@@ -84,7 +86,8 @@
 											echo form_checkbox($data);
 											echo "</td>";
 											echo "<td>" . $value["chapter_number"] . "." . $value["item"] . "</td>";
-											echo "<td>" . $value["description"] . "</td>";
+											echo "<td class='text-left'>" . $value["description"] . "</td>";
+											echo "<td class='text-right'>$ " . number_format($balance,2) . "</td>";
 											echo "</tr>";
 										endforeach
 										?>

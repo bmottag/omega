@@ -410,7 +410,7 @@ if ($retornoError) {
 						$veintePorciento = $data['extended_amount'] * 0.2;
 
 						$class = $balance <= $veintePorciento ? "danger" : "";
-						$title = $balance <= $veintePorciento ? "Total Expenses for this Item exceed 20%" : "";
+						$title = $balance <= $veintePorciento ? "Total Expenses for this Item exceed 80%" : "";
 
 						echo "<tr>";					
 						echo "<td ><p class='text-" . $class . "' title='" . $title . "'><small>";

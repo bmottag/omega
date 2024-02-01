@@ -189,16 +189,16 @@ if ($retornoError) {
                                     $totalExpenses = 0;
                                     $totalBalance = 0;
                                     foreach ($jobDetails as $data):
-                                        $arrParam = array("idJobDetail" => $data['id_job_detail']);
-                                        $expenses = $ci->general_model->sumExpense($arrParam);//sumatoria de gastos
-                                        $balance = $data['extended_amount'] - $expenses;
+                                        //$arrParam = array("idJobDetail" => $data['id_job_detail']);
+                                        //$expenses = $ci->general_model->sumExpense($arrParam);//sumatoria de gastos
+                                        $balance = $data['extended_amount'] - $data['expenses'];
                                         $veintePorciento = $data['extended_amount'] * 0.2;
 
                                         $class = $balance <= $veintePorciento ? "danger" : "";
 
                                         $totalExtendedAmount += $data['extended_amount'];
                                         $totalPercentage += $data['percentage'];
-                                        $totalExpenses += $expenses;
+                                        $totalExpenses += $data['expenses'];
                                         echo "<tr class='" . $class . "'>";
                                         echo "<td class='text-center'><p class='text-" . $class . "'>" . $data['chapter_number'] . "." . $data['item'] . "</p></td>";
                                         echo "<td ><p class='text-" . $class . "'>" . $data['description'] . "</p></td>";
@@ -207,7 +207,7 @@ if ($retornoError) {
                                         echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($data['unit_price'],2) . "</p></td>";
                                         echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($data['extended_amount'],2) . "</p></td>";
                                         echo "<td class='text-right'><p class='text-" . $class . "'>" . $data['percentage'] . " %</p></td>";
-                                        echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($expenses,2) . "</p></td>";
+                                        echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($data['expenses'],2) . "</p></td>";
                                         echo "<td class='text-right'><p class='text-" . $class . "'>$ " . number_format($balance,2) . "</p></td>";
                                         echo "<td class='text-center'>";
 
