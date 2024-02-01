@@ -1536,5 +1536,20 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			return false;
 		}
 	}
+
+	/**
+	 * Update Flags Param Job
+	 * @since 31/1/2024
+	 */
+	public function resetFlagsParamJob($arrDatos)
+	{
+		$data = array(
+			'flag_expenses' => 0,
+			'flag_upload_details' => 0
+		);
+		$this->db->where('id_job', $arrDatos["idJob"]);
+		$query = $this->db->update('param_jobs', $data);
+		return $query ? true : false;  
+	}
 	
 }

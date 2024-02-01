@@ -2661,15 +2661,16 @@ class Jobs extends CI_Controller
 		$config['allowed_types'] = 'csv';
 		$config['max_size'] = '5000';
 		$config['file_name'] = 'job_detail.csv';
+		$idJob = $this->input->post("hddIdJob");
 
 		$this->load->library('upload', $config);
 		$bandera = false;
 		if (!$this->upload->do_upload()) {
 			$error = $this->upload->display_errors();
 			$msgError = html_escape(substr($error, 3, -4));
-			$this->subir_archivo($msgError);
+			$this->job_detail($idJob, $msgError);
 		} else {
-			$idJob = $this->input->post("hddIdJob");
+			
 			$flagExpenses = $this->input->post("hddFlagExpenses");
 			$flagUploadDetails = $this->input->post("hddFlagUploadDetails");
 			$this->load->model("general_model");
@@ -2782,7 +2783,6 @@ class Jobs extends CI_Controller
 					}
 				}
 			}
-		}
 
 		//update upload field flag
 		$arrParam = array(
@@ -2800,7 +2800,12 @@ class Jobs extends CI_Controller
 			$registros = implode(",", $errores["numero_registro"]);
 			$success = 'El archivo se cargó pero hay errores en los siguientes registros:::' . $registros;
 		}
-		$this->upload_job_detail($idJob, '', $success);
+		$this->update_job_detail($idJob);
+		
+		redirect(base_url('jobs/job_detail/' . $idJob), 'refresh');
+		}
+
+
 	}
 
 	/**
@@ -2808,7 +2813,7 @@ class Jobs extends CI_Controller
 	 * @since 6/1/2023
 	 * @author BMOTTAG
 	 */
-	public function job_detail($idJob)
+	public function job_detail($idJob, $error = "", $success = "")
 	{
 		$this->load->model("general_model");
 		//job info
@@ -2823,7 +2828,9 @@ class Jobs extends CI_Controller
 		$arrParam = array("idJob" => $idJob);
 		$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
 
+		$data["error"] = $error;
 		$data["view"] = 'job';
+		
 		$this->load->view("layout_calendar", $data);
 	}
 
@@ -2883,9 +2890,8 @@ class Jobs extends CI_Controller
 	 * @since 11/1/2023
 	 * @author BMOTTAG
 	 */
-	public function update_job_detail()
+	public function update_job_detail($idJob)
 	{
-		$idJob = $this->input->post('hddIdJob');
 		$this->load->model("general_model");
 
 		$arrParam = array("idJob" => $idJob);
@@ -2893,12 +2899,58 @@ class Jobs extends CI_Controller
 
 		$totalExtendedAmount = $this->jobs_model->sumExtendedAmount($arrParam);
 
-		if ($this->jobs_model->updateJobDetail($jobDetails, $totalExtendedAmount)) {
-			$data["result"] = true;
-			$this->session->set_flashdata('retornoExito', "You have saved the Worker Information!!");
+		$this->jobs_model->updateJobDetail($jobDetails, $totalExtendedAmount);
+	}
+
+	/**
+	 * Delete All Deteails Info
+	 * @since 31/1/2024
+	 * @author BMOTTAG
+	 */
+	public function delete_job_detail_info()
+	{
+		$idJob = $this->input->post('hddIdJob');
+		$this->load->model("general_model");
+		$result = true;
+		//DELETE PREVIOS INFORMATION
+		$arrParam = array(
+			"table" => "job_details",
+			"primaryKey" => "fk_id_job ",
+			"id" => $idJob 
+		);
+		if(!$this->general_model->deleteRecord($arrParam)){
+			$result = false;
+		}
+
+		//DELETE expenses
+		$arrParam = array(
+			"idJob" => $idJob 
+		);
+		if(!$this->jobs_model->deleteWOExpenses($arrParam)){
+			$result = false;
+		}
+
+		//update FLAGS in table param_job
+		if(!$this->jobs_model->resetFlagsParamJob($arrParam)){
+			$result = false;
+		}	
+
+		//update WO expenses flag in table workorders
+		$arrParam = array(
+			"table" => "workorder",
+			"primaryKey" => "fk_id_job",
+			"id" => $idJob,
+			"column" => "expenses_flag",
+			"value" => 2
+		);
+		if(!$this->general_model->updateRecord($arrParam)){
+			$result = false;
+		}
+
+		if ($result) {
+			$this->session->set_flashdata('retornoExito', "All information has been reset.");
 		} else {
-			$data["result"] = "error";
-			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Error occurred. Please contact support');
 		}
 
 		redirect(base_url('jobs/job_detail/' . $idJob), 'refresh');
