@@ -162,7 +162,80 @@ if ($retornoError) {
                         foreach ($chapterList as $lista):
                             $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number']);
                             $jobDetails = $this->general_model->get_job_detail($arrParam);
+
+                            $totalExtendedAmount = 0;
+                            $totalPercentage = 0;
+                            $totalExpenses = 0;
+                            $totalBalance = 0;
+
+                            if($jobInfo[0]['flag_expenses'] == 1){
 					?>
+
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion">	
+                                    <h2><?php echo $lista['chapter_name']; ?></h2>
+                                    <?php
+                                        foreach ($jobDetails as $data):
+                                            $balance = $data['extended_amount'] - $data['expenses'];
+                                            $veintePorciento = $data['extended_amount'] * 0.2;
+    
+                                            $class = $balance <= $veintePorciento ? "danger" : "default";
+    
+                                            $totalExtendedAmount += $data['extended_amount'];
+                                            $totalPercentage += $data['percentage'];
+                                            $totalExpenses += $data['expenses'];
+                                    ?>
+                                        <div class="panel panel-<?php echo $class ?>" >
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data['chapter_number']; ?>">
+
+                                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                                                    <?php
+                                                        echo "<tr class='" . $class . "'>";
+                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Item</b><br>" . $data['chapter_number'] . "." . $data['item'] . "</p></td>";
+                                                        echo "<td ><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
+                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Unit</b><br>" . $data['unit'] . "</p></td>";
+                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Quantity</b><br>" . $data['quantity'] . "</p></td>";
+                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
+                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
+                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Percentage</b><br>" . $data['percentage'] . " %</p></td>";
+                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>W.O. Expenses</b><br>$ " . number_format($data['expenses'],2) . "</p></td>";
+                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Balance</b><br>$ " . number_format($balance,2) . "</p></td>";
+                                                        echo "</tr>";
+                                                    ?>
+                                                    </table>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse<?php echo $data['chapter_number']; ?>" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                            
+
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                        endforeach;
+
+                                        $totalBalance = $totalExtendedAmount - $totalExpenses;
+                                        echo "<br>";
+                                        echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">';
+                                            echo "<tr>";
+                                            echo "<td colspan='5' class='text-right'><h2>Subtotal</h2></td>";
+                                            echo "<td class='text-right'><b>Extended Amount<br>$ " . number_format($totalExtendedAmount,2) . "</b></td>";
+                                            echo "<td class='text-right'><b>Percentage<br>" . $totalPercentage  . "%</b></td>";
+                                            echo "<td class='text-right'><b>W.O. Expenses<br>$ " . number_format($totalExpenses,2) . "</b></td>";
+                                            echo "<td class='text-right'><b>Balance<br>$ " . number_format($totalBalance,2) . "</b></td>";
+                                            echo "</tr>";
+
+                                        echo "</table>";
+                                    ?>
+                                </div>
+                            </div>
+
+                    <?php }else{ ?>
 			
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                                 <thead>
@@ -184,10 +257,7 @@ if ($retornoError) {
                                 </thead>					
                                 <?php
                                     echo "<tbody>";
-                                    $totalExtendedAmount = 0;
-                                    $totalPercentage = 0;
-                                    $totalExpenses = 0;
-                                    $totalBalance = 0;
+
                                     foreach ($jobDetails as $data):
                                         //$arrParam = array("idJobDetail" => $data['id_job_detail']);
                                         //$expenses = $ci->general_model->sumExpense($arrParam);//sumatoria de gastos
@@ -237,6 +307,7 @@ if ($retornoError) {
                                 ?>
                             </table>
                     <?php 
+                            }
                         endforeach;
                         } 
                     ?>

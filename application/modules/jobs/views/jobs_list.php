@@ -110,14 +110,9 @@
 						?>
 								<div class="pull-right">
 									<div class="btn-group">
-										<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-											Actions
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu pull-right" role="menu">
-											<li><a href="<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>"><i class="fa fa-list fa-fw"></i> View Job Details</a></li>	
-											<li><a href="<?php echo base_url('jobs/upload_job_detail/' . $lista['id_job']) ?>"><i class="fa fa-upload fa-fw"></i> Upload Job Details</a></li>
-										</ul>
+										<a class='btn btn-default btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>
+											View Job Details <span class="fa fa-list fa-fw" aria-hidden="true">
+										</a>
 									</div>
 								</div>
 						<?php

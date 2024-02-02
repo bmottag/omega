@@ -682,8 +682,12 @@ class Programming extends CI_Controller
 					//busco para la fecha y para esa maquina si hay inspecciones
 					//si no hay inspecciones envio mensaje de alerta
 					foreach ($informationWorker as $dato) :
-						$arrParam = array("fecha" => $fechaBusqueda, "maquina" => $dato['fk_id_machine']);
-						$inspecciones = $this->general_model->get_programming_inspecciones($arrParam); //inspecciones de maquinas asignadas en una programacion
+
+						$inspecciones = false;
+						if (!empty(json_decode($dato['fk_id_machine']))) {
+							$arrParam = array("fecha" => $fechaBusqueda, "maquina" => $dato['fk_id_machine']);
+							$inspecciones = $this->general_model->get_programming_inspecciones($arrParam); //inspecciones de maquinas asignadas en una programacion
+						}
 
 						if (!$inspecciones) {
 							$i++;
