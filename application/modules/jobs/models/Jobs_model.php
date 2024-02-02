@@ -1551,5 +1551,20 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		$query = $this->db->update('param_jobs', $data);
 		return $query ? true : false;  
 	}
+
+	public function get_workorder_expense($arrData)
+	{
+		$this->db->join('workorder W', 'W.id_workorder = E.fk_id_workorder', 'INNER');
+		if (array_key_exists("idJobDetail", $arrData)) {
+			$this->db->where('E.fk_id_job_detail', $arrData["idJobDetail"]);
+		}
+		$query = $this->db->get('workorder_expense E');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
 	
 }

@@ -210,9 +210,37 @@ if ($retornoError) {
                                             </div>
                                             <div id="collapse<?php echo $data['chapter_number']; ?>" class="panel-collapse collapse">
                                                 <div class="panel-body">
-                            
+                                                    <?php 
+                                                        $arrParam = array("idJobDetail" => $data['id_job_detail']);
+                                                        $expenses = $ci->jobs_model->get_workorder_expense($arrParam);//sumatoria de gastos
 
-                                                
+                                                        if($expenses){
+                                                    ?>
+                                                        <table width="100%" class="table table-hover dataTable no-footer" id="dataTables">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center" width="10%">W.O. #</th>
+                                                                    <th class="text-center" width="10%">Date W.O.</th>
+                                                                    <th class="text-left" width="70%">Work Done</th>
+                                                                    <th class="text-right" width="10%">Expense Value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>					
+                                                            <?php
+                                                                foreach ($expenses as $data):
+                                                                    echo "<tr>";
+                                                                    echo "<td class='text-center'>";
+                                                                    echo "<a href='" . base_url('workorders/add_workorder/' . $data['id_workorder']) . "' target='_blank'>" . $data['id_workorder'] . "</a>";
+                                                                    echo "</td>";
+                                                                    echo "<td class='text-center'>" . $data['date'] . "</td>";
+                                                                    echo "<td class='text-left'>" . $data['observation'] . "</td>";
+                                                                    echo "<td class='text-right'>$ " . number_format($data['expense_value'],2) . "</td>";
+                                                                    echo "</tr>";
+                                                                endforeach;
+                                                            ?>
+                                                            </tbody>
+                                                        </table>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
