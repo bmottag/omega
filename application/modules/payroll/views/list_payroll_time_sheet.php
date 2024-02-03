@@ -62,12 +62,16 @@
 										<th class='text-left'><small>Observation</small></th>
 										<th class='text-right'><small>Working Hours</small></th>
 										<th class='text-right'><small>Regular Hours</small></th>
+										<th class='text-right'><small>Regular Hours New</small></th>
 										<th class='text-right'><small>Overtime Hours</small></th>
+										<th class='text-right'><small>Overtime Hours New</small></th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
 									$totalHours = 0;
+									$totalRegularNew = 0;
+									$totalOvertimeNew = 0;
 									if ($infoPayrollUser) {
 										$totalRegular = 0;
 										$totalOvertime = 0;
@@ -88,16 +92,32 @@
 											echo "<td class='text-left'><small>" . $lista['observation'] . "</small></td>";
 											echo "<td class='text-right'><small>" . substr($lista['working_hours_new'], 0, 5) . "</small></td>";
 											echo "<td class='text-right'><small>" . $lista['regular_hours'] . "</small></td>";
+											echo "<td class='text-right'><small>" . substr($lista['regular_hours_new'], 0, 5) . "</small></td>";
 											echo "<td class='text-right'><small>" . $lista['overtime_hours'] . "</small></td>";
+											echo "<td class='text-right'><small>" . substr($lista['overtime_hours_new'], 0, 5) . "</small></td>";
 											echo "</tr>";
 											$totalHours = $lista['working_hours'] + $totalHours;
 											$totalRegular = $lista['regular_hours'] + $totalRegular;
 											$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
+
+											$partsRegular = explode(':', $lista['regular_hours_new']);
+											$totalRegularNew += ($partsRegular[0] * 3600) + ($partsRegular[1] * 60) + $partsRegular[2];
+
+											$partsOvertime = explode(':', $lista['overtime_hours_new']);
+											$totalOvertimeNew += ($partsOvertime[0] * 3600) + ($partsOvertime[1] * 60) + $partsOvertime[2];
+
 										endforeach;
+										$hoursRegular = floor($totalRegularNew / 3600);
+										$minsRegular = floor(($totalRegularNew / 60) % 60);
+
+										$hoursOvertime = floor($totalOvertimeNew / 3600);
+										$minsOvertime = floor(($totalOvertimeNew / 60) % 60);
 										echo "<tr>";
 										echo "<td class='text-right' colspan='6'><small><strong>Total weekly hours:<br>" . $totalHours . "</strong></small></td>";
 										echo "<td class='text-right'><small><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></small></td>";
+										echo "<td class='text-right'><small><strong>Total daily  regular hours new per week:<br>" . sprintf('%02d:%02d', $hoursRegular, $minsRegular) . "</strong></small></td>";
 										echo "<td class='text-right'><small><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></small></td>";
+										echo "<td class='text-right'><small><strong>Total daily overtime new per week:<br>" . sprintf('%02d:%02d', $hoursOvertime, $minsOvertime) . "</strong></small></td>";
 										echo "</tr>";
 									}
 									?>
