@@ -2072,7 +2072,7 @@ class Report extends CI_Controller
 							padding: 8px;
 						}
 						</style>
-						
+
 				<table border="0" cellspacing="1" cellpadding="3">
 					<tr bgcolor="#337ab7" style="color:white;">
 						<th rowspan="2" align="center" width="12%"><strong>Employee Name</strong></th>
@@ -2080,14 +2080,14 @@ class Report extends CI_Controller
 						<th colspan="2" align="center" width="20%"><strong>Job</strong></th>
 						<th rowspan="2" align="center" width="8%"><strong>Working Hours</strong></th>
 						<th rowspan="2" align="center" width="7%"><strong>Total Hours</strong></th>
-						<th rowspan="2" align="center" width="15%"><strong>Task description</strong></th>						
-						<th rowspan="2" align="center" width="21%"><strong>Observation</strong></th>						
+						<th rowspan="2" align="center" width="15%"><strong>Task description</strong></th>
+						<th rowspan="2" align="center" width="21%"><strong>Observation</strong></th>
 					</tr>
 					<tr bgcolor="#337ab7" style="color:white;">
 						<th align="center"><strong>In</strong></th>
 						<th align="center"><strong>Out</strong></th>
 						<th align="center"><strong>Start</strong></th>
-						<th align="center"><strong>Finish</strong></th>						
+						<th align="center"><strong>Finish</strong></th>
 					</tr>
 					';
 
@@ -2100,9 +2100,15 @@ class Report extends CI_Controller
 			$html .= '<th align="center">' . $data['finish'] . '</th>';
 			$html .= '<th>' . $data['job_start'] . '</th>';
 			$html .= '<th>' . $data['job_finish'] . '</th>';
-			$html .= '<th align="center">' . $data['working_hours']  . '</th>';
-			$total = $data['working_hours'] + $total;
-			$html .= '<th align="center">' . $total . '</th>';
+			$html .= '<th align="center">' . substr($data['working_hours_new'], 0, 5)  . '</th>';
+
+			$parts = explode(':', $data['working_hours_new']);
+			$total += ($parts[0] * 3600) + ($parts[1] * 60) + $parts[2];
+			$hours = floor($total / 3600);
+			$mins = floor(($total / 60) % 60);
+
+			//$total = $data['working_hours'] + $total;
+			$html .= '<th align="center">' . sprintf('%02d:%02d', $hours, $mins) . '</th>';
 			$html .= '<th>' . $data['task_description'] . '</th>';
 			$html .= '<th>' . $data['observation'] . '</th>';
 			$html .= '</tr>';
