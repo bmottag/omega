@@ -15,6 +15,7 @@
 					<form  name="form" id="form" class="form-horizontal" method="post" >
 						<input type="hidden" id="hddIdConfined" name="hddIdConfined" value="<?php echo $idConfined; ?>"/>
 						<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $idJob; ?>"/>
+						<input type="hidden" id="hddWOS" name="hddWOS" value="<?php echo $wos; ?>"/>
 															
                         <table class="table table-striped table-hover table-condensed table-bordered">
                             <tr class="info">
@@ -26,7 +27,7 @@
                             $ci->load->model("more_model");
                             foreach ($workersList as $lista):
 							
-                                $found = $ci->more_model->get_confined_byIdworker_byIdConfined($idConfined, $lista['id_user']);
+                                $found = $ci->more_model->get_confined_byIdworker_byIdConfined($idConfined, $lista['id_user'], $wos);
 								
                                 echo "<tr>";
                                 echo "<td>";

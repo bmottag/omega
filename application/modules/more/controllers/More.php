@@ -773,7 +773,7 @@ class More extends CI_Controller
 			);
 			$data['information'] = $this->general_model->get_confined_space($arrParam);
 
-			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, null); //workers list
+			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, 2); //workers list
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -830,7 +830,7 @@ class More extends CI_Controller
 	 * @since 20/1/2020
 	 * @author BMOTTAG
 	 */
-	public function add_workers_confined($idJob, $idConfined)
+	public function add_workers_confined($idJob, $idConfined, $wos)
 	{
 		if (empty($idJob) || empty($idConfined)) {
 			show_error('ERROR!!! - You are in the wrong place.');
@@ -845,6 +845,7 @@ class More extends CI_Controller
 		$view = 'form_add_workers_confined';
 		$data["idConfined"] = $idConfined;
 		$data["idJob"] = $idJob;
+		$data["wos"] = $wos;
 
 		$data["view"] = $view;
 		$this->load->view("layout", $data);
@@ -861,10 +862,11 @@ class More extends CI_Controller
 		$data = array();
 		$idConfined = $this->input->post('hddIdConfined');
 		$idJob = $this->input->post('hddIdJob');
+		$wos = $this->input->post('hddWOS');
 
-		$data["idRecord"] = $idJob . "/" . $idConfined;
+		$data["idRecord"] = $wos == 2 ? "confined_workers/" . $idJob . "/" . $idConfined : "workers_site/" . $idJob . "/" . $idConfined;
 
-		if ($this->more_model->add_confined_worker($idConfined)) {
+		if ($this->more_model->add_confined_worker($idConfined, $wos)) {
 			$data["result"] = true;
 			$data["mensaje"] = "Solicitud guardada correctamente.";
 

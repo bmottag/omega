@@ -395,10 +395,11 @@ class More_model extends CI_Model
 	 * @since 20/1/2020
 	 * Consulta de empleados para un confined especifico
 	 */
-	public function get_confined_byIdworker_byIdConfined($idConfined, $idWorker)
+	public function get_confined_byIdworker_byIdConfined($idConfined, $idWorker, $wos)
 	{
 		$this->db->where('fk_id_job_confined', $idConfined);
 		$this->db->where('fk_id_user', $idWorker);
+		$this->db->where('flag_workers', $wos);
 		$query = $this->db->get('job_confined_workers');
 		if ($query->num_rows() == 1) {
 			return TRUE;
@@ -411,7 +412,7 @@ class More_model extends CI_Model
 	 * Add confined WORKER
 	 * @since 20/1/2020
 	 */
-	public function add_confined_worker($idConfined)
+	public function add_confined_worker($idConfined, $wos)
 	{
 		//add the new workers
 		$query = 1;
@@ -420,7 +421,8 @@ class More_model extends CI_Model
 			for ($i = 0; $i < $tot; $i++) {
 				$data = array(
 					'fk_id_job_confined' => $idConfined,
-					'fk_id_user' => $workers[$i]
+					'fk_id_user' => $workers[$i],
+					'flag_workers' => $wos
 				);
 				$query = $this->db->insert('job_confined_workers', $data);
 			}
