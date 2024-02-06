@@ -18,7 +18,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<a class="btn btn-success" href=" <?php echo base_url() . 'report/searchByDateRange/csep_report'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
+					<a class="btn btn-primary btn-xs" href=" <?php echo base_url() . 'report/searchByDateRange/csep_report'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<i class="fa fa-life-saver fa-fw"></i> CSEP REPORT
 				</div>
 				<!-- /.panel-heading -->
@@ -40,6 +40,7 @@
 							<thead>
 								<tr>
 									<th>#</th>
+									<th>Job Code/Name</th>
 									<th>Reported by</th>
 									<th>Date</th>
 									<th>Location</th>
@@ -52,16 +53,18 @@
 								foreach ($info as $lista) :
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['id_job_confined'] . "</td>";
+									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_confined'] . "</td>";
 									echo "<td>" . $lista['location'] . "</td>";
 									echo "<td>" . $lista['purpose'] . "</td>";
-
 									echo "<td class='text-center'>";
 								?>
-									<a class='btn btn-success btn-xs' target="_blank" href='<?php echo base_url('more/generaConfinedPDF/' . $lista['id_job_confined']) ?>'>
-										PDF
-									</a>
+									<a class='btn btn-success btn-xs' href='<?php echo base_url('more/add_confined/' . $lista['fk_id_job'] . '/' . $lista['id_job_confined'] ) ?>' title="Edit">
+										<span class="glyphicon glyphicon-edit" aria-hidden="true">
+									</a>	
+
+									<a href='<?php echo base_url('more/generaConfinedPDF/' . $lista['id_job_confined']) ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
 								<?php
 									echo "</td>";
 									echo "</tr>";
@@ -71,16 +74,10 @@
 						</table>
 					<?php }	?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-
-
 </div>
-<!-- /#page-wrapper -->
 
 <!-- Tables -->
 <script>
