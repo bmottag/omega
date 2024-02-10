@@ -1,9 +1,14 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart_V4.js"); ?>"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
+
 <div id="page-wrapper">
 	<br>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -18,7 +23,7 @@
 						<input type="hidden" id="hddTask" name="hddTask" value="1"/>
 						
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="address">Address</label>
+							<label class="col-sm-4 control-label" for="address">Address:</label>
 							<div class="col-sm-4">
 								<input id="viewaddress" name="viewaddress" class="form-control" type="text" disabled >
 								<input id="latitud" name="latitud" type="hidden">					
@@ -39,9 +44,9 @@
 						</div>									
 												
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="jobName">Job Code/Name</label>
+							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
 							<div class="col-sm-5">
-								<select name="jobName" id="jobName" class="form-control" >
+								<select name="jobName" id="jobName" class="form-control js-example-basic-single" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 										<option value="<?php echo $jobs[$i]["id_job"]; ?>" ><?php echo $jobs[$i]["job_description"]; ?></option>	
@@ -51,7 +56,7 @@
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-6 control-label" for="certify">
+							<label class="col-sm-6 control-label small" for="certify">
 									I certify to be clean for the last 8 hours of any substance such: 
 recreational cannabis, alcohol, drugs or any over the counter medicine that may or will affect 
 the fitness of my work performance.
@@ -66,7 +71,7 @@ the fitness of my work performance.
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-6 control-label" for="certify">
+							<label class="col-sm-6 control-label small" for="certify">
 									I certify to be well-rested, having slept a minimun of 6 - 8 hours. I certify my ability or alertness to perform my work for this shift will NOT be impaired by the amount or quality of sleep I had before coming to work.
 							</label>
 							<div class="col-sm-3">
@@ -78,6 +83,7 @@ the fitness of my work performance.
 							</div>
 						</div>
 
+<!-- COVID END 
 	<div class="row">
 		<div class="col-lg-12">	
             <div class="panel panel-default">
@@ -132,14 +138,13 @@ the fitness of my work performance.
 					</div>
 					
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
         </div>
 	</div>
+-->
 												
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="taskDescription">Task/Report Description</label>
+							<label class="col-sm-4 control-label" for="taskDescription">Task/Report Description:</label>
 							<div class="col-sm-5">
 							<textarea id="taskDescription" name="taskDescription" class="form-control" rows="3"></textarea>
 							</div>
@@ -147,22 +152,18 @@ the fitness of my work performance.
 												
 						<div class="row" align="center">
 							<div style="width:50%;" align="center">
-								 <button type="submit" class="btn btn-primary" id='btnSubmit' name='btnSubmit'>Submit </button>
+								 <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+								 	Submit <span class="glyphicon glyphicon-log-in" aria-hidden="true">
+								</button> 
 							</div>
 						</div>
 						
 					</form>
-					<!-- /.row (nested) -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 
 		
@@ -257,36 +258,10 @@ error("Geocoding fallo debido a : " + status);
 		geocoder = new google.maps.Geocoder();
 				
 		navigator.geolocation.getCurrentPosition(success, error, options);
-		
-		/*var infoWindow = new google.maps.InfoWindow({map: map});
-		// Try HTML5 geolocation.
-        if (navigator.geolocation) {
-			  navigator.geolocation.getCurrentPosition(function(position) {
-				var pos = {
-				  lat: position.coords.latitude,
-				  lng: position.coords.longitude
-				};
-
-				infoWindow.setPosition(pos);
-				infoWindow.setContent('Su ubicacion.');
-				map.setCenter(pos);
-			  }, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
-			  });
-			} else {
-			  // Browser doesn't support Geolocation
-			  handleLocationError(false, infoWindow, map.getCenter());
-			}
-*/
 	}	
 
   </script>
 
-			
-	<!--<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
-		http://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap"
-	</script>-->
 	<script async defer		
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
 	</script>

@@ -364,18 +364,18 @@
 					} else {
 					?>
 
-						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 							<thead>
 								<tr>
 									<th>Employee</th>
 									<th>Start</th>
 									<th>Finish</th>
-									<th>Working Hours</th>
+									<th>Working Hours <small>(HH:MM)</small></th>
 									<th>Job Start</th>
 									<th>Address Start</th>
 									<th>Job Finish</th>
 									<th>Address Finish</th>
-									<th>Task description</th>
+									<th>Task Description</th>
 									<th>Observation</th>
 								</tr>
 							</thead>

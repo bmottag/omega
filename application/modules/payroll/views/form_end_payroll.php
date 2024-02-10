@@ -1,28 +1,22 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/payroll/payrollStart.js"); ?>"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
+
         <div id="page-wrapper">
 
 			<br>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h4 class="list-group-item-heading">
-								<i class="fa fa-edit fa-fw"></i> RECORD TASK(S)
-							</h4>
-						</div>
-					</div>
-				</div>
-				<!-- /.col-lg-12 -->				
-			</div>
 			
-            <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-book"></i> PAYROLL - FINISH
-                        </div>
+						<div class="panel-heading">
+							<i class="fa fa-book"></i> <strong>RECORD TASK(S) - PAYROLL</strong>
+							<br><small>Time Stamp - Finish</small>
+						</div>
                         <div class="panel-body">
 
 							<form  name="form" id="form" class="form-horizontal" method="post" action="<?php echo base_url("payroll/updatePayroll"); ?>" >
@@ -30,14 +24,13 @@
 								<input type="hidden" id="hddStart" name="hddStart" value="<?php echo $start; ?>"/>
 
 								<div class="alert alert-info">
-									<strong>Task: </strong><?php echo $record[0]["task"]?><br>
 									<strong>Job Code/Name: </strong><?php echo $record[0]["job_start"]?><br>
 									<strong>Employee: </strong><?php echo $record[0]["first_name"] . " " . $record[0]["last_name"]?><br>
 									<strong>Date & Time In: </strong><?php echo $record[0]["start"]?>
 								</div>
 								
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="address">Address</label>
+									<label class="col-sm-4 control-label" for="address">Address: </label>
 									<div class="col-sm-4">
 										<input id="viewaddress" name="viewaddress" class="form-control" type="text" disabled >
 										<input id="latitud" name="latitud" type="hidden">					
@@ -58,9 +51,9 @@
 								</div>
 								
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="jobName">Job Code/Name</label>
+									<label class="col-sm-4 control-label" for="jobName">Job Code/Name: </label>
 									<div class="col-sm-5">
-										<select name="jobName" id="jobName" class="form-control" >
+										<select name="jobName" id="jobName" class="form-control js-example-basic-single" >
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 												<option value="<?php echo $jobs[$i]["id_job"]; ?>" ><?php echo $jobs[$i]["job_description"]; ?></option>	
@@ -70,7 +63,7 @@
 								</div>
 																										
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="taskDescription">Observation</label>
+									<label class="col-sm-4 control-label" for="taskDescription">Observation: </label>
 									<div class="col-sm-5">
 									<textarea id="observation" name="observation" class="form-control" rows="3"></textarea>
 									</div>
@@ -104,9 +97,7 @@
 		</div>
 <?php } ?>
 
-<!--
-<a class="btn <?php echo $class; ?>" href="<?php echo base_url("payroll/add_signature/" . $record[0]["id_task"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a><br><br>
--->
+
 									</div>
 								</div>
 
@@ -126,25 +117,18 @@
 																		
 								<div class="row" align="center">
 									<div style="width:50%;" align="center">
-										 <button type="submit" class="btn btn-primary" id='btnSubmit' name='btnSubmit'>Submit </button>
+										 <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+											Submit <span class="glyphicon glyphicon-log-in" aria-hidden="true">
+										</button> 
 									</div>
 								</div>
 							</form>
-                            <!-- /.row (nested) -->
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /#page-wrapper -->
-		
-		
-		
-		
+
   <script>
     // The following example creates complex markers to indicate beaches near
 	// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
@@ -237,35 +221,10 @@ error("Geocoding fallo debido a : " + status);
 				
 		navigator.geolocation.getCurrentPosition(success, error, options);
 		
-		/*var infoWindow = new google.maps.InfoWindow({map: map});
-		// Try HTML5 geolocation.
-        if (navigator.geolocation) {
-			  navigator.geolocation.getCurrentPosition(function(position) {
-				var pos = {
-				  lat: position.coords.latitude,
-				  lng: position.coords.longitude
-				};
-
-				infoWindow.setPosition(pos);
-				infoWindow.setContent('Su ubicacion.');
-				map.setCenter(pos);
-			  }, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
-			  });
-			} else {
-			  // Browser doesn't support Geolocation
-			  handleLocationError(false, infoWindow, map.getCenter());
-			}
-*/
 	}	
 
   </script>
 
-			
-	<!--<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
-		http://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap"
-	</script>-->
 	<script async defer		
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
 	</script>
