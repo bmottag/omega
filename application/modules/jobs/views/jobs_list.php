@@ -80,10 +80,11 @@
 										CSEP <span class="fa fa-database" aria-hidden="true">
 									</a>
 											
+							<!--
 									<a class='btn btn-success btn-xs' href='<?php echo base_url('more/task_control/' . $lista['id_job']) ?>'>
 										COVID <span class="fa fa-bug" aria-hidden="true">
 									</a>
-
+							-->
 						<?php
 								if($userRol != ID_ROL_BASIC){ //Para BASIC no se muestra el enlace
 						?>
