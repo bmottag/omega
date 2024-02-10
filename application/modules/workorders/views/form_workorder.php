@@ -542,7 +542,6 @@ if($information){
 					foreach ($workorderPersonal as $data):
 						echo "<tr>";					
 						echo "<td ><small>" . $data['name'] . "</small></td>";
-						echo "<td ><small>" . $data['employee_type'] . "</small></td>";
 						
 						$idRecord = $data['id_workorder_personal'];
 				?>				
@@ -553,6 +552,15 @@ if($information){
 						<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>"/>
 						<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>"/>
 						<input type="hidden" id="quantity" name="quantity" value=1 >
+
+						<td>
+						<select name="type" id="type" class="form-control" >
+							<option value=''>Select...</option>
+							<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
+								<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>" <?php if($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) { echo "selected"; }  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>
+							<?php } ?>
+						</select>
+						</td>
 						
 						<td>
 						<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>

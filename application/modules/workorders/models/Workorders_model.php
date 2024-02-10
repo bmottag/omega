@@ -433,6 +433,8 @@ class Workorders_model extends CI_Model
 
 		switch ($formType) {
 			case "personal":
+				$type = $this->input->post('type');
+				$data['fk_id_employee_type'] = $type;
 				$data['hours'] = $hours;
 				break;
 			case "materials":

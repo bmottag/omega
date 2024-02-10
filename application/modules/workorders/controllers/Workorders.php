@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once(FCPATH.'vendor/autoload.php');
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -92,6 +94,13 @@ class Workorders extends CI_Controller
 			$data['workorderState'] = $this->workorders_model->get_workorder_state($id); //workorder additional information
 
 			$data['information'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
+
+			$arrParam = array(
+				"table" => "param_employee_type",
+				"order" => "employee_type",
+				"id" => "x"
+			);
+			$data['employeeTypeList'] = $this->general_model->get_basic_search($arrParam); //employee type list
 
 			//DESHABILITAR WORK ORDER
 			$userRol = $this->session->rol;
