@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once(FCPATH.'vendor/autoload.php');
+require_once(FCPATH . 'vendor/autoload.php');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -2378,6 +2378,13 @@ class Report extends CI_Controller
 		$total = 0;
 		foreach ($info as $data) :
 			$total = $data['working_hours'] + $total;
+
+			$parts = explode(':', $data['working_hours_new']);
+			$total += ($parts[0] * 3600) + ($parts[1] * 60) + $parts[2];
+			$hours = floor($total / 3600);
+			$mins = floor(($total / 60) % 60);
+
+
 			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['name'])
 				->setCellValue('B' . $j, $data['start'])
 				->setCellValue('C' . $j, $data['finish'])
@@ -2385,12 +2392,12 @@ class Report extends CI_Controller
 				->setCellValue('E' . $j, $data['job_finish'])
 				->setCellValue('F' . $j, $data['task_description'])
 				->setCellValue('G' . $j, $data['observation'])
-				->setCellValue('H' . $j, $data['working_hours'])
-				->setCellValue('I' . $j, $total);
+				->setCellValue('H' . $j, substr($data['working_hours_new'], 0, 5))
+				->setCellValue('I' . $j, sprintf('%02d:%02d', $hours, $mins));
 			$j++;
 		endforeach;
 
-		// Set column widths							  
+		// Set column widths
 		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(23);
 		$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
