@@ -3,7 +3,7 @@
 
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -21,25 +21,12 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - EMPLOYEE
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-users"></i> EMPLOYEE LIST
+					<i class="fa fa-users"></i> SETTINGS - EMPLOYEE LIST
 				</div>
 				<div class="panel-body">
 				
@@ -61,7 +48,7 @@ $(function(){
 	}
 ?>
 				<?php if(!$deshabilitar){ ?>
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Employee
 					</button><br>
 				<?php } ?>
@@ -135,7 +122,7 @@ if ($retornoError) {
 								if(!$deshabilitar){ 					
 						?>
 								<br>
-								<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" title="Edit" >
+								<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_user']; ?>" title="Edit" >
 									<i class='fa fa-pencil'></i>
 								</button>
 						<?php

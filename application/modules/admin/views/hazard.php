@@ -1,6 +1,6 @@
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -17,28 +17,15 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - HAZARD
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-medkit"></i> HAZARD LIST
+					<i class="fa fa-medkit"></i> SETTINGS - HAZARD LIST
 				</div>
 				<div class="panel-body">
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Hazard
 					</button><br>
 <?php
@@ -103,7 +90,7 @@ echo "<td class='text-center " . $class . "'><p class='text-" . $class . "'><str
 									
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_hazard']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_hazard']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php
@@ -114,15 +101,10 @@ echo "<td class='text-center " . $class . "'><p class='text-" . $class . "'><str
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->

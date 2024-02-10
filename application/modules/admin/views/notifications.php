@@ -1,6 +1,6 @@
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -17,28 +17,15 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - NOTIFICATIONS
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> NOTIFICATIONS ACCESS LIST
+					<i class="glyphicon glyphicon-send"></i> SETTINGS - NOTIFICATIONS ACCESS LIST
 				</div>
 				<div class="panel-body">
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Notification Access
 					</button><br>
 <?php
@@ -88,12 +75,12 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['notification'] . "</td>";
-									echo "<td>" . $lista['description'] . "</td>";
+									echo "<td><small>" . $lista['description'] . "</small></td>";
 									echo "<td>" . $lista['name_email'] . "</br><b>" . $lista['email']  . "</b></td>";	
 									echo "<td>" . $lista['name_sms'] . "</br><b>" . chunk_split($lista['movil'],3," ") . "</b></td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_notification_access']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_notification_access']; ?>" >
 										<span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
 									</button>
 						<?php

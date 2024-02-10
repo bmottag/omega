@@ -3,7 +3,7 @@
 
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -20,25 +20,12 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - CERTIFICATE LIST
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
-	
-	<!-- /.row -->
+
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-link"></i> CERTIFICATES
+					<i class="fa fa-link"></i> SETTINGS - CERTIFICATE LIST
 				</div>
 				<div class="panel-body">
 <?php
@@ -48,7 +35,7 @@ $(function(){
 	//SOLO SE HABILITA EL BOTON DE CERTIFICADOS PARA EL USUARIO SUPER ADMINISTRADOR Y SAFETY 
 ?>
 				<?php if($userRol == 99 || $userRol == 4){ ?>
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Certificate
 					</button><br>
 				<?php } ?>
@@ -109,7 +96,7 @@ if ($retornoError) {
 </script>
 									<div class="col-lg-2">
 										<div class="form-group input-group-sm">	
-											<label class="control-label" for="date">Date Throught (YYYY-MM-DD): </label>								
+											<label class="control-label" for="date">Date Throught <small>(YYYY-MM-DD)</small>: </label>								
 											<input type="text" class="form-control" id="date" name="date" value="<?php if($_POST && $_POST["date"]) { echo $_POST["date"]; }  ?>" placeholder="Date Throught" />
 										</div>
 									</div>
@@ -162,8 +149,8 @@ if ($retornoError) {
 								if($userRol == 99 || $userRol == 4){
 									echo "<td class='text-center'>";
 							?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_certificate']; ?>" >
-										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_certificate']; ?>" >
+										<span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 							<?php
 									echo "</td>";
@@ -174,15 +161,10 @@ if ($retornoError) {
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->

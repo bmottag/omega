@@ -9,17 +9,16 @@
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-warning">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-
 					<?php
 					if ($idProgramming != 'x') {
 					?>
-						<a class="btn btn-warning btn-xs" href=" <?php echo base_url('programming'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
+						<a class="btn btn-info btn-xs" href=" <?php echo base_url('programming'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<?php
 					}
 					?>
-					<i class="fa fa-list"></i> <strong>PLANNING LIST </strong>
+					<i class="fa fa-list"></i> SETTINGS - PLANNING LIST
 				</div>
 				<div class="panel-body">
 
@@ -33,7 +32,7 @@
 					}
 					?>
 					<?php if (!$deshabilitar) { ?>
-						<a class='btn btn-outline btn-warning btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
+						<a class='btn btn-outline btn-primary btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span> New Planning
 						</a>
 						<br>
