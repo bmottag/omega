@@ -100,11 +100,15 @@
 											$totalRegular = $lista['regular_hours'] + $totalRegular;
 											$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
 
-											$partsRegular = explode(':', $lista['regular_hours_new']);
-											$totalRegularNew += ($partsRegular[0] * 3600) + ($partsRegular[1] * 60) + $partsRegular[2];
+											if($lista['regular_hours_new']){
+												$partsRegular = explode(':', $lista['regular_hours_new']);
+												$totalRegularNew += ($partsRegular[0] * 3600) + ($partsRegular[1] * 60) + $partsRegular[2];
+											}
 
-											$partsOvertime = explode(':', $lista['overtime_hours_new']);
-											$totalOvertimeNew += ($partsOvertime[0] * 3600) + ($partsOvertime[1] * 60) + $partsOvertime[2];
+											if($lista['overtime_hours_new']){
+												$partsOvertime = explode(':', $lista['overtime_hours_new']);
+												$totalOvertimeNew += ($partsOvertime[0] * 3600) + ($partsOvertime[1] * 60) + $partsOvertime[2];
+											}
 
 										endforeach;
 										$hoursRegular = floor($totalRegularNew / 3600);
