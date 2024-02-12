@@ -246,7 +246,7 @@
 						<br><strong>Reports:</strong> Special Equipment Inspection Report
 						<br>----------------------------
 						<br>* <strong>Settings:</strong> Employee ---> This role can only update the employee certifacates.
-						<br>* <strong>Settings:</strong> Planning ---> This role can only see the information.
+						<br><strong>Settings:</strong> Planning
 						<br><strong>Settings:</strong> Hazard
 						<br><strong>Settings:</strong> Hazard activity
 						<br><strong>Settings:</strong> Vehicles

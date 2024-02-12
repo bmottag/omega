@@ -28,7 +28,7 @@
 					$userRol = $this->session->rol;
 
 					if ($userRol == 4) {
-						$deshabilitar = 'disabled';
+						//$deshabilitar = 'disabled';
 					}
 					?>
 					<?php if (!$deshabilitar) { ?>
