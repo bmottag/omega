@@ -296,32 +296,6 @@ class Workorders extends CI_Controller
 				$this->general_model->updateRecord($arrParam);
 			}
 
-			//send Workorder change, when the change is differente from Adriana Rios
-			$idUser = $this->session->userdata("id");
-			if($infoWorkorder[0]["state"] >= 2 && $idUser != 13 && $modalToUse != 'saveExpense'){
-				switch ($modalToUse) {
-					case "savePersonal":
-						$module = 'Personal';
-						break;
-					case "saveMaterial":
-						$module = 'Material';
-						break;
-					case "saveReceipt":
-						$module = 'Receipt';
-						break;
-					case "saveEquipment":
-						$module = 'Equipment';
-						break;
-					case "saveOcasional":
-						$module = 'Ocasional Subcontractor';
-						break;
-					default:
-						$module = '';
-				}
-				$messague = 'A new ' . $module . ' has been added to the Work order. Work Order Numer: ' . $idWorkOrder;
-				$this->workorder_email($arrParam["idWorkOrder"], $messague);
-			}
-
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
 		} else {
@@ -758,32 +732,6 @@ class Workorders extends CI_Controller
 		$formType = $this->input->post('formType');
 
 		if ($this->workorders_model->saveRate()) {	
-			//send Workorder change, when the change is differente from Adriana Rios
-			$idUser = $this->session->userdata("id");
-			if($infoWorkorder[0]["state"] >= 2 && $idUser != 13){
-				switch ($formType) {
-					case "personal":
-						$module = 'Personal';
-						break;
-					case "materials":
-						$module = 'Material';
-						break;
-					case "equipment":
-						$module = 'Receipt';
-						break;
-					case "ocasional":
-						$module = 'Equipment';
-						break;
-					case "saveOcasional":
-						$module = 'Ocasional Subcontractor';
-						break;
-					default:
-						$module = '';
-				}
-				$messague = 'An update to ' . $module . ' has been made to the Work Order. Work Order Numer: ' . $arrParam["idWorkOrder"];
-				$this->workorder_email($arrParam["idWorkOrder"], $messague);
-			}
-
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
 		} else {
@@ -2428,39 +2376,5 @@ class Workorders extends CI_Controller
 				echo "<option value='" . $fila["id_attachment"] . "'>" . $fila["attachment_number"] . " - " . $fila["attachment_description"]  . "</option>";
 			}
 		}
-	}
-
-	/**
-	 * Send any change to the workorder
-	 * @since 11/2/2024
-	 * @author BMOTTAG
-	 */
-	public function workorder_email($idWorkOrder, $messague)
-	{
-		$subjet = "VCI - Change to the Work Order";
-		//$msj .= "<br><br><a href='" . base_url('report/generaHaulingPDF/x/x/x/x/' . $infoHauling['id_hauling']) . "' target='_blank'>See Work Order</a>";
-
-		$mensaje = "<html>
-			<head>
-			  <title> $subjet </title>
-			</head>
-			<body>
-				<p>Dear	Administrator:</p>
-				<p>$messague</p>
-				<p>Cordially,</p>
-				<p><strong>V-CONTRACTING INC</strong></p>
-			</body>
-			</html>";
-
-		//enviar correo a VCI
-		$arrParam = array(
-			"idNotification" => ID_NOTIFICATION_WORKORDER_CHANGE,
-			"subjet" => $subjet,
-			"msjEmail" => $mensaje,
-			"msjPhone" => false
-		);
-		send_notification($arrParam);
-
-		return true;
 	}
 }

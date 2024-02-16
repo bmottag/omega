@@ -554,7 +554,7 @@ if($information){
 						<input type="hidden" id="quantity" name="quantity" value=1 >
 
 						<td>
-						<select name="type" id="type" class="form-control" >
+						<select name="type_personal" id="type_personal" class="form-control" >
 							<option value=''>Select...</option>
 							<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
 								<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>" <?php if($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) { echo "selected"; }  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>
