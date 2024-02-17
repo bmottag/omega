@@ -178,7 +178,11 @@ class Programming_model extends CI_Model
 	public function saveWorker()
 	{
 		$hddId = $this->input->post('hddId');
-		$maquina = '[' . implode(", ", $this->input->post('machine')) . ']';
+
+		$maquina = NULL;
+		if (!empty($this->input->post('machine'))) {
+			$maquina = '[' . implode(", ", $this->input->post('machine')) . ']';
+		}
 
 		$data = array(
 			'description' => $this->input->post('description'),
