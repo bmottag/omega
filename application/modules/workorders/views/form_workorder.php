@@ -568,7 +568,7 @@
 										<input type="hidden" id="quantity" name="quantity" value=1>
 
 										<td>
-											<select name="type" id="type" class="form-control">
+											<select name="type_personal" id="type_personal" class="form-control">
 												<option value=''>Select...</option>
 												<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
 													<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>" <?php if ($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) {
@@ -976,41 +976,6 @@
 		</div>
 		<!--FIN OCASIONAL SUBCONTRACTOR -->
 
-						<td>
-						<select name="type_personal" id="type_personal" class="form-control" >
-							<option value=''>Select...</option>
-							<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
-								<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>" <?php if($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) { echo "selected"; }  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>
-							<?php } ?>
-						</select>
-						</td>
-						
-						<td>
-						<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
-						</td>
-						
-						<td>
-						<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
-						</td>
-						
-						<td class='text-center'>
-							<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-								Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-							</button> 
-						</form>
-						
-						<br><br>
-							<?php if(!$deshabilitar){ ?>
-							<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-									Delete <i class="fa fa-trash-o"></i> 
-							</a>
-							<?php }else{ echo "---";} ?>
-							</td>
-						</tr>
-				<?php
-					endforeach;
-				?>
-			</table>
 	<?php } ?>
 
 </div>
