@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once(FCPATH.'vendor/autoload.php');
+require_once(FCPATH . 'vendor/autoload.php');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -288,6 +288,7 @@ class Workorders extends CI_Controller
 					"table" => "workorder",
 					"primaryKey" => "id_workorder",
 					"id" => $idWorkOrder,
+					"order" => 'id_workorder',
 					"column" => "expenses_flag",
 					"value" => 1
 				);

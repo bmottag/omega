@@ -375,11 +375,27 @@ class General_model extends CI_Model
 	 */
 	public function updateRecord($arrDatos)
 	{
+		$this->load->library('logger');
+		$this->load->model("general_model");
+
 		$data = array(
 			$arrDatos["column"] => $arrDatos["value"]
 		);
 		$this->db->where($arrDatos["primaryKey"], $arrDatos["id"]);
 		$query = $this->db->update($arrDatos["table"], $data);
+
+		$log['old'] = $this->general_model->get_basic_search($arrDatos);
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //Set UserID, who created this  Action
+			->type($arrDatos["table"]) //Entry type like, Post, Page, Entry
+			->id($arrDatos["id"]) //Entry ID
+			->token('update') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
+
+
 		if ($query) {
 			return true;
 		} else {

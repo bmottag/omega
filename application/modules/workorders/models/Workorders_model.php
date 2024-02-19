@@ -43,6 +43,9 @@ class Workorders_model extends CI_Model
 	 */
 	public function add_workorder()
 	{
+		$this->load->library('logger');
+		$this->load->model("general_model");
+
 		$idUser = $this->session->userdata("id");
 		$idWorkorder = $this->input->post('hddIdentificador');
 
@@ -64,10 +67,40 @@ class Workorders_model extends CI_Model
 			$data['last_message'] = 'New work order.';
 			$query = $this->db->insert('workorder', $data);
 			$idWorkorder = $this->db->insert_id();
+
+			$log['old'] = null;
+			$log['new'] = json_encode($data);
+
+			$this->logger
+				->user($this->session->userdata("id")) //;//Set UserID, who created this  Action
+				->type('workorder') //Entry type like, Post, Page, Entry
+				->id($idWorkorder) //Entry ID
+				->token('insert') //Token identify Action
+				->comment(json_encode($log))
+				->log(); //Add Database Entry
 		} else {
+			$arrParam = array(
+				"table" => "workorder",
+				"order" => "id_workorder",
+				"column" => "id_workorder",
+				"id" => $idWorkorder
+			);
+			$log['old'] = $this->general_model->get_basic_search($arrParam);
+			$log['new'] = json_encode($data);
+
 			$this->db->where('id_workorder', $idWorkorder);
 			$query = $this->db->update('workorder', $data);
+
+
+			$this->logger
+				->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+				->type('workorder') //Entry type like, Post, Page, Entry
+				->id($idWorkorder) //Entry ID
+				->token('update') //Token identify Action
+				->comment(json_encode($log))
+				->log(); //Add Database Entry
 		}
+
 		if ($query) {
 			return $idWorkorder;
 		} else {
@@ -106,8 +139,11 @@ class Workorders_model extends CI_Model
 	 */
 	public function savePersonal()
 	{
+		$this->load->library('logger');
+		$idWorkorder = $this->input->post('hddidWorkorder');
+
 		$data = array(
-			'fk_id_workorder' => $this->input->post('hddidWorkorder'),
+			'fk_id_workorder' => $idWorkorder,
 			'fk_id_user' => $this->input->post('employee'),
 			'fk_id_employee_type' => $this->input->post('type'),
 			'hours' => $this->input->post('hour'),
@@ -115,6 +151,17 @@ class Workorders_model extends CI_Model
 		);
 
 		$query = $this->db->insert('workorder_personal', $data);
+
+		$log['old'] = null;
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+			->type('workorder_personal') //Entry type like, Post, Page, Entry
+			->id($idWorkorder) //Entry ID
+			->token('insert') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
 
 		if ($query) {
 			return true;
@@ -153,6 +200,9 @@ class Workorders_model extends CI_Model
 	 */
 	public function saveMaterial()
 	{
+		$this->load->library('logger');
+		$idWorkorder = $this->input->post('hddidWorkorder');
+
 		$data = array(
 			'fk_id_workorder' => $this->input->post('hddidWorkorder'),
 			'fk_id_material' => $this->input->post('material'),
@@ -162,6 +212,17 @@ class Workorders_model extends CI_Model
 		);
 
 		$query = $this->db->insert('workorder_materials', $data);
+
+		$log['old'] = null;
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+			->type('workorder_materials') //Entry type like, Post, Page, Entry
+			->id($idWorkorder) //Entry ID
+			->token('insert') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
 
 		if ($query) {
 			return true;
@@ -176,6 +237,9 @@ class Workorders_model extends CI_Model
 	 */
 	public function saveOcasional()
 	{
+		$this->load->library('logger');
+		$idWorkorder = $this->input->post('hddidWorkorder');
+
 		$data = array(
 			'fk_id_workorder' => $this->input->post('hddidWorkorder'),
 			'fk_id_company' => $this->input->post('company'),
@@ -188,6 +252,17 @@ class Workorders_model extends CI_Model
 		);
 
 		$query = $this->db->insert('workorder_ocasional', $data);
+
+		$log['old'] = null;
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+			->type('workorder_ocasional') //Entry type like, Post, Page, Entry
+			->id($idWorkorder) //Entry ID
+			->token('insert') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
 
 		if ($query) {
 			return true;
@@ -249,6 +324,9 @@ class Workorders_model extends CI_Model
 	 */
 	public function saveEquipment()
 	{
+		$this->load->library('logger');
+		$idWorkorder = $this->input->post('hddidWorkorder');
+
 		$type = $this->input->post('type');
 		$truck = $this->input->post('truck');
 
@@ -275,6 +353,17 @@ class Workorders_model extends CI_Model
 		);
 
 		$query = $this->db->insert('workorder_equipment', $data);
+
+		$log['old'] = null;
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+			->type('workorder_equipment') //Entry type like, Post, Page, Entry
+			->id($idWorkorder) //Entry ID
+			->token('insert') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
 
 		if ($query) {
 			return true;
@@ -407,6 +496,9 @@ class Workorders_model extends CI_Model
 	 */
 	public function saveRate()
 	{
+		$this->load->library('logger');
+		$this->load->model("general_model");
+
 		$hddId = $this->input->post('hddId');
 		$formType = $this->input->post('formType');
 		$description = $this->input->post('description');
@@ -415,6 +507,7 @@ class Workorders_model extends CI_Model
 		$quantity = $this->input->post('quantity');
 		$hours = $this->input->post('hours');
 		$checkPDF = $this->input->post('check_pdf');
+		$idWorkorder = $this->input->post('hddIdWorkOrder');
 
 		if ($checkPDF) {
 			$checkPDF = 1;
@@ -430,6 +523,15 @@ class Workorders_model extends CI_Model
 			'value' => $value,
 			'view_pdf' => $checkPDF
 		);
+
+		$table = 'workorder_' . $formType;
+		$arrParam = array(
+			"table" => $table,
+			"order" => "fk_id_workorder",
+			"column" => "fk_id_workorder",
+			"id" => $idWorkorder
+		);
+		$log['old'] = $this->general_model->get_basic_search($arrParam);
 
 		switch ($formType) {
 			case "personal":
@@ -467,6 +569,16 @@ class Workorders_model extends CI_Model
 
 		$this->db->where('id_workorder_' . $formType, $hddId);
 		$query = $this->db->update('workorder_' . $formType, $data);
+
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+			->type('workorder_' . $formType) //Entry type like, Post, Page, Entry
+			->id($idWorkorder) //Entry ID
+			->token('update') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
 
 		if ($query) {
 			return true;
@@ -555,10 +667,14 @@ class Workorders_model extends CI_Model
 	 */
 	public function add_workorder_state($arrData)
 	{
+		$this->load->library('logger');
+
 		$idUser = $this->session->userdata("id");
 
+		$idWorkorder = $arrData["idWorkorder"];
+
 		$data = array(
-			'fk_id_workorder' => $arrData["idWorkorder"],
+			'fk_id_workorder' => $idWorkorder,
 			'fk_id_user' => $idUser,
 			'date_issue' => date("Y-m-d G:i:s"),
 			'observation' => $arrData["observation"],
@@ -566,6 +682,17 @@ class Workorders_model extends CI_Model
 		);
 
 		$query = $this->db->insert('workorder_state', $data);
+
+		$log['old'] = null;
+		$log['new'] = json_encode($data);
+
+		$this->logger
+			->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+			->type('workorder_state') //Entry type like, Post, Page, Entry
+			->id($idWorkorder) //Entry ID
+			->token('insert') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
 
 		if ($query) {
 			return true;
@@ -912,6 +1039,10 @@ class Workorders_model extends CI_Model
 	 */
 	public function saveReceipt()
 	{
+		$this->load->library('logger');
+		$this->load->model("general_model");
+		$idWorkorder = $this->input->post('hddIdWorkOrder');
+
 		$idWOReceipt = $this->input->post('hddId');
 		$price = $this->input->post('price');
 		$checkPDF = $this->input->post('check_pdf');
@@ -934,10 +1065,21 @@ class Workorders_model extends CI_Model
 
 		//revisar si es para adicionar o editar
 		if ($idWOReceipt == '') {
-			$data['fk_id_workorder'] = $this->input->post('hddidWorkorder');
+			$data['fk_id_workorder'] = $this->input->post('hddIdWorkOrder');
 			$data['markup'] = 0;
 			$data['view_pdf'] = 1;
 			$query = $this->db->insert('workorder_receipt', $data);
+
+			$log['old'] = null;
+			$log['new'] = json_encode($data);
+
+			$this->logger
+				->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+				->type('workorder_receipt') //Entry type like, Post, Page, Entry
+				->id($idWorkorder) //Entry ID
+				->token('insert') //Token identify Action
+				->comment(json_encode($log))
+				->log(); //Add Database Entry
 		} else {
 			$markup = $this->input->post('markup');
 
@@ -949,6 +1091,24 @@ class Workorders_model extends CI_Model
 			$data['view_pdf'] = $checkPDF;
 			$this->db->where('id_workorder_receipt', $idWOReceipt);
 			$query = $this->db->update('workorder_receipt', $data);
+
+			$arrParam = array(
+				"table" => "workorder_receipt",
+				"order" => "fk_id_workorder",
+				"column" => "fk_id_workorder",
+				"id" => $idWorkorder
+			);
+			$log['old'] = $this->general_model->get_basic_search($arrParam);
+			$log['new'] = json_encode($data);
+
+			$this->logger
+				->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+				->type('workorder_receipt') //Entry type like, Post, Page, Entry
+				->id($idWorkorder) //Entry ID
+				->token('update') //Token identify Action
+				->comment(json_encode($log))
+				->log(); //Add Database Entry
+
 		}
 		if ($query) {
 			return true;
