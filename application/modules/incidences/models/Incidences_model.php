@@ -12,7 +12,7 @@
 		public function get_near_miss_by_idUser($arrDatos) 
 		{
 				$year = date('Y');
-				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//para filtrar solo los registros del año actual
+				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year-1));//para filtrar solo los registros del año actual
 				
 				$this->db->select('W.*, CONCAT(U.first_name, " " , U.last_name) name, J.id_job, job_description, T.*, CONCAT(X.first_name, " " , X.last_name) supervisor, CONCAT(Y.first_name, " " , Y.last_name) coordinator');
 				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
@@ -125,7 +125,7 @@
 		public function get_incident_by($arrDatos) 
 		{
 				$year = date('Y');
-				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//para filtrar solo los registros del año actual
+				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year-1));//para filtrar solo los registros del año actual
 				
 				$this->db->select('W.*, T.*, CONCAT(U.first_name, " " , U.last_name) name, CONCAT(X.first_name, " " , X.last_name) supervisor, CONCAT(Y.first_name, " " , Y.last_name) coordinator');
 				$this->db->join('param_incident_type T', 'T.id_incident_type = W.fk_incident_type', 'INNER');

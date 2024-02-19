@@ -36,28 +36,15 @@
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-						<i class="fa fa-gear fa-fw"></i> SETTINGS - MATERIAL TYPE
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->
-	</div>
 
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-tint"></i> MATERIAL TYPE LIST
+					<i class="fa fa-tint"></i> SETTINGS - MATERIAL TYPE LIST
 				</div>
 				<div class="panel-body">
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block material" data-toggle="modal" data-target="#modal" id="x">
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Material Type
 					</button><br>
 					<?php
@@ -124,7 +111,7 @@
 										echo "<td>" . $lista['shops'] . "</td>";
 										echo "<td class='text-center'>";
 										?>
-										<button type="button" class="btn btn-success btn-xs material" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_material']; ?>">
+										<button type="button" class="btn btn-outline btn-primary btn-xs material" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_material']; ?>">
 											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 										</button>
 										<button type="button" class="btn btn-success btn-xs shop" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_material']; ?>">

@@ -559,9 +559,9 @@ class General_model extends CI_Model
 	public function get_programming_workers($arrData)
 	{
 		if (array_key_exists("forTextMessague", $arrData)) {
-			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' \n')  as unit_description, H.hora, H.formato_24";
+			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(CONCAT(param_vehicle.unit_number, '-', param_vehicle.description) SEPARATOR ' \n')  as unit_description, H.hora, H.formato_24";
 		} else {
-			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(param_vehicle.description SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
+			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(CONCAT(param_vehicle.unit_number, '-', param_vehicle.description) SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
 		}
 		$sql .= " FROM programming_worker P";
 

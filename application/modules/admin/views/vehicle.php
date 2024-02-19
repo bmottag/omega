@@ -3,7 +3,7 @@
 
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -21,23 +21,10 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - VEHICLE
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 				
 <?php
@@ -50,7 +37,7 @@ $(function(){
 	}
 ?>			
 					
-					<i class="fa fa-automobile"></i> VEHICLE LIST - <?php echo $title; ?>
+					<i class="fa fa-automobile"></i> SETTINGS - VEHICLE LIST - <?php echo $title; ?>
 				</div>
 				<div class="panel-body">
 				
@@ -88,7 +75,7 @@ $(function(){
 				
 <br>
 				<?php if(!$deshabilitar){ ?>
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-x'; ?>">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-x'; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Vehicle
 					</button><br>
 				<?php } ?>
@@ -156,7 +143,7 @@ if($companyType == 2){ //si es subcontractor
 									
 									if(!$deshabilitar){
 						?>			<br>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-' . $lista['id_vehicle']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $companyType . '-' . $lista['id_vehicle']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php

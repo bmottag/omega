@@ -46,8 +46,10 @@ $(function(){
 						</li>
 						<li><a href="<?php echo base_url('safety/upload_info_safety_v2/' . $information[0]['id_safety']); ?>">Hazards</a>
 						</li>
+						<!--
 						<li><a href="<?php echo base_url('safety/upload_covid/' . $information[0]['id_safety']); ?>">COVID Form</a>
 						</li>
+						-->
 						<li><a href="<?php echo base_url('safety/upload_workers/' . $information[0]['id_safety']); ?>">Workers</a>
 						</li>						
 						<li class='active'><a href="<?php echo base_url("admin/vehicle/1/x/2"); ?>">Review and Sign</a>
@@ -147,22 +149,24 @@ if ($retornoError) {
 							<?php
 								}
 							?>
-						
+								<!--
 								<a class="btn <?php echo $class; ?>" href="<?php echo base_url("safety/add_signature/advisor/" . $information[0]["id_safety"] . "/x"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a>
-								
+								-->
+
 								<!-- campo para enviar el ID de SAFETY al MODAL -->
 								<input type="hidden" id="hddIdSafety" name="hddIdSafety" value="<?php echo $information[0]['id_safety']; ?>"/>
+							<?php if(!$information[0]["signature"]){ ?> 
 								<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modal" id="<?php echo "advisor-" . $information[0]['fk_id_user'] . "-x"; ?>" title="System Signature" >
-									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> System Signature
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Use User Profile Signature
 								</button>
-
+							<?php } ?>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>	
-
+		<!--
 		<div class="col-lg-6">
 			<div class="alert alert-info">
 				<strong>COVID-19 Mitigation Strategies: </strong>
@@ -180,7 +184,8 @@ if ($retornoError) {
 					</ul>
 				</p>
 			</div>
-		</div>	
+		</div>
+		-->
 	</div>
 
 <!--INICIO HAZARDS -->
@@ -283,18 +288,20 @@ if ($retornoError) {
 									</div>
 								</div>
 					<?php
-							}
+							}else{
 					?>
+							<!--
 							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('safety/add_signature/worker/' . $data['fk_id_safety'] . '/' . $data['id_safety_worker']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
+							-->
 
 							<button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modal" id="<?php echo "worker-" . $data['fk_id_user'] . "-". $data['id_safety_worker']; ?>" title="System Signature" >
-								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> System Signature
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Use User Profile Signature
 							</button>
 
-							</center>
 					<?php
+							}
 							echo "</small></td>"; 
 							echo "</tr>";
 						endforeach;

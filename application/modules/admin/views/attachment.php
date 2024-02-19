@@ -1,6 +1,6 @@
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -39,23 +39,12 @@ function activeAttachments(attachmentId, status) {
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - ATTACHMENT
-					</h4>
-				</div>
-			</div>
-		</div>			
-	</div>
 	
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-anchor fa-fw"></i> ATTACHMENT LIST
+					<i class="fa fa-anchor fa-fw"></i> SETTINGS - ATTACHMENT LIST
 				</div>
 				<div class="panel-body">
 
@@ -67,7 +56,7 @@ function activeAttachments(attachmentId, status) {
 					</ul>
 					<br>	
 
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Attachment
 					</button><br>
 <?php
@@ -129,7 +118,7 @@ if ($retornoError) {
 									echo "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_attachment']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_attachment']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php

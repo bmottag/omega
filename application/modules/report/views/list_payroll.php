@@ -67,7 +67,7 @@
 					<?php
 					} else {
 					?>
-						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 							<thead>
 								<tr>
 									<th class='text-center'>Employee Name</th>
@@ -76,8 +76,8 @@
 									<th class='text-center'>Address</th>
 									<th class='text-center'>Task Description</th>
 									<th class='text-center'>Observation</th>
-									<th class='text-center'>Working Hours</th>
-									<th class='text-center'>Total Hours</th>
+									<th class='text-center'>Working Hours <small>(HH:MM)</small></th>
+									<th class='text-center'>Total Hours <small>(HH:MM)</small></th>
 								</tr>
 							</thead>
 							<tbody>

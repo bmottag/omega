@@ -1,6 +1,6 @@
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -17,29 +17,18 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - EQUIPMENT PARTS
-					</h4>
-				</div>
-			</div>
-		</div>			
-	</div>
 	
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-anchor fa-fw"></i> EQUIPMENT PARTS LIST
+					<i class="fa fa-anchor fa-fw"></i> SETTINGS - EQUIPMENT PARTS LIST
 				</div>
 				<div class="panel-body">
 
 					<br>	
 
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment Part
 					</button><br>
 <?php
@@ -100,7 +89,7 @@ if ($retornoError) {
 									echo "<td>" . $lista['equipments'] . "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_part_shop']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_part_shop']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php

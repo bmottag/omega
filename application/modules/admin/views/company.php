@@ -1,6 +1,6 @@
 <script>
 $(function(){ 
-	$(".btn-success").click(function () {	
+	$(".btn-outline").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
@@ -17,28 +17,15 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - COMPANY
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> COMPANY LIST
+					<i class="fa fa-suitcase"></i> SETTINGS - COMPANY LIST
 				</div>
 				<div class="panel-body">
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Company
 					</button><br>
 					<?php
@@ -109,7 +96,7 @@ if($count == 10){
 									echo "<td>" . $lista['email'] . "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_company']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_company']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php
@@ -120,15 +107,10 @@ if($count == 10){
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->

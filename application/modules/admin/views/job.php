@@ -1,6 +1,6 @@
 <script>
 	$(function(){ 
-		$(".btn-success").click(function () {	
+		$(".btn-outline").click(function () {	
 				var oID = $(this).attr("id");
 				$.ajax ({
 					type: 'POST',
@@ -47,7 +47,7 @@
 					</ul>
 					<br>	
 				
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Job Code/Name
 					</button><br>
 										
@@ -161,7 +161,7 @@ if ($retornoError) {
 									echo "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job']; ?>" >
+									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 

@@ -25,8 +25,10 @@
 						</li>
 						<li><a href="<?php echo base_url('safety/upload_info_safety_v2/' . $information[0]['id_safety']); ?>">Hazards</a>
 						</li>
+						<!--
 						<li><a href="<?php echo base_url('safety/upload_covid/' . $information[0]['id_safety']); ?>">COVID Form</a>
 						</li>
+						-->
 						<li><a href="<?php echo base_url('safety/upload_workers/' . $information[0]['id_safety']); ?>">Workers</a>
 						</li>
 						<li><a href="<?php echo base_url('safety/review_flha/' . $information[0]['id_safety']); ?>">Review and Sign</a>

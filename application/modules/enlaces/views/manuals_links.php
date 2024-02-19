@@ -1,28 +1,15 @@
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - LINKS
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
-	
-	<!-- /.row -->
+
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-hand-o-up"></i> MANUALS LINKS LIST
+					<i class="fa fa-hand-o-up"></i> SETTINGS - MANUALS LINKS LIST
 				</div>
 				<div class="panel-body">
 
-					<a class='btn btn-success btn-block' href='<?php echo base_url('enlaces/manuals_form') ?>'>
+					<a class='btn btn-outline btn-primary btn-block' href='<?php echo base_url('enlaces/manuals_form') ?>'>
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Link 
 					</a>
 					<br>
@@ -87,9 +74,9 @@ if ($retornoError) {
 									echo "<td class='text-center'>";
 						?>
 
-<a class='btn btn-success btn-xs' href='<?php echo base_url('enlaces/manuals_form/' . $lista['id_link']) ?>'>
-	Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
-</a>
+										<a class='btn btn-outline btn-primary btn-xs' href='<?php echo base_url('enlaces/manuals_form/' . $lista['id_link']) ?>'>
+											<span class="glyphicon glyphicon-edit" aria-hidden="true">
+										</a>
 						<?php
 									echo "</td>";
 									echo "</tr>";
@@ -99,15 +86,10 @@ if ($retornoError) {
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 <!-- Tables -->
 <script>

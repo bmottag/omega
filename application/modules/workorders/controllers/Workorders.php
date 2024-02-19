@@ -277,7 +277,8 @@ class Workorders extends CI_Controller
 		header('Content-Type: application/json');
 		$data = array();
 
-		$data["idRecord"] = $idWorkOrder = $this->input->post('hddidWorkorder');
+		$arrParam["idWorkOrder"] = $data["idRecord"] = $idWorkOrder = $this->input->post('hddidWorkorder');
+		$infoWorkorder = $this->workorders_model->get_workordes_by_idUser($arrParam);
 
 		if ($this->workorders_model->$modalToUse()) {
 			if ($modalToUse == 'saveExpense') {
@@ -727,9 +728,11 @@ class Workorders extends CI_Controller
 	 */
 	public function save_hour()
 	{
-		$idWorkorder = $this->input->post('hddIdWorkOrder');
+		$arrParam["idWorkOrder"] = $idWorkorder = $this->input->post('hddIdWorkOrder');
+		$infoWorkorder = $this->workorders_model->get_workordes_by_idUser($arrParam);
+		$formType = $this->input->post('formType');
 
-		if ($this->workorders_model->saveRate()) {
+		if ($this->workorders_model->saveRate()) {	
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
 		} else {
