@@ -331,6 +331,27 @@ class Workorders extends CI_Controller
 			"id" => $idValue
 		);
 		$this->load->model("general_model");
+		$this->load->library('logger');
+
+		$table = "workorder_" . $tabla;
+
+		$arrOld = array(
+			"table" => $table,
+			"order" => "id_workorder_"  . $tabla,
+			"column" => "id_workorder_"  . $tabla,
+			"id" => $idValue
+		);
+		$log['old'] = $this->general_model->get_basic_search($arrOld);
+		$log['new'] = null;
+
+		$this->logger
+			->user($this->session->userdata("id")) //;//Set UserID, who created this  Action
+			->type($table) //Entry type like, Post, Page, Entry
+			->id($idWorkOrder) //Entry ID
+			->token('delete') //Token identify Action
+			->comment(json_encode($log))
+			->log(); //Add Database Entry
+
 		if ($this->general_model->deleteRecord($arrParam)) {
 			//para expenses recalculo los valores gastados para cada item
 			if ($tabla == 'expense') {
@@ -732,7 +753,7 @@ class Workorders extends CI_Controller
 		$infoWorkorder = $this->workorders_model->get_workordes_by_idUser($arrParam);
 		$formType = $this->input->post('formType');
 
-		if ($this->workorders_model->saveRate()) {	
+		if ($this->workorders_model->saveRate()) {
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
 		} else {
@@ -2376,6 +2397,113 @@ class Workorders extends CI_Controller
 			foreach ($lista as $fila) {
 				echo "<option value='" . $fila["id_attachment"] . "'>" . $fila["attachment_number"] . " - " . $fila["attachment_description"]  . "</option>";
 			}
+		}
+	}
+
+	/**
+	 * LOG Workorders
+	 * @since 20/02/2024
+	 * @author FOROZCO
+	 */
+	public function log($goBack = 'x')
+	{
+		//job list
+		$this->load->model("general_model");
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "state",
+			"id" => 1
+		);
+		$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
+
+		$arrParam = array(
+			"table" => "user",
+			"order" => "id_user",
+			"column" => "id_user",
+			"id" => "x"
+		);
+		$data['user'] = $this->general_model->get_basic_search($arrParam); //job list
+
+		$arrParam = array("state" => 0);
+		$data['noOnfield'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+		$arrParam = array("state" => 1);
+		$data['noProgress'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+		$arrParam = array("state" => 2);
+		$data['noRevised'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+		$arrParam = array("state" => 3);
+		$data['noSend'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+		$arrParam = array("state" => 4);
+		$data['noClosed'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+
+		$data["view"] = "job_search";
+
+		//viene desde el boton go back
+		if ($goBack == 'y') {
+			$workOrderGoBackInfo = $this->workorders_model->get_workorder_go_back();
+
+			if (!$workOrderGoBackInfo) {
+				redirect(base_url('workorders'), 'refresh');
+			} else {
+				//le sumo un dia al dia final para que ingrese ese dia en la consulta
+				$to = date('Y-m-d', strtotime('+1 day ', strtotime(formatear_fecha($workOrderGoBackInfo['post_to']))));
+				//$from = formatear_fecha($workOrderGoBackInfo['post_from']);
+
+				$arrParam = array(
+					"jobId" => $workOrderGoBackInfo['post_id_job'],
+					"idWorkOrder" => $workOrderGoBackInfo['post_id_work_order'],
+					"idWorkOrderFrom" => $workOrderGoBackInfo['post_id_wo_from'],
+					"idWorkOrderTo" => $workOrderGoBackInfo['post_id_wo_to'],
+					"from" => $workOrderGoBackInfo['post_from'], //$from,
+					"to" => $to,
+					"state" => $workOrderGoBackInfo['post_state']
+				);
+
+				$data['workOrderInfo'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
+
+				$data["view"] = "asign_rate_list";
+				$this->load->view("layout_calendar", $data);
+			}
+		}
+		//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
+		elseif ($this->input->post('jobName') || $this->input->post('user') || $this->input->post('from')) {
+
+			$data['jobName'] =  $this->input->post('jobName');
+			$data['workOrderNumber'] =  $this->input->post('workOrderNumber');
+			$data['user'] =  $this->input->post('user');
+			$data['from'] =  $this->input->post('from');
+			$data['to'] =  $this->input->post('to');
+
+			//le sumo un dia al dia final para que ingrese ese dia en la consulta
+			if ($data['to']) {
+				$to = date('Y-m-d', strtotime('+1 day ', strtotime(formatear_fecha($data['to']))));
+			} else {
+				$to = "";
+			}
+			if ($data['from']) {
+				$from = formatear_fecha($data['from']);
+			} else {
+				$from = "";
+			}
+
+			$arrParam = array(
+				"jobId" => $this->input->post('jobName'),
+				"idWorkOrder" => $this->input->post('workOrderNumber'),
+				"userId" => $this->input->post('user'),
+				"from" => $from,
+				"to" => $to
+			);
+
+			//guardo la informacion en la base de datos para el boton de regresar
+			//$this->workorders_model->saveInfoGoBack($arrParam);
+
+			//informacion Work Order
+			$data['workOrderInfo'] = $this->workorders_model->get_workorder_log($arrParam);
+
+			$data["view"] = "log_list";
+			$this->load->view("layout_calendar", $data);
+		} else {
+			$this->load->view("layout", $data);
 		}
 	}
 }

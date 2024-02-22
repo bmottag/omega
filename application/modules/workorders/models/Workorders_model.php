@@ -1352,4 +1352,44 @@ class Workorders_model extends CI_Model
 		$row = $query->row();
 		return $row->TOTAL;
 	}
+
+	/**
+	 * Work Order Log
+	 * @since 20/02/2024
+	 */
+	public function get_workorder_log($arrData)
+	{
+		$this->db->select("L.*, CONCAT(first_name, ' ', last_name) name, J.job_description");
+		$this->db->join('user U', 'U.id_user = L.created_by', 'INNER');
+		$this->db->join('workorder W', 'L.type_id = W.id_workorder', 'LEFT');
+		$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
+
+		if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
+			$this->db->where('J.id_job', $arrData["jobId"]);
+		}
+
+		if (array_key_exists("idWorkOrder", $arrData) && $arrData["idWorkOrder"] != '' && $arrData["idWorkOrder"] != 0) {
+			$this->db->where('L.type_id', $arrData["idWorkOrder"]);
+		}
+
+		if (array_key_exists("userId", $arrData) && $arrData["userId"] != '' && $arrData["userId"] != 0) {
+			$this->db->where('L.created_by', $arrData["userId"]);
+		}
+
+		if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+			$this->db->where('L.created_on >=', $arrData["from"]);
+		}
+
+		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+			$this->db->where('L.created_on <=', $arrData["to"]);
+		}
+		$this->db->order_by('L.id', 'asc');
+		$query = $this->db->get('logger L');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
 }
