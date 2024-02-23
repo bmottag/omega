@@ -535,6 +535,14 @@ class Workorders_model extends CI_Model
 
 		switch ($formType) {
 			case "personal":
+				$arrParam = array(
+					"table" => $table,
+					"order" => "id_workorder_personal",
+					"column" => "id_workorder_personal",
+					"id" => $hddId
+				);
+				$log['old'] = $this->general_model->get_basic_search($arrParam);
+
 				$type = $this->input->post('type_personal');
 				$data['fk_id_employee_type'] = $type;
 				$data['hours'] = $hours;
@@ -1083,6 +1091,14 @@ class Workorders_model extends CI_Model
 		} else {
 			$markup = $this->input->post('markup');
 
+			$arrParam = array(
+				"table" => "workorder_receipt",
+				"order" => "fk_id_workorder",
+				"column" => "fk_id_workorder",
+				"id" => $idWorkorder
+			);
+			$log['old'] = $this->general_model->get_basic_search($arrParam);
+
 			$price = $price / 1.05; //quitar el 5% de GST
 			$value = $price + ($price * $markup / 100); //valor con el markup
 
@@ -1092,13 +1108,6 @@ class Workorders_model extends CI_Model
 			$this->db->where('id_workorder_receipt', $idWOReceipt);
 			$query = $this->db->update('workorder_receipt', $data);
 
-			$arrParam = array(
-				"table" => "workorder_receipt",
-				"order" => "fk_id_workorder",
-				"column" => "fk_id_workorder",
-				"id" => $idWorkorder
-			);
-			$log['old'] = $this->general_model->get_basic_search($arrParam);
 			$log['new'] = json_encode($data);
 
 			$this->logger

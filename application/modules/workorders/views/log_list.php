@@ -81,6 +81,212 @@
 										$old = (json_decode($lista['comment'])->old != '') ? json_encode(json_decode($lista['comment'])->old[0]) : 'null';
 										$new = (json_decode($lista['comment'])->new != '') ? json_decode($lista['comment'])->new : 'null';
 
+										if ($lista['token'] == 'update') {
+											$oldDecode = json_decode($lista['comment'])->old[0];
+											$newDecode = json_decode(json_decode($lista['comment'])->new);
+
+											if ($lista['type'] === 'workorder') {
+
+												$textOld = 'date: ' . $oldDecode->date . ', observation: ' . $oldDecode->observation . ', foreman_name_wo: ' . $oldDecode->foreman_name_wo . ', foreman_movil_number_wo: ' . $oldDecode->foreman_movil_number_wo . ', foreman_email_wo: ' . $oldDecode->foreman_email_wo . '';
+
+												$textNew = 'date: ' . $newDecode->date . ', observation: ' . $newDecode->observation . ', foreman_name_wo: ' . $newDecode->foreman_name_wo . ', foreman_movil_number_wo: ' . $newDecode->foreman_movil_number_wo . ', foreman_email_wo: ' . $newDecode->foreman_email_wo . '';
+											} else if ($lista['type'] === 'workorder_personal') {
+												$arrParam = array(
+													"table" => "user",
+													"order" => "id_user",
+													"column" => "id_user",
+													"id" => $oldDecode->fk_id_user
+												);
+												$user = $this->general_model->get_basic_search($arrParam); //job list
+
+												$arrEmployee = array(
+													"table" => "param_employee_type",
+													"order" => "employee_type",
+													"column" => "id_employee_type",
+													"id" => $oldDecode->fk_id_employee_type
+												);
+												$oldEmployeeType = $this->general_model->get_basic_search($arrEmployee); //employee type list
+
+												$textOld = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $oldEmployeeType[0]['employee_type'] . ', hours: ' . $oldDecode->hours . ', description: ' . $oldDecode->description . '';
+
+												$arrEmployee = array(
+													"table" => "param_employee_type",
+													"order" => "employee_type",
+													"column" => "id_employee_type",
+													"id" => $newDecode->fk_id_employee_type
+												);
+												$newEmployeeType = $this->general_model->get_basic_search($arrEmployee); //employee type list
+
+												$textNew = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $newEmployeeType[0]['employee_type'] . ', hours: ' . $newDecode->hours . ', description: ' . $newDecode->description . '';
+											} else if ($lista['type'] === 'workorder_materials') {
+
+												$arrParam = array(
+													"table" => "param_material_type",
+													"order" => "material",
+													"column" => "id_material",
+													"id" => $oldDecode->fk_id_material
+												);
+												$material = $this->general_model->get_basic_search($arrParam); //worker´s list
+
+												$textOld = 'material: ' . $material[0]['material'] . ', quantity: ' . $oldDecode->quantity . ', unit: ' . $oldDecode->unit . ', description: ' . $oldDecode->description . '';
+
+												$textNew = 'material: ' . $material[0]['material'] . ', quantity: ' . $newDecode->quantity . ', unit: ' . $newDecode->unit . ', description: ' . $newDecode->description . '';
+											} else if ($lista['type'] === 'workorder_receipt') {
+
+												$textOld = 'place: ' . $oldDecode->place . ', price: ' . $oldDecode->price . ', description: ' . $oldDecode->description . '';
+
+												$textNew = 'place: ' . $newDecode->place . ', price: ' . $newDecode->price . ', description: ' . $newDecode->description . '';
+											} else if ($lista['type'] === 'workorder_equipment') {
+
+												$textOld = 'fk_id_vehicle: ' . $oldDecode->fk_id_vehicle . ', description: ' . $oldDecode->description . ', hours: ' . $oldDecode->hours . ', quantity: ' . $oldDecode->quantity . '';
+
+												$textNew = 'fk_id_vehicle: ' . $oldDecode->fk_id_vehicle . ', description: ' . $newDecode->description . ', hours: ' . $newDecode->hours . ', quantity: ' . $newDecode->quantity . '';
+											} else if ($lista['type'] === 'workorder_ocasional') {
+
+												$arrParam = array(
+													"table" => "param_company",
+													"order" => "id_company",
+													"column" => "id_company",
+													"id" => $oldDecode->fk_id_company
+												);
+												$company = $this->general_model->get_basic_search($arrParam); //job list
+
+												$textOld = 'company: ' . $company[0]['company_name'] . ', equipment: ' . $oldDecode->equipment . ', quantity: ' . $oldDecode->quantity . ', unit: ' . $oldDecode->unit . ', hours: ' . $oldDecode->hours . ' description: ' . $oldDecode->description . '';
+
+												$textNew = 'company: ' . $company[0]['company_name'] . ', equipment: ' . $oldDecode->equipment . ', quantity: ' . $newDecode->quantity . ', unit: ' . $newDecode->unit . ', hours: ' . $newDecode->hours . ' description: ' . $newDecode->description . '';
+											} else {
+												$textNew = $new;
+												$textOld = $old;
+											}
+										} else if ($lista['token'] == 'insert') {
+											$textOld = $old;
+											$newDecode = json_decode(json_decode($lista['comment'])->new);
+											if ($lista['type'] === 'workorder_state') {
+
+												switch ($newDecode->state) {
+													case 0:
+														$text = 'On Field';
+														break;
+													case 1:
+														$text = 'In Progress';
+														break;
+													case 2:
+														$text = 'Revised';
+														break;
+													case 3:
+														$text = 'Send to the Client';
+														break;
+													case 4:
+														$text = 'Closed';
+														break;
+												}
+
+												$textNew = '	date_issue: ' . $newDecode->date_issue . ', observation: ' . $newDecode->observation . ', state: ' . $text . '';
+											} else if ($lista['type'] === 'workorder_personal') {
+
+												$arrParam = array(
+													"table" => "user",
+													"order" => "id_user",
+													"column" => "id_user",
+													"id" => $newDecode->fk_id_user
+												);
+												$user = $this->general_model->get_basic_search($arrParam); //job list
+
+												$arrEmployee = array(
+													"table" => "param_employee_type",
+													"order" => "employee_type",
+													"column" => "id_employee_type",
+													"id" => $newDecode->fk_id_employee_type
+												);
+												$newEmployeeType = $this->general_model->get_basic_search($arrEmployee); //employee type list
+
+												$textNew = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $newEmployeeType[0]['employee_type']  . ', hours: ' . $newDecode->hours . ', description: ' . $newDecode->description . '';
+											} else if ($lista['type'] === 'workorder_materials') {
+
+												$arrParam = array(
+													"table" => "param_material_type",
+													"order" => "material",
+													"column" => "id_material",
+													"id" => $newDecode->fk_id_material
+												);
+												$material = $this->general_model->get_basic_search($arrParam); //worker´s list
+
+												$textNew = 'material: ' . $material[0]['material'] . ', quantity: ' . $newDecode->quantity . ', unit: ' . $newDecode->unit . ', description: ' . $newDecode->description . '';
+											} else if ($lista['type'] === 'workorder_equipment') {
+
+												$textNew = 'fk_id_vehicle: ' . $newDecode->fk_id_vehicle . ', description: ' . $newDecode->description . ', hours: ' . $newDecode->hours . ', quantity: ' . $newDecode->quantity . '';
+											} else if ($lista['type'] === 'workorder_ocasional') {
+
+												$arrParam = array(
+													"table" => "param_company",
+													"order" => "id_company",
+													"column" => "id_company",
+													"id" => $newDecode->fk_id_company
+												);
+												$company = $this->general_model->get_basic_search($arrParam); //job list
+
+												$textNew = 'company: ' . $company[0]['company_name'] . ', equipment: ' . $newDecode->equipment . ', quantity: ' . $newDecode->quantity . ', unit: ' . $newDecode->unit . ', hours: ' . $newDecode->hours . ' description: ' . $newDecode->description . '';
+											} else {
+												$textNew = $new;
+											}
+										} else {
+											$oldDecode = json_decode($lista['comment'])->old[0];
+											$textNew = 'null';
+											if ($lista['type'] === 'workorder') {
+
+												$textOld = 'date: ' . $oldDecode->date . ', observation: ' . $oldDecode->observation . ', foreman_name_wo: ' . $oldDecode->foreman_name_wo . ', foreman_movil_number_wo: ' . $oldDecode->foreman_movil_number_wo . ', foreman_email_wo: ' . $oldDecode->foreman_email_wo . '';
+											} else if ($lista['type'] === 'workorder_personal') {
+												$arrParam = array(
+													"table" => "user",
+													"order" => "id_user",
+													"column" => "id_user",
+													"id" => $oldDecode->fk_id_user
+												);
+												$user = $this->general_model->get_basic_search($arrParam); //job list
+
+												$arrEmployee = array(
+													"table" => "param_employee_type",
+													"order" => "employee_type",
+													"column" => "id_employee_type",
+													"id" => $oldDecode->fk_id_employee_type
+												);
+												$oldEmployeeType = $this->general_model->get_basic_search($arrEmployee); //employee type list
+
+												$textOld = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $oldEmployeeType[0]['employee_type'] . ', hours: ' . $oldDecode->hours . ', description: ' . $oldDecode->description . '';
+											} else if ($lista['type'] === 'workorder_materials') {
+
+												$arrParam = array(
+													"table" => "param_material_type",
+													"order" => "material",
+													"column" => "id_material",
+													"id" => $oldDecode->fk_id_material
+												);
+												$material = $this->general_model->get_basic_search($arrParam); //worker´s list
+
+												$textOld = 'material: ' . $material[0]['material'] . ', quantity: ' . $oldDecode->quantity . ', unit: ' . $oldDecode->unit . ', description: ' . $oldDecode->description . '';
+											} else if ($lista['type'] === 'workorder_receipt') {
+
+												$textOld = 'place: ' . $oldDecode->place . ', price: ' . $oldDecode->price . ', description: ' . $oldDecode->description . '';
+											} else if ($lista['type'] === 'workorder_equipment') {
+
+												$textOld = 'fk_id_vehicle: ' . $oldDecode->fk_id_vehicle . ', description: ' . $oldDecode->description . ', hours: ' . $oldDecode->hours . ', quantity: ' . $oldDecode->quantity . '';
+											} else if ($lista['type'] === 'workorder_ocasional') {
+
+												$arrParam = array(
+													"table" => "param_company",
+													"order" => "id_company",
+													"column" => "id_company",
+													"id" => $oldDecode->fk_id_company
+												);
+												$company = $this->general_model->get_basic_search($arrParam); //job list
+
+												$textOld = 'company: ' . $company[0]['company_name'] . ', equipment: ' . $oldDecode->equipment . ', quantity: ' . $oldDecode->quantity . ', unit: ' . $oldDecode->unit . ', hours: ' . $oldDecode->hours . ' description: ' . $oldDecode->description . '';
+											} else {
+
+												$textOld = $old;
+											}
+										}
+
 										echo "<tr>";
 										echo "<td class='text-center'>";
 										echo "<a href='" . base_url('workorders/add_workorder/' . $lista['type_id']) . "'>" . $lista['type_id'] . "</a>";
@@ -90,7 +296,7 @@
 										echo "<td>" . $lista['created_on'] . "</td>";
 										echo "<td class='text-center'>" . $lista['token'] . "</td>";
 										echo "<td class='text-center'>" . $lista['type'] . "</td>";
-										echo "<td class='text-center'> Old: " . $old . "<br> New: " . $new . "</td>";
+										echo "<td class='text-center'> Old: " . $textOld . "<br> New: " . $textNew . "</td>";
 										echo '</tr>';
 									endforeach;
 									?>
