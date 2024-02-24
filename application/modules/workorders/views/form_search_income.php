@@ -4,7 +4,7 @@
 
 <div id="page-wrapper">
 
-	<br>	
+	<br>
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-8">
@@ -14,78 +14,78 @@
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-success">
-						<strong>Note:</strong> 
-						You have to select all fields. 
+						<strong>Note:</strong>
+						You have to select all fields.
 					</div>
-					<form  name="form" id="form" role="form" method="post" class="form-horizontal" >
+					<form name="form" id="form" role="form" method="post" class="form-horizontal">
 
 						<div class="form-group">
 							<div class="col-sm-10 col-sm-offset-1">
 								<label for="from">Job Code/Name </label>
-								<select name="jobName" id="jobName" class="form-control" >
+								<select name="jobName" id="jobName" class="form-control">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobList); $i++) { ?>
-										<option value="<?php echo $jobList[$i]["id_job"]; ?>" ><?php echo $jobList[$i]["job_description"]; ?></option>	
+										<option value="<?php echo $jobList[$i]["id_job"]; ?>"><?php echo $jobList[$i]["job_description"]; ?></option>
 									<?php } ?>
 								</select>
 							</div>
-							
+
 						</div>
-						
-						
-<script>
-$( function() {
-var dateFormat = "mm/dd/yy",
-from = $( "#from" )
-.datepicker({
-changeMonth: true,
-numberOfMonths: 2
-})
-.on( "change", function() {
-to.datepicker( "option", "minDate", getDate( this ) );
-}),
-to = $( "#to" ).datepicker({
-changeMonth: true,
-numberOfMonths: 2
-})
-.on( "change", function() {
-from.datepicker( "option", "maxDate", getDate( this ) );
-});
 
-function getDate( element ) {
-var date;
-try {
-date = $.datepicker.parseDate( dateFormat, element.value );
-} catch( error ) {
-date = null;
-}
 
-return date;
-}
-});
-</script>
+						<script>
+							$(function() {
+								var dateFormat = "mm/dd/yy",
+									from = $("#from")
+									.datepicker({
+										changeMonth: true,
+										numberOfMonths: 2
+									})
+									.on("change", function() {
+										to.datepicker("option", "minDate", getDate(this));
+									}),
+									to = $("#to").datepicker({
+										changeMonth: true,
+										numberOfMonths: 2
+									})
+									.on("change", function() {
+										from.datepicker("option", "maxDate", getDate(this));
+									});
+
+								function getDate(element) {
+									var date;
+									try {
+										date = $.datepicker.parseDate(dateFormat, element.value);
+									} catch (error) {
+										date = null;
+									}
+
+									return date;
+								}
+							});
+						</script>
 						<div class="form-group">
 							<div class="col-sm-5 col-sm-offset-1">
 								<label for="from">From Date</label>
-								<input type="text" id="from" name="from" class="form-control" placeholder="From" >
+								<input type="text" id="from" name="from" class="form-control" placeholder="From">
 							</div>
 							<div class="col-sm-5">
 								<label for="to">To Date</label>
-								<input type="text" id="to" name="to" class="form-control" placeholder="To" >
+								<input type="text" id="to" name="to" class="form-control" placeholder="To">
 							</div>
 						</div>
 
-<div class="row"></div><br>
+						<div class="row"></div><br>
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width80%;" align="center">
-									
-								 <button type="submit" class="btn btn-success" id='btnSubmit' name='btnSubmit'><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search </button>
-									
+
+									<button type="submit" class="btn btn-success" id='btnSubmit' name='btnSubmit'><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search </button>
+
 								</div>
 							</div>
 						</div>
-						
+
 					</form>
 
 				</div>
@@ -94,7 +94,7 @@ return date;
 			<!-- /.panel -->
 		</div>
 		<!-- /.col-lg-12 -->
-		
+
 		<div class="col-lg-4">
 			<div class="panel panel-danger">
 				<div class="panel-heading">
@@ -147,92 +147,92 @@ return date;
 
 	</div>
 	<!-- /.row -->
-	
-	
+
+
 	<!-- /.row -->
-<?php
-	if($this->input->post('jobName')){
-?>	
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<i class="fa fa-briefcase"></i> JOBS INFO - INCOME<br>
-					<strong>Job Code/Name: </strong><?php echo $jobListSearch[0]['job_description']; ?>
-					<br><strong> From Date: </strong> <?php echo $from; ?>
-					<strong>To Date: </strong> <?php echo $to; ?>
+	<?php
+	if ($this->input->post('jobName')) {
+	?>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<i class="fa fa-briefcase"></i> JOBS INFO - INCOME<br>
+						<strong>Job Code/Name: </strong><?php echo $jobListSearch[0]['job_description']; ?>
+						<br><strong> From Date: </strong> <?php echo $from; ?>
+						<strong>To Date: </strong> <?php echo $to; ?>
+					</div>
+					<div class="panel-body small">
+
+						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesIncome">
+							<thead>
+								<tr>
+									<th class="text-center">Job Code/Name</th>
+									<th class="text-center">Numbers of W.O.</th>
+									<th class="text-center">Numbers of Personal Hours</th>
+									<th class="text-center">Personal Income</th>
+									<th class="text-center">Material Income</th>
+									<th class="text-center">Receipt Income</th>
+									<th class="text-center">Equipment Income</th>
+									<th class="text-center">Subcontractor Income</th>
+									<th class="text-center">Total Income</th>
+									<th class="text-center">Download</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								echo "<tr>";
+								echo "<td>" . $jobListSearch[0]['job_description'] . "</td>";
+								echo "<td class='text-center'>" . $noWO . "</td>";
+								echo "<td class='text-center'>" . $hoursPersonal . "</td>";
+
+								echo "<td class='text-right'>";
+								echo '$' . number_format($incomePersonal, 2);
+								echo "</td>";
+
+								echo "<td class='text-right'>";
+								echo '$' . number_format($incomeMaterial, 2);
+								echo "</td>";
+
+								echo "<td class='text-right'>";
+								echo '$' . number_format($incomeReceipt, 2);
+								echo "</td>";
+
+								echo "<td class='text-right'>";
+								echo '$' . number_format($incomeEquipment, 2);
+								echo "</td>";
+
+								echo "<td class='text-right'>";
+								echo '$' . number_format($incomeSubcontractor, 2);
+								echo "</td>";
+
+								echo "<td class='text-right'>";
+								echo '$' . number_format($total, 2);
+								echo "</td>";
+
+								echo "<td class='text-center'>";
+								?>
+
+								<a href='<?php echo base_url('workorders/generaWorkOrderXLS/' . $idJob . '/' . $fromFormat . '/' . $toFormat); ?>' target="_blank"> <img src='<?php echo base_url_images('xls.png'); ?>'></a>
+
+
+								<?php
+								echo "</td>";
+								echo "</tr>";
+								?>
+							</tbody>
+						</table>
+
+					</div>
+					<!-- /.panel-body -->
 				</div>
-				<div class="panel-body small">
-				
-					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesIncome">
-						<thead>
-							<tr>
-								<th class="text-center">Job Code/Name</th>
-								<th class="text-center">Numbers of W.O.</th>
-								<th class="text-center">Numbers of Personal Hours</th>
-								<th class="text-center">Personal Income</th>
-								<th class="text-center">Material Income</th>
-								<th class="text-center">Receipt Income</th>
-								<th class="text-center">Equipment Income</th>
-								<th class="text-center">Subcontractor Income</th>
-								<th class="text-center">Total Income</th>
-								<th class="text-center">Download</th>
-							</tr>
-						</thead>
-						<tbody>							
-						<?php													
-							echo "<tr>";
-							echo "<td>" . $jobListSearch[0]['job_description'] . "</td>";
-							echo "<td class='text-center'>" . $noWO . "</td>";
-							echo "<td class='text-center'>" . $hoursPersonal . "</td>";
-							
-							echo "<td class='text-right'>";							
-							echo '$' . number_format($incomePersonal, 2);
-							echo "</td>";
-							
-							echo "<td class='text-right'>";
-							echo '$' . number_format($incomeMaterial, 2);
-							echo "</td>";
-
-							echo "<td class='text-right'>";
-							echo '$' . number_format($incomeReceipt, 2);
-							echo "</td>";
-							
-							echo "<td class='text-right'>";
-							echo '$' . number_format($incomeEquipment, 2);
-							echo "</td>";
-							
-							echo "<td class='text-right'>";
-							echo '$' . number_format($incomeSubcontractor, 2);
-							echo "</td>";
-							
-							echo "<td class='text-right'>";
-							echo '$' . number_format($total, 2);
-							echo "</td>";
-							
-							echo "<td class='text-center'>";
-						?>
-						
-<a href='<?php echo base_url('workorders/generaWorkOrderXLS/' . $idJob . '/' . $fromFormat . '/' . $toFormat ); ?>' target="_blank"> <img src='<?php echo base_url_images('xls.png'); ?>' ></a>	
-
-
-						<?php
-							echo "</td>";
-							echo "</tr>";
-						?>
-						</tbody>
-					</table>
-
-				</div>
-				<!-- /.panel-body -->
+				<!-- /.panel -->
 			</div>
-			<!-- /.panel -->
+			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-<?php } ?>
+	<?php } ?>
 	<!-- /.row -->
-	
+
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -242,62 +242,62 @@ return date;
 				</div>
 				<div class="panel-body small">
 
-				<?php
-					if($jobList){
-				?>				
-					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
-						<thead>
-							<tr>
-								<th class="text-center">Job Code/Name</th>
-								<th class="text-center">Numbers of W.O.</th>
-								<th class="text-center">Numbers of Personal Hours</th>
-								<th class="text-center">Personal Income</th>
-								<th class="text-center">Material Income</th>
-								<th class="text-center">Receipt Income</th>
-								<th class="text-center">Equipment Income</th>
-								<th class="text-center">Subcontractor Income</th>
-								<th class="text-center">Total Income</th>
-								<th class="text-center">Download</th>
-							</tr>
-						</thead>
-						<tbody>							
-						<?php						
-                            $ci = &get_instance();
-                            $ci->load->model("workorders_model");
-							
-							foreach ($jobList as $lista):
-							
+					<?php
+					if ($jobList) {
+					?>
+						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+							<thead>
+								<tr>
+									<th class="text-center">Job Code/Name</th>
+									<th class="text-center">Numbers of W.O.</th>
+									<th class="text-center">Numbers of Personal Hours</th>
+									<th class="text-center">Personal Income</th>
+									<th class="text-center">Material Income</th>
+									<th class="text-center">Receipt Income</th>
+									<th class="text-center">Equipment Income</th>
+									<th class="text-center">Subcontractor Income</th>
+									<th class="text-center">Total Income</th>
+									<th class="text-center">Download</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$ci = &get_instance();
+								$ci->load->model("workorders_model");
+
+								foreach ($jobList as $lista) :
+
 									$arrParam = array("idJob" => $lista['id_job']);
-									$noWO = $ci->workorders_model->countWorkorders($arrParam);//cuenta registros de Workorders
-									
-									$hoursPersonal = $ci->workorders_model->countHoursPersonal($arrParam);//cuenta horas de personal
-									
+									$noWO = $ci->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+
+									$hoursPersonal = $ci->workorders_model->countHoursPersonal($arrParam); //cuenta horas de personal
+
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_personal");
-									$incomePersonal = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
-									
+									$incomePersonal = $ci->workorders_model->countIncome($arrParam); //cuenta horas de personal
+
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_materials");
-									$incomeMaterial = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
+									$incomeMaterial = $ci->workorders_model->countIncome($arrParam); //cuenta horas de personal
 
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_receipt");
-									$incomeReceipt = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
-									
+									$incomeReceipt = $ci->workorders_model->countIncome($arrParam); //cuenta horas de personal
+
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_equipment");
-									$incomeEquipment = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
-									
+									$incomeEquipment = $ci->workorders_model->countIncome($arrParam); //cuenta horas de personal
+
 									$arrParam = array("idJob" => $lista['id_job'], "table" => "workorder_ocasional");
-									$incomeSubcontractor = $ci->workorders_model->countIncome($arrParam);//cuenta horas de personal
+									$incomeSubcontractor = $ci->workorders_model->countIncome($arrParam); //cuenta horas de personal
 
 									$total = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor + $incomeReceipt;
-									
+
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td class='text-center'>" . $noWO . "</td>";
 									echo "<td class='text-center'>" . $hoursPersonal . "</td>";
-									
+
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomePersonal, 2);
 									echo "</td>";
-									
+
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeMaterial, 2);
 									echo "</td>";
@@ -305,32 +305,32 @@ return date;
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeReceipt, 2);
 									echo "</td>";
-									
+
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeEquipment, 2);
 									echo "</td>";
-									
+
 									echo "<td class='text-right'>";
 									echo '$' . number_format($incomeSubcontractor, 2);
 									echo "</td>";
-									
+
 									echo "<td class='text-right'>";
 									echo '$' . number_format($total, 2);
 									echo "</td>";
-									
+
 									echo "<td class='text-center'>";
-						?>
-						
-<a href='<?php echo base_url('workorders/generaWorkOrderXLS/' . $lista['id_job'] ); ?>' target="_blank"> <img src='<?php echo base_url_images('xls.png'); ?>' ></a>	
+								?>
+
+									<a href='<?php echo base_url('workorders/generaWorkOrderXLS/' . $lista['id_job']); ?>' target="_blank"> <img src='<?php echo base_url_images('xls.png'); ?>'></a>
 
 
-						<?php
+								<?php
 									echo "</td>";
-							endforeach;
-						?>
-						</tbody>
-					</table>
-				<?php } ?>
+								endforeach;
+								?>
+							</tbody>
+						</table>
+					<?php } ?>
 				</div>
 				<!-- /.panel-body -->
 			</div>
@@ -339,19 +339,19 @@ return date;
 		<!-- /.col-lg-12 -->
 	</div>
 	<!-- /.row -->
-	
-	
+
+
 </div>
 <!-- /#page-wrapper -->
 
 <!-- Tables -->
 <script>
-$(document).ready(function() {
-	$('#dataTables').DataTable({
-		responsive: true,
-		"ordering": true,
-		paging: false,
-		"info": false
+	$(document).ready(function() {
+		$('#dataTables').DataTable({
+			responsive: true,
+			"ordering": true,
+			paging: false,
+			"info": false
+		});
 	});
-});
 </script>
