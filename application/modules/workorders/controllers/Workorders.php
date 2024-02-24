@@ -587,6 +587,8 @@ class Workorders extends CI_Controller
 		$data['noSend'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
 		$arrParam = array("state" => 4);
 		$data['noClosed'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+		$arrParam = array("state" => 5);
+		$data['noAccounting'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
 
 		$data["view"] = "asign_rate_form_search";
 
@@ -1912,6 +1914,8 @@ class Workorders extends CI_Controller
 		$data['noSend'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
 		$arrParam = array("state" => 4);
 		$data['noClosed'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
+		$arrParam = array("state" => 5);
+		$data['noAccounting'] = $this->workorders_model->countWorkorders($arrParam); //cuenta registros de Workorders
 
 		//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
 		if ($this->input->post('jobName') && $this->input->post('from') && $this->input->post('to')) {

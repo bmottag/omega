@@ -57,6 +57,7 @@
 									<option value=0>On Field</option>
 									<option value=1>In Progress</option>
 									<option value=2>Revised</option>
+									<option value=5>Accounting</option>
 									<option value=3>Send to the Client</option>
 									<option value=4>Closed</option>
 								</select>
@@ -192,6 +193,11 @@
 												$valor = 'Closed';
 												$clase = "text-danger";
 												$icono = "fa-power-off";
+												break;
+											case 5:
+												$valor = 'Accounting';
+												$clase = "text-warning";
+												$icono = "fa-list-alt";
 												break;
 										}
 

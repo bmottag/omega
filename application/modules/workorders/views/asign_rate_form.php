@@ -192,6 +192,11 @@
 								$valor = 'Closed';
 								$clase = "alert-danger";
 								break;
+							case 5:
+								$valor = 'Accounting';
+								$clase = "text-warning";
+								$icono = "fa-list-alt";
+								break;
 						}
 					?>
 						<div class="col-lg-12">

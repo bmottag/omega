@@ -179,6 +179,9 @@
 													case 4:
 														$text = 'Closed';
 														break;
+													case 5:
+														$text = 'Accounting';
+														break;
 												}
 
 												$textNew = '	date_issue: ' . $newDecode->date_issue . ', observation: ' . $newDecode->observation . ', state: ' . $text . '';

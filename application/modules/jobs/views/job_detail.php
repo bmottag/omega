@@ -128,6 +128,11 @@
                                             $clase = "text-danger";
                                             $icono = "fa-power-off";
                                             break;
+                                        case 5:
+                                            $valor = 'Accounting';
+                                            $clase = "text-warning";
+                                            $icono = "fa-list-alt";
+                                            break;
                                     }
 
                                     echo "<tr>";
