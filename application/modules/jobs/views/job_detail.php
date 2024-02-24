@@ -1,9 +1,9 @@
 <div id="page-wrapper">
 
-    <br>		
+    <br>
     <!-- /.row -->
     <div class="row">
-			
+
         <div class="col-lg-3">
             <div class="panel panel-danger">
                 <div class="panel-heading">
@@ -11,13 +11,13 @@
                 </div>
                 <!-- /.panel-heading -->
 
-                <?php 
+                <?php
 
-echo $jobInfo[0]['job_description'];
-                    $noWorkOrder= 0;
-                    if($workOrderInfo){
-                            $noWorkOrder = count($workOrderInfo);
-                    }
+                echo $jobInfo[0]['job_description'];
+                $noWorkOrder = 0;
+                if ($workOrderInfo) {
+                    $noWorkOrder = count($workOrderInfo);
+                }
 
                 ?>
 
@@ -25,7 +25,7 @@ echo $jobInfo[0]['job_description'];
                     <div class="list-group">
                         <a href="#" class="list-group-item">
                             <p class="text-success"><i class="fa fa-money fa-fw"></i><strong> Work Orders Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noWorkOrder ; ?></em>
+                                <span class="pull-right text-muted small"><em><?php echo $noWorkOrder; ?></em>
                                 </span>
                             </p>
                         </a>
@@ -38,7 +38,7 @@ echo $jobInfo[0]['job_description'];
             <!-- /.panel -->
 
 
-        
+
             <div class="list-group">
                 <a href="<?php echo base_url('jobs/tool_box/' . $jobInfo[0]['id_job']); ?>" class="btn btn-warning btn-block">
                     <i class="fa fa-tag"></i> Tool Box
@@ -80,76 +80,76 @@ echo $jobInfo[0]['job_description'];
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-<?php
-    if($workOrderInfo){ 
-?>  
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong>
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
-                        <thead>
-                            <tr>
-                                <th class='text-center'>Work Order #</th>
-                                <th class='text-center'>Job Code/Name</th>
-                                <th class='text-center'>Task Description</th>
-                                <th class='text-center'>Last Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>                         
-                        <?php
-                            foreach ($workOrderInfo as $lista):
-                                switch ($lista['state']) {
+            <?php
+            if ($workOrderInfo) {
+            ?>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
+                            <thead>
+                                <tr>
+                                    <th class='text-center'>Work Order #</th>
+                                    <th class='text-center'>Job Code/Name</th>
+                                    <th class='text-center'>Task Description</th>
+                                    <th class='text-center'>Last Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($workOrderInfo as $lista) :
+                                    switch ($lista['state']) {
                                         case 0:
-                                                $valor = 'On Field';
-                                                $clase = "text-danger";
-                                                $icono = "fa-thumb-tack";
-                                                break;
+                                            $valor = 'On Field';
+                                            $clase = "text-danger";
+                                            $icono = "fa-thumb-tack";
+                                            break;
                                         case 1:
-                                                $valor = 'In Progress';
-                                                $clase = "text-warning";
-                                                $icono = "fa-refresh";
-                                                break;
+                                            $valor = 'In Progress';
+                                            $clase = "text-warning";
+                                            $icono = "fa-refresh";
+                                            break;
                                         case 2:
-                                                $valor = 'Revised';
-                                                $clase = "text-primary";
-                                                $icono = "fa-check";
-                                                break;
+                                            $valor = 'Revised';
+                                            $clase = "text-primary";
+                                            $icono = "fa-check";
+                                            break;
                                         case 3:
-                                                $valor = 'Send to the Client';
-                                                $clase = "text-success";
-                                                $icono = "fa-envelope-o";
-                                                break;
+                                            $valor = 'Send to the Client';
+                                            $clase = "text-success";
+                                            $icono = "fa-envelope-o";
+                                            break;
                                         case 4:
-                                                $valor = 'Closed';
-                                                $clase = "text-danger";
-                                                $icono = "fa-power-off";
-                                                break;
-                                }
+                                            $valor = 'Closed';
+                                            $clase = "text-danger";
+                                            $icono = "fa-power-off";
+                                            break;
+                                    }
 
-                                echo "<tr>";
-                                echo "<td class='text-center'>" . $lista['id_workorder'];
-                                echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-                                echo "</td>";
-                                echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
-                                echo "<td class='text-center'>" . $lista['observation'] . "</td>";
-                                echo "<td class='text-center'>" . $lista['last_message'] . "</td>";
-                                echo "</tr>";
-                            endforeach;
-                        ?>
-                        </tbody>
-                    </table>                    
-                    <!-- /.table-responsive -->
+                                    echo "<tr>";
+                                    echo "<td class='text-center'>" . $lista['id_workorder'];
+                                    echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
+                                    echo "</td>";
+                                    echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
+                                    echo "<td class='text-center'>" . $lista['observation'] . "</td>";
+                                    echo "<td class='text-center'>" . $lista['last_message'] . "</td>";
+                                    echo "</tr>";
+                                endforeach;
+                                ?>
+                            </tbody>
+                        </table>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
                 </div>
-                <!-- /.panel-body -->
-            </div>
-<?php   } ?>
+            <?php   } ?>
 
-		</div>
-    </div>		
+        </div>
+    </div>
 
     <!-- /.row -->
     <div class="row">
@@ -161,22 +161,22 @@ echo $jobInfo[0]['job_description'];
 
 
         </div>
-    </div>      
+    </div>
 
 </div>
 <!-- /#page-wrapper -->
 
 <!-- Tables -->
 <script>
-$(document).ready(function() {
-    $('#dataTables').DataTable({
-        responsive: true,
-		 "ordering": false,
-		 paging: false,
-		"searching": false,
-		"pageLength": 25
+    $(document).ready(function() {
+        $('#dataTables').DataTable({
+            responsive: true,
+            "ordering": false,
+            paging: false,
+            "searching": false,
+            "pageLength": 25
+        });
+
+
     });
-	
-	
-});
 </script>
