@@ -193,6 +193,61 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- ACCOUNTING ASSISTANT -->
+		<div class="col-lg-4">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<strong>Accounting Assistant</strong>
+				</div>
+				<div class="panel-body">
+					<p>
+						* <strong>Dashboard: </strong>
+					<ul>
+						<li>Last Payroll Records</li>
+						<li>Last FLHA Records</li>
+						<li>Last Hauling Records</li>
+					</ul>
+					<strong>Record Task:</strong> Payroll
+					<br>* <strong>Jobs info:</strong> ALL
+					<br><strong>Incidences:</strong> Near miss report
+					<br><strong>Incidences:</strong> Incident/Accident report
+					<br><strong>Day off</strong> (Ask for)
+					<br>----------------------------
+					<br>* <strong>Work order:</strong>
+					<ul>
+						<li>Add/Edit</li>
+						<li>Search</li>
+						<li>Search Income</li>
+						<li>Asign rate</li>
+						<li>Download invoice</li>
+						<li>This role can edit Work Orders that are "On Field" and "In Progress” and “Revised“ and “Accounting“.</li>
+					</ul>
+					----------------------------
+					<br><strong>Calendar</strong>
+					<br>----------------------------
+					<br><strong>Reports:</strong> Payroll Report by Period
+					<br><strong>Reports:</strong> Payroll Report - General
+					<br><strong>Reports:</strong> Hauling Report
+					<br><strong>Reports:</strong> Work Order Report
+					<br>----------------------------
+					<br><strong>Accounting:</strong> Generate Paystubs
+					<br><strong>Accounting:</strong> Employee Settings
+					<br><strong>Accounting:</strong> Review Paystubs
+					<br><strong>Accounting:</strong> Review Total Yearly
+					<br>----------------------------
+					<br><strong>Settings:</strong> Job Code/Name
+					<br><strong>Settings:</strong> Planning
+					<br>----------------------------
+					<br><strong>Manuals</strong>
+					</p>
+				</div>
+				<div class="panel-footer">
+					* Specific modifications to the module
+				</div>
+			</div>
+		</div>
+
 		<!-- SAFETY&MAINTENANCE USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-info">
@@ -264,7 +319,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
+	<div class="row">
 		<!-- ACCOUNTING USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-danger">
@@ -330,9 +387,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="row">
 		<!-- ENGINEER USER -->
 		<div class="col-lg-4">
 			<div class="panel panel-dark">
@@ -457,7 +511,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 	<!-- /.row -->
 </div>

@@ -405,7 +405,7 @@
 								 * SUPER ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER, ENGINEER ROLES
 								 */
 								$userRol = $this->session->userdata("rol");
-								if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER) {
+								if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_ACCOUNTING_ASSISTANT) {
 								?>
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="state">Status :</label>

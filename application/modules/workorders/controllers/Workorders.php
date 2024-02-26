@@ -113,7 +113,10 @@ class Workorders extends CI_Controller
 					//If it is DIFERRENT THAN ON FIELD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
 				} elseif ($workorderState != 0 && ($userRol == ID_ROL_SAFETY || $userRol == ID_ROL_SUPERVISOR || $userRol == ID_ROL_BASIC)) {
 					$data['deshabilitar'] = 'disabled';
-					//If it is "Rivised" or "Send to Client" and USER is Work Order 
+					//IF it is “Accounting“ solo este estado es para “Accounting“
+				} elseif ($workorderState == 5 && $userRol != ID_ROL_ACCOUNTING_ASSISTANT) {
+					$data['deshabilitar'] = 'disabled';
+					//If it is "Revised" or "Send to Client" and USER is Work Order 
 				} elseif (($workorderState == 2 || $workorderState == 3) && $userRol == ID_ROL_WORKORDER) {
 					$data['deshabilitar'] = 'disabled';
 					//If it is "Send to Client" and USER is Engineer

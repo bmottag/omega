@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | of this setting
 |
 */
-defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
+defined('SHOW_DEBUG_BACKTRACE') or define('SHOW_DEBUG_BACKTRACE', TRUE);
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +26,10 @@ defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 | always be used to set the mode correctly.
 |
 */
-defined('FILE_READ_MODE')  OR define('FILE_READ_MODE', 0644);
-defined('FILE_WRITE_MODE') OR define('FILE_WRITE_MODE', 0666);
-defined('DIR_READ_MODE')   OR define('DIR_READ_MODE', 0755);
-defined('DIR_WRITE_MODE')  OR define('DIR_WRITE_MODE', 0755);
+defined('FILE_READ_MODE')  or define('FILE_READ_MODE', 0644);
+defined('FILE_WRITE_MODE') or define('FILE_WRITE_MODE', 0666);
+defined('DIR_READ_MODE')   or define('DIR_READ_MODE', 0755);
+defined('DIR_WRITE_MODE')  or define('DIR_WRITE_MODE', 0755);
 
 /*
 |--------------------------------------------------------------------------
@@ -39,14 +39,14 @@ defined('DIR_WRITE_MODE')  OR define('DIR_WRITE_MODE', 0755);
 | These modes are used when working with fopen()/popen()
 |
 */
-defined('FOPEN_READ')                           OR define('FOPEN_READ', 'rb');
-defined('FOPEN_READ_WRITE')                     OR define('FOPEN_READ_WRITE', 'r+b');
-defined('FOPEN_WRITE_CREATE_DESTRUCTIVE')       OR define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb'); // truncates existing file data, use with care
-defined('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE')  OR define('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE', 'w+b'); // truncates existing file data, use with care
-defined('FOPEN_WRITE_CREATE')                   OR define('FOPEN_WRITE_CREATE', 'ab');
-defined('FOPEN_READ_WRITE_CREATE')              OR define('FOPEN_READ_WRITE_CREATE', 'a+b');
-defined('FOPEN_WRITE_CREATE_STRICT')            OR define('FOPEN_WRITE_CREATE_STRICT', 'xb');
-defined('FOPEN_READ_WRITE_CREATE_STRICT')       OR define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
+defined('FOPEN_READ')                           or define('FOPEN_READ', 'rb');
+defined('FOPEN_READ_WRITE')                     or define('FOPEN_READ_WRITE', 'r+b');
+defined('FOPEN_WRITE_CREATE_DESTRUCTIVE')       or define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb'); // truncates existing file data, use with care
+defined('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE')  or define('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE', 'w+b'); // truncates existing file data, use with care
+defined('FOPEN_WRITE_CREATE')                   or define('FOPEN_WRITE_CREATE', 'ab');
+defined('FOPEN_READ_WRITE_CREATE')              or define('FOPEN_READ_WRITE_CREATE', 'a+b');
+defined('FOPEN_WRITE_CREATE_STRICT')            or define('FOPEN_WRITE_CREATE_STRICT', 'xb');
+defined('FOPEN_READ_WRITE_CREATE_STRICT')       or define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
 
 /*
 |--------------------------------------------------------------------------
@@ -73,44 +73,45 @@ defined('FOPEN_READ_WRITE_CREATE_STRICT')       OR define('FOPEN_READ_WRITE_CREA
 |       http://tldp.org/LDP/abs/html/exitcodes.html
 |
 */
-defined('EXIT_SUCCESS')        OR define('EXIT_SUCCESS', 0); // no errors
-defined('EXIT_ERROR')          OR define('EXIT_ERROR', 1); // generic error
-defined('EXIT_CONFIG')         OR define('EXIT_CONFIG', 3); // configuration error
-defined('EXIT_UNKNOWN_FILE')   OR define('EXIT_UNKNOWN_FILE', 4); // file not found
-defined('EXIT_UNKNOWN_CLASS')  OR define('EXIT_UNKNOWN_CLASS', 5); // unknown class
-defined('EXIT_UNKNOWN_METHOD') OR define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
-defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user input
-defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
-defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
-defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+defined('EXIT_SUCCESS')        or define('EXIT_SUCCESS', 0); // no errors
+defined('EXIT_ERROR')          or define('EXIT_ERROR', 1); // generic error
+defined('EXIT_CONFIG')         or define('EXIT_CONFIG', 3); // configuration error
+defined('EXIT_UNKNOWN_FILE')   or define('EXIT_UNKNOWN_FILE', 4); // file not found
+defined('EXIT_UNKNOWN_CLASS')  or define('EXIT_UNKNOWN_CLASS', 5); // unknown class
+defined('EXIT_UNKNOWN_METHOD') or define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
+defined('EXIT_USER_INPUT')     or define('EXIT_USER_INPUT', 7); // invalid user input
+defined('EXIT_DATABASE')       or define('EXIT_DATABASE', 8); // database error
+defined('EXIT__AUTO_MIN')      or define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
+defined('EXIT__AUTO_MAX')      or define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 /**
  * Custom defines
  */
 //ROLES
-defined('ID_ROL_SUPER_ADMIN')   OR define('ID_ROL_SUPER_ADMIN', 99);
-defined('ID_ROL_MANAGER')   OR define('ID_ROL_MANAGER', 2);
-defined('ID_ROL_ACCOUNTING')   OR define('ID_ROL_ACCOUNTING', 3);
-defined('ID_ROL_SAFETY')   OR define('ID_ROL_SAFETY', 4);
-defined('ID_ROL_WORKORDER')   OR define('ID_ROL_WORKORDER', 5);
-defined('ID_ROL_SUPERVISOR')   OR define('ID_ROL_SUPERVISOR', 6);
-defined('ID_ROL_BASIC')   OR define('ID_ROL_BASIC', 7);
-defined('ID_ROL_ENGINEER')   OR define('ID_ROL_ENGINEER', 8);
-defined('ID_ROL_MECHANIC')   OR define('ID_ROL_MECHANIC', 9);
+defined('ID_ROL_SUPER_ADMIN')   or define('ID_ROL_SUPER_ADMIN', 99);
+defined('ID_ROL_MANAGER')   or define('ID_ROL_MANAGER', 2);
+defined('ID_ROL_ACCOUNTING')   or define('ID_ROL_ACCOUNTING', 3);
+defined('ID_ROL_SAFETY')   or define('ID_ROL_SAFETY', 4);
+defined('ID_ROL_WORKORDER')   or define('ID_ROL_WORKORDER', 5);
+defined('ID_ROL_SUPERVISOR')   or define('ID_ROL_SUPERVISOR', 6);
+defined('ID_ROL_BASIC')   or define('ID_ROL_BASIC', 7);
+defined('ID_ROL_ENGINEER')   or define('ID_ROL_ENGINEER', 8);
+defined('ID_ROL_MECHANIC')   or define('ID_ROL_MECHANIC', 9);
+defined('ID_ROL_ACCOUNTING_ASSISTANT')   or define('ID_ROL_ACCOUNTING_ASSISTANT', 10);
 //NOTIFICATIONS
-defined('ID_NOTIFICATION_CERTIFICATION')   OR define('ID_NOTIFICATION_CERTIFICATION', 1);
-defined('ID_NOTIFICATION_FLHA')   OR define('ID_NOTIFICATION_FLHA', 2);
-defined('ID_NOTIFICATION_TOOL_BOX')   OR define('ID_NOTIFICATION_TOOL_BOX', 3);
-defined('ID_NOTIFICATION_PLANNING')   OR define('ID_NOTIFICATION_PLANNING', 4);
-defined('ID_NOTIFICATION_MAINTENANCE')   OR define('ID_NOTIFICATION_MAINTENANCE', 5);
-defined('ID_NOTIFICATION_PAYROLL')   OR define('ID_NOTIFICATION_PAYROLL',6);
-defined('ID_NOTIFICATION_TIMESHEET')   OR define('ID_NOTIFICATION_TIMESHEET', 7);
-defined('ID_NOTIFICATION_DAYOFF')   OR define('ID_NOTIFICATION_DAYOFF', 8);
-defined('ID_NOTIFICATION_HAULING')   OR define('ID_NOTIFICATION_HAULING', 9);
-defined('ID_NOTIFICATION_INCIDENT')   OR define('ID_NOTIFICATION_INCIDENT', 10);
-defined('ID_NOTIFICATION_WORKORDER')   OR define('ID_NOTIFICATION_WORKORDER', 11);
-defined('ID_NOTIFICATION_INSPECTIONS')   OR define('ID_NOTIFICATION_INSPECTIONS', 12);
-defined('ID_NOTIFICATION_WORKORDER_CHANGE')   OR define('ID_NOTIFICATION_WORKORDER_CHANGE', 13);
+defined('ID_NOTIFICATION_CERTIFICATION')   or define('ID_NOTIFICATION_CERTIFICATION', 1);
+defined('ID_NOTIFICATION_FLHA')   or define('ID_NOTIFICATION_FLHA', 2);
+defined('ID_NOTIFICATION_TOOL_BOX')   or define('ID_NOTIFICATION_TOOL_BOX', 3);
+defined('ID_NOTIFICATION_PLANNING')   or define('ID_NOTIFICATION_PLANNING', 4);
+defined('ID_NOTIFICATION_MAINTENANCE')   or define('ID_NOTIFICATION_MAINTENANCE', 5);
+defined('ID_NOTIFICATION_PAYROLL')   or define('ID_NOTIFICATION_PAYROLL', 6);
+defined('ID_NOTIFICATION_TIMESHEET')   or define('ID_NOTIFICATION_TIMESHEET', 7);
+defined('ID_NOTIFICATION_DAYOFF')   or define('ID_NOTIFICATION_DAYOFF', 8);
+defined('ID_NOTIFICATION_HAULING')   or define('ID_NOTIFICATION_HAULING', 9);
+defined('ID_NOTIFICATION_INCIDENT')   or define('ID_NOTIFICATION_INCIDENT', 10);
+defined('ID_NOTIFICATION_WORKORDER')   or define('ID_NOTIFICATION_WORKORDER', 11);
+defined('ID_NOTIFICATION_INSPECTIONS')   or define('ID_NOTIFICATION_INSPECTIONS', 12);
+defined('ID_NOTIFICATION_WORKORDER_CHANGE')   or define('ID_NOTIFICATION_WORKORDER_CHANGE', 13);
 //MODULES
-defined('ID_MODULE_SERVICE_ORDER')   OR define('ID_MODULE_SERVICE_ORDER', 1);
-defined('DASHBOARD_MAINTENANCE_LIST')   OR define('DASHBOARD_MAINTENANCE_LIST', 2);
-defined('INSPECTION_LIST_BY_EQUIPMENT_ID')   OR define('INSPECTION_LIST_BY_EQUIPMENT_ID', 3);
+defined('ID_MODULE_SERVICE_ORDER')   or define('ID_MODULE_SERVICE_ORDER', 1);
+defined('DASHBOARD_MAINTENANCE_LIST')   or define('DASHBOARD_MAINTENANCE_LIST', 2);
+defined('INSPECTION_LIST_BY_EQUIPMENT_ID')   or define('INSPECTION_LIST_BY_EQUIPMENT_ID', 3);
