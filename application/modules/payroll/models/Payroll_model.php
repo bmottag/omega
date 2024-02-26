@@ -115,8 +115,9 @@ class Payroll_model extends CI_Model
 		$end = $fechaCierre;
 		$difference = abs(strtotime($init) - strtotime($end)) / 3600;
 
-		$hours = floor($difference);
-		$minutes = round(($difference - $hours) * 60);
+		$hours = round($difference);
+		//$hours = floor($difference);
+		$minutes = round(($difference - floor($difference)) * 60);
 		$newHours =  $hours . ':' . str_pad($minutes, 2, "0", STR_PAD_LEFT);
 
 		$newOvertimeHours = 0;
