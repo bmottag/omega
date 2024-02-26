@@ -512,7 +512,7 @@ class General_model extends CI_Model
 	public function get_programming($arrData)
 	{
 		$year = date('Y');
-		$firstDay = date('Y-m-d', mktime(0, 0, 0, 1, 1, $year));
+		$firstDay = date('Y-m-d', mktime(0, 0, 0, 1, 1, $year-1));
 
 		$this->db->select("P.*, X.id_job, X.job_description, U.id_user, CONCAT(U.first_name, ' ', U.last_name) name");
 		$this->db->join('user U', 'U.id_user = P.fk_id_user', 'INNER');
@@ -541,7 +541,7 @@ class General_model extends CI_Model
 			}
 		}
 
-		//$this->db->where('P.date_issue >=', $firstDay); //se filtran por registros mayores al primer dia del año
+		$this->db->where('P.date_issue >=', $firstDay); //se filtran por registros mayores al primer dia del año
 
 		$this->db->order_by("P.date_programming DESC");
 		$query = $this->db->get("programming P");
@@ -558,18 +558,11 @@ class General_model extends CI_Model
 	 */
 	public function get_programming_workers($arrData)
 	{
-		if (array_key_exists("forTextMessague", $arrData)) {
-			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(CONCAT(param_vehicle.unit_number, '-', param_vehicle.description) SEPARATOR ' \n')  as unit_description, H.hora, H.formato_24";
-		} else {
-			$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, GROUP_CONCAT(CONCAT(param_vehicle.unit_number, '-', param_vehicle.description) SEPARATOR ' <br> ')  as unit_description, H.hora, H.formato_24";
-		}
+		$sql = "SELECT U.movil, CONCAT(first_name, ' ', last_name) name, P.*, H.hora, H.formato_24";
 		$sql .= " FROM programming_worker P";
-
 		$sql .= " INNER JOIN user U ON U.id_user = P.fk_id_programming_user ";
 		$sql .= " LEFT JOIN param_horas H ON H.id_hora = P.fk_id_hour ";
-		$sql .= " LEFT JOIN param_vehicle ON JSON_CONTAINS(fk_id_machine, CAST(param_vehicle.id_vehicle AS JSON)) ";
-
-		$sql .= "  WHERE P.id_programming_worker is NOT NULL ";
+		$sql .= " WHERE P.id_programming_worker is NOT NULL ";
 
 		if (array_key_exists("idUser", $arrData)) {
 			$idUser = $arrData['idUser'];
@@ -613,7 +606,7 @@ class General_model extends CI_Model
 	{
 		$sql = "SELECT P.fk_id_programming_user, P.description, V.id_vehicle, V.type_level_2 ";
 		$sql .= " FROM programming_worker P";
-		$sql .= " LEFT JOIN param_vehicle V ON JSON_CONTAINS(fk_id_machine, CAST(V.id_vehicle AS JSON)) ";
+		$sql .= " LEFT JOIN param_vehicle V ON FIND_IN_SET(V.id_vehicle, REPLACE(REPLACE(fk_id_machine, '[', ''), ']', '')) > 0 ";
 		$sql .= " WHERE P.fk_id_machine is NOT NULL AND P.fk_id_machine != '' ";
 
 		if (array_key_exists("idProgramming", $arrData)) {
@@ -713,6 +706,25 @@ class General_model extends CI_Model
 			return $query->result_array();
 		} else
 			return false;
+	}
+
+	public function get_missing_programming_inspecciones($arrData)
+	{
+		$machines = json_decode($arrData["maquina"]);
+	
+		$this->db->select('fk_id_machine');
+		$this->db->where('date_inspection', $arrData["fecha"]);
+		$registered_machines_query = $this->db->get('inspection_total');
+		
+		$registered_machines = array_column($registered_machines_query->result_array(), 'fk_id_machine');
+	
+		$missing_machines = array_diff($machines, $registered_machines);
+
+		if (empty($missing_machines)) {
+			return false;
+		}
+
+		return $missing_machines;
 	}
 
 	/**
@@ -2208,5 +2220,22 @@ class General_model extends CI_Model
 			return $query->result_array();
 		} else
 			return false;
+	}
+
+	public function get_vehicle_info_for_planning($arrData)
+	{
+		if (array_key_exists("forTextMessague", $arrData)) {
+			$sql = "SELECT GROUP_CONCAT(unit_number, '-', description SEPARATOR ' \n') AS unit_description FROM param_vehicle WHERE id_vehicle IN (" . $arrData['idValues'] . ")";
+		} else {
+			$sql = "SELECT GROUP_CONCAT(unit_number, '-', description SEPARATOR '<br>') AS unit_description FROM param_vehicle WHERE id_vehicle IN (" . $arrData['idValues'] . ")";
+		}
+		
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			return $query->row_array();
+		} else {
+			return false;
+		}
 	}
 }

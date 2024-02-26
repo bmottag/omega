@@ -46,7 +46,7 @@ class Programming extends CI_Controller
 			$data['dayoffList'] = $this->general_model->get_day_off($data);
 
 			//si hay trabajadores reviso si ya se ha hecho la inspeccion de las maquinas
-			if ($data['workersList']) {
+			if ($data['informationWorker']) {
 				$data['memo'] = $this->verificacion($idProgramming, $data['information'][0]['date_programming']);
 				$data['memo_flha'] = $this->verificacion_flha($idProgramming, $data['information'][0]['date_programming']);
 				$data['memo_tool_box'] = $this->verificacion_tool_box($idProgramming, $data['information'][0]['date_programming']);
@@ -391,8 +391,7 @@ class Programming extends CI_Controller
 		$data['idProgramming'] = $idProgramming;
 
 		$arrParam = array(
-			"idProgramming" => $idProgramming,
-			"forTextMessague" => true
+			"idProgramming" => $idProgramming
 		);
 		$data['information'] = $this->general_model->get_programming($arrParam); //info programacion
 
@@ -412,6 +411,16 @@ class Programming extends CI_Controller
 
 		if ($data['informationWorker']) {
 			foreach ($data['informationWorker'] as $data) :
+
+				if($data['fk_id_machine'] != NULL){
+					$id_values = implode(',', json_decode($data['fk_id_machine'], true));
+					$arrParam = array(
+									"idValues" => $id_values,
+									"forTextMessague" => true
+								);
+					$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
+				}
+
 				$mensaje .= "\n";
 				switch ($data['site']) {
 					case 1:
@@ -431,7 +440,7 @@ class Programming extends CI_Controller
 
 				$mensaje .= "\n" . $data['name'];
 				$mensaje .= $data['description'] ? "\n" . $data['description'] : "";
-				$mensaje .= $data['unit_description'] ? "\nInspect following unit(s):\n" . $data['unit_description'] : "";
+				$mensaje .= $data['fk_id_machine'] != NULL ? "\nInspect following unit(s):\n" . $informationEquipments["unit_description"] : "";
 
 				if ($data['safety'] == 1) {
 					$mensaje .= "\nFLHA has being assigned to you.";
@@ -590,93 +599,11 @@ class Programming extends CI_Controller
 			}
 			//fin configuracion
 
-
 			//para cada programacion buscar los trabajadores que tienen maquinas asignadas
 			foreach ($information as $lista) :
 				//lista de trabajadores para esta programacion que tiene maquinas asignadas
 				$arrParam = array("idProgramming" => $lista['id_programming'], "withEquipment" => TRUE);
 				$informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
-
-				$arrParam = array("idProgramming" => $lista['id_programming'], "createWO" => TRUE);
-				$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajadores
-
-				if ($informationWorkerWO) {
-					//busco para la fecha y para esa wo si hay inspecciones
-					//si no hay inspecciones envio mensaje de alerta
-					foreach ($informationWorkerWO as $dato) :
-						$arrParam = array("fecha" => $fechaBusqueda, "idUser" => $dato['fk_id_programming_user']);
-						$wo = $this->general_model->get_programming_wo($arrParam); //inspecciones de wo asignadas en una programacion
-						if (!$wo) {
-							$i++;
-							$nombres .= "<br>" . $dato['name'] . " - " . $dato['unit_description'];
-							//ENVIO MENSAJE DE TEXTO
-							if ($bandera && $dato['sms_inspection'] != 2) {
-
-
-								//buscar si ya empezo la hora laboral del trabajador
-								$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
-
-								$datetime1 = date_create($fechaProgramacion);
-
-								//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
-
-								$ajuste = strtotime('-2 hour', strtotime(date("Y-m-d G:i"))); //le resto 2 horas a la hora actual
-								$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
-
-								//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
-								if ($datetime1 < $datetime2) {
-
-									//si no le ha enviado sms entonces lo envio
-									if ($dato['sms_wo'] == null) {
-										//actualizo la bandera sms_wo a 1
-										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_wo", 1);
-
-										$to = '+1' . $dato['movil'];
-
-										$mensaje = "WO APP-VCI";
-										$mensaje .= "\nDo not forget to do the WO:";
-
-										// Use the client to do fun stuff like send text messages!
-										$message = $client->messages->create(
-											// the number you'd like to send the message to
-											$to,
-											array(
-												// A Twilio phone number you purchased at twilio.com/console
-												'from' => $phone,
-												'body' => $mensaje
-											)
-										);
-									}
-									//si ya se le evio al trabajador entonces se envio al ADMIN
-									if ($dato['sms_wo'] == 1) {
-										//actualizo la bandera sms_wo a 2
-										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_wo", 2);
-
-										$to = '+1' . $phoneAdmin;
-
-										$mensaje = "WO APP-VCI";
-										$mensaje .= "\nThe user has not done the WO:";
-										$mensaje .= "\n" . $dato['name'] . " - " . $dato['unit_description'];
-
-										// Use the client to do fun stuff like send text messages!
-										$message = $client->messages->create(
-											// the number you'd like to send the message to
-											$to,
-											array(
-												// A Twilio phone number you purchased at twilio.com/console
-												'from' => $phone,
-												'body' => $mensaje
-											)
-										);
-									}
-								}
-							}
-							//FIN MENSAJE DE TEXTO
-
-						}
-
-					endforeach;
-				}
 
 				if ($informationWorker) {
 					//busco para la fecha y para esa maquina si hay inspecciones
@@ -686,83 +613,89 @@ class Programming extends CI_Controller
 						$inspecciones = false;
 						if (!empty(json_decode($dato['fk_id_machine']))) {
 							$arrParam = array("fecha" => $fechaBusqueda, "maquina" => $dato['fk_id_machine']);
-							$inspecciones = $this->general_model->get_programming_inspecciones($arrParam); //inspecciones de maquinas asignadas en una programacion
-						}
+							$inspecciones = $this->general_model->get_missing_programming_inspecciones($arrParam); //ID de maquinas sin inspeccion
 
-						if (!$inspecciones) {
-							$i++;
-							$nombres .= "<br>" . $dato['name'] . " - " . $dato['unit_description'];
-							//ENVIO MENSAJE DE TEXTO
-							if ($bandera && $dato['sms_inspection'] != 2) {
+							if($inspecciones){
+								$arrParam = array(
+									"idValues" => implode(",", $inspecciones)
+								);
+								if($bandera){
+									$arrParam["forTextMessague"] = true;
+								}
+								$inspeccionesValues = $this->general_model->get_vehicle_info_for_planning($arrParam);
+							}
+
+							if ($inspeccionesValues) {
+								$i++;
+								$nombres .= "<br>" . $dato['name'] . " - " . $inspeccionesValues["unit_description"];
+
+								//ENVIO MENSAJE DE TEXTO
+								if ($bandera && $dato['sms_inspection'] != 2) {
+
+									//buscar si ya empezo la hora laboral del trabajador
+									$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
+
+									$datetime1 = date_create($fechaProgramacion);
 
 
-								//buscar si ya empezo la hora laboral del trabajador
-								$fechaProgramacion = $fechaBusqueda . " " . $dato['formato_24'];
-
-								$datetime1 = date_create($fechaProgramacion);
+									//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
 
 
-								//$datetime2 = date_create(date('Y-m-d G:i'));//fecha actual
+									$ajuste = strtotime('-2 hour', strtotime(date("Y-m-d G:i"))); //le resto 2 horas a la hora actual
+									$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
 
+									//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
+									if ($datetime1 < $datetime2) {
+										//si no le ha enviado sms entonces lo envio
+										if ($dato['sms_inspection'] == 0) {
+											//actualizo la bandera sms_inspection a 1
+											$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_inspection", 1);
 
-								$ajuste = strtotime('-2 hour', strtotime(date("Y-m-d G:i"))); //le resto 2 horas a la hora actual
-								$datetime2 = date_create(date("Y-m-d G:i", $ajuste));
+											$to = '+1' . $dato['movil'];
 
-								//si ya empezo a trabajar y no se le ha enviado mensaje, entonces le envio sms
-								if ($datetime1 < $datetime2) {
+											$mensaje = "INSPECTION APP-VCI";
+											$mensaje .= "\nDo not forget to do the Inspection:";
+											$mensaje .= "\n" . $inspeccionesValues["unit_description"];
 
-									//si no le ha enviado sms entonces lo envio
-									if ($dato['sms_inspection'] == 0) {
-										//actualizo la bandera sms_inspection a 1
-										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_inspection", 1);
+											// Use the client to do fun stuff like send text messages!
+											$message = $client->messages->create(
+												// the number you'd like to send the message to
+												$to,
+												array(
+													// A Twilio phone number you purchased at twilio.com/console
+													'from' => $phone,
+													'body' => $mensaje
+												)
+											);
+										}
+										//si ya se le evio al trabajador entonces se envio al ADMIN
+										if ($dato['sms_inspection'] == 1) {
+											//actualizo la bandera sms_inspection a 2
+											$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_inspection", 2);
 
-										$to = '+1' . $dato['movil'];
+											$to = '+1' . $phoneAdmin;
 
-										$mensaje = "INSPECTION APP-VCI";
-										$mensaje .= "\nDo not forget to do the Inspection:";
-										$mensaje .= "\n" . $dato['unit_description'];
+											$mensaje = "INSPECTION APP-VCI";
+											$mensaje .= "\nThe user has not done the Inspection:";
+											$mensaje .= "\n" . $dato['name'] . " - " . $inspeccionesValues["unit_description"];
 
-										// Use the client to do fun stuff like send text messages!
-										$message = $client->messages->create(
-											// the number you'd like to send the message to
-											$to,
-											array(
-												// A Twilio phone number you purchased at twilio.com/console
-												'from' => $phone,
-												'body' => $mensaje
-											)
-										);
-									}
-									//si ya se le evio al trabajador entonces se envio al ADMIN
-									if ($dato['sms_inspection'] == 1) {
-										//actualizo la bandera sms_inspection a 2
-										$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_inspection", 2);
-
-										$to = '+1' . $phoneAdmin;
-
-										$mensaje = "INSPECTION APP-VCI";
-										$mensaje .= "\nThe user has not done the Inspection:";
-										$mensaje .= "\n" . $dato['name'] . " - " . $dato['unit_description'];
-
-										// Use the client to do fun stuff like send text messages!
-										$message = $client->messages->create(
-											// the number you'd like to send the message to
-											$to,
-											array(
-												// A Twilio phone number you purchased at twilio.com/console
-												'from' => $phone,
-												'body' => $mensaje
-											)
-										);
+											// Use the client to do fun stuff like send text messages!
+											$message = $client->messages->create(
+												// the number you'd like to send the message to
+												$to,
+												array(
+													// A Twilio phone number you purchased at twilio.com/console
+													'from' => $phone,
+													'body' => $mensaje
+												)
+											);
+										}
 									}
 								}
+								//FIN MENSAJE DE TEXTO
+
 							}
-							//FIN MENSAJE DE TEXTO
-
 						}
-
-					//echo $this->db->last_query(); exit;
-
 					endforeach;
 				}
 

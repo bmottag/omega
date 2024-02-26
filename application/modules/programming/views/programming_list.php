@@ -296,6 +296,18 @@
 									$mensaje = "";
 
 									foreach ($informationWorker as $data) :
+
+										if($data['fk_id_machine'] != NULL){
+											$id_values = implode(',', json_decode($data['fk_id_machine'], true));
+											
+											$ci = &get_instance();
+											$ci->load->model("general_model");
+		
+											$arrParam = array("idValues" => $id_values);
+											$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
+										}
+
+
 										$mensaje .= "<br>";
 										switch ($data['site']) {
 											case 1:
@@ -315,7 +327,7 @@
 
 										$mensaje .= "<br>" . $data['name'];
 										$mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
-										$mensaje .= $data['unit_description'] ? "<br>" . $data['unit_description'] : "";
+										$mensaje .= $data['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
 
 										if ($data['safety'] == 1) {
 											$mensaje .= "<br>Do FLHA";

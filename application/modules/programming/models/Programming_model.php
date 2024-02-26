@@ -181,7 +181,7 @@ class Programming_model extends CI_Model
 
 		$maquina = NULL;
 		if (!empty($this->input->post('machine'))) {
-			$maquina = '[' . implode(", ", $this->input->post('machine')) . ']';
+			$maquina = '[' . implode(",", $this->input->post('machine')) . ']';
 		}
 
 		$data = array(
@@ -248,7 +248,7 @@ class Programming_model extends CI_Model
 	 */
 	public function saveWorkerFashPlanning($idProgramming, $idHora)
 	{
-		$machine = '[' . implode(", ", $this->input->post('machine')) . ']';
+		$machine = '[' . implode(",", $this->input->post('machine')) . ']';
 		$data = array(
 			'fk_id_programming' => $idProgramming,
 			'fk_id_programming_user' => $this->input->post('worker'),
