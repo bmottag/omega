@@ -1315,7 +1315,7 @@ class More extends CI_Controller
 		$arrParam = array("idConfined" => $idConfined);
 		$data['info'] = $this->general_model->get_confined_space($arrParam);
 
-		$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, null); //workers list
+		$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, 2); //workers list
 
 		$data['WorkersOnSite'] = $this->more_model->get_confined_workers($idConfined, 1); //workers list
 
