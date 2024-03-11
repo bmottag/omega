@@ -36,7 +36,7 @@
 					<select name="type" id="type" class="form-control" required>
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($equipmentType); $i++) { ?>
-							<option value="<?php echo $equipmentType[$i]["id_type_2"]; ?>" <?php if($informationAttachments && $informationAttachments[0]["inspection_type"] == $equipmentType[$i]["id_type_2"]) { echo "selected"; }  ?>><?php echo $equipmentType[$i]["header_inspection_type"]; ?></option>	
+							<option value="<?php echo $equipmentType[$i]["inspection_type"]; ?>" <?php if($informationAttachments && $informationAttachments[0]["inspection_type"] == $equipmentType[$i]["inspection_type"]) { echo "selected"; }  ?>><?php echo $equipmentType[$i]["header_inspection_type"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>

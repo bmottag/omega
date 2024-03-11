@@ -961,7 +961,7 @@ class Serviceorder extends CI_Controller
 		);
 		$this->load->model("general_model");
 		$lista = $this->general_model->get_vehicle_by($arrParam);
-
+		$arrayInformationAttachments = false;
 		if ($this->input->post('idEquipmentPart') != "") {
 			$arrParam = array(
 				"idEquipmentPart" => $this->input->post('idEquipmentPart'),
