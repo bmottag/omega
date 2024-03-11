@@ -75,7 +75,7 @@ class Payroll_model extends CI_Model
 
 		$dteDiff  = $dteStart->diff($dteEnd);
 		$workingTime = $dteDiff->format("%R%a days %H:%I:%S"); //days hours:minutes:seconds
-
+		
 		//START hours calculation
 		$minutes = (strtotime($fechaStart) - strtotime($fechaCierre)) / 60;
 		$minutes = abs($minutes);
@@ -109,24 +109,19 @@ class Payroll_model extends CI_Model
 		}
 		//FINISH hours calculation
 
-
 		//New cal hours
-		$init = $fechaStart;
-		$end = $fechaCierre;
-		$difference = abs(strtotime($init) - strtotime($end)) / 3600;
-
-		$hours = round($difference);
-		//$hours = floor($difference);
-		$minutes = round(($difference - floor($difference)) * 60);
-		$newHours =  $hours . ':' . str_pad($minutes, 2, "0", STR_PAD_LEFT);
+		$hoursNEW = $dteDiff->h + ($dteDiff->days * 24);
+		$minutesNEW = $dteDiff->i;
+		$secondsNEW = $dteDiff->s;
+		$formatNEW = sprintf("%02d:%02d:%02d", $hoursNEW, $minutesNEW, $secondsNEW);
 
 		$newOvertimeHours = 0;
-		if ($hours > 8) {
+		if ($hoursNEW > 8) {
 			$newRegularHours =  '08:00';
-			$hours = $hours - 8;
-			$newOvertimeHours = $hours . ':' . str_pad($minutes, 2, "0", STR_PAD_LEFT);
+			$hoursNEW = $hoursNEW - 8;
+			$newOvertimeHours = sprintf("%02d:%02d:%02d", $hoursNEW, $minutesNEW, $secondsNEW);
 		} else {
-			$newRegularHours = $newHours;
+			$newRegularHours = $formatNEW;
 		}
 		//FINISH New cal hours
 
@@ -142,18 +137,18 @@ class Payroll_model extends CI_Model
 			$address =  addslashes($address);
 
 			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$newHours', regular_hours =  $regularHours,
+			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours,
 			regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
 			$sql .= " WHERE id_task=$idTask";
 		} elseif ($adminUpdate == 2) {
 
 			$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
 			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$newHours', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
+			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
 			$sql .= " WHERE id_task=$id_task";
 		} else {
 			$sql = "UPDATE task";
-			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$newHours', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
+			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
 			$sql .= " WHERE id_task=$idTask";
 		}
 
