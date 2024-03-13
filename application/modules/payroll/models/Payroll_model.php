@@ -116,7 +116,7 @@ class Payroll_model extends CI_Model
 		$formatNEW = sprintf("%02d:%02d:%02d", $hoursNEW, $minutesNEW, $secondsNEW);
 
 		$newOvertimeHours = 0;
-		if ($hoursNEW > 8) {
+		if ($hoursNEW >= 8) {
 			$newRegularHours =  '08:00';
 			$hoursNEW = $hoursNEW - 8;
 			$newOvertimeHours = sprintf("%02d:%02d:%02d", $hoursNEW, $minutesNEW, $secondsNEW);
