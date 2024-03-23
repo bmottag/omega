@@ -24,7 +24,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="jobName">Job Code/Name: *</label>
 							<div class="col-sm-3">
-                                <select name="jobName" id="jobName" class="form-control" required >
+                                <select name="jobName" id="jobName" class="form-control js-example-basic-single" required >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
@@ -34,7 +34,7 @@
 
 							<label class="col-sm-2 control-label" for="worker">Worker: *</label>
 							<div class="col-sm-3">
-                                <select name="worker" id="worker" class="form-control" required>
+                                <select name="worker" id="worker" class="form-control js-example-basic-single" required>
                                     <option value=''>Select...</option>
                                     <?php for ($i = 0; $i < count($workersList); $i++) { ?>
                                         <option value="<?php echo $workersList[$i]["id_user"]; ?>" ><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
@@ -93,3 +93,11 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(document).ready(function() {
+	$('.js-example-basic-single').select2({
+		width: '100%'
+	});
+});
+</script>

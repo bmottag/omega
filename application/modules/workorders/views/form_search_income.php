@@ -22,7 +22,7 @@
 						<div class="form-group">
 							<div class="col-sm-10 col-sm-offset-1">
 								<label for="from">Job Code/Name </label>
-								<select name="jobName" id="jobName" class="form-control">
+								<select name="jobName" id="jobName" class="form-control js-example-basic-single">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobList); $i++) { ?>
 										<option value="<?php echo $jobList[$i]["id_job"]; ?>"><?php echo $jobList[$i]["job_description"]; ?></option>
@@ -121,12 +121,14 @@
 								</span>
 							</p>
 						</a>
+						<!--
 						<a href="<?php echo base_url("workorders/wo_by_state/5/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-warning"><i class="fa fa-list-alt fa-fw"></i><strong> Accounting</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noAccounting; ?></em>
 								</span>
 							</p>
 						</a>
+						-->
 						<a href="<?php echo base_url("workorders/wo_by_state/3/" . date("Y")); ?>" class="list-group-item">
 							<p class="text-success"><i class="fa fa-envelope-o  fa-fw"></i><strong> Send to the Client</strong>
 								<span class="pull-right text-muted small"><em><?php echo $noSend; ?></em>
@@ -358,6 +360,10 @@
 			"ordering": true,
 			paging: false,
 			"info": false
+		});
+
+		$('.js-example-basic-single').select2({
+			width: '100%'
 		});
 	});
 </script>

@@ -21,7 +21,7 @@
 						<div class="form-group">
 							<div class="col-sm-3 col-sm-offset-2">
 								<label for="from">Employee <small>(This field is NOT required.)</small></label>
-								<select name="employee" id="employee" class="form-control" >
+								<select name="employee" id="employee" class="form-control js-example-basic-single" >
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>"><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
@@ -90,3 +90,11 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(document).ready(function() {
+	$('.js-example-basic-single').select2({
+		width: '100%'
+	});
+});
+</script>
