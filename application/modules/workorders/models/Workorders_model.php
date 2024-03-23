@@ -769,7 +769,12 @@ class Workorders_model extends CI_Model
 		$sql .= " FROM workorder_personal P";
 		$sql .= " INNER JOIN workorder W on W.id_workorder = P.fk_id_workorder";
 		$sql .= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
-
+		if (array_key_exists("from", $arrDatos) && $arrDatos["from"] != '') {
+			$sql .= " AND date >= '" . $arrDatos["from"] . "'";
+		}
+		if (array_key_exists("to", $arrDatos) && $arrDatos["to"] != '' && $arrDatos["from"] != '') {
+			$sql .= " AND date <= '" . $arrDatos["to"] . "'";
+		}
 		$query = $this->db->query($sql);
 		$row = $query->row();
 		return $row->TOTAL;

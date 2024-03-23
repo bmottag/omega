@@ -1926,17 +1926,8 @@ class Workorders extends CI_Controller
 			$data['from'] =  $this->input->post('from');
 			$data['to'] =  $this->input->post('to');
 
-			//le sumo un dia al dia final para que ingrese ese dia en la consulta
-			if ($data['to']) {
-				$to = date('Y-m-d', strtotime('+1 day ', strtotime(formatear_fecha($data['to']))));
-			} else {
-				$to = "";
-			}
-			if ($data['from']) {
-				$from = formatear_fecha($data['from']);
-			} else {
-				$from = "";
-			}
+			$to = isset($data['to']) ? formatear_fecha($data['to']) : "";
+			$from = isset($data['from']) ? formatear_fecha($data['from']) : "";
 
 			$data['fromFormat'] =  $from;
 			$data['toFormat'] =  $to;
