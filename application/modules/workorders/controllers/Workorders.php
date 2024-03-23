@@ -229,7 +229,7 @@ class Workorders extends CI_Controller
 		$this->load->model("general_model");
 
 		//actualizo el estado del formulario a cerrado(2)
-		if ($this->general_model->updateRecord($arrParam)) {
+		if ($this->general_model->updateWORecords($arrParam)) {
 			$data["result"] = true;
 			$data["mensaje"] = "You have closed the Work Order.";
 			$this->session->set_flashdata('retornoExito', 'You have closed the Work Order');
@@ -297,7 +297,7 @@ class Workorders extends CI_Controller
 					"value" => 1
 				);
 				$this->load->model("general_model");
-				$this->general_model->updateRecord($arrParam);
+				$this->general_model->updateWORecords($arrParam);
 			}
 
 			$data["result"] = true;
@@ -375,7 +375,7 @@ class Workorders extends CI_Controller
 						"column" => "expenses_flag",
 						"value" => 0
 					);
-					$this->general_model->updateRecord($arrParam);
+					$this->general_model->updateWORecords($arrParam);
 				}
 			}
 
@@ -890,7 +890,7 @@ class Workorders extends CI_Controller
 
 			$this->load->model("general_model");
 			$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
-			if ($this->general_model->updateRecord($arrParam)) {
+			if ($this->general_model->updateWORecords($arrParam)) {
 				//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 
 				$data['clase'] = "alert-success";
@@ -2344,7 +2344,7 @@ class Workorders extends CI_Controller
 				"value" => 1
 			);
 			$this->load->model("general_model");
-			$this->general_model->updateRecord($arrParam);
+			$this->general_model->updateWORecords($arrParam);
 		}
 		return true;
 	}
@@ -2503,5 +2503,24 @@ class Workorders extends CI_Controller
 		} else {
 			$this->load->view("layout", $data);
 		}
+	}
+
+	/**
+	 * View workorder_expenses
+	 * @since 23/03/2024
+	 * @author BMOTTAG
+	 */
+	public function workorder_expenses($idWorkOrder)
+	{
+		$arrParam = array("idWorkOrder" => $idWorkOrder);
+		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
+		$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);
+		$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);
+		$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);
+		$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);
+		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);
+
+		$data["view"] = 'expenses';
+		$this->load->view("layout", $data);
 	}
 }
