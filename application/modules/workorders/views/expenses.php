@@ -1,0 +1,353 @@
+<script>
+	function seleccionar_todo(){
+	for (i=0;i<document.form_expenses.elements.length;i++)
+		if(document.form_expenses.elements[i].type == "checkbox")
+			document.form_expenses.elements[i].checked=1
+	} 
+
+
+	function deseleccionar_todo(){
+	for (i=0;i<document.form_expenses.elements.length;i++)
+		if(document.form_expenses.elements[i].type == "checkbox")
+			document.form_expenses.elements[i].checked=0
+	} 
+</script>
+
+<div id="page-wrapper">
+	<br>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<a class="btn btn-gris btn-xs" href=" <?php echo base_url() . 'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
+					<i class="fa fa-money"></i> <strong>WORK ORDERS</strong>
+				</div>
+				<div class="panel-body">
+
+					<ul class="nav nav-pills">
+						<li><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
+						</li>
+						<li><a href="<?php echo base_url('workorders/view_workorder/' . $information[0]["id_workorder"]) ?>">Asign rate</a>
+						</li>
+						<li><a href="<?php echo base_url('workorders/generaWorkOrderPDF/' . $information[0]["id_workorder"]) ?>" target="_blank">Download invoice</a>
+						</li>
+<?php
+$userRol = $this->session->userdata("rol");
+if ($userRol == ID_ROL_SUPER_ADMIN) {
+?>
+						<li class='active'><a href="<?php echo base_url('workorders/workorder_expenses/' . $information[0]["id_workorder"]) ?>" target="_blank">Workorder Expenses</a>
+						</li>
+<?php } ?>
+					</ul>
+					<br>
+
+					<?php
+					$retornoExito = $this->session->flashdata('retornoExito');
+					if ($retornoExito) {
+					?>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert alert-success ">
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+									<?php echo $retornoExito ?>
+								</div>
+							</div>
+						</div>
+					<?php
+					}
+
+					$retornoError = $this->session->flashdata('retornoError');
+					if ($retornoError) {
+					?>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert alert-danger ">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									<?php echo $retornoError ?>
+								</div>
+							</div>
+						</div>
+					<?php
+					}
+					?>
+
+					<?php
+					if ($information) {
+						switch ($information[0]['state']) {
+							case 0:
+								$valor = 'On Field';
+								$clase = "alert-danger";
+								break;
+							case 1:
+								$valor = 'In Progress';
+								$clase = "alert-warning";
+								break;
+							case 2:
+								$valor = 'Revised';
+								$clase = "alert-info";
+								break;
+							case 3:
+								$valor = 'Send to the Client';
+								$clase = "alert-success";
+								break;
+							case 4:
+								$valor = 'Closed';
+								$clase = "alert-danger";
+								break;
+							case 5:
+								$valor = 'Accounting';
+								$clase = "text-warning";
+								$icono = "fa-list-alt";
+								break;
+						}
+					?>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert <?php echo $clase; ?>">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									This work order is <strong><?php echo $valor; ?></strong>
+								</div>
+							</div>
+						</div>
+
+					<?php } ?>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-info">
+								<span class='fa fa-money' aria-hidden='true'></span>
+								<strong>Work Order #: </strong><?php echo $information[0]["id_workorder"]; ?>
+								<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Work Order Date: </strong><?php echo $information[0]["date"]; ?>
+								<br><span class="fa fa-briefcase" aria-hidden="true"></span> <strong>Job Code/Name: </strong><?php echo $information[0]["job_description"]; ?>
+								<?php if ($information[0]["notes"]) { ?>
+									<br><strong>Job Code/Name - Notes: </strong><?php echo $information[0]["notes"]; ?>
+								<?php } ?>
+								<br><strong>Markup: </strong><?php echo $information[0]["markup"] . '%'; ?>
+								<br><strong>Supervisor: </strong><?php echo $information[0]["name"]; ?>
+								<br><strong>Observation: </strong><?php echo $information[0]["observation"]; ?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--INICIO FORMULARIOS -->
+	<?php if ($information) { ?>
+
+		<!--INICIO WO EXPENSE -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-dark">
+                    <div class="panel-heading">
+                        WO EXPENSES
+                    </div>
+                    <div class="panel-body">
+                        <form  name="form_expenses" id="form_expenses" method="post" action="<?php echo base_url("workorders/save_wo_expenses"); ?>">
+                            <input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $information[0]["id_workorder"]; ?>"/>
+                            <input type="hidden" id="hddidJob" name="hddidJob" value="<?php echo $information[0]["fk_id_job"]; ?>"/>
+        
+                            <a href="javascript:seleccionar_todo()">Check all</a> |
+                            <a href="javascript:deseleccionar_todo()">Uncheck all</a> 
+                            <table class="table table-bordered table-striped table-hover table-condensed small">
+                                <tr class="default">
+                                    <td colspan="6">
+                                        Select an Item <br>
+                                        <select name="item_job_detail" id="item_job_detail" class="form-control" required>
+                                            <option value=''>Select...</option>
+                                            <?php for ($i = 0; $i < count($jobDetails); $i++) { ?>
+                                                <option value="<?php echo $jobDetails[$i]["id_job_detail"]; ?>"><?php echo $jobDetails[$i]["chapter_name"] . " - Item: " . $jobDetails[$i]["chapter_number"] . "." . $jobDetails[$i]["item"] . " " . $jobDetails[$i]["description"]; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="default">
+                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Unit</th>
+                                    <th class="text-center">QTY</th>
+                                    <th class="text-center">Unit Price</th>
+                                    <th class="text-center">Line Total</th>
+                                </tr>
+                                <?php
+                                    // INICIO PERSONAL
+                                    if($workorderPersonal)
+                                    { 
+                                        foreach ($workorderPersonal as $data):                                         
+                                            echo '<tr>
+                                                    <td>';
+                                            echo '<p class="text-warning">';
+                                            $check = array(
+                                                'name' => 'item[]',
+                                                'id' => 'item',
+                                                'value' => 'personal__' . $data['id_workorder_personal'],
+                                                'checked' => false,
+                                                'style' => 'margin:10px'
+                                            );
+                                            echo form_checkbox($check);
+                                            echo '<strong>Personal</strong></p>';								
+                                            echo '</td>
+                                                    <td>' . $data['employee_type'] . ' - ' . $data['description'] . ' by ' . $data['name'] . '</td>
+                                                    <td class="text-center">Hours</td>
+                                                    <td class="text-center">' . $data['hours'] . '</td>
+                                                    <td class="text-right">$ ' . number_format($data['rate'], 2) . '</td>
+                                                    <td class="text-right">$ ' . number_format($data['value'], 2) . '</td>';
+                                            echo '</tr>';
+                                        endforeach;
+                                    }
+
+                                    // INICIO MATERIAL
+                                    if($workorderMaterials)
+                                    { 
+                                        foreach ($workorderMaterials as $data):
+                                            $description = $data['description'] . ' - ' . $data['material'];
+                                            if($data['markup'] > 0){
+                                                $description = $description . ' - Plus M.U.';
+                                            }
+
+                                            echo '<tr>
+                                                    <td>';
+                                            echo '<p class="text-success">';
+                                            $check = array(
+                                                'name' => 'item[]',
+                                                'id' => 'item',
+                                                'value' => 'materials__' . $data['id_workorder_materials'],
+                                                'checked' => false,
+                                                'style' => 'margin:10px'
+                                            );
+                                            echo form_checkbox($check);
+                                            echo '<strong>Materials</strong></p>';								
+                                            echo '</td>
+                                                    <td>' . $description . '</td>
+                                                    <td align="center">' . $data['unit'] . '</td>
+                                                    <td align="center">' . $data['quantity'] . '</td>
+                                                    <td align="right">$ ' . number_format($data['rate'], 2) . '</td>
+                                                    <td align="right">$ ' . number_format($data['value'], 2) . '</td>';
+                                            echo '</tr>';
+                                        endforeach;
+                                    }
+
+                                    // INICIO RECEIPT
+                                    if($workorderReceipt)
+                                    { 
+                                        foreach ($workorderReceipt as $data):
+                                            $description = $data['description'] . ' - ' . $data['place'];
+                                            if($data['markup'] > 0){
+                                                $description = $description . ' - Plus M.U.';
+                                            }
+
+                                            echo '<tr>
+                                                    <td>';
+                                            echo '<p class="text-violeta">';
+                                            $check = array(
+                                                'name' => 'item[]',
+                                                'id' => 'item',
+                                                'value' => 'receipt__' . $data['id_workorder_receipt'],
+                                                'checked' => false,
+                                                'style' => 'margin:10px'
+                                            );
+                                            echo form_checkbox($check);
+                                            echo '<strong>Receipt</strong></p>';								
+                                            echo '</td>
+                                                    <td>' . $description . '</td>
+                                                    <td align="center"> Receipt </td>
+                                                    <td align="center"> 1 </td>
+                                                    <td align="right">$ ' . number_format($data['value'], 2) . '</td>
+                                                    <td align="right">$ ' . number_format($data['value'], 2) . '</td>';
+                                            echo '</tr>';
+                                        endforeach;
+                                    }
+
+                                    // INICIO EQUIPMENT
+                                    if($workorderEquipment)
+                                    { 
+                                        foreach ($workorderEquipment as $data):
+                                            echo '<tr>
+                                                    <td>';
+                                            echo '<p class="text-info">';
+                                            $check = array(
+                                                'name' => 'item[]',
+                                                'id' => 'item',
+                                                'value' => 'equipment__' . $data['id_workorder_equipment'],
+                                                'checked' => false,
+                                                'style' => 'margin:10px'
+                                            );
+                                            echo form_checkbox($check);
+                                            echo '<strong>Equipment</strong></p>';								
+                                            echo '</td>
+                                                    <td>';
+                                                    
+                                                    if($data['fk_id_attachment'] != "" && $data['fk_id_attachment'] != 0){
+                                                        echo '<strong>ATTACHMENT: </strong>' . $data["attachment_number"] . " - " . $data["attachment_description"] . ' ';
+                                                    }
+
+                                            //si es tipo miscellaneous -> 8, entonces la description es diferente
+                                            if($data['fk_id_type_2'] == 8){
+                                                $equipment = $data['miscellaneous'] . " - " . $data['otder'];
+                                                $description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
+                                            }else{
+                                                $equipment = "<strong>Unit #: </strong>" .$data['unit_number'] . " <strong>Make: </strong>" . $data['make'] . " <strong>Model: </strong>" . $data['model'];
+                                                $description = $data['v_description'] . " - " . preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
+                                            }
+                                            
+                                            echo  $equipment . ' <strong>Description: </strong>' . $description . ', operated by ' . $data['operatedby'];
+                                            echo '</td>                                                        
+                                                    <td align="center">Hours</td>
+                                                    <td align="center">' . $data['hours'] . '</td>
+                                                    <td align="right">$ ' . number_format($data['rate'], 2) . '</td>
+                                                    <td align="right">$ ' . number_format($data['value'], 2) . '</td>';
+                                            echo '</tr>';
+                                        endforeach;
+                                    }
+
+                                    // INICIO SUBCONTRATISTAS OCASIONALES
+                                    if($workorderOcasional)
+                                    { 
+                                        foreach ($workorderOcasional as $data):
+                                            $description = $data['description'];
+                                            if($data['markup'] > 0){
+                                                $description = $description . ' - Plus M.U.';
+                                            }
+
+                                            echo '<tr>
+                                                <td>';
+                                            echo '<p class="text-primary">';
+                                            $check = array(
+                                                'name' => 'item[]',
+                                                'id' => 'item',
+                                                'value' => 'ocasional__' . $data['id_workorder_ocasional'],
+                                                'checked' => false,
+                                                'style' => 'margin:10px'
+                                            );
+                                            echo form_checkbox($check);
+                                            echo '<strong>Ocasional</strong></p>';								
+                                            echo '</td>
+                                                    <td>' . $description . '</td>
+                                                    <td align="center">' . $data['unit'] . '</td>
+                                                    <td align="center">' . $data['hours'] . '</td>
+                                                    <td align="right">$ ' . number_format($data['rate'], 2) . '</td>
+                                                    <td align="right">$ ' . number_format($data['value'], 2) . '</td>';
+                                            echo '</tr>';
+                                        endforeach;
+                                    }
+
+                                ?>
+                                <tr class="default">
+                                    <th colspan="6">
+                                        <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
+                                            Save Expenses <span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                        </button>
+                                    </th>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!--FIN WO EXPENSE -->
+	<?php } ?>
+
+</div>

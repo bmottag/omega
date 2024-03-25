@@ -1872,7 +1872,7 @@ class General_model extends CI_Model
 						FROM workorder_expense W 
 						WHERE W.fk_id_job_detail = D.id_job_detail) AS expenses');
 
-		$this->db->order_by('item', 'asc');
+		$this->db->order_by('id_job_detail', 'asc');
 		$query = $this->db->get('job_details D');
 
 		if ($query->num_rows() > 0) {

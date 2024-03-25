@@ -2512,7 +2512,7 @@ class Workorders extends CI_Controller
 	 */
 	public function workorder_expenses($idWorkOrder)
 	{
-		$arrParam = array("idWorkOrder" => $idWorkOrder);
+		$arrParam = array("idWorkOrder" => $idWorkOrder, "flag_expenses" => true);
 		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 		$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);
 		$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam);
@@ -2520,7 +2520,31 @@ class Workorders extends CI_Controller
 		$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);
 		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);
 
+		$this->load->model("general_model");
+		$arrParam = array("idJob" => $data['information'][0]['fk_id_job']);
+		$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
+
 		$data["view"] = 'expenses';
 		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save WO Expenses
+	 * @since 24/03/2024
+	 * @author BMOTTAG
+	 */
+	public function save_wo_expenses()
+	{
+		$idWorkOrder = $this->input->post('hddidWorkorder');
+
+		if ($this->workorders_model->saveWOExpenses()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have updated the W.O. Expenses!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		redirect(base_url('workorders/workorder_expenses/' . $idWorkOrder), 'refresh');
 	}
 }

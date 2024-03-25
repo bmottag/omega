@@ -123,6 +123,9 @@ class Workorders_model extends CI_Model
 		if (array_key_exists("view_pdf", $arrData)) {
 			$this->db->where('W.view_pdf', 1);
 		}
+		if (array_key_exists("flag_expenses", $arrData)) {
+			$this->db->where('W.flag_expenses', 0);
+		}
 		$this->db->order_by('U.first_name, U.last_name', 'asc');
 		$query = $this->db->get('workorder_personal W');
 
@@ -183,6 +186,9 @@ class Workorders_model extends CI_Model
 		}
 		if (array_key_exists("view_pdf", $arrData)) {
 			$this->db->where('W.view_pdf', 1);
+		}
+		if (array_key_exists("flag_expenses", $arrData)) {
+			$this->db->where('W.flag_expenses', 0);
 		}
 		$this->db->order_by('M.material', 'asc');
 		$query = $this->db->get('workorder_materials W');
@@ -391,6 +397,9 @@ class Workorders_model extends CI_Model
 		if (array_key_exists("view_pdf", $arrData)) {
 			$this->db->where('W.view_pdf', 1);
 		}
+		if (array_key_exists("flag_expenses", $arrData)) {
+			$this->db->where('W.flag_expenses', 0);
+		}
 		$query = $this->db->get('workorder_equipment W');
 
 		if ($query->num_rows() > 0) {
@@ -406,16 +415,19 @@ class Workorders_model extends CI_Model
 	 */
 	public function get_workorder_ocasional($arrData)
 	{
-		$this->db->select('O.*, C.company_name');
-		$this->db->join('param_company C', 'C.id_company = O.fk_id_company', 'INNER');
+		$this->db->select('W.*, C.company_name');
+		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
 		if (array_key_exists("idWorkOrder", $arrData)) {
-			$this->db->where('O.fk_id_workorder', $arrData["idWorkOrder"]);
+			$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
 		}
 		if (array_key_exists("view_pdf", $arrData)) {
-			$this->db->where('O.view_pdf', 1);
+			$this->db->where('W.view_pdf', 1);
+		}
+		if (array_key_exists("flag_expenses", $arrData)) {
+			$this->db->where('W.flag_expenses', 0);
 		}
 		$this->db->order_by('C.company_name', 'asc');
-		$query = $this->db->get('workorder_ocasional O');
+		$query = $this->db->get('workorder_ocasional W');
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();
@@ -1031,13 +1043,16 @@ class Workorders_model extends CI_Model
 	{
 		$this->db->select();
 		if (array_key_exists("idWorkOrder", $arrData)) {
-			$this->db->where('O.fk_id_workorder', $arrData["idWorkOrder"]);
+			$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
 		}
 		if (array_key_exists("view_pdf", $arrData)) {
-			$this->db->where('O.view_pdf', 1);
+			$this->db->where('W.view_pdf', 1);
 		}
-		$this->db->order_by('O.place', 'asc');
-		$query = $this->db->get('workorder_receipt O');
+		if (array_key_exists("flag_expenses", $arrData)) {
+			$this->db->where('W.flag_expenses', 0);
+		}
+		$this->db->order_by('W.place', 'asc');
+		$query = $this->db->get('workorder_receipt W');
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();
@@ -1054,7 +1069,7 @@ class Workorders_model extends CI_Model
 	{
 		$this->load->library('logger');
 		$this->load->model("general_model");
-		$idWorkorder = $this->input->post('hddIdWorkOrder');
+		$idWorkorder = $this->input->post('hddidWorkorder');
 
 		$idWOReceipt = $this->input->post('hddId');
 		$price = $this->input->post('price');
@@ -1078,7 +1093,7 @@ class Workorders_model extends CI_Model
 
 		//revisar si es para adicionar o editar
 		if ($idWOReceipt == '') {
-			$data['fk_id_workorder'] = $this->input->post('hddIdWorkOrder');
+			$data['fk_id_workorder'] = $idWorkorder;
 			$data['markup'] = 0;
 			$data['view_pdf'] = 1;
 			$query = $this->db->insert('workorder_receipt', $data);
@@ -1402,6 +1417,42 @@ class Workorders_model extends CI_Model
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Save WO Expenses
+	 * @since 24/03/2024
+	 */
+	public function saveWOExpenses()
+	{
+		$query = 1;
+		$idWorkOrder = $this->input->post('hddidWorkorder');
+		$idJobDetail = $this->input->post('item_job_detail');
+		if ($item = $this->input->post('item')) {
+			$tot = count($item);
+			for ($i = 0; $i < $tot; $i++) {
+				$parts = explode('__', $item[$i]);
+
+				$data = array(
+					'fk_id_workorder' => $idWorkOrder,
+					'fk_id_job_detail' => $idJobDetail,
+					'submodule' => $parts[0],
+					'fk_id_submodule' => $parts[1]
+				);
+				$query = $this->db->insert('workorder_expense', $data);
+
+				//UPDATE SUBMODULE
+				$data = array('flag_expenses' => 1);
+				$this->db->where('id_workorder_' . $parts[0], $parts[1]);
+				$query = $this->db->update('workorder_' . $parts[0], $data);
+			}
+		}
+
+		if ($query) {
+			return true;
 		} else {
 			return false;
 		}
