@@ -112,7 +112,7 @@
 									echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, 5) . "</td>";
 
 									$parts = explode(':', $lista['working_hours_new']);
-									$total += ($parts[0] * 3600) + ($parts[1] * 60) + $parts[2];
+									$total += ($parts[0] * 3600) + ($parts[1] * 60);
 									$hours = floor($total / 3600);
 									$mins = floor(($total / 60) % 60);
 

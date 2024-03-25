@@ -112,6 +112,26 @@
 												$totalOvertimeNew += ($partsOvertime[0] * 3600) + ($partsOvertime[1] * 60);
 											}
 
+$userRol = $this->session->userdata("rol");
+if ($userRol == ID_ROL_SUPER_ADMIN) {
+
+
+											$hoursTotalTEST = floor($totalHoursNew / 3600);
+											$minsTotalTEST = floor(($totalHoursNew / 60) % 60);
+	
+											$hoursRegularTEST = floor($totalRegularNew / 3600);
+											$minsRegularTEST = floor(($totalRegularNew / 60) % 60);
+	
+											$hoursOvertimeTEST = floor($totalOvertimeNew / 3600);
+											$minsOvertimeTEST = floor(($totalOvertimeNew / 60) % 60);
+											echo "<tr>";
+											echo "<td class='text-right' colspan='6'><small><strong>Total weekly hours:<br>" . sprintf('%02d:%02d', $hoursTotalTEST, $minsTotalTEST)  . "</strong></small></td>";
+											echo "<td class='text-right'><small><strong>Total daily  regular hours new per week:<br>" . sprintf('%02d:%02d', $hoursRegularTEST, $minsRegularTEST) . "</strong></small></td>";
+											echo "<td class='text-right'><small><strong>Total daily overtime new per week:<br>" . sprintf('%02d:%02d', $hoursOvertimeTEST, $minsOvertimeTEST) . "</strong></small></td>";
+											echo "</tr>";
+}
+
+
 										endforeach;
 										$hoursTotal = floor($totalHoursNew / 3600);
 										$minsTotal = floor(($totalHoursNew / 60) % 60);
