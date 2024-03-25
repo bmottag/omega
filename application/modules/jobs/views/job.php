@@ -188,7 +188,7 @@ if ($retornoError) {
                                         <div class="panel panel-<?php echo $class ?>" >
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data['chapter_number']; ?>">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data['chapter_number'] . $data['item']; ?>">
 
                                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                                                     <?php
@@ -199,7 +199,7 @@ if ($retornoError) {
                                                         echo "<td class='text-center'><p class='text-" . $class . "'><b>Quantity</b><br>" . $data['quantity'] . "</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
-                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Percentage</b><br>" . $data['percentage'] . " %</p></td>";
+                                                        //echo "<td class='text-right'><p class='text-" . $class . "'><b>Percentage</b><br>" . $data['percentage'] . " %</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>W.O. Expenses</b><br>$ " . number_format($data['expenses'],2) . "</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>Balance</b><br>$ " . number_format($balance,2) . "</p></td>";
                                                         echo "</tr>";
@@ -208,7 +208,7 @@ if ($retornoError) {
                                                     </a>
                                                 </h4>
                                             </div>
-                                            <div id="collapse<?php echo $data['chapter_number']; ?>" class="panel-collapse collapse">
+                                            <div id="collapse<?php echo $data['chapter_number'] . $data['item']; ?>" class="panel-collapse collapse">
                                                 <div class="panel-body">
                                                     <?php 
                                                         $arrParam = array("idJobDetail" => $data['id_job_detail']);
@@ -219,10 +219,11 @@ if ($retornoError) {
                                                         <table width="100%" class="table table-hover dataTable no-footer" id="dataTables">
                                                             <thead>
                                                                 <tr>
-                                                                    <th class="text-center" width="10%">W.O. #</th>
-                                                                    <th class="text-center" width="10%">Date W.O.</th>
-                                                                    <th class="text-left" width="70%">Work Done</th>
-                                                                    <th class="text-right" width="10%">Expense Value</th>
+                                                                    <th class="text-center" >W.O. #</th>
+                                                                    <th class="text-center" >Date W.O.</th>
+                                                                    <th class="text-left" >Work Done</th>
+                                                                    <th >Submodule</th>
+                                                                    <th class="text-right" >Expense Value</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>					
@@ -234,6 +235,7 @@ if ($retornoError) {
                                                                     echo "</td>";
                                                                     echo "<td class='text-center'>" . $data['date'] . "</td>";
                                                                     echo "<td class='text-left'>" . $data['observation'] . "</td>";
+                                                                    echo "<td>" . ucfirst($data['submodule']) . "</td>";
                                                                     echo "<td class='text-right'>$ " . number_format($data['expense_value'],2) . "</td>";
                                                                     echo "</tr>";
                                                                 endforeach;
@@ -253,7 +255,7 @@ if ($retornoError) {
                                             echo "<tr>";
                                             echo "<td colspan='5' class='text-right'><h2>Subtotal</h2></td>";
                                             echo "<td class='text-right'><b>Extended Amount<br>$ " . number_format($totalExtendedAmount,2) . "</b></td>";
-                                            echo "<td class='text-right'><b>Percentage<br>" . $totalPercentage  . "%</b></td>";
+                                            //echo "<td class='text-right'><b>Percentage<br>" . $totalPercentage  . "%</b></td>";
                                             echo "<td class='text-right'><b>W.O. Expenses<br>$ " . number_format($totalExpenses,2) . "</b></td>";
                                             echo "<td class='text-right'><b>Balance<br>$ " . number_format($totalBalance,2) . "</b></td>";
                                             echo "</tr>";

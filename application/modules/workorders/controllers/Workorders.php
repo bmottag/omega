@@ -2512,6 +2512,8 @@ class Workorders extends CI_Controller
 	 */
 	public function workorder_expenses($idWorkOrder)
 	{
+		$this->load->model("general_model");
+
 		$arrParam = array("idWorkOrder" => $idWorkOrder, "flag_expenses" => true);
 		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 		$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam);
@@ -2519,8 +2521,8 @@ class Workorders extends CI_Controller
 		$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam);
 		$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam);
 		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);
+		$data['workorderExpenses'] = $this->general_model->get_workorder_expense($arrParam);
 
-		$this->load->model("general_model");
 		$arrParam = array("idJob" => $data['information'][0]['fk_id_job']);
 		$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
 
@@ -2536,8 +2538,19 @@ class Workorders extends CI_Controller
 	public function save_wo_expenses()
 	{
 		$idWorkOrder = $this->input->post('hddidWorkorder');
+		$idJob = $this->input->post('hddidJob');
 
 		if ($this->workorders_model->saveWOExpenses()) {
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_jobs",
+				"primaryKey" => "id_job",
+				"id" => $idJob,
+				"column" => "flag_expenses",
+				"value" => 1
+			);
+			$this->general_model->updateRecord($arrParam);
+
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have updated the W.O. Expenses!!");
 		} else {

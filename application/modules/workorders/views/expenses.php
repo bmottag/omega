@@ -34,9 +34,9 @@
 						</li>
 <?php
 $userRol = $this->session->userdata("rol");
-if ($userRol == ID_ROL_SUPER_ADMIN) {
+if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $information[0]['state'] >= 2 && $information[0]['state'] != 4) {
 ?>
-						<li class='active'><a href="<?php echo base_url('workorders/workorder_expenses/' . $information[0]["id_workorder"]) ?>" target="_blank">Workorder Expenses</a>
+						<li class='active'><a href="<?php echo base_url('workorders/workorder_expenses/' . $information[0]["id_workorder"]) ?>">Workorder Expenses</a>
 						</li>
 <?php } ?>
 					</ul>
@@ -164,7 +164,7 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                     </td>
                                 </tr>
                                 <tr class="default">
-                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Submodule</th>
                                     <th class="text-center">Description</th>
                                     <th class="text-center">Unit</th>
                                     <th class="text-center">QTY</th>
@@ -182,7 +182,7 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                             $check = array(
                                                 'name' => 'item[]',
                                                 'id' => 'item',
-                                                'value' => 'personal__' . $data['id_workorder_personal'],
+                                                'value' => 'personal__' . $data['id_workorder_personal'] . '__' . $data['value'],
                                                 'checked' => false,
                                                 'style' => 'margin:10px'
                                             );
@@ -213,7 +213,7 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                             $check = array(
                                                 'name' => 'item[]',
                                                 'id' => 'item',
-                                                'value' => 'materials__' . $data['id_workorder_materials'],
+                                                'value' => 'materials__' . $data['id_workorder_materials'] . '__' . $data['value'],
                                                 'checked' => false,
                                                 'style' => 'margin:10px'
                                             );
@@ -244,7 +244,7 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                             $check = array(
                                                 'name' => 'item[]',
                                                 'id' => 'item',
-                                                'value' => 'receipt__' . $data['id_workorder_receipt'],
+                                                'value' => 'receipt__' . $data['id_workorder_receipt'] . '__' . $data['value'],
                                                 'checked' => false,
                                                 'style' => 'margin:10px'
                                             );
@@ -270,7 +270,7 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                             $check = array(
                                                 'name' => 'item[]',
                                                 'id' => 'item',
-                                                'value' => 'equipment__' . $data['id_workorder_equipment'],
+                                                'value' => 'equipment__' . $data['id_workorder_equipment'] . '__' . $data['value'],
                                                 'checked' => false,
                                                 'style' => 'margin:10px'
                                             );
@@ -317,7 +317,7 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                             $check = array(
                                                 'name' => 'item[]',
                                                 'id' => 'item',
-                                                'value' => 'ocasional__' . $data['id_workorder_ocasional'],
+                                                'value' => 'ocasional__' . $data['id_workorder_ocasional'] . '__' . $data['value'],
                                                 'checked' => false,
                                                 'style' => 'margin:10px'
                                             );
@@ -343,6 +343,37 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
                                 </tr>
                             </table>
                         </form>
+
+                        <?php 
+                            if($workorderExpenses){
+                        ?>
+                            <hr>
+                            <h2>Expenses</h2>
+                            <table width="100%" class="table table-hover dataTable no-footer small" id="dataTables">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Submodule</th>
+                                        <th>Item</th>
+                                        <th>Work Done</th>
+                                        <th class="text-right">Expense Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>					
+                                <?php
+                                    foreach ($workorderExpenses as $data):
+                                        echo "<tr>";
+                                        echo "<td class='text-center'>" . ucfirst($data['submodule']) . "</td>";
+                                        echo "<td>";
+                                        echo $data["chapter_name"] . " - Item: " . $data["chapter_number"] . "." . $data["item"] . " " . $data["description"];
+                                        echo "</td>";
+                                        echo "<td>" . $data['observation'] . "</td>";
+                                        echo "<td class='text-right'>$ " . number_format($data['expense_value'],2) . "</td>";
+                                        echo "</tr>";
+                                    endforeach;
+                                ?>
+                                </tbody>
+                            </table>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

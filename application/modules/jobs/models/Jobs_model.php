@@ -1555,6 +1555,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 	public function get_workorder_expense($arrData)
 	{
 		$this->db->join('workorder W', 'W.id_workorder = E.fk_id_workorder', 'INNER');
+		$this->db->join('job_details J', 'J.id_job_detail = E.fk_id_job_detail', 'INNER');
 		if (array_key_exists("idJobDetail", $arrData)) {
 			$this->db->where('E.fk_id_job_detail', $arrData["idJobDetail"]);
 		}

@@ -1939,14 +1939,15 @@ class General_model extends CI_Model
 	 */
 	public function get_workorder_expense($arrData)
 	{
-		$this->db->join('job_details J', 'J.id_job_detail = W.fk_id_job_detail', 'INNER');
+		$this->db->join('workorder W', 'W.id_workorder = E.fk_id_workorder', 'INNER');
+		$this->db->join('job_details J', 'J.id_job_detail = E.fk_id_job_detail', 'INNER');
 		if (array_key_exists("idWorkOrder", $arrData)) {
-			$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
+			$this->db->where('E.fk_id_workorder', $arrData["idWorkOrder"]);
 		}
 		if (array_key_exists("idJobDetail", $arrData)) {
-			$this->db->where('W.fk_id_job_detail', $arrData["idJobDetail"]);
+			$this->db->where('E.fk_id_job_detail', $arrData["idJobDetail"]);
 		}
-		$query = $this->db->get('workorder_expense W');
+		$query = $this->db->get('workorder_expense E');
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();

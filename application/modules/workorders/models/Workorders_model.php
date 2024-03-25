@@ -1440,7 +1440,8 @@ class Workorders_model extends CI_Model
 					'fk_id_workorder' => $idWorkOrder,
 					'fk_id_job_detail' => $idJobDetail,
 					'submodule' => $parts[0],
-					'fk_id_submodule' => $parts[1]
+					'fk_id_submodule' => $parts[1],
+					'expense_value' => $parts[2]
 				);
 				$query = $this->db->insert('workorder_expense', $data);
 
