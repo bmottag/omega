@@ -251,7 +251,7 @@
 						</li>
 <?php
 $userRol = $this->session->userdata("rol");
-if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $information[0]['state'] >= 2 && $information[0]['state'] != 4) {
+if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_WORKORDER) && $information[0]['state'] >= 2 && $information[0]['state'] != 4) {
 ?>
 						<li><a href="<?php echo base_url('workorders/workorder_expenses/' . $information[0]["id_workorder"]) ?>">Workorder Expenses</a>
 						</li>

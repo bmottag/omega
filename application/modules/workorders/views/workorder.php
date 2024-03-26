@@ -72,7 +72,7 @@
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
 
 									$userRol = $this->session->userdata("rol");
-									if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) && $lista['expenses_flag'] == 1) {
+									if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_WORKORDER) && $lista['expenses_flag'] == 1) {
 										echo '<p class="text-dark"><i class="fa fa-flag fa-fw"></i> With Expenses</p>';
 									}
 

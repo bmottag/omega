@@ -2551,6 +2551,15 @@ class Workorders extends CI_Controller
 			);
 			$this->general_model->updateRecord($arrParam);
 
+			$arrParam = array(
+				"table" => "workorder",
+				"primaryKey" => "id_workorder",
+				"id" => $idWorkOrder,
+				"order" => 'id_workorder',
+				"column" => "expenses_flag",
+				"value" => 1
+			);
+			$this->general_model->updateRecord($arrParam);
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have updated the W.O. Expenses!!");
 		} else {
