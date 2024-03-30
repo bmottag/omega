@@ -131,14 +131,14 @@ if ($retornoError) {
                                                     Currently, there are entries in the WO (Work Orders) detailing various expenses related to this Job Code. Unfortunately, there is an inability to upload additional information at this time.
                                                 </div>
 
-                                                <form  name="formPercentage" id="formPercentage" method="post" action="<?php echo base_url("jobs/delete_job_detail_info"); ?>">
+                                                <form  name="formDeleteInfo" id="formDeleteInfo" method="post" action="<?php echo base_url("jobs/delete_job_detail_info"); ?>">
                                                     <div class="panel panel-default">
                                                         <div class="panel-footer">
                                                             <div class="row">
                                                                 <div class="col-lg-2">
                                                                     <div class="form-group">
                                                                         <input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
-                                                                        <button type="submit" id="btnSearch" name="btnSearch" class="btn btn-danger btn-sm" >
+                                                                        <button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-danger btn-sm" onclick="deleteInformation()">
                                                                             Reset all the Information <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                                                         </button> 
                                                                     </div>
@@ -376,4 +376,14 @@ $(function() {
         $('#formCargue').submit();
     });
 });
+
+
+/*
+* Function Delelete information
+*/
+function deleteInformation(attachmentId, status) {
+    if (window.confirm('Are you sure you want to reset all the information?')) {
+        document.getElementById('formDeleteInfo').submit();
+    }
+}
 </script>

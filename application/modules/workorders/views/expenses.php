@@ -145,6 +145,14 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
                         WO EXPENSES
                     </div>
                     <div class="panel-body">
+                        <?php if(!$jobDetails){ ?>
+                            <div class="alert alert-danger ">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                You need to add items to this job in order to assign expenses.
+                            </div>
+                        <?php }else{ ?>
+
+
                         <form  name="form_expenses" id="form_expenses" method="post" action="<?php echo base_url("workorders/save_wo_expenses"); ?>">
                             <input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $information[0]["id_workorder"]; ?>"/>
                             <input type="hidden" id="hddidJob" name="hddidJob" value="<?php echo $information[0]["fk_id_job"]; ?>"/>
@@ -343,6 +351,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
                                 </tr>
                             </table>
                         </form>
+                        <?php } ?>
 
                         <?php 
                             if($workorderExpenses){

@@ -1591,5 +1591,21 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			return false;
 		}
 	}
+
+	/**
+	 * Update flag expenses in WO SUBMODULES
+	 * @since 30/03/2024
+	 */
+	public function updateWOSubmoduleFlag($arrData)
+	{
+		$sql = "UPDATE " . $arrData["table"] . " X
+					INNER JOIN workorder W ON W.id_workorder = X.fk_id_workorder
+					SET X.flag_expenses = 0
+					WHERE W.fk_id_job = " . $arrData["idJob"];
+		
+		$query = $this->db->query($sql);
+
+		return $query ? true : false;
+	}
 	
 }

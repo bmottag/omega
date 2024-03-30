@@ -2947,6 +2947,31 @@ class Jobs extends CI_Controller
 			$result = false;
 		}
 
+		//update submodule flag for that job
+		$arrParam = array(
+			"idJob" => $idJob,
+			"table" => "workorder_personal"
+		);
+		if(!$this->jobs_model->updateWOSubmoduleFlag($arrParam)){
+			$result = false;
+		}
+		$arrParam['table'] = "workorder_materials";
+		if(!$this->jobs_model->updateWOSubmoduleFlag($arrParam)){
+			$result = false;
+		}
+		$arrParam['table'] = "workorder_equipment";
+		if(!$this->jobs_model->updateWOSubmoduleFlag($arrParam)){
+			$result = false;
+		}
+		$arrParam['table'] = "workorder_ocasional";
+		if(!$this->jobs_model->updateWOSubmoduleFlag($arrParam)){
+			$result = false;
+		}
+		$arrParam['table'] = "workorder_receipt";
+		if(!$this->jobs_model->updateWOSubmoduleFlag($arrParam)){
+			$result = false;
+		}
+
 		if ($result) {
 			$this->session->set_flashdata('retornoExito', "All information has been reset.");
 		} else {
