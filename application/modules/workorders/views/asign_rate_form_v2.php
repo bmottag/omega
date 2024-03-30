@@ -516,6 +516,8 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 										<input type="hidden" id="hours" name="hours" value="<?php echo $data['hours']; ?>" />
 										<input type="hidden" id="description" name="description" value="<?php echo $data['description']; ?>" />
 										<input type="hidden" id="quantity" name="quantity" value=1>
+										<input type="hidden" id="type_personal" name="type_personal" value="<?php echo $data['fk_id_employee_type']; ?>">
+										
 										<?php
 										echo "<td class='text-center'>";
 										$checkPerso = '';

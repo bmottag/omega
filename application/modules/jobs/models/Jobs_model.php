@@ -1567,5 +1567,29 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			return false;
 		}
 	}
+
+	/**
+	 * Sumatoria de valores para la WO
+	 * Int idJobDetail
+	 * Var table
+	 * @author BMOTTAG
+	 * @since  30/03/2024
+	 */
+	public function countExpenses($arrData)
+	{
+		$this->db->select('W. id_workorder, W.date, W.observation, SUM(expense_value) AS total_expenses');
+		$this->db->from('workorder_expense E');
+		$this->db->join('workorder W', 'W.id_workorder = E.fk_id_workorder', 'INNER');
+		$this->db->where('fk_id_job_detail', $arrData["idJobDetail"]);
+		$this->db->group_by('fk_id_workorder');
+		
+		$query = $this->db->get();
+		
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
 	
 }

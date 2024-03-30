@@ -590,6 +590,18 @@ class Workorders_model extends CI_Model
 		$this->db->where('id_workorder_' . $formType, $hddId);
 		$query = $this->db->update('workorder_' . $formType, $data);
 
+		//update expenses if exist
+		if($log['old'][0]['flag_expenses'] == 1){
+			$data = array(
+				'expense_value' => $value
+			);
+			$this->db->where('fk_id_workorder', $idWorkorder);
+			$this->db->where('fk_id_submodule', $hddId);
+			$this->db->where('submodule', $formType);
+			$query = $this->db->update('workorder_expense', $data);
+	
+		}
+
 		$log['new'] = json_encode($data);
 
 		$this->logger

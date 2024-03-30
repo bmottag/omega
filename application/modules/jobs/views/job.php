@@ -212,7 +212,7 @@ if ($retornoError) {
                                                 <div class="panel-body">
                                                     <?php 
                                                         $arrParam = array("idJobDetail" => $data['id_job_detail']);
-                                                        $expenses = $ci->jobs_model->get_workorder_expense($arrParam);//sumatoria de gastos
+                                                        $expenses = $ci->jobs_model->countExpenses($arrParam);//sumatoria de gastos
 
                                                         if($expenses){
                                                     ?>
@@ -222,7 +222,6 @@ if ($retornoError) {
                                                                     <th class="text-center" >W.O. #</th>
                                                                     <th class="text-center" >Date W.O.</th>
                                                                     <th class="text-left" >Work Done</th>
-                                                                    <th >Submodule</th>
                                                                     <th class="text-right" >Expense Value</th>
                                                                 </tr>
                                                             </thead>
@@ -235,8 +234,7 @@ if ($retornoError) {
                                                                     echo "</td>";
                                                                     echo "<td class='text-center'>" . $data['date'] . "</td>";
                                                                     echo "<td class='text-left'>" . $data['observation'] . "</td>";
-                                                                    echo "<td>" . ucfirst($data['submodule']) . "</td>";
-                                                                    echo "<td class='text-right'>$ " . number_format($data['expense_value'],2) . "</td>";
+                                                                    echo "<td class='text-right'>$ " . number_format($data['total_expenses'],2) . "</td>";
                                                                     echo "</tr>";
                                                                 endforeach;
                                                             ?>
