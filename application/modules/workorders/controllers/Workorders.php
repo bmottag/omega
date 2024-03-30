@@ -633,7 +633,8 @@ class Workorders extends CI_Controller
 
 			//le sumo un dia al dia final para que ingrese ese dia en la consulta
 			if ($data['to']) {
-				$to = date('Y-m-d', strtotime('+1 day ', strtotime(formatear_fecha($data['to']))));
+				//$to = date('Y-m-d', strtotime('+1 day ', strtotime(formatear_fecha($data['to']))));
+				$to = formatear_fecha($data['to']);
 			} else {
 				$to = "";
 			}
