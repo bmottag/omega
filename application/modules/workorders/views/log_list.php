@@ -63,7 +63,7 @@
 							echo "<a href='#' class='btn btn-danger btn-block'>No data was found matching your criteria</a>";
 						} else {
 						?>
-							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+							<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 								<thead>
 									<tr>
 										<th class='text-center'>W.O. #</th>
@@ -109,15 +109,19 @@
 
 												$textOld = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $oldEmployeeType[0]['employee_type'] . ', hours: ' . $oldDecode->hours . ', description: ' . $oldDecode->description . '';
 
-												$arrEmployee = array(
-													"table" => "param_employee_type",
-													"order" => "employee_type",
-													"column" => "id_employee_type",
-													"id" => $newDecode->fk_id_employee_type
-												);
-												$newEmployeeType = $this->general_model->get_basic_search($arrEmployee); //employee type list
+												if(isset($newDecode->fk_id_employee_type)){
+													$arrEmployee = array(
+														"table" => "param_employee_type",
+														"order" => "employee_type",
+														"column" => "id_employee_type",
+														"id" => $newDecode->fk_id_employee_type
+													);
+													$newEmployeeType = $this->general_model->get_basic_search($arrEmployee); //employee type list
 
-												$textNew = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $newEmployeeType[0]['employee_type'] . ', hours: ' . $newDecode->hours . ', description: ' . $newDecode->description . '';
+													$textNew = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Employee_type: ' . $newEmployeeType[0]['employee_type'] . ', hours: ' . $newDecode->hours . ', description: ' . $newDecode->description . '';
+												}else{
+													$textNew = 'user: ' . $user[0]['first_name'] . ' ' . $user[0]['last_name'] . ', Change: ' . json_decode($lista['comment'])->new;
+												}
 											} else if ($lista['type'] === 'workorder_materials') {
 
 												$arrParam = array(
@@ -299,7 +303,7 @@
 										echo "<td>" . $lista['created_on'] . "</td>";
 										echo "<td class='text-center'>" . $lista['token'] . "</td>";
 										echo "<td class='text-center'>" . $lista['type'] . "</td>";
-										echo "<td class='text-center'> Old: " . $textOld . "<br> New: " . $textNew . "</td>";
+										echo "<td> <b>Before: </b>" . $textOld . "<br><br> <b>After:</b> " . $textNew . "</td>";
 										echo '</tr>';
 									endforeach;
 									?>
