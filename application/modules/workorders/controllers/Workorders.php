@@ -891,7 +891,7 @@ class Workorders extends CI_Controller
 
 			$this->load->model("general_model");
 			$data['titulo'] = "<i class='fa fa-life-saver fa-fw'></i>SIGNATURE";
-			if ($this->general_model->updateWORecords($arrParam)) {
+			if ($this->general_model->updateRecord($arrParam)) {
 				//$this->session->set_flashdata('retornoExito', 'You just save your signature!!!');
 
 				$data['clase'] = "alert-success";
