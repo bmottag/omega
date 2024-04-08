@@ -234,7 +234,7 @@
 											<div class="col-lg-12">
 												<div class="chat-panel panel panel-violeta">
 													<div class="panel-heading">
-														<i class="fa fa-copy fa-fw"></i> Clone this Planning for the asdfasdf Date
+														<i class="fa fa-copy fa-fw"></i> Clone this Planning for the Date
 													</div>
 
 													<div class="panel-footer">
