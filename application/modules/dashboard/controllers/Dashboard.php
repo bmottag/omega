@@ -563,7 +563,8 @@ class Dashboard extends CI_Controller
 	{
 		$data['fecha'] = $infoDate;
 		$arrParam = array(
-			"fecha" => $infoDate
+			"fecha" => $infoDate,
+			"estado" => "ACTIVAS"
 		);
 
 		//informacion Planning
