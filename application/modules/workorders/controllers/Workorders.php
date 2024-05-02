@@ -355,30 +355,36 @@ class Workorders extends CI_Controller
 			->comment(json_encode($log))
 			->log(); //Add Database Entry
 
-		if ($this->general_model->deleteRecord($arrParam)) {
-			//para expenses recalculo los valores gastados para cada item
-			if ($tabla == 'expense') {
-				$arrParam = array('idWorkOrder' => $idWorkOrder);
-				$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam); //info workorder
-				$idJob = $data['information'][0]["fk_id_job"];
-				$this->update_wo_expenses_values($idWorkOrder, $idJob);
-				/**
-				 * If table is expense then check if there are more records 
-				 * if not then delete put flag of expenses in 0 on WO table
-				 */
-				$workorderExpense = $this->workorders_model->get_workorder_expense($arrParam); //workorder expense list
-				if (!$workorderExpense) {
-					$arrParam = array(
-						"table" => "workorder",
-						"primaryKey" => "id_workorder",
-						"id" => $idWorkOrder,
-						"column" => "expenses_flag",
-						"value" => 0
-					);
-					$this->general_model->updateWORecords($arrParam);
-				}
-			}
+		if ($this->general_model->deleteRecord($arrParam)) 
+		{
+			//elimino de la tabla expenses
+			$arrExpenses = array(
+				"fk_id_workorder" => $idWorkOrder,
+				"submodule" => $tabla,
+				"fk_id_submodule" => $idValue,
+			);
+			$this->workorders_model->deleteExpenses($arrExpenses);
 
+			//para expenses recalculo los valores gastados para cada item
+			$arrParam = array('idWorkOrder' => $idWorkOrder);
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam); //info workorder
+			$idJob = $data['information'][0]["fk_id_job"];
+			$this->update_wo_expenses_values($idWorkOrder, $idJob);
+			/**
+			 * If table is expense then check if there are more records 
+			 * if not then delete put flag of expenses in 0 on WO table
+			 */
+			$workorderExpense = $this->workorders_model->get_workorder_expense($arrParam); //workorder expense list
+			if (!$workorderExpense) {
+				$arrParam = array(
+					"table" => "workorder",
+					"primaryKey" => "id_workorder",
+					"id" => $idWorkOrder,
+					"column" => "expenses_flag",
+					"value" => 0
+				);
+				$this->general_model->updateRecord($arrParam);
+			}
 			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>' . $tabla . '</strong> table.');
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -2345,7 +2351,7 @@ class Workorders extends CI_Controller
 				"value" => 1
 			);
 			$this->load->model("general_model");
-			$this->general_model->updateWORecords($arrParam);
+			$this->general_model->updateRecord($arrParam);
 		}
 		return true;
 	}

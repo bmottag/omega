@@ -1470,4 +1470,20 @@ class Workorders_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Delete Expenses
+	 * @since 2/05/2024
+	 */
+		public function deleteExpenses($arrDatos)
+		{
+			$this->db->where(array(
+				'fk_id_workorder' => $arrDatos['fk_id_workorder'],
+				'submodule' => $arrDatos['submodule'],
+				'fk_id_submodule' => $arrDatos['fk_id_submodule']
+			));
+			$query = $this->db->delete('workorder_expense');
+			
+			return $query ? true : false;
+		}
 }
