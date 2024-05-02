@@ -11,6 +11,10 @@
 		if(document.form_expenses.elements[i].type == "checkbox")
 			document.form_expenses.elements[i].checked=0
 	} 
+
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
 </script>
 
 <div id="page-wrapper">
@@ -163,7 +167,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
                                 <tr class="default">
                                     <td colspan="6">
                                         Select an Item <br>
-                                        <select name="item_job_detail" id="item_job_detail" class="form-control" required>
+                                        <select name="item_job_detail" id="item_job_detail" class="form-control js-example-basic-single" required>
                                             <option value=''>Select...</option>
                                             <?php for ($i = 0; $i < count($jobDetails); $i++) { ?>
                                                 <option value="<?php echo $jobDetails[$i]["id_job_detail"]; ?>"><?php echo $jobDetails[$i]["chapter_name"] . " - Item: " . $jobDetails[$i]["chapter_number"] . "." . $jobDetails[$i]["item"] . " " . $jobDetails[$i]["description"]; ?></option>
