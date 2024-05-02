@@ -168,7 +168,7 @@ if ($retornoError) {
                             $totalExpenses = 0;
                             $totalBalance = 0;
 
-                            if($jobInfo[0]['flag_expenses'] == 1){
+                            //if($jobInfo[0]['flag_expenses'] == 1){
 					?>
 
                             <div class="panel-body">
@@ -193,13 +193,21 @@ if ($retornoError) {
                                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                                                     <?php
                                                         echo "<tr class='" . $class . "'>";
-                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Item</b><br>" . $data['chapter_number'] . "." . $data['item'] . "</p></td>";
+                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Item</b><br>" . $data['chapter_number'] . "." . $data['item'] . "</p>";
+                                                        if($jobInfo[0]['flag_expenses'] != 1){
+                                                            ?>
+                                                                    <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
+                                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                                                    </button>
+                                                            <?php
+                                                        }
+                                                        echo "</td>";
                                                         echo "<td ><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
                                                         echo "<td class='text-center'><p class='text-" . $class . "'><b>Unit</b><br>" . $data['unit'] . "</p></td>";
                                                         echo "<td class='text-center'><p class='text-" . $class . "'><b>Quantity</b><br>" . $data['quantity'] . "</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
-                                                        //echo "<td class='text-right'><p class='text-" . $class . "'><b>Percentage</b><br>" . $data['percentage'] . " %</p></td>";
+                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Percentage</b><br>" . $data['percentage'] . " %</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>W.O. Expenses</b><br>$ " . number_format($data['expenses'],2) . "</p></td>";
                                                         echo "<td class='text-right'><p class='text-" . $class . "'><b>Balance</b><br>$ " . number_format($balance,2) . "</p></td>";
                                                         echo "</tr>";
@@ -263,8 +271,9 @@ if ($retornoError) {
                                 </div>
                             </div>
 
-                    <?php }else{ ?>
-			
+                    <?php //}else{ ?>
+<!--
+    Esta parte se elimina porque se deja un solo formato
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                                 <thead>
                                     <tr>
@@ -334,8 +343,9 @@ if ($retornoError) {
                                     echo "</tfoot>";
                                 ?>
                             </table>
+-->
                     <?php 
-                            }
+                           // }
                         endforeach;
                         } 
                     ?>
