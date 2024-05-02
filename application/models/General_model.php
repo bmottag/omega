@@ -1890,7 +1890,7 @@ class General_model extends CI_Model
 	{
 		$this->db->select('distinct(chapter_number), chapter_name');
 		$this->db->where('fk_id_job', $arrData["idJob"]);
-		$this->db->order_by('chapter_name', 'asc');
+		$this->db->order_by('chapter_number', 'asc');
 		$query = $this->db->get('job_details');
 
 		if ($query->num_rows() > 0) {
