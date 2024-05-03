@@ -114,8 +114,14 @@
                                     $mensaje = "";
                                     foreach ($informationWorker as $data) :
 
-										if($data['fk_id_machine'] != NULL){
-											$id_values = implode(',', json_decode($data['fk_id_machine'], true));		
+										if($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0){
+                                            $parsed_data = json_decode($data['fk_id_machine'], true);
+
+                                            if ($parsed_data !== null && is_array($parsed_data)) {
+                                                $id_values = implode(',', $parsed_data);
+                                            } else {
+                                                $id_values = $data['fk_id_machine'];
+                                            }	
 											$arrParam = array("idValues" => $id_values);
 											$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 										}
@@ -125,7 +131,7 @@
 
                                         $mensaje .= "<br>" . $data['name'];
                                         $mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
-                                        $mensaje .= $data['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
+                                        $mensaje .= ( $data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0 ) ? "<br>" . $informationEquipments["unit_description"] : "";
 
                                         if ($data['safety'] == 1) {
                                             $mensaje .= "<br>Do FLHA";
