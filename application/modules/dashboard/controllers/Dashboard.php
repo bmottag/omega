@@ -39,7 +39,7 @@ class Dashboard extends CI_Controller
 		//Filtro datos por id del Usuario
 		$arrParam["idEmployee"] = $this->session->userdata("id");
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -79,7 +79,7 @@ class Dashboard extends CI_Controller
 		//Filtro datos por id del Usuario
 		$arrParam["idEmployee"] = $this->session->userdata("id");
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -207,7 +207,7 @@ class Dashboard extends CI_Controller
 		);
 		$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam); //info planning
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -249,7 +249,7 @@ class Dashboard extends CI_Controller
 		);
 		$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam); //info planning
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -283,7 +283,7 @@ class Dashboard extends CI_Controller
 
 		$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -323,7 +323,7 @@ class Dashboard extends CI_Controller
 		);
 		$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam); //info planning
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -353,7 +353,7 @@ class Dashboard extends CI_Controller
 		);
 		$data['infoPlanning'] = $this->general_model->get_planning_for_employee($arrParam); //info planning
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
@@ -392,7 +392,7 @@ class Dashboard extends CI_Controller
 
 		$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
 
-		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
