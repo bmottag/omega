@@ -15,7 +15,7 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="chapter" >Chapter : *</label>
-					<input type="text" id="chapter" name="chapter" class="form-control" value="<?php echo $information?$information[0]["chapter_name"]:""; ?>" placeholder="Chapter name" required >
+					<input type="text" id="chapter" name="chapter" class="form-control" value="<?php echo $information?$information[0]["chapter_name"]:""; ?>" placeholder="Chapter name" <?php echo $information? "disabled":""; ?> >
 				</div>
 			</div>
 			
@@ -25,14 +25,14 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="chapter_number" >Chapter number: *</label>
-					<input type="text" id="chapter_number" name="chapter_number" class="form-control" value="<?php echo $information?$information[0]["chapter_number"]:""; ?>" placeholder="Chapter number" required >
+					<input type="text" id="chapter_number" name="chapter_number" class="form-control" value="<?php echo $information?$information[0]["chapter_number"]:""; ?>" placeholder="Chapter number" <?php echo $information? "disabled":""; ?> >
 				</div>
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="item">Item : *</label>
-					<input type="text" id="item" name="item" class="form-control" value="<?php echo $information?$information[0]["item"]:""; ?>" placeholder="Item" required >
+					<input type="text" id="item" name="item" class="form-control" value="<?php echo $information?$information[0]["item"]:""; ?>" placeholder="Item" <?php echo $information? "disabled":""; ?> >
 				</div>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+					<button type="button" id="btnSave" name="btnSave" class="btn btn-primary" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>

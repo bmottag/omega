@@ -1155,9 +1155,6 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		$extendedAmount = $this->input->post('quantity') * $this->input->post('unit_price');
 
 		$data = array(
-			'chapter_number' => $this->input->post('chapter_number'),
-			'chapter_name' => $this->input->post('chapter'),
-			'item' => $this->input->post('item'),
 			'description' => $this->input->post('description'),
 			'unit' => $this->input->post('unit'),
 			'quantity' => $this->input->post('quantity'),
@@ -1168,6 +1165,9 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		if ($idJobDetail == '') {
 			$idUser = $this->session->userdata("id");
 			$data['fk_id_user'] = $idUser;
+			$data['chapter_number'] = $this->input->post('chapter_number');
+			$data['chapter_name'] = $this->input->post('chapter');
+			$data['item'] = $this->input->post('item');
 			$data['job_code'] = $this->input->post('job_code');
 			$query = $this->db->insert('job_details', $data);
 		} else {

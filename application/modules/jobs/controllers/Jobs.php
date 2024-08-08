@@ -2875,6 +2875,7 @@ class Jobs extends CI_Controller
 		}
 
 		if ($idJobDetail = $this->jobs_model->saveJobDetail()) {
+			$this->update_job_detail($data["idRecord"]);
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', $msj);
 		} else {

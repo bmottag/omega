@@ -2,9 +2,10 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
-			chapter_name:			{ required: true, minlength: 3 },
-			chapter_number: 		{ required: true, number: true },
-			item: 					{ required: true, number: true }
+			description:			{ required: true },
+			unit: 					{ required: true },
+			quantity: 				{ required: true },
+			unit_price: 			{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -24,12 +25,12 @@ $( document ).ready( function () {
 		}
 	});
 	
-	$("#btnSubmit").click(function(){		
+	$("#btnSave").click(function(){		
 	
 		if ($("#form").valid() == true){
 		
 				//Activa icono guardando
-				$('#btnSubmit').attr('disabled','-1');
+				$('#btnSave').attr('disabled','-1');
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
 			
@@ -46,14 +47,14 @@ $( document ).ready( function () {
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');							
+							$('#btnSave').removeAttr('disabled');							
 							return false;
 						} 
 
 						if( data.result )//true
 						{	                                                        
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');
+							$('#btnSave').removeAttr('disabled');
 
 							var url = base_url + "jobs/job_detail/" + data.idRecord;
 							$(location).attr("href", url);
@@ -63,14 +64,14 @@ $( document ).ready( function () {
 							alert('Error. Reload the web page.');
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
-							$('#btnSubmit').removeAttr('disabled');
+							$('#btnSave').removeAttr('disabled');
 						}	
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
 						$("#div_load").css("display", "none");
 						$("#div_error").css("display", "inline");
-						$('#btnSubmit').removeAttr('disabled');
+						$('#btnSave').removeAttr('disabled');
 					}
 					
 		

@@ -190,26 +190,24 @@ if ($retornoError) {
                                                 <h4 class="panel-title">
                                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data['chapter_number'] . $data['item']; ?>">
 
-                                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                                                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                                                     <?php
                                                         echo "<tr class='" . $class . "'>";
-                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Item</b><br>" . $data['chapter_number'] . "." . $data['item'] . "</p>";
-                                                        if($jobInfo[0]['flag_expenses'] != 1){
-                                                            ?>
-                                                                    <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
-                                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true">
-                                                                    </button>
-                                                            <?php
-                                                        }
+                                                        echo "<td width='4%' class='text-center'><p class='text-" . $class . "'><b>Item</b><br>" . $data['chapter_number'] . "." . $data['item'] . "</p>";
+                                                    ?>
+                                                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
+                                                            <span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                                        </button>
+                                                    <?php
                                                         echo "</td>";
-                                                        echo "<td ><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
-                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Unit</b><br>" . $data['unit'] . "</p></td>";
-                                                        echo "<td class='text-center'><p class='text-" . $class . "'><b>Quantity</b><br>" . $data['quantity'] . "</p></td>";
-                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
-                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
-                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Percentage</b><br>" . $data['percentage'] . " %</p></td>";
-                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>W.O. Expenses</b><br>$ " . number_format($data['expenses'],2) . "</p></td>";
-                                                        echo "<td class='text-right'><p class='text-" . $class . "'><b>Balance</b><br>$ " . number_format($balance,2) . "</p></td>";
+                                                        echo "<td width='42%'><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
+                                                        echo "<td width='4%' class='text-center'><p class='text-" . $class . "'><b>Unit</b><br>" . $data['unit'] . "</p></td>";
+                                                        echo "<td width='8%' class='text-center'><p class='text-" . $class . "'><b>Quantity</b><br>" . $data['quantity'] . "</p></td>";
+                                                        echo "<td width='8%' class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
+                                                        echo "<td width='10%' class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
+                                                        echo "<td width='5%' class='text-right'><p class='text-" . $class . "'><b>%</b><br>" . $data['percentage'] . " %</p></td>";
+                                                        echo "<td width='10%' class='text-right'><p class='text-" . $class . "'><b>W.O. Expenses</b><br>$ " . number_format($data['expenses'],2) . "</p></td>";
+                                                        echo "<td width='9%' class='text-right'><p class='text-" . $class . "'><b>Balance</b><br>$ " . number_format($balance,2) . "</p></td>";
                                                         echo "</tr>";
                                                     ?>
                                                     </table>
@@ -259,11 +257,11 @@ if ($retornoError) {
                                         echo "<br>";
                                         echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">';
                                             echo "<tr>";
-                                            echo "<td colspan='5' class='text-right'><h2>Subtotal</h2></td>";
-                                            echo "<td class='text-right'><b>Extended Amount<br>$ " . number_format($totalExtendedAmount,2) . "</b></td>";
+                                            echo "<td width='46%' class='text-right'><h2>Subtotal</h2></td>";
+                                            echo "<td width='30%' class='text-right'><b>Extended Amount<br>$ " . number_format($totalExtendedAmount,2) . "</b></td>";
                                             //echo "<td class='text-right'><b>Percentage<br>" . $totalPercentage  . "%</b></td>";
-                                            echo "<td class='text-right'><b>W.O. Expenses<br>$ " . number_format($totalExpenses,2) . "</b></td>";
-                                            echo "<td class='text-right'><b>Balance<br>$ " . number_format($totalBalance,2) . "</b></td>";
+                                            echo "<td width='15%' class='text-right'><b>W.O. Expenses<br>$ " . number_format($totalExpenses,2) . "</b></td>";
+                                            echo "<td width='9%' class='text-right'><b>Balance<br>$ " . number_format($totalBalance,2) . "</b></td>";
                                             echo "</tr>";
 
                                         echo "</table>";
