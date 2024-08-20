@@ -2185,7 +2185,7 @@ class Workorders extends CI_Controller
 	 */
 	public function update_receipt()
 	{
-		$idWorkorder = $this->input->post('hddIdWorkOrder');
+		$idWorkorder = $this->input->post('hddidWorkorder');
 		$view = $this->input->post('view');
 
 		if ($this->workorders_model->saveReceipt()) {

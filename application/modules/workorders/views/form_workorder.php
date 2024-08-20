@@ -752,7 +752,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 								?>
 									<form name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_receipt"); ?>">
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>" />
+										<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $data['fk_id_workorder']; ?>" />
 										<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
 										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
 										<input type="hidden" id="view" name="view" value="add_workorder" />
