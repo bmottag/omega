@@ -821,7 +821,7 @@ class More extends CI_Controller
 			}
 		}
 
-		$data["view"] = 'form_workers_site';
+		$data["view"] = 'form_confined_workers_site';
 		$this->load->view("layout", $data);
 	}
 
@@ -1133,7 +1133,7 @@ class More extends CI_Controller
 		);
 		$data['info'] = $this->general_model->get_basic_search($arrParam);
 
-		$data["view"] = 're_testing';
+		$data["view"] = 'form_confined_re_testing';
 		$this->load->view("layout", $data);
 	}
 
@@ -1224,7 +1224,7 @@ class More extends CI_Controller
 		);
 		$data['information'] = $this->general_model->get_confined_space($arrParam);
 
-		$data["view"] = 'form_post_entry';
+		$data["view"] = 'form_confined_post_entry';
 		$this->load->view("layout", $data);
 	}
 
@@ -1504,6 +1504,47 @@ class More extends CI_Controller
 		} else {
 			$this->load->view('template/make_signature');
 		}
+	}
+
+	/**
+	 * Form confined space entry permit - WORON-SITE RESCUE PLANKERS
+	 * @since 7/9/2024
+	 * @author BMOTTAG
+	 */
+	public function rescue_plan($idJob, $idConfined)
+	{
+		$data['information'] = FALSE;
+
+		$this->load->model("general_model");
+		//job info
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "id_job",
+			"id" => $idJob
+		);
+		$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+		//workers list
+		$arrParam = array("state" => 1);
+		$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
+
+		//si envio el id, entonces busco la informacion 
+		if ($idConfined != 'x') {
+			$arrParam = array(
+				"idConfined" => $idConfined
+			);
+			$data['information'] = $this->general_model->get_confined_space($arrParam);
+			$wos = 1;
+			$data['confinedWorkers'] = $this->more_model->get_confined_workers($idConfined, $wos); //workers list
+
+			if (!$data['information']) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		}
+
+		$data["view"] = 'form_confined_rescue_plan';
+		$this->load->view("layout", $data);
 	}
 
 	/**

@@ -36,20 +36,14 @@ if ($userRol == 99) {
 					if ($information) {
 					?>
 						<ul class="nav nav-pills">
-							<li class='active'><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
+							<li><a href="<?php echo base_url("more/add_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">FORM</a>
 							</li>
 							<li><a href="<?php echo base_url("more/confined_workers/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">ENTRANT(S)</a>
 							</li>
 							<li><a href="<?php echo base_url("more/workers_site/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">WORKERS ON SITE</a>
 							</li>
-<?php
-if ($userRol == 99) {
-?>
-							<li><a href="<?php echo base_url("more/rescue_plan/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">ON-SITE RESCUE PLAN</a>
+							<li class='active'><a href="<?php echo base_url("more/rescue_plan/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">ON-SITE RESCUE PLAN</a>
 							</li>
-<?php
-}
-?>
 							<li><a href="<?php echo base_url("more/re_testing/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">ENVIRONMENTAL CONDITIONS - Re-Testing</a>
 							</li>
 							<li><a href="<?php echo base_url("more/post_entry/" . $jobInfo[0]["id_job"] . "/" . $information[0]['id_job_confined']); ?>">POST ENTRY INSPECTION</a>
