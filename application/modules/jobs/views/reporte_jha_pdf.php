@@ -42,8 +42,9 @@
 						</tr>
 						<tr bgcolor="#337ab7" style="color:white;">
 							<th width="5%" align="center"><strong>#</strong></th>
-							<th width="40%" align="center"><strong>Hazard</strong></th>
-							<th width="15%" align="center"><strong>Priority</strong></th>
+							<th width="25%" align="center"><strong>Activity</strong></th>
+							<th width="20%" align="center"><strong>Hazard</strong></th>
+							<th width="10%" align="center"><strong>Priority</strong></th>
 							<th width="40%" align="center"><strong>Control/Eliminate</strong></th>
 						</tr>';
 					if(!$hazards){
@@ -56,6 +57,7 @@
 							$i++;
 							$html.= '<tr>';					
 							$html.= '<th align="center">' . $i . '</th>';
+							$html .= '<th >' . $data['hazard_activity'] . '</th>';
 							$html.= '<th >' . $data['hazard_description'] . '</th>';					
 							$priority = $data['priority_description']==""?"-":$data['priority_description'];
 							$html.= '<th align="center">' . $priority . '</th>';

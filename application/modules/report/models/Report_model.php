@@ -103,9 +103,10 @@ class Report_model extends CI_Model
 	{
 		$this->db->select();
 		$this->db->join('param_hazard PH', 'PH.id_hazard = H.fk_id_hazard', 'INNER');
+		$this->db->join('param_hazard_activity PA', 'PA.id_hazard_activity = PH.fk_id_hazard_activity', 'INNER');
 		$this->db->join('param_hazard_priority PP', 'PP.id_priority = PH.fk_id_priority', 'INNER');
-		$this->db->where('H.fk_id_safety', $idSafety);
-		$this->db->order_by('H.id_safety_hazard', 'asc');
+		$this->db->where('H.fk_id_safety', $idSafety); 
+		$this->db->order_by('PA.id_hazard_activity, PH.hazard_description', 'asc');
 		$query = $this->db->get('safety_hazards H');
 
 		if ($query->num_rows() > 0) {
