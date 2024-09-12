@@ -3053,15 +3053,11 @@ class Jobs extends CI_Controller
 		$this->load->model("general_model");
 		$data['workersList'] = $this->general_model->get_user($arrParam); //worker list
 
-		if ($data["idFireWatch"] != 'x') {
-			//fire watch info
-			$arrParam = array(
-				"idFireWatch" => $data["idFireWatch"]
-			);
-			$data['information'] = $this->jobs_model->get_fire_watch($arrParam);
-		} else {
-			$data['information'] = $this->jobs_model->get_fire_watch_setup($arrParam);
-		}
+		//fire watch setup info
+		$arrParam = array(
+			"idJob" => $data["idJob"]
+		);
+		$data['information'] = $this->jobs_model->get_fire_watch_setup($arrParam);
 
 		$this->load->view("fire_watch_modal", $data);
 	}
@@ -3282,6 +3278,15 @@ class Jobs extends CI_Controller
 		$data['info'] = $this->jobs_model->get_fire_watch($arrParam);
 		$data['checkinList'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
 
+
+
+		$arrParam = array(
+			"idFireWatch" => $idFireWatch
+		);
+		$data['info'] = $this->jobs_model->get_fire_watch($arrParam);
+		$data['checkinList_log'] = $this->jobs_model->get_fire_watch_checkin($arrParam);
+
+
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Print a table
 
@@ -3291,6 +3296,11 @@ class Jobs extends CI_Controller
 		$html = $this->load->view("reporte_fire_watch_pdf", $data, true);
 
 		// output the HTML content
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		// add a page
+		$pdf->AddPage();
+		$html = $this->load->view("reporte_fire_watch_log_pdf", $data, true);
 		$pdf->writeHTML($html, true, false, true, false, '');
 
 		// Print some HTML Cells

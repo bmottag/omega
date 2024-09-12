@@ -160,10 +160,11 @@ if($count == 10){
 									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Record" target="_blank">
 										<span class="fa fa-cloud-download" aria-hidden="true">
 									</a>
+						<!-- REMOVE THIS OPTION SINCE SEPTEMBER 11 - 2024, Requested by Dennise
 									<a class='btn btn-primary btn-xs' href='<?php echo base_url('jobs/generaFIREWATCHLOGPDF/' . $lista['id_job_fire_watch'] ) ?>' title="Download Fire Watch Log Sheet" target="_blank">
 										<span class="fa fa-cloud-download" aria-hidden="true">
 									</a>
-
+						-->
 
 
 						<?php

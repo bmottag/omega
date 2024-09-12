@@ -24,7 +24,9 @@
 
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Fire Watch Conducted by: </strong></th>
-					<th colspan="3">' . $info[0]['conductedby']. '</th>
+					<th>' . $info[0]['conductedby']. '</th>
+					<th bgcolor="#337ab7" style="color:white;"><strong>Phone Number: </strong></th>
+					<th>' . mobile_adjustment($checkinList_log[0]['movil']). '</th>
 				</tr>
 			</table>';
 
@@ -46,18 +48,27 @@
 
 	$html .= '<table cellspacing="0" cellpadding="5">
 				<tr>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Name </strong></th>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Date & Time </strong></th>
-					<th bgcolor="#337ab7" style="color:white;"><strong>Notes/Observations</strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="10%"><strong>Patrol # </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="20%"><strong>Date & Time </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="40%"><strong>Address </strong></th>
+					<th bgcolor="#337ab7" style="color:white;" width="30%"><strong>Notes/Observations</strong></th>
 				</tr>';
 
-	if($checkinList){
-		foreach ($checkinList as $lista):
+	if($checkinList_log){
+		$i=1;
+		foreach ($checkinList_log as $lista):
 			$html .=  "<tr>";
-			$html .=  "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
+			$html .=  "<td>" . $i. "</td>";
 			$html .=  "<td class='text-center'>" . $lista['checkin_time'] . "</td>";
+
+			$html .=  "<td class='text-center'>" . $lista['address_start'];
+			$html .= "<br><b>Latitud</b> " . $lista['latitude_start'];
+			$html .= "<br><b>Longitud</b> " . $lista['longitude_start'];
+			$html .=  "</td>";
+
 			$html .=  "<td >" . $lista['notes'] . "</td>";
 			$html .=  "</tr>";
+			$i++;
 		endforeach;
 	}
 	$html.='</table>';

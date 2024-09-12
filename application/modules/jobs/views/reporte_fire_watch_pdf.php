@@ -57,12 +57,12 @@
 					$html.= ' Fire Pump System<br>';
 
 
-					if($info[0]['fire_sprinkler'] == 1){
+					if($info[0]['fire_suppression'] == 1){
 						$html .= '<img src="http://v-contracting.ca/app/images/check_mark.png" height="12" width="12"/>';
 					}else{
 						$html .= '<img src="http://v-contracting.ca/app/images/check_mark_whyte.png" height="12" width="12"/>';
 					}
-					$html.= ' Fire Sprinkler System<br>';
+					$html.= ' Special Fire Suppression System<br>';
 
 					$html.= ' Other: ' . $info[0]['other'];
 
@@ -100,7 +100,7 @@
 
 						<tr>
 							<th bgcolor="#337ab7" style="color:white;"><strong>Areas/Zones Requiring Fire Watch Patrols: </strong></th>
-							<th colspan="2" width="65%"><strong>Date: </strong>' . $info[0]['areas']   . '</th>
+							<th colspan="2" width="65%">' . $info[0]['areas']   . '</th>
 						</tr>
 					</tbody>
 				</table>';
