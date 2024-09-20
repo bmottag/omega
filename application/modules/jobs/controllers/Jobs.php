@@ -2843,6 +2843,7 @@ class Jobs extends CI_Controller
 		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
 		$data['information'] = FALSE;
+		$data["idJob"] = $this->input->post("idJob");
 		$data["idJobDetail"] = $this->input->post("idJobDetail");
 
 		if ($data["idJobDetail"] != 'x') {
@@ -2851,6 +2852,8 @@ class Jobs extends CI_Controller
 			);
 			$this->load->model("general_model");
 			$data['information'] = $this->general_model->get_job_detail($arrParam);
+
+			$data["idJob"] = $data['information'][0]['fk_id_job'];
 		}
 
 		$this->load->view("job_detail_modal", $data);
@@ -2880,6 +2883,43 @@ class Jobs extends CI_Controller
 			$this->session->set_flashdata('retornoExito', $msj);
 		} else {
 			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
+
+	/**
+	 * Delete Job Detail
+	 * @since 20/9/2024
+	 * @author BMOTTAG
+	 */
+	public function deleteRecordJobDetail()
+	{
+		header('Content-Type: application/json');
+
+		$identificador = $this->input->post("identificador");
+		//Recover jobId and jobDetailsId
+		$porciones = explode("-", $identificador);
+
+		$data["idRecord"] = $porciones[0];
+		$idJobDetail = $porciones[1];
+
+		//eliminaos registros
+		$arrParam = array(
+			"table" => "job_details",
+			"primaryKey" => "id_job_detail",
+			"id" => $idJobDetail
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) {
+			$this->update_job_detail($data["idRecord"]);
+			$data["result"] = true;
+			$data["mensaje"] = "You have deleted one record.";
+			$this->session->set_flashdata('retornoExito', 'You have deleted one record');
+		} else {
+			$data["result"] = "error";
+			$data["mensaje"] = "Error!!! Ask for help.";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
 

@@ -1165,10 +1165,10 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 		if ($idJobDetail == '') {
 			$idUser = $this->session->userdata("id");
 			$data['fk_id_user'] = $idUser;
+			$data['fk_id_job '] = $this->input->post('hddIdJob');
 			$data['chapter_number'] = $this->input->post('chapter_number');
 			$data['chapter_name'] = $this->input->post('chapter');
 			$data['item'] = $this->input->post('item');
-			$data['job_code'] = $this->input->post('job_code');
 			$query = $this->db->insert('job_details', $data);
 		} else {
 			$this->db->where('id_job_detail', $idJobDetail);

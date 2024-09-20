@@ -9,13 +9,13 @@
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_job_detail"]:""; ?>"/>
-		<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $information[0]["fk_id_job"]; ?>"/>
+		<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $idJob; ?>"/>
 
 		<div class="row">
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="chapter" >Chapter : *</label>
-					<input type="text" id="chapter" name="chapter" class="form-control" value="<?php echo $information?$information[0]["chapter_name"]:""; ?>" placeholder="Chapter name" <?php echo $information? "disabled":""; ?> >
+					<input type="text" id="chapter" name="chapter" class="form-control" value="<?php echo $information?$information[0]["chapter_name"]:""; ?>" placeholder="Chapter name" <?php echo $information? "disabled":"required"; ?> >
 				</div>
 			</div>
 			
@@ -25,14 +25,14 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="chapter_number" >Chapter number: *</label>
-					<input type="text" id="chapter_number" name="chapter_number" class="form-control" value="<?php echo $information?$information[0]["chapter_number"]:""; ?>" placeholder="Chapter number" <?php echo $information? "disabled":""; ?> >
+					<input type="text" id="chapter_number" name="chapter_number" class="form-control" value="<?php echo $information?$information[0]["chapter_number"]:""; ?>" placeholder="Chapter number" <?php echo $information? "disabled":"required"; ?> >
 				</div>
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="item">Item : *</label>
-					<input type="text" id="item" name="item" class="form-control" value="<?php echo $information?$information[0]["item"]:""; ?>" placeholder="Item" <?php echo $information? "disabled":""; ?> >
+					<input type="text" id="item" name="item" class="form-control" value="<?php echo $information?$information[0]["item"]:""; ?>" placeholder="Item" <?php echo $information? "disabled":"required"; ?> >
 				</div>
 			</div>
 		</div>

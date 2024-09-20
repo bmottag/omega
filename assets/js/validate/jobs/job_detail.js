@@ -79,4 +79,47 @@ $( document ).ready( function () {
 		
 		}//if			
 	});
+
+	$(".btn-delete-job-detail").click(function () {	
+		var oID = $(this).attr("id");
+		
+		//Activa icono guardando
+		if(window.confirm('Are you sure you want to delete this record?'))
+		{
+				$(".btn-delete-job-detail").attr('disabled','-1');
+				$.ajax ({
+					type: 'POST',
+					url: base_url + 'jobs/deleteRecordJobDetail',
+					data: {'identificador': oID},
+					cache: false,
+					success: function(data){
+											
+						if( data.result == "error" )
+						{
+							alert(data.mensaje);
+							$(".btn-delete-job-detail").removeAttr('disabled');							
+							return false;
+						} 
+										
+						if( data.result )//true
+						{	                                                        
+							$(".btn-delete-job-detail").removeAttr('disabled');
+
+							var url = base_url + "jobs/job_detail/" + data.idRecord;
+							$(location).attr("href", url);
+						}
+						else
+						{
+							alert('Error. Reload the web page.');
+							$(".btn-delete-job-detail").removeAttr('disabled');
+						}	
+					},
+					error: function(result) {
+						alert('Error. Reload the web page.');
+						$(".btn-delete-job-detail").removeAttr('disabled');
+					}
+
+				});
+		}
+	});
 });
