@@ -21,6 +21,7 @@
 						<thead>
 							<tr>
 								<th>#</th>
+								<th>Job Code/Name</th>
 								<th>Reported by</th>
 								<th>Near miss type</th>
 								<th>Near miss date </th>
@@ -34,6 +35,7 @@
 							foreach ($nearMissInfo as $lista):
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['id_near_miss'] . "</td>";
+									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";
 									echo "<td>" . $lista['incident_type'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_near_miss'] . "</td>";

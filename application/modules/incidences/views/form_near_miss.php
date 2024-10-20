@@ -3,6 +3,12 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
+
 
 <div id="page-wrapper">
 	<br>
@@ -157,102 +163,101 @@ if($information[0]["coordinator_signature"]){
 
 
 <!-- FIN FIRMA -->
-<p class="text-danger text-left">Fields with * are required.</p>								
-								
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="nearMissType">Near Miss type: *</label>
-							<div class="col-sm-5">
-								<select name="nearMissType" id="nearMissType" class="form-control" <?php echo $deshabilitar; ?>>
-									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($incidentType); $i++) { ?>
-										<option value="<?php echo $incidentType[$i]["id_incident_type"]; ?>" <?php if($information && $information[0]["fk_incident_type"] == $incidentType[$i]["id_incident_type"]) { echo "selected"; }  ?>><?php echo $incidentType[$i]["incident_type"]; ?></option>	
-									<?php } ?>
-								</select>
-							</div>
-						</div>
-						<!--
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="involved">Who was involved? *</label>
-							<div class="col-sm-5">
-							<textarea id="involved" name="involved" placeholder="Who was involved?"  class="form-control" rows="2"><?php echo $information?$information[0]["people_involved"]:""; ?></textarea>
-							</div>
-						</div>
-						-->
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="happened">What happened? *</label>
-							<div class="col-sm-5">
-							<textarea id="happened" name="happened" placeholder="What happened?"  class="form-control" rows="2"><?php echo $information?$information[0]["what_happened"]:""; ?></textarea>
-							</div>
-						</div>
-																	
-						<div class="form-group">
-<script>
-	$( function() {
-		$( "#date" ).datepicker({
-			changeMonth: true,
-			dateFormat: 'yy-mm-dd'
-		});
-	});
-</script>
-							<label class="col-sm-4 control-label" for="date">Date of Near Miss: *</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_near_miss"]:""; ?>" placeholder="Date" required <?php echo $deshabilitar; ?> />
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="fromSite">Time: *</label>
-							<div class="col-sm-2">
-							<?php 
-								if($information){
-									$timeIn = explode(":",$information[0]["time"]);
-									$hourIn = $timeIn[0];
-									$minIn = $timeIn[1];
-								}
-							?>
-								<select name="hour" id="hour" class="form-control" required>
-									<option value='' >Select...</option>
-									<?php
-									for ($i = 0; $i < 24; $i++) {
-										?>
-										<option value='<?php echo $i; ?>' <?php
-										if ($information && $i == $hourIn) {
-											echo 'selected="selected"';
-										}
-										?>><?php echo $i; ?></option>
-											<?php } ?>									
-								</select>
-							</div>
-							<div class="col-sm-2">
-								<select name="min" id="min" class="form-control" required>
-									<option value="00" <?php if($information && $minIn == "00") { echo "selected"; }  ?>>00</option>
-									<option value="15" <?php if($information && $minIn == "15") { echo "selected"; }  ?>>15</option>
-									<option value="30" <?php if($information && $minIn == "30") { echo "selected"; }  ?>>30</option>
-									<option value="45" <?php if($information && $minIn == "45") { echo "selected"; }  ?>>45</option>
-								</select>
-							</div>
-						</div>
+<p class="text-danger text-left">Fields with * are required.</p>
 
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="location">Location: *</label>
-							<div class="col-sm-5">
-								<input type="text" id="location" name="location" class="form-control" value="<?php echo $information?$information[0]["location"]:""; ?>" placeholder="Location" required >
-							</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="jobName">Job Code/Name: *</label>
+						<div class="col-sm-5">
+							<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($jobs); $i++) { ?>
+									<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+								<?php } ?>
+							</select>
 						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="jobName">Job Code/Name: *</label>
-							<div class="col-sm-5">
-								<select name="jobName" id="jobName" class="form-control" <?php echo $deshabilitar; ?>>
-									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
-									<?php } ?>
-								</select>								
-							</div>
+					</div>
+								
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="nearMissType">Near Miss type: *</label>
+						<div class="col-sm-5">
+							<select name="nearMissType" id="nearMissType" class="form-control" <?php echo $deshabilitar; ?>>
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($incidentType); $i++) { ?>
+									<option value="<?php echo $incidentType[$i]["id_incident_type"]; ?>" <?php if($information && $information[0]["fk_incident_type"] == $incidentType[$i]["id_incident_type"]) { echo "selected"; }  ?>><?php echo $incidentType[$i]["incident_type"]; ?></option>	
+								<?php } ?>
+							</select>
 						</div>
-						
+					</div>
+					<!--
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="involved">Who was involved? *</label>
+						<div class="col-sm-5">
+						<textarea id="involved" name="involved" placeholder="Who was involved?"  class="form-control" rows="2"><?php echo $information?$information[0]["people_involved"]:""; ?></textarea>
+						</div>
+					</div>
+					-->
+					
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="happened">What happened? *</label>
+						<div class="col-sm-5">
+						<textarea id="happened" name="happened" placeholder="What happened?"  class="form-control" rows="2"><?php echo $information?$information[0]["what_happened"]:""; ?></textarea>
+						</div>
+					</div>
+																
+					<div class="form-group">
+<script>
+$( function() {
+	$( "#date" ).datepicker({
+		changeMonth: true,
+		dateFormat: 'yy-mm-dd'
+	});
+});
+</script>
+						<label class="col-sm-4 control-label" for="date">Date of Near Miss: *</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_near_miss"]:""; ?>" placeholder="Date" required <?php echo $deshabilitar; ?> />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="fromSite">Time: *</label>
+						<div class="col-sm-2">
+						<?php 
+							if($information){
+								$timeIn = explode(":",$information[0]["time"]);
+								$hourIn = $timeIn[0];
+								$minIn = $timeIn[1];
+							}
+						?>
+							<select name="hour" id="hour" class="form-control" required>
+								<option value='' >Select...</option>
+								<?php
+								for ($i = 0; $i < 24; $i++) {
+									?>
+									<option value='<?php echo $i; ?>' <?php
+									if ($information && $i == $hourIn) {
+										echo 'selected="selected"';
+									}
+									?>><?php echo $i; ?></option>
+										<?php } ?>									
+							</select>
+						</div>
+						<div class="col-sm-2">
+							<select name="min" id="min" class="form-control" required>
+								<option value="00" <?php if($information && $minIn == "00") { echo "selected"; }  ?>>00</option>
+								<option value="15" <?php if($information && $minIn == "15") { echo "selected"; }  ?>>15</option>
+								<option value="30" <?php if($information && $minIn == "30") { echo "selected"; }  ?>>30</option>
+								<option value="45" <?php if($information && $minIn == "45") { echo "selected"; }  ?>>45</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="location">Location: *</label>
+						<div class="col-sm-5">
+							<input type="text" id="location" name="location" class="form-control" value="<?php echo $information?$information[0]["location"]:""; ?>" placeholder="Location" required >
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -423,7 +428,7 @@ if($information[0]["coordinator_signature"]){
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="manager">Supervisor: *</label>
 							<div class="col-sm-5">
-								<select name="manager" id="manager" class="form-control" <?php echo $deshabilitar; ?>>
+								<select name="manager" id="manager" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["manager_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
@@ -435,7 +440,7 @@ if($information[0]["coordinator_signature"]){
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="coordinator">Safety Coordinator: *</label>
 							<div class="col-sm-5">
-								<select name="coordinator" id="coordinator" class="form-control" <?php echo $deshabilitar; ?>>
+								<select name="coordinator" id="coordinator" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["safety_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	

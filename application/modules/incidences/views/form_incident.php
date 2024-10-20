@@ -3,6 +3,11 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+</script>
 
 <div id="page-wrapper">
 	<br>
@@ -158,6 +163,18 @@ if($information[0]["coordinator_signature"]){
 
 <!-- FIN FIRMA -->
 <p class="text-danger text-left">Fields with * are required.</p>
+
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="jobName">Job Code/Name: *</label>
+						<div class="col-sm-5">
+							<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
+								<option value=''>Select...</option>
+								<?php for ($i = 0; $i < count($jobs); $i++) { ?>
+									<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+								<?php } ?>
+							</select>								
+						</div>
+					</div>
 								
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="incidentType">Incident/Accident  type: *</label>
@@ -437,7 +454,7 @@ if($information[0]["coordinator_signature"]){
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="manager">Supervisor: *</label>
 							<div class="col-sm-5">
-								<select name="manager" id="manager" class="form-control" <?php echo $deshabilitar; ?>>
+								<select name="manager" id="manager" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["manager_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
@@ -449,7 +466,7 @@ if($information[0]["coordinator_signature"]){
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="coordinator">Safety Coordinator: *</label>
 							<div class="col-sm-5">
-								<select name="coordinator" id="coordinator" class="form-control" <?php echo $deshabilitar; ?>>
+								<select name="coordinator" id="coordinator" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($workersList); $i++) { ?>
 										<option value="<?php echo $workersList[$i]["id_user"]; ?>" <?php if($information && $information[0]["safety_user"] == $workersList[$i]["id_user"]) { echo "selected"; }  ?>><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	

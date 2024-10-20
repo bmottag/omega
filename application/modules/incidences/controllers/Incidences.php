@@ -327,6 +327,14 @@ class Incidences extends CI_Controller {
 				"id" => 1
 			);
 			$data['workersList'] = $this->general_model->get_basic_search($arrParam);//worker´s list
+
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['jobs'] = $this->general_model->get_basic_search($arrParam);
 			
 			//si envio el id, entonces busco la informacion 
 			if ($id != 'x')

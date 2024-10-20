@@ -127,7 +127,8 @@
 				$year = date('Y');
 				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year-1));//para filtrar solo los registros del año actual
 				
-				$this->db->select('W.*, T.*, CONCAT(U.first_name, " " , U.last_name) name, CONCAT(X.first_name, " " , X.last_name) supervisor, CONCAT(Y.first_name, " " , Y.last_name) coordinator');
+				$this->db->select('W.*, T.*, J.id_job, job_description, CONCAT(U.first_name, " " , U.last_name) name, CONCAT(X.first_name, " " , X.last_name) supervisor, CONCAT(Y.first_name, " " , Y.last_name) coordinator');
+				$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'LEFT');
 				$this->db->join('param_incident_type T', 'T.id_incident_type = W.fk_incident_type', 'INNER');
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->join('user X', 'X.id_user = W.manager_user', 'INNER');
@@ -167,6 +168,7 @@
 			
 			$data = array(
 				'fk_incident_type' => $this->input->post('incidentType'),
+				'fk_id_job' => $this->input->post('jobName'),
 				'what_happened' => $this->input->post('happened'),
 				'date_incident' => $this->input->post('date'),
 				'time' => $time,

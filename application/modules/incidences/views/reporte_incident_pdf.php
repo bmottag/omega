@@ -23,7 +23,11 @@ $call_manager = $info[0]["call_manager"] == 1?"Yes":"No";
 					<th>' . $info[0]["name"] . '</th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Incident type: </strong></th>
 					<th>' . $info[0]["incident_type"] . '</th>
-				</tr>		
+				</tr>
+				<tr>
+					<th bgcolor="#337ab7" style="color:white;"><strong>Job Code/Name: </strong></th>
+					<th colspan="3">' . $info[0]["job_description"] . '</th>
+				</tr>	
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Incident date: </strong></th>
 					<th>' . $info[0]["date_incident"] . '</th>
