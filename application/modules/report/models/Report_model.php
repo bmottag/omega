@@ -73,6 +73,71 @@ class Report_model extends CI_Model
 	}
 
 	/**
+	 * Near miss list
+	 * @since 20/10/2024
+	 */
+	public function get_near_miss($arrData) 
+	{		
+			$this->db->select('W.*, CONCAT(U.first_name, " " , U.last_name) name, J.id_job, job_description, T.*, CONCAT(X.first_name, " " , X.last_name) supervisor, CONCAT(Y.first_name, " " , Y.last_name) coordinator');
+			$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
+			$this->db->join('param_incident_type T', 'T.id_incident_type = W.fk_incident_type', 'INNER');
+			$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+			$this->db->join('user X', 'X.id_user = W.manager_user', 'INNER');
+			$this->db->join('user Y', 'Y.id_user = W.safety_user', 'INNER');
+			if (array_key_exists("from", $arrData) && $arrData["from"] != 'x') {
+				$this->db->where('W.date_issue >=', $arrData["from"]);
+			}
+			if (array_key_exists("to", $arrData) && $arrData["to"] != 'x') {
+				$this->db->where('W.date_issue <=', $arrData["to"]);
+			}
+			if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 'x') {
+				$this->db->where('W.fk_id_job', $arrData["jobId"]);
+			}
+
+			$this->db->order_by('id_near_miss', 'desc');
+			$query = $this->db->get('incidence_near_miss W');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+	}
+
+		/**
+		 * Incident list
+		 * @since 20/10/2024
+		 */
+		public function get_incident($arrData) 
+		{
+			$this->db->select('W.*, T.*, J.id_job, job_description, CONCAT(U.first_name, " " , U.last_name) name, CONCAT(X.first_name, " " , X.last_name) supervisor, CONCAT(Y.first_name, " " , Y.last_name) coordinator');
+			$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'LEFT');
+			$this->db->join('param_incident_type T', 'T.id_incident_type = W.fk_incident_type', 'INNER');
+			$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+			$this->db->join('user X', 'X.id_user = W.manager_user', 'INNER');
+			$this->db->join('user Y', 'Y.id_user = W.safety_user', 'INNER');
+			
+			if (array_key_exists("from", $arrData) && $arrData["from"] != 'x') {
+				$this->db->where('W.date_issue >=', $arrData["from"]);
+			}
+			if (array_key_exists("to", $arrData) && $arrData["to"] != 'x') {
+				$this->db->where('W.date_issue <=', $arrData["to"]);
+			}
+			if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 'x') {
+				$this->db->where('W.fk_id_job', $arrData["jobId"]);
+			}
+
+			$this->db->order_by('id_incident', 'desc');
+			$query = $this->db->get('incidence_incident W');
+
+			if ($query->num_rows() > 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+
+	/**
 	 * Payroll
 	 * @since 6/01/2017
 	 */

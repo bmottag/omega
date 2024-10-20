@@ -170,6 +170,28 @@ class Report extends CI_Controller
 				$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
 				$data["titulo"] = "<i class='fa fa-life-saver fa-fw'></i> CSEP Report";
 				break;
+			case 'near_miss':
+				//job list
+				$arrParam = array(
+					"table" => "param_jobs",
+					"order" => "job_description",
+					"column" => "state",
+					"id" => 1
+				);
+				$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
+				$data["titulo"] = "<i class='fa fa-ambulance fa-fw'></i> INCIDENCES - NEAR MISS REPORT";
+				break;
+			case 'incident':
+				//job list
+				$arrParam = array(
+					"table" => "param_jobs",
+					"order" => "job_description",
+					"column" => "state",
+					"id" => 1
+				);
+				$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
+				$data["titulo"] = "<i class='fa fa-ambulance fa-fw'></i> INCIDENCES - INCIDENT/ACCIDENT REPORT";
+				break;
 		}
 
 		$data["view"] = "form_search";
@@ -284,6 +306,22 @@ class Report extends CI_Controller
 
 					$data['info'] = $this->report_model->get_csep($arrParam);
 					$data["view"] = "list_csep_report";
+					break;
+				case 'near_miss':
+					$arrParam['jobId'] =  $this->input->post('jobName');
+					$arrParam['jobId'] = $arrParam['jobId'] == '' ? 'x' : $arrParam['jobId'];
+					$data['jobId'] = $arrParam['jobId'];
+
+					$data['info'] = $this->report_model->get_near_miss($arrParam);
+					$data["view"] = "list_near_miss";
+					break;
+				case 'incident':
+					$arrParam['jobId'] =  $this->input->post('jobName');
+					$arrParam['jobId'] = $arrParam['jobId'] == '' ? 'x' : $arrParam['jobId'];
+					$data['jobId'] = $arrParam['jobId'];
+
+					$data['info'] = $this->report_model->get_incident($arrParam);
+					$data["view"] = "list_incident";
 					break;
 			}
 		}
