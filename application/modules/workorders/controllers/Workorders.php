@@ -2471,7 +2471,7 @@ class Workorders extends CI_Controller
 			}
 		}
 		//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
-		elseif ($this->input->post('jobName') || $this->input->post('user') || $this->input->post('from')) {
+		elseif ($this->input->post('jobName') || $this->input->post('user') || $this->input->post('from') || $this->input->post('workOrderNumber')) {
 
 			$data['jobName'] =  $this->input->post('jobName');
 			$data['workOrderNumber'] =  $this->input->post('workOrderNumber');

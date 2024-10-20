@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/jobs/job_detail.js"); ?>"></script>
+
 <script>
 $(function(){ 
 	$(".btn-success").click(function () {	
@@ -5,7 +7,20 @@ $(function(){
             $.ajax ({
                 type: 'POST',
 				url: base_url + '/jobs/cargarModalJobDetail',
-                data: {'idJobDetail': oID},
+                data: {'idJob': '', 'idJobDetail': oID},
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatos').html(data);
+                }
+            });
+	});
+    
+	$(".btn-outline").click(function () {	
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'jobs/cargarModalJobDetail',
+				data: {'idJob': oID, 'idJobDetail': 'x'},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -147,6 +162,9 @@ if ($retornoError) {
                                                         </div>
                                                     </div>
                                                 </form>
+                                                <button type="button" class="btn btn-outline btn-default btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]["id_job"]; ?>">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add APU's
+                                                </button><br>
                                             </div>
                                         </div>
                                     </div>
@@ -197,6 +215,10 @@ if ($retornoError) {
                                                     ?>
                                                         <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
                                                             <span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                                        </button>
+
+                                                        <button type="button" id="<?php echo $jobInfo[0]["id_job"] . '-' . $data['id_job_detail']; ?>" class='btn btn-danger btn-xs btn-delete-job-detail' title="Delete">
+                                                            <i class="fa fa-trash-o"></i>
                                                         </button>
                                                     <?php
                                                         echo "</td>";
