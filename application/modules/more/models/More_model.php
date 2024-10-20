@@ -582,6 +582,89 @@ class More_model extends CI_Model
 	}
 
 	/**
+	 * Save save_rescue_plan
+	 * @since 16/9/2024
+	 */
+	public function save_rescue_plan()
+	{
+		$idConfined = $this->input->post('hddConfined');
+
+		$data = array(
+			'rescue_phone' => $this->input->post('rescue_phone'),
+			'rescue_radio' => $this->input->post('rescue_radio'),
+			'rescue_audible' => $this->input->post('rescue_audible'),
+			'rescue_intercom' => $this->input->post('rescue_intercom'),
+			'rescue_w_phone' => $this->input->post('rescue_w_phone'),
+			'rescue_w_intercom' => $this->input->post('rescue_w_intercom'),
+			'rescue_w_visual' => $this->input->post('rescue_w_visual'),
+			'rescue_w_radio' => $this->input->post('rescue_w_radio'),
+			'rescue_w_audible' => $this->input->post('rescue_w_audible'),
+			'rescue_w_rope' => $this->input->post('rescue_w_rope'),
+			'rescue_congested_value' => $this->input->post('rescue_congested_value'),
+			'rescue_hauling' => $this->input->post('rescue_hauling'),
+			'rescue_hauling_value' => $this->input->post('rescue_hauling_value'),
+			'rescue_patient' => $this->input->post('rescue_patient'),
+			'rescue_patient_value' => $this->input->post('rescue_patient_value'),
+			'rescue_anchor' => $this->input->post('rescue_anchor'),
+			'rescue_anchor_value' => $this->input->post('rescue_anchor_value'),
+			'rescue_beam' => $this->input->post('rescue_beam'),
+			'rescue_strut' => $this->input->post('rescue_strut'),
+			'rescue_stairwell' => $this->input->post('rescue_stairwell'),
+			'rescue_column' => $this->input->post('rescue_column'),
+			'rescue_other' => $this->input->post('rescue_other'),
+			'rescue_e_hauling' => $this->input->post('rescue_e_hauling'),
+			'rescue_e_hauling_value' => $this->input->post('rescue_e_hauling_value'),
+			'rescue_e_carabiners' => $this->input->post('rescue_e_carabiners'),
+			'rescue_e_carabiners_value' => $this->input->post('rescue_e_carabiners_value'),
+			'rescue_e_pulleys' => $this->input->post('rescue_e_pulleys'),
+			'rescue_e_pulleys_value' => $this->input->post('rescue_e_pulleys_value'),
+			'rescue_e_absorbers' => $this->input->post('rescue_e_absorbers'),
+			'rescue_e_absorbers_value' => $this->input->post('rescue_e_absorbers_value'),
+			'rescue_e_straps' => $this->input->post('rescue_e_straps'),
+			'rescue_e_straps_value' => $this->input->post('rescue_e_straps_value'),
+			'rescue_e_webbing' => $this->input->post('rescue_e_webbing'),
+			'rescue_e_webbing_value' => $this->input->post('rescue_e_webbing_value'),
+			'rescue_e_ascenders' => $this->input->post('rescue_e_ascenders'),
+			'rescue_e_ascenders_value' => $this->input->post('rescue_e_ascenders_value'),
+			'rescue_e_harnesses' => $this->input->post('rescue_e_harnesses'),
+			'rescue_e_harnesses_value' => $this->input->post('rescue_e_harnesses_value'),
+			'rescue_e_rigging' => $this->input->post('rescue_e_rigging'),
+			'rescue_e_rigging_value' => $this->input->post('rescue_e_rigging_value'),
+			'rescue_e_lines' => $this->input->post('rescue_e_lines'),
+			'rescue_e_lines_value' => $this->input->post('rescue_e_lines_value'),
+			'rescue_e_m_lines' => $this->input->post('rescue_e_m_lines'),
+			'rescue_e_m_lines_value' => $this->input->post('rescue_e_m_lines_value'),
+			'rescue_e_wrist_har' => $this->input->post('rescue_e_wrist_har'),
+			'rescue_e_wrist_har_value' => $this->input->post('rescue_e_wrist_har_value'),
+			'rescue_e_extinguishers' => $this->input->post('rescue_e_extinguishers'),
+			'rescue_equipment_inspected' => $this->input->post('rescue_equipment_inspected'),
+			'rescue_employer' => $this->input->post('rescue_employer'),
+			'rescue_first_aid' => $this->input->post('rescue_first_aid'),
+			'rescue_first_aid_value' => $this->input->post('rescue_first_aid_value'),
+			'rescue_packaging' => $this->input->post('rescue_packaging'),
+			'rescue_packaging_value' => $this->input->post('rescue_packaging_value'),
+			'rescue_vests' => $this->input->post('rescue_vests'),
+			'rescue_glasses' => $this->input->post('rescue_glasses'),
+			'rescue_hearing' => $this->input->post('rescue_hearing'),
+			'rescue_gloves' => $this->input->post('rescue_gloves'),
+			'rescue_boots' => $this->input->post('rescue_boots'),
+			'rescue_face' => $this->input->post('rescue_face'),
+			'rescue_hats' => $this->input->post('rescue_hats'),
+			'rescue_description' => $this->input->post('rescue_description')
+		);
+
+		$this->db->where('id_job_confined', $idConfined);
+		$query = $this->db->update('job_confined', $data);
+
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * task control list
 	 * @since 7/4/2020
 	 */

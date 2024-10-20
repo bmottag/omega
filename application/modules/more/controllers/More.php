@@ -1256,6 +1256,34 @@ class More extends CI_Controller
 	}
 
 	/**
+	 * Save confined Rescue Plan
+	 * @since 16/9/2024
+	 * @author BMOTTAG
+	 */
+	public function save_rescue_plan()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$idJob = $this->input->post('hddIdJob');
+		$idConfined = $this->input->post('hddConfined');
+		$data["idRecord"] = $idJob . "/" . $idConfined;
+
+		if ($idConfined = $this->more_model->save_rescue_plan()) {
+			$data["result"] = true;
+			$data["mensaje"] = "You have saved the ON-SITE RESCUE PLAN.";
+			$this->session->set_flashdata('retornoExito', 'You have saved the ON-SITE RESCUE PLAN.');
+		} else {
+			$data["result"] = "error";
+			$data["mensaje"] = "Error!!! Ask for help.";
+			$data["idConfined"] = "";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
+
+	/**
 	 * Generate Template Report in PDF
 	 * @param int $idConfined
 	 * @since 29/1/2020

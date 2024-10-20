@@ -222,6 +222,7 @@
 							<tbody>
 								<?php
 								foreach ($infoNextPlanning as $data) :
+									$idWorkorder = $data['fk_id_workorder'];
 									echo "<tr>";
 									echo "<td class='text-center'>" . date('l, F j, Y', strtotime($data['date_programming'])) . "</td>";
 									echo "<td class='text-center'>" . $data['job_description'] . "</td>";
@@ -237,27 +238,33 @@
 
 									$mensaje = "";
 									if ($informationWorker) {
-										foreach ($informationWorker as $data) :
+										foreach ($informationWorker as $worker) :
 
-											if($data['fk_id_machine'] != NULL){
-												$id_values = implode(',', json_decode($data['fk_id_machine'], true));			
+											if($worker['fk_id_machine'] != NULL){
+												$id_values = implode(',', json_decode($worker['fk_id_machine'], true));			
 												$arrParam = array("idValues" => $id_values);
 												$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 											}
 
-											$mensaje .= $data['site'] == 1 ? "At the yard - " : "At the site - ";
-											$mensaje .= $data['hora'];
+											$mensaje .= $worker['site'] == 1 ? "At the yard - " : "At the site - ";
+											$mensaje .= $worker['hora'];
 
-											$mensaje .= "<br>" . $data['name'];
-											$mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
-											$mensaje .= $data['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
+											$mensaje .= "<br>" . $worker['name'];
+											$mensaje .= $worker['description'] ? "<br>" . $worker['description'] : "";
+											$mensaje .= $worker['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
 
-											if ($data['safety'] == 1) {
-												$mensaje .= "<br>Do FLHA";
-											} elseif ($data['safety'] == 2) {
-												$mensaje .= "<br>Do Tool Box";
+											if ($worker['safety'] == 1) {
+												$mensaje .= "<br>FLHA has being assigned to you.";
+											} elseif ($worker['safety'] == 2) {
+												$mensaje .= "<br>Tool Box has being assigned to you.";
+											} elseif ($worker['safety'] == 3) {
+												$mensaje .= "<br>JSO has being assigned to you.";
+											}							
+											if ($worker['creat_wo'] == 1) {
+												$mensaje .= "<br>You are in charge of the <a href='" . base_url('workorders/add_workorder/' . $data['fk_id_workorder']) . "'>W.O. # " . $data['fk_id_workorder'] . "</a>";
+
 											}
-											$mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
+											$mensaje .= $worker['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
 										endforeach;
 									}
 
