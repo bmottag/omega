@@ -140,7 +140,15 @@ if ($retornoError) {
 								}
 								
 								echo "</td>";
-								echo "<td class='text-center'>" . $lista['log_user'] . "</td>";
+								echo "<td class='text-center'>" . $lista['log_user'];
+								if($lista["user_signature"]){
+						?>
+								<br><img src="<?php echo base_url($lista["user_signature"]); ?>" class="img-rounded" alt="Signature" width="160" height="100" /> 
+						<?php
+								}
+								echo "</td>";
+
+
 $movil = $lista["movil"];
 // Separa en grupos de tres 
 $count = strlen($movil); 
