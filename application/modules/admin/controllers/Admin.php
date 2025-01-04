@@ -430,13 +430,8 @@ class Admin extends CI_Controller
 	{
 		$data['state'] = $state;
 
-		$arrParam = array(
-			"table" => "param_jobs",
-			"order" => "job_description",
-			"column" => "state",
-			"id" => $state
-		);
-		$data['info'] = $this->general_model->get_basic_search($arrParam);
+		$arrParam['state'] = $state;
+		$data['info'] = $this->general_model->get_job($arrParam);
 
 		$data["view"] = 'job';
 		$this->load->view("layout", $data);
@@ -461,7 +456,7 @@ class Admin extends CI_Controller
 			"id" => 2
 		);
 		$data['companyList'] = $this->general_model->get_basic_search($arrParam);
-		
+
 		if ($data["idJob"] != 'x') {
 			$arrParam = array(
 				"table" => "param_jobs",

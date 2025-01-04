@@ -2257,4 +2257,24 @@ class General_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Get JOBs 
+	 * @since 03/01/2025
+	 */
+	public function get_job($arrData)
+	{
+		$this->db->join('param_company C', 'C.id_company = J.fk_id_company', 'LEFT');
+		if (array_key_exists("state", $arrData)) {
+			$this->db->where('state', $arrData["state"]);
+		}
+		$this->db->order_by("J.job_description", "asc");
+		$query = $this->db->get("param_jobs J");
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
 }

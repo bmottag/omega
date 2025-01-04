@@ -105,19 +105,20 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Job Code/Name</th>
-								<th class="text-center">Markup (%)</th>
-								<th class="text-center">Profit (%)</th>
-								<th class="text-center">Notes</th>
-								<th class="text-center">Automatic Planning Message</th>
-								<th class="text-center">Status 
+								<th class="text-center" width="25%">Job Code/Name</th>
+								<th class="text-center" width="20%">Company</th>
+								<th class="text-center" width="5%">Markup (%)</th>
+								<th class="text-center" width="5%">Profit (%)</th>
+								<th class="text-center" width="30%">Notes</th>
+								<th class="text-center" width="5%">Automatic Planning Message</th>
+								<th class="text-center" width="5%">Status 
 
 <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
 	Update Status <span class="glyphicon glyphicon-edit" aria-hidden="true">
 </button>
 
 								</th>
-								<th class="text-center">Links</th>
+								<th class="text-center" width="5%">Links</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -125,6 +126,7 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['job_description'] . "</td>";
+									echo "<td>" . $lista['company_name'] . "</td>";
 									echo "<td class='text-center'>" . $lista['markup'] . " %</td>";
 									echo "<td class='text-center'>" . $lista['profit'] . " %</td>";
 									echo "<td >" . $lista['notes'] . "</td>";
