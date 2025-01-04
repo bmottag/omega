@@ -453,6 +453,15 @@ class Admin extends CI_Controller
 		$data['information'] = FALSE;
 		$data["idJob"] = $this->input->post("idJob");
 
+		//company list
+		$arrParam = array(
+			"table" => "param_company",
+			"order" => "company_name",
+			"column" => "company_type",
+			"id" => 2
+		);
+		$data['companyList'] = $this->general_model->get_basic_search($arrParam);
+		
 		if ($data["idJob"] != 'x') {
 			$arrParam = array(
 				"table" => "param_jobs",

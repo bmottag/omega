@@ -6,6 +6,7 @@ $( document ).ready( function () {
 		rules: {
 			jobCode: 			{ required: true, minlength: 4, maxlength:100 },
 			jobName: 			{ required: true, minlength: 4, maxlength:100 },
+			company: 			{ required: true },
 			markup: 			{ required: true, minlength: 1, maxlength:2 },
 			stateJob: 			{ required: true }
 		},

@@ -28,6 +28,16 @@
 	} 
 </script>
 
+<script>
+    $(document).ready(function () {
+        $('#modal').on('shown.bs.modal', function () {
+            $('#company').select2({
+                dropdownParent: $('#modal')
+            });
+        });
+    });
+</script>
+
 <div id="page-wrapper">
 	<br>
 

@@ -1,4 +1,9 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/job_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/job_v3.js"); ?>"></script>
+<style>
+    .select2-container .select2-dropdown .select2-results__option {
+        text-align: left;
+    }
+</style>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Job Form
@@ -23,6 +28,25 @@
 				<div class="form-group text-left">
 					<label class="control-label" for="jobName">Job Name: *</label>
 					<input type="text" id="jobName" name="jobName" class="form-control" value="<?php echo $information?$information[0]["job_description"]:""; ?>" placeholder="Job Name" required >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="Company">Company: *</label>
+					<select name="company" id="company" class="form-control js-example-basic-single">
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($companyList); $i++) { ?>
+							<option value="<?php echo $companyList[$i]["id_company"]; ?>" 
+							<?php 
+								if ($information && $information[0]["fk_id_company"] == $companyList[$i]["id_company"]) {
+									echo "selected";
+								}  ?>>
+							<?php echo $companyList[$i]["company_name"]; ?></option>
+						<?php } ?>
+					</select>
 				</div>
 			</div>
 		</div>

@@ -54,6 +54,7 @@ class Admin_model extends CI_Model
 		$data = array(
 			'job_code' => $this->input->post('jobCode'),
 			'job_description' => $this->input->post('jobName'),
+			'fk_id_company' => $this->input->post('company'),
 			'markup' => $this->input->post('markup'),
 			'profit' => $this->input->post('profit'),
 			'state' => $this->input->post('stateJob'),
