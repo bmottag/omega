@@ -50,10 +50,12 @@ class Admin_model extends CI_Model
 	public function saveJob()
 	{
 		$idJob = $this->input->post('hddId');
-
+		$jobCode = trim($this->security->xss_clean($this->input->post('jobCode')));
+		$jobName = trim($this->security->xss_clean($this->input->post('jobName')));
 		$data = array(
-			'job_code' => $this->input->post('jobCode'),
-			'job_description' => $this->input->post('jobName'),
+			'job_code' => $jobCode,
+			'job_name' => $jobName,
+			'job_description' => $jobCode . " " . $jobName,
 			'fk_id_company' => $this->input->post('company'),
 			'markup' => $this->input->post('markup'),
 			'profit' => $this->input->post('profit'),

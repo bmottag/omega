@@ -27,7 +27,7 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="jobName">Job Name: *</label>
-					<input type="text" id="jobName" name="jobName" class="form-control" value="<?php echo $information?$information[0]["job_description"]:""; ?>" placeholder="Job Name" required >
+					<input type="text" id="jobName" name="jobName" class="form-control" value="<?php echo $information?$information[0]["job_name"]:""; ?>" placeholder="Job Name" required >
 				</div>
 			</div>
 		</div>
