@@ -297,7 +297,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
                                             //si es tipo miscellaneous -> 8, entonces la description es diferente
                                             if($data['fk_id_type_2'] == 8){
-                                                $equipment = $data['miscellaneous'] . " - " . $data['otder'];
+                                                $equipment = $data['miscellaneous'] . " - " . $data['other'];
                                                 $description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
                                             }else{
                                                 $equipment = "<strong>Unit #: </strong>" .$data['unit_number'] . " <strong>Make: </strong>" . $data['make'] . " <strong>Model: </strong>" . $data['model'];
