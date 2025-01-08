@@ -25,8 +25,30 @@ $( document ).ready( function () {
 			return true;
 		}
 	});
-
 	
+	$( "#formState" ).validate( {
+		rules: {
+			state:					{ required: true },
+			information:			{ required: true }
+		},
+		errorElement: "em",
+		errorPlacement: function ( error, element ) {
+			// Add the `help-block` class to the error element
+			error.addClass( "help-block" );
+			error.insertAfter( element );
+
+		},
+		highlight: function ( element, errorClass, validClass ) {
+			$( element ).parents( ".col-sm-8" ).addClass( "has-error" ).removeClass( "has-success" );
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$( element ).parents( ".col-sm-8" ).addClass( "has-success" ).removeClass( "has-error" );
+		},
+		submitHandler: function (form) {
+			return true;
+		}
+	});
+
 	$("#btnClose").click(function(){
 		if(window.confirm('Are you sure you want to close this Work Order Report?'))
 		{
@@ -81,6 +103,31 @@ $( document ).ready( function () {
 			
 		}
 	});
+
+	$('#jobName').change(function () {
+		var idJob = $('#jobName').val();
+		if (idJob > 0 || idJob != '') {			
+			$.ajax({
+				type: "POST",	
+				url: base_url + "workorders/foremanInfo",	
+				data: {'idJob': idJob},
+				dataType: "json",
+				contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+				cache: false,
+				success: function(data){
+					if( data.result )//true
+					{	               
+						$("#company").val(data.company_id);    
+						$("#companyName").val(data.company_name);
+						$("#foreman").val(data.foreman_name);
+						$("#movilNumber").val(data.foreman_movil);
+						$("#email").val(data.foreman_email);
+					}
+
+				}
+			});	
+		}	
+	});	
 				
 	$("#btnSubmit").click(function(){		
 	

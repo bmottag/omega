@@ -74,15 +74,6 @@ class Workorders extends CI_Controller
 		);
 		$data['jobs'] = $this->general_model->get_basic_search($arrParam);
 
-		//company list
-		$arrParam = array(
-			"table" => "param_company",
-			"order" => "company_name",
-			"column" => "company_type",
-			"id" => 2
-		);
-		$data['companyList'] = $this->general_model->get_basic_search($arrParam); //company list
-
 		//si envio el id, entonces busco la informacion 
 		if ($id != 'x') {
 			$arrParam = array('idWorkOrder' => $id);
@@ -161,13 +152,13 @@ class Workorders extends CI_Controller
 				//INICIO 
 				//codigo para revisar si se actuliza o se adiciona informacion del foreman
 				$this->load->model("general_model");
-				$idCompany = $this->input->post('company');
+				$idCompany = $this->input->post('jobName');
 
 				//reviso si hay formean para esa empresa
 				$arrParam = array(
 					"table" => "param_company_foreman",
-					"order" => "id_company_foreman ",
-					"column" => "fk_id_param_company",
+					"order" => "id_company_foreman",
+					"column" => "fk_id_job",
 					"id" => $idCompany
 				);
 				$infoForeman = $this->general_model->get_basic_search($arrParam);
@@ -2013,21 +2004,25 @@ class Workorders extends CI_Controller
 		header('Content-Type: application/json');
 		$data = array();
 
-		$idCompany = $this->input->post('idCompany');
+		$idJob = $this->input->post('idJob');
 
-		//busco info tabla de param_company_foreman
 		$this->load->model("general_model");
+		//info JOB to get Company
+		$arrParam['idJob'] = $idJob;
+		$jobInfo = $this->general_model->get_job($arrParam);
 
-		//reviso si hay formean para esa empresa
+		//reviso si hay formean para esa JOB CODE
 		$arrParam = array(
 			"table" => "param_company_foreman",
 			"order" => "id_company_foreman ",
-			"column" => "fk_id_param_company",
-			"id" => $idCompany
+			"column" => "fk_id_job",
+			"id" => $idJob
 		);
 		$infoForeman = $this->general_model->get_basic_search($arrParam);
 
 		$data["result"] = true;
+		$data["company_id"] = $jobInfo[0]["fk_id_company"];
+		$data["company_name"] = $jobInfo[0]["company_name"];
 		$data["foreman_name"] = "";
 		$data["foreman_movil"] = "";
 		$data["foreman_email"] = "";
@@ -2035,6 +2030,20 @@ class Workorders extends CI_Controller
 			$data["foreman_name"] = $infoForeman[0]["foreman_name"];
 			$data["foreman_movil"] = $infoForeman[0]["foreman_movil_number"];
 			$data["foreman_email"] = $infoForeman[0]["foreman_email"];
+		}elseif($jobInfo[0]["fk_id_company"] > 0 && $jobInfo[0]["fk_id_company"] != ""){
+			//reviso si hay formean para esa empresa
+			$arrParam = array(
+				"table" => "param_company_foreman",
+				"order" => "id_company_foreman ",
+				"column" => "fk_id_param_company",
+				"id" => $jobInfo[0]["fk_id_company"]
+			);
+			$infoForeman = $this->general_model->get_basic_search($arrParam);
+			if ($infoForeman) {
+				$data["foreman_name"] = $infoForeman[0]["foreman_name"];
+				$data["foreman_movil"] = $infoForeman[0]["foreman_movil_number"];
+				$data["foreman_email"] = $infoForeman[0]["foreman_email"];
+			}
 		}
 
 		echo json_encode($data);

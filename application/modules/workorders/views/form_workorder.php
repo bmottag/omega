@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v5.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v6.js"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -252,59 +252,43 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 								</select>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="company">Company:</label>
+							<div class="col-sm-5">
+								<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company"] : ""; ?>" <?php echo $deshabilitar; ?>>
+								<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company"] : ""; ?>" disabled>
+							</div>
+						</div>
+
+						<div class="form-group text-danger" id="div_stockQuantity">
+							<label class="col-sm-4 control-label" for="foreman">Foreman's name : </label>
+							<div class="col-sm-5">
+								<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman's name" value="<?php echo $information ? $information[0]["foreman_name_wo"] : ""; ?>" <?php echo $deshabilitar; ?>>
+							</div>
+						</div>
+
+						<div class="form-group text-danger">
+							<label class="col-sm-4 control-label" for="email">Foreman's mobile number : </label>
+							<div class="col-sm-5">
+								<input type="text" id="movilNumber" name="movilNumber" class="form-control" placeholder="Foreman's mobile number" value="<?php echo $information ? $information[0]["foreman_movil_number_wo"] : ""; ?>" <?php echo $deshabilitar; ?>>
+							</div>
+						</div>
+
+						<div class="form-group text-danger">
+							<label class="col-sm-4 control-label" for="email">Foreman's email : </label>
+							<div class="col-sm-5">
+								<input type="text" id="email" name="email" class="form-control" placeholder="Foreman's email" value="<?php echo $information ? $information[0]["foreman_email_wo"] : ""; ?>" <?php echo $deshabilitar; ?>>
+							</div>
+						</div>
+
 						<?php if ($information) { ?>
-
-							<div class="form-group text-danger">
-								<label class="col-sm-4 control-label" for="company">Specify the client if you know it :</label>
-								<div class="col-sm-5">
-									<select name="company" id="company" class="form-control" <?php echo $deshabilitar; ?>>
-										<option value=''>Select...</option>
-										<?php for ($i = 0; $i < count($companyList); $i++) { ?>
-											<option value="<?php echo $companyList[$i]["id_company"]; ?>" <?php if ($information && $information[0]["fk_id_company"] == $companyList[$i]["id_company"]) {
-																												echo "selected";
-																											}  ?>><?php echo $companyList[$i]["company_name"]; ?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
-
-
-
-
-
-							<div class="form-group text-danger" id="div_stockQuantity">
-								<label class="col-sm-4 control-label" for="foreman">Foreman's name : </label>
-								<div class="col-sm-5">
-									<input type="text" id="foreman" name="foreman" class="form-control" placeholder="Foreman's name" value="<?php echo $information ? $information[0]["foreman_name_wo"] : ""; ?>" <?php echo $deshabilitar; ?>>
-								</div>
-							</div>
-
-
-
-
-
-
-							<div class="form-group text-danger">
-								<label class="col-sm-4 control-label" for="email">Foreman's mobile number : </label>
-								<div class="col-sm-5">
-									<input type="text" id="movilNumber" name="movilNumber" class="form-control" placeholder="Foreman's mobile number" value="<?php echo $information ? $information[0]["foreman_movil_number_wo"] : ""; ?>" <?php echo $deshabilitar; ?>>
-								</div>
-							</div>
-
-							<div class="form-group text-danger">
-								<label class="col-sm-4 control-label" for="email">Foreman's email : </label>
-								<div class="col-sm-5">
-									<input type="text" id="email" name="email" class="form-control" placeholder="Foreman's email" value="<?php echo $information ? $information[0]["foreman_email_wo"] : ""; ?>" <?php echo $deshabilitar; ?>>
-								</div>
-							</div>
-
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="taskDescription">Work Done :</label>
 								<div class="col-sm-5">
 									<textarea id="observation" name="observation" class="form-control" rows="3" <?php echo $deshabilitar; ?> placeholder="Task description"><?php echo $information ? $information[0]["observation"] : ""; ?></textarea>
 								</div>
 							</div>
-
 						<?php } ?>
 
 						<?php if (!$deshabilitar) { ?>
