@@ -1476,11 +1476,39 @@ class Programming extends CI_Controller
 		$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajado con WO	
 		$idUser = $informationWorkerWO ? $informationWorkerWO[0]["fk_id_programming_user"] :  $infoPlanning[0]["fk_id_user"];
 
+		//Get info foreman if exist
+		$idJob = $infoPlanning[0]["fk_id_job"];
+		$idCompany = $infoPlanning[0]["id_company"];
+
+		$data = [
+			"foreman_name" => "",
+			"foreman_movil" => "",
+			"foreman_email" => "",
+		];
+		
+		// Intentamos encontrar foreman por trabajo
+		$infoForeman = $this->getForemanData("param_company_foreman", "id_company_foreman", "fk_id_job", $idJob);
+		if (!$infoForeman && $idCompany > 0) {
+			// Si no se encontró por trabajo, buscamos por empresa
+			$infoForeman = $this->getForemanData("param_company_foreman", "id_company_foreman", "fk_id_param_company", $idCompany);
+		}
+		
+		// Si encontramos foreman, asignamos los datos
+		if ($infoForeman) {
+			$data["foreman_name"] = $infoForeman["foreman_name"];
+			$data["foreman_movil"] = $infoForeman["foreman_movil_number"];
+			$data["foreman_email"] = $infoForeman["foreman_email"];
+		}
+
 		$message = "A new Work Order was created from the Planning.";
 		$arrParam = array(
 			"idUser" => $idUser,
-			"idJob" => $infoPlanning[0]["fk_id_job"],
+			"idJob" => $idJob,
 			"date" => $infoPlanning[0]["date_programming"],
+			'idCompany' => $idCompany,
+			'foremanName' => $data["foreman_name"],
+			'foremanMovil' => $data["foreman_movil"],
+			'foremanEmail' => $data["foreman_email"],
 			"observation" => $infoPlanning[0]["observation"],
 			"message" => $message
 		);
@@ -1584,5 +1612,16 @@ class Programming extends CI_Controller
 		} else {
 			return FALSE;
 		}
+	}
+
+	function getForemanData($table, $order, $column, $id) {
+		$arrParam = [
+			"table" => $table,
+			"order" => $order,
+			"column" => $column,
+			"id" => $id
+		];
+		$result = $this->general_model->get_basic_search($arrParam);
+		return $result ? $result[0] : null;
 	}
 }

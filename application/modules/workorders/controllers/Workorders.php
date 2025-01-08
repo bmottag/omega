@@ -152,14 +152,14 @@ class Workorders extends CI_Controller
 				//INICIO 
 				//codigo para revisar si se actuliza o se adiciona informacion del foreman
 				$this->load->model("general_model");
-				$idCompany = $this->input->post('jobName');
+				$idJob = $this->input->post('jobName');
 
 				//reviso si hay formean para esa empresa
 				$arrParam = array(
 					"table" => "param_company_foreman",
 					"order" => "id_company_foreman",
 					"column" => "fk_id_job",
-					"id" => $idCompany
+					"id" => $idJob
 				);
 				$infoForeman = $this->general_model->get_basic_search($arrParam);
 

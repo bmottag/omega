@@ -14,7 +14,7 @@ class Workorders_model extends CI_Model
 		//$year = date('Y');
 		//$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//para filtrar solo los registros del año actual
 
-		$this->db->select('W.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name, C.company_name company');
+		$this->db->select('W.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name, C.company_name company, C.id_company');
 		$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
 		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');

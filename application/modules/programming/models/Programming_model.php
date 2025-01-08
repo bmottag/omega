@@ -418,6 +418,10 @@ class Programming_model extends CI_Model
 			'date_issue' => date("Y-m-d G:i:s"),
 			'state' => 0,
 			'last_message' => $arrDatos["message"],
+			'fk_id_company' => $arrDatos["idCompany"],
+			'foreman_name_wo' => $arrDatos["foremanName"],
+			'foreman_movil_number_wo' => $arrDatos["foremanMovil"],
+			'foreman_email_wo' => $arrDatos["foremanEmail"],
 			'observation' =>  $arrDatos["observation"]
 		);
 

@@ -532,7 +532,7 @@ class General_model extends CI_Model
 		$year = date('Y');
 		$firstDay = date('Y-m-d', mktime(0, 0, 0, 1, 1, $year-1));
 
-		$this->db->select("P.*, X.id_job, X.job_description, U.id_user, CONCAT(U.first_name, ' ', U.last_name) name");
+		$this->db->select("P.*, X.id_job, X.job_description, X.fk_id_company id_company, U.id_user, CONCAT(U.first_name, ' ', U.last_name) name");
 		$this->db->join('user U', 'U.id_user = P.fk_id_user', 'INNER');
 		$this->db->join('param_jobs X', 'X.id_job = P.fk_id_job', 'INNER');
 

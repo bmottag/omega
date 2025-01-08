@@ -256,7 +256,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="company">Company:</label>
 							<div class="col-sm-5">
-								<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company"] : ""; ?>" <?php echo $deshabilitar; ?>>
+								<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["id_company"] : ""; ?>" <?php echo $deshabilitar; ?>>
 								<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company"] : ""; ?>" disabled>
 							</div>
 						</div>
