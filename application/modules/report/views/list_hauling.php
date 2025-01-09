@@ -54,8 +54,8 @@
 									<th>Truck Type</th>
 									<th>Plate</th>
 									<th>Material Type</th>
-									<th>From Site</th>
-									<th>To Site</th>
+									<th>Job Code/Name</th>
+									<!-- <th>To Site</th> -->
 									<th>Payment</th>
 									<th>Date of Issue</th>
 									<th>Time In</th>
@@ -76,7 +76,7 @@
 									echo "<td>" . $lista['plate'] . "</td>";
 									echo "<td >" . $lista['material'] . "</td>";
 									echo "<td >" . $lista['site_from'] . "</td>";
-									echo "<td >" . $lista['site_to'] . "</td>";
+									// echo "<td >" . $lista['site_to'] . "</td>";
 									echo "<td >" . $lista['payment'] . "</td>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td class='text-center'>" . $lista['time_in'] . "</td>";

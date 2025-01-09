@@ -30,8 +30,8 @@
 								<br><strong>Truck: </strong><?php echo $information ? $information["unit_number"] : ""; ?>
 								<br><strong>Truck Type: </strong><?php echo $information ? $information["truck_type"] : ""; ?>
 								<br><strong>Material Type: </strong><?php echo $information ? $information["material"] : ""; ?>
-								<br><strong>From Site: </strong><?php echo $information ? $information["from"] : ""; ?>
-								<br><strong>To Site: </strong><?php echo $information ? $information["to"] : ""; ?>
+								<br><strong>Job Code/Name: </strong><?php echo $information ? $information["from"] : ""; ?>
+								<!-- <br><strong>To Site: </strong><?php echo $information ? $information["to"] : ""; ?> -->
 								<br><strong>Time In: </strong><?php echo $information ? $information["time_in"] : ""; ?>
 								<br><strong>Payment: </strong><?php echo $information ? $information["payment"] : ""; ?>
 								<br><strong>Comments: </strong><?php echo $information ? $information["comments"] : ""; ?>
