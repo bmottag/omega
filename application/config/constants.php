@@ -115,3 +115,10 @@ defined('ID_NOTIFICATION_WORKORDER_CHANGE')   or define('ID_NOTIFICATION_WORKORD
 defined('ID_MODULE_SERVICE_ORDER')   or define('ID_MODULE_SERVICE_ORDER', 1);
 defined('DASHBOARD_MAINTENANCE_LIST')   or define('DASHBOARD_MAINTENANCE_LIST', 2);
 defined('INSPECTION_LIST_BY_EQUIPMENT_ID')   or define('INSPECTION_LIST_BY_EQUIPMENT_ID', 3);
+//WO STATUS
+defined('ON_FIELD')   or define('ON_FIELD', 0);
+defined('IN_PROGRESS')   or define('IN_PROGRESS', 1);
+defined('REVISED')   or define('REVISED', 2);
+defined('SEND_TO_CLIENT')   or define('SEND_TO_CLIENT', 3);
+defined('CLOSED')   or define('CLOSED', 4);
+defined('ACCOUNTING')   or define('ACCOUNTING', 5);

@@ -35,7 +35,7 @@ class Workorders extends CI_Controller
 		$userRol = $this->session->userdata("rol");
 		$idUser = $this->session->userdata("id");
 		//If it is a BASIC ROLE OR SAFETY&MAINTENACE ROLE, just show the records of the user session
-		if ($userRol == 7 || $userRol == 4) {
+		if ($userRol == ID_ROL_BASIC || $userRol == ID_ROL_SAFETY) {
 			$arrParam["idEmployee"] = $this->session->userdata("id");
 		}
 		$data['workOrderInfo'] = $this->workorders_model->get_workordes_by_idUser($arrParam);
@@ -1046,23 +1046,38 @@ class Workorders extends CI_Controller
 		$data = array();
 
 		$data["idWorkorder"] = $this->input->post('hddIdWorkOrder');
+		$idAcs = $this->input->post('hddIdAcs');
+		$status = $this->input->post('state');
 
 		$msj = "You have added additional information to the Work Order.";
 
 		$arrParam = array(
-			"idWorkorder" => $this->input->post('hddIdWorkOrder'),
+			"idWorkorder" => $data["idWorkorder"],
 			"observation" => $this->input->post('information'),
-			"state" => $this->input->post('state')
+			"state" => $status
 		);
 
 		if ($this->workorders_model->add_workorder_state($arrParam)) {
 			//actualizo el estado del formulario
 			$arrParam = array(
-				"idWorkorder" => $this->input->post('hddIdWorkOrder'),
-				"state" => $this->input->post('state'),
+				"idWorkorder" => $data["idWorkorder"],
+				"state" => $status,
 				"lastMessage" => $this->input->post('information')
 			);
 			$this->workorders_model->update_workorder($arrParam);
+
+			if($status == REVISED && !$idAcs){
+				$arrParam = array('idWorkOrder' => $data["idWorkorder"]);
+				$info['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam); //workorder personal list
+				$info['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam); //workorder material list
+				$info['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam); //workorder invoice list
+				$info['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam); //workorder equipment list
+				$info['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
+				$info['workorderState'] = $this->workorders_model->get_workorder_state($data["idWorkorder"]); //workorder additional information
+				$info['workorder'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
+
+				$this->workorders_model->clone_workorder($info);
+			}
 
 			$data["result"] = true;
 			$data["mensaje"] = $msj;

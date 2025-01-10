@@ -14,9 +14,10 @@ class Workorders_model extends CI_Model
 		//$year = date('Y');
 		//$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));//para filtrar solo los registros del año actual
 
-		$this->db->select('W.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name, C.company_name company, C.id_company');
+		$this->db->select('W.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name, C.company_name company, C.id_company, A.id_acs');
 		$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
+		$this->db->join('acs A', 'A.fk_id_workorder = W.id_workorder', 'LEFT');
 		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 
 		if (array_key_exists("idWorkOrder", $arrDatos)) {
@@ -1476,15 +1477,44 @@ class Workorders_model extends CI_Model
 	 * Delete Expenses
 	 * @since 2/05/2024
 	 */
-		public function deleteExpenses($arrDatos)
-		{
-			$this->db->where(array(
-				'fk_id_workorder' => $arrDatos['fk_id_workorder'],
-				'submodule' => $arrDatos['submodule'],
-				'fk_id_submodule' => $arrDatos['fk_id_submodule']
-			));
-			$query = $this->db->delete('workorder_expense');
-			
-			return $query ? true : false;
+	public function deleteExpenses($arrDatos)
+	{
+		$this->db->where(array(
+			'fk_id_workorder' => $arrDatos['fk_id_workorder'],
+			'submodule' => $arrDatos['submodule'],
+			'fk_id_submodule' => $arrDatos['fk_id_submodule']
+		));
+		$query = $this->db->delete('workorder_expense');
+		
+		return $query ? true : false;
+	}
+
+	/**
+	 * Clone workorder to create Accounting Control Sheet (ACS)
+	 * @since 09/01/2025
+	 */
+	public function clone_workorder($arrData)
+	{
+		$data = array(
+			'fk_id_workorder' => $arrData['workorder'][0]['id_workorder'],
+			'fk_id_user' => $arrData['workorder'][0]['fk_id_user'],
+			'fk_id_job' => $arrData['workorder'][0]['fk_id_job'],
+			'date_issue' => date("Y-m-d G:i:s"),
+			'date' => $arrData['workorder'][0]['date'],
+			'fk_id_company' => $arrData['workorder'][0]['fk_id_company'],
+			'foreman_name_wo' => $arrData['workorder'][0]['foreman_name_wo'],
+			'foreman_movil_number_wo' => $arrData['workorder'][0]['foreman_movil_number_wo'],
+			'foreman_email_wo' => $arrData['workorder'][0]['foreman_email_wo'],
+			'observation' => $arrData['workorder'][0]['observation'],
+			'state' => $arrData['workorder'][0]['state'],
+			'last_message' => $arrData['workorder'][0]['last_message'],
+		);
+		$query = $this->db->insert('acs', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
 		}
+	}
 }

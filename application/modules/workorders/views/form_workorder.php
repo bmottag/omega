@@ -289,6 +289,17 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<textarea id="observation" name="observation" class="form-control" rows="3" <?php echo $deshabilitar; ?> placeholder="Task description"><?php echo $information ? $information[0]["observation"] : ""; ?></textarea>
 								</div>
 							</div>
+
+							<?php if ($information[0]['id_acs']) { ?>
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="taskDescription">ACS :</label>
+									<div class="col-sm-5">
+									<?php
+										echo "<a href='" . base_url('workorders/add_workorder/' . $information[0]['id_acs']) . "'>View Accounting Control Sheet (ACS)</a>";
+									?>
+									</div>
+								</div>
+							<?php } ?>
 						<?php } ?>
 
 						<?php if (!$deshabilitar) { ?>
@@ -388,6 +399,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<div class="col-lg-12">
 							<form name="formState" id="formState" class="form-horizontal" method="post">
 								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information ? $information[0]["id_workorder"] : ""; ?>" />
+								<input type="hidden" id="hddIdAcs" name="hddIdAcs" value="<?php echo $information ? $information[0]["id_acs"] : ""; ?>" />
 
 								<?php
 								/**
