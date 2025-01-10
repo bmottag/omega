@@ -6,7 +6,7 @@ $( document ).ready( function () {
 			truckType: 			{ required: true },
 			materialType: 		{ required: true },
 			fromSite:	 		{ required: true },
-			toSite:				{ required: true },
+			toSite:				{ required: false },
 			hourIn:				{ required: true },
 			hourOut:			{ required: true },
 			payment:			{ required: true },

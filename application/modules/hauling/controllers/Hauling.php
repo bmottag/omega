@@ -30,8 +30,8 @@ class Hauling extends CI_Controller
 		$msj .= "<br><strong>Truck: </strong>" . $infoHauling["unit_number"];
 		$msj .= "<br><strong>Truck Type: </strong>" . $infoHauling["truck_type"];
 		$msj .= "<br><strong>Material Type: </strong>" . $infoHauling["material"];
-		$msj .= "<br><strong>From Site: </strong>" . $infoHauling["from"];
-		$msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
+		$msj .= "<br><strong>Job Code/Name: </strong>" . $infoHauling["from"];
+		// $msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
 		$msj .= "<br><strong>Time In: </strong>" . $infoHauling["time_in"];
 		$msj .= "<br><strong>Time Out: </strong>" . $infoHauling["time_out"];
 		$msj .= "<br><strong>Payment: </strong>" . $infoHauling["payment"];
@@ -375,8 +375,8 @@ class Hauling extends CI_Controller
 		$msj .= "<br><strong>Truck: </strong>" . $infoHauling["unit_number"];
 		$msj .= "<br><strong>Truck Type: </strong>" . $infoHauling["truck_type"];
 		$msj .= "<br><strong>Material Type: </strong>" . $infoHauling["material"];
-		$msj .= "<br><strong>From Site: </strong>" . $infoHauling["from"];
-		$msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
+		$msj .= "<br><strong>Job Code/Name: </strong>" . $infoHauling["from"];
+		// $msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
 		$msj .= "<br><strong>Time In: </strong>" . $infoHauling["time_in"];
 		$msj .= "<br><strong>Time Out: </strong>" . $infoHauling["time_out"];
 		$msj .= "<br><strong>Payment: </strong>" . $infoHauling["payment"];

@@ -29,7 +29,7 @@ class Hauling_model extends CI_Model
 			'fk_id_truck_type' => $this->input->post('truckType'),
 			'fk_id_material' => $this->input->post('materialType'),
 			'fk_id_site_from' => $this->input->post('fromSite'),
-			'fk_id_site_to' => $this->input->post('toSite'),
+			'fk_id_site_to' => $this->input->post('toSite') ?? 0,
 			'plate' => $this->input->post('plate'),
 			'time_in' => $timeIn,
 			'time_out' => $timeOut,

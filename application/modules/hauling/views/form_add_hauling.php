@@ -28,7 +28,7 @@ if ($userRol == 99) {
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('dashboard/hauling'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('dashboard/hauling'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 						<i class="fa fa-truck fa-fw"></i> RECORD TASK(S) - HAULING
 					</h4>
 				</div>
@@ -308,7 +308,7 @@ if ($userRol == 99) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="fromSite">From Site</label>
+								<label class="col-sm-4 control-label" for="fromSite">Job Code/Name</label>
 								<div class="col-sm-5">
 									<select name="fromSite" id="fromSite" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
@@ -321,7 +321,7 @@ if ($userRol == 99) {
 								</div>
 							</div>
 
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="col-sm-4 control-label" for="toSite">To Site</label>
 								<div class="col-sm-5">
 									<select name="toSite" id="toSite" class="form-control js-example-basic-single">
@@ -333,7 +333,7 @@ if ($userRol == 99) {
 										<?php } ?>
 									</select>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="fromSite">Time In</label>
