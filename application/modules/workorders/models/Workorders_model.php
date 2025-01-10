@@ -1510,9 +1510,253 @@ class Workorders_model extends CI_Model
 			'last_message' => $arrData['workorder'][0]['last_message'],
 		);
 		$query = $this->db->insert('acs', $data);
+		$idACS = $this->db->insert_id();
+
+		//Insert Personal
+        if (!empty($arrData['workorderPersonal'])) {
+            foreach ($arrData['workorderPersonal'] as $personal) {
+                $data = array(
+                    'fk_id_acs' => $idACS, 
+                    'fk_id_user' => $personal['fk_id_user'],
+                    'fk_id_employee_type' => $personal['fk_id_employee_type'],
+                    'hours' => $personal['hours'],
+					'rate' => $personal['rate'],
+					'value' => $personal['value'],
+                    'description' => $personal['description'],
+					'view_pdf' => $personal['view_pdf']
+                );
+                $this->db->insert('acs_personal', $data);
+            }
+        }
+
+		//Insert Material
+        if (!empty($arrData['workorderMaterials'])) {
+            foreach ($arrData['workorderMaterials'] as $material) {
+                $data = array(
+                    'fk_id_acs' => $idACS, 
+                    'fk_id_material' => $material['fk_id_material'],
+                    'quantity' => $material['quantity'],
+                    'unit' => $material['unit'],
+					'rate' => $material['rate'],
+					'markup' => $material['markup'],
+                    'value' => $material['value'],
+					'description' => $material['description'],
+					'view_pdf' => $material['view_pdf']
+                );
+                $this->db->insert('acs_materials', $data);
+            }
+        }
+
+		//Insert Receipt
+        if (!empty($arrData['workorderReceipt'])) {
+            foreach ($arrData['workorderReceipt'] as $receipt) {
+                $data = array(
+                    'fk_id_acs' => $idACS, 
+                    'place' => $receipt['place'],
+                    'price' => $receipt['price'],
+                    'markup' => $receipt['markup'],
+                    'value' => $receipt['value'],
+					'description' => $receipt['description'],
+					'view_pdf' => $receipt['view_pdf']
+                );
+                $this->db->insert('acs_receipt', $data);
+            }
+        }
+
+		//Insert Equipment
+        if (!empty($arrData['workorderEquipment'])) {
+            foreach ($arrData['workorderEquipment'] as $equipment) {
+                $data = array(
+                    'fk_id_acs' => $idACS, 
+                    'fk_id_type_2' => $equipment['fk_id_type_2'],
+                    'fk_id_vehicle' => $equipment['fk_id_vehicle'],
+                    'fk_id_attachment' => $equipment['fk_id_attachment'],
+					'fk_id_company' => $equipment['fk_id_company'],
+					'other' => $equipment['other'],
+                    'operatedby' => $equipment['operatedby'],
+                    'hours' => $equipment['hours'],
+                    'quantity' => $equipment['quantity'],
+					'rate' => $equipment['rate'],
+					'standby' => $equipment['standby'],
+                    'value' => $equipment['value'],
+					'description' => $equipment['description'],
+					'view_pdf' => $equipment['view_pdf']
+                );
+                $this->db->insert('acs_equipment', $data);
+            }
+        }
+
+		//Insert Ocasional
+        if (!empty($arrData['workorderOcasional'])) {
+            foreach ($arrData['workorderOcasional'] as $ocasional) {
+                $data = array(
+                    'fk_id_acs' => $idACS, 
+                    'fk_id_company' => $ocasional['fk_id_company'],
+                    'equipment' => $ocasional['equipment'],
+                    'quantity' => $ocasional['quantity'],
+                    'unit' => $ocasional['unit'],
+                    'hours' => $ocasional['hours'],
+                    'rate' => $ocasional['rate'],
+                    'markup' => $ocasional['markup'],
+                    'value' => $ocasional['value'],
+					'contact' => $ocasional['contact'],
+					'description' => $ocasional['description'],
+					'view_pdf' => $ocasional['view_pdf']
+                );
+                $this->db->insert('acs_ocasional', $data);
+            }
+        }
 
 		if ($query) {
 			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * ACS list
+	 * @since 10/01/2025
+	 */
+	public function get_acs($arrDatos)
+	{
+		$this->db->select('W.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name, C.company_name company, C.id_company');
+		$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
+		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
+		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+
+		if (array_key_exists("idACS", $arrDatos)) {
+			$this->db->where('id_acs', $arrDatos["idACS"]);
+		}
+		$this->db->order_by('id_acs', 'desc');
+		$query = $this->db->get('acs W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Get ACS personal info
+	 * @since 10/01/2025
+	 */
+	public function get_acs_personal($arrData)
+	{
+		$this->db->select("W.*, CONCAT(first_name, ' ', last_name) name, T.employee_type");
+		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+		$this->db->join('param_employee_type T', 'T.id_employee_type = W.fk_id_employee_type', 'INNER');
+		if (array_key_exists("idACS", $arrData)) {
+			$this->db->where('W.fk_id_acs', $arrData["idACS"]);
+		}
+		if (array_key_exists("view_pdf", $arrData)) {
+			$this->db->where('W.view_pdf', 1);
+		}
+		$this->db->order_by('U.first_name, U.last_name', 'asc');
+		$query = $this->db->get('acs_personal W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Get ACS materials info
+	 * @since 10/01/2025
+	 */
+	public function get_acs_materials($arrData)
+	{
+		$this->db->select();
+		$this->db->join('param_material_type M', 'M.id_material = W.fk_id_material', 'INNER');
+		if (array_key_exists("idACS", $arrData)) {
+			$this->db->where('W.fk_id_acs', $arrData["idACS"]);
+		}
+		if (array_key_exists("view_pdf", $arrData)) {
+			$this->db->where('W.view_pdf', 1);
+		}
+		$this->db->order_by('M.material', 'asc');
+		$query = $this->db->get('acs_materials W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Get ACS Receipt info
+	 * @since 10/01/2025
+	 */
+	public function get_acs_receipt($arrData)
+	{
+		$this->db->select();
+		if (array_key_exists("idACS", $arrData)) {
+			$this->db->where('W.fk_id_acs', $arrData["idACS"]);
+		}
+		if (array_key_exists("view_pdf", $arrData)) {
+			$this->db->where('W.view_pdf', 1);
+		}
+		$this->db->order_by('W.place', 'asc');
+		$query = $this->db->get('acs_receipt W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Get ACS equipment info
+	 * @since 10/01/2025
+	 */
+	public function get_acs_equipment($arrData)
+	{
+		$this->db->select("W.*, V.make, V.model, V.unit_number, V.description v_description, M.miscellaneous, T.type_2, C.*, CONCAT(U.first_name,' ', U.last_name) as operatedby, A.attachment_number, A.attachment_description");
+		$this->db->join('param_vehicle V', 'V.id_vehicle = W.fk_id_vehicle', 'LEFT');
+		$this->db->join('param_attachments A', 'A.id_attachment = W.fk_id_attachment', 'LEFT');
+		$this->db->join('param_miscellaneous M', 'M.id_miscellaneous = W.fk_id_vehicle', 'LEFT');
+		$this->db->join('user U', 'U.id_user = W.operatedby', 'LEFT');
+		$this->db->join('param_vehicle_type_2 T', 'T.id_type_2 = W.fk_id_type_2', 'INNER');
+		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
+		if (array_key_exists("idACS", $arrData)) {
+			$this->db->where('W.fk_id_acs', $arrData["idACS"]);
+		}
+		if (array_key_exists("view_pdf", $arrData)) {
+			$this->db->where('W.view_pdf', 1);
+		}
+		$query = $this->db->get('acs_equipment W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Get ACS ocasional info
+	 * @since 10/01/2025
+	 */
+	public function get_acs_ocasional($arrData)
+	{
+		$this->db->select('W.*, C.company_name');
+		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
+		if (array_key_exists("idACS", $arrData)) {
+			$this->db->where('W.fk_id_acs', $arrData["idACS"]);
+		}
+		if (array_key_exists("view_pdf", $arrData)) {
+			$this->db->where('W.view_pdf', 1);
+		}
+		$this->db->order_by('C.company_name', 'asc');
+		$query = $this->db->get('acs_ocasional W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
 		} else {
 			return false;
 		}

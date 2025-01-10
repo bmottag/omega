@@ -295,7 +295,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<label class="col-sm-4 control-label" for="taskDescription">ACS :</label>
 									<div class="col-sm-5">
 									<?php
-										echo "<a href='" . base_url('workorders/add_workorder/' . $information[0]['id_acs']) . "'>View Accounting Control Sheet (ACS)</a>";
+										echo "<a href='" . base_url('workorders/view_acs/' . $information[0]['id_acs']) . "'>View Accounting Control Sheet (ACS)</a>";
 									?>
 									</div>
 								</div>

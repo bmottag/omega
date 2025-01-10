@@ -1046,7 +1046,7 @@ class Workorders extends CI_Controller
 		$data = array();
 
 		$data["idWorkorder"] = $this->input->post('hddIdWorkOrder');
-		$idAcs = $this->input->post('hddIdAcs');
+		$idACS = $this->input->post('hddIdAcs');
 		$status = $this->input->post('state');
 
 		$msj = "You have added additional information to the Work Order.";
@@ -1066,16 +1066,14 @@ class Workorders extends CI_Controller
 			);
 			$this->workorders_model->update_workorder($arrParam);
 
-			if($status == REVISED && !$idAcs){
+			if($status == REVISED && !$idACS){
 				$arrParam = array('idWorkOrder' => $data["idWorkorder"]);
+				$info['workorder'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
 				$info['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam); //workorder personal list
 				$info['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam); //workorder material list
 				$info['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam); //workorder invoice list
 				$info['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam); //workorder equipment list
 				$info['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
-				$info['workorderState'] = $this->workorders_model->get_workorder_state($data["idWorkorder"]); //workorder additional information
-				$info['workorder'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
-
 				$this->workorders_model->clone_workorder($info);
 			}
 
@@ -1994,8 +1992,6 @@ class Workorders extends CI_Controller
 	 */
 	public function foreman_view($id)
 	{
-		$this->load->model("general_model");
-
 		$arrParam = array('idWorkOrder' => $id);
 		$data['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam); //workorder personal list
 		$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam); //workorder material list
@@ -2599,5 +2595,24 @@ class Workorders extends CI_Controller
 		}
 
 		redirect(base_url('workorders/workorder_expenses/' . $idWorkOrder), 'refresh');
+	}
+
+	/**
+	 * View info WOrk order to asign rate
+	 * @since 21/2/2017
+	 * @author BMOTTAG
+	 */
+	public function view_acs($idACS)
+	{
+		$arrParam = array('idACS' => $idACS);
+		$data['acs_info'] = $this->workorders_model->get_acs($arrParam);
+		$data['acsPersonal'] = $this->workorders_model->get_acs_personal($arrParam);
+		$data['acsMaterials'] = $this->workorders_model->get_acs_materials($arrParam);
+		$data['acsReceipt'] = $this->workorders_model->get_acs_receipt($arrParam);
+		$data['acsEquipment'] = $this->workorders_model->get_acs_equipment($arrParam);
+		$data['acsOcasional'] = $this->workorders_model->get_acs_ocasional($arrParam);
+
+		$data["view"] = 'acs_view';
+		$this->load->view("layout", $data);
 	}
 }
