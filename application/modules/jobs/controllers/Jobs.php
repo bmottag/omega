@@ -30,7 +30,7 @@ class Jobs extends CI_Controller
 
 		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
-		$data["view"] = 'jobs_list';
+		$data["view"] = 'jobs_safety_list';
 		$this->load->view("layout_calendar", $data);
 	}
 
@@ -3443,5 +3443,28 @@ class Jobs extends CI_Controller
 		//============================================================+
 		// END OF FILE
 		//============================================================+
+	}
+
+	/**
+	 * Job LIC list
+	 * @since 11/01/2025
+	 * @author BMOTTAG
+	 */
+	public function job_lic_list()
+	{
+		$this->load->model("general_model");
+		//job´s list - (active´s items)
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "state",
+			"id" => 1
+		);
+		$data['info'] = $this->general_model->get_basic_search($arrParam);
+
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
+
+		$data["view"] = 'jobs_lic_list';
+		$this->load->view("layout_calendar", $data);
 	}
 }

@@ -7,7 +7,7 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<a class="btn btn-info btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
-					<i class="fa fa-briefcase"></i> JOBS INFO
+					<i class="fa fa-life-saver"></i> SAFETY
 				</div>
 				<div class="panel-body">
 
@@ -19,7 +19,6 @@
 							<tr>
 								<th class="text-center">Job Code/Name</th>
 								<th class="text-center">Links</th>
-								<th class="text-center">Actions</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -105,22 +104,6 @@
 								</div>
 
 						<?php
-								echo "</td>";
-								echo "<td class='text-center'>";
-								if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
-						?>
-								<div class="pull-right">
-									<div class="btn-group">
-										<a class='btn btn-default btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>
-											View Job Details <span class="fa fa-list fa-fw" aria-hidden="true">
-										</a>
-									</div>
-								</div>
-						<?php
-								}
-						?>
-
-						<?php
 									echo "</td>";
 							endforeach;
 						?>
@@ -128,15 +111,10 @@
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 
 <!-- Tables -->
