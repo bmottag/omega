@@ -13,13 +13,23 @@ class Incidences extends CI_Controller {
      * @since 17/3/2017
      * @author BMOTTAG
 	 */
-	public function near_miss()
+	public function near_miss($idJob)
 	{		
-			$arrParam = array();
-			$data['nearMissInfo'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+		$this->load->model("general_model");
+		//job info
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "id_job",
+			"id" => $idJob
+		);
+		$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
 
-			$data["view"] ='near_miss_list';
-			$this->load->view("layout", $data);
+		$arrParam = array("jobId" => $idJob);
+		$data['nearMissInfo'] = $this->incidences_model->get_near_miss_by_idUser($arrParam);
+
+		$data["view"] ='near_miss_list';
+		$this->load->view("layout", $data);
 	}
 
 	/**
@@ -27,12 +37,21 @@ class Incidences extends CI_Controller {
      * @since 17/3/2017
      * @author BMOTTAG
 	 */
-	public function add_near_miss($id = 'x')
+	public function add_near_miss($idJob, $id = 'x')
 	{
 			$data['information'] = FALSE;
 			$data['deshabilitar'] = '';
 			
 			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
 			//incident type list
 			$arrParam = array(
 				"table" => "param_incident_type",
@@ -92,6 +111,7 @@ class Incidences extends CI_Controller {
 			$data = array();
 			
 			$idReport = $this->input->post('hddIdentificador');
+			$data["idJob"] = $this->input->post('jobName');
 
 			if ($idNearmiss = $this->incidences_model->add_near_miss()) {
 				
@@ -157,7 +177,7 @@ class Incidences extends CI_Controller {
      * @since 15/5/2017
      * @author BMOTTAG
 	 */
-	public function add_signature($incidencesType, $userType, $idFormulario, $idPersonal = 'x' )
+	public function add_signature($incidencesType, $userType, $idJob, $idFormulario, $idPersonal = 'x' )
 	{
 			if (empty($incidencesType) ||empty($userType) || empty($idFormulario) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -178,7 +198,7 @@ class Incidences extends CI_Controller {
 					);
 					$this->load->model("general_model");
 					$updateColumSignature = $this->general_model->updateRecord($arrParam);
-					$data['linkBack'] = "incidences/add_incident/" . $idFormulario;
+					$data['linkBack'] = "incidences/add_incident/" . $idJob . "/" . $idFormulario;
 				}else{
 					//update signature with the name of de file
 					//para firmas de CORDINADORES Y SUPERVISORES
@@ -195,7 +215,7 @@ class Incidences extends CI_Controller {
 					);
 					$updateColumSignature = $this->incidences_model->updateInfoSignature($arrParam);
 				}
-				$data['linkBack'] = "incidences/add_" . $incidencesType . "/" . $idFormulario;
+				$data['linkBack'] = "incidences/add_" . $incidencesType . "/" . $idJob. "/" . $idFormulario;
 				
 				$data_uri = $this->input->post("image");
 				$encoded_image = explode(",", $data_uri)[1];
@@ -291,13 +311,23 @@ class Incidences extends CI_Controller {
      * @since 15/5/2017
      * @author BMOTTAG
 	 */
-	public function incident()
-	{		
-			$arrParam = array();
-			$data['incidentInfo'] = $this->incidences_model->get_incident_by($arrParam);
+	public function incident($idJob)
+	{
+		$this->load->model("general_model");
+		//job info
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "id_job",
+			"id" => $idJob
+		);
+		$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+		
+		$arrParam = array("jobId" => $idJob);
+		$data['incidentInfo'] = $this->incidences_model->get_incident_by($arrParam);
 
-			$data["view"] ='incident_list';
-			$this->load->view("layout", $data);
+		$data["view"] ='incident_list';
+		$this->load->view("layout", $data);
 	}
 
 	/**
@@ -305,12 +335,21 @@ class Incidences extends CI_Controller {
      * @since 15/5/2017
      * @author BMOTTAG
 	 */
-	public function add_incident($id = 'x')
+	public function add_incident($idJob, $id = 'x')
 	{
 			$data['information'] = FALSE;
 			$data['deshabilitar'] = '';
 			
 			$this->load->model("general_model");
+			//job info
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
 			//incident type list
 			$arrParam = array(
 				"table" => "param_incident_type",
@@ -369,6 +408,7 @@ class Incidences extends CI_Controller {
 			$data = array();
 			
 			$idReport = $this->input->post('hddIdentificador');
+			$data["idJob"] = $this->input->post('jobName');
 
 			if ($idIncident = $this->incidences_model->add_incident()) {
 				
