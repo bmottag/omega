@@ -133,7 +133,7 @@ $( document ).ready( function () {
 							$("#div_guardado").css("display", "inline");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "incidences/add_near_miss/" + data.idNearmiss;
+							var url = base_url + "incidences/add_near_miss/" + data.idJob + "/" + data.idNearmiss;
 							$(location).attr("href", url);
 						}
 						else

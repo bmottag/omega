@@ -26,6 +26,9 @@
 				if (array_key_exists("idEmployee", $arrDatos)) {
 					$this->db->where('w.fk_id_user', $arrDatos["idEmployee"]);
 				}
+				if (array_key_exists("jobId", $arrDatos)) {
+					$this->db->where('fk_id_job =', $arrDatos["jobId"]);
+				}
 				
 				$this->db->where('W.date_issue >=', $firstDay);
 				
@@ -139,6 +142,9 @@
 				}
 				if (array_key_exists("idEmployee", $arrDatos)) {
 					$this->db->where('W.fk_id_user', $arrDatos["idEmployee"]);
+				}
+				if (array_key_exists("jobId", $arrDatos)) {
+					$this->db->where('fk_id_job =', $arrDatos["jobId"]);
 				}
 				
 				$this->db->where('W.date_issue >=', $firstDay);

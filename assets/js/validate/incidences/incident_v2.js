@@ -121,7 +121,7 @@ $(document).ready(function () {
 						$("#div_guardado").css("display", "inline");
 						$("#btnSubmit").removeAttr("disabled");
 
-						var url = base_url + "incidences/add_incident/" + data.idRecord;
+						var url = base_url + "incidences/add_incident/" + data.idJob + "/" + data.idRecord;
 						$(location).attr("href", url);
 					} else {
 						alert("Error. Reload the web page.");

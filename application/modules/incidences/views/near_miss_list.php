@@ -6,10 +6,17 @@
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url() . 'jobs'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<i class="fa fa-ambulance"></i> <strong>INCIDENCES</strong> - NEAR MISS REPORT
 				</div>
 				<div class="panel-body">
-					<a class='btn btn-outline btn-info btn-block' href='<?php echo base_url('incidences/add_near_miss/') ?>'>
+
+					<div class="alert alert-info">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
+						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
+					</div>	
+
+					<a class='btn btn-outline btn-info btn-block' href='<?php echo base_url('incidences/add_near_miss/' . $jobInfo[0]['id_job']) ?>'>
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Add a Near Miss Report
 					</a>
 					
@@ -45,7 +52,7 @@
 									
 									if($lista['state_incidence']==1){
 						?>
-									<a class='btn btn-success btn-xs' href='<?php echo base_url('incidences/add_near_miss/' . $lista['id_near_miss']) ?>'>
+									<a class='btn btn-success btn-xs' href='<?php echo base_url('incidences/add_near_miss/' . $lista['fk_id_job'] . '/' . $lista['id_near_miss']) ?>'>
 											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</a>								
 						<?php

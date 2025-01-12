@@ -22,19 +22,26 @@
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<a class="btn btn-info btn-xs" href=" <?php echo base_url().'incidences/near_miss'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url('incidences/near_miss/'  . $jobInfo[0]['id_job']); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-ambulance"></i> <strong>INCIDENCES</strong> - NEAR MISS REPORT
 				</div>
 				<div class="panel-body">
+
+					<div class="alert alert-info">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
+						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
+					</div>	
 
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
+	<div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-success ">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<?php echo $retornoExito ?>		
+			</div>
 		</div>
 	</div>
     <?php
@@ -43,10 +50,12 @@ if ($retornoExito) {
 $retornoError = $this->session->flashdata('retornoError');
 if ($retornoError) {
     ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
+	<div class="row">
+		<div class="col-lg-12">	
+			<div class="alert alert-danger ">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<?php echo $retornoError ?>
+			</div>
 		</div>
 	</div>
     <?php
@@ -97,7 +106,7 @@ if($information[0]["supervisor_signature"]){
 	}
 	?>
 
-	<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/near_miss/supervisor/" . $information[0]["id_near_miss"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Supervisor Signature </a>
+	<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/near_miss/supervisor/".  $information[0]["fk_id_job"] . "/" . $information[0]["id_near_miss"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Supervisor Signature </a>
 
 									</div>
 								</div>
@@ -147,7 +156,7 @@ if($information[0]["coordinator_signature"]){
 }
 ?>
 
-<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/near_miss/coordinator/" . $information[0]["id_near_miss"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Coordinator Signature </a>
+<a class="btn <?php echo $class; ?>" href="<?php echo base_url("incidences/add_signature/near_miss/coordinator/" .  $information[0]["fk_id_job"] . "/" . $information[0]["id_near_miss"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Coordinator Signature </a>
 
 							
 									</div>
@@ -171,7 +180,7 @@ if($information[0]["coordinator_signature"]){
 							<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 								<option value=''>Select...</option>
 								<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-									<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+									<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($jobInfo[0]['id_job'] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 								<?php } ?>
 							</select>
 						</div>
