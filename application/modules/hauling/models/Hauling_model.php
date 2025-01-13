@@ -29,7 +29,7 @@ class Hauling_model extends CI_Model
 			'fk_id_truck_type' => $this->input->post('truckType'),
 			'fk_id_material' => $this->input->post('materialType'),
 			'fk_id_site_from' => $this->input->post('fromSite'),
-			'fk_id_site_to' => $this->input->post('toSite') ?? 0,
+			'fk_id_site_to' => $this->input->post('toSite'),
 			'plate' => $this->input->post('plate'),
 			'time_in' => $timeIn,
 			'time_out' => $timeOut,
@@ -120,5 +120,28 @@ class Hauling_model extends CI_Model
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Trucks´list by company
+	 * @since 12/12/2016
+	 */
+	public function get_wo_job_code($jobCode)
+	{
+		$wos = array();
+		$sql = "SELECT * FROM workorder WHERE date >= CURDATE() - INTERVAL 5 DAY AND state = 0 AND fk_id_job = $jobCode;";
+		//pr($sql); exit;
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			$i = 0;
+			foreach ($query->result() as $row) {
+				$wos[$i]["id_workorder"] = $row->id_workorder;
+				$wos[$i]["observation"] = $row->observation;
+				$i++;
+			}
+		}
+		$this->db->close();
+		return $wos;
 	}
 }

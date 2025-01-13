@@ -30,7 +30,7 @@
 									<th class='text-center'>Truck - Unit Number</th>
 									<th class='text-center'>Truck Type</th>
 									<th class='text-center'>Material Type</th>
-									<th class='text-center'>From Site</th>
+									<th class='text-center'>Job Code/Name</th>
 									<th class='text-center'>To Site</th>
 									<th class='text-center'>Payment</th>
 									<th class='text-center'>Time In</th>
