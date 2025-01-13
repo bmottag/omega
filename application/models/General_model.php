@@ -2265,6 +2265,7 @@ class General_model extends CI_Model
 	public function get_job($arrData)
 	{
 		$this->db->join('param_company C', 'C.id_company = J.fk_id_company', 'LEFT');
+		$this->db->join('param_company_foreman F', 'F.fk_id_job = J.id_job', 'LEFT');
 		if (array_key_exists("idJob", $arrData)) {
 			$this->db->where('J.id_job', $arrData["idJob"]);
 		}

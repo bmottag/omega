@@ -8,7 +8,9 @@ $( document ).ready( function () {
 			jobName: 			{ required: true, minlength: 4, maxlength:100 },
 			company: 			{ required: true },
 			markup: 			{ required: true, minlength: 1, maxlength:2 },
-			stateJob: 			{ required: true }
+			stateJob: 			{ required: true },
+			foreman: 			{ minlength: 6, maxlength:70 },
+			email: 				{ email: true, maxlength:70 },
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
