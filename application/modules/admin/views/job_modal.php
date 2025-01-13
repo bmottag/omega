@@ -15,6 +15,7 @@
 	<p class="text-danger text-left">Fields with * are required.</p>
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_job"]:""; ?>"/>
+		<input type="hidden" id="hddIdForeman" name="hddIdForeman" value="<?php echo $information?$information[0]["id_company_foreman"]:""; ?>"/>
 
 		<div class="row">
 			<div class="col-sm-6">
@@ -99,6 +100,37 @@
 						<option value='1' <?php if($information && $information[0]["planning_message"] == '1') { echo "selected"; }  ?>>Yes</option>
 					</select>
 				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="jobCode">Foreman's name: </label>
+					<input type="text" id="foreman" name="foreman" class="form-control" value="<?php echo $information?$information[0]["foreman_name"]:""; ?>" placeholder="Foreman's name" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="jobName">Foreman's mobile number:</label>
+					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["foreman_movil_number"]:""; ?>" placeholder="Foreman's mobile number" >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="jobCode">Foreman's email: </label>
+					<input type="text" id="email" name="email" class="form-control" value="<?php echo $information?$information[0]["foreman_email"]:""; ?>" placeholder="Foreman's email" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+
 			</div>
 		</div>
 						

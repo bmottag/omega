@@ -458,13 +458,8 @@ class Admin extends CI_Controller
 		$data['companyList'] = $this->general_model->get_basic_search($arrParam);
 
 		if ($data["idJob"] != 'x') {
-			$arrParam = array(
-				"table" => "param_jobs",
-				"order" => "id_job",
-				"column" => "id_job",
-				"id" => $data["idJob"]
-			);
-			$data['information'] = $this->general_model->get_basic_search($arrParam);
+			$arrParam['idJob'] = $data["idJob"];
+			$data['information'] = $this->general_model->get_job($arrParam);
 		}
 
 		$this->load->view("job_modal", $data);
@@ -502,6 +497,12 @@ class Admin extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The Job Code already exist.');
 		} else {
 			if ($idJob = $this->admin_model->saveJob()) {
+				$nameForeman = $this->input->post('foreman');
+
+				if ($nameForeman != '') {
+					$this->admin_model->save_foreman($idJob);
+				}
+
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {

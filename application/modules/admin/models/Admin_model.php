@@ -67,12 +67,13 @@ class Admin_model extends CI_Model
 		//revisar si es para adicionar o editar
 		if ($idJob == '') {
 			$query = $this->db->insert('param_jobs', $data);
+			$idJob = $this->db->insert_id();
 		} else {
 			$this->db->where('id_job', $idJob);
 			$query = $this->db->update('param_jobs', $data);
 		}
 		if ($query) {
-			return true;
+			return $idJob;
 		} else {
 			return false;
 		}
@@ -788,7 +789,6 @@ class Admin_model extends CI_Model
 	 */
 	public function get_attachments_equipment($arrDatos)
 	{
-
 		if (array_key_exists("relation", $arrDatos)) {
 			$this->db->select('P.fk_id_equipment');
 		} else {
@@ -803,6 +803,36 @@ class Admin_model extends CI_Model
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Informacion del foreman
+	 * @since 13/01/2025
+	 */
+	public function save_foreman($idJob)
+	{
+		$idForeman = $this->input->post('hddIdForeman');
+
+		$data = array(
+			'foreman_name' => $this->input->post('foreman'),
+			'foreman_movil_number' => $this->input->post('movilNumber'),
+			'foreman_email' => $this->input->post('email')
+		);
+
+		//revisar si es para adicionar o editar
+		if ($idForeman == '') {
+			$data['fk_id_job'] = $idJob;
+			$data['fk_id_param_company'] = $this->input->post('company');
+			$query = $this->db->insert('param_company_foreman', $data);
+		} else {
+			$this->db->where('id_company_foreman', $idForeman);
+			$query = $this->db->update('param_company_foreman', $data);
+		}
+		if ($query) {
+			return true;
 		} else {
 			return false;
 		}
