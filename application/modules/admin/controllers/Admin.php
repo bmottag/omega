@@ -476,7 +476,9 @@ class Admin extends CI_Controller
 		$data = array();
 
 		$idJob = $this->input->post('hddId');
-		$job_code = $this->input->post('jobCode');
+		$jobCode = trim($this->security->xss_clean($this->input->post('jobCode')));
+		$jobName = trim($this->security->xss_clean($this->input->post('jobName')));
+		$jobDescription = $jobCode . " " . $jobName;
 
 		$msj = "You have added a new job!!";
 		if ($idJob != '') {
@@ -496,11 +498,27 @@ class Admin extends CI_Controller
 			$data["mensaje"] = " Error. The Job Code already exist.";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The Job Code already exist.');
 		} else {
-			if ($idJob = $this->admin_model->saveJob()) {
-				$nameForeman = $this->input->post('foreman');
+			if ($idJobSaved = $this->admin_model->saveJob()) {
+				//If it is a new JOB, then send text messague to SAFETY USER
+				if ($idJob == '') {
+					//revisar si se envia mensaje de texto y a quien se le envia
+					$arrParam = array("idNotification" => ID_NOTIFICATION_NEW_JOB);
+					$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
 
+					if($configuracionAlertas){
+						//mensaje de texto
+						$mensajeSMS = "NEW JOB APP-VCI";
+						$mensajeSMS .= "\nFor your records, a new Job Code has been created in the system.";
+						$mensajeSMS .= "\nJob Code/Name: " . $jobDescription;
+
+						$this->sendNotifications($configuracionAlertas, $mensajeSMS);
+					}
+				}
+
+				//save info FOREMAN
+				$nameForeman = $this->input->post('foreman');
 				if ($nameForeman != '') {
-					$this->admin_model->save_foreman($idJob);
+					$this->admin_model->save_foreman($idJobSaved);
 				}
 
 				$data["result"] = true;
@@ -1937,4 +1955,57 @@ class Admin extends CI_Controller
 			}
 		}
 	}
+
+    /**
+     * Notifications
+     * @author BMOTTAG
+     * @since  14/01/2025
+     */
+    public function sendNotifications($configuracionAlertas, $mensajeSMS) 
+	{
+		//configuracion para envio de mensaje de texto
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		//busco datos parametricos twilio
+		$arrParam = array(
+			"table" => "parametric",
+			"order" => "id_parametric",
+			"id" => "x"
+		);
+		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
+		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
+		$twilioPhone = $parametric[5]["value"];
+	
+		$client = new Twilio\Rest\Client($dato1, $dato2);
+
+		foreach($configuracionAlertas as $envioAlerta):
+			//envio mensaje de texto
+			if($envioAlerta['movil'])
+			{ 
+				$to = '+1' . $envioAlerta['movil'];
+
+
+				echo $twilioPhone;
+				echo "<br>";
+				echo $mensajeSMS;
+
+				/*
+
+				$client->messages->create(
+					$to,
+					array(
+						'from' => $twilioPhone,
+						'body' => $mensajeSMS
+					)
+				);
+				
+				*/
+			}
+
+		endforeach;
+		return true;
+	}
+
 }
