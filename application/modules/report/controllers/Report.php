@@ -940,6 +940,8 @@ class Report extends CI_Controller
 							<tr>
 								<th bgcolor="#337ab7" style="color:white;"><strong>Job Code/Name: </strong></th>
 								<th>' . $lista['site_from'] . '</th>
+								<th bgcolor="#337ab7" style="color:white;"><strong>To Site: </strong></th>
+								<th>' . $lista['site_to'] . '</th>
 							</tr>
 							<tr>
 								<th bgcolor="#337ab7" style="color:white;"><strong>Time In: </strong></th>
@@ -2518,12 +2520,12 @@ class Report extends CI_Controller
 				->setCellValue('F' . $j, $data['plate'])
 				->setCellValue('G' . $j, $data['material'])
 				->setCellValue('H' . $j, $data['site_from'])
-				// ->setCellValue('I' . $j, $data['site_to'])
-				->setCellValue('I' . $j, $data['payment'])
-				->setCellValue('J' . $j, $data['date_issue'])
-				->setCellValue('K' . $j, $data['time_in'])
-				->setCellValue('L' . $j, $data['time_out'])
-				->setCellValue('M' . $j, $data['comments']);
+				->setCellValue('I' . $j, $data['site_to'])
+				->setCellValue('J' . $j, $data['payment'])
+				->setCellValue('K' . $j, $data['date_issue'])
+				->setCellValue('L' . $j, $data['time_in'])
+				->setCellValue('M' . $j, $data['time_out'])
+				->setCellValue('N' . $j, $data['comments']);
 			$j++;
 		endforeach;
 
@@ -2540,8 +2542,8 @@ class Report extends CI_Controller
 		$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
 		$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
 		$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-		$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(100);
-		// $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(100);
+		$spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(50);
+		$spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(100);
 
 		// Add conditional formatting
 		$spreadsheet->getActiveSheet()->getStyle('A1:N1')->getFont()->setSize(11);

@@ -31,7 +31,7 @@ class Hauling extends CI_Controller
 		$msj .= "<br><strong>Truck Type: </strong>" . $infoHauling["truck_type"];
 		$msj .= "<br><strong>Material Type: </strong>" . $infoHauling["material"];
 		$msj .= "<br><strong>Job Code/Name: </strong>" . $infoHauling["from"];
-		// $msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
+		$msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
 		$msj .= "<br><strong>Time In: </strong>" . $infoHauling["time_in"];
 		$msj .= "<br><strong>Time Out: </strong>" . $infoHauling["time_out"];
 		$msj .= "<br><strong>Payment: </strong>" . $infoHauling["payment"];
@@ -376,7 +376,7 @@ class Hauling extends CI_Controller
 		$msj .= "<br><strong>Truck Type: </strong>" . $infoHauling["truck_type"];
 		$msj .= "<br><strong>Material Type: </strong>" . $infoHauling["material"];
 		$msj .= "<br><strong>Job Code/Name: </strong>" . $infoHauling["from"];
-		// $msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
+		$msj .= "<br><strong>To Site: </strong>" . $infoHauling["to"];
 		$msj .= "<br><strong>Time In: </strong>" . $infoHauling["time_in"];
 		$msj .= "<br><strong>Time Out: </strong>" . $infoHauling["time_out"];
 		$msj .= "<br><strong>Payment: </strong>" . $infoHauling["payment"];
@@ -421,5 +421,23 @@ class Hauling extends CI_Controller
 		send_notification($arrParam);
 
 		return true;
+	}
+
+	/**
+	 * Work Order list
+	 * @since 9/1/2025
+	 * @author BMOTTAG
+	 */
+	public function woList()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+		$jobCode = $this->input->post('jobCode');
+		$list = $this->hauling_model->get_wo_job_code($jobCode);
+		echo "<option value=''>Select...</option>";
+		if ($list) {
+			foreach ($list as $fila) {
+				echo "<option value='" . $fila["id_workorder"] . "' >" . $fila["id_workorder"] . " - " . $fila["observation"] . "</option>";
+			}
+		}
 	}
 }

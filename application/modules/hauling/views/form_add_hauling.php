@@ -321,7 +321,7 @@ if ($userRol == 99) {
 								</div>
 							</div>
 
-							<!-- <div class="form-group">
+							<div class="form-group">
 								<label class="col-sm-4 control-label" for="toSite">To Site</label>
 								<div class="col-sm-5">
 									<select name="toSite" id="toSite" class="form-control js-example-basic-single">
@@ -333,7 +333,7 @@ if ($userRol == 99) {
 										<?php } ?>
 									</select>
 								</div>
-							</div> -->
+							</div>
 
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="fromSite">Time In</label>
