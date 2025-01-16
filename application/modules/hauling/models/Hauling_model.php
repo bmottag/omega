@@ -13,6 +13,13 @@ class Hauling_model extends CI_Model
 		$idUser = $this->session->userdata("id");
 		$idHauling = $this->input->post('hddId');
 
+		if ($idHauling != '') {
+			$sql = "SELECT fk_id_submodule FROM hauling WHERE id_hauling = $idHauling";
+			$query = $this->db->query($sql);
+			$result = $query->row_array();
+			$fk_id_submodule = $result['fk_id_submodule'];
+		}
+
 		$hourIn = $this->input->post('hourIn');
 		$hourOut = $this->input->post('hourOut');
 
@@ -21,6 +28,139 @@ class Hauling_model extends CI_Model
 
 		$timeIn = $hourIn . ":" . $this->input->post('minIn');
 		$timeOut = $hourOut . ":" . $this->input->post('minOut');
+
+		$id_work_order = ($this->input->post('id_work_order') == '') ? null : $this->input->post('id_work_order');
+
+		if ($id_work_order == 1) {
+			$data = array(
+				'date' => date("Y-m-d"),
+				'fk_id_job' => $this->input->post('fromSite'),
+				'observation' => $this->input->post('comments'),
+				'state' => 0,
+				'last_message' => 'A new Work Order was created from the Hauling',
+				'fk_id_user' => $idUser,
+				'date_issue' => date("Y-m-d G:i:s"),
+				'fk_id_company' => $this->input->post('company'),
+			);
+
+			$query = $this->db->insert('workorder', $data);
+			$id_work_order = $this->db->insert_id();
+
+			$data = array(
+				'fk_id_workorder' => $id_work_order,
+				'fk_id_user' => $idUser,
+				'date_issue' => date("Y-m-d G:i:s"),
+				'observation' => 'A new Work Order was created from the Hauling',
+				'state' => 0
+			);
+
+			$query = $this->db->insert('workorder_state', $data);
+		} else {
+			$id_work_order = $this->input->post('list_work_order');
+
+			$data = array(
+				'date' => date("Y-m-d"),
+				'fk_id_job' => $this->input->post('fromSite'),
+				'observation' => $this->input->post('comments'),
+				'state' => 0,
+				'last_message' => 'A new Work Order was created from the Hauling',
+				'fk_id_user' => $idUser,
+				'date_issue' => date("Y-m-d G:i:s"),
+				'fk_id_company' => $this->input->post('company'),
+			);
+			$this->db->where('id_workorder', $id_work_order);
+			$query = $this->db->update('workorder', $data);
+		}
+
+		$minIn = (int)$this->input->post('minIn');
+		$minOut = (int)$this->input->post('minOut');
+		// Asegurarse de que las horas y minutos estén en el rango adecuado
+		if (
+			$hourIn < 0 || $hourIn > 23 || $minIn < 0 || $minIn > 59 ||
+			$hourOut < 0 || $hourOut > 23 || $minOut < 0 || $minOut > 59
+		) {
+			echo "Error: Las horas deben estar entre 0-23 y los minutos entre 0-59.";
+			return;
+		}
+
+		// Convertir todo a minutos
+		$totalMinutesIn = ($hourIn * 60) + $minIn;
+		$totalMinutesOut = ($hourOut * 60) + $minOut;
+
+		// Calcular la diferencia en minutos
+		$differenceInMinutes = $totalMinutesOut - $totalMinutesIn;
+
+		// Asegurarse de que la diferencia no sea negativa
+		if ($differenceInMinutes < 0) {
+			echo "Error: La hora de salida no puede ser anterior a la hora de entrada.";
+			return;
+		}
+
+		// Convertir la diferencia a horas fraccionarias
+		$fractionalHours = $differenceInMinutes / 60.0; // Dividir por 60 para obtener horas
+
+		// Redondear a dos decimales si es necesario
+		$fractionalHours = round($fractionalHours, 2);
+
+		if ($this->input->post('company') == 1) {
+			$dataEquipment = array(
+				'fk_id_workorder' => $id_work_order,
+				'fk_id_type_2' => 10,
+				'fk_id_vehicle' => $this->input->post('truck'),
+				'fk_id_attachment' => null,
+				'other' => null,
+				'operatedby' => $idUser,
+				'hours' => $fractionalHours,
+				'quantity' => 1,
+				'standby' => 2,
+				'description' => $this->input->post('comments'),
+			);
+
+			if ($idHauling == '') {
+				$query = $this->db->insert('workorder_equipment', $dataEquipment);
+				$fk_id_submodule = $this->db->insert_id();
+			} else {
+				$this->db->where('id_workorder_equipment', $fk_id_submodule);
+				$query = $this->db->update('workorder_equipment', $dataEquipment);
+			}
+		} else {
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_company",
+				"order" => "company_name",
+				"column" => "id_company",
+				"id" => $this->input->post('company')
+			);
+			$contact = $this->general_model->get_basic_search($arrParam); //company list
+
+			//truckType´s list
+			$arrParam = array(
+				"table" => "param_truck_type",
+				"order" => "truck_type",
+				"column" => "id_truck_type",
+				"id" => $this->input->post('truckType')
+			);
+			$equipment = $this->general_model->get_basic_search($arrParam);
+
+			$dataOccasional = array(
+				'fk_id_workorder' => $id_work_order,
+				'fk_id_company' => $this->input->post('company'),
+				'equipment' => $equipment[0]['truck_type'],
+				'quantity' => 1,
+				'unit' => $this->input->post('plate'),
+				'hours' => $fractionalHours,
+				'contact' => $contact[0]['contact'],
+				'description' => $this->input->post('comments'),
+			);
+
+			if ($idHauling == '') {
+				$query = $this->db->insert('workorder_ocasional', $dataOccasional);
+				$fk_id_submodule = $this->db->insert_id();
+			} else {
+				$this->db->where('id_workorder_ocasional', $fk_id_submodule);
+				$query = $this->db->update('workorder_ocasional', $dataOccasional);
+			}
+		}
 
 		$data = array(
 			'fk_id_user' => $idUser,
@@ -34,9 +174,10 @@ class Hauling_model extends CI_Model
 			'time_in' => $timeIn,
 			'time_out' => $timeOut,
 			'fk_id_payment' => $this->input->post('payment'),
-			'comments' => $this->input->post('comments')
+			'comments' => $this->input->post('comments'),
+			'fk_id_workorder' => $id_work_order,
+			'fk_id_submodule' => $fk_id_submodule,
 		);
-
 
 		//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
 		$userRol = $this->session->rol;
@@ -130,7 +271,6 @@ class Hauling_model extends CI_Model
 	{
 		$wos = array();
 		$sql = "SELECT * FROM workorder WHERE date >= CURDATE() - INTERVAL 5 DAY AND state = 0 AND fk_id_job = $jobCode;";
-		//pr($sql); exit;
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0) {
@@ -143,5 +283,26 @@ class Hauling_model extends CI_Model
 		}
 		$this->db->close();
 		return $wos;
+	}
+
+	/**
+	 * ID WorkOrder by job code
+	 * @since 12/12/2016
+	 */
+	public function list_by_job_code($jobCode)
+	{
+		$sql = "SELECT * FROM hauling WHERE fk_id_site_from = $jobCode AND DATE(date_issue) = CURDATE()";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			$result = $query->row_array();
+			$fk_id_workorder = $result['fk_id_workorder'];
+		} else {
+			$fk_id_workorder = 0;
+		}
+
+		$this->db->close();
+		return $fk_id_workorder;
 	}
 }
