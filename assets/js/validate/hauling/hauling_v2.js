@@ -10,10 +10,15 @@ $( document ).ready( function () {
 			hourIn:				{ required: true },
 			hourOut:			{ required: true },
 			payment:			{ required: true },
-			plate: 				{ minlength: 3, maxlength:15 }
+			plate: { minlength: 3, maxlength: 15 },
+			list_work_order: {
+				required: function() {
+					return $("#id_work_order").val() == "2";
+				}
+			}
 		},
 		errorElement: "em",
-		errorPlacement: function ( error, element ) {
+		errorPlacement: function (error, element) {
 			// Add the `help-block` class to the error element
 			error.addClass( "help-block" );
 			error.insertAfter( element );
@@ -84,7 +89,7 @@ $( document ).ready( function () {
 
 	$("#btnSubmit").click(function(){
 
-		if ($("#form").valid() == true){
+		if ($("#form").valid() == true) {
 
 			//Activa icono guardando
 			$('#btnSubmit').attr('disabled','-1');

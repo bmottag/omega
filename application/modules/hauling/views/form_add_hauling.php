@@ -214,7 +214,10 @@ if ($userRol == 99) {
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="company">VCI or Subcontractor</label>
 								<div class="col-sm-5">
-									<select name="CompanyType" id="CompanyType" class="form-control" required>
+									<select name="CompanyType" id="CompanyType" class="form-control" required <?php if ($information) { ?>
+										disabled
+										<?php } ?>>
+
 										<option value="">Select...</option>
 										<option value=1 <?php if ($information && $information["company_type"] == 1) {
 															echo "selected";
@@ -336,7 +339,7 @@ if ($userRol == 99) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="fromSite">Time In</label>
+								<label class="col-sm-4 control-label" for="timeIn">Time In</label>
 								<div class="col-sm-2">
 									<?php
 									if ($information) {
@@ -430,6 +433,44 @@ if ($userRol == 99) {
 									</select>
 								</div>
 							</div>
+
+							<?php if ($information && $information["fk_id_workorder"] != null) { ?>
+								<div class="form-group">
+									<input type="hidden" name="id_work_order" id="id_work_order" value="">
+									<input type="hidden" name="list_work_order" id="list_work_order" value="<?php echo ($information["fk_id_workorder"]) ?>">
+									<label class="col-sm-4 control-label" for="work_order">Work Order</label>
+									<div class="col-sm-5">
+										<select class="form-control" disabled>
+											<option value="<?php echo ($information["fk_id_workorder"]) ?>"><?php echo ($workorder) ?></option>
+										</select>
+									</div>
+								</div>
+							<?php } else {   ?>
+								<div class="form-group" id="div_work_order">
+									<label class="col-sm-4 control-label" for="work_order">Work Order</label>
+									<div class="col-sm-5">
+										<select name="id_work_order" id="id_work_order" class="form-control">
+											<option value="">Select...</option>
+											<option value=1 <?php if ($information && $information["id_work_order"] == 1) {
+																echo "selected";
+															}  ?>>New WO</option>
+											<option value=2 <?php if ($information && $information["id_work_order"] == 2) {
+																echo "selected";
+															}  ?>>Assign WO</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group" id="div_list_work_order">
+									<label class="col-sm-4 control-label" for="work_order_div">Select Work Order</label>
+									<div class="col-sm-5">
+										<select name="list_work_order" id="list_work_order" class="form-control">
+											<option value="">Select...</option>
+
+										</select>
+									</div>
+								</div>
+							<?php }  ?>
 
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="comments">Comments</label>

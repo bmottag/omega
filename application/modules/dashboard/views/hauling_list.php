@@ -42,13 +42,20 @@
 								<?php
 								foreach ($infoHauling as $lista):
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['id_hauling'] . "</td>";
-									echo "<td>" . $lista['name'] . "</td>";
-									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
-									echo "<td class='text-center'>";
-								?>
-									<a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling']); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
-									<?php
+									echo "<td class='text-center'>" . $lista['id_hauling'] . "
+									<br>"
+								?><?php
+									if ($lista['fk_id_workorder'] != null) {
+									?>
+								<a href='<?php echo base_url('workorders/add_workorder/' . $lista['fk_id_workorder']); ?>' target="_blank"> WO</a>
+								<?php } ?><?php
+											"</td>";
+											echo "<td>" . $lista['name'] . "</td>";
+											echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
+											echo "<td class='text-center'>";
+											?>
+								<a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling']); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
+								<?php
 									echo "</td>";
 									echo "<td>" . $lista['company_name'] . "</td>";
 									echo "<td>" . $lista['unit_number'] . "</td>";
@@ -60,13 +67,13 @@
 									echo "<td class='text-center'>" . $lista['time_in'] . "</td>";
 									echo "<td class='text-center'>" . $lista['time_out'] . "</td>";
 									echo "<td class='text-center'>";
-									?>
-									<a href="<?php echo base_url('hauling/add_hauling/' . $lista['id_hauling']) ?>">View</a>
-								<?php
+								?>
+								<a href="<?php echo base_url('hauling/add_hauling/' . $lista['id_hauling']) ?>">View</a>
+							<?php
 									echo "</td>";
 									echo "</tr>";
 								endforeach;
-								?>
+							?>
 							</tbody>
 						</table>
 					<?php } ?>

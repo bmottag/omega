@@ -139,6 +139,22 @@ class Hauling extends CI_Controller
 		if ($id != 'x') {
 			$data['information'] = $this->hauling_model->get_hauling_byId($id); //info hauling
 
+			$idWorkorder = $data['information']['fk_id_workorder'];
+			//work order list
+			$arrWOParam = array(
+				"table" => "workorder",
+				"order" => "id_workorder",
+				"column" => "id_workorder",
+				"id" => $idWorkorder
+			);
+			$data['workorder'] = $this->general_model->get_basic_search($arrWOParam);
+
+			if ($data['workorder'] != null) {
+				$data['workorder'] = $data['workorder'][0]['id_workorder'] . ' - ' . $data['workorder'][0]['observation'];
+			} else {
+				$data['workorder'] = 'Not Work Order';
+			}
+
 			//truck list
 			$arrParam = array(
 				"table" => "param_vehicle",
@@ -439,5 +455,19 @@ class Hauling extends CI_Controller
 				echo "<option value='" . $fila["id_workorder"] . "' >" . $fila["id_workorder"] . " - " . $fila["observation"] . "</option>";
 			}
 		}
+	}
+
+	/**
+	 * Work Order list
+	 * @since 9/1/2025
+	 * @author BMOTTAG
+	 */
+	public function list_by_job_code()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+		$jobCode = $this->input->post('jobCode');
+		$id_workorder = $this->hauling_model->list_by_job_code($jobCode);
+
+		echo $id_workorder;
 	}
 }
