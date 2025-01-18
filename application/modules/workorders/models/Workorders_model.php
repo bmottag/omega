@@ -1761,4 +1761,15 @@ class Workorders_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Update ACS information
+	 * @since 17/01/2025
+	 */
+	public function saveInfoACS($id, $data, $formType)
+	{
+		$this->db->where('id_acs_' . $formType, $id);
+		return $this->db->update('acs_' . $formType, $data);
+	}
+
 }

@@ -777,7 +777,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 							<div class="col-lg-12">
 								<small>
 									<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>Value = </strong>
-										Price/1.05 X (Markup + 100)/100)
+										Price/1.05 X (Markup + 100)/100
 									</p>
 								</small>
 							</div>
