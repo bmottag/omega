@@ -2615,4 +2615,208 @@ class Workorders extends CI_Controller
 		$data["view"] = 'acs_view';
 		$this->load->view("layout", $data);
 	}
+
+	/**
+	 * Save Info ACS Personal
+	 * @since 17/01/2025
+	 * @author BMOTTAG
+	 */
+	public function save_info_acs_personal()
+	{
+		$records = $this->input->post('records');
+		$successCount = 0;
+		$errorCount = 0;
+
+		foreach ($records as $record) {
+			$dataToSave = [
+				'view_pdf'   => isset($record['check_pdf']) ? 1 : 2,
+				'hours'      => $record['hours'],
+				'rate'       => $record['rate'],
+				'value'      => $record['rate'] * $record['hours']
+			];
+
+			if ($this->workorders_model->saveInfoACS($record['hddId'], $dataToSave, $this->input->post('formType'))) {
+				$successCount++;
+			} else {
+				$errorCount++;
+			}
+		}
+
+		if ($errorCount === 0) {
+			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
+		} else {
+			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
+		}
+		redirect(base_url('workorders/view_acs/' . $this->input->post('hddIdACS')), 'refresh');
+	}
+
+	/**
+	 * Save Info ACS Material
+	 * @since 17/01/2025
+	 * @author BMOTTAG
+	 */
+	public function save_info_acs_materials()
+	{
+		$records = $this->input->post('records');
+		$successCount = 0;
+		$errorCount = 0;
+
+		foreach ($records as $record) {
+			$dataToSave = [
+				'view_pdf'   => isset($record['check_pdf']) ? 1 : 2,
+				'quantity'   => $record['quantity'],
+				'rate'      => $record['rate'],
+				'markup'      => $record['markup'],
+				'value'      => $record['rate'] * $record['quantity'] * ($record['markup']  + 100) / 100
+			];
+
+			if ($this->workorders_model->saveInfoACS($record['hddId'], $dataToSave, $this->input->post('formType'))) {
+				$successCount++;
+			} else {
+				$errorCount++;
+			}
+		}
+
+		if ($errorCount === 0) {
+			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
+		} else {
+			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
+		}
+		redirect(base_url('workorders/view_acs/' . $this->input->post('hddIdACS')), 'refresh');
+	}
+
+	/**
+	 * Save Info ACS Receipt
+	 * @since 18/01/2025
+	 * @author BMOTTAG
+	 */
+	public function save_info_acs_receipt()
+	{
+		$records = $this->input->post('records');
+		$successCount = 0;
+		$errorCount = 0;
+
+		foreach ($records as $record) {
+			$price = $record['price'] / 1.05; //quitar el 5% de GST
+			$value = $price + ($price * $record['markup']/ 100); //valor con el markup
+
+			$dataToSave = [
+				'view_pdf'   => isset($record['check_pdf']) ? 1 : 2,
+				'price'      => $record['price'],
+				'markup'      => $record['markup'],
+				'value'      => $value
+			];
+
+			if ($this->workorders_model->saveInfoACS($record['hddId'], $dataToSave, $this->input->post('formType'))) {
+				$successCount++;
+			} else {
+				$errorCount++;
+			}
+		}
+
+		if ($errorCount === 0) {
+			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
+		} else {
+			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
+		}
+		redirect(base_url('workorders/view_acs/' . $this->input->post('hddIdACS')), 'refresh');
+	}
+
+	/**
+	 * Save Info ACS Receipt
+	 * @since 18/01/2025
+	 * @author BMOTTAG
+	 */
+	public function save_info_acs_equipment()
+	{
+		$records = $this->input->post('records');
+		$successCount = 0;
+		$errorCount = 0;
+
+		foreach ($records as $record) {
+			$dataToSave = [
+				'view_pdf'   => isset($record['check_pdf']) ? 1 : 2,
+				'fk_id_company'      => 1,
+				'quantity'   => $record['quantity'],
+				'rate'     	 => $record['rate'],
+				'value'      => $record['hours'] * $record['quantity'] * $record['rate']
+			];
+
+			if ($this->workorders_model->saveInfoACS($record['hddId'], $dataToSave, $this->input->post('formType'))) {
+				$successCount++;
+			} else {
+				$errorCount++;
+			}
+		}
+
+		if ($errorCount === 0) {
+			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
+		} else {
+			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
+		}
+		redirect(base_url('workorders/view_acs/' . $this->input->post('hddIdACS')), 'refresh');
+	}
+
+	/**
+	 * Save Info ACS Ocasional
+	 * @since 18/01/2025
+	 * @author BMOTTAG
+	 */
+	public function save_info_acs_ocasional()
+	{
+		$records = $this->input->post('records');
+		$successCount = 0;
+		$errorCount = 0;
+
+		foreach ($records as $record) {
+			$dataToSave = [
+				'view_pdf'   => isset($record['check_pdf']) ? 1 : 2,
+				'quantity'   => $record['quantity'],
+				'hours'   => $record['hours'],
+				'rate'      => $record['rate'],
+				'markup'      => $record['markup'],
+				'value'      => $record['quantity'] * $record['hours'] * $record['rate'] * ($record['markup'] + 100) / 100
+			];
+
+			if ($this->workorders_model->saveInfoACS($record['hddId'], $dataToSave, $this->input->post('formType'))) {
+				$successCount++;
+			} else {
+				$errorCount++;
+			}
+		}
+
+		if ($errorCount === 0) {
+			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
+		} else {
+			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
+		}
+		redirect(base_url('workorders/view_acs/' . $this->input->post('hddIdACS')), 'refresh');
+	}
+
+	/**
+	 * Delete workorder record
+	 * @param varchar $tabla: nombre de la tabla de la cual se va a borrar
+	 * @param int $idValue: id que se va a borrar
+	 * @param int $idACS: llave  primaria de ACS
+	 */
+	public function deleteACSRecord($tabla, $idValue, $idACS, $vista)
+	{
+		if (empty($tabla) || empty($idValue) || empty($idACS)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+		$arrParam = array(
+			"table" => "acs_" . $tabla,
+			"primaryKey" => "id_acs_"  . $tabla,
+			"id" => $idValue
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) 
+		{
+			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>' . strtoupper($tabla) . '</strong> table.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect(base_url('workorders/' . $vista . '/' . $idACS), 'refresh');
+	}
+
 }
