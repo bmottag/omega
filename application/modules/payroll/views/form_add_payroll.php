@@ -8,7 +8,7 @@
 
 <div id="page-wrapper">
 	<br>
-	
+
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -17,73 +17,73 @@
 					<br><small>Time Stamp - Start</small>
 				</div>
 				<div class="panel-body">
-					<form  name="form" id="form" class="form-horizontal" method="post" action="<?php echo base_url("payroll/savePayroll"); ?>" >
-																											
+					<form name="form" id="form" class="form-horizontal" method="post" action="<?php echo base_url("payroll/savePayroll"); ?>">
+
 						<!-- Task : Time Stamp  -->
-						<input type="hidden" id="hddTask" name="hddTask" value="1"/>
-						
+						<input type="hidden" id="hddTask" name="hddTask" value="1" />
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="address">Address:</label>
 							<div class="col-sm-4">
-								<input id="viewaddress" name="viewaddress" class="form-control" type="text" disabled >
-								<input id="latitud" name="latitud" type="hidden">					
-								<input id="longitud" name="longitud" type="hidden">	
-								<input id="address" name="address" type="hidden">									
+								<input id="viewaddress" name="viewaddress" class="form-control" type="text" disabled>
+								<input id="latitud" name="latitud" type="hidden">
+								<input id="longitud" name="longitud" type="hidden">
+								<input id="address" name="address" type="hidden">
 							</div>
 							<div class="col-sm-1">
-								<a class="btn btn-success btn-circle" href=" <?php echo base_url().'payroll/add_payroll/'; ?> "><i class="fa fa-refresh "></i> </a> 
+								<a class="btn btn-success btn-circle" href=" <?php echo base_url() . 'payroll/add_payroll/'; ?> "><i class="fa fa-refresh "></i> </a>
 							</div>
-						</div>										
-						
-						<div class="form-group">	
+						</div>
+
+						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:80%;" align="center">
-									<div id="map" style="width: 100%; height: 150px"></div>	
+									<div id="map" style="width: 100%; height: 150px"></div>
 								</div>
-							</div>	
-						</div>									
-												
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
 							<div class="col-sm-5">
-								<select name="jobName" id="jobName" class="form-control js-example-basic-single" >
+								<select name="jobName" id="jobName" class="form-control js-example-basic-single">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" ><?php echo $jobs[$i]["job_description"]; ?></option>	
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>"><?php echo $jobs[$i]["job_description"]; ?></option>
 									<?php } ?>
 								</select>
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							<label class="col-sm-6 control-label small" for="certify">
-									I certify to be clean for the last 8 hours of any substance such: 
-recreational cannabis, alcohol, drugs or any over the counter medicine that may or will affect 
-the fitness of my work performance.
+								I certify to be clean for the last 8 hours of any substance such:
+								recreational cannabis, alcohol, drugs or any over the counter medicine that may or will affect
+								the fitness of my work performance.
 							</label>
 							<div class="col-sm-3">
 								<select name="certify" id="certify" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 >Yes</option>
-									<option value=2 >No</option>
+									<option value=1>Yes</option>
+									<option value=2>No</option>
 								</select>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-6 control-label small" for="certify">
-									I certify to be well-rested, having slept a minimun of 6 - 8 hours. I certify my ability or alertness to perform my work for this shift will NOT be impaired by the amount or quality of sleep I had before coming to work.
+								I certify to be well-rested, having slept a minimun of 6 - 8 hours. I certify my ability or alertness to perform my work for this shift will NOT be impaired by the amount or quality of sleep I had before coming to work.
 							</label>
 							<div class="col-sm-3">
 								<select name="slept_certify" id="slept_certify" class="form-control" required>
 									<option value="">Select...</option>
-									<option value=1 >Yes</option>
-									<option value=2 >No</option>
+									<option value=1>Yes</option>
+									<option value=2>No</option>
 								</select>
 							</div>
 						</div>
 
-<!-- COVID END 
+						<!-- COVID END 
 	<div class="row">
 		<div class="col-lg-12">	
             <div class="panel panel-default">
@@ -142,126 +142,128 @@ the fitness of my work performance.
         </div>
 	</div>
 -->
-												
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="taskDescription">Task/Report Description:</label>
 							<div class="col-sm-5">
-							<textarea id="taskDescription" name="taskDescription" class="form-control" rows="3"></textarea>
+								<textarea id="taskDescription" name="taskDescription" class="form-control" rows="3"></textarea>
 							</div>
 						</div>
-												
+
 						<div class="row" align="center">
 							<div style="width:50%;" align="center">
-								 <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
-								 	Submit <span class="glyphicon glyphicon-log-in" aria-hidden="true">
-								</button> 
+								<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">
+									Submit <span class="glyphicon glyphicon-log-in" aria-hidden="true">
+								</button>
 							</div>
 						</div>
-						
+
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-		
 
-		
-  <script>
-    // The following example creates complex markers to indicate beaches near
+
+
+<script>
+	// The following example creates complex markers to indicate beaches near
 	// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
 	// to the base of the flagpole.
 
 	var options = {
-	  enableHighAccuracy: true,
-	  timeout: 5000,
-	  maximumAge: 0
+		enableHighAccuracy: true,
+		timeout: 5000,
+		maximumAge: 0
 	};
 
 	function success(pos) {
-	  var crd = pos.coords;
+		var crd = pos.coords;
 
-	  console.log('Your current position is:');
-	  console.log('Latitude : ' + crd.latitude);
-	  console.log('Longitude: ' + crd.longitude);
-	  console.log('More or less ' + crd.accuracy + ' meters.');
-	  $("#latitud").val(crd.latitude);
-	  $("#longitud").val(crd.longitude);
-	  var pos = {
-				  lat: crd.latitude,
-				  lng: crd.longitude
-				};
-	  map.setCenter(pos);
-	  map.setZoom(14);
-	  
-	showLatLong(crd.latitude, crd.longitude);
-	  
-	  ultimaPosicionUsuario = new google.maps.LatLng(crd.latitude, crd.longitude);
-      marcadorUsuario = new google.maps.Marker({
-        position: ultimaPosicionUsuario,
-        map: map
-      });
+		console.log('Your current position is:');
+		console.log('Latitude : ' + crd.latitude);
+		console.log('Longitude: ' + crd.longitude);
+		console.log('More or less ' + crd.accuracy + ' meters.');
+		$("#latitud").val(crd.latitude);
+		$("#longitud").val(crd.longitude);
+		var pos = {
+			lat: crd.latitude,
+			lng: crd.longitude
+		};
+		map.setCenter(pos);
+		map.setZoom(14);
+
+		showLatLong(crd.latitude, crd.longitude);
+
+		ultimaPosicionUsuario = new google.maps.LatLng(crd.latitude, crd.longitude);
+		marcadorUsuario = new google.maps.Marker({
+			position: ultimaPosicionUsuario,
+			map: map
+		});
 	};
 
 	function error(err) {
-	  console.warn('ERROR(' + err.code + '): ' + err.message);
+		console.warn('ERROR(' + err.code + '): ' + err.message);
 	};
 
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 		infoWindow.setPosition(pos);
 		infoWindow.setContent(browserHasGeolocation ?
-							  'Error: Error en el servicio de localizacion.' :
-							  'Error: Navegador no soporta geolocalizacion.');
-	  }
-	
+			'Error: Error en el servicio de localizacion.' :
+			'Error: Navegador no soporta geolocalizacion.');
+	}
 
-/**
- * INICIO --- Capturar direccion
- * http://www.elclubdelprogramador.com/2012/04/22/html5-obteniendo-direcciones-a-partir-de-latitud-y-longitud-geolocalizacion/
- */
-function showLatLong(lat, longi) {
-var geocoder = new google.maps.Geocoder();
-var yourLocation = new google.maps.LatLng(lat, longi);
-geocoder.geocode({ 'latLng': yourLocation },processGeocoder);
 
-}
-function processGeocoder(results, status){
+	/**
+	 * INICIO --- Capturar direccion
+	 * http://www.elclubdelprogramador.com/2012/04/22/html5-obteniendo-direcciones-a-partir-de-latitud-y-longitud-geolocalizacion/
+	 */
+	function showLatLong(lat, longi) {
+		var geocoder = new google.maps.Geocoder();
+		var yourLocation = new google.maps.LatLng(lat, longi);
+		geocoder.geocode({
+			'latLng': yourLocation
+		}, processGeocoder);
 
-if (status == google.maps.GeocoderStatus.OK) {
-if (results[0]) {
-document.forms[0].address.value=results[0].formatted_address;
-document.forms[0].viewaddress.value=results[0].formatted_address;
-} else {
-error('Google no retorno resultado alguno.');
-}
-} else {
-error("Geocoding fallo debido a : " + status);
-}
-}
-/**
- * FIN
- */	
-	
+	}
+
+	function processGeocoder(results, status) {
+
+		if (status == google.maps.GeocoderStatus.OK) {
+			if (results[0]) {
+				document.forms[0].address.value = results[0].formatted_address;
+				document.forms[0].viewaddress.value = results[0].formatted_address;
+			} else {
+				error('Google no retorno resultado alguno.');
+			}
+		} else {
+			error("Geocoding fallo debido a : " + status);
+		}
+	}
+	/**
+	 * FIN
+	 */
+
 	function initMap() {
-		var pais = new google.maps.LatLng(51.0209884,-114.1591999);
+		var pais = new google.maps.LatLng(51.0209884, -114.1591999);
 		var mapOptions = {
 			center: pais,
 			zoom: 11,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
-		
+
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-		
-		
-		
+
+
+
 		//Inicializa el objeto geocoder
 		geocoder = new google.maps.Geocoder();
-				
+
 		navigator.geolocation.getCurrentPosition(success, error, options);
-	}	
+	}
+</script>
 
-  </script>
-
-	<script async defer		
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
-	</script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
+</script>
