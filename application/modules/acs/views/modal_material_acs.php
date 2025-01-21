@@ -1,41 +1,36 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/personal.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/acs/materials_acs.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">PERSONAL
+	<h4 class="modal-title" id="exampleModalLabel">MATERIALS VCI
 	<br><small>
-		Add employees to the Work Order
+		Add Materials to the Accounting Control Sheet (ACS)
 	</small>
 	</h4>
 </div>
 
 <div class="modal-body">
-	<form  name="formPersonal" id="formPersonal" role="form" method="post" >
-		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
+	<form  name="formMaterial" id="formMaterial" role="form" method="post" >
+		<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $idACS; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="employee">Employee : *</label>
-					<select name="employee" id="employee" class="form-control" >
+					<label class="control-label" for="material">Material : *</label>
+					<select name="material" id="material" class="form-control" >
 						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($workersList); $i++) { ?>
-							<option value="<?php echo $workersList[$i]["id_user"]; ?>" ><?php echo $workersList[$i]["first_name"] . ' ' . $workersList[$i]["last_name"]; ?></option>	
+						<?php for ($i = 0; $i < count($materialList); $i++) { ?>
+							<option value="<?php echo $materialList[$i]["id_material"]; ?>" ><?php echo $materialList[$i]["material"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>
 			</div>
 		</div>
-
+		
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-						<label class="control-label" for="type">Employee Type : *</label>
-						<select name="type" id="type" class="form-control" >
-							<option value=''>Select...</option>
-							<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
-								<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>" ><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>	
-							<?php } ?>
-						</select>
+					<label class="control-label" for="hour">Quantity : *</label>
+					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
 				</div>
 			</div>
 		</div>
@@ -43,8 +38,8 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="hour">Hours : *</label>
-					<input type="text" id="hour" name="hour" class="form-control" placeholder="Hours" required >
+					<label class="control-label" for="unit">Unit : *</label>
+					<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
 				</div>
 			</div>
 		</div>
@@ -52,7 +47,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group text-left">
-					<label class="control-label" for="description">Work Done : *</label>
+					<label class="control-label" for="description">Description : </label>
 					<textarea id="description" name="description" class="form-control" rows="3"></textarea>
 				</div>
 			</div>
@@ -61,7 +56,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmitPersonal" name="btnSubmitPersonal" class="btn btn-primary" >
+					<button type="button" id="btnSubmitMaterial" name="btnSubmitMaterial" class="btn btn-primary" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>
