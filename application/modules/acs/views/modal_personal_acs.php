@@ -1,16 +1,16 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/personal.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/acs/personal_acs.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">PERSONAL
 	<br><small>
-		Add employees to the Work Order
+		Add Personal to the Accounting Control Sheet (ACS)
 	</small>
 	</h4>
 </div>
 
 <div class="modal-body">
 	<form  name="formPersonal" id="formPersonal" role="form" method="post" >
-		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
+		<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $idACS; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-12">

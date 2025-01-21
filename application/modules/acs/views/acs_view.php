@@ -1,3 +1,85 @@
+<script>
+	$(function() {
+		$(".personal_modal").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'acs/cargarModalPersonalACS',
+				data: {
+					'idACS': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatos').html(data);
+				}
+			});
+		});
+
+		$(".material_modal").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'acs/cargarModalMaterialsACS',
+				data: {
+					'idACS': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatosMaterial').html(data);
+				}
+			});
+		});
+
+		$(".equipment_modal").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'acs/cargarModalEquipmentACS',
+				data: {
+					'idACS': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatosEquipment').html(data);
+				}
+			});
+		});
+
+		$(".ocasional_modal").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'acs/cargarModalOcasionalACS',
+				data: {
+					'idACS': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatosOcasional').html(data);
+				}
+			});
+		});
+
+		$(".receipt_modal").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'acs/cargarModalReceiptsACS',
+				data: {
+					'idACS': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatosReceipt').html(data);
+				}
+			});
+		});
+
+	});
+</script>
+
+
+
 <div id="page-wrapper">
 	<br>
 	<div class="row">
@@ -61,7 +143,12 @@
 					<strong>PERSONAL</strong>
 				</div>
 				<div class="panel-body">
-					<form id="form_acs_personal" method="post" action="<?php echo base_url("workorders/save_info_acs_personal"); ?>">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-dark btn-block personal_modal" data-toggle="modal" data-target="#modal" id="<?php echo $acs_info[0]["id_acs"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Personal
+						</button><br>
+					</div>
+					<form id="form_acs_personal" method="post" action="<?php echo base_url("acs/save_info_acs_personal"); ?>">
 						<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $acs_info[0]["id_acs"]; ?>" />
 						<input type="hidden" id="formType" name="formType" value="personal" />
 						<table class="table table-bordered table-striped table-hover table-condensed">
@@ -101,7 +188,7 @@
 										</td>
 
 										<td class='text-center'>
-											<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteACSRecord/personal/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
+											<a class='btn btn-danger btn-xs' href='<?php echo base_url('acs/deleteACSRecord/personal/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
 												<i class="fa fa-trash-o"></i>
 											</a>
 										</td>
@@ -117,7 +204,7 @@
 							</small>
 						</div>
 						<div class="text-center">
-							<button type="submit" id="btnSubmitPersonal" name="btnSubmit" class="btn btn-dark">
+							<button type="submit" id="btnSubmitPersonalEdit" name="btnSubmitPersonalEdit" class="btn btn-dark">
 								Save All Personal Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 							</button>
 						</div>
@@ -140,7 +227,12 @@
 					<b>MATERIALS</b>
 				</div>
 				<div class="panel-body">
-					<form id="form_acs_material" method="post" action="<?php echo base_url("workorders/save_info_acs_materials"); ?>">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-dark btn-block material_modal" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $acs_info[0]["id_acs"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials
+						</button><br>
+					</div>
+					<form id="form_acs_material" method="post" action="<?php echo base_url("acs/save_info_acs_materials"); ?>">
 						<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $acs_info[0]["id_acs"]; ?>" />
 						<input type="hidden" id="formType" name="formType" value="materials" />
 						<table class="table table-bordered table-striped table-hover table-condensed">
@@ -181,7 +273,7 @@
 										</td>
 
 										<td class='text-center'>
-											<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteACSRecord/materials/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
+											<a class='btn btn-danger btn-xs' href='<?php echo base_url('acs/deleteACSRecord/materials/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
 												<i class="fa fa-trash-o"></i>
 											</a>
 										</td>
@@ -197,7 +289,7 @@
 							</small>
 						</div>
 						<div class="text-center">
-							<button type="submit" id="btnSubmitMaterial" name="btnSubmit" class="btn btn-dark">
+							<button type="submit" id="btnSubmitMaterialEdit" name="btnSubmitMaterialEdit" class="btn btn-dark">
 								Save All Material Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 							</button>
 						</div>
@@ -220,7 +312,12 @@
 					<b>RECEIPT</b>
 				</div>
 				<div class="panel-body">
-					<form id="form_acs_receipt" method="post" action="<?php echo base_url("workorders/save_info_acs_receipt"); ?>">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-dark btn-block receipt_modal" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $acs_info[0]["id_acs"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Receipt
+						</button><br>
+					</div>
+					<form id="form_acs_receipt" method="post" action="<?php echo base_url("acs/save_info_acs_receipt"); ?>">
 						<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $acs_info[0]["id_acs"]; ?>" />
 						<input type="hidden" id="formType" name="formType" value="receipt" />
 						<table class="table table-bordered table-striped table-hover table-condensed">
@@ -256,7 +353,7 @@
 										</td>
 
 										<td class='text-center'>
-											<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteACSRecord/receipt/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
+											<a class='btn btn-danger btn-xs' href='<?php echo base_url('acs/deleteACSRecord/receipt/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
 												<i class="fa fa-trash-o"></i>
 											</a>
 										</td>
@@ -272,7 +369,7 @@
 							</small>
 						</div>
 						<div class="text-center">
-							<button type="submit" id="btnSubmitReceipt" name="btnSubmit" class="btn btn-dark">
+							<button type="submit" id="btnSubmitReceiptEdit" name="btnSubmitReceiptEdit" class="btn btn-dark">
 								Save All Receipt Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 							</button>
 						</div>
@@ -296,7 +393,12 @@
 					<b>EQUIPMENT</b>
 				</div>
 				<div class="panel-body">
-				<form id="form_acs_equipment" method="post" action="<?php echo base_url("workorders/save_info_acs_equipment"); ?>">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-dark btn-block equipment_modal" data-toggle="modal" data-target="#modalEquipment" id="<?php echo 'equipment-' . $acs_info[0]["id_acs"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment
+						</button><br>
+					</div>
+					<form id="form_acs_equipment" method="post" action="<?php echo base_url("acs/save_info_acs_equipment"); ?>">
 						<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $acs_info[0]["id_acs"]; ?>" />
 						<input type="hidden" id="formType" name="formType" value="equipment" />
 						<table class="table table-bordered table-striped table-hover table-condensed">
@@ -363,7 +465,7 @@
 										</td>
 
 										<td class='text-center'>
-											<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteACSRecord/equipment/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
+											<a class='btn btn-danger btn-xs' href='<?php echo base_url('acs/deleteACSRecord/equipment/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
 												<i class="fa fa-trash-o"></i>
 											</a>
 										</td>
@@ -379,7 +481,7 @@
 							</small>
 						</div>
 						<div class="text-center">
-							<button type="submit" id="btnSubmitEquipment" name="btnSubmit" class="btn btn-dark">
+							<button type="submit" id="btnSubmitEquipmentEdit" name="btnSubmitEquipmentEdit" class="btn btn-dark">
 								Save All Equipment Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 							</button>
 						</div>
@@ -402,7 +504,12 @@
 					<b>OCASIONAL SUBCONTRACTOR</b>
 				</div>
 				<div class="panel-body">
-				<form id="form_acs_subcontractor" method="post" action="<?php echo base_url("workorders/save_info_acs_ocasional"); ?>">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-dark btn-block ocasional_modal" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $acs_info[0]["id_acs"]; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
+						</button><br>
+					</div>
+					<form id="form_acs_subcontractor" method="post" action="<?php echo base_url("acs/save_info_acs_ocasional"); ?>">
 						<input type="hidden" id="hddIdACS" name="hddIdACS" value="<?php echo $acs_info[0]["id_acs"]; ?>" />
 						<input type="hidden" id="formType" name="formType" value="ocasional" />
 						<table class="table table-bordered table-striped table-hover table-condensed">
@@ -450,7 +557,7 @@
 										</td>
 
 										<td class='text-center'>
-											<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteACSRecord/ocasional/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
+											<a class='btn btn-danger btn-xs' href='<?php echo base_url('acs/deleteACSRecord/ocasional/' . $idRecord . '/' . $acs_info[0]["id_acs"] . '/view_acs') ?>' id="btn-delete">
 												<i class="fa fa-trash-o"></i>
 											</a>
 										</td>
@@ -466,8 +573,8 @@
 							</small>
 						</div>
 						<div class="text-center">
-							<button type="submit" id="btnSubmitSubcontractor" name="btnSubmit" class="btn btn-dark">
-								Save All Personal Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+							<button type="submit" id="btnSubmitSubcontractorEdit" name="btnSubmitSubcontractorEdit" class="btn btn-dark">
+								Save All Ocasional Subcontractor Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 							</button>
 						</div>
 					</form>
@@ -478,3 +585,54 @@
 <?php } ?>
 <!--FIN OCASIONAL SUBCONTRACTOR -->
 </div>
+
+
+<!--INICIO Modal para PERSONAL -->
+<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatos">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para PERSONAL -->
+
+<!--INICIO Modal para MATERIAL -->
+<div class="modal fade text-center" id="modalMaterials" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosMaterial">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para MATERIAL -->
+
+<!--INICIO Modal para EQUIPMENT -->
+<div class="modal fade text-center" id="modalEquipment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosEquipment">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para EQUIPMENT -->
+
+<!--INICIO Modal para OCASIONAL-->
+<div class="modal fade text-center" id="modalOcasional" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosOcasional">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para OCASIONAL -->
+
+<!--INICIO Modal para RECEIPT-->
+<div class="modal fade text-center" id="modalReceipt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosReceipt">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para RECEIPT -->
