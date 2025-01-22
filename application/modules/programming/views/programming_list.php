@@ -5,7 +5,6 @@
 
 <div id="page-wrapper">
 	<br>
-
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -123,7 +122,7 @@
 													<i class="fa fa-user"></i>
 												</button>
 
-												<button type="button" class="btn btn-violeta btn-xs btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials" >
+												<button type="button" class="btn btn-violeta btn-xs btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials">
 													<i class="fa fa-tint"></i>
 												</button>
 											<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
@@ -161,9 +160,9 @@
 								<?php
 									}
 
-									if($lista['fk_id_workorder']){
+									if ($lista['fk_id_workorder']) {
 										echo "<br><br><a href='" . base_url('workorders/add_workorder/' . $lista['fk_id_workorder']) . "'>W.O. # " . $lista['fk_id_workorder'] . "</a>";
-									} 
+									}
 
 									echo "</td>";
 
@@ -230,49 +229,49 @@
 										<?php
 										if ($job_planning == 1) {
 										?>
-										<th class="column-title" colspan="3">
-											<div class="col-lg-12">
-												<div class="chat-panel panel panel-violeta">
-													<div class="panel-heading">
-														<i class="fa fa-copy fa-fw"></i> Clone this Planning for the Date
-													</div>
+											<th class="column-title" colspan="3">
+												<div class="col-lg-12">
+													<div class="chat-panel panel panel-violeta">
+														<div class="panel-heading">
+															<i class="fa fa-copy fa-fw"></i> Clone this Planning for the Date
+														</div>
 
-													<div class="panel-footer">
-														<form name="clonePlanning" id="clonePlanning" method="post">
-															<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
-															<script>
-																$(function() {
-																	$("#date").datepicker({
-																		changeMonth: true,
-																		changeYear: true,
-																		dateFormat: 'yy-mm-dd',
-																		minDate: '0'
+														<div class="panel-footer">
+															<form name="clonePlanning" id="clonePlanning" method="post">
+																<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
+																<script>
+																	$(function() {
+																		$("#date").datepicker({
+																			changeMonth: true,
+																			changeYear: true,
+																			dateFormat: 'yy-mm-dd',
+																			minDate: '0'
+																		});
 																	});
-																});
-															</script>
+																</script>
 
-															<div class="input-group">
-																<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
-																<span class="input-group-btn">
-																	<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone">
-																		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
-																	</button>
-																</span>
-															</div>
-														</form>
+																<div class="input-group">
+																	<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
+																	<span class="input-group-btn">
+																		<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone">
+																			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
+																		</button>
+																	</span>
+																</div>
+															</form>
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="col-lg-12">
-												<div id="div_error" style="display:none">
-													<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
-												</div>
+												<div class="col-lg-12">
+													<div id="div_error" style="display:none">
+														<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
+													</div>
 
-												<div id="div_guardado" style="display:none">
-													<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
+													<div id="div_guardado" style="display:none">
+														<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
+													</div>
 												</div>
-											</div>
-										</th>
+											</th>
 										<?php
 										}
 										?>
@@ -297,12 +296,12 @@
 
 									foreach ($informationWorker as $data) :
 
-										if($data['fk_id_machine'] != NULL){
+										if ($data['fk_id_machine'] != NULL) {
 											$id_values = implode(',', json_decode($data['fk_id_machine'], true));
-											
+
 											$ci = &get_instance();
 											$ci->load->model("general_model");
-		
+
 											$arrParam = array("idValues" => $id_values);
 											$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 										}
@@ -336,7 +335,7 @@
 										} elseif ($data['safety'] == 3) {
 											$mensaje .= "<br>Job site orientation";
 										}
-										
+
 										if ($data['creat_wo'] == 1) {
 											$mensaje .= "<br>You are in charge of the W.O.";
 										}
@@ -508,7 +507,7 @@
 
 				<!--INICIO MATERIALS -->
 				<?php
-					if ($programmingMaterials) {
+				if ($programmingMaterials) {
 				?>
 					<div class="panel-body">
 						<table class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
@@ -516,10 +515,10 @@
 								<th class="column-title" colspan="5">-- MATERIALS --</th>
 							</tr>
 							<tr class="success">
-								<th >Info. Material</th>
-								<th >Description</th>
-								<th >Quantity</th>
-								<th >Unit</th>
+								<th>Info. Material</th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th>Unit</th>
 								<th class="text-center">Action</th>
 							</tr>
 							<?php
