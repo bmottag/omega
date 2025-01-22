@@ -50,15 +50,31 @@
 							</div>
 						</div>
 
+						<input id="programming" name="programming" type="hidden" value="<?php echo $programming; ?>">
+						<input id="job_programming" name="job_programming" type="hidden" value="<?php echo $job_programming; ?>">
+						<input id="job_start" name="job_start" type="hidden" value="<?php echo $record[0]["fk_id_job"] ?>">
+						<input id="job_start_name" name="job_start_name" type="hidden" value="<?php echo $record[0]["job_start"] ?>">
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="jobName">Job Code/Name: </label>
+							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
 							<div class="col-sm-5">
 								<select name="jobName" id="jobName" class="form-control js-example-basic-single">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>"><?php echo $jobs[$i]["job_description"]; ?></option>
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($job_programming == $jobs[$i]["id_job"]) {
+																								echo "selected";
+																							}; ?>><?php echo $jobs[$i]["job_description"]; ?></option>
 									<?php } ?>
 								</select>
+								<?php if ($job_programming) { ?>
+									<p class="help-block">The planning is set up for the following project. Please review it. If it's different, select the one that applies.</p>
+								<?php } ?>
+							</div>
+						</div>
+
+						<div class="form-group" id="div_timeFirstJob" style="display: none;">
+							<label class="col-sm-4 control-label" for="timeFirstJob">How long were you in: </label>
+							<div class="col-sm-5">
+								<input id="timeFirstJob" name="hours_first_project" class="form-control" type="number" min="0" placeholder="Hours" />
 							</div>
 						</div>
 

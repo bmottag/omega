@@ -18,6 +18,27 @@ class Payroll extends CI_Controller
 	public function add_payroll($id = 'x')
 	{
 		$this->load->model("general_model");
+
+		//job programming - (active´s items)
+		$sql = "SELECT p.fk_id_job, p.id_programming
+					FROM programming_worker pw
+					JOIN programming p ON pw.fk_id_programming = p.id_programming
+					WHERE pw.fk_id_programming_user = $idUser
+					AND DATE(p.date_programming) = CURDATE();
+					";
+		$query = $this->db->query($sql);
+
+		$data['job_programming'] = null;
+		$data['programming'] = null;
+		if ($query->row_array()) {
+			$result = $query->row_array();
+			$fk_id_job = $result['fk_id_job'];
+			$data['job_programming'] = $fk_id_job;
+			$id_programming = $result['id_programming'];
+			$data['programming'] = $id_programming;
+		}
+		$this->db->close();
+
 		//job´s list - (active´s items)
 		$arrParam = array(
 			"table" => "param_jobs",
@@ -39,6 +60,8 @@ class Payroll extends CI_Controller
 
 		//if the last record doesn´t have finish time
 		if ($data['record'] && $data['record'][0]['finish'] == '0000-00-00 00:00:00') {
+
+			$data['programming'] = $data['record'][0]['fk_id_programming'];
 			$data['start'] = $data['record'][0]['start'];
 			$view = 'form_end_payroll';
 		}

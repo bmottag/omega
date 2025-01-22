@@ -43,15 +43,21 @@
 							</div>
 						</div>
 
+						<input id="programming" name="programming" type="hidden" value="<?php echo $programming; ?>">
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:</label>
 							<div class="col-sm-5">
 								<select name="jobName" id="jobName" class="form-control js-example-basic-single">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>"><?php echo $jobs[$i]["job_description"]; ?></option>
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($job_programming == $jobs[$i]["id_job"]) {
+																								echo "selected";
+																							}; ?>><?php echo $jobs[$i]["job_description"]; ?></option>
 									<?php } ?>
 								</select>
+								<?php if ($job_programming) { ?>
+									<p class="help-block">The planning is set up for the following project. Please review it. If it's different, select the one that applies.</p>
+								<?php } ?>
 							</div>
 						</div>
 
