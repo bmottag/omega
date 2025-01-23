@@ -21,15 +21,44 @@ class Payroll_model extends CI_Model
 		$task =  addslashes($task);
 		$latitude =  $this->input->post('latitud');
 		$longitude =  $this->input->post('longitud');
+		$fk_id_programming =  $this->input->post('programming');
+
+		if ($fk_id_programming) {
+			//job programming - (active´s items)
+			$programming_sql = "SELECT p.fk_id_job, p.fk_id_workorder
+					FROM programming p
+					WHERE p.id_programming = $fk_id_programming;
+					";
+			$queryProgramming = $this->db->query($programming_sql);
+
+			$job_programming = null;
+			if ($queryProgramming->row_array()) {
+				$result = $queryProgramming->row_array();
+				$fk_id_job = $result['fk_id_job'];
+				$job_programming = $fk_id_job;
+			}
+
+			if ($job_programming != $idJob) {
+				$fk_id_programming = null;
+			}
+		} else {
+			$fk_id_programming = null;
+		}
 
 		$address =  $this->security->xss_clean($this->input->post('address'));
 		$address =  addslashes($address);
 
 		$fecha = date("Y-m-d G:i:s");
 
-		$sql = "INSERT INTO task";
-		$sql .= " (fk_id_user, fk_id_operation, fk_id_job, task_description, start, latitude_start, longitude_start, address_start)";
-		$sql .= " VALUES ($idUser, $idOperation, $idJob, '$task', '$fecha', $latitude, $longitude, '$address')";
+		if ($fk_id_programming) {
+			$sql = "INSERT INTO task";
+			$sql .= " (fk_id_user, fk_id_operation, fk_id_job, task_description, start, latitude_start, longitude_start, address_start, fk_id_programming)";
+			$sql .= " VALUES ($idUser, $idOperation, $idJob, '$task', '$fecha', $latitude, $longitude, '$address', '$fk_id_programming')";
+		} else {
+			$sql = "INSERT INTO task";
+			$sql .= " (fk_id_user, fk_id_operation, fk_id_job, task_description, start, latitude_start, longitude_start, address_start)";
+			$sql .= " VALUES ($idUser, $idOperation, $idJob, '$task', '$fecha', $latitude, $longitude, '$address')";
+		}
 
 		$query = $this->db->query($sql);
 
@@ -72,10 +101,12 @@ class Payroll_model extends CI_Model
 	{
 		$dteStart = new DateTime($fechaStart);
 		$dteEnd   = new DateTime($fechaCierre);
+		$hours_first_project =  $this->input->post('hours_first_project');
+		$idProgramming =  $this->input->post('programming');
 
 		$dteDiff  = $dteStart->diff($dteEnd);
 		$workingTime = $dteDiff->format("%R%a days %H:%I:%S"); //days hours:minutes:seconds
-		
+
 		//START hours calculation
 		$minutes = (strtotime($fechaStart) - strtotime($fechaCierre)) / 60;
 		$minutes = abs($minutes);
@@ -107,6 +138,14 @@ class Payroll_model extends CI_Model
 		} else {
 			$regularHours = $workingHours;
 		}
+
+		if ($idProgramming) {
+			$hours_first_project = ($hours_first_project) ? $hours_first_project : 0;
+			$hours_end_project = $workingHours - $hours_first_project;
+		} else {
+			$hours_end_project = $hours_first_project;
+		}
+
 		//FINISH hours calculation
 
 		//New cal hours
@@ -138,18 +177,68 @@ class Payroll_model extends CI_Model
 
 			$sql = "UPDATE task";
 			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours,
-			regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
+			regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project'";
 			$sql .= " WHERE id_task=$idTask";
 		} elseif ($adminUpdate == 2) {
 
 			$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
 			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
+			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project'";
 			$sql .= " WHERE id_task=$id_task";
 		} else {
 			$sql = "UPDATE task";
-			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
+			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project'";
 			$sql .= " WHERE id_task=$idTask";
+		}
+
+
+		if ($idProgramming) {
+
+			//job programming - (active´s items)
+			$programming_sql = "SELECT p.fk_id_job, p.fk_id_workorder
+					FROM programming p
+					WHERE p.id_programming = $idProgramming;
+					";
+			$queryProgramming = $this->db->query($programming_sql);
+
+			$job_programming = null;
+			$id_workorder = null;
+			if ($queryProgramming->row_array()) {
+				$result = $queryProgramming->row_array();
+				$fk_id_job = $result['fk_id_job'];
+				$job_programming = $fk_id_job;
+				$fk_id_workorder = $result['fk_id_workorder'];
+				$id_workorder = $fk_id_workorder;
+			}
+
+			$idJob =  $this->input->post('jobName');
+			$idUser = $this->session->userdata("id");
+
+			if ($hours_first_project == 0) {
+
+				if ($idJob == $job_programming && $id_workorder != null) {
+
+					$data = array(
+						'fk_id_workorder' => $id_workorder,
+						'fk_id_user' => $idUser,
+						'fk_id_employee_type' => 1,
+						'hours' => $workingHours,
+						'description' => 'Payroll hours',
+					);
+
+					$this->db->insert('workorder_personal', $data);
+				}
+			} else {
+				$data = array(
+					'fk_id_workorder' => $id_workorder,
+					'fk_id_user' => $idUser,
+					'fk_id_employee_type' => 1,
+					'hours' => $hours_first_project,
+					'description' => 'Payroll hours',
+				);
+
+				$this->db->insert('workorder_personal', $data);
+			}
 		}
 
 		$query = $this->db->query($sql);
