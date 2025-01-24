@@ -36,6 +36,8 @@ class Programming extends CI_Controller
 
 			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
 
+			$data['programmingOccasional'] = $this->programming_model->get_programming_occasional($arrParam); //programming ocasional list
+
 			$data['horas'] = $this->general_model->get_horas(); //LISTA DE HORAS
 
 			//workers list
@@ -397,7 +399,7 @@ class Programming extends CI_Controller
 		);
 		$data['information'] = $this->general_model->get_programming($arrParam); //info programacion
 
-		$idWorkorder = $data['information'][0]['fk_id_workorder'] ? : $this->create_work_order($data['information']);
+		$idWorkorder = $data['information'][0]['fk_id_workorder'] ?: $this->create_work_order($data['information']);
 
 		//lista de trabajadores para esta programacion
 		$copiaInfoWorker = $data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
@@ -414,12 +416,12 @@ class Programming extends CI_Controller
 		if ($data['informationWorker']) {
 			foreach ($data['informationWorker'] as $data) :
 
-				if($data['fk_id_machine'] != NULL){
+				if ($data['fk_id_machine'] != NULL) {
 					$id_values = implode(',', json_decode($data['fk_id_machine'], true));
 					$arrParam = array(
-									"idValues" => $id_values,
-									"forTextMessague" => true
-								);
+						"idValues" => $id_values,
+						"forTextMessague" => true
+					);
 					$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 				}
 
@@ -469,13 +471,12 @@ class Programming extends CI_Controller
 					)
 				);
 				$this->programming_model->updateSMSWorkerStatus($data['id_programming_worker'], $message->status, $message->sid);
-			/*
-					$message = $client->account->messages('SM111470ab4fff00527665b73d7fcbe421')->fetch();
+
+			/*$message = $client->account->messages('SM111470ab4fff00527665b73d7fcbe421')->fetch();
 					while ($message->status != 'sent') {
 						$message = $client->account->messages($message->sid)->fetch();
 						sleep(5);
-					}
-				*/
+					}*/
 			endforeach;
 		}
 
@@ -616,11 +617,11 @@ class Programming extends CI_Controller
 						if (!empty(json_decode($dato['fk_id_machine']))) {
 							$arrParam = array("fecha" => $fechaBusqueda, "maquina" => $dato['fk_id_machine']);
 							$inspecciones = $this->general_model->get_missing_programming_inspecciones($arrParam); //ID de maquinas sin inspeccion
-							if($inspecciones){
+							if ($inspecciones) {
 								$arrParam = array(
 									"idValues" => implode(",", $inspecciones)
 								);
-								if($bandera){
+								if ($bandera) {
 									$arrParam["forTextMessague"] = true;
 								}
 								$inspeccionesValues = $this->general_model->get_vehicle_info_for_planning($arrParam);
@@ -674,7 +675,7 @@ class Programming extends CI_Controller
 												$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_inspection", 2);
 
 												//$to = '+1' . $phoneAdmin;
-												$to = '+14034089921';// . $phoneAdmin;
+												$to = '+14034089921'; // . $phoneAdmin;
 
 												$mensaje = "INSPECTION APP-VCI";
 												$mensaje .= "\nThe user has not done the Inspection:";
@@ -1469,11 +1470,13 @@ class Programming extends CI_Controller
 
 		$programmingMaterials = $this->programming_model->get_programming_materials($arrParam); //material list
 
+		$programmingSubcontractor = $this->programming_model->get_programming_occasional($arrParam); //material list
+
 		$arrParam = array(
-				"idProgramming" => $idProgramming,
-				"createWO" => TRUE
+			"idProgramming" => $idProgramming,
+			"createWO" => TRUE
 		);
-		$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajado con WO	
+		$informationWorkerWO = $this->general_model->get_programming_workers($arrParam); //info trabajado con WO
 		$idUser = $informationWorkerWO ? $informationWorkerWO[0]["fk_id_programming_user"] :  $infoPlanning[0]["fk_id_user"];
 
 		//Get info foreman if exist
@@ -1485,14 +1488,14 @@ class Programming extends CI_Controller
 			"foreman_movil" => "",
 			"foreman_email" => "",
 		];
-		
+
 		// Intentamos encontrar foreman por trabajo
 		$infoForeman = $this->getForemanData("param_company_foreman", "id_company_foreman", "fk_id_job", $idJob);
 		if (!$infoForeman && $idCompany > 0) {
 			// Si no se encontró por trabajo, buscamos por empresa
 			$infoForeman = $this->getForemanData("param_company_foreman", "id_company_foreman", "fk_id_param_company", $idCompany);
 		}
-		
+
 		// Si encontramos foreman, asignamos los datos
 		if ($infoForeman) {
 			$data["foreman_name"] = $infoForeman["foreman_name"];
@@ -1512,9 +1515,10 @@ class Programming extends CI_Controller
 			"observation" => $infoPlanning[0]["observation"],
 			"message" => $message
 		);
-		if ($idWorkorder = $this->programming_model->add_workorder($arrParam))
-		{
-			//guardo el ID de la WO en la tabla de la programacion			
+
+		if ($idWorkorder = $this->programming_model->add_workorder($arrParam)) {
+
+			//guardo el ID de la WO en la tabla de la programacion
 			$arrParam = array(
 				"table" => "programming",
 				"primaryKey" => "id_programming",
@@ -1539,14 +1543,14 @@ class Programming extends CI_Controller
 					'fk_id_programming_user' => 'fk_id_user',
 					'description' => 'description',
 				);
-			
+
 				foreach ($informationWorker as $indice => $datos_indice) {
 					$datos_formateados = array();
-			
+
 					$datos_formateados["fk_id_workorder"] = $idWorkorder;
 					$datos_formateados["fk_id_employee_type"] = 1;
 					$datos_formateados["hours"] = 0;
-					 foreach ($datos_indice as $columna => $valor) {
+					foreach ($datos_indice as $columna => $valor) {
 						if (isset($columnas_mapeo[$columna])) {
 							$columna_destino = $columnas_mapeo[$columna];
 							$datos_formateados[$columna_destino] = $valor;
@@ -1565,15 +1569,15 @@ class Programming extends CI_Controller
 					'fk_id_programming_user' => 'operatedby',
 					'description' => 'description',
 				);
-			
+
 				foreach ($informationWorkerWithEquipment as $indice => $datos_indice) {
 					$datos_formateados = array();
-			
+
 					$datos_formateados["fk_id_workorder"] = $idWorkorder;
 					$datos_formateados["quantity"] = 1;
 					$datos_formateados["hours"] = 0;
 					$datos_formateados["standby"] = 2;
-					 foreach ($datos_indice as $columna => $valor) {
+					foreach ($datos_indice as $columna => $valor) {
 						if (isset($columnas_mapeo[$columna])) {
 							$columna_destino = $columnas_mapeo[$columna];
 							$datos_formateados[$columna_destino] = $valor;
@@ -1592,12 +1596,12 @@ class Programming extends CI_Controller
 					'unit' => 'unit',
 					'description' => 'description',
 				);
-			
+
 				foreach ($programmingMaterials as $indice => $datos_indice) {
 					$datos_formateados = array();
-			
+
 					$datos_formateados["fk_id_workorder"] = $idWorkorder;
-					 foreach ($datos_indice as $columna => $valor) {
+					foreach ($datos_indice as $columna => $valor) {
 						if (isset($columnas_mapeo[$columna])) {
 							$columna_destino = $columnas_mapeo[$columna];
 							$datos_formateados[$columna_destino] = $valor;
@@ -1608,13 +1612,48 @@ class Programming extends CI_Controller
 				}
 			}
 
+			//save subcontractor
+			if ($programmingSubcontractor) {
+
+				$columnas_mapeo = array(
+					'fk_id_company' => 'fk_id_company',
+					'equipment' => 'equipment',
+					'quantity' => 'quantity',
+					'unit' => 'unit',
+					'hours' => 'hours',
+					'rate' => 'rate',
+					'markup' => 'markup',
+					'value' => 'value',
+					'contact' => 'contact',
+					'description' => 'description',
+					'view_pdf' => 'view_pdf',
+					'flag_expenses' => 'flag_expenses',
+				);
+
+				foreach ($programmingSubcontractor as $key => $data_indix) {
+					$data_format = array();
+
+					$data_format["fk_id_workorder"] = $idWorkorder;
+					foreach ($data_indix as $columna => $valor) {
+						if (isset($columnas_mapeo[$columna])) {
+							$columna_destino = $columnas_mapeo[$columna];
+							$data_format[$columna_destino] = $valor;
+						}
+					}
+
+					$table = 'workorder_ocasional';
+					$this->programming_model->add_item_workorder($table, $data_format);
+				}
+			}
+
 			return $idWorkorder;
 		} else {
 			return FALSE;
 		}
 	}
 
-	function getForemanData($table, $order, $column, $id) {
+	function getForemanData($table, $order, $column, $id)
+	{
 		$arrParam = [
 			"table" => $table,
 			"order" => $order,
@@ -1623,5 +1662,101 @@ class Programming extends CI_Controller
 		];
 		$result = $this->general_model->get_basic_search($arrParam);
 		return $result ? $result[0] : null;
+	}
+
+	/**
+	 * Cargo modal- formulario de captura Ocasional
+	 * @since 20/2/2017
+	 */
+	public function cargarModalOcasional()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$idProgramming = $this->input->post("idProgramming");
+		//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
+		$porciones = explode("-", $idProgramming);
+
+		if (count($porciones) > 1) {
+			$data["idProgramming"] = $porciones[1];
+
+			//workers list
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_company",
+				"order" => "company_name",
+				"column" => "company_type",
+				"id" => 2
+			);
+			$data['companyList'] = $this->general_model->get_basic_search($arrParam); //company list
+
+			$this->load->view("modal_ocasional", $data);
+		}
+	}
+
+	/**
+	 * Save material
+	 * @since 20/1/2024
+	 * @author BMOTTAG
+	 */
+	public function save_ocasional()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$data["idRecord"] = $this->input->post('hddidProgramming');
+
+		if ($this->programming_model->saveOcasional()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		$data["controller"] = "index";
+
+		echo json_encode($data);
+	}
+
+	public function save_hour()
+	{
+		$arrParam["idProgramming"] = $idProgramming = $this->input->post('hddIdProgramming');
+
+		if ($this->programming_model->saveRate()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+	}
+
+	/**
+	 * Delete workorder record
+	 * @param varchar $tabla: nombre de la tabla de la cual se va a borrar
+	 * @param int $idValue: id que se va a borrar
+	 * @param int $idWorkorder: llave  primaria de workorder
+	 */
+	public function deleteRecord($tabla, $idValue, $idWorkOrder, $vista)
+	{
+		if (empty($tabla) || empty($idValue) || empty($idWorkOrder)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+		$arrParam = array(
+			"table" => "programming_" . $tabla,
+			"primaryKey" => "id_programming_"  . $tabla,
+			"id" => $idValue
+		);
+		$this->load->model("general_model");
+		$this->load->library('logger');
+
+		if ($this->general_model->deleteRecord($arrParam)) {
+			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>' . $tabla . '</strong> table.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect(base_url('programming/' . $vista . '/' . $idWorkOrder), 'refresh');
 	}
 }
