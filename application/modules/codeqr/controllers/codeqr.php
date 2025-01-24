@@ -66,9 +66,9 @@ class Codeqr extends CI_Controller {
 			
 			$idQRCode = $this->input->post('hddId');
 			
-			$msj = "You have add a new QR Code!!";
+			$msj = "You have added a new QR Code!!";
 			if ($idQRCode != '') {
-				$msj = "You have update a QR Code!!";
+				$msj = "You have updated a QR Code!!";
 			}
 
 			$pass = $this->generaPass();//clave para colocarle al codigo QR

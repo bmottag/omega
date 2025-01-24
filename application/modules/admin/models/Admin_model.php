@@ -11,6 +11,7 @@ class Admin_model extends CI_Model
 	public function saveEmployee()
 	{
 		$idUser = $this->input->post('hddId');
+		$bankTime = $this->input->post('employee_subcontractor') == 1 ? 2 : $this->input->post('bank_time');
 
 		$data = array(
 			'first_name' => $this->input->post('firstName'),
@@ -23,7 +24,11 @@ class Admin_model extends CI_Model
 			'email' => $this->input->post('email'),
 			'address' => $this->input->post('address'),
 			'postal_code' => $this->input->post('postalCode'),
-			'perfil' => $this->input->post('perfil')
+			'perfil' => $this->input->post('perfil'),
+			'employee_rate' => $this->input->post('employee_rate'),
+			'employee_type' => $this->input->post('employee_type'),
+			'employee_subcontractor' => $this->input->post('employee_subcontractor'),
+			'bank_time' => $bankTime
 		);
 
 		//revisar si es para adicionar o editar
