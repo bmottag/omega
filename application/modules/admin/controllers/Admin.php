@@ -489,7 +489,7 @@ class Admin extends CI_Controller
 		$arrParam = array(
 			"idJob" => $idJob,
 			"column" => "job_code",
-			"value" => $job_code
+			"value" => $jobCode
 		);
 		$result_job = $this->general_model->jobCodeVerify($arrParam);
 
@@ -1985,14 +1985,6 @@ class Admin extends CI_Controller
 			if($envioAlerta['movil'])
 			{ 
 				$to = '+1' . $envioAlerta['movil'];
-
-
-				echo $twilioPhone;
-				echo "<br>";
-				echo $mensajeSMS;
-
-				/*
-
 				$client->messages->create(
 					$to,
 					array(
@@ -2000,8 +1992,6 @@ class Admin extends CI_Controller
 						'body' => $mensajeSMS
 					)
 				);
-				
-				*/
 			}
 
 		endforeach;

@@ -13,14 +13,14 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="firstName">First name: *</label>
+					<label class="control-label" for="firstName">First Name: *</label>
 					<input type="text" id="firstName" name="firstName" class="form-control" value="<?php echo $information?$information[0]["first_name"]:""; ?>" placeholder="First Name" required >
 				</div>
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="lastName">Last name: *</label>
+					<label class="control-label" for="lastName">Last Name: *</label>
 					<input type="text" id="lastName" name="lastName" class="form-control" value="<?php echo $information?$information[0]["last_name"]:""; ?>" placeholder="Last Name" required >
 				</div>
 			</div>
@@ -29,7 +29,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="user">User name: *</label>
+					<label class="control-label" for="user">User Name: *</label>
 					<input type="text" id="user" name="user" class="form-control" value="<?php echo $information?$information[0]["log_user"]:""; ?>" placeholder="User Name" required >
 				</div>
 			</div>
@@ -60,6 +60,12 @@
 				</div>
 			</div>
 
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="movilNumber">Mobile Number: *</label>
+					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["movil"]:""; ?>" placeholder="Mobile Number" required >
+				</div>
+			</div>
 		</div>
 
 		<div class="row">
@@ -72,24 +78,12 @@
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="healthNumber">Health number: *</label>
+					<label class="control-label" for="healthNumber">Health Number: *</label>
 					<input type="text" id="healthNumber" name="healthNumber" class="form-control" value="<?php echo $information?$information[0]["health_number"]:""; ?>" placeholder="Health Number" required >
 				</div>
 			</div>
 		</div>
 				
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="movilNumber">Mobile number: *</label>
-					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["movil"]:""; ?>" placeholder="Mobile Number" required >
-				</div>
-			</div>
-				
-			<div class="col-sm-6">
-			</div>
-		</div>
-
 		<div class="row">			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
@@ -109,7 +103,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="perfil">User role: *</label>					
+					<label class="control-label" for="perfil">User Role: *</label>					
 					<select name="perfil" id="perfil" class="form-control" required>
 						<option value="">Select...</option>
 						<?php for ($i = 0; $i < count($roles); $i++) { ?>
@@ -132,6 +126,56 @@
 			</div>
 	<?php } ?>
 		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="perfil">Employee Hour Rate:</label>	
+					<?php
+						if($information){
+							$unitPrice = $information[0]['employee_rate'];
+							$unitPrice = $unitPrice?$unitPrice:0;
+						}
+					?>				
+					<input type="text" id="employee_rate" name="employee_rate" class="form-control" value="<?php echo $information?($information[0]['employee_rate']?$information[0]['employee_rate']:0):0; ?>" placeholder="Employee Hour Rate" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="perfil">Employee Type: *</label>				
+					<select name="employee_type" id="employee_type" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information && $information[0]["employee_type"] == 1) { echo "selected"; }  ?>>Field</option>
+						<option value=2 <?php if($information && $information[0]["employee_type"] == 2) { echo "selected"; }  ?>>Admin</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="perfil">Is Subcontractor?: *</label>				
+					<select name="employee_subcontractor" id="employee_subcontractor" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information && $information[0]["employee_subcontractor"] == 1) { echo "selected"; }  ?>>Yes</option>
+						<option value=2 <?php if($information && $information[0]["employee_subcontractor"] == 2) { echo "selected"; }  ?>>No</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="perfil">Is using bank time?:</label>				
+					<select name="bank_time" id="bank_time" class="form-control">
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information && $information[0]["bank_time"] == 1) { echo "selected"; }  ?>>Yes</option>
+						<option value=2 <?php if($information && $information[0]["bank_time"] == 2) { echo "selected"; }  ?>>No</option>
+					</select>
+				</div>
+			</div>
 		</div>
 		
 		<div class="form-group">
