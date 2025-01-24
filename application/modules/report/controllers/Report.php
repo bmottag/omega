@@ -59,12 +59,8 @@ class Report extends CI_Controller
 			case 'payrollByAdmin':
 				$data["titulo"] = "<i class='fa fa-book fa-fw'></i> PAYROLL REPORT";
 				//workers list
-				$arrParam = array(
-					"table" => "user",
-					"order" => "first_name, last_name",
-					"id" => "x"
-				);
-				$data['workersList'] = $this->general_model->get_basic_search($arrParam); //worker´s list
+				$arrParam = array("state" => 1);
+				$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
 				break;
 			case 'safety':
 				//job list
