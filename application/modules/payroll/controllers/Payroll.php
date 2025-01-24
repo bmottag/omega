@@ -17,6 +17,7 @@ class Payroll extends CI_Controller
 	 */
 	public function add_payroll($id = 'x')
 	{
+		$idUser = $this->session->userdata("id");
 		$this->load->model("general_model");
 
 		//job programming - (active´s items)

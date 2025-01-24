@@ -5,7 +5,6 @@
 
 <div id="page-wrapper">
 	<br>
-
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -123,7 +122,7 @@
 													<i class="fa fa-user"></i>
 												</button>
 
-												<button type="button" class="btn btn-violeta btn-xs btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials" >
+												<button type="button" class="btn btn-violeta btn-xs btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials">
 													<i class="fa fa-tint"></i>
 												</button>
 											<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
@@ -161,9 +160,9 @@
 								<?php
 									}
 
-									if($lista['fk_id_workorder']){
+									if ($lista['fk_id_workorder']) {
 										echo "<br><br><a href='" . base_url('workorders/add_workorder/' . $lista['fk_id_workorder']) . "'>W.O. # " . $lista['fk_id_workorder'] . "</a>";
-									} 
+									}
 
 									echo "</td>";
 
@@ -230,49 +229,49 @@
 										<?php
 										if ($job_planning == 1) {
 										?>
-										<th class="column-title" colspan="3">
-											<div class="col-lg-12">
-												<div class="chat-panel panel panel-violeta">
-													<div class="panel-heading">
-														<i class="fa fa-copy fa-fw"></i> Clone this Planning for the Date
-													</div>
+											<th class="column-title" colspan="3">
+												<div class="col-lg-12">
+													<div class="chat-panel panel panel-violeta">
+														<div class="panel-heading">
+															<i class="fa fa-copy fa-fw"></i> Clone this Planning for the Date
+														</div>
 
-													<div class="panel-footer">
-														<form name="clonePlanning" id="clonePlanning" method="post">
-															<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
-															<script>
-																$(function() {
-																	$("#date").datepicker({
-																		changeMonth: true,
-																		changeYear: true,
-																		dateFormat: 'yy-mm-dd',
-																		minDate: '0'
+														<div class="panel-footer">
+															<form name="clonePlanning" id="clonePlanning" method="post">
+																<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
+																<script>
+																	$(function() {
+																		$("#date").datepicker({
+																			changeMonth: true,
+																			changeYear: true,
+																			dateFormat: 'yy-mm-dd',
+																			minDate: '0'
+																		});
 																	});
-																});
-															</script>
+																</script>
 
-															<div class="input-group">
-																<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
-																<span class="input-group-btn">
-																	<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone">
-																		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
-																	</button>
-																</span>
-															</div>
-														</form>
+																<div class="input-group">
+																	<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
+																	<span class="input-group-btn">
+																		<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone">
+																			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
+																		</button>
+																	</span>
+																</div>
+															</form>
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="col-lg-12">
-												<div id="div_error" style="display:none">
-													<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
-												</div>
+												<div class="col-lg-12">
+													<div id="div_error" style="display:none">
+														<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
+													</div>
 
-												<div id="div_guardado" style="display:none">
-													<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
+													<div id="div_guardado" style="display:none">
+														<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
+													</div>
 												</div>
-											</div>
-										</th>
+											</th>
 										<?php
 										}
 										?>
@@ -297,12 +296,12 @@
 
 									foreach ($informationWorker as $data) :
 
-										if($data['fk_id_machine'] != NULL){
+										if ($data['fk_id_machine'] != NULL) {
 											$id_values = implode(',', json_decode($data['fk_id_machine'], true));
-											
+
 											$ci = &get_instance();
 											$ci->load->model("general_model");
-		
+
 											$arrParam = array("idValues" => $id_values);
 											$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 										}
@@ -336,7 +335,7 @@
 										} elseif ($data['safety'] == 3) {
 											$mensaje .= "<br>Job site orientation";
 										}
-										
+
 										if ($data['creat_wo'] == 1) {
 											$mensaje .= "<br>You are in charge of the W.O.";
 										}
@@ -458,6 +457,92 @@
 							</table>
 						</div>
 
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										OCASIONAL SUBCONTRACTOR
+									</div>
+									<div class="panel-body">
+										<?php if (!$deshabilitar) { ?>
+											<div class="col-lg-12">
+												<button type="button" class="btn btn-primary btn-block btn-occasional" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_programming"]; ?>">
+													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
+												</button><br>
+											</div>
+										<?php } ?>
+
+										<?php
+										if ($programmingOccasional) {
+										?>
+											<table class="table table-bordered table-striped table-hover table-condensed">
+												<tr class="primary">
+													<th class="text-center">Info. Subcontractor</th>
+													<th class="text-center">Description</th>
+													<th class="text-center">Quantity</th>
+													<th class="text-center">Unit</th>
+													<th class="text-center">Hours</th>
+													<th class="text-center">Links</th>
+												</tr>
+												<?php
+												foreach ($programmingOccasional as $data) :
+													echo "<tr>";
+													echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
+													echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
+													echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small></td>";
+
+													$idRecord = $data['id_programming_ocasional'];
+												?>
+													<form name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/save_hour"); ?>">
+														<input type="hidden" id="formType" name="formType" value="ocasional" />
+														<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
+														<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $data['fk_id_programming']; ?>" />
+														<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
+														<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
+														<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
+
+														<td>
+															<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
+														</td>
+
+														<td>
+															<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
+														</td>
+
+														<td>
+															<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
+														</td>
+
+														<td>
+															<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
+														</td>
+
+														<td class='text-center'>
+															<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+																Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+															</button>
+													</form>
+
+													<br><br>
+													<?php if (!$deshabilitar) { ?>
+														<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteRecord/ocasional/' . $data['id_programming_ocasional'] . '/' . $data['fk_id_programming'] . '/index') ?>' id="btn-delete">
+															Delete <i class="fa fa-trash-o"></i>
+														</a>
+													<?php } else {
+														echo "---";
+													} ?>
+
+													</td>
+													</tr>
+												<?php
+												endforeach;
+												?>
+											</table>
+										<?php } ?>
+									</div>
+								</div>
+							</div>
+						</div>
 
 						<div class="table-responsive">
 							<table id="dataTablesWorker" class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
@@ -497,8 +582,6 @@
 							</table>
 						</div>
 
-
-
 					<?php
 					}
 					?>
@@ -508,7 +591,7 @@
 
 				<!--INICIO MATERIALS -->
 				<?php
-					if ($programmingMaterials) {
+				if ($programmingMaterials) {
 				?>
 					<div class="panel-body">
 						<table class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
@@ -516,10 +599,10 @@
 								<th class="column-title" colspan="5">-- MATERIALS --</th>
 							</tr>
 							<tr class="success">
-								<th >Info. Material</th>
-								<th >Description</th>
-								<th >Quantity</th>
-								<th >Unit</th>
+								<th>Info. Material</th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th>Unit</th>
 								<th class="text-center">Action</th>
 							</tr>
 							<?php
@@ -638,6 +721,16 @@
 </div>
 <!--FIN Modal para MATERIAL -->
 
+<!--INICIO Modal para OCASIONAL-->
+<div class="modal fade text-center" id="modalOcasional" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosOcasional">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para OCASIONAL -->
+
 <!-- Tables -->
 <script>
 	$(document).ready(function() {
@@ -664,5 +757,23 @@
 				$('#tableDataMaterial').html(data);
 			}
 		});
+	});
+
+	$(".btn-occasional").click(function() {
+		var oID = $(this).attr("id");
+		//verificar que se este enviando el
+		if (oID != 'btnSubmit') {
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'programming/cargarModalOcasional',
+				data: {
+					'idProgramming': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatosOcasional').html(data);
+				}
+			});
+		}
 	});
 </script>

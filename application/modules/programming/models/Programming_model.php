@@ -363,6 +363,7 @@ class Programming_model extends CI_Model
 			return false;
 		}
 	}
+
 	/**
 	 * Add Material
 	 * @since 20/1/2024
@@ -473,4 +474,142 @@ class Programming_model extends CI_Model
 		}
 	}
 
+	/**
+	 * Get programming ocasional info
+	 * @since 20/2/2017
+	 */
+	public function get_programming_occasional($arrData)
+	{
+		$sql = "SELECT P.*, C.company_name
+				FROM programming_ocasional P
+				INNER JOIN param_company C ON C.id_company = P.fk_id_company
+				WHERE  (P.fk_id_programming = " . $arrData["idProgramming"] . " OR " . $arrData["idProgramming"] . " IS NULL)
+				ORDER BY C.company_name ASC;
+				";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Add Subcontractor
+	 * @since 20/1/2024
+	 */
+	public function saveOcasional()
+	{
+		$data = array(
+			'fk_id_programming' => $this->input->post('hddidProgramming'),
+			'fk_id_company' => $this->input->post('company'),
+			'equipment' => $this->input->post('equipment'),
+			'quantity' => $this->input->post('quantity'),
+			'unit' => $this->input->post('unit'),
+			'hours' => $this->input->post('hour'),
+			'contact' => $this->input->post('contact'),
+			'description' => $this->input->post('description')
+		);
+
+		$query = $this->db->insert('programming_ocasional', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function saveRate()
+	{
+		$this->load->library('logger');
+		$this->load->model("general_model");
+
+		$hddId = $this->input->post('hddId');
+		$formType = $this->input->post('formType');
+		$description = $this->input->post('description');
+		$unit = $this->input->post('unit');
+		$rate = $this->input->post('rate');
+		$quantity = $this->input->post('quantity');
+		$hours = $this->input->post('hours');
+		$checkPDF = $this->input->post('check_pdf');
+		$idProgramming = $this->input->post('hddIdProgramming');
+
+		if ($checkPDF) {
+			$checkPDF = 1;
+		} else {
+			$checkPDF = 2;
+		}
+
+		$value = $rate * $quantity * $hours;
+
+		$data = array(
+			'description' => $description,
+			'rate' => $rate,
+			'value' => $value,
+			'view_pdf' => $checkPDF
+		);
+
+		$table = 'programming_' . $formType;
+		$arrParam = array(
+			"table" => $table,
+			"order" => "fk_id_programming",
+			"column" => "fk_id_programming",
+			"id" => $idProgramming
+		);
+		$log['old'] = $this->general_model->get_basic_search($arrParam);
+
+		switch ($formType) {
+			case "personal":
+				$arrParam = array(
+					"table" => $table,
+					"order" => "id_programming_personal",
+					"column" => "id_programming_personal",
+					"id" => $hddId
+				);
+				$log['old'] = $this->general_model->get_basic_search($arrParam);
+
+				$type = $this->input->post('type_personal');
+				$data['fk_id_employee_type'] = $type;
+				$data['hours'] = $hours;
+				break;
+			case "materials":
+				$markup = $this->input->post('markup');
+				$value = $value * ($markup + 100) / 100;
+
+				$data['markup'] = $markup;
+				$data['value'] = $value;
+				$data['quantity'] = $quantity;
+				$data['unit'] = $unit;
+				break;
+			case "equipment":
+				$data['hours'] = $hours;
+				$data['quantity'] = $quantity;
+				break;
+			case "ocasional":
+				$markup = $this->input->post('markup');
+				$value = $value * ($markup + 100) / 100;
+
+				$data['markup'] = $markup;
+				$data['value'] = $value;
+
+				$data['hours'] = $hours;
+				$data['quantity'] = $quantity;
+				$data['unit'] = $unit;
+				break;
+			case "hold_back":
+				break;
+		}
+
+		$this->db->where('id_programming_' . $formType, $hddId);
+		$query = $this->db->update('programming_' . $formType, $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
