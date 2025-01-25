@@ -61,8 +61,8 @@
 										<th class='text-left'><small>Task Description</small></th>
 										<th class='text-left'><small>Observation</small></th>
 										<th class='text-right'><small>Working Hours <small>(HH:MM)<small></small></th>
-										<th class='text-right'><small>Regular Hours New <small>(HH:MM)<small></small></th>
-										<th class='text-right'><small>Overtime Hours New <small>(HH:MM)<small></small></th>
+										<th class='text-right'><small>Regular Hours <small>(HH:MM)<small></small></th>
+										<th class='text-right'><small>Overtime Hours <small>(HH:MM)<small></small></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -126,8 +126,8 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
 											$minsOvertimeTEST = floor(($totalOvertimeNew / 60) % 60);
 											echo "<tr>";
 											echo "<td class='text-right' colspan='6'><small><strong>Total weekly hours:<br>" . sprintf('%02d:%02d', $hoursTotalTEST, $minsTotalTEST)  . "</strong></small></td>";
-											echo "<td class='text-right'><small><strong>Total daily  regular hours new per week:<br>" . sprintf('%02d:%02d', $hoursRegularTEST, $minsRegularTEST) . "</strong></small></td>";
-											echo "<td class='text-right'><small><strong>Total daily overtime new per week:<br>" . sprintf('%02d:%02d', $hoursOvertimeTEST, $minsOvertimeTEST) . "</strong></small></td>";
+											echo "<td class='text-right'><small><strong>Total daily regular hours per week:<br>" . sprintf('%02d:%02d', $hoursRegularTEST, $minsRegularTEST) . "</strong></small></td>";
+											echo "<td class='text-right'><small><strong>Total daily overtime per week:<br>" . sprintf('%02d:%02d', $hoursOvertimeTEST, $minsOvertimeTEST) . "</strong></small></td>";
 											echo "</tr>";
 }
 
@@ -143,8 +143,8 @@ if ($userRol == ID_ROL_SUPER_ADMIN) {
 										$minsOvertime = floor(($totalOvertimeNew / 60) % 60);
 										echo "<tr>";
 										echo "<td class='text-right' colspan='6'><small><strong>Total weekly hours:<br>" . sprintf('%02d:%02d', $hoursTotal, $minsTotal)  . "</strong></small></td>";
-										echo "<td class='text-right'><small><strong>Total daily  regular hours new per week:<br>" . sprintf('%02d:%02d', $hoursRegular, $minsRegular) . "</strong></small></td>";
-										echo "<td class='text-right'><small><strong>Total daily overtime new per week:<br>" . sprintf('%02d:%02d', $hoursOvertime, $minsOvertime) . "</strong></small></td>";
+										echo "<td class='text-right'><small><strong>Total daily  regular hours per week:<br>" . sprintf('%02d:%02d', $hoursRegular, $minsRegular) . "</strong></small></td>";
+										echo "<td class='text-right'><small><strong>Total daily overtime per week:<br>" . sprintf('%02d:%02d', $hoursOvertime, $minsOvertime) . "</strong></small></td>";
 										echo "</tr>";
 									}
 									?>

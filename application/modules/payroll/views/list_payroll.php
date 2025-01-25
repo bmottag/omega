@@ -53,6 +53,23 @@ if ($retornoError) {
 	<?php
 		}else{
 
+			function timeToSeconds($time) {
+				$parts = explode(':', $time);
+				return ($parts[0] * 3600) + ($parts[1] * 60);
+			}
+			
+			function secondsToTime($seconds) {
+				$hours = floor($seconds / 3600);
+				$minutes = floor(($seconds / 60) % 60);
+				return sprintf('%02d:%02d', $hours, $minutes);
+			}
+			
+			function secondsToFractionHours($seconds) {
+				$hours = floor($seconds / 3600);
+				$minutes = floor(($seconds / 60) % 60);
+				return $hours + ($minutes / 60);
+			}
+
 			foreach ($info as $lista):
 				$arrParam = array("idUser" => $lista['fk_id_user']);
 				$infoUser = $this->general_model->get_user($arrParam);
@@ -104,16 +121,10 @@ if ($retornoError) {
 		<div class="col-lg-12">
 			<div class="panel panel-violeta">
 				<div class="panel-heading">
-					<div class="row">
-					<div class="col-lg-12">
-						<a class="btn btn-violeta btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-						<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT</b>
-					</div>
-					<div class="col-lg-2 col-lg-offset-2"><b>Period Beginning: </b></div>
-					<div class="col-lg-8"><?php echo $infoPeriod[0]["date_start"]; ?></div>	
-					<div class="col-lg-2 col-lg-offset-2"><b>Period Ending: </b></div>
-					<div class="col-lg-8"><?php echo $infoPeriod[0]["date_finish"]; ?></div>	
-				</div>
+					<a class="btn btn-violeta btn-xs" href=" <?php echo base_url().'payroll/payrollSearchForm'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<i class="fa fa-clock-o fa-fw"></i> <b>PAYROLL REPORT </b>
+					<br><b>Period Beginning: </b> <?php echo $infoPeriod[0]["date_start"]; ?>
+					<br><b>Period Ending: </b> <?php echo $infoPeriod[0]["date_finish"]; ?>
 				</div>
 
 				<div class="panel-body">
@@ -129,9 +140,9 @@ if ($retornoError) {
 							<tr>
 								<th class='text-center'>Date & Time - Start</th>
 								<th class='text-center'>Date & Time - Finish</th>
-								<th class='text-right'>Worked Hours</th>
-								<th class='text-right'>Regular Hours</th>
-								<th class='text-right'>Daily Overtime Hours</th>
+								<th class='text-right'>Time Worked <small>(HH:MM)<small></th>
+								<th class='text-right'>Time Regular <small>(HH:MM)<small></th>
+								<th class='text-right'>Daily Overtime <small>(HH:MM)<small></th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -142,119 +153,150 @@ if ($retornoError) {
 							$actualOvertimeHours1 = 0;
 							$actualRegularHours2 = 0;
 							$actualOvertimeHours2 = 0;
+							$hoursTotalFraction1 = 0;
+							$hoursTotalFraction2 = 0;
 							if($infoPayrollUser1)
 							{
 								echo "<tr><td class='text-left' colspan='6'>";
-								echo "<p class='text-danger'><b>First Weak: " . $infoPayrollUser1[0]["period_weak"] . "</b></p>";
+								echo "<p class='text-danger'><b>First Week: " . $infoPayrollUser1[0]["period_weak"] . "</b></p>";
 								echo "</td></tr>";
-								$totalRegular = 0;
-								$totalOvertime = 0;
+								$totalRegular1 = 0;
+								$totalOvertime1 = 0;
 								$totalRegularWeek = 0;
-								$weeklyOvertime = 0;
 								foreach ($infoPayrollUser1 as $lista):
 									echo "<tr>";							
 									echo "<td class='text-center'>" . $lista['start'] . "</td>";
 									echo "<td class='text-center'>" . $lista['finish'] . "</td>";
-									echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
-									echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
-									echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
-									$totalHours1 = $lista['working_hours'] + $totalHours1;
-									$totalRegular = $lista['regular_hours'] + $totalRegular;
-									$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
+									echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, 5) . "</td>";
+									echo "<td class='text-right'>" . substr($lista['regular_hours_new'], 0, 5) . "</td>";
+									echo "<td class='text-right'>" . substr($lista['overtime_hours_new'], 0, 5) . "</td>";
 									echo "</tr>";
+									if (!empty($lista['working_hours_new'])) {
+										$totalHours1 += timeToSeconds($lista['working_hours_new']);
+									}
+									if (!empty($lista['regular_hours_new'])) {
+										$totalRegular1 += timeToSeconds($lista['regular_hours_new']);
+									}
+									if (!empty($lista['overtime_hours_new'])) {
+										$totalOvertime1 += timeToSeconds($lista['overtime_hours_new']);
+									}
 								endforeach;
-									echo "<tr><td></td><td></td>";
-									echo "<td class='text-right'><strong>Total weekly hours:<br>" . $totalHours1 . "</strong></td>";
-									echo "<td class='text-right'><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></td>";
-									echo "<td class='text-right'><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></td>";
-									echo "</tr>";
+								
+								$hoursTotal1 = floor($totalHours1 / 3600);
+								$minsTotal1 = floor(($totalHours1 / 60) % 60);
 
-									if($totalHours1 > 44){
-										$totalRegularWeek = 44;
-										$weeklyOvertime = $totalHours1 - $totalRegularWeek;
-									}else{
-										$totalRegularWeek = $totalHours1;
-									}
+								$hoursRegular1 = floor($totalRegular1 / 3600);
+								$minsRegular1 = floor(($totalRegular1 / 60) % 60);
 
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . $totalRegularWeek . "</strong></td>";
-									echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . $weeklyOvertime . "</strong></td>";
-									echo "</tr>";
+								$hoursOvertime1 = floor($totalOvertime1 / 3600);
+								$minsOvertime1 = floor(($totalOvertime1 / 60) % 60);								
 
-									if($weeklyOvertime > $totalOvertime){
-										$actualRegularHours1 = $totalRegularWeek;
-										$actualOvertimeHours1 = $weeklyOvertime;
-									}else{
-										$actualRegularHours1 = $totalRegular;
-										$actualOvertimeHours1 = $totalOvertime;
-									}
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual regular hours:<br> " . $actualRegularHours1 . "</b></p>";
-									echo "</td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . $actualOvertimeHours1 . "</b></p>";
-									echo "</td>";
-									echo "</tr>";
-									echo "<tr><td colspan='5'><br></td></tr>";
+								//los paso a fraccion de horas
+								$hoursTotalFraction1 = secondsToFractionHours($totalHours1);
+								$hoursRegularFraction1 = secondsToFractionHours($totalRegular1);
+								$hoursOvertimeFraction1 = secondsToFractionHours($totalOvertime1);
+								echo "<tr><td></td><td></td>";
+								echo "<td class='text-right'><strong>" . sprintf('%02d:%02d', $hoursTotal1, $minsTotal1) . "</strong>(hh:mm)<br><strong>Total Weekly Hours:<br>" . round($hoursTotalFraction1, 3) . " hours</strong></td>";
+								echo "<td class='text-right'><strong>" . sprintf('%02d:%02d', $hoursRegular1, $minsRegular1) . "</strong>(hh:mm)<br><strong>Total Daily Regular Hours Per Week:<br>" . round($hoursRegularFraction1, 3) . " hours</strong></td>";
+								echo "<td class='text-right'><strong>" . sprintf('%02d:%02d', $hoursOvertime1, $minsOvertime1) . "</strong>(hh:mm)<br><strong>Total Daily Overtime Per Week:<br>" . round($hoursOvertimeFraction1, 3) . " hours</strong></td>";
+								echo "</tr>";
+
+								/** 
+								 ** Reviso si se paso de 44 horas para la semana
+								 **/
+								$totalRegularWeek = $hoursTotalFraction1 > 44 ? 44 : $hoursTotalFraction1;
+								$weeklyOvertime = $hoursTotalFraction1 > 44 ? $hoursTotalFraction1 - 44 : 0;
+
+								echo "<tr><td></td><td></td><td></td>";
+								echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . round($totalRegularWeek, 3) . "</strong></td>";
+								echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . round($weeklyOvertime, 3) . "</strong></td>";
+								echo "</tr>";
+
+								$actualRegularHours1 = $weeklyOvertime > $hoursOvertimeFraction1 ? $totalRegularWeek : $hoursRegularFraction1;
+								$actualOvertimeHours1 = $weeklyOvertime > $hoursOvertimeFraction1 ? $weeklyOvertime : $hoursOvertimeFraction1;
+							
+								echo "<tr><td></td><td></td><td></td>";
+								echo "<td class='text-right'>";
+								echo "<p class='text-primary'><b>Actual Regular Hours:<br> " . round($actualRegularHours1, 3) . "</b></p>";
+								echo "</td>";
+								echo "<td class='text-right'>";
+								echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . round($actualOvertimeHours1, 3) . "</b></p>";
+								echo "</td>";
+								echo "</tr>";
+								echo "<tr><td colspan='5'><br></td></tr>";
 							}
 							if($infoPayrollUser2)
 							{
 								echo "<tr><td class='text-left' colspan='6'>";
-								echo "<p class='text-danger'><b>Second Weak: " . $infoPayrollUser2[0]["period_weak"] . "</b></p>";
+								echo "<p class='text-danger'><b>Second Week: " . $infoPayrollUser2[0]["period_weak"] . "</b></p>";
 								echo "</td></tr>";
-								$totalRegular = 0;
-								$totalOvertime = 0;
+								$totalRegular2 = 0;
+								$totalOvertime2 = 0;
 								$totalRegularWeek = 0;
 								$weeklyOvertime = 0;
 								foreach ($infoPayrollUser2 as $lista):
 									echo "<tr>";							
 									echo "<td class='text-center'>" . $lista['start'] . "</td>";
 									echo "<td class='text-center'>" . $lista['finish'] . "</td>";
-									echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
-									echo "<td class='text-right'>" . $lista['regular_hours'] . "</td>";
-									echo "<td class='text-right'>" . $lista['overtime_hours'] . "</td>";
-									$totalHours2 = $lista['working_hours'] + $totalHours2;
-									$totalRegular = $lista['regular_hours'] + $totalRegular;
-									$totalOvertime = $lista['overtime_hours'] + $totalOvertime;
+									echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, 5) . "</td>";
+									echo "<td class='text-right'>" . substr($lista['regular_hours_new'], 0, 5) . "</td>";
+									echo "<td class='text-right'>" . substr($lista['overtime_hours_new'], 0, 5) . "</td>";
 									echo "</tr>";
+									if (!empty($lista['working_hours_new'])) {
+										$totalHours2 += timeToSeconds($lista['working_hours_new']);
+									}
+									if (!empty($lista['regular_hours_new'])) {
+										$totalRegular2 += timeToSeconds($lista['regular_hours_new']);
+									}
+									if (!empty($lista['overtime_hours_new'])) {
+										$totalOvertime2 += timeToSeconds($lista['overtime_hours_new']);
+									}
 								endforeach;
-									echo "<tr><td></td><td></td>";
-									echo "<td class='text-right'><strong>Total weekly hours:<br>" . $totalHours2 . "</strong></td>";
-									echo "<td class='text-right'><strong>Total daily  regular hours per week:<br>" . $totalRegular . "</strong></td>";
-									echo "<td class='text-right'><strong>Total daily overtime per week:<br>" . $totalOvertime . "</strong></td>";
-									echo "</tr>";
 
-									if($totalHours2 > 44){
-										$totalRegularWeek = 44;
-										$weeklyOvertime = $totalHours2 - $totalRegularWeek;
-									}else{
-										$totalRegularWeek = $totalHours2;
-									}
+								$hoursTotal2 = floor($totalHours2 / 3600);
+								$minsTotal2 = floor(($totalHours2 / 60) % 60);
 
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . $totalRegularWeek . "</strong></td>";
-									echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . $weeklyOvertime . "</strong></td>";
-									echo "</tr>";
+								$hoursRegular2 = floor($totalRegular2 / 3600);
+								$minsRegular2 = floor(($totalRegular2 / 60) % 60);
 
-									if($weeklyOvertime > $totalOvertime){
-										$actualRegularHours2 = $totalRegularWeek;
-										$actualOvertimeHours2 = $weeklyOvertime;
-									}else{
-										$actualRegularHours2 = $totalRegular;
-										$actualOvertimeHours2 = $totalOvertime;
-									}
-									echo "<tr><td></td><td></td><td></td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual regular hours:<br> " . $actualRegularHours2 . "</b></p>";
-									echo "</td>";
-									echo "<td class='text-right'>";
-									echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . $actualOvertimeHours2 . "</b></p>";
-									echo "</td>";
-									echo "</tr>";
-									echo "<tr><td colspan='5'><br></td></tr>";
+								$hoursOvertime2 = floor($totalOvertime2 / 3600);
+								$minsOvertime2 = floor(($totalOvertime2 / 60) % 60);								
+
+								//los paso a fraccion de horas
+								$hoursTotalFraction2 = secondsToFractionHours($totalHours2);
+								$hoursRegularFraction2 = secondsToFractionHours($totalRegular2);
+								$hoursOvertimeFraction2 = secondsToFractionHours($totalOvertime2);
+								echo "<tr><td></td><td></td>";
+								echo "<td class='text-right'><strong>" . sprintf('%02d:%02d', $hoursTotal2, $minsTotal2) . "</strong>(hh:mm)<br><strong>Total Weekly Hours:<br>" . round($hoursTotalFraction2, 3) . " hours</strong></td>";
+								echo "<td class='text-right'><strong>" . sprintf('%02d:%02d', $hoursRegular2, $minsRegular2) . "</strong>(hh:mm)<br><strong>Total Daily Regular Hours Per Week:<br>" . round($hoursRegularFraction2, 3) . " hours</strong></td>";
+								echo "<td class='text-right'><strong>" . sprintf('%02d:%02d', $hoursOvertime2, $minsOvertime2) . "</strong>(hh:mm)<br><strong>Total Daily Overtime Per Week:<br>" . round($hoursOvertimeFraction2, 3) . " hours</strong></td>";
+								echo "</tr>";
+
+								/** 
+								 ** Reviso si se paso de 44 horas para la semana
+								 **/
+								$totalRegularWeek = $hoursTotalFraction2 > 44 ? 44 : $hoursTotalFraction2;
+								$weeklyOvertime = $hoursTotalFraction2 > 44 ? $hoursTotalFraction2 - 44 : 0;
+
+								echo "<tr><td></td><td></td><td></td>";
+								echo "<td class='text-right'><strong>Total regular hours for the week:<br>" . round($totalRegularWeek, 3) . "</strong></td>";
+								echo "<td class='text-right'><strong>Weekly Overtime Hours:<br>" . round($weeklyOvertime, 3) . "</strong></td>";
+								echo "</tr>";
+
+								$actualRegularHours2 = $weeklyOvertime > $hoursOvertimeFraction2 ? $totalRegularWeek : $hoursRegularFraction2;
+								$actualOvertimeHours2 = $weeklyOvertime > $hoursOvertimeFraction2 ? $weeklyOvertime : $hoursOvertimeFraction2;
+							
+								echo "<tr><td></td><td></td><td></td>";
+								echo "<td class='text-right'>";
+								echo "<p class='text-primary'><b>Actual Regular Hours:<br> " . round($actualRegularHours2, 3) . "</b></p>";
+								echo "</td>";
+								echo "<td class='text-right'>";
+								echo "<p class='text-primary'><b>Actual Overtime Hours:<br> " . round($actualOvertimeHours2, 3) . "</b></p>";
+								echo "</td>";
+								echo "</tr>";
+								echo "<tr><td colspan='5'><br></td></tr>";
 							}
-									$totalWorked = $totalHours1 + $totalHours2;
+									$totalWorked = $hoursTotalFraction1 + $hoursTotalFraction2;
 									$totalRegularHours = $actualRegularHours1 + $actualRegularHours2;
 									$totalOvertimeHours = $actualOvertimeHours1 + $actualOvertimeHours2;
 									$bankTimeBalance = 0;
@@ -266,9 +308,9 @@ if ($retornoError) {
 									if($bankTime == 2){
 										echo "<tr class='danger text-danger'><td></td>";
 										echo "<td class='text-right'><strong>CUT-OFF:</strong></td>";
-										echo "<td class='text-right'><strong>Total worked hours:<br>" . $totalWorked . "</strong></td>";
-										echo "<td class='text-right'><strong>Total regular hours:<br>" . $totalRegularHours . "</strong></td>";
-										echo "<td class='text-right'><strong>Total overtime hours:<br>" . $totalOvertimeHours . "</strong></td>";
+										echo "<td class='text-right'><strong>Total worked hours:<br>" . round($totalWorked, 3) . "</strong></td>";
+										echo "<td class='text-right'><strong>Total regular hours:<br>" . round($totalRegularHours, 3) . "</strong></td>";
+										echo "<td class='text-right'><strong>Total overtime hours:<br>" . round($totalOvertimeHours, 3) . "</strong></td>";
 										echo "</tr>";
 									}elseif($bankTime == 1){
 
@@ -567,6 +609,9 @@ if ($retornoError) {
 											</thead>
 											<tbody>
 											<?php
+												$year_cost_regular_salary = 0;
+												$year_cost_overtime = 0;
+												$year_cost_vacation = 0;
 												if(!$infoPaystub){
 													if($infoTotalYear){
 														$year_cost_regular_salary = $cost_regular_salary + $infoTotalYear[0]['total_year_cost_regular_salary'];
@@ -578,13 +623,15 @@ if ($retornoError) {
 														$year_cost_vacation = $cost_vacation;
 													}
 												}else{
+													if($infoTotalYear){
 														$year_cost_regular_salary = $infoTotalYear[0]['total_year_cost_regular_salary'];
 														$year_cost_overtime = $infoTotalYear[0]['total_year_cost_over_time'];
 														$year_cost_vacation = $infoTotalYear[0]['total_year_cost_vacation_regular_salary'];
+													}
 												}
 												echo "<tr>";
 												echo "<td><small>Regular Pay</small></td>";
-												echo "<td class='text-center'><small>" . $totalRegularHours . "</small></td>";
+												echo "<td class='text-center'><small>" . round($totalRegularHours, 3) . "</small></td>";
 												echo "<td class='text-center'><small>" . $employeeHourRate . "</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($cost_regular_salary, 2) . "</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($year_cost_regular_salary, 2) . "</small></td>";
@@ -592,7 +639,7 @@ if ($retornoError) {
 
 												echo "<tr>";
 												echo "<td><small>Overtime Pay</small></td>";
-												echo "<td class='text-center'><small>" . $totalOvertimeHours . "</small></td>";
+												echo "<td class='text-center'><small>" . round($totalOvertimeHours, 3) . "</small></td>";
 												echo "<td class='text-center'><small>" . $employeeHourRate * 1.5 . "</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($cost_overtime, 2) . "</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($year_cost_overtime, 2) . "</small></td>";
@@ -621,10 +668,11 @@ if ($retornoError) {
 											</thead>
 											<tbody>
 											<?php
+												$totalYearGWL = $infoTotalYear ? number_format($infoTotalYear[0]['total_year_gwl_deductions'], 2) : 0;
 												echo "<tr>";
 												echo "<td><small>GWL Deductions</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gwl_deductions'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_gwl_deductions'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearGWL . "</small></td>";
 												echo "</tr>";
 											?>
 											</tbody>
@@ -640,22 +688,25 @@ if ($retornoError) {
 											</thead>
 											<tbody>
 											<?php
+												$totalYearTAX = $infoTotalYear ? number_format($infoTotalYear[0]['total_year_tax'], 2) : 0;
+												$totalYearEI = $infoTotalYear ? number_format($infoTotalYear[0]['total_year_ee_ei'], 2) : 0;
+												$totalYearCPP = $infoTotalYear ? number_format($infoTotalYear[0]['total_year_ee_cpp'], 2) : 0;
 												echo "<tr>";
 												echo "<td><small>Income Tax</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['tax'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_tax'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearTAX . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Employment Insurance</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_ei'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_ee_ei'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearEI . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Canada Pension Plan</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_cpp'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_ee_cpp'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearCPP . "</small></td>";
 												echo "</tr>";
 											?>
 											</tbody>
@@ -690,22 +741,24 @@ if ($retornoError) {
 											</thead>
 											<tbody>
 											<?php
+												$totalYearGrossSalary = $infoTotalYear ? number_format($infoTotalYear[0]['total_year_gross_salary'], 2) : 0;
+												$totalYearTotalTaxes = $infoTotalYear ? number_format($infoTotalYear[0]['total_year_ee_total_taxes'], 2) : 0;
 												echo "<tr>";
 												echo "<td><small>Total Pay</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gross_salary'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_gross_salary'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearGrossSalary . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Taxes</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['ee_total_taxes'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_ee_total_taxes'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearTotalTaxes . "</small></td>";
 												echo "</tr>";
 
 												echo "<tr>";
 												echo "<td><small>Deductions</small></td>";
 												echo "<td class='text-right'><small>$ " . number_format($infoPaystub[0]['gwl_deductions'], 2) . "</small></td>";
-												echo "<td class='text-right'><small>$ " . number_format($infoTotalYear[0]['total_year_gwl_deductions'], 2) . "</small></td>";
+												echo "<td class='text-right'><small>$ " . $totalYearGWL . "</small></td>";
 												echo "</tr>";
 
 
