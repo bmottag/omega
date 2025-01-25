@@ -40,6 +40,19 @@
 					<input type="email" class="form-control" id="email" name="email" value="<?php echo $information ? $information[0]["email"] : ""; ?>" placeholder="Email" />
 				</div>
 			</div>
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<label class="control-label" for="email">Does hauling?</label>
+					<select name="does_hauling" id="does_hauling" class="form-control">
+						<option value=2 <?php if ($information && $information[0]["does_hauling"] == 2) {
+											echo "selected";
+										}  ?>>No</option>
+						<option value=1 <?php if ($information && $information[0]["does_hauling"] == 1) {
+											echo "selected";
+										}  ?>>Yes</option>
+					</select>
+				</div>
+			</div>
 		</div>
 
 		<div class="form-group">

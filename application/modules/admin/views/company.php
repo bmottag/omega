@@ -69,6 +69,7 @@
 									<th class="text-center">Contact</th>
 									<th class="text-center">Movil</th>
 									<th class="text-center">Email</th>
+									<th class="text-center">Does hauling?</th>
 									<th class="text-center">Edit</th>
 								</tr>
 							</thead>
@@ -96,6 +97,12 @@
 
 									echo "<td class='text-center'>" . $resultado . "</td>";
 									echo "<td>" . $lista['email'] . "</td>";
+									if ($lista['does_hauling'] == 2) {
+										$does_hauling = "No";
+									} else {
+										$does_hauling = "Yes";
+									}
+									echo "<td class='text-center'>" . $does_hauling . "</td>";
 									echo "<td class='text-center'>";
 								?>
 									<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_company']; ?>">

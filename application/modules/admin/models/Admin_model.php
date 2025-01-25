@@ -126,7 +126,8 @@ class Admin_model extends CI_Model
 			'company_name' => $this->input->post('company'),
 			'contact' => $this->input->post('contact'),
 			'movil_number' => $this->input->post('movilNumber'),
-			'email' => $this->input->post('email')
+			'email' => $this->input->post('email'),
+			'does_hauling' => $this->input->post('does_hauling')
 		);
 
 		//revisar si es para adicionar o editar
