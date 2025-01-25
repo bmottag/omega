@@ -219,25 +219,31 @@ class Payroll_model extends CI_Model
 				if ($idJob == $job_programming && $id_workorder != null) {
 
 					$data = array(
-						'fk_id_workorder' => $id_workorder,
-						'fk_id_user' => $idUser,
-						'fk_id_employee_type' => 1,
+						// 'fk_id_workorder' => $id_workorder,
+						// 'fk_id_user' => $idUser,
+						// 'fk_id_employee_type' => 1,
 						'hours' => $workingHours,
 						'description' => 'Payroll hours',
 					);
 
-					$this->db->insert('workorder_personal', $data);
+					//$this->db->insert('workorder_personal', $data);
+					$this->db->where('fk_id_workorder  ', $id_workorder);
+					$this->db->where('fk_id_user  ', $idUser);
+					$query = $this->db->update('workorder_personal', $data);
 				}
 			} else {
 				$data = array(
-					'fk_id_workorder' => $id_workorder,
-					'fk_id_user' => $idUser,
-					'fk_id_employee_type' => 1,
+					// 'fk_id_workorder' => $id_workorder,
+					// 'fk_id_user' => $idUser,
+					// 'fk_id_employee_type' => 1,
 					'hours' => $hours_first_project,
 					'description' => 'Payroll hours',
 				);
 
-				$this->db->insert('workorder_personal', $data);
+				//$this->db->insert('workorder_personal', $data);
+				$this->db->where('fk_id_workorder  ', $id_workorder);
+				$this->db->where('fk_id_user  ', $idUser);
+				$query = $this->db->update('workorder_personal', $data);
 			}
 		}
 
