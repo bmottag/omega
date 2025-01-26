@@ -16,10 +16,10 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="company">Company : *</label>
-					<select name="company" id="company" class="form-control">
+					<select name="company" id="companySelect" class="form-control">
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($companyList); $i++) { ?>
-							<option value="<?php echo $companyList[$i]["id_company"]; ?>"><?php echo $companyList[$i]["company_name"]; ?></option>
+							<option value="<?php echo $companyList[$i]["id_company"]; ?>" data-hauling="<?php echo $companyList[$i]["does_hauling"]; ?>"><?php echo $companyList[$i]["company_name"]; ?></option>
 						<?php } ?>
 					</select>
 				</div>
@@ -38,6 +38,9 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
+					<div id="divHauling">
+						<label class="control-label" for="quantity" style="color: red;">Esta empresa es de hauling indique en Quantity la cantidad de volquetas *</label>
+					</div>
 					<label class="control-label" for="quantity">Quantity : *</label>
 					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity">
 				</div>

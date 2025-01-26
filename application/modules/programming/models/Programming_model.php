@@ -502,18 +502,70 @@ class Programming_model extends CI_Model
 	 */
 	public function saveOcasional()
 	{
-		$data = array(
-			'fk_id_programming' => $this->input->post('hddidProgramming'),
-			'fk_id_company' => $this->input->post('company'),
-			'equipment' => $this->input->post('equipment'),
-			'quantity' => $this->input->post('quantity'),
-			'unit' => $this->input->post('unit'),
-			'hours' => $this->input->post('hour'),
-			'contact' => $this->input->post('contact'),
-			'description' => $this->input->post('description')
+		$this->load->model("general_model");
+		//se filtra por company_type para que solo se pueda editar los subcontratistas
+		$arrParam = array(
+			"table" => "param_company",
+			"order" => "id_company",
+			"column" => "id_company",
+			"id" => $this->input->post('company')
 		);
+		$result = $this->general_model->get_basic_search($arrParam);
 
-		$query = $this->db->insert('programming_ocasional', $data);
+		$hauling = $result[0]["does_hauling"];
+
+		if ($hauling == 2) {
+			$data = array(
+				'fk_id_programming' => $this->input->post('hddidProgramming'),
+				'fk_id_company' => $this->input->post('company'),
+				'equipment' => $this->input->post('equipment'),
+				'quantity' => $this->input->post('quantity'),
+				'unit' => $this->input->post('unit'),
+				'hours' => $this->input->post('hour'),
+				'contact' => $this->input->post('contact'),
+				'description' => $this->input->post('description')
+			);
+
+			$query = $this->db->insert('programming_ocasional', $data);
+		} else if ($hauling == 1) {
+			$quantity = $this->input->post('quantity');
+
+			$arrParam = array(
+				"table" => "programming",
+				"order" => "id_programming",
+				"column" => "id_programming",
+				"id" => $this->input->post('hddidProgramming')
+			);
+			$result = $this->general_model->get_basic_search($arrParam);
+
+			$idWorkorder = $result[0]["fk_id_workorder"];
+			$fk_id_job = $result[0]["fk_id_job"];
+
+			$info['id_work_order'] = $idWorkorder;
+			$info['fk_id_job'] = $fk_id_job;
+			$info['equipment'] = $this->input->post('equipment');
+			$info['unit'] = $this->input->post('unit');
+			$info['description'] = $this->input->post('description');
+
+			$this->load->model("hauling/hauling_model");
+
+			for ($i = 0; $i < $quantity; $i++) {
+				$data = array(
+					'fk_id_programming' => $this->input->post('hddidProgramming'),
+					'fk_id_company' => $this->input->post('company'),
+					'equipment' => $this->input->post('equipment'),
+					'quantity' => $this->input->post('quantity'),
+					'unit' => $this->input->post('unit'),
+					'hours' => $this->input->post('hour'),
+					'contact' => $this->input->post('contact'),
+					'description' => $this->input->post('description')
+				);
+
+				$query = $this->db->insert('programming_ocasional', $data);
+
+				$this->hauling_model->saveHaulingByProgramming($info);
+			}
+		}
 
 		if ($query) {
 			return true;
