@@ -722,8 +722,10 @@ class Safety extends CI_Controller {
     public function cargarModalEmployeeVerification() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-			$data["idSafety"] = $this->input->post("idSafety");
-
+			$data["idRecord"] = $this->input->post("idRecord");
+			$data["table"] = $this->input->post("table");
+			$data["backURL"] = $this->input->post("backURL");
+			
 			$information = $this->input->post('information');
 			$porciones = explode("-", $information);
 			$data["userType"] = $porciones[0];
@@ -753,10 +755,12 @@ class Safety extends CI_Controller {
 			$data = array();
 			$idUser = $this->input->post('hddIdUser');
 			$idSafetyWorker = $this->input->post('hddIdSafetyWorker');
-			$idSafety = $this->input->post('hddIdSafety');
+			$idRecord = $this->input->post('hddIdRecord');
+			$table = $this->input->post("hddTable");
+			$backURL = $this->input->post('backURL');
 			$userType = $this->input->post('hddUserType');
 			
-			$data["path"] = "safety/review_flha/" . $idSafety;
+			$data["path"] = $backURL . $idRecord;
 			$login = $this->security->xss_clean($this->input->post("login"));
 			$passwd = $this->security->xss_clean($this->input->post("password"));
 
@@ -782,7 +786,7 @@ class Safety extends CI_Controller {
 						$arrParam = array(
 							"table" => "safety",
 							"primaryKey" => "id_safety",
-							"id" => $idSafety,
+							"id" => $idRecord,
 							"column" => "signature",
 							"value" => $user["user_signature"]
 						);
@@ -791,6 +795,14 @@ class Safety extends CI_Controller {
 							"table" => "safety_workers",
 							"primaryKey" => "id_safety_worker",
 							"id" => $idSafetyWorker,
+							"column" => "signature",
+							"value" => $user["user_signature"]
+						);
+					}elseif($userType == "inspection"){
+						$arrParam = array(
+							"table" => $table,
+							"primaryKey" => "id_" . $table,
+							"id" => $idRecord,
 							"column" => "signature",
 							"value" => $user["user_signature"]
 						);

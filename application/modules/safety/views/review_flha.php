@@ -1,12 +1,14 @@
 <script>
 $(function(){ 
 	$(".btn-outline").click(function () {	
-			var idSafety = $('#hddIdSafety').val();
+			var idRecord = $('#hddIdSafety').val();
+			var table = "safety";
+			var backURL = "safety/review_flha/";
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
 				url: base_url + 'safety/cargarModalEmployeeVerification',
-                data: {"idSafety": idSafety, 'information': oID },
+                data: {"idRecord": idRecord, "table": table, "backURL": backURL, 'information': oID },
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
