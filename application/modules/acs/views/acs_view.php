@@ -95,6 +95,9 @@
 					<strong>Job Code/Name: </strong><br><?php echo $acs_info[0]["job_description"]; ?><br>
 					<strong>Foreman: </strong><?php echo $acs_info[0]["foreman_name_wo"]; ?><br>
 					<strong>Work Done: </strong><br><?php echo $acs_info[0]["observation"]; ?>
+					<br><strong>Download to: </strong>
+					<a href='<?php echo base_url('acs/generaHaulingXLS/' . $acs_info[0]["id_acs"]); ?>'>Excel <img src='<?php echo base_url_images('xls.png'); ?>'></a>
+					<a href='<?php echo base_url('acs/reportPDF/' . $acs_info[0]["id_acs"]); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
 				</div>
 			</div>
 		</div>	

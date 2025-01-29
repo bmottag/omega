@@ -23,14 +23,14 @@ $( document ).ready( function () {
 		}
 	});
 				
-	$("#btnSubmit").click(function(){		
+	$("#btnSubmitVerification").click(function(){		
 	
 		if ($("#formVerify").valid() == true){
 		
 				//Activa icono guardando
-				$('#btnSubmit').attr('disabled','-1');
-				$("#div_error").css("display", "none");
-				$("#div_load").css("display", "inline");
+				$('#btnSubmitVerification').attr('disabled','-1');
+				$("#div_error_message").css("display", "none");
+				$("#div_load_message").css("display", "inline");
 			
 				$.ajax({
 					type: "POST",	
@@ -44,17 +44,17 @@ $( document ).ready( function () {
                                             
 						if( data.result == "error" )
 						{
-							$("#div_load").css("display", "none");
-							$("#div_error").css("display", "inline");
-							$("#span_msj").html(data.mensaje);
-							$('#btnSubmit').removeAttr('disabled');							
+							$("#div_load_message").css("display", "none");
+							$("#div_error_message").css("display", "inline");
+							$("#span_msj_error").html(data.mensaje);
+							$('#btnSubmitVerification').removeAttr('disabled');							
 							return false;
 						} 
 
 						if( data.result )//true
 						{	                                                        
-							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');   
+							$("#div_load_message").css("display", "none");
+							$('#btnSubmitVerification').removeAttr('disabled');   
 
 							var url = base_url + data.path;
 							$(location).attr("href", url);
@@ -62,16 +62,16 @@ $( document ).ready( function () {
 						else
 						{
 							alert('Error. Reload the web page.');
-							$("#div_load").css("display", "none");
-							$("#div_error").css("display", "inline");
-							$('#btnSubmit').removeAttr('disabled');
+							$("#div_load_message").css("display", "none");
+							$("#div_error_message").css("display", "inline");
+							$('#btnSubmitVerification').removeAttr('disabled');
 						}	
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
-						$("#div_load").css("display", "none");
-						$("#div_error").css("display", "inline");
-						$('#btnSubmit').removeAttr('disabled');
+						$("#div_load_message").css("display", "none");
+						$("#div_error_message").css("display", "inline");
+						$('#btnSubmitVerification').removeAttr('disabled');
 					}
 		
 				});	
