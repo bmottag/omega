@@ -13,8 +13,10 @@
 <div class="modal-body">
 	<form  name="formVerify" id="formVerify" role="form" method="post" >
 		<input type="hidden" id="hddIdUser" name="hddIdUser" value="<?php echo $idUser; ?>"/>
+		<input type="hidden" id="hddTable" name="hddTable" value="<?php echo $table; ?>"/>
+		<input type="hidden" id="backURL" name="backURL" value="<?php echo $backURL; ?>"/>
 		<input type="hidden" id="hddIdSafetyWorker" name="hddIdSafetyWorker" value="<?php echo $idSafetyWorker; ?>"/>
-		<input type="hidden" id="hddIdSafety" name="hddIdSafety" value="<?php echo $idSafety; ?>"/>
+		<input type="hidden" id="hddIdRecord" name="hddIdRecord" value="<?php echo $idRecord; ?>"/>
 		<input type="hidden" id="hddUserType" name="hddUserType" value="<?php echo $userType; ?>"/>
 		
 		<div class="row">
@@ -36,7 +38,7 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+					<button type="button" id="btnSubmitVerification" name="btnSubmitVerification" class="btn btn-primary" >
 						Verify and save your Signature <span class="glyphicon glyphicon-check" aria-hidden="true">
 					</button> 
 				</div>
@@ -44,15 +46,15 @@
 		</div>
 		
 		<div class="form-group">
-			<div id="div_load" style="display:none">		
+			<div id="div_load_message" style="display:none">		
 				<div class="progress progress-striped active">
 					<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
 						<span class="sr-only">45% completado</span>
 					</div>
 				</div>
 			</div>
-			<div id="div_error" style="display:none">			
-				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
+			<div id="div_error_message" style="display:none">			
+				<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj_error">&nbsp;</span></div>
 			</div>	
 		</div>
 		
