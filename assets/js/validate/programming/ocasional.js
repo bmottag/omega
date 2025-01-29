@@ -1,5 +1,5 @@
-$( document ).ready( function () {
-
+$(document).ready(function () {
+	$('#divHauling').hide();
 	$( "#formOcasional" ).validate( {
 		rules: {
 			company: 			{ required: true },
@@ -79,4 +79,18 @@ $( document ).ready( function () {
 				});
 		}
 	});
+
+	$('#companySelect').change(function () {
+		var company = $(this).find('option:selected');
+		var companyValue = company.val();
+		var dataHauling = company.data('hauling');
+
+		if (dataHauling == 1) {
+			$('#divHauling').show();
+			$('#quantity').attr('required', true);
+		} else {
+			$('#divHauling').hide();
+			$('#quantity').removeAttr('required');
+		}
+    });
 });
