@@ -302,7 +302,10 @@
 						<br><strong>Prices:</strong> General Equipment Prices
 						<br>----------------------------
 						<br><strong>Reports:</strong> Payroll Report by Period
-						<br><strong>Reports:</strong> Incidences Report
+						<ul>
+						<li>Edit Worker Hours</li>
+						</ul>
+						<strong>Reports:</strong> Incidences Report
 						<br><strong>Reports:</strong> Maintenace Report
 						<br><strong>Reports:</strong> FLHA Report
 						<br><strong>Reports:</strong> Hauling Report

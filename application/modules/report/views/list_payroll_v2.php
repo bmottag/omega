@@ -113,7 +113,7 @@
 									 * Opcion de editar horas para  SUPER ADMIN
 									 */
 									$userRol = $this->session->rol;
-									if ($userRol == 99 || $userRol == 3) {
+									if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ACCOUNTING) {
 										//si no se ahn pagado entonces se pueden editar
 										if ($lista['period_status'] == 1) {
 
