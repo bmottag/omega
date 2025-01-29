@@ -391,6 +391,7 @@ class Dashboard extends CI_Controller
 		$data['infoNextPlanning'] = $this->general_model->get_programming_info($arrParam); //info planning
 
 		$data['infoMaintenance'] = $this->general_model->get_maintenance_check();
+		$data['infoTask'] = $this->general_model->get_without_work_order();
 
 		$arrParam["limit"] = 60; //Limite de registros para la consulta
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
@@ -657,6 +658,106 @@ class Dashboard extends CI_Controller
 		);
 		if ($this->general_model->updateRecord($arrParam)) {
 			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', 'You have updated the information');
+		} else {
+			$data["result"] = "error";
+			$data["mensaje"] = "Error!!! Ask for help.";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
+
+	/**
+	 * Without Hours WO list
+	 * @since 27/01/2025
+	 * @author FOROZCO
+	 */
+	public function without_work_order()
+	{
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
+
+		$data['infoTask'] = $this->general_model->get_without_work_order();
+
+		$data["view"] = 'dashboard/without_work_order';
+		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Cargo modal- formulario de captura personal
+	 * @since 13/1/2017
+	 */
+	public function modalListWo()
+	{
+		header('Content-Type: application/json');
+
+		$data["taskId"] = $this->input->post("taskId");
+
+		//task INFO
+		$arrParam = array(
+			"table" => "task",
+			"order" => "id_task",
+			"column" => "id_task",
+			"id" => $this->input->post("taskId")
+		);
+		$data['task'] = $this->general_model->get_basic_search($arrParam); //employee type list
+		$date = $data['task'][0]['finish'];
+		$idJob = $data['task'][0]['fk_id_job'];
+
+		$sql = "SELECT * FROM workorder WHERE date = DATE('$date') AND fk_id_job = $idJob";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			$result = $query->row_array();
+		} else {
+			$result = null;
+		}
+
+		$this->db->close();
+		echo json_encode($result);
+	}
+
+	public function assignHoursWo()
+	{
+		header('Content-Type: application/json');
+
+		//task INFO
+		$arrParam = array(
+			"table" => "task",
+			"order" => "id_task",
+			"column" => "id_task",
+			"id" => $this->input->post("taskId")
+		);
+		$task = $this->general_model->get_basic_search($arrParam); //employee type list
+
+		$data["woID"] = $this->input->post("woID");
+
+		$data["dashboardURL"] = $this->session->userdata("dashboardURL");
+		$arrParam = array(
+			"table" => "task",
+			"primaryKey" => "id_task",
+			"id" => $this->input->post("taskId"),
+			"column" => "wo_end_project",
+			"value" => $this->input->post("woID")
+		);
+		if ($this->general_model->updateRecord($arrParam)) {
+			$data["result"] = true;
+
+			$fk_id_user = $task[0]['fk_id_user'];
+			$hours_end_project = $task[0]['hours_end_project'];
+			$description = $task[0]['task_description'];
+
+			$data = array(
+				'fk_id_workorder' => $this->input->post("woID"),
+				'fk_id_user' => $fk_id_user,
+				'fk_id_employee_type' => 1,
+				'hours' => $hours_end_project,
+				'description' => $description
+			);
+
+			$this->db->insert('workorder_personal', $data);
+
 			$this->session->set_flashdata('retornoExito', 'You have updated the information');
 		} else {
 			$data["result"] = "error";

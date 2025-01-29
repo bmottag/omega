@@ -68,6 +68,24 @@
 	}
 	?>
 
+	<?php
+	$userRol = 99; //$this->session->userdata("rol");
+	if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_WORKORDER) {
+		if ($infoTask) {
+	?>
+			<div class="row">
+				<div class="col-lg-12">
+					<a class="btn btn-block btn-social btn-pinterest" href="<?php echo base_url('dashboard/without_work_order'); ?>">
+						<i class="fa fa-money"></i> There are some hours from the payroll that are not linked to a Work Order (WO).
+					</a>
+					<br>
+				</div>
+			</div>
+	<?php
+		}
+	}
+	?>
+
 	<div class="row">
 		<!-- INICIO MENSAJE DEL SISTEMA si aprobaron un dayoff en los ultimos 7 dias -->
 		<?php if ($dayoff) { ?>
@@ -240,8 +258,8 @@
 									if ($informationWorker) {
 										foreach ($informationWorker as $worker) :
 
-											if($worker['fk_id_machine'] != NULL){
-												$id_values = implode(',', json_decode($worker['fk_id_machine'], true));			
+											if ($worker['fk_id_machine'] != NULL) {
+												$id_values = implode(',', json_decode($worker['fk_id_machine'], true));
 												$arrParam = array("idValues" => $id_values);
 												$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 											}
@@ -259,10 +277,9 @@
 												$mensaje .= "<br>Tool Box has being assigned to you.";
 											} elseif ($worker['safety'] == 3) {
 												$mensaje .= "<br>JSO has being assigned to you.";
-											}							
+											}
 											if ($worker['creat_wo'] == 1) {
 												$mensaje .= "<br>You are in charge of the <a href='" . base_url('workorders/add_workorder/' . $data['fk_id_workorder']) . "'>W.O. # " . $data['fk_id_workorder'] . "</a>";
-
 											}
 											$mensaje .= $worker['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
 										endforeach;
