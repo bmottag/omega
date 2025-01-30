@@ -346,8 +346,7 @@ class Workorders extends CI_Controller
 			->comment(json_encode($log))
 			->log(); //Add Database Entry
 
-		if ($this->general_model->deleteRecord($arrParam)) 
-		{
+		if ($this->general_model->deleteRecord($arrParam)) {
 			//elimino de la tabla expenses
 			$arrExpenses = array(
 				"fk_id_workorder" => $idWorkOrder,
@@ -1066,7 +1065,7 @@ class Workorders extends CI_Controller
 			);
 			$this->workorders_model->update_workorder($arrParam);
 
-			if($status == REVISED && !$idACS){
+			if ($status == REVISED && !$idACS) {
 				$arrParam = array('idWorkOrder' => $data["idWorkorder"]);
 				$info['workorder'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
 				$info['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam); //workorder personal list
@@ -1079,6 +1078,21 @@ class Workorders extends CI_Controller
 
 			$data["result"] = true;
 			$data["mensaje"] = $msj;
+
+			if ($status == 5) {
+				$arrParam = array(
+					"table" => "hauling",
+					"primaryKey" => "fk_id_workorder",
+					"id" => $data["idWorkorder"],
+					"column" => "state",
+					"value" => 2
+				);
+				$this->load->model("general_model");
+
+				//actualizo el estado del formulario a cerrado(2)
+				$this->general_model->updateRecord($arrParam);
+			}
+
 			$this->session->set_flashdata('retornoExito', $msj);
 		} else {
 			$data["result"] = "error";
@@ -2041,7 +2055,7 @@ class Workorders extends CI_Controller
 			$data["foreman_name"] = $infoForeman[0]["foreman_name"];
 			$data["foreman_movil"] = $infoForeman[0]["foreman_movil_number"];
 			$data["foreman_email"] = $infoForeman[0]["foreman_email"];
-		}elseif($jobInfo[0]["fk_id_company"] > 0 && $jobInfo[0]["fk_id_company"] != ""){
+		} elseif ($jobInfo[0]["fk_id_company"] > 0 && $jobInfo[0]["fk_id_company"] != "") {
 			//reviso si hay formean para esa empresa
 			$arrParam = array(
 				"table" => "param_company_foreman",
@@ -2596,5 +2610,4 @@ class Workorders extends CI_Controller
 
 		redirect(base_url('workorders/workorder_expenses/' . $idWorkOrder), 'refresh');
 	}
-
 }

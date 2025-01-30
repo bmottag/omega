@@ -103,6 +103,7 @@ class Payroll_model extends CI_Model
 		$dteEnd   = new DateTime($fechaCierre);
 		$hours_first_project =  $this->input->post('hours_first_project');
 		$idProgramming =  $this->input->post('programming');
+		$idTask =  $this->input->post('hddIdentificador');
 
 		$dteDiff  = $dteStart->diff($dteEnd);
 		$workingTime = $dteDiff->format("%R%a days %H:%I:%S"); //days hours:minutes:seconds
@@ -139,11 +140,21 @@ class Payroll_model extends CI_Model
 			$regularHours = $workingHours;
 		}
 
+
 		if ($idProgramming) {
 			$hours_first_project = ($hours_first_project) ? $hours_first_project : 0;
 			$hours_end_project = $workingHours - $hours_first_project;
 		} else {
 			$hours_end_project = $hours_first_project;
+		}
+
+		$sqlTask = "select fk_id_job from task where id_task = $idTask";
+		$queryTask = $this->db->query($sqlTask);
+		$resultTask = $queryTask->row_array();
+		$fk_id_job = $resultTask['fk_id_job'];
+
+		if ($this->input->post('jobName') == $fk_id_job) {
+			$hours_end_project = null;
 		}
 
 		//FINISH hours calculation
@@ -164,7 +175,6 @@ class Payroll_model extends CI_Model
 		}
 		//FINISH New cal hours
 
-		$idTask =  $this->input->post('hddIdentificador');
 		if ($adminUpdate == 'x') {
 			$idJob =  $this->input->post('jobName');
 			$observation =  $this->security->xss_clean($this->input->post('observation'));

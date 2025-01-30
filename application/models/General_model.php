@@ -387,7 +387,7 @@ class General_model extends CI_Model
 		}
 	}
 
-		/**
+	/**
 	 * Update field in a table
 	 * @since 11/12/2016
 	 */
@@ -530,7 +530,7 @@ class General_model extends CI_Model
 	public function get_programming($arrData)
 	{
 		$year = date('Y');
-		$firstDay = date('Y-m-d', mktime(0, 0, 0, 1, 1, $year-1));
+		$firstDay = date('Y-m-d', mktime(0, 0, 0, 1, 1, $year - 1));
 
 		$this->db->select("P.*, X.id_job, X.job_description, X.fk_id_company id_company, U.id_user, CONCAT(U.first_name, ' ', U.last_name) name");
 		$this->db->join('user U', 'U.id_user = P.fk_id_user', 'INNER');
@@ -729,13 +729,13 @@ class General_model extends CI_Model
 	public function get_missing_programming_inspecciones($arrData)
 	{
 		$machines = json_decode($arrData["maquina"]);
-	
+
 		$this->db->select('fk_id_machine');
 		$this->db->where('date_inspection', $arrData["fecha"]);
 		$registered_machines_query = $this->db->get('inspection_total');
-		
+
 		$registered_machines = array_column($registered_machines_query->result_array(), 'fk_id_machine');
-	
+
 		$missing_machines = array_diff($machines, $registered_machines);
 
 		if (empty($missing_machines)) {
@@ -2248,7 +2248,7 @@ class General_model extends CI_Model
 		} else {
 			$sql = "SELECT GROUP_CONCAT(unit_number, '-', description SEPARATOR '<br>') AS unit_description FROM param_vehicle WHERE id_vehicle IN (" . $arrData['idValues'] . ")";
 		}
-		
+
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0) {
@@ -2274,6 +2274,26 @@ class General_model extends CI_Model
 		}
 		$this->db->order_by("J.job_description", "asc");
 		$query = $this->db->get("param_jobs J");
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	public function get_without_work_order()
+	{
+		$sql = "SELECT u.first_name, u.last_name, j.job_description, t.*
+				FROM task t
+				JOIN user u ON t.fk_id_user = u.id_user
+				JOIN param_jobs j ON t.fk_id_job = j.id_job
+				WHERE t.wo_end_project IS NULL
+				AND t.hours_end_project IS NOT NULL
+				AND t.hours_end_project <> 0
+				ORDER BY t.id_task DESC;
+			";
+		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0) {
 			return $query->result_array();
