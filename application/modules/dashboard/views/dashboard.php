@@ -69,7 +69,7 @@
 	?>
 
 	<?php
-	$userRol = 99; //$this->session->userdata("rol");
+	$userRol = $this->session->rol;
 	if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_WORKORDER) {
 		if ($infoTask) {
 	?>
