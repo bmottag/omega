@@ -828,4 +828,35 @@ class Payroll extends CI_Controller
 			}
 		}
 	}
+
+	/**
+	 * NOTIFICATION HOURS PAYROLL CHECK
+	 * CRON: Time: Every Day at 12am
+	 */
+	public function hours_payroll_check()
+	{
+		$this->load->model("general_model");
+		$infoTask = $this->general_model->get_without_work_order();
+		if ($infoTask) {
+			//send notifiation
+			$subjet = "Hour sin WO";
+
+			//mensaje de texto
+			$mensajeSMS = "APP VCI - " . $subjet;
+			$mensajeSMS .= "\nHoras sin asignar a WO.";
+			$mensajeSMS .= "\nFollow the link to see the list.";
+			$mensajeSMS .= "\n\n" . base_url("dashboard/without_work_order");
+
+			//enviar correo a VCI
+			$arrParam = array(
+				"idNotification" => ID_NOTIFICATION_HOURS_PAYROLL_CHECK,
+				"subjet" => $subjet,
+				"msjEmail" => '',
+				"msjPhone" => $mensajeSMS
+			);
+			send_notification($arrParam);
+		}
+
+		return true;
+	}
 }
