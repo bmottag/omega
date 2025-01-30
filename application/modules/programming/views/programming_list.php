@@ -461,13 +461,13 @@
 							<div class="col-lg-12">
 								<div class="panel panel-primary">
 									<div class="panel-heading">
-										OCASIONAL SUBCONTRACTOR
+										OCCASIONAL SUBCONTRACTOR
 									</div>
 									<div class="panel-body">
 										<?php if (!$deshabilitar) { ?>
 											<div class="col-lg-12">
 												<button type="button" class="btn btn-primary btn-block btn-occasional" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_programming"]; ?>">
-													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
+													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
 												</button><br>
 											</div>
 										<?php } ?>

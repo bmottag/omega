@@ -496,7 +496,7 @@
 <?php } ?>
 <!--FIN EQUIPMENT -->
 
-<!--INICIO OCASIONAL SUBCONTRACTOR -->
+<!--INICIO OCCASIONAL SUBCONTRACTOR -->
 <?php 
 	if($acsOcasional){
 ?>
@@ -504,12 +504,12 @@
 		<div class="col-lg-12">				
 			<div class="panel panel-dark">
 				<div class="panel-heading">
-					<b>OCASIONAL SUBCONTRACTOR</b>
+					<b>OCCASIONAL SUBCONTRACTOR</b>
 				</div>
 				<div class="panel-body">
 					<div class="col-lg-12">
 						<button type="button" class="btn btn-dark btn-block ocasional_modal" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $acs_info[0]["id_acs"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
 						</button><br>
 					</div>
 					<form id="form_acs_subcontractor" method="post" action="<?php echo base_url("acs/save_info_acs_ocasional"); ?>">
@@ -577,7 +577,7 @@
 						</div>
 						<div class="text-center">
 							<button type="submit" id="btnSubmitSubcontractorEdit" name="btnSubmitSubcontractorEdit" class="btn btn-dark">
-								Save All Ocasional Subcontractor Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+								Save All Occasional Subcontractor Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 							</button>
 						</div>
 					</form>
@@ -586,7 +586,7 @@
 		</div>
 	</div>
 <?php } ?>
-<!--FIN OCASIONAL SUBCONTRACTOR -->
+<!--FIN OCCASIONAL SUBCONTRACTOR -->
 </div>
 
 

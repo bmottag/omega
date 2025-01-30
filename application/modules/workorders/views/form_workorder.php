@@ -897,12 +897,12 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 		<!--FIN EQUIPMENT -->
 
 
-		<!--INICIO OCASIONAL SUBCONTRACTOR -->
+		<!--INICIO OCCASIONAL SUBCONTRACTOR -->
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						OCASIONAL SUBCONTRACTOR
+						OCCASIONAL SUBCONTRACTOR
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>
@@ -910,7 +910,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 								<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																				?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
 								</button><br>
 
 							</div>
@@ -987,7 +987,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 				</div>
 			</div>
 		</div>
-		<!--FIN OCASIONAL SUBCONTRACTOR -->
+		<!--FIN OCCASIONAL SUBCONTRACTOR -->
 
 	<?php } ?>
 
