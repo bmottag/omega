@@ -1,5 +1,25 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/inspection/heavy_inspection.js"); ?>"></script>
 
+<script>
+$(function(){ 
+	$(".btn-outline").click(function () {	
+			var idRecord = $('#hddId').val();
+			var table = "inspection_heavy";
+			var backURL = "inspection/add_heavy_inspection/";
+			var oID = $(this).attr("id");
+            $.ajax ({
+                type: 'POST',
+				url: base_url + 'safety/cargarModalEmployeeVerification',
+				data: {"idRecord": idRecord, "table": table, "backURL": backURL, 'information': oID },
+                cache: false,
+                success: function (data) {
+                    $('#tablaDatos').html(data);
+                }
+            });
+	});	
+});
+</script>
+
 <?php
 /**
  * If it is an ADMIN user, show date 
@@ -126,28 +146,24 @@ if ($retornoError) {
 
 <?php } ?>
 
-<a class="btn <?php echo $class; ?>" href="<?php echo base_url("inspection/add_signature/heavy/" . $information[0]["id_inspection_heavy"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature </a>
+										<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#modal" id="<?php echo "inspection-" . $information[0]['fk_id_user'] . "-x";; ?>" title="System Signature" >
+											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Use User Profile Signature
+										</button>
 
 									</div>
 								</div>
 							</div>
 					
 						</div>
-						<!-- /.panel-body -->
 					</div>
 				</div>
 <?php } ?>
 <!-- FIN Firma del conductor -->
 
-					<!-- /.row (nested) -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 	
 	<div class="row">
 		<div class="col-lg-12">				
@@ -875,4 +891,13 @@ if($userRol==99){
 </form>
 	
 </div>
-<!-- /#page-wrapper -->
+
+<!--INICIO Modal -->
+<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatos">
+
+		</div>
+	</div>
+</div>                       
+<!--FIN Modal -->
