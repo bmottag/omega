@@ -522,21 +522,21 @@ if ($retornoError) {
 <!--FIN EQUIPMENT -->	
 	
 	
-<!--INICIO OCASIONAL SUBCONTRACTOR -->
+<!--INICIO OCCASIONAL SUBCONTRACTOR -->
 
 	<!-- /.row -->
 	<div class="row">
 								<div class="col-lg-12">				
 									<div class="panel panel-primary">
 										<div class="panel-heading">
-											OCASIONAL
+											OCCASIONAL
 										</div>
 										<div class="panel-body">
 											<div class="col-lg-12">	
 								
 					<?php if(!$deshabilitar){ ?>
 					<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_workorder"];//se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Ocasional Subcontractor
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
 					</button><br>
 					<?php } ?>
 											</div>
@@ -622,7 +622,7 @@ if ($retornoError) {
 	</div>
 	<!-- /.row -->
 	
-<!--FIN OCASIONAL SUBCONTRACTOR -->
+<!--FIN OCCASIONAL SUBCONTRACTOR -->
 
 
 <!--INICIO HOLD BACK -->

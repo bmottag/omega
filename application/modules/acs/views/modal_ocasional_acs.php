@@ -1,9 +1,9 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/acs/ocasional_acs.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">OCASIONAL SUBCONTRACTOR
+	<h4 class="modal-title" id="exampleModalLabel">OCCASIONAL SUBCONTRACTOR
 	<br><small>
-		Add an Ocasional Subcontractor to the Accounting Control Sheet (ACS)
+		Add an Occasional Subcontractor to the Accounting Control Sheet (ACS)
 	</small>
 	</h4>
 </div>

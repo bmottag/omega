@@ -118,7 +118,7 @@
                         <li>In search income for the excel document, the Receipts column is added.</li>
                         <li>At the end of the Total Income column, it shows the Total.</li>
                         <li>The name of the document comes with the name of the JOB CODE.</li>
-                        <li>In search income for the excel document, You can find tabs with the information filtered by PERSONAL, MATERIALS, RECEIPT, EQUIPMENT and OCASIONAL SUBCONTRACTORS.</li>
+                        <li>In search income for the excel document, You can find tabs with the information filtered by PERSONAL, MATERIALS, RECEIPT, EQUIPMENT and OCCASIONAL SUBCONTRACTORS.</li>
                         </ul>
                         <strong>Day Off</strong> 
                         <ul>

@@ -284,7 +284,7 @@
 <?php } ?>
 <!--FIN WORKERS -->
 
-<!--INICIO OCASIONAL SUBCONTRACTOR -->
+<!--INICIO OCCASIONAL SUBCONTRACTOR -->
 <?php 
 	if($excavationSubcontractors){
 ?>
@@ -352,7 +352,7 @@
 		</div>
 	</div>
 <?php } ?>
-<!--FIN OCASIONAL SUBCONTRACTOR -->
+<!--FIN OCCASIONAL SUBCONTRACTOR -->
 				</div>
 			</div>
 		</div>

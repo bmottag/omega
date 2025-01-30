@@ -228,7 +228,7 @@
 	<!--FIN EQUIPMENT -->
 
 
-	<!--INICIO OCASIONAL SUBCONTRACTOR -->
+	<!--INICIO OCCASIONAL SUBCONTRACTOR -->
 	<?php
 	if ($workorderOcasional) {
 	?>
@@ -237,7 +237,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						OCASIONAL SUBCONTRACTOR
+						OCCASIONAL SUBCONTRACTOR
 					</div>
 					<div class="panel-body">
 
@@ -280,7 +280,7 @@
 		</div>
 		<!-- /.row -->
 	<?php } ?>
-	<!--FIN OCASIONAL SUBCONTRACTOR -->
+	<!--FIN OCCASIONAL SUBCONTRACTOR -->
 
 </div>
 <!-- /#page-wrapper -->
