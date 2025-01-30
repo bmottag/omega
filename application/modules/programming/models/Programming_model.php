@@ -562,8 +562,9 @@ class Programming_model extends CI_Model
 				);
 
 				$query = $this->db->insert('programming_ocasional', $data);
-
-				$this->hauling_model->saveHaulingByProgramming($info);
+				if ($idWorkorder) {
+					$this->hauling_model->saveHaulingByProgramming($info);
+				}
 			}
 		}
 
