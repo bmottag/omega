@@ -35,12 +35,17 @@
 			</div>
 		</div>
 
+		<div class="row" id="divHauling">
+			<div class="col-sm-12">
+				<div class="form-group text-left">
+					<p class="text-danger text-left">This company provides hauling services. The 'Quantity' field is required to create hauling cards *.</p>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<div id="divHauling">
-						<label class="control-label" for="quantity" style="color: red;">Esta empresa es de hauling indique en Quantity la cantidad de volquetas *</label>
-					</div>
 					<label class="control-label" for="quantity">Quantity : *</label>
 					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity">
 				</div>
