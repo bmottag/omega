@@ -1445,7 +1445,66 @@ class General_model extends CI_Model
 	 */
 	public function get_notifications_access($arrData)
 	{
-		$this->db->select("A.*, N.notification, N.description,CONCAT(U.first_name, ' ', U.last_name) name_email, U.email, CONCAT(X.first_name, ' ', X.last_name) name_sms, X.movil");
+		$this->db->select("A.*, N.notification, N.description, CONCAT(U.first_name, ' ', U.last_name) AS name_email, U.email, CONCAT(X.first_name, ' ', X.last_name) AS name_sms, X.movil");
+		$this->db->join('notifications N', 'N.id_notification = A.fk_id_notification', 'INNER');
+
+		// Convertir el ID de usuario a cadena antes de usar JSON_QUOTE
+		$this->db->join('user U', 'JSON_CONTAINS(A.fk_id_user_email, JSON_QUOTE(CAST(U.id_user AS CHAR)))', 'LEFT');
+		$this->db->join('user X', 'JSON_CONTAINS(A.fk_id_user_sms, JSON_QUOTE(CAST(X.id_user AS CHAR)))', 'LEFT');
+
+		if (array_key_exists("idNotificationAccess", $arrData)) {
+			$this->db->where('A.id_notification_access', $arrData["idNotificationAccess"]);
+		}
+
+		if (array_key_exists("idNotification", $arrData)) {
+			$this->db->where('A.fk_id_notification', $arrData["idNotification"]);
+		}
+
+		$this->db->order_by('N.notification', 'asc');
+		$query = $this->db->get('notifications_access A');
+
+		if ($query->num_rows() > 0) {
+
+			$results = $query->result_array();
+
+			foreach ($results as $key => $value) {
+				$data[$key]['id_notification_access'] = $value['id_notification_access'];
+				$data[$key]['fk_id_notification'] = $value['fk_id_notification'];
+				$data[$key]['fk_id_user_email'] = $value['fk_id_user_email'];
+				$data[$key]['fk_id_user_sms'] = $value['fk_id_user_sms'];
+				$data[$key]['notification'] = $value['notification'];
+				$data[$key]['description'] = $value['description'];
+				$data[$key]['name_email'] = $value['name_email'];
+				$data[$key]['email'] = $value['email'];
+				$data[$key]['name_sms'] = $value['name_sms'];
+				$data[$key]['movil'] = $value['movil'];
+			}
+
+			$uniqueEmails = [];
+			$uniqueMoviles = [];
+
+			foreach ($data as &$item) {
+				// Verificar si el email ya está en el arreglo de únicos
+				if (in_array($item['email'], $uniqueEmails)) {
+					$item['email'] = ''; // Dejar el campo email vacío si es duplicado
+					$item['name_email'] = '';
+				} else {
+					$uniqueEmails[] = $item['email']; // Agregar a la lista de únicos
+				}
+				// Verificar si el móvil ya está en el arreglo de únicos
+				if (in_array($item['movil'], $uniqueMoviles)) {
+					$item['movil'] = ''; // Dejar el campo móvil vacío si es duplicado
+					$item['name_sms'] = '';
+				} else {
+					$uniqueMoviles[] = $item['movil']; // Agregar a la lista de únicos
+				}
+			}
+
+			return $data;
+		} else {
+			return false;
+		}
+		/*$this->db->select("A.*, N.notification, N.description,CONCAT(U.first_name, ' ', U.last_name) name_email, U.email, CONCAT(X.first_name, ' ', X.last_name) name_sms, X.movil");
 		$this->db->join('notifications N', 'N.id_notification = A.fk_id_notification', 'INNER');
 		$this->db->join('user U', 'U.id_user = A.fk_id_user_email', 'LEFT');
 		$this->db->join('user X', 'X.id_user = A.fk_id_user_sms', 'LEFT');
@@ -1462,9 +1521,49 @@ class General_model extends CI_Model
 			return $query->result_array();
 		} else {
 			return false;
-		}
+		}*/
 	}
 
+	public function get_notifications_access_view($arrData)
+	{
+		$this->db->select("A.*, 
+			N.notification, 
+			N.description, 
+			GROUP_CONCAT(DISTINCT CONCAT(U.first_name, ' ', U.last_name) ORDER BY U.id_user ASC SEPARATOR ', ') AS name_email, 
+			GROUP_CONCAT(DISTINCT U.email ORDER BY U.id_user ASC SEPARATOR ', ') AS email, 
+			GROUP_CONCAT(DISTINCT CONCAT(X.first_name, ' ', X.last_name) ORDER BY X.id_user ASC SEPARATOR ', ') AS name_sms, 
+			GROUP_CONCAT(DISTINCT X.movil ORDER BY X.id_user ASC SEPARATOR ', ') AS movil");
+
+		$this->db->from('notifications_access A');
+		$this->db->join('notifications N', 'N.id_notification = A.fk_id_notification', 'INNER');
+
+		// Cambiar el JOIN para usar JSON_CONTAINS
+		$this->db->join('user U', 'JSON_CONTAINS(A.fk_id_user_email, JSON_QUOTE(CAST(U.id_user AS CHAR)))', 'LEFT');
+		$this->db->join('user X', 'JSON_CONTAINS(A.fk_id_user_sms, JSON_QUOTE(CAST(X.id_user AS CHAR)))', 'LEFT');
+
+		//$this->db->where('A.id_notification_access', 14);
+		if (array_key_exists("idNotificationAccess", $arrData)) {
+			$this->db->where('A.id_notification_access', $arrData["idNotificationAccess"]);
+		}
+		if (array_key_exists("idNotification", $arrData)) {
+			$this->db->where('A.fk_id_notification', $arrData["idNotification"]);
+		}
+
+		// Agrupar por el ID de acceso a la notificación para evitar duplicados
+		$this->db->group_by('A.id_notification_access');
+		$this->db->order_by('N.notification', 'asc');
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+
+			$results = $query->result_array();
+
+			return $results;
+		} else {
+			return false;
+		}
+	}
 	/**
 	 * Verify if the user already exist by specific column
 	 * @author BMOTTAG

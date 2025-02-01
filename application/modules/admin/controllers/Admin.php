@@ -505,7 +505,7 @@ class Admin extends CI_Controller
 					$arrParam = array("idNotification" => ID_NOTIFICATION_NEW_JOB);
 					$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
 
-					if($configuracionAlertas){
+					if ($configuracionAlertas) {
 						//mensaje de texto
 						$mensajeSMS = "NEW JOB APP-VCI";
 						$mensajeSMS .= "\nFor your records, a new Job Code has been created in the system.";
@@ -1394,7 +1394,7 @@ class Admin extends CI_Controller
 	public function notifications()
 	{
 		$arrParam = array();
-		$data['info'] = $this->general_model->get_notifications_access($arrParam);
+		$data['info'] = $this->general_model->get_notifications_access_view($arrParam);
 
 		$data["view"] = 'notifications';
 		$this->load->view("layout", $data);
@@ -1414,19 +1414,25 @@ class Admin extends CI_Controller
 		$arrParam = array("state" => 1);
 		$data['workersList'] = $this->general_model->get_user($arrParam);
 
-		$arrParam = array(
-			"table" => "notifications",
-			"order" => "notification",
-			"column" => "setup",
-			"id" => 1
-		);
-		$data['notificationsList'] = $this->general_model->get_basic_search($arrParam);
+		$sql = "SELECT n.*
+			FROM notifications n
+			LEFT JOIN notifications_access na ON n.id_notification = na.fk_id_notification
+			WHERE na.fk_id_notification IS NULL AND n.setup = 1;
+			";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() >= 1) {
+			$data['notificationsList'] =  $query->result_array();
+		} else {
+			$data['notificationsList'] = [];
+		}
 
 		if ($data["idNotificationAccess"] != 'x') {
 			$arrParam = array(
 				"idNotificationAccess" => $data["idNotificationAccess"]
 			);
-			$data['information'] = $this->general_model->get_notifications_access($arrParam);
+			$data['information'] = $this->general_model->get_notifications_access_view($arrParam);
 		}
 
 		$this->load->view("notifications_modal", $data);
@@ -1956,12 +1962,12 @@ class Admin extends CI_Controller
 		}
 	}
 
-    /**
-     * Notifications
-     * @author BMOTTAG
-     * @since  14/01/2025
-     */
-    public function sendNotifications($configuracionAlertas, $mensajeSMS) 
+	/**
+	 * Notifications
+	 * @author BMOTTAG
+	 * @since  14/01/2025
+	 */
+	public function sendNotifications($configuracionAlertas, $mensajeSMS)
 	{
 		//configuracion para envio de mensaje de texto
 		$this->load->library('encrypt');
@@ -1973,17 +1979,16 @@ class Admin extends CI_Controller
 			"order" => "id_parametric",
 			"id" => "x"
 		);
-		$parametric = $this->general_model->get_basic_search($arrParam);						
+		$parametric = $this->general_model->get_basic_search($arrParam);
 		$dato1 = $this->encrypt->decode($parametric[3]["value"]);
 		$dato2 = $this->encrypt->decode($parametric[4]["value"]);
 		$twilioPhone = $parametric[5]["value"];
-	
+
 		$client = new Twilio\Rest\Client($dato1, $dato2);
 
-		foreach($configuracionAlertas as $envioAlerta):
+		foreach ($configuracionAlertas as $envioAlerta):
 			//envio mensaje de texto
-			if($envioAlerta['movil'])
-			{ 
+			if ($envioAlerta['movil']) {
 				$to = '+1' . $envioAlerta['movil'];
 				$client->messages->create(
 					$to,
@@ -1997,5 +2002,4 @@ class Admin extends CI_Controller
 		endforeach;
 		return true;
 	}
-
 }
