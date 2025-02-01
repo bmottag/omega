@@ -649,12 +649,15 @@ class Admin_model extends CI_Model
 	 */
 	public function saveNotification()
 	{
+		$smsTo = ($this->input->post('smsTo')) ? json_encode($this->input->post('smsTo')) : null;
+		$emailTo = ($this->input->post('emailTo')) ? json_encode($this->input->post('emailTo')) : null;
+
 		$idNotificationAccess = $this->input->post('hddId');
 
 		$data = array(
 			'fk_id_notification' => $this->input->post('notification'),
-			'fk_id_user_email' => $this->input->post('emailTo'),
-			'fk_id_user_sms' => $this->input->post('smsTo')
+			'fk_id_user_email' => $emailTo,
+			'fk_id_user_sms' => $smsTo
 		);
 
 		//revisar si es para adicionar o editar

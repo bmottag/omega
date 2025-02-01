@@ -1,22 +1,3 @@
-<script>
-	$(function() {
-		$(".btn-outline").click(function() {
-			var oID = $(this).attr("id");
-			$.ajax({
-				type: 'POST',
-				url: base_url + '/admin/cargarModalNotification',
-				data: {
-					'idNotificationAccess': oID
-				},
-				cache: false,
-				success: function(data) {
-					$('#tablaDatos').html(data);
-				}
-			});
-		});
-	});
-</script>
-
 <div id="page-wrapper">
 	<br>
 
@@ -115,6 +96,26 @@
 		$('#dataTables').DataTable({
 			responsive: true,
 			"pageLength": 100
+		});
+	});
+	$(function() {
+		$(".btn-outline").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + '/admin/cargarModalNotification',
+				data: {
+					'idNotificationAccess': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatos').html(data);
+					$('.js-example-basic-multiple').select2({
+						placeholder: "Select...", // Texto por defecto
+						allowClear: true // Permite limpiar la selección
+					});
+				}
+			});
 		});
 	});
 </script>
