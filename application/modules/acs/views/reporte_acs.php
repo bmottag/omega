@@ -1,23 +1,6 @@
 <?php
-// create some HTML content	
-$html = '<table border="0" cellspacing="0" cellpadding="5">';
-$html.= '<tr>
-		<th width="60%">
-		<b>P.O. Box </b> 84209 RPO MARKET MALL <br>
-		Calgary - Alberta - T3A 5C4 <br>
-		<b>Phone:</b> 587-892-9616 / <b>Fax:</b> 403-910-0752<br>
-		<a href="http://www.v-contracting.ca/" dir="ltr">www.v-contracting.ca/</a>
-		</th>';
-		
-$html.= '<th width="40%">
-		<b>Project name: </b>' . $info[0]['company'] . '<br>
-		<b>VCI project number: </b>' . $info[0]['job_description'] . '
-		</th></tr>';
-		
-$html.= '</table>';
-
-$html.= '<br><br>
-	<style>
+$html= '
+<style>
 	table {
 		font-family: arial, sans-serif;
 		border-collapse: collapse;
@@ -30,198 +13,297 @@ $html.= '<br><br>
 		padding: 8px;
 	}
 	</style>';
-	
-$html.= '<table border="0" cellspacing="0" cellpadding="4">';
 
+$html.= '<table border="0" cellspacing="0" cellpadding="5">';
 $html.= '<tr>
-			<th width="50%" bgcolor="#337ab7" style="color:white;"><strong>WORK DONE </strong></th>
-			<th width="50%" bgcolor="#337ab7" style="color:white;" colspan="2"><strong>CLIENT INFORMATION </strong></th>
+		<th width="20%"><b>Project: </b></th><th width="35%">' . $info[0]['job_description'] . '</th>
+		<th width="15%"><b>Bill To: </b></th><th width="30%">' . $info[0]['company'] . '</th>
 		</tr>';
 
-$movil = "";
-if($info[0]['foreman_movil_number_wo'] != ''){
-	$movil = $info[0]['foreman_movil_number_wo'];
+$html.= '<tr>
+		<th><b>Description of Work: </b></th><th>' . $info[0]['observation'] . '</th>
+		</tr>';
+$html.= '</table>';
+$html.= '<br><br>';
+
+$item = 1;
+// INICIO PERSONAL
+$subTotalPersonal = 0;
+if($acsPersonal)
+{
+	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
+
+	$html.= '<tr>
+				<th align="center" colspan="3" width="70%"  bgcolor="#337ab7" style="color:white;"><strong>Labour </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>HOURS </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>LABOUR RATE </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>AMOUNT </strong></th>
+			</tr>
+			<tr>
+				<th align="center" width="18%" bgcolor="#337ab7" style="color:white;"><strong>Name </strong></th>
+				<th align="center" width="18%" bgcolor="#337ab7" style="color:white;"><strong>Occupation </strong></th>
+				<th align="center" width="34%" bgcolor="#337ab7" style="color:white;"><strong>Description </strong></th>
+			</tr>';
+	foreach ($acsPersonal as $data):
+		$subTotalPersonal += $data['value'];
+		
+		$html.=		'<tr>
+					<th>' . $data['name']  . '</th>
+					<th>' . $data['employee_type'] . '</th>
+					<th>' . $data['description'] . '</th>
+					<th align="center">' . $data['hours'] . '</th>
+					<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
+		$html.= '</tr>';
+	endforeach;
+
+	$html.= '<tr>
+				<th colspan="5" align="right">Subtotal ' . $item  . '</th>
+				<th align="right">$ ' . number_format($subTotalPersonal, 2) . '</th>
+			</tr>';
+
+	$html.= '</table><br><br>';	
+	$item++;
 }
 
-$html.= '<tr>
-			<th>' . $info[0]['observation'] . '</th>
-			<th><strong>Company name: </strong>' . $info[0]['company'] . '<br>
-			<strong>Representative: </strong>' . $info[0]['foreman_name_wo'] . '<br>
-			<strong>Phone number: </strong>' . $movil . '<br>
-			<strong>E-Mail: </strong>' . $info[0]['foreman_email_wo'] . '</th>';			
-$html.= '</tr>';
-						
-$html.= '</table><br><br>';
 
-//datos especificos
-$html.= '<table border="0" cellspacing="0" cellpadding="4">';
-
-$html.= '<tr>
-			<th align="center" width="6%" bgcolor="#337ab7" style="color:white;"><strong>ITEM </strong></th>
-			<th align="center" width="59%" bgcolor="#337ab7" style="color:white;"><strong>DESCRIPTION </strong></th>
-			<th align="center" width="9%" bgcolor="#337ab7" style="color:white;"><strong>UNIT </strong></th>
-			<th align="center" width="5%" bgcolor="#337ab7" style="color:white;"><strong>QTY </strong></th>
-			<th align="center" width="10%" bgcolor="#337ab7" style="color:white;"><strong>UNIT PRICE </strong></th>
-			<th align="center" width="11%" bgcolor="#337ab7" style="color:white;"><strong>LINE TOTAL </strong></th>
-		</tr>';
-
-$items = 0;
-$total = 0;
-
-// INICIO PERSONAL
-if($acsPersonal)
+// INICIO EQUIPMENT
+$subTotalEquipment = 0;
+if($acsEquipment)
 { 
-	foreach ($acsPersonal as $data):
-			$items++;
-			$total = $data['value'] + $total;
-			
-			$html.=		'<tr>
-						<th align="center">' . $items . '</th>
-						<th>' . $data['employee_type'] . ' - ' . $data['description'] . ' by ' . $data['name'] . '</th>
-						<th align="center">Hours</th>
-						<th align="center">' . $data['hours'] . '</th>
-						<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
-						<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
-			$html.= '</tr>';
+	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
+
+	$html.= '<tr>
+				<th align="center" colspan="4" width="70%"  bgcolor="#337ab7" style="color:white;"><strong>Equipment </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>HOURS </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>RENTAL RATE</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>AMOUNT </strong></th>
+			</tr>
+			<tr>
+				<th align="center" width="15%" bgcolor="#337ab7" style="color:white;"><strong>Unit # </strong></th>
+				<th align="center" width="15%" bgcolor="#337ab7" style="color:white;"><strong>Make </strong></th>
+				<th align="center" width="15%" bgcolor="#337ab7" style="color:white;"><strong>Model </strong></th>
+				<th align="center" width="25%" bgcolor="#337ab7" style="color:white;"><strong>Attachments </strong></th>
+			</tr>';
+
+	foreach ($acsEquipment as $data):
+		$subTotalEquipment += $data['value'];
+
+		//si es tipo miscellaneous -> 8, entonces la description es diferente
+		if($data['fk_id_type_2'] == 8){
+			$equipment = $data['miscellaneous'] . " - " . $data['other'];
+		}else{
+			$equipment = $data['unit_number'];
+		}
+
+		$html.=	'<tr>
+					<th>' . $equipment . '</th>
+					<th align="center">' . $data['make'] . '</th>
+					<th align="center">' . $data['model'] . '</th>
+					<th align="center">';
+					if($data['fk_id_attachment'] != "" && $data['fk_id_attachment'] != 0){
+						$html.=	'<strong>ATTACHMENT: </strong>' . $data["attachment_number"] . " - " . $data["attachment_description"] . ' ';
+					}	
+		$html.='</th>
+					<th align="center">' . $data['hours'] . '</th>
+					<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
+		$html.= '</tr>';
 	endforeach;
+	$html.= '<tr>
+				<th colspan="6" align="right">Subtotal ' . $item  . '</th>
+				<th align="right">$ ' . number_format($subTotalEquipment, 2) . '</th>
+			</tr>';
+
+	$html.= '</table><br><br>';	
+	$item++;
 }
 
 // INICIO MATERIAL
+$subTotalMaterial = 0;
 if($acsMaterials)
-{ 
+{
+	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
+
+	$html.= '<tr>
+				<th align="center" colspan="2" width="70%"  bgcolor="#337ab7" style="color:white;"><strong>Materials/Supplies </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>QUANTITY </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>UNIT PRICE</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>AMOUNT </strong></th>
+			</tr>
+			<tr>
+				<th align="center" width="30%" bgcolor="#337ab7" style="color:white;"><strong>Materials and Supplies</strong></th>
+				<th align="center" width="40%" bgcolor="#337ab7" style="color:white;"><strong>Description </strong></th>
+			</tr>';
 	foreach ($acsMaterials as $data):
-			$items++;
-			$total = $data['value'] + $total;
+		$subTotalMaterial += $data['value'];
 
-			$description = $data['description'] . ' - ' . $data['material'];
-			if($data['markup'] > 0){
-				$description = $description . ' - Plus M.U.';
-			}
+		$description = $data['description'];
+		if($data['markup'] > 0){
+			$description = $description . ' - Plus M.U.';
+		}
 
-			$html.=		'<tr>
-						<th align="center">' . $items . '</th>
-						<th>' . $description . '</th>
-						<th align="center">' . $data['unit'] . '</th>
-						<th align="center">' . $data['quantity'] . '</th>
-						<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
-						<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
-			$html.= '</tr>';
+		$html.=	'<tr>
+					<th>' . $data['material'] . '</th>
+					<th>' . $description . '</th>
+					<th align="center">' . $data['quantity'] . '</th>
+					<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
+		$html.= '</tr>';
 	endforeach;
-}
+	$html.= '<tr>
+				<th colspan="4" align="right">Subtotal ' . $item  . '</th>
+				<th align="right">$ ' . number_format($subTotalMaterial, 2) . '</th>
+			</tr>';
 
-// INICIO RECEIPT
-if($acsReceipt)
-{ 
-	foreach ($acsReceipt as $data):
-			$items++;
-			$total = $data['value'] + $total;
-
-			$description = $data['description'] . ' - ' . $data['place'];
-			if($data['markup'] > 0){
-				$description = $description . ' - Plus M.U.';
-			}
-
-			$html.=		'<tr>
-						<th align="center">' . $items . '</th>
-						<th>' . $description . '</th>
-						<th align="center"> Receipt </th>
-						<th align="center"> 1 </th>
-						<th align="right">$ ' . number_format($data['value'], 2) . '</th>
-						<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
-			$html.= '</tr>';
-	endforeach;
-}
-
-// INICIO EQUIPMENT
-if($acsEquipment)
-{ 
-	foreach ($acsEquipment as $data):
-			$items++;
-			$total = $data['value'] + $total;
-
-			$html.=		'<tr>
-						<th align="center">' . $items . '</th>
-						<th>';
-						
-						if($data['fk_id_attachment'] != "" && $data['fk_id_attachment'] != 0){
-							$html.=	'<strong>ATTACHMENT: </strong>' . $data["attachment_number"] . " - " . $data["attachment_description"] . ' ';
-						}
-
-			//si es tipo miscellaneous -> 8, entonces la description es diferente
-			if($data['fk_id_type_2'] == 8){
-				$equipment = $data['miscellaneous'] . " - " . $data['other'];
-				$description = preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
-			}else{
-				$equipment = "<strong>Unit #: </strong>" .$data['unit_number'] . " <strong>Make: </strong>" . $data['make'] . " <strong>Model: </strong>" . $data['model'];
-				$description = $data['v_description'] . " - " . preg_replace('([^A-Za-z0-9 ])', ' ', $data['description']);
-			}
-			
-			$html.= $equipment . ' <strong>Description: </strong>' . $description . ', operated by ' . $data['operatedby'];
-			
-			$html.=		'</th>
-						
-						<th align="center">Hours</th>
-						<th align="center">' . $data['hours'] . '</th>
-						<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
-						<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
-			$html.= '</tr>';
-	endforeach;
+	$html.= '</table><br><br>';	
+	$item++;
 }
 
 // INICIO SUBCONTRATISTAS OCASIONALES
+$subTotalOcasional = 0;
 if($acsOcasional)
-{ 
+{
+	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
+
+	$html.= '<tr>
+				<th align="center" colspan="2" width="60%"  bgcolor="#337ab7" style="color:white;"><strong>Occasional Subcontractor </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>QUANTITY </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>HOURS </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>UNIT PRICE</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>AMOUNT </strong></th>
+			</tr>
+			<tr>
+				<th align="center" width="25%" bgcolor="#337ab7" style="color:white;"><strong>Subcontractor/Rentals</strong></th>
+				<th align="center" width="35%" bgcolor="#337ab7" style="color:white;"><strong>Description </strong></th>
+			</tr>';
 	foreach ($acsOcasional as $data):
-			$items++;
-			$total = $data['value'] + $total;
+		$subTotalOcasional += $data['value'];
 
-			$description = $data['description'];
-			if($data['markup'] > 0){
-				$description = $description . ' - Plus M.U.';
-			}
+		$description = $data['description'];
+		if($data['markup'] > 0){
+			$description = $description . ' - Plus M.U.';
+		}
 
-			$html.=		'<tr>
-						<th align="center">' . $items . '</th>
-						<th>' . $description . '</th>
-						<th align="center">' . $data['unit'] . '</th>
-						<th align="center">' . $data['hours'] . '</th>
-						<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
-						<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
-			$html.= '</tr>';
+		$html.=		'<tr>
+					<th>' . $data['company_name'] . '</th>
+					<th>' . $description . '</th>
+					<th align="center">' . $data['quantity'] . '</th>
+					<th align="center">' . $data['hours'] . '</th>
+					<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
+		$html.= '</tr>';
 	endforeach;
+	$html.= '<tr>
+				<th colspan="5" align="right">Subtotal ' . $item  . '</th>
+				<th align="right">$ ' . number_format($subTotalOcasional, 2) . '</th>
+			</tr>';
+
+	$html.= '</table><br><br>';	
+	$item++;
 }
 
-//TOTAL
+// INICIO RECEIPT
+$subTotalReceipt = 0;
+if($acsReceipt)
+{
+	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
 
-			$html.=		'<tr>
-						<th colspan="5" align="right" bgcolor="#337ab7" style="color:white;"><b>Subtotal :</b></th>
-						<th align="right">$ ' . number_format($total, 2) . '</th>';
-			$html.= '</tr>';						
-
-
-			
-$html.= '</table><br><br>';	
-
-//tabla inferior			
-$html.= '<table border="0" cellspacing="0" cellpadding="4">
-		<thead>
-			<tr style="background-color:#BCB5B5">
-				<td width="100%"><b>Other comments or special instructions</b></td>
+	$html.= '<tr>
+				<th align="center" colspan="2" width="70%"  bgcolor="#337ab7" style="color:white;"><strong>Receipt</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>Price with GST </strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>MARKUP</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#337ab7" style="color:white;"><strong>AMOUNT </strong></th>
 			</tr>
-		</thead>
-		<tr>
-			<td width="100%">
-				1. All Work Orders will be attached to an Invoice otherwise can be deemed as an Invoice<br>
-				2. Please refer to the W.O. # in all your correspondence<br>
-				3. Please send correspondence regarding this work order to:<br><br>
-				<b>Hugo Villamil</b><br>
-				<a href="mailto:hugo@v-contracting.com">hugo@v-contracting.com</a><br>
-				<b>Ph:</b>(587)-892-9616<br><br>
-				<b>Signature VCI Rep:</b> <br>
-				<img src="http://v-contracting.ca/app/images/employee/signature/hugo_boss.png" width="150" height="150" border="0" />
-			</td>
+			<tr>
+				<th align="center" width="30%" bgcolor="#337ab7" style="color:white;"><strong>Place</strong></th>
+				<th align="center" width="40%" bgcolor="#337ab7" style="color:white;"><strong>Description </strong></th>
+			</tr>';
+	foreach ($acsReceipt as $data):
+		$subTotalReceipt += $data['value'];
+
+		$description = $data['description'];
+		if($data['markup'] > 0){
+			$description = $description . ' - Plus M.U.';
+		}
+
+		$html.=		'<tr>
+					<th>' . $data['place'] . '</th>
+					<th>' . $description . '</th>
+					<th align="right">$ ' . number_format($data['price'], 2) . '</th>
+					<th align="right">' . $data['markup'] . '</th>
+					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
+		$html.= '</tr>';
+	endforeach;
+	$html.= '<tr>
+				<th colspan="4" align="right">Subtotal ' . $item  . '</th>
+				<th align="right">$ ' . number_format($subTotalReceipt, 2) . '</th>
+			</tr>';
+
+	$html.= '</table><br><br>';	
+	$item++;
+}
+
+
+$html.= '<table border="0" cellspacing="0" cellpadding="4">';
+
+
+$items=0;
+$total = $subTotalPersonal + $subTotalEquipment + $subTotalMaterial + $subTotalOcasional + $subTotalReceipt;
+$html.= '<tr>
+			<th align="right" colspan="2" width="30%"  bgcolor="#337ab7" style="color:white;"><strong>SUMMARY</strong></th>
+			<th align="center" width="15%" bgcolor="#337ab7" style="color:white;"><strong>AMOUNT </strong></th>
+		</tr>';
+if($acsPersonal)
+{
+	$items++;
+	$html.= '<tr>
+				<th width="15%">Labour</th>
+				<th width="15%" align="right">Subtotal ' . $items  . '</th>
+				<th width="15%" align="right">$ ' . number_format($subTotalPersonal, 2) . '</th>
+			</tr>';
+}
+if($acsEquipment)
+{
+	$items++;
+	$html.= '<tr>
+				<th >Equipment</th>
+				<th align="right">Subtotal ' . $items  . '</th>
+				<th align="right">$ ' . number_format($subTotalEquipment, 2) . '</th>
+			</tr>';
+}
+if($acsMaterials)
+{
+	$items++;
+	$html.= '<tr>
+				<th >Materials/Supplies</th>
+				<th align="right">Subtotal ' . $items  . '</th>
+				<th align="right">$ ' . number_format($subTotalMaterial, 2) . '</th>
+			</tr>';
+}
+if($acsOcasional)
+{
+	$items++;
+	$html.= '<tr>
+				<th >Subcontractor</th>
+				<th align="right">Subtotal ' . $items  . '</th>
+				<th align="right">$ ' . number_format($subTotalOcasional, 2) . '</th>
+			</tr>';
+}
+if($acsReceipt)
+{
+	$items++;
+	$html.= '<tr>
+				<th >Receipt</th>
+				<th align="right">Subtotal ' . $items  . '</th>
+				<th align="right">$ ' . number_format($subTotalReceipt, 2) . '</th>
+			</tr>';
+}
+$html.= '<tr>
+			<th colspand="2" width="30%" align="right" bgcolor="#337ab7" style="color:white;"><strong>TOTAL AMOUNT</strong></th>
+			<th align="right" bgcolor="#337ab7" style="color:white;"><strong>$ ' . number_format($total, 2) . ' </strong></th>
 		</tr>
-</table>';
+		</table>';	
 
 	
 echo $html;
