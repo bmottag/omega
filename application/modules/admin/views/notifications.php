@@ -46,11 +46,11 @@
 						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 							<thead>
 								<tr>
-									<th class="text-center">Notification</th>
-									<th class="text-center">Description</th>
-									<th class="text-center">Send Email To</th>
-									<th class="text-center">Send SMS To</th>
-									<th class="text-center">Edit</th>
+									<th class="text-center" style="width: 15%;">Notification</th>
+									<th class="text-center" style="width: 30%;">Description</th>
+									<th class="text-center" style="width: 25%;">Send Email To</th>
+									<th class="text-center" style="width: 25%;">Send SMS To</th>
+									<th class="text-center" style="width: 5%;">Edit</th>
 								</tr>
 							</thead>
 							<tbody>
