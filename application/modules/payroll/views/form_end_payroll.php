@@ -57,7 +57,7 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:
 								<?php if ($job_programming) { ?>
-									<p class="help-block">Are you Logging In to work on this Job Code/Name?</p>
+									<p class="help-block">Are you <b>logging OUT</b> under this Job Code/Name?</p>
 								<?php } ?>
 							</label>
 							<div class="col-sm-5">
@@ -73,7 +73,7 @@
 						</div>
 
 						<div class="form-group" id="div_timeFirstJob" style="display: none;">
-							<label class="col-sm-4 control-label" for="timeFirstJob">How long were you in: </label>
+							<label class="col-sm-4 control-label" for="timeFirstJob">How many hours did you work for    : </label>
 							<div class="col-sm-5">
 								<input id="timeFirstJob" name="hours_first_project" class="form-control" type="number" min="0" placeholder="Hours" />
 							</div>
