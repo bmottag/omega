@@ -554,7 +554,7 @@ class Programming_model extends CI_Model
 					'fk_id_programming' => $this->input->post('hddidProgramming'),
 					'fk_id_company' => $this->input->post('company'),
 					'equipment' => $this->input->post('equipment'),
-					'quantity' => $this->input->post('quantity'),
+					'quantity' => 1,
 					'unit' => $this->input->post('unit'),
 					'hours' => $this->input->post('hour'),
 					'contact' => $this->input->post('contact'),
@@ -562,9 +562,7 @@ class Programming_model extends CI_Model
 				);
 
 				$query = $this->db->insert('programming_ocasional', $data);
-				if ($idWorkorder) {
-					$this->hauling_model->saveHaulingByProgramming($info);
-				}
+				$this->hauling_model->saveHaulingByProgramming($info);
 			}
 		}
 

@@ -317,6 +317,7 @@ class Hauling_model extends CI_Model
 		$equipment = $data['equipment'];
 		$unit = $data['unit'];
 		$description = $data['description'];
+		$fk_id_submodule = null;
 
 		$idUser = $this->session->userdata("id");
 
@@ -329,18 +330,20 @@ class Hauling_model extends CI_Model
 		$timeIn = $hourIn . ":00";
 		$timeOut = $hourOut . ":00";
 
-		$data = array(
-			'date' => date("Y-m-d"),
-			'fk_id_job' => $fk_id_job,
-			'observation' => $this->input->post('comments'),
-			'state' => 0,
-			'last_message' => 'A new Work Order was created from the Hauling',
-			'fk_id_user' => $idUser,
-			'date_issue' => date("Y-m-d G:i:s"),
-			'fk_id_company' => $this->input->post('company'),
-		);
-		$this->db->where('id_workorder', $id_work_order);
-		$query = $this->db->update('workorder', $data);
+		if ($id_work_order) {
+			$data = array(
+				'date' => date("Y-m-d"),
+				'fk_id_job' => $fk_id_job,
+				'observation' => $this->input->post('comments'),
+				'state' => 0,
+				'last_message' => 'A new Work Order was created from the Hauling',
+				'fk_id_user' => $idUser,
+				'date_issue' => date("Y-m-d G:i:s"),
+				'fk_id_company' => $this->input->post('company'),
+			);
+			$this->db->where('id_workorder', $id_work_order);
+			$query = $this->db->update('workorder', $data);
+		}
 
 		$minIn = (int)$this->input->post('minIn');
 		$minOut = (int)$this->input->post('minOut');
@@ -371,49 +374,51 @@ class Hauling_model extends CI_Model
 
 		// Redondear a dos decimales si es necesario
 		$fractionalHours = round($fractionalHours, 2);
+		if ($id_work_order) {
+			if ($this->input->post('company') == 1) {
 
-		if ($this->input->post('company') == 1) {
-			$dataEquipment = array(
-				'fk_id_workorder' => $id_work_order,
-				'fk_id_type_2' => 10,
-				'fk_id_vehicle' => $this->input->post('truck'),
-				'fk_id_attachment' => null,
-				'other' => null,
-				'operatedby' => $idUser,
-				'hours' => $fractionalHours,
-				'quantity' => 1,
-				'standby' => 2,
-				'description' => $this->input->post('comments'),
-			);
+				$dataEquipment = array(
+					'fk_id_workorder' => $id_work_order,
+					'fk_id_type_2' => 10,
+					'fk_id_vehicle' => $this->input->post('truck'),
+					'fk_id_attachment' => null,
+					'other' => null,
+					'operatedby' => $idUser,
+					'hours' => $fractionalHours,
+					'quantity' => 1,
+					'standby' => 2,
+					'description' => $this->input->post('comments'),
+				);
 
-			$query = $this->db->insert('workorder_equipment', $dataEquipment);
-			$fk_id_submodule = $this->db->insert_id();
-		} else {
-			$this->load->model("general_model");
-			$arrParam = array(
-				"table" => "param_company",
-				"order" => "company_name",
-				"column" => "id_company",
-				"id" => $this->input->post('company')
-			);
-			$contact = $this->general_model->get_basic_search($arrParam); //company list
+				$query = $this->db->insert('workorder_equipment', $dataEquipment);
+				$fk_id_submodule = $this->db->insert_id();
+			} else {
+				$this->load->model("general_model");
+				$arrParam = array(
+					"table" => "param_company",
+					"order" => "company_name",
+					"column" => "id_company",
+					"id" => $this->input->post('company')
+				);
+				$contact = $this->general_model->get_basic_search($arrParam); //company list
 
-			$dataOccasional = array(
-				'fk_id_workorder' => $id_work_order,
-				'fk_id_company' => $this->input->post('company'),
-				'equipment' => $equipment,
-				'quantity' => 1,
-				'unit' => $unit,
-				'hours' => $fractionalHours,
-				'contact' => $contact[0]['contact'],
-				'description' => $description,
-			);
+				$dataOccasional = array(
+					'fk_id_workorder' => $id_work_order,
+					'fk_id_company' => $this->input->post('company'),
+					'equipment' => $equipment,
+					'quantity' => 1,
+					'unit' => $unit,
+					'hours' => $fractionalHours,
+					'contact' => $contact[0]['contact'],
+					'description' => $description,
+				);
 
-			$query = $this->db->insert('workorder_ocasional', $dataOccasional);
-			$fk_id_submodule = $this->db->insert_id();
+				$query = $this->db->insert('workorder_ocasional', $dataOccasional);
+				$fk_id_submodule = $this->db->insert_id();
+			}
 		}
 
-		$data = array(
+		$dataHauling = array(
 			'fk_id_user' => $idUser,
 			'fk_id_company' => $this->input->post('company'),
 			'fk_id_truck' => $this->input->post('truck'),
@@ -434,15 +439,15 @@ class Hauling_model extends CI_Model
 		$userRol = $this->session->rol;
 		$dateIssue = $this->input->post('date');
 
-		$data['date_issue'] = date("Y-m-d");
+		$dataHauling['date_issue'] = date("Y-m-d");
 		if ($userRol == 99 && $dateIssue != "") {
-			$data['date_issue'] = $dateIssue;
+			$dataHauling['date_issue'] = $dateIssue;
 		}
 
-		$query = $this->db->insert('hauling', $data);
+		$queryHauling = $this->db->insert('hauling', $dataHauling);
 		$idHauling = $this->db->insert_id();
 
-		if ($query) {
+		if ($queryHauling) {
 			return $idHauling;
 		} else {
 			return false;

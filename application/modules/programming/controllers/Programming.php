@@ -1470,7 +1470,7 @@ class Programming extends CI_Controller
 
 		$programmingMaterials = $this->programming_model->get_programming_materials($arrParam); //material list
 
-		$programmingSubcontractor = $this->programming_model->get_programming_occasional($arrParam); //material list
+		$programmingSubcontractor = $this->programming_model->get_programming_occasional($arrParam); //Subcontractor list
 
 		$arrParam = array(
 			"idProgramming" => $idProgramming,
@@ -1615,7 +1615,7 @@ class Programming extends CI_Controller
 			//save subcontractor
 			if ($programmingSubcontractor) {
 
-				$columnas_mapeo = array(
+				$column_map = array(
 					'fk_id_company' => 'fk_id_company',
 					'equipment' => 'equipment',
 					'quantity' => 'quantity',
@@ -1634,10 +1634,13 @@ class Programming extends CI_Controller
 					$data_format = array();
 
 					$data_format["fk_id_workorder"] = $idWorkorder;
-					foreach ($data_indix as $columna => $valor) {
-						if (isset($columnas_mapeo[$columna])) {
-							$columna_destino = $columnas_mapeo[$columna];
-							$data_format[$columna_destino] = $valor;
+					$data_format["unit"] = ' ';
+					$data_format["contact"] = ' ';
+					$data_format["description"] = ' ';
+					foreach ($data_indix as $colum => $value) {
+						if (isset($column_map[$colum])) {
+							$colum_dest = $column_map[$colum];
+							$data_format[$colum_dest] = $value;
 						}
 					}
 
