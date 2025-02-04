@@ -185,11 +185,11 @@ class General_model extends CI_Model
 		$this->db->join('user U', 'U.id_user = H.fk_id_user', 'INNER');
 		$this->db->join('param_company C', 'C.id_company = H.fk_id_company', 'INNER');
 		$this->db->join('param_vehicle V', 'V.id_vehicle = H.fk_id_truck', 'LEFT');
-		$this->db->join('param_truck_type T', 'T.id_truck_type = H.fk_id_truck_type', 'INNER');
+		$this->db->join('param_truck_type T', 'T.id_truck_type = H.fk_id_truck_type', 'LEFT');
 		$this->db->join('param_jobs J', 'J.id_job = H.fk_id_site_from', 'INNER');
-		$this->db->join('param_jobs Z', 'Z.id_job = H.fk_id_site_to', 'INNER');
-		$this->db->join('param_material_type M', 'M.id_material = H.fk_id_material', 'INNER');
-		$this->db->join('param_payment P', 'P.id_payment = H.fk_id_payment', 'INNER');
+		$this->db->join('param_jobs Z', 'Z.id_job = H.fk_id_site_to', 'LEFT');
+		$this->db->join('param_material_type M', 'M.id_material = H.fk_id_material', 'LEFT');
+		$this->db->join('param_payment P', 'P.id_payment = H.fk_id_payment', 'LEFT');
 
 		if (array_key_exists("idEmployee", $arrData)) {
 			$this->db->where('U.id_user', $arrData["idEmployee"]);
