@@ -404,14 +404,13 @@ class Programming extends CI_Controller
 		//lista de trabajadores para esta programacion
 		$copiaInfoWorker = $data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 
-		$mensaje = "";
-
-		$mensaje .= date('F j, Y', strtotime($data['information'][0]['date_programming']));
-		$mensaje .= "\n" . $data['information'][0]['job_description'];
-		$mensaje .= "\n" . $data['information'][0]['observation'];
-		$mensaje .= "\n";
-		$mensaje .= "\nPlease confirm by replying '1' to this text message!";
-		$mensaje .= "\n";
+		$msgHeader = "";
+		$msgHeader .= date('F j, Y', strtotime($data['information'][0]['date_programming']));
+		$msgHeader .= "\n" . $data['information'][0]['job_description'];
+		$msgHeader .= "\n" . $data['information'][0]['observation'];
+		$msgHeader .= "\n";
+		$msgHeader .= "\nPlease confirm by replying '1' to this text message!";
+		$msgHeader .= "\n";
 
 		if ($data['informationWorker']) {
 			foreach ($data['informationWorker'] as $data) :
@@ -425,7 +424,7 @@ class Programming extends CI_Controller
 					$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 				}
 
-				$mensaje .= "\n";
+				$mensaje = $msgHeader . "\n";
 				switch ($data['site']) {
 					case 1:
 						$mensaje .= "At the yard - ";
@@ -457,12 +456,8 @@ class Programming extends CI_Controller
 				if ($data['creat_wo'] == 1) {
 					$mensaje .= "\nYou are in charge of the W.O. #" . $idWorkorder;
 				}
-				$mensaje .= "\n";
-			endforeach;
 
-			foreach ($copiaInfoWorker as $data) :
 				$to = '+1' . $data['movil'];
-
 				$message = $client->messages->create(
 					$to,
 					array(
@@ -472,11 +467,6 @@ class Programming extends CI_Controller
 				);
 				$this->programming_model->updateSMSWorkerStatus($data['id_programming_worker'], $message->status, $message->sid);
 
-			/*$message = $client->account->messages('SM111470ab4fff00527665b73d7fcbe421')->fetch();
-					while ($message->status != 'sent') {
-						$message = $client->account->messages($message->sid)->fetch();
-						sleep(5);
-					}*/
 			endforeach;
 		}
 
