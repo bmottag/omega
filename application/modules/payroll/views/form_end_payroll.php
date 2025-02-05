@@ -57,7 +57,7 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="jobName">Job Code/Name:
 								<?php if ($job_programming) { ?>
-									<p class="help-block">Are you Logging In to work on this Job Code/Name?</p>
+									<p class="help-block">Are you <b>logging OUT</b> under this Job Code/Name?</p>
 								<?php } ?>
 							</label>
 							<div class="col-sm-5">

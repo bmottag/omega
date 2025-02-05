@@ -409,7 +409,7 @@ class Acs extends CI_Controller
 		$pdf->SetSubject('TCPDF Tutorial');
 
 		// set default header data
-		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Accounting Control Sheet', 'ACS #: ' . $idACS . "\nACS date: " . $fecha, array(0, 64, 255), array(0, 64, 128));
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Force Account Summary', 'W.O. #: ' . $data['info'][0]['fk_id_workorder']. "\nDate: " . $fecha, array(0, 64, 255), array(0, 64, 128));
 
 		// set header and footer fonts
 		$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
