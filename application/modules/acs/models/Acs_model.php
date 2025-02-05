@@ -17,6 +17,9 @@ class Acs_model extends CI_Model
 		if (array_key_exists("idACS", $arrDatos)) {
 			$this->db->where('id_acs', $arrDatos["idACS"]);
 		}
+		if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
+			$this->db->where('W.fk_id_job', $arrData["jobId"]);
+		}
 		$this->db->order_by('id_acs', 'desc');
 		$query = $this->db->get('acs W');
 
@@ -295,6 +298,62 @@ class Acs_model extends CI_Model
 		} else {
 			return false;
 		}
+	}
+
+
+	/**
+	 * Contar registros de workorder
+	 * Int idJob
+	 * @author BMOTTAG
+	 * @since  04/02/2025
+	 */
+	public function countACS($arrDatos)
+	{
+		$sql = "SELECT count(id_acs) CONTEO";
+		$sql .= " FROM acs W";
+		$sql .= " WHERE 1=1";
+		if (array_key_exists("idJob", $arrDatos)) {
+			$sql .= " AND fk_id_job = " . $arrDatos["idJob"];
+		} 
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->CONTEO;
+	}
+
+	/**
+	 * Sumatoria de horas de personal
+	 * Int idJob
+	 * @author BMOTTAG
+	 * @since  04/02/2025
+	 */
+	public function countHoursPersonal($arrDatos)
+	{
+		$sql = "SELECT ROUND(SUM(hours),2) TOTAL";
+		$sql .= " FROM acs_personal P";
+		$sql .= " INNER JOIN acs W on W.id_acs = P.fk_id_acs";
+		$sql .= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->TOTAL;
+	}
+
+	/**
+	 * Sumatoria de valores para ACS
+	 * Int idJob
+	 * Var table
+	 * @author BMOTTAG
+	 * @since  10/2/2020
+	 */
+	public function countIncome($arrDatos)
+	{
+		$sql = "SELECT ROUND(SUM(value),2) TOTAL";
+		$sql .= " FROM " . $arrDatos["table"] . " P";
+		$sql .= " INNER JOIN acs W on W.id_acs = P.fk_id_acs";
+		$sql .= " WHERE W.fk_id_job =" . $arrDatos["idJob"];
+		
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->TOTAL;
 	}
 
 }
