@@ -64,7 +64,7 @@
 								<select name="jobName" id="jobName" class="form-control js-example-basic-single">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($job_programming == $jobs[$i]["id_job"]) {
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($record[0]["fk_id_job"] == $jobs[$i]["id_job"]) {
 																								echo "selected";
 																							}; ?>><?php echo $jobs[$i]["job_description"]; ?></option>
 									<?php } ?>
@@ -73,7 +73,7 @@
 						</div>
 
 						<div class="form-group" id="div_timeFirstJob" style="display: none;">
-							<label class="col-sm-4 control-label" for="timeFirstJob">How many hours did you work for    : </label>
+							<label class="col-sm-4 control-label" for="timeFirstJob">How many hours did you work for <?php echo $record[0]["job_start"] ?>: </label>
 							<div class="col-sm-5">
 								<input id="timeFirstJob" name="hours_first_project" class="form-control" type="number" min="0" placeholder="Hours" />
 							</div>

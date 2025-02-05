@@ -38,8 +38,8 @@ $( document ).ready( function () {
 	if (programming == ''){
 
 		if (job_start != jobName) {
-			labelText = "How long were you in the last project: ";
-			$('#div_timeFirstJob label.control-label').text(labelText);
+			// labelText = "How long were you in the last project: ";
+			// $('#div_timeFirstJob label.control-label').text(labelText);
 			$('#div_timeFirstJob').show();
 		} else {
 			$('#div_timeFirstJob').hide();
@@ -51,31 +51,29 @@ $( document ).ready( function () {
 		var job_programming = $('#job_programming').val();
 		var job_start_name = $('#job_start_name').val();
 
-		var labelText = "How long were you in: ";
+		//var labelText = "How long were you in: ";
 
 		if (!programming) {
 			if (job_start != jobName) {
 
-				var selectedText = $(jobName).find("option:selected").text();
-				labelText = "How long were you in " + selectedText + ": ";
+				// var selectedText = $(jobName).find("option:selected").text();
+				// labelText = "How long were you in " + selectedText + ": ";
 				$('#div_timeFirstJob').show();
 			} else {
 				$('#div_timeFirstJob').hide();
 			}
 		} else {
 			if (job_start == job_programming && jobName != job_start) {
-				if (job_start_name) {
-					labelText = "How long were you in " + job_start_name + ": ";
-				}
+				// if (job_start_name) {
+				// 	labelText = "How long were you in " + job_start_name + ": ";
+				// }
 				$('#div_timeFirstJob').show();
 			} else {
             	$('#div_timeFirstJob').hide();
 			}
 		}
 
-        $('#div_timeFirstJob label.control-label').text(labelText);
-
-        console.log("Opción seleccionada: " + jobName, job_start);
+        //$('#div_timeFirstJob label.control-label').text(labelText);
     });
 
 });
