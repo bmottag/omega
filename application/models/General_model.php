@@ -2383,15 +2383,33 @@ class General_model extends CI_Model
 
 	public function get_without_work_order()
 	{
-		$sql = "SELECT u.first_name, u.last_name, j.job_description, t.*
+		/*$sql = "SELECT u.first_name, u.last_name, j.job_description, t.*
 				FROM task t
 				JOIN user u ON t.fk_id_user = u.id_user
-				JOIN param_jobs j ON t.fk_id_job = j.id_job
+				JOIN param_jobs j ON t.fk_id_job_finish = j.id_job
 				WHERE t.wo_end_project IS NULL
 				AND t.hours_end_project IS NOT NULL
 				AND t.hours_end_project <> 0
 				ORDER BY t.id_task DESC;
-			";
+			";*/
+
+		$sql = "SELECT u.first_name, u.last_name, j.job_description, t.*
+				FROM task t
+				JOIN user u ON t.fk_id_user = u.id_user
+				JOIN param_jobs j ON t.fk_id_job_finish = j.id_job
+				WHERE t.wo_end_project IS NULL
+					AND t.hours_end_project IS NOT NULL
+					AND t.hours_end_project <> 0
+					AND t.start >= '2025-01-01'
+				UNION ALL
+				-- Registros donde fk_id_programming ES NULL y también cumplen con la validación de fecha
+				SELECT u.first_name, u.last_name, j.job_description, t.*
+				FROM task t
+				JOIN user u ON t.fk_id_user = u.id_user
+				JOIN param_jobs j ON t.fk_id_job = j.id_job
+				WHERE t.fk_id_programming IS NULL
+					AND t.start >= '2025-01-01'  -- Validación de fecha
+				ORDER BY id_task DESC;";
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0) {
