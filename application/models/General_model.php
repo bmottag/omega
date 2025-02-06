@@ -1907,6 +1907,35 @@ class General_model extends CI_Model
 				$this->db->where('D.date_dayoff >=', $beforeYesterday); //filtro para los aprobados que la fecha de solicitud del permiso ya paso
 			}
 		}
+		if (array_key_exists("idDayoff", $arrData)) {
+			$this->db->where('D.id_dayoff', $arrData["idDayoff"]); //filtro por idDayoff
+		}
+		$this->db->where('D.date_issue >=', $firstDay); //filtro para el año actual
+		$this->db->order_by('D.id_dayoff', 'desc');
+		$query = $this->db->get('dayoff D');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * List of days off for Planning
+	 * @since 06/02/2025
+	 */
+	public function get_day_off_planning($arrData)
+	{
+
+		$firstDay = date('Y-m-d', strtotime('-2 month', time()));
+		$actualDay = date('Y-m-d'); //dia actual
+		$afterTommorrow = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 2, date("Y")));
+
+		$this->db->select("U.id_user, CONCAT(U.first_name, ' ', U.last_name) AS name, 
+        GROUP_CONCAT(DATE_FORMAT(D.date_dayoff, '%d %b %Y') ORDER BY D.date_dayoff ASC SEPARATOR ', ') AS days_off");
+    
+		$this->db->join('user U', 'U.id_user = D.fk_id_user', 'INNER');
 		//filtro para mostrar en el PLANNING los que son aprobados y el dia off en en los proximos dos dias o menos
 		if (array_key_exists("forPlanning", $arrData)) {
 			$this->db->where('D.state', 2); //filtro por aprobados
@@ -1914,11 +1943,9 @@ class General_model extends CI_Model
 			$this->db->where('D.date_dayoff >=', $actualDay);
 			$this->db->where('D.date_dayoff <=', $afterTommorrow);
 		}
-		if (array_key_exists("idDayoff", $arrData)) {
-			$this->db->where('D.id_dayoff', $arrData["idDayoff"]); //filtro por idDayoff
-		}
 		$this->db->where('D.date_issue >=', $firstDay); //filtro para el año actual
-		$this->db->order_by('D.id_dayoff', 'desc');
+		$this->db->group_by('U.id_user'); // Agrupar por empleado
+		$this->db->order_by('U.first_name', 'asc');
 		$query = $this->db->get('dayoff D');
 
 		if ($query->num_rows() > 0) {
