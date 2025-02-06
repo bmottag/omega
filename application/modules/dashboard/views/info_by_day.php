@@ -112,28 +112,28 @@
                                     $informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 
                                     $mensaje = "";
-                                    if($informationWorker){
+                                    if ($informationWorker) {
                                         foreach ($informationWorker as $data) :
 
-                                            if($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0){
+                                            if ($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0) {
                                                 $parsed_data = json_decode($data['fk_id_machine'], true);
-    
+
                                                 if ($parsed_data !== null && is_array($parsed_data)) {
                                                     $id_values = implode(',', $parsed_data);
                                                 } else {
                                                     $id_values = $data['fk_id_machine'];
-                                                }	
+                                                }
                                                 $arrParam = array("idValues" => $id_values);
                                                 $informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
                                             }
-    
+
                                             $mensaje .= $data['site'] == 1 ? "At the yard - " : "At the site - ";
                                             $mensaje .= $data['hora'];
-    
+
                                             $mensaje .= "<br>" . $data['name'];
                                             $mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
-                                            $mensaje .= ( $data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0 ) ? "<br>" . $informationEquipments["unit_description"] : "";
-    
+                                            $mensaje .= ($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0) ? "<br>" . $informationEquipments["unit_description"] : "";
+
                                             if ($data['safety'] == 1) {
                                                 $mensaje .= "<br>Do FLHA";
                                             } elseif ($data['safety'] == 2) {
@@ -259,21 +259,54 @@
                                     <th class="text-center">Employee</th>
                                     <th class="text-center">Working Hours</th>
                                     <th class="text-center">Job Code/Name - Start</th>
+                                    <th class="text-center">Working Hours - Start</th>
                                     <th class="text-center">Job Code/Name - Finish</th>
+                                    <th class="text-center">Working Hours - Finish</th>
                                     <th>Task description</th>
                                     <th>Observation</th>
+                                    <th> </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 foreach ($payrollInfo as $lista) :
+
+                                    if ($lista['hours_difference']) {
+                                        $decimal_hours_start = $lista['hours_difference'];
+
+                                        $hours_start = floor($decimal_hours_start);          // Obtiene la parte entera de las horas
+                                        $minutes_start = round(($decimal_hours_start - $hours_start) * 60); // Obtiene los minutos restantes
+
+                                        $formatted_hours_start = str_pad($hours_start, 2, '0', STR_PAD_LEFT);
+                                        $formatted_minutes_start = str_pad($minutes_start, 2, '0', STR_PAD_LEFT);
+
+                                        $formatted_time_start = $formatted_hours_start . ":" . $formatted_minutes_start;
+                                    } else {
+                                        $formatted_time_start = substr($lista['working_hours_new'], 0, -3);
+                                    }
+
+                                    $decimal_hours_finished = $lista['hours_end_project'];
+
+                                    $hours_finished = floor($decimal_hours_finished);          // Obtiene la parte entera de las horas
+                                    $minutes_finished = round(($decimal_hours_finished - $hours_finished) * 60); // Obtiene los minutos restantes
+
+                                    $formatted_hours_finished = str_pad($hours_finished, 2, '0', STR_PAD_LEFT);
+                                    $formatted_minutes_finished = str_pad($minutes_finished, 2, '0', STR_PAD_LEFT);
+
+                                    $formatted_time_finished = $formatted_hours_finished . ":" . $formatted_minutes_finished;
+
                                     echo "<tr>";
                                     echo "<td class='text-center'>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
-                                    echo "<td class='text-right'>" . $lista['working_hours'] . "</td>";
+                                    echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, -3) . "</td>";
                                     echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
+                                    echo "<td class='text-right'>" . $formatted_time_start . "</td>";
                                     echo "<td class='text-center'>" . $lista['job_finish'] . "</td>";
+                                    echo "<td class='text-right'>" . $formatted_time_finished . "</td>";
                                     echo "<td class='text-right'>" . $lista['task_description'] . "</td>";
                                     echo "<td class='text-right'>" . $lista['observation'] . "</td>";
+                                    echo "<td class='text-right'>";
+                                    echo "<a href='https://v-contracting.ca/demo/dashboard/without_work_order' class='btn btn-danger'>Assign WO</a>";
+                                    echo "</td>";
                                     echo "</tr>";
                                 endforeach;
                                 ?>
