@@ -1107,9 +1107,12 @@ class Workorders_model extends CI_Model
 
 		//revisar si es para adicionar o editar
 		if ($idWOReceipt == '') {
+			$value = $price / 1.05;
+
 			$data['fk_id_workorder'] = $idWorkorder;
 			$data['markup'] = 0;
 			$data['view_pdf'] = 1;
+			$data['value'] = $value;
 			$query = $this->db->insert('workorder_receipt', $data);
 
 			$log['old'] = null;
