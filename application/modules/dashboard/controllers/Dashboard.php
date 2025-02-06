@@ -525,13 +525,23 @@ class Dashboard extends CI_Controller
 		}
 
 		if ($payrollInfo) {
+
 			$longitud = count($payrollInfo);
 			$i = 1;
 			foreach ($payrollInfo as $data) :
-				$startPayroll = substr($data['start'], 0, 10);
-				$payrollInfo = "Payroll: " . $data['first_name'] . ' ' . $data['last_name'];
-				$payrollInfo .=	" Job Code/Name: " . $data['job_start'];
-				$payrollInfo .= " - Working Hours: " . $data['working_hours'];
+				if ($data['fk_id_job'] != $data['fk_id_job_finish']) {
+					$startPayroll = substr($data['start'], 0, 10);
+					$payrollInfo = "Payroll: " . $data['first_name'] . ' ' . $data['last_name'];
+					$payrollInfo .=	", Start Job Code/Name: " . $data['job_start'];
+					$payrollInfo .= " - Working Hours: " . $data['hours_difference'];
+					$payrollInfo .=	", Finish Job Code/Name: " . $data['job_finish'];
+					$payrollInfo .= " - Working Hours: " . $data['hours_end_project'];
+				} else {
+					$startPayroll = substr($data['start'], 0, 10);
+					$payrollInfo = "Payroll: " . $data['first_name'] . ' ' . $data['last_name'];
+					$payrollInfo .=	" Job Code/Name: " . $data['job_start'];
+					$payrollInfo .= " - Working Hours: " . $data['working_hours'];
+				}
 
 				if ($data['task_description']) {
 					$taskDescription = trim(preg_replace('/\s+/', ' ', $data['task_description']));
