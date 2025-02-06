@@ -23,9 +23,9 @@ function deseleccionar_todo(){
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<i class="fa fa-book"></i> PROGRAMMING - ADD WORKERS
+					<i class="fa fa-users"></i> <b>PLANNING - ADD PERSONAL</b>
 				</div>
 				<div class="panel-body">
 
@@ -39,8 +39,8 @@ function deseleccionar_todo(){
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr class="info">
-								<th class='text-center'>Check</th>
-								<th class='text-center'>Worker</th>
+								<th class='text-center' width="15%">Check</th>
+								<th class='text-center' width="85%">Worker</th>
 							</tr>
 						</thead>	
 						
@@ -77,7 +77,9 @@ function deseleccionar_todo(){
 						<div class="form-group">							
 							<div class="row" align="center">
 								<div style="width:50%;" align="center">
-									 <input type="button" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary"/>
+									 <button type="button" id="btnSubmit" name="btnSubmit" class='btn btn-primary'>
+									 	Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									</button>
 								</div>
 							</div>
 						</div>
@@ -102,12 +104,7 @@ function deseleccionar_todo(){
 					</form>
 					
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->

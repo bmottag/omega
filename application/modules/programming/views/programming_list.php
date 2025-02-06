@@ -5,7 +5,6 @@
 
 <div id="page-wrapper">
 	<br>
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
@@ -13,11 +12,11 @@
 					<?php
 					if ($idProgramming != 'x') {
 					?>
-						<a class="btn btn-info btn-xs" href=" <?php echo base_url('programming'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('programming'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<?php
 					}
 					?>
-					<i class="fa fa-list"></i> SETTINGS - PLANNING LIST
+					<i class="fa fa-list"></i> <b>SETTINGS - PLANNING LIST</b>
 				</div>
 				<div class="panel-body">
 
@@ -31,7 +30,7 @@
 					}
 					?>
 					<?php if (!$deshabilitar) { ?>
-						<a class='btn btn-outline btn-primary btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
+						<a class='btn btn-primary btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span> New Planning
 						</a>
 						<br>
@@ -66,12 +65,12 @@
 						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 							<thead>
 								<tr>
-									<th class='text-center'>ID</th>
-									<th class='text-center'>Date</th>
-									<th class='text-center'>Job Code/Name</th>
-									<th class='text-center'>Observation</th>
-									<th class='text-center'>Action</th>
-									<th class='text-center'>Done by</th>
+									<th class='text-center' width="5%">ID</th>
+									<th class='text-center' width="10%">Date</th>
+									<th class='text-center' width="20%">Job Code/Name</th>
+									<th class='text-center' width="45%">Observation</th>
+									<th class='text-center' width="10%">Action</th>
+									<th class='text-center' width="10%">Done by</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -87,7 +86,7 @@
 									echo "<td class='text-center'>";
 									echo ($flagDate == 2 && $idParent != null && $idParent != '') ? "<b>Child</b><br>" . $idParent : ($flagDate == 1 ? "" : "<b>Parent</b><br>" . $lista["id_programming"]);
 									echo "</td>";
-									echo "<td class='text-center'>" . $lista['date_programming'] . "</td>";
+									echo "<td class='text-center'>" . date('F j, Y', strtotime($lista['date_programming'])) . "</td>";
 									echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['observation'] . "</td>";
 									echo "<td class='text-center'><small>";
@@ -114,26 +113,11 @@
 										<?php
 										if (!$deshabilitar) {
 										?>
-
 											<a href='<?php echo base_url("programming/add_programming/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
-
-											<?php if ($informationWorker) { ?>
-												<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalWorker" id="x">
-													<i class="fa fa-user"></i>
-												</button>
-
-												<button type="button" class="btn btn-violeta btn-xs btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials">
-													<i class="fa fa-tint"></i>
-												</button>
-											<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
-												<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-xs' title="Workers"><i class='fa fa-users'></i></a>
-											<?php } ?>
-
 
 											<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs btn-delete-programming' title="Delete">
 												<i class="fa fa-trash-o"></i>
 											</button>
-
 									<?php
 										}
 									}
@@ -189,10 +173,10 @@
 								</thead>
 								<tbody>
 									<?php
-									foreach ($dayoffList as $lista) :
+									foreach ($dayoffList as $dayoff) :
 										echo "<tr>";
-										echo "<td>" . $lista['name'] . "</td>";
-										echo "<td class='text-center'>" . $lista['date_dayoff'] . "</td>";
+										echo "<td>" . $dayoff['name'] . "</td>";
+										echo "<td class='text-center'>" . $dayoff['days_off'] . "</td>";
 										echo "</tr>";
 									endforeach;
 									?>
@@ -202,348 +186,270 @@
 					<?php } ?>
 					<!-- FIN LISTA DE WORKERS CON DAY OFF -->
 
-
-					<!-- INICIO HISTORICO -->
 					<?php
-					if ($informationWorker) {
+					if ($idProgramming != 'x' && $job_planning == 1) {
 					?>
-
-						<div class="table-responsive">
-							<table id="dataTablesWorker" class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
-
-								<thead>
-									<tr class="headings">
-										<th class="column-title" colspan="4">-- WORKERS --</th>
-										<th class="column-title">
-											<?php
-											if ($flagDate == 2 && ($idParent == null || $idParent == '')) {
-											?>
-												<form name="generateChildWorkers" id="generateChildWorkers" method="post" action="<?php echo base_url("programming/generate_child_workers"); ?>">
-													<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
-													<input type="submit" id="btnSubmit" name="btnSubmit" value="Generate Child Workers" class="btn btn-violeta" />
-												</form>
-											<?php
-											}
-											?>
-										</th>
-										<?php
-										if ($job_planning == 1) {
-										?>
-											<th class="column-title" colspan="3">
-												<div class="col-lg-12">
-													<div class="chat-panel panel panel-violeta">
-														<div class="panel-heading">
-															<i class="fa fa-copy fa-fw"></i> Clone this Planning for the Date
-														</div>
-
-														<div class="panel-footer">
-															<form name="clonePlanning" id="clonePlanning" method="post">
-																<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
-																<script>
-																	$(function() {
-																		$("#date").datepicker({
-																			changeMonth: true,
-																			changeYear: true,
-																			dateFormat: 'yy-mm-dd',
-																			minDate: '0'
-																		});
-																	});
-																</script>
-
-																<div class="input-group">
-																	<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
-																	<span class="input-group-btn">
-																		<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone">
-																			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
-																		</button>
-																	</span>
-																</div>
-															</form>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-12">
-													<div id="div_error" style="display:none">
-														<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
-													</div>
-
-													<div id="div_guardado" style="display:none">
-														<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
-													</div>
-												</div>
-											</th>
-										<?php
-										}
-										?>
-									</tr>
-
-									<tr class="headings">
-										<th class="column-title" style="width: 10%"><small>Name</small></th>
-										<th class="column-title text-center" style="width: 12%"><small>Time In</small></th>
-										<th class="column-title text-center" style="width: 13%"><small>Site</small></th>
-										<th class="column-title text-center" style="width: 13%"><small>FLHA/TOOL BOX</small></th>
-										<th class="column-title text-center" style="width: 21%"><small>Description</small></th>
-										<th class="column-title text-center" style="width: 22%"><small>Equipment</small></th>
-										<th class="column-title text-center" style="width: 9%"><small>Creat WO</small></th>
-										<th class="column-title text-center" style="width: 9%"><small>Action</small></th>
-									</tr>
-								</thead>
-
-								<tbody>
-
-									<?php
-									$mensaje = "";
-
-									foreach ($informationWorker as $data) :
-
-										if ($data['fk_id_machine'] != NULL) {
-											$id_values = implode(',', json_decode($data['fk_id_machine'], true));
-
-											$ci = &get_instance();
-											$ci->load->model("general_model");
-
-											$arrParam = array("idValues" => $id_values);
-											$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
-										}
-
-
-										$mensaje .= "<br>";
-										switch ($data['site']) {
-											case 1:
-												$mensaje .= "At the yard - ";
-												break;
-											case 2:
-												$mensaje .= "At the site - ";
-												break;
-											case 3:
-												$mensaje .= "At Terminal - ";
-												break;
-											default:
-												$mensaje .= "At the yard - ";
-												break;
-										}
-										$mensaje .= $data['hora'];
-
-										$mensaje .= "<br>" . $data['name'];
-										$mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
-										$mensaje .= $data['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
-
-										if ($data['safety'] == 1) {
-											$mensaje .= "<br>Do FLHA";
-										} elseif ($data['safety'] == 2) {
-											$mensaje .= "<br>Do Tool Box";
-										} elseif ($data['safety'] == 3) {
-											$mensaje .= "<br>Job site orientation";
-										}
-
-										if ($data['creat_wo'] == 1) {
-											$mensaje .= "<br>You are in charge of the W.O.";
-										}
-										$mensaje .= "<br>";
-
-										echo "<tr>";
-										echo "<td ><small>$data[name]</small></td>";
-
-										$idRecord = $data['id_programming_worker'];
-										$fkIdProgramming = $data['fk_id_programming'];
-									?>
-
-										<form name="worker_<?php echo $idRecord ?>" id="worker_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/update_worker"); ?>">
-
-											<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-											<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $fkIdProgramming; ?>" />
-
-											<td>
-												<select name="hora_inicio" class="form-control js-example-basic-single" required>
-													<option value=''>Select...</option>
-													<?php for ($i = 0; $i < count($horas); $i++) { ?>
-														<option value="<?php echo $horas[$i]["id_hora"]; ?>" <?php
-																												if ($horas[$i]["id_hora"] == $data["fk_id_hour"]) {
-																													echo 'selected="selected"';
-																												}
-																												?>><?php echo $horas[$i]["hora"]; ?>
-														</option>
-													<?php } ?>
-												</select>
-											</td>
-
-											<td>
-												<select name="site" class="form-control" required>
-													<option value="">Select...</option>
-													<option value=1 <?php if ($data["site"] == 1) {
-																		echo "selected";
-																	}  ?>>At the yard</option>
-													<option value=2 <?php if ($data["site"] == 2) {
-																		echo "selected";
-																	}  ?>>At the site</option>
-													<option value=3 <?php if ($data["site"] == 3) {
-																		echo "selected";
-																	}  ?>>At Terminal</option>
-												</select>
-											</td>
-
-											<td>
-												<select name="safety" class="form-control">
-													<option value="">Select...</option>
-													<option value=1 <?php if ($data["safety"] == 1) {
-																		echo "selected";
-																	}  ?>>FLHA</option>
-													<option value=2 <?php if ($data["safety"] == 2) {
-																		echo "selected";
-																	}  ?>>Tool Box</option>
-													<option value=3 <?php if ($data["safety"] == 3) {
-																		echo "selected";
-																	}  ?>>Job Site Orientation</option>
-												</select>
-											</td>
-
-											<td>
-												<input type="text" id="description" name="description" class="form-control" placeholder="Description" value="<?php echo $data['description']; ?>">
-											</td>
-
-											<td>
-												<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple">
-													<option value=''>Select...</option>
-													<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
-														<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] != "" && ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"])))) {
-																																echo "selected";
-																															}  ?>><?php echo $informationVehicles[$i]["unit_number"]; ?></option>
-													<?php } ?>
-												</select>
-											</td>
-
-											<td>
-												<select name="creat_wo" class="form-control">
-													<option value="">Select...</option>
-													<option value=1 <?php if ($data["creat_wo"] == 1) {
-																		echo "selected";
-																	}  ?>>Yes</option>
-													<option value=2 <?php if ($data["creat_wo"] == 2) {
-																		echo "selected";
-																	}  ?>>No</option>
-												</select>
-											</td>
-											<td class='text-center'>
-												<?php
-												if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
-												?>
-													<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" />
-												<?php
-												}
-												?>
-										</form>
-
-										<br><br>
-										<?php
-										if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
-										?>
-											<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete" title="Delete">
-												<span class="fa fa-trash-o" aria-hidden="true"> </span>
-											</a>
-										<?php
-										}
-										?>
-
-										</td>
-									<?php
-
-										echo "<td class='text-center'><small>";
-										echo "</small></td>";
-										echo "</tr>";
-									endforeach;
-									?>
-
-								</tbody>
-							</table>
-						</div>
-
 						<div class="row">
-							<div class="col-lg-12">
-								<div class="panel panel-primary">
+							<div class="col-lg-8"></div>
+							<div class="col-lg-4">
+								<div class="chat-panel panel panel-violeta">
 									<div class="panel-heading">
-										OCCASIONAL SUBCONTRACTOR
+										<i class="fa fa-copy"></i> <b>Clone this Planning for the Date</b>
 									</div>
-									<div class="panel-body">
-										<?php if (!$deshabilitar) { ?>
-											<div class="col-lg-12">
-												<button type="button" class="btn btn-primary btn-block btn-occasional" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_programming"]; ?>">
-													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
-												</button><br>
+
+									<div class="panel-footer">
+										<form name="clonePlanning" id="clonePlanning" method="post">
+											<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
+											<script>
+												$(function() {
+													$("#date").datepicker({
+														changeMonth: true,
+														changeYear: true,
+														dateFormat: 'yy-mm-dd',
+														minDate: '0'
+													});
+												});
+											</script>
+
+											<div class="input-group">
+												<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-violeta btn-sm btn-service-order-parts" id="btnSubmitClone" name="btnSubmitClone">
+														<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clone Planning
+													</button>
+												</span>
 											</div>
-										<?php } ?>
-
-										<?php
-										if ($programmingOccasional) {
-										?>
-											<table class="table table-bordered table-striped table-hover table-condensed">
-												<tr class="primary">
-													<th class="text-center">Info. Subcontractor</th>
-													<th class="text-center">Description</th>
-													<th class="text-center">Quantity</th>
-													<th class="text-center">Unit</th>
-													<th class="text-center">Hours</th>
-													<th class="text-center">Links</th>
-												</tr>
-												<?php
-												foreach ($programmingOccasional as $data) :
-													echo "<tr>";
-													echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
-													echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
-													echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small></td>";
-
-													$idRecord = $data['id_programming_ocasional'];
-												?>
-													<form name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/save_hour"); ?>">
-														<input type="hidden" id="formType" name="formType" value="ocasional" />
-														<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-														<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $data['fk_id_programming']; ?>" />
-														<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
-														<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
-														<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
-
-														<td>
-															<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
-														</td>
-
-														<td>
-															<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
-														</td>
-
-														<td>
-															<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
-														</td>
-
-														<td>
-															<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
-														</td>
-
-														<td class='text-center'>
-															<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-																Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-															</button>
-													</form>
-
-													<br><br>
-													<?php if (!$deshabilitar) { ?>
-														<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteRecord/ocasional/' . $data['id_programming_ocasional'] . '/' . $data['fk_id_programming'] . '/index') ?>' id="btn-delete">
-															Delete <i class="fa fa-trash-o"></i>
-														</a>
-													<?php } else {
-														echo "---";
-													} ?>
-
-													</td>
-													</tr>
-												<?php
-												endforeach;
-												?>
-											</table>
-										<?php } ?>
+										</form>
 									</div>
 								</div>
 							</div>
-						</div>
+							<div class="col-lg-12">
+								<div id="div_error" style="display:none">
+									<div class="alert alert-danger"> <strong>Error!!!</strong> Ask for help. </div>
+								</div>
 
+								<div id="div_guardado" style="display:none">
+									<div class="alert alert-success"> <strong>Ok!</strong> You have cloned the Planning.</div>
+								</div>
+							</div>
+						</div>
+					<?php
+					}
+					?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--INICIO PERSONAL -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<i class="fa fa-users"></i> <b>PERSONAL</b>
+				</div>
+				<div class="panel-body">
+
+					<?php if (!$deshabilitar) { ?>
+						<div class="col-lg-12">
+							<?php if ($informationWorker) { ?>
+								<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
+									<i class="fa fa-user"></i> Add Personal
+								</button><br>
+
+							<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
+								<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-block' title="Workers">
+									<i class='fa fa-users'></i> Add Personal
+								</a><br>
+							<?php } ?>
+						</div>
+					<?php } ?>
+
+					<!-- PERSONAL LIST-->
+					<?php
+					if ($informationWorker) {
+					?>
+						<table class="table table-bordered table-striped table-hover table-condensed">
+							<?php if ($flagDate == 2 && ($idParent == null || $idParent == '')) { ?>
+							<tr class="warning">
+								<th class="text-right" colspan="8">
+										<form name="generateChildWorkers" id="generateChildWorkers" method="post" action="<?php echo base_url("programming/generate_child_workers"); ?>">
+											<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $idProgramming; ?>" />
+											<input type="submit" id="btnSubmit" name="btnSubmit" value="Generate Child Workers" class="btn btn-violeta" />
+										</form>
+								</th>
+							</tr>
+							<?php } ?>
+
+							<tr class="warning">
+								<th style="width: 10%"><small>Name</small></th>
+								<th class="text-center" width= "12%"><small>Time In</small></th>
+								<th class="text-center" width= "13%"><small>Site</small></th>
+								<th class="text-center" width= "13%"><small>FLHA/TOOL BOX</small></th>
+								<th class="text-center" width= "21%"><small>Description</small></th>
+								<th class="text-center" width= "22%"><small>Equipment</small></th>
+								<th class="text-center" width= "9%"><small>Creat WO</small></th>
+								<th class="text-center" width= "9%"><small>Action</small></th>
+							</tr>
+
+							<?php
+							$mensaje = "";
+
+							foreach ($informationWorker as $data) :
+
+								if ($data['fk_id_machine'] != NULL) {
+									$id_values = implode(',', json_decode($data['fk_id_machine'], true));
+
+									$ci = &get_instance();
+									$ci->load->model("general_model");
+
+									$arrParam = array("idValues" => $id_values);
+									$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
+								}
+
+								$mensaje .= "<br>";
+								switch ($data['site']) {
+									case 1:
+										$mensaje .= "At the yard - ";
+										break;
+									case 2:
+										$mensaje .= "At the site - ";
+										break;
+									case 3:
+										$mensaje .= "At Terminal - ";
+										break;
+									default:
+										$mensaje .= "At the yard - ";
+										break;
+								}
+								$mensaje .= $data['hora'];
+
+								$mensaje .= "<br>" . $data['name'];
+								$mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
+								$mensaje .= $data['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
+
+								if ($data['safety'] == 1) {
+									$mensaje .= "<br>Do FLHA";
+								} elseif ($data['safety'] == 2) {
+									$mensaje .= "<br>Do Tool Box";
+								} elseif ($data['safety'] == 3) {
+									$mensaje .= "<br>Job site orientation";
+								}
+
+								if ($data['creat_wo'] == 1) {
+									$mensaje .= "<br>You are in charge of the W.O.";
+								}
+								$mensaje .= "<br>";
+
+								echo "<tr>";
+								echo "<td ><small>$data[name]</small></td>";
+
+								$idRecord = $data['id_programming_worker'];
+								$fkIdProgramming = $data['fk_id_programming'];
+							?>
+
+								<form name="worker_<?php echo $idRecord ?>" id="worker_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/update_worker"); ?>">
+
+									<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
+									<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $fkIdProgramming; ?>" />
+
+									<td>
+										<select name="hora_inicio" class="form-control js-example-basic-single" required>
+											<option value=''>Select...</option>
+											<?php for ($i = 0; $i < count($horas); $i++) { ?>
+												<option value="<?php echo $horas[$i]["id_hora"]; ?>" <?php
+																										if ($horas[$i]["id_hora"] == $data["fk_id_hour"]) {
+																											echo 'selected="selected"';
+																										}
+																										?>><?php echo $horas[$i]["hora"]; ?>
+												</option>
+											<?php } ?>
+										</select>
+									</td>
+
+									<td>
+										<select name="site" class="form-control" required>
+											<option value="">Select...</option>
+											<option value=1 <?php if ($data["site"] == 1) {
+																echo "selected";
+															}  ?>>At the yard</option>
+											<option value=2 <?php if ($data["site"] == 2) {
+																echo "selected";
+															}  ?>>At the site</option>
+											<option value=3 <?php if ($data["site"] == 3) {
+																echo "selected";
+															}  ?>>At Terminal</option>
+										</select>
+									</td>
+
+									<td>
+										<select name="safety" class="form-control">
+											<option value="">Select...</option>
+											<option value=1 <?php if ($data["safety"] == 1) {
+																echo "selected";
+															}  ?>>FLHA</option>
+											<option value=2 <?php if ($data["safety"] == 2) {
+																echo "selected";
+															}  ?>>Tool Box</option>
+											<option value=3 <?php if ($data["safety"] == 3) {
+																echo "selected";
+															}  ?>>Job Site Orientation</option>
+										</select>
+									</td>
+
+									<td>
+										<input type="text" id="description" name="description" class="form-control" placeholder="Description" value="<?php echo $data['description']; ?>">
+									</td>
+
+									<td>
+										<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple">
+											<option value=''>Select...</option>
+											<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
+												<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] != "" && ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"])))) {
+																														echo "selected";
+																													}  ?>><?php echo $informationVehicles[$i]["unit_number"]; ?></option>
+											<?php } ?>
+										</select>
+									</td>
+
+									<td>
+										<select name="creat_wo" class="form-control">
+											<option value="">Select...</option>
+											<option value=1 <?php if ($data["creat_wo"] == 1) {
+																echo "selected";
+															}  ?>>Yes</option>
+											<option value=2 <?php if ($data["creat_wo"] == 2) {
+																echo "selected";
+															}  ?>>No</option>
+										</select>
+									</td>
+									<td class='text-center'>
+										<?php
+										if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
+										?>
+											<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" />
+										<?php
+										}
+										?>
+								</form>
+
+								<br><br>
+								<?php
+								if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
+								?>
+									<a class='btn btn-purpura btn-xs' href='<?php echo base_url('programming/deleteWorker/' . $idProgramming . '/' . $idRecord) ?>' id="btn-delete" title="Delete">
+										<span class="fa fa-trash-o" aria-hidden="true"> </span>
+									</a>
+								<?php
+								}
+								?>
+
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</table>
+
+						<!-- INICIO MESSAGE -->
 						<div class="table-responsive">
 							<table id="dataTablesWorker" class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
 
@@ -581,23 +487,34 @@
 								</tbody>
 							</table>
 						</div>
-
+						<!-- FIN MESSAGE -->
 					<?php
 					}
 					?>
-					<!-- FIN HISTORICO -->
-
 				</div>
+			</div>
+		</div>
+	</div>
+	<!--FIN PERSONAL -->
+	
+	<!--INICIO MATERIALS -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<i class="fa fa-tint"></i> <b>MATERIALS</b>
+				</div>
+				<div class="panel-body">
+					<?php if (!$deshabilitar) { ?>
+						<div class="col-lg-12">
+							<button type="button" class="btn btn-success btn-block btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials">
+								<i class="fa fa-tint"></i> Add Materials
+							</button><br>
+						</div>
+					<?php } ?>
 
-				<!--INICIO MATERIALS -->
-				<?php
-				if ($programmingMaterials) {
-				?>
-					<div class="panel-body">
-						<table class="table table-striped jambo_table bulk_action" cellspacing="0" width="100%">
-							<tr class="headings">
-								<th class="column-title" colspan="5">-- MATERIALS --</th>
-							</tr>
+					<?php if ($programmingMaterials) { ?>
+						<table class="table table-bordered table-striped table-hover table-condensed">
 							<tr class="success">
 								<th>Info. Material</th>
 								<th>Description</th>
@@ -649,12 +566,102 @@
 							endforeach;
 							?>
 						</table>
-					</div>
-				<?php } ?>
-				<!--FIN MATERIALS -->
+					<?php } ?>
+				</div>
 			</div>
 		</div>
 	</div>
+	<!--FIN MATERIALS -->
+
+	<!--INICIO OCCASIONAL SUBCONTRACTOR -->	
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<i class="fa fa-beer"></i> <b>OCCASIONAL SUBCONTRACTOR</b>
+				</div>
+				<div class="panel-body">
+					<?php if (!$deshabilitar) { ?>
+						<div class="col-lg-12">
+							<button type="button" class="btn btn-primary btn-block btn-occasional" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_programming"]; ?>">
+								<i class="fa fa-beer"></i> Add Occasional Subcontractor
+							</button><br>
+						</div>
+					<?php } ?>
+
+					<?php
+					if ($programmingOccasional) {
+					?>
+						<table class="table table-bordered table-striped table-hover table-condensed">
+							<tr class="primary">
+								<th class="text-center">Info. Subcontractor</th>
+								<th class="text-center">Description</th>
+								<th class="text-center">Quantity</th>
+								<th class="text-center">Unit</th>
+								<th class="text-center">Hours</th>
+								<th class="text-center">Links</th>
+							</tr>
+							<?php
+							foreach ($programmingOccasional as $data) :
+								echo "<tr>";
+								echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
+								echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
+								echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small></td>";
+
+								$idRecord = $data['id_programming_ocasional'];
+							?>
+								<form name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("programming/save_hour"); ?>">
+									<input type="hidden" id="formType" name="formType" value="ocasional" />
+									<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
+									<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $data['fk_id_programming']; ?>" />
+									<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
+									<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
+									<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
+
+									<td>
+										<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
+									</td>
+
+									<td>
+										<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
+									</td>
+
+									<td>
+										<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
+									</td>
+
+									<td>
+										<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
+									</td>
+
+									<td class='text-center'>
+										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+										</button>
+								</form>
+
+								<br><br>
+								<?php if (!$deshabilitar) { ?>
+									<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteRecord/ocasional/' . $data['id_programming_ocasional'] . '/' . $data['fk_id_programming'] . '/index') ?>' id="btn-delete">
+										Delete <i class="fa fa-trash-o"></i>
+									</a>
+								<?php } else {
+									echo "---";
+								} ?>
+
+								</td>
+								</tr>
+							<?php
+							endforeach;
+							?>
+						</table>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--FIN OCCASIONAL SUBCONTRACTOR -->
+
 </div>
 
 <!--INICIO Modal para adicionar WORKER -->
@@ -664,7 +671,7 @@
 			<div class="modal-content" id="tablaDatos">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="exampleModalLabel">ADD WORKER</h4>
+					<h4 class="modal-title" id="exampleModalLabel">ADD PERSONAL</h4>
 				</div>
 
 				<div class="modal-body">
@@ -684,7 +691,9 @@
 						<div class="form-group">
 							<div class="row" align="center">
 								<div style="width:50%;" align="center">
-									<input type="submit" id="btnSubmitWorker" name="btnSubmitWorker" value="Save" class="btn btn-primary" />
+									<button type="submit" id="btnSubmitWorker" name="btnSubmitWorker" class='btn btn-primary'>
+									 	Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									</button>
 								</div>
 							</div>
 						</div>

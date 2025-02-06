@@ -44,8 +44,8 @@ class Programming extends CI_Controller
 			$arrParam = array("state" => 1);
 			$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
 
-			$data["forPlanning"] = true; //approved
-			$data['dayoffList'] = $this->general_model->get_day_off($data);
+			$arrParamDayOff["forPlanning"] = true; //approved
+			$data['dayoffList'] = $this->general_model->get_day_off_planning($arrParamDayOff);
 
 			//si hay trabajadores reviso si ya se ha hecho la inspeccion de las maquinas
 			if ($data['informationWorker']) {
