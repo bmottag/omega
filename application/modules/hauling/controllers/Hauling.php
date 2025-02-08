@@ -137,6 +137,7 @@ class Hauling extends CI_Controller
 
 		//si envio el id, entonces busco la informacion 
 		if ($id != 'x') {
+
 			$data['information'] = $this->hauling_model->get_hauling_byId($id); //info hauling
 
 			$idWorkorder = $data['information']['fk_id_workorder'];
@@ -164,10 +165,10 @@ class Hauling extends CI_Controller
 			$data['truckList'] = $this->general_model->get_basic_search($arrParam);
 
 			//consultar si esta cerrado, si es asi lo pasamos a otra vista
-			if ($data['information']['state'] == 2) {
-				$data['HaulingClose'] = TRUE;
-				$view = 'view_hauling';
-			}
+			// if ($data['information']['state'] == 2) {
+			// 	$data['HaulingClose'] = TRUE;
+			// 	$view = 'view_hauling';
+			// }
 		}
 
 		$data["view"] = $view;
@@ -311,20 +312,40 @@ class Hauling extends CI_Controller
 	{
 		header('Content-Type: application/json');
 		$data = array();
-
 		$data["idHauling"] = $this->input->post('hddId');
+
+		$state = ($this->input->post('delete')) ? 3 : 2;
 
 		$arrParam = array(
 			"table" => "hauling",
 			"primaryKey" => "id_hauling",
 			"id" => $data["idHauling"],
 			"column" => "state",
-			"value" => 2
+			"value" => $state
 		);
 		$this->load->model("general_model");
 
 		//actualizo el estado del formulario a cerrado(2)
 		if ($this->general_model->updateRecord($arrParam)) {
+
+			if ($state == 3) {
+				$idHauling = $data["idHauling"];
+
+				$sql = "SELECT fk_id_submodule FROM hauling WHERE id_hauling = $idHauling";
+				$query = $this->db->query($sql);
+				$result = $query->row_array();
+				$fk_id_submodule = $result['fk_id_submodule'];
+
+				if ($fk_id_submodule) {
+					$arrParamDelete = array(
+						"table" => "workorder_ocasional",
+						"primaryKey" => "id_workorder_ocasional",
+						"id" => $fk_id_submodule
+					);
+					$this->general_model->deleteRecord($arrParamDelete);
+				}
+			}
+
 			$data["result"] = true;
 			$data["mensaje"] = "You have closed the Hauling Report.";
 			$this->session->set_flashdata('retornoExito', 'You have closed the Hauling Report');

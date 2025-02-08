@@ -245,13 +245,13 @@ class Hauling_model extends CI_Model
 		$this->db->select('H.*, C.company_name, C.contact, C.email, C.company_type, V.unit_number, T.truck_type, M.material, P.payment, J.job_description from, L.job_description to');
 		$this->db->from('hauling H');
 		$this->db->where('id_hauling', $idHaulig);
-		$this->db->join('param_company C', 'C.id_company = H.fk_id_company', 'INNER');
+		$this->db->join('param_company C', 'C.id_company = H.fk_id_company', 'LEFT');
 		$this->db->join('param_vehicle V', 'V.id_vehicle = H.fk_id_truck', 'LEFT');
-		$this->db->join('param_truck_type T', 'T.id_truck_type = H.fk_id_truck_type', 'INNER');
-		$this->db->join('param_material_type M', 'M.id_material = H.fk_id_material', 'INNER');
-		$this->db->join('param_jobs J', 'J.id_job = H.fk_id_site_from', 'INNER');
-		$this->db->join('param_jobs L', 'L.id_job = H.fk_id_site_from', 'INNER');
-		$this->db->join('param_payment P', 'P.id_payment = H.fk_id_payment', 'INNER');
+		$this->db->join('param_truck_type T', 'T.id_truck_type = H.fk_id_truck_type', 'LEFT');
+		$this->db->join('param_material_type M', 'M.id_material = H.fk_id_material', 'LEFT');
+		$this->db->join('param_jobs J', 'J.id_job = H.fk_id_site_from', 'LEFT');
+		$this->db->join('param_jobs L', 'L.id_job = H.fk_id_site_from', 'LEFT');
+		$this->db->join('param_payment P', 'P.id_payment = H.fk_id_payment', 'LEFT');
 
 
 		$query = $this->db->get();
@@ -318,6 +318,7 @@ class Hauling_model extends CI_Model
 		$unit = $data['unit'];
 		$description = $data['description'];
 		$fk_id_submodule = null;
+		$fk_id_programming = $data['fk_id_programming'];
 
 		$idUser = $this->session->userdata("id");
 
@@ -433,6 +434,7 @@ class Hauling_model extends CI_Model
 			'comments' => $description,
 			'fk_id_workorder' => $id_work_order,
 			'fk_id_submodule' => $fk_id_submodule,
+			'fk_id_programming' => $fk_id_programming,
 		);
 
 		//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion

@@ -73,9 +73,22 @@ if ($userRol == 99) {
 					} else {
 					?>
 
+						<?php
+						if ($information && $information["state"] != 1) {
+						?>
+							<div class="col-lg-12">
+								<div class="alert alert-danger ">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									This hauling form is close.
+								</div>
+							</div>
+						<?php
+						}
+						?>
+
 						<form name="form" id="form" class="form-horizontal" method="post">
 							<input type="hidden" id="hddId" name="hddId" value="<?php echo $information ? $information["id_hauling"] : ""; ?>" />
-
+							<input type="hidden" id="state" value="<?php echo $information ? $information["state"] : ""; ?>" />
 
 
 							<?php if ($information) { ?>
@@ -121,7 +134,7 @@ if ($userRol == 99) {
 														}
 														?>
 
-														<a class="btn <?php echo $class; ?>" href="<?php echo base_url("hauling/add_signature/vci/" . $information["id_hauling"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Signature </a>
+														<a class="btn <?php echo $class; ?> class_disabled" href="<?php echo base_url("hauling/add_signature/vci/" . $information["id_hauling"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Signature </a>
 
 													</div>
 												</div>
@@ -136,7 +149,7 @@ if ($userRol == 99) {
 									<div class="panel panel-info">
 										<div class="panel-heading">
 											<i class="fa fa-edit fa-fw"></i> Subcontractor
-											<a href="<?php echo base_url("hauling/email/" . $information["id_hauling"]); ?>" class="btn btn-danger btn-xs"> <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Send Email</a>
+											<a href="<?php echo base_url("hauling/email/" . $information["id_hauling"]); ?>" class="btn btn-danger btn-xs class_disabled"> <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Send Email</a>
 										</div>
 										<!-- /.panel-heading -->
 										<div class="panel-body">
@@ -173,7 +186,7 @@ if ($userRol == 99) {
 														}
 														?>
 
-														<a class="btn <?php echo $class; ?>" href="<?php echo base_url("hauling/add_signature/contractor/" . $information["id_hauling"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Contractor Signature </a>
+														<a class="btn <?php echo $class; ?> class_disabled" href="<?php echo base_url("hauling/add_signature/contractor/" . $information["id_hauling"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Contractor Signature </a>
 
 
 													</div>

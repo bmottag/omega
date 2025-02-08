@@ -203,6 +203,12 @@ class General_model extends CI_Model
 		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
 			$this->db->where('H.date_issue <', $arrData["to"]);
 		}
+		if (array_key_exists("state_delete", $arrData)) {
+			$this->db->where('H.state', 3);
+		}
+		if (array_key_exists("state_active", $arrData)) {
+			$this->db->where('H.state !=', 3);
+		}
 
 		$this->db->order_by('H.id_hauling', 'desc');
 
@@ -1934,7 +1940,7 @@ class General_model extends CI_Model
 
 		$this->db->select("U.id_user, CONCAT(U.first_name, ' ', U.last_name) AS name, 
         GROUP_CONCAT(DATE_FORMAT(D.date_dayoff, '%d %b %Y') ORDER BY D.date_dayoff ASC SEPARATOR ', ') AS days_off");
-    
+
 		$this->db->join('user U', 'U.id_user = D.fk_id_user', 'INNER');
 		//filtro para mostrar en el PLANNING los que son aprobados y el dia off en en los proximos dos dias o menos
 		if (array_key_exists("forPlanning", $arrData)) {

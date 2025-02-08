@@ -546,6 +546,7 @@ class Programming_model extends CI_Model
 			$info['equipment'] = $this->input->post('equipment');
 			$info['unit'] = $this->input->post('unit');
 			$info['description'] = $this->input->post('description');
+			$info['fk_id_programming'] = $this->input->post('hddidProgramming');
 
 			$this->load->model("hauling/hauling_model");
 
