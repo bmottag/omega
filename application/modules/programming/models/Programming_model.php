@@ -10,6 +10,8 @@ class Programming_model extends CI_Model
 	 */
 	public function saveProgramming()
 	{
+		$this->load->model("general_model");
+
 		$idUser = $this->session->userdata("id");
 		$idProgramming = $this->input->post('hddId');
 		//$flagDate = $this->input->post('flag_date');
@@ -42,6 +44,28 @@ class Programming_model extends CI_Model
 		} else {
 			$this->db->where('id_programming', $idProgramming);
 			$query = $this->db->update('programming', $data);
+
+			//actualiza la WO
+			$arrParam = array(
+				"table" => "programming",
+				"order" => "id_programming",
+				"column" => "id_programming",
+				"id" => $idProgramming
+			);
+			$result = $this->general_model->get_basic_search($arrParam);
+			$fk_id_workorder = $result[0]['fk_id_workorder'];
+
+			if ($fk_id_workorder) {
+				$dataWO = array(
+					'fk_id_job' => $data["fk_id_job"],
+					'observation' =>  $data["observation"],
+					'date' => $data["date_programming"],
+					'date_issue' => $data["date_programming"] . ' ' . date("G:i:s"),
+				);
+
+				$this->db->where('id_workorder', $fk_id_workorder);
+				$this->db->update('workorder', $dataWO);
+			}
 		}
 		if ($query) {
 			return $idProgramming;
