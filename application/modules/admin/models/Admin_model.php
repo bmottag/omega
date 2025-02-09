@@ -54,6 +54,7 @@ class Admin_model extends CI_Model
 	 */
 	public function saveJob()
 	{
+		$this->load->library('logger');
 		$idJob = $this->input->post('hddId');
 		$jobCode = trim($this->security->xss_clean($this->input->post('jobCode')));
 		$jobName = trim($this->security->xss_clean($this->input->post('jobName')));
@@ -73,10 +74,39 @@ class Admin_model extends CI_Model
 		if ($idJob == '') {
 			$query = $this->db->insert('param_jobs', $data);
 			$idJob = $this->db->insert_id();
+
+			$log['old'] = null;
+			$log['new'] = json_encode($data);
+
+			$this->logger
+				->user($this->session->userdata("id")) //;//Set UserID, who created this  Action ->user($this->session->userdata("id"))
+				->type('job_code') //Entry type like, Post, Page, Entry
+				->id($idJob) //Entry ID
+				->token('insert') //Token identify Action
+				->comment(json_encode($log))
+				->log(); //Add Database Entry
 		} else {
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "id_job",
+				"column" => "id_job",
+				"id" => $idJob
+			);
+			$log['old'] = $this->general_model->get_basic_search($arrParam);
+			$log['new'] = json_encode($data);
+
 			$this->db->where('id_job', $idJob);
 			$query = $this->db->update('param_jobs', $data);
+
+			$this->logger
+				->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+				->type('job_code') //Entry type like, Post, Page, Entry
+				->id($idJob) //Entry ID
+				->token('update') //Token identify Action
+				->comment(json_encode($log))
+				->log(); //Add Database Entry
 		}
+
 		if ($query) {
 			return $idJob;
 		} else {
@@ -522,12 +552,32 @@ class Admin_model extends CI_Model
 	 */
 	public function updateJobsState($state)
 	{
+		$this->load->library('logger');
+
 		//if it comes from the active view, then inactive everything
 		//else do nothing and continue with the activation
 		if ($state == 1) {
 			//update all states to inactive
 			$data['state'] = 2;
 			$query = $this->db->update('param_jobs', $data);
+
+			$sql = "SELECT id_job, state FROM param_jobs";
+
+			$queryJob = $this->db->query($sql);
+			$jobs = $queryJob->result_array();
+
+			foreach ($jobs as $key => $job) {
+				$log['old'] = json_encode($job['state']);
+				$log['new'] = json_encode($data);
+
+				$this->logger
+					->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+					->type('job_code_status') //Entry type like, Post, Page, Entry
+					->id($job['id_job']) //Entry ID
+					->token('update') //Token identify Action
+					->comment(json_encode($log))
+					->log(); //Add Database Entry
+			}
 		}
 
 		//update states
@@ -538,6 +588,22 @@ class Admin_model extends CI_Model
 				$data['state'] = 1;
 				$this->db->where('id_job', $jobs[$i]);
 				$query = $this->db->update('param_jobs', $data);
+
+				$sql = "SELECT id_job, state FROM param_jobs where id_job = " . $jobs[$i];
+
+				$queryJob = $this->db->query($sql);
+				$job = $queryJob->result_array()[0];
+
+				$log['old'] = json_encode($job['state']);
+				$log['new'] = json_encode($data);
+
+				$this->logger
+					->user($this->session->userdata("id")) //$this->session->userdata("id");//Set UserID, who created this  Action
+					->type('job_code_status') //Entry type like, Post, Page, Entry
+					->id($jobs[$i]) //Entry ID
+					->token('update') //Token identify Action
+					->comment(json_encode($log))
+					->log(); //Add Database Entry
 			}
 		}
 		if ($query) {
@@ -842,6 +908,42 @@ class Admin_model extends CI_Model
 		}
 		if ($query) {
 			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Job Log
+	 * @since 20/02/2024
+	 */
+	public function get_job_log($arrData)
+	{
+		$this->db->select("L.*, CONCAT(first_name, ' ', last_name) name, J.job_description");
+		$this->db->join('user U', 'U.id_user = L.created_by', 'INNER');
+		$this->db->join('param_jobs j', 'L.type_id = j.id_job', 'LEFT');
+		$this->db->join('param_company C', 'C.id_company = J.fk_id_company', 'LEFT');
+
+		if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
+			$this->db->where('J.id_job', $arrData["jobId"]);
+		}
+
+		if (array_key_exists("userId", $arrData) && $arrData["userId"] != '' && $arrData["userId"] != 0) {
+			$this->db->where('L.created_by', $arrData["userId"]);
+		}
+
+		if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+			$this->db->where('L.created_on >=', $arrData["from"]);
+		}
+
+		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+			$this->db->where('L.created_on <=', $arrData["to"]);
+		}
+		$this->db->order_by('L.id', 'asc');
+		$query = $this->db->get('logger L');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
 		} else {
 			return false;
 		}

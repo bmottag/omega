@@ -428,13 +428,70 @@ class Admin extends CI_Controller
 	 */
 	public function job($state)
 	{
-		$data['state'] = $state;
+		if ($state == 'log') {
 
-		$arrParam['state'] = $state;
-		$data['info'] = $this->general_model->get_job($arrParam);
+			//job list
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_jobs",
+				"order" => "job_description",
+				"column" => "state",
+				"id" => 1
+			);
+			$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
 
-		$data["view"] = 'job';
-		$this->load->view("layout", $data);
+			$arrParam = array(
+				"table" => "user",
+				"order" => "id_user",
+				"column" => "id_user",
+				"id" => "x"
+			);
+			$data['user'] = $this->general_model->get_basic_search($arrParam); //job list
+
+			if ($this->input->post('jobName') || $this->input->post('user') || $this->input->post('from')) {
+
+				$data['jobName'] =  $this->input->post('jobName');
+				$data['user'] =  $this->input->post('user');
+				$data['from'] =  $this->input->post('from');
+				$data['to'] =  $this->input->post('to');
+
+				//le sumo un dia al dia final para que ingrese ese dia en la consulta
+				if ($data['to']) {
+					$to = date('Y-m-d', strtotime('+1 day ', strtotime(formatear_fecha($data['to']))));
+				} else {
+					$to = "";
+				}
+				if ($data['from']) {
+					$from = formatear_fecha($data['from']);
+				} else {
+					$from = "";
+				}
+
+				$arrParam = array(
+					"jobId" => $this->input->post('jobName'),
+					"userId" => $this->input->post('user'),
+					"from" => $from,
+					"to" => $to
+				);
+
+				//informacion Work Order
+				$data['workOrderInfo'] = $this->admin_model->get_job_log($arrParam);
+
+				$data["view"] = "log_list";
+				$this->load->view("layout_calendar", $data);
+			} else {
+				$data["view"] = 'job_log';
+				$this->load->view("layout", $data);
+			}
+		} else {
+			$data['state'] = $state;
+
+			$arrParam['state'] = $state;
+			$data['info'] = $this->general_model->get_job($arrParam);
+
+			$data["view"] = 'job';
+			$this->load->view("layout", $data);
+		}
 	}
 
 	/**
@@ -479,6 +536,7 @@ class Admin extends CI_Controller
 		$jobCode = trim($this->security->xss_clean($this->input->post('jobCode')));
 		$jobName = trim($this->security->xss_clean($this->input->post('jobName')));
 		$jobDescription = $jobCode . " " . $jobName;
+		$companyId = trim($this->security->xss_clean($this->input->post('company')));
 
 		$msj = "You have added a new job!!";
 		if ($idJob != '') {
@@ -499,6 +557,7 @@ class Admin extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> The Job Code already exist.');
 		} else {
 			if ($idJobSaved = $this->admin_model->saveJob()) {
+
 				//If it is a new JOB, then send text messague to SAFETY USER
 				if ($idJob == '') {
 					//revisar si se envia mensaje de texto y a quien se le envia
@@ -506,10 +565,51 @@ class Admin extends CI_Controller
 					$configuracionAlertas = $this->general_model->get_notifications_access($arrParam);
 
 					if ($configuracionAlertas) {
+
 						//mensaje de texto
 						$mensajeSMS = "NEW JOB APP-VCI";
 						$mensajeSMS .= "\nFor your records, a new Job Code has been created in the system.";
 						$mensajeSMS .= "\nJob Code/Name: " . $jobDescription;
+
+						if ($companyId) {
+							$arrParam = array(
+								"table" => "param_company",
+								"order" => "id_company",
+								"column" => "id_company",
+								"id" => $companyId
+							);
+							$company = $this->general_model->get_basic_search($arrParam); //company list
+
+							$company = $company[0]['company_name'];
+
+							$mensajeSMS .= "\nCompany name: " . $company;
+
+							//foreman company
+							$arrParam = array(
+								"table" => "param_company_foreman",
+								"order" => "fk_id_param_company",
+								"column" => "fk_id_param_company",
+								"id" => $companyId
+							);
+							$company_foreman = $this->general_model->get_basic_search($arrParam); //company list
+
+							if ($company_foreman) {
+								$company_foreman = $company_foreman[0]['foreman_name'];
+
+								$mensajeSMS .= "\nForeman name: " . $company_foreman;
+							}
+						}
+
+						$this->db->select("L.*, CONCAT(first_name, ' ', last_name) name, J.job_description");
+						$this->db->join('user U', 'U.id_user = L.created_by', 'INNER');
+						$this->db->join('param_jobs j', 'L.type_id = j.id_job', 'LEFT');
+						$this->db->order_by('L.id', 'asc');
+						$this->db->where('L.type_id', $idJobSaved);
+						$this->db->where('L.token', 'insert');
+						$query = $this->db->get('logger L');
+						$data = $query->result_array();
+
+						$mensajeSMS .= "\nCreate for: " . $data[0]['name'];
 
 						$this->sendNotifications($configuracionAlertas, $mensajeSMS);
 					}
