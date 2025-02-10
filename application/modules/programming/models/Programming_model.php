@@ -209,6 +209,7 @@ class Programming_model extends CI_Model
 		}
 
 		$data = array(
+			'fk_id_employee_type' => $this->input->post('type'),
 			'description' => $this->input->post('description'),
 			'fk_id_machine' => $maquina,
 			'fk_id_hour' => $this->input->post('hora_inicio'),
