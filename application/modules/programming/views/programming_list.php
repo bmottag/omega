@@ -282,14 +282,14 @@
 							<?php } ?>
 
 							<tr class="warning">
-								<th style="width: 10%"><small>Name</small></th>
-								<th class="text-center" width= "12%"><small>Time In</small></th>
+								<th style="width: 16%"><small>Name / Employee Type</small></th>
+								<th class="text-center" width= "8%"><small>Time In</small></th>
 								<th class="text-center" width= "13%"><small>Site</small></th>
 								<th class="text-center" width= "13%"><small>FLHA/TOOL BOX</small></th>
 								<th class="text-center" width= "21%"><small>Description</small></th>
 								<th class="text-center" width= "22%"><small>Equipment</small></th>
-								<th class="text-center" width= "9%"><small>Creat WO</small></th>
-								<th class="text-center" width= "9%"><small>Action</small></th>
+								<th class="text-center" width= "8%"><small>Creat WO</small></th>
+								<th class="text-center" width= "8%"><small>Actions</small></th>
 							</tr>
 
 							<?php
@@ -342,8 +342,6 @@
 								$mensaje .= "<br>";
 
 								echo "<tr>";
-								echo "<td ><small>$data[name]</small></td>";
-
 								$idRecord = $data['id_programming_worker'];
 								$fkIdProgramming = $data['fk_id_programming'];
 							?>
@@ -352,6 +350,16 @@
 
 									<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
 									<input type="hidden" id="hddIdProgramming" name="hddIdProgramming" value="<?php echo $fkIdProgramming; ?>" />
+
+									<td>
+									<small><?php echo $data["name"]; ?></small><br>
+										<select name="type" class="form-control" >
+											<option value=''>Select...</option>
+											<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
+												<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>"  <?php if($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) { echo "selected"; }  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>	
+											<?php } ?>
+										</select>
+									</td>
 
 									<td>
 										<select name="hora_inicio" class="form-control js-example-basic-single" required>
@@ -398,7 +406,7 @@
 									</td>
 
 									<td>
-										<input type="text" id="description" name="description" class="form-control" placeholder="Description" value="<?php echo $data['description']; ?>">
+										<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 									</td>
 
 									<td>
@@ -427,7 +435,9 @@
 										<?php
 										if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
 										?>
-											<input type="submit" id="btnSubmit" name="btnSubmit" value="Save" class="btn btn-primary btn-xs" />
+											<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+												<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+											</button>
 										<?php
 										}
 										?>
@@ -520,7 +530,7 @@
 								<th>Description</th>
 								<th>Quantity</th>
 								<th>Unit</th>
-								<th class="text-center">Action</th>
+								<th class="text-center">Actions</th>
 							</tr>
 							<?php
 							foreach ($programmingMaterials as $data) :
@@ -546,14 +556,14 @@
 
 									<td class='text-center'>
 										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+											<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 										</button>
 								</form>
 
 								<br><br>
 								<?php if (!$deshabilitar) { ?>
-									<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteMaterial/' . $data['id_programming_material'] . '/' . $data['fk_id_programming']) ?>' id="btn-delete">
-										Delete <i class="fa fa-trash-o"></i>
+									<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteMaterial/' . $data['id_programming_material'] . '/' . $data['fk_id_programming']) ?>' id="btn-delete" title="Delete">
+										<i class="fa fa-trash-o"></i>
 									</a>
 								<?php } else {
 									echo "---";
@@ -599,7 +609,7 @@
 								<th class="text-center">Quantity</th>
 								<th class="text-center">Unit</th>
 								<th class="text-center">Hours</th>
-								<th class="text-center">Links</th>
+								<th class="text-center">Actions</th>
 							</tr>
 							<?php
 							foreach ($programmingOccasional as $data) :
@@ -636,14 +646,14 @@
 
 									<td class='text-center'>
 										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+											<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 										</button>
 								</form>
 
 								<br><br>
 								<?php if (!$deshabilitar) { ?>
 									<a class='btn btn-danger btn-xs' href='<?php echo base_url('programming/deleteRecord/ocasional/' . $data['id_programming_ocasional'] . '/' . $data['fk_id_programming'] . '/index') ?>' id="btn-delete">
-										Delete <i class="fa fa-trash-o"></i>
+										<i class="fa fa-trash-o"></i>
 									</a>
 								<?php } else {
 									echo "---";

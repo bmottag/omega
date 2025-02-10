@@ -28,6 +28,13 @@ class Programming extends CI_Controller
 
 		//si envio el id, entonces busco la informacion 
 		if ($idProgramming != 'x') {
+			$arrData = array(
+				"table" => "param_employee_type",
+				"order" => "employee_type",
+				"id" => "x"
+			);
+			$data['employeeTypeList'] = $this->general_model->get_basic_search($arrData); //employee type list
+
 			$arrParam = array("idProgramming" => $idProgramming);
 			$data['information'] = $this->general_model->get_programming($arrParam); //info programacion
 
@@ -1429,8 +1436,7 @@ class Programming extends CI_Controller
 
 	public function updated_material()
 	{
-		header('Content-Type: application/json');
-		$data = array();
+		$idProgramming = $this->input->post('hddidProgramming');
 
 		if ($this->programming_model->updatedMaterial()) {
 			$data["result"] = true;
@@ -1440,8 +1446,7 @@ class Programming extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
 
-		$hddidProgramming = $this->input->post('hddidProgramming');
-		redirect(base_url('programming/index/' . $hddidProgramming), 'refresh');
+		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -1539,6 +1544,7 @@ class Programming extends CI_Controller
 			if ($informationWorker) {
 				$columnas_mapeo = array(
 					'fk_id_programming_user' => 'fk_id_user',
+					'fk_id_employee_type' => 'fk_id_employee_type',
 					'description' => 'description',
 				);
 
@@ -1546,7 +1552,6 @@ class Programming extends CI_Controller
 					$datos_formateados = array();
 
 					$datos_formateados["fk_id_workorder"] = $idWorkorder;
-					$datos_formateados["fk_id_employee_type"] = 1;
 					$datos_formateados["hours"] = 0;
 					foreach ($datos_indice as $columna => $valor) {
 						if (isset($columnas_mapeo[$columna])) {
