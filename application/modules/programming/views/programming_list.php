@@ -3,6 +3,19 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script>
+	$(document).ready(function() {
+		$('#modalOcasional').on('shown.bs.modal', function() {
+			if ($.fn.select2 && $('#companySelect').hasClass("select2-hidden-accessible")) {
+				$('#companySelect').select2('destroy');
+			}
+			$('#companySelect').select2({
+				dropdownParent: $('#modalOcasional')
+			});
+		});
+	});
+</script>
+
 <div id="page-wrapper">
 	<br>
 	<div class="row">

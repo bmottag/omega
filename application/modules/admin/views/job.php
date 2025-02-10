@@ -33,6 +33,9 @@
 <script>
 	$(document).ready(function() {
 		$('#modal').on('shown.bs.modal', function() {
+			if ($.fn.select2 && $('#company').hasClass("select2-hidden-accessible")) {
+				$('#company').select2('destroy');
+			}
 			$('#company').select2({
 				dropdownParent: $('#modal')
 			});

@@ -481,7 +481,7 @@ class Programming extends CI_Controller
 			return true;
 		} else {
 			$data['linkBack'] = "programming/index/" . $idProgramming;
-			$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
+			$data['titulo'] = "<i class='fa fa-list'></i> PLANNING LIST";
 
 			$data['clase'] = "alert-info";
 			$data['msj'] = "The message has been sent to the workers.";

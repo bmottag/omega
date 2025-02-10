@@ -1,4 +1,9 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/ocasional.js"); ?>"></script>
+<style>
+    .select2-container .select2-dropdown .select2-results__option {
+        text-align: left;
+    }
+</style>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">OCCASIONAL SUBCONTRACTOR
@@ -16,7 +21,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="company">Company : *</label>
-					<select name="company" id="companySelect" class="form-control">
+					<select name="company" id="companySelect" class="form-control js-example-basic-single">
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($companyList); $i++) { ?>
 							<option value="<?php echo $companyList[$i]["id_company"]; ?>" data-hauling="<?php echo $companyList[$i]["does_hauling"]; ?>"><?php echo $companyList[$i]["company_name"]; ?></option>

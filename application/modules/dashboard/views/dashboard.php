@@ -353,7 +353,7 @@
 									}
 
 									echo "<tr>";
-									echo "<td class='text-center'>" . $data['date_programming'] . "</td>";
+									echo "<td>" . date('M j, Y', strtotime($data['date_programming'])) . "</td>";
 									echo "<td class='text-center'>" . $data['job_description'] . "</td>";
 									echo "<td >" . $data['observation'] . "</td>";
 									echo "<td class='text-center'>" . $data['hora'] . "</td>";
@@ -413,10 +413,11 @@
 							<tbody>
 								<?php
 								foreach ($info as $lista) :
+									$finish = $lista['finish'] == "0000-00-00 00:00:00"?"":date('M j, Y - G:i:s', strtotime($lista['finish']));
 									echo "<tr>";
 									echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
-									echo "<td class='text-center'>" . $lista['start'] . "</td>";
-									echo "<td class='text-center'>" . $lista['finish'] . "</td>";
+									echo "<td class='text-center'>" . date('M j, Y - G:i:s', strtotime($lista['start'])) . "</td>";
+									echo "<td class='text-center'>" . $finish . "</td>";
 									echo "<td class='text-right'>" . $lista['working_hours_new']  . "</td>";
 									echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
 									echo "<td class='text-right'>" . $lista['address_start'] . "</td>";
@@ -546,7 +547,7 @@
 										}
 
 										echo "<tr class='" . $class . "'>";
-										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+										echo "<td><p class='text-" . $class . "'>" . date('M j, Y - G:i:s', strtotime($lista['date_issue'])) . "</p></td>";
 										echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
@@ -673,7 +674,7 @@
 										}
 
 										echo "<tr class='" . $class . "'>";
-										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+										echo "<td><p class='text-" . $class . "'>" . date('M j, Y - G:i:s', strtotime($lista['date_issue'])) . "</p></td>";
 										echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
@@ -799,7 +800,7 @@
 										}
 
 										echo "<tr class='" . $class . "'>";
-										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+										echo "<td><p class='text-" . $class . "'>" . date('M j, Y - G:i:s', strtotime($lista['date_issue'])) . "</p></td>";
 										echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
@@ -885,7 +886,7 @@
 										}
 
 										echo "<tr class='" . $class . "'>";
-										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['date_issue'] . "</p></td>";
+										echo "<td><p class='text-" . $class . "'>" . date('M j, Y - G:i:s', strtotime($lista['date_issue'])) . "</p></td>";
 										echo "<td><p class='text-" . $class . "'>" . $lista['name'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['make'] . "</p></td>";
 										echo "<td class='text-center'><p class='text-" . $class . "'>" . $lista['model'] . "</p></td>";
@@ -956,7 +957,7 @@ if ($infoSafety) {
 								foreach ($infoSafety as $lista) :
 									echo "<tr>";
 									echo "<td>" . $lista['name'] . "</td>";
-									echo "<td class='text-center'>" . $lista['date'] . "</td>";
+									echo "<td>" . date('M j, Y - G:i:s', strtotime($lista['date'])) . "</td>";
 									echo "<td>" . $lista['work'] . "</td>";
 									echo "<td >" . $lista['job_description'] . "</td>";
 									echo "<td class='text-center'>";
