@@ -18,7 +18,7 @@
 				<ul class="nav nav-pills">
 					<li <?php if ($active == 1) {
 							echo "class='active'";
-						} ?>><a href="<?php echo base_url("dashboard/hauling"); ?>">List of active hauling</a>
+						} ?>><a class="class" href="<?php echo base_url("dashboard/hauling"); ?>">List of active hauling</a>
 					</li>
 					<?php
 					$userRol = $this->session->userdata("rol");
@@ -84,11 +84,6 @@
 											?>
 								<a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling']); ?>' target="_blank" title="Download"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
 								<a href='<?php echo base_url('hauling/add_hauling/' . $lista['id_hauling']); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
-								<?php
-									if ($lista['state'] != 3) { ?>
-									<button type="button" id="<?php echo $lista['id_hauling']; ?>" class='btn btn-danger btn-xs btn-delete-hauling' title="Delete">
-										<i class="fa fa-trash-o"></i>
-									</button><?php } ?>
 							<?php
 									echo "</td>";
 									echo "</tr>";
@@ -155,8 +150,7 @@
 					type: 'POST',
 					url: base_url + 'hauling/update_hauling_state',
 					data: {
-						'hddId': id,
-						'delete': 3
+						'hddId': id
 					},
 					cache: false,
 					success: function(response) {
@@ -181,7 +175,9 @@
 							}).then(() => {
 								var url = base_url + "dashboard/hauling";
 								$(location).attr("href", url);
-							});
+							});;
+
+
 						} else {
 							Swal.fire({
 								title: "Error!",
@@ -190,6 +186,8 @@
 							})
 							$(".btn-delete-hauling").removeAttr('disabled');
 						}
+						console.log(response);
+
 					}
 				});
 			}
