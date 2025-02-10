@@ -1462,6 +1462,14 @@ class Programming extends CI_Controller
 
 		$programmingSubcontractor = $this->programming_model->get_programming_occasional($arrParam); //Subcontractor list
 
+		$arrParamHauling = array(
+			"table" => "hauling",
+			"order" => "fk_id_programming",
+			"column" => "fk_id_programming",
+			"id" => $idProgramming
+		);
+		$programmingHauling = $this->general_model->get_basic_search($arrParamHauling); //Hauling list
+
 		$arrParam = array(
 			"idProgramming" => $idProgramming,
 			"createWO" => TRUE
@@ -1636,6 +1644,21 @@ class Programming extends CI_Controller
 
 					$table = 'workorder_ocasional';
 					$this->programming_model->add_item_workorder($table, $data_format);
+				}
+			}
+
+			if ($programmingHauling) {
+				foreach ($programmingHauling as $key => $data_hauling) {
+					//actulizo la hauling
+					$arrParam = array(
+						"table" => "hauling",
+						"primaryKey" => "id_hauling",
+						"id" => $data_hauling["id_hauling"],
+						"column" => "fk_id_workorder",
+						"value" => $idWorkorder
+					);
+
+					$this->general_model->updateRecord($arrParam);
 				}
 			}
 

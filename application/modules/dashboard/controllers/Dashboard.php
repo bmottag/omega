@@ -108,10 +108,28 @@ class Dashboard extends CI_Controller
 			$arrParam["idEmployee"] = $this->session->userdata("id");
 		}
 		$arrParam["limit"] = 30; //Limite de registros para la consulta
-
+		$arrParam["state_active"] = true;
 		$data['infoHauling'] = $this->general_model->get_hauling($arrParam); //info de hauling
 
+		$data['active'] = 1;
 		$data["view"] = 'hauling_list';
+		$this->load->view("layout", $data);
+	}
+
+	public function hauling_delete()
+	{
+		$userRol = $this->session->userdata("rol");
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
+
+		if ($userRol == 7) { //If it is a BASIC USER, just show the records of the user session
+			$arrParam["idEmployee"] = $this->session->userdata("id");
+		}
+		$arrParam["limit"] = 30; //Limite de registros para la consulta
+		$arrParam["state_delete"] = true;
+		$data['infoHauling'] = $this->general_model->get_hauling($arrParam); //info de hauling
+
+		$data['active'] = 2;
+		$data["view"] = 'hauling_list_delete';
 		$this->load->view("layout", $data);
 	}
 
