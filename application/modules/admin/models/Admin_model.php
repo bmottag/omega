@@ -72,6 +72,7 @@ class Admin_model extends CI_Model
 
 		//revisar si es para adicionar o editar
 		if ($idJob == '') {
+			$data['created_by'] = $this->session->userdata("id");
 			$query = $this->db->insert('param_jobs', $data);
 			$idJob = $this->db->insert_id();
 
@@ -95,6 +96,7 @@ class Admin_model extends CI_Model
 			$log['old'] = $this->general_model->get_basic_search($arrParam);
 			$log['new'] = json_encode($data);
 
+			$data['updated_by'] = $this->session->userdata("id");
 			$this->db->where('id_job', $idJob);
 			$query = $this->db->update('param_jobs', $data);
 
@@ -559,6 +561,7 @@ class Admin_model extends CI_Model
 		if ($state == 1) {
 			//update all states to inactive
 			$data['state'] = 2;
+			$data['updated_by'] = $this->session->userdata("id");
 			$query = $this->db->update('param_jobs', $data);
 
 			$sql = "SELECT id_job, state FROM param_jobs";
@@ -586,6 +589,7 @@ class Admin_model extends CI_Model
 			$tot = count($jobs);
 			for ($i = 0; $i < $tot; $i++) {
 				$data['state'] = 1;
+				$data['updated_by'] = $this->session->userdata("id");
 				$this->db->where('id_job', $jobs[$i]);
 				$query = $this->db->update('param_jobs', $data);
 
