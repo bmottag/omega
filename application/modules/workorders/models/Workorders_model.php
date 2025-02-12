@@ -1410,6 +1410,9 @@ class Workorders_model extends CI_Model
 		$this->db->join('workorder W', 'L.type_id = W.id_workorder', 'LEFT');
 		$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
 
+		$parameters = array('workorder', 'workorder_state', 'workorder_personal', 'workorder_materials', 'workorder_equipment', 'workorder_receipt', 'workorder_ocasional');
+		$this->db->where_in('L.type', $parameters);
+
 		if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
 			$this->db->where('J.id_job', $arrData["jobId"]);
 		}

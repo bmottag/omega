@@ -1715,7 +1715,7 @@ class Programming extends CI_Controller
 	}
 
 	/**
-	 * Save material
+	 * Save Subcontractor 
 	 * @since 20/1/2024
 	 * @author BMOTTAG
 	 */
@@ -1779,5 +1779,57 @@ class Programming extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
 		redirect(base_url('programming/' . $vista . '/' . $idWorkOrder), 'refresh');
+	}
+
+	/**
+	 * Cargo modal- formulario de captura Equipment
+	 * @since 13/02/2025
+	 */
+	public function loadModalEquipment()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$idProgramming = $this->input->post("idProgramming");
+		//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
+		$porciones = explode("-", $idProgramming);
+		$data["idProgramming"] = $porciones[1];
+		$data["idProgrammingWorker"] = $porciones[2];
+
+		$this->load->model("general_model");
+		//buscar la lista de tipo de equipmentType
+		$arrParam = array(
+			"table" => "param_vehicle_type_2",
+			"order" => "type_2",
+			"column" => "show_workorder",
+			"id" => 1
+		);
+		$data['equipmentType'] = $this->general_model->get_basic_search($arrParam); //equipmentType list
+
+		$this->load->view("modal_equipment", $data);
+	}
+
+	/**
+	 * Save Equipment 
+	 * @since 11/02/2025
+	 * @author BMOTTAG
+	 */
+	public function save_equipment()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$data["idRecord"] = $this->input->post('hddidProgramming');
+
+		if ($this->programming_model->updateWorkerEquipment()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		$data["controlador"] = "index";
+
+		echo json_encode($data);
 	}
 }
