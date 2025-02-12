@@ -1159,6 +1159,13 @@ class Admin extends CI_Controller
 	 */
 	public function jobs_state($state)
 	{
+		if (empty($this->input->post('job'))) {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> If you want to change the state of a single JOB CODE, you must do it through the form. This functionality is intended for all JOB CODES.');
+			redirect(base_url('admin/job/1'), 'refresh');
+			return; 
+		}
+
 		if ($this->admin_model->updateJobsState($state)) {
 			$data["result"] = true;
 			$this->session->set_flashdata('retornoExito', "You have updated the state!!");
