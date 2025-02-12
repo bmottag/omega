@@ -111,9 +111,9 @@
 									$datetime1 = date_create($fechaProgramacion);
 									$datetime2 = date_create(date("Y-m-d"));
 
-
 									if ($datetime1 < $datetime2) {
 										echo '<p class="text-danger"><strong>OVERDUE</strong></p>';
+										$deshabilitar = 'disabled';
 									} else {
 
 										if ($lista['state'] == 2) {
@@ -149,7 +149,7 @@
 									//revisar que exista al menos un trabajador
 									//se actualiza el estado de la programacion
 									//se envia mensaje
-									if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
+									if ($informationWorker && !$deshabilitar) {
 
 									?>
 										<a href='<?php echo base_url("programming/send/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Send SMS"><i class='glyphicon glyphicon-send'></i></a>
@@ -263,20 +263,18 @@
 				</div>
 				<div class="panel-body">
 
-					<?php if (!$deshabilitar) { ?>
-						<div class="col-lg-12">
-							<?php if ($informationWorker) { ?>
-								<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
-									<i class="fa fa-user"></i> Add Personal
-								</button><br>
+					<div class="col-lg-12">
+						<?php if ($informationWorker) { ?>
+							<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalWorker" id="x" <?php echo $deshabilitar; ?>>
+								<i class="fa fa-user"></i> Add Personal
+							</button><br>
 
-							<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
-								<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-block' title="Workers">
-									<i class='fa fa-users'></i> Add Personal
-								</a><br>
-							<?php } ?>
-						</div>
-					<?php } ?>
+						<?php } elseif ($lista['state'] == 1 && $idProgramming != 'x') { ?>
+							<a href='<?php echo base_url("programming/add_programming_workers/" . $lista['id_programming']); ?>' class='btn btn-warning btn-block' title="Workers" <?php echo $deshabilitar; ?>>
+								<i class='fa fa-users'></i> Add Personal
+							</a><br>
+						<?php } ?>
+					</div>
 
 					<!-- PERSONAL LIST-->
 					<?php
@@ -366,7 +364,7 @@
 
 									<td>
 									<small><?php echo $data["name"]; ?></small><br>
-										<select name="type" class="form-control" >
+										<select name="type" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
 												<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>"  <?php if($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) { echo "selected"; }  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>	
@@ -375,7 +373,7 @@
 									</td>
 
 									<td>
-										<select name="hora_inicio" class="form-control js-example-basic-single" required>
+										<select name="hora_inicio" class="form-control js-example-basic-single" required <?php echo $deshabilitar; ?>>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($horas); $i++) { ?>
 												<option value="<?php echo $horas[$i]["id_hora"]; ?>" <?php
@@ -389,7 +387,7 @@
 									</td>
 
 									<td>
-										<select name="site" class="form-control" required>
+										<select name="site" class="form-control" required <?php echo $deshabilitar; ?>>
 											<option value="">Select...</option>
 											<option value=1 <?php if ($data["site"] == 1) {
 																echo "selected";
@@ -404,7 +402,7 @@
 									</td>
 
 									<td>
-										<select name="safety" class="form-control">
+										<select name="safety" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value="">Select...</option>
 											<option value=1 <?php if ($data["safety"] == 1) {
 																echo "selected";
@@ -434,7 +432,7 @@
 									</td>
 
 									<td>
-										<select name="creat_wo" class="form-control">
+										<select name="creat_wo" class="form-control" <?php echo $deshabilitar; ?>>
 											<option value="">Select...</option>
 											<option value=1 <?php if ($data["creat_wo"] == 1) {
 																echo "selected";
@@ -445,19 +443,13 @@
 										</select>
 									</td>
 									<td class='text-center'>
-										<?php
-										if (($datetime1 >= $datetime2) && $informationWorker && !$deshabilitar) {
-										?>
-											<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-												<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-											</button><br><br>
+										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
+											<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+										</button><br><br>
 
-											<button type="button" class="btn btn-info btn-equipment  btn-xs" data-toggle="modal" data-target="#modalEquipment" title="Add Equipment" id="<?php echo 'equipment-' . $fkIdProgramming . "-" . $idRecord; ?>">
-												<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-											</button>
-										<?php
-										}
-										?>
+										<button type="button" class="btn btn-info btn-equipment  btn-xs" data-toggle="modal" data-target="#modalEquipment" title="Add Equipment" id="<?php echo 'equipment-' . $fkIdProgramming . "-" . $idRecord; ?>" <?php echo $deshabilitar; ?>>
+											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+										</button>
 								</form>
 
 								<br><br>
@@ -532,13 +524,11 @@
 					<i class="fa fa-tint"></i> <b>MATERIALS</b>
 				</div>
 				<div class="panel-body">
-					<?php if (!$deshabilitar) { ?>
-						<div class="col-lg-12">
-							<button type="button" class="btn btn-success btn-block btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials">
-								<i class="fa fa-tint"></i> Add Materials
-							</button><br>
-						</div>
-					<?php } ?>
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-success btn-block btn-materials" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_programming"]; ?>" title="Add Materials" <?php echo $deshabilitar; ?>>
+							<i class="fa fa-tint"></i> Add Materials
+						</button><br>
+					</div>
 
 					<?php if ($programmingMaterials) { ?>
 						<table class="table table-bordered table-striped table-hover table-condensed">
@@ -560,7 +550,7 @@
 									<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
 									<input type="hidden" id="hddidProgramming" name="hddidProgramming" value="<?php echo $data['fk_id_programming']; ?>" />
 									<td>
-										<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
+										<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?> <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 									</td>
 
 									<td>
@@ -608,13 +598,11 @@
 					<i class="fa fa-beer"></i> <b>OCCASIONAL SUBCONTRACTOR</b>
 				</div>
 				<div class="panel-body">
-					<?php if (!$deshabilitar) { ?>
-						<div class="col-lg-12">
-							<button type="button" class="btn btn-primary btn-block btn-occasional" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_programming"]; ?>">
-								<i class="fa fa-beer"></i> Add Occasional Subcontractor
-							</button><br>
-						</div>
-					<?php } ?>
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-primary btn-block btn-occasional" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_programming"]; ?>" <?php echo $deshabilitar; ?>>
+							<i class="fa fa-beer"></i> Add Occasional Subcontractor
+						</button><br>
+					</div>
 
 					<?php
 					if ($programmingOccasional) {

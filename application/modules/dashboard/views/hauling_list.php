@@ -18,20 +18,20 @@
 				<ul class="nav nav-pills">
 					<li <?php if ($active == 1) {
 							echo "class='active'";
-						} ?>><a href="<?php echo base_url("dashboard/hauling"); ?>">List of active hauling</a>
+						} ?>><a href="<?php echo base_url("dashboard/hauling"); ?>">List of active Haulings</a>
 					</li>
 					<?php
 					$userRol = $this->session->userdata("rol");
-					if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) {
+					if ($userRol == ID_ROL_SUPER_ADMIN) {
 					?>
 						<li <?php if ($active == 2) {
 								echo "class='active'";
-							} ?>><a class="class" href="<?php echo base_url("dashboard/hauling_delete"); ?>">List of deleted hauling</a>
+							} ?>><a class="class" href="<?php echo base_url("dashboard/hauling_delete"); ?>">List of deleted Haulings</a>
 						</li><?php } ?>
 				</ul>
 				<div class="panel-body">
 
-					<a class='btn btn-outline btn-warning btn-block' href='<?php echo base_url('hauling/add_hauling'); ?>'>
+					<a class='btn btn-warning btn-block' href='<?php echo base_url('hauling/add_hauling'); ?>'>
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span> Add Hauling
 					</a>
 
@@ -42,7 +42,7 @@
 						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 							<thead>
 								<tr>
-									<th class='text-center' width="10%">#</th>
+									<th class='text-center' width="8%">#</th>
 									<th class='text-center'>Report done by</th>
 									<th class='text-center'>Date</th>
 									<th class='text-center'>Hauling done by</th>
@@ -70,7 +70,7 @@
 								<?php } ?><?php
 											"</td>";
 											echo "<td>" . $lista['name'] . "</td>";
-											echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
+											echo "<td>" . date('M j, Y', strtotime($lista['date_issue'])) . "</td>";
 											echo "<td>" . $lista['company_name'] . "</td>";
 											echo "<td>" . $lista['unit_number'] . "</td>";
 											echo "<td>" . $lista['truck_type'] . "</td>";
