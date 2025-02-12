@@ -923,13 +923,16 @@ class Admin_model extends CI_Model
 	 */
 	public function get_job_log($arrData)
 	{
-		$this->db->select("L.*, CONCAT(first_name, ' ', last_name) name, J.job_description");
+		$this->db->select("L.*, CONCAT(first_name, ' ', last_name) name, j.job_description");
 		$this->db->join('user U', 'U.id_user = L.created_by', 'INNER');
 		$this->db->join('param_jobs j', 'L.type_id = j.id_job', 'LEFT');
-		$this->db->join('param_company C', 'C.id_company = J.fk_id_company', 'LEFT');
+		$this->db->join('param_company C', 'C.id_company = j.fk_id_company', 'LEFT');
 
+		$parameters = array('job_code_status', 'job_code');
+		$this->db->where_in('L.type', $parameters);
+		
 		if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
-			$this->db->where('J.id_job', $arrData["jobId"]);
+			$this->db->where('j.id_job', $arrData["jobId"]);
 		}
 
 		if (array_key_exists("userId", $arrData) && $arrData["userId"] != '' && $arrData["userId"] != 0) {

@@ -115,6 +115,7 @@ class Programming_model extends CI_Model
 				$data = array(
 					'fk_id_programming' => $this->input->post('hddId'),
 					'fk_id_programming_user' => $workers[$i],
+					'fk_id_employee_type' => 1, // Se coloca por defecto que es Labour
 					'fk_id_hour' => 15, // Se coloca por defecto que ingresen a las 7 am
 					'site' => 1 // Se coloca por defecto 1 -> At the yard
 				);
@@ -179,7 +180,7 @@ class Programming_model extends CI_Model
 		$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description 
 						FROM param_vehicle V 
 						INNER JOIN param_vehicle_type_2 T ON T.id_type_2 = V.type_level_2 
-						WHERE fk_id_company = 1 AND T.link_inspection != 'NA' AND V.id_vehicle NOT IN(41,42,43,44,61,62) AND V.state = 1 AND V.so_blocked = 1
+						WHERE fk_id_company = 1 AND V.state = 1 AND V.so_blocked = 1
 						ORDER BY unit_number";
 
 		$query = $this->db->query($sql);
@@ -254,6 +255,7 @@ class Programming_model extends CI_Model
 		$data = array(
 			'fk_id_programming' => $idProgramming,
 			'fk_id_programming_user' => $this->input->post('worker'),
+			'fk_id_employee_type' => 1, // Se coloca por defecto que es Labour
 			'fk_id_hour' => 15, // Se coloca por defecto que ingresen a las 7 am
 			'site' => 1 // Se coloca por defecto 1 -> At the yard
 		);
@@ -682,6 +684,51 @@ class Programming_model extends CI_Model
 
 		$this->db->where('id_programming_' . $formType, $hddId);
 		$query = $this->db->update('programming_' . $formType, $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Update worker - equipment
+	 * @since 11/02/2025
+	 */
+	public function updateWorkerEquipment()
+	{
+		$hddId = $this->input->post('hddidProgrammingWorker');
+
+		$this->load->model("general_model");
+		$arrParam = array(
+			"table" => "programming_worker",
+			"order" => "id_programming_worker",
+			"column" => "id_programming_worker",
+			"id" => $hddId
+		);
+		$result = $this->general_model->get_basic_search($arrParam);
+
+		$machine = $result[0]['fk_id_machine'];//records from the DB
+
+		if (!is_array($machine)) {
+			$machine = json_decode($machine, true);
+			if (!is_array($machine)) {
+				$machine = [];
+			}
+		}
+		
+		$machine[] = $this->input->post('truck');//new record
+		// Convertirlo a formato string con corchetes
+		$machine_string = '[' . implode(',', $machine) . ']';
+
+		$data = array(
+			'description' => $this->input->post('description'),
+			'fk_id_machine' => $machine_string,
+		);
+
+		$this->db->where('id_programming_worker', $hddId);
+		$query = $this->db->update('programming_worker', $data);
 
 		if ($query) {
 			return true;

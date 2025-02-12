@@ -423,7 +423,7 @@
 									</td>
 
 									<td>
-										<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple">
+										<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple" disabled>
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
 												<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] != "" && ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"])))) {
@@ -450,6 +450,10 @@
 										?>
 											<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
 												<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+											</button><br><br>
+
+											<button type="button" class="btn btn-info btn-equipment  btn-xs" data-toggle="modal" data-target="#modalEquipment" title="Add Equipment" id="<?php echo 'equipment-' . $fkIdProgramming . "-" . $idRecord; ?>">
+												<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
 											</button>
 										<?php
 										}
@@ -743,6 +747,16 @@
 <?php } ?>
 <!--FIN Modal para adicionar WORKER -->
 
+<!--INICIO Modal para EQUIPMENT -->
+<div class="modal fade text-center" id="modalEquipment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaDatosEquipment">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal para EQUIPMENT -->
+
 <!--INICIO Modal para MATERIAL -->
 <div class="modal fade text-center" id="modalMaterials" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -775,6 +789,21 @@
 
 		$('.js-example-basic-multiple').select2();
 	});
+
+	$(".btn-equipment").click(function() {
+			var oID = $(this).attr("id");
+			$.ajax({
+				type: 'POST',
+				url: base_url + 'programming/loadModalEquipment',
+				data: {
+					'idProgramming': oID
+				},
+				cache: false,
+				success: function(data) {
+					$('#tablaDatosEquipment').html(data);
+				}
+			});
+		});
 
 	$(".btn-materials").click(function() {
 		var oID = $(this).attr("id");
