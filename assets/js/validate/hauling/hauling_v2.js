@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	var state = $("#state").val();
 
-	if (state != 1) {
+	if (state && state != 1) {
 		$("form :input").prop('disabled', true);
 		$("#btnSubmit").prop('disabled', true);
 		$("#btnEmail").prop('disabled', true);
