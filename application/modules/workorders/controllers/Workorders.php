@@ -1080,17 +1080,32 @@ class Workorders extends CI_Controller
 			$data["mensaje"] = $msj;
 
 			if ($status == 5) {
+				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "hauling",
-					"primaryKey" => "fk_id_workorder",
-					"id" => $data["idWorkorder"],
-					"column" => "state",
-					"value" => 2
+					"order" => "id_hauling",
+					"column" => "fk_id_workorder",
+					"id" => $data["idWorkorder"]
 				);
-				$this->load->model("general_model");
+				$haulingList = $this->general_model->get_basic_search($arrParam); //hauling list
 
-				//actualizo el estado del formulario a cerrado(2)
-				$this->general_model->updateRecord($arrParam);
+				if ($haulingList) {
+					foreach ($haulingList as $key => $hauling) {
+
+						if ($hauling["state"] != 3) {
+							$arrParam = array(
+								"table" => "hauling",
+								"primaryKey" => "fk_id_workorder",
+								"id" => $data["idWorkorder"],
+								"column" => "state",
+								"value" => 2
+							);
+
+							//actualizo el estado del formulario a cerrado(2)
+							$this->general_model->updateRecord($arrParam);
+						}
+					}
+				}
 			}
 
 			$this->session->set_flashdata('retornoExito', $msj);
@@ -2506,6 +2521,8 @@ class Workorders extends CI_Controller
 		}
 		//Si envian los datos del filtro entonces lo direcciono a la lista respectiva con los datos de la consulta
 		elseif ($this->input->post('jobName') || $this->input->post('user') || $this->input->post('from') || $this->input->post('workOrderNumber')) {
+
+
 
 			$data['jobName'] =  $this->input->post('jobName');
 			$data['workOrderNumber'] =  $this->input->post('workOrderNumber');
