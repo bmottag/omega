@@ -2414,6 +2414,32 @@ class General_model extends CI_Model
 		}
 	}
 
+	/**
+	 * Get Companys List
+	 * @since 13/02/2025
+	 */
+	public function get_company($arrData)
+	{
+		if (array_key_exists("idCompany", $arrData)) {
+			$this->db->where('C.id_company', $arrData["idCompany"]);
+		}
+		if (array_key_exists("company_type", $arrData)) {
+			$this->db->where('C.company_type', $arrData["company_type"]);
+		}
+		if (array_key_exists("allSubcontractors", $arrData)) {
+			$types = array(2, 3);
+			$this->db->where_in('C.company_type', $types);
+		}
+		$this->db->order_by("C.company_name", "asc");
+		$query = $this->db->get("param_company C");
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
 	public function get_without_work_order()
 	{
 		/*$sql = "SELECT u.first_name, u.last_name, j.job_description, t.*

@@ -1620,4 +1620,72 @@ class Workorders_model extends CI_Model
 		}
 	}
 
+	/**
+	 * Add/Edit Subcontractors Invoices
+	 * @since 13/02/2025
+	 */
+	public function saveSubcontractorInvoice() 
+	{
+		$idSubcontractorInvoice = $this->input->post('hddIdentificador');
+		$idSubcontractor = $this->input->post('company');
+
+		if($idSubcontractor == ""){
+			$data = array(
+				'company_name' => addslashes($this->security->xss_clean($this->input->post('subcontractor_name'))),
+				'company_type' => 3,
+				'contact' => addslashes($this->security->xss_clean($this->input->post('subcontractor_contact'))),
+				'movil_number' => addslashes($this->security->xss_clean($this->input->post('subcontractor_mobile_number'))),
+				'email' => addslashes($this->security->xss_clean($this->input->post('subcontractor_email'))),
+				'does_hauling' => 2
+			);
+
+			$query = $this->db->insert('param_company', $data);	
+			$idSubcontractor = $this->db->insert_id();		
+		}
+
+		$data = array(
+			'fk_id_company' => $idSubcontractor,
+			'invoice_number' => addslashes($this->security->xss_clean($this->input->post('invoice_number'))),
+			'invoice_amount' => addslashes($this->security->xss_clean($this->input->post('amount')))
+		);
+		
+		//revisar si es para adicionar o editar
+		if ($idSubcontractorInvoice == '') {
+			$query = $this->db->insert('subcontractor_invoice', $data);	
+			$idSubcontractorInvoice = $this->db->insert_id();			
+		} else {
+			$this->db->where('id_subcontractor_invoice', $idSubcontractorInvoice);
+			$query = $this->db->update('subcontractor_invoice', $data);
+		}
+		if ($query) {
+			return $idSubcontractorInvoice;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Subcontractors list
+	 * las 50 records
+	 * @since 12/1/2017
+	 */
+	public function get_subcontractors_invoice($arrDatos)
+	{
+		$this->db->select('S.*, C.company_name company');
+		$this->db->join('param_company C', 'C.id_company = S.fk_id_company', 'INNER');
+
+		if (array_key_exists("idSubcontractorInvoice", $arrDatos)) {
+			$this->db->where('id_subcontractor_invoice', $arrDatos["idSubcontractorInvoice"]);
+		}
+
+		$this->db->order_by('id_subcontractor_invoice', 'desc');
+		$query = $this->db->get('subcontractor_invoice S', 50);
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
 }

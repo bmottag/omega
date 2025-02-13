@@ -2627,4 +2627,62 @@ class Workorders extends CI_Controller
 
 		redirect(base_url('workorders/workorder_expenses/' . $idWorkOrder), 'refresh');
 	}
+
+	/**
+	 * Form To add invoice
+	 * @since 12/02/2025
+	 * @author BMOTTAG
+	 */
+	public function add_invoice($id = 'x')
+	{
+		$data['information'] = FALSE;
+		$data['deshabilitar'] = '';
+
+		$this->load->model("general_model");
+		$arrParam = array("allSubcontractors" => true);
+		$data['companyList'] = $this->general_model->get_company($arrParam);
+
+		//si envio el id, entonces busco la informacion 
+		if ($id != 'x') {
+			$arrParam = array('idSubcontractorInvoice' => $id);
+			$data['information'] = $this->workorders_model->get_subcontractors_invoice($arrParam);
+
+			if (!$data['information']) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+		}
+
+		$data["view"] = 'form_invoice';
+		$this->load->view("layout", $data);
+	}
+
+
+	/**
+	 * Save Subcontractor Invoice
+	 * @since 13/02/2025
+	 * @author BMOTTAG
+	 */
+	public function save_subcontractor_invoice()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$idSubcontractorInvoice = $this->input->post('hddIdentificador');
+
+		$msj = "You have added a new Subcontractor Invoice.";
+		if ($idSubcontractorInvoice != '') {
+			$msj = "You have updated a Subcontractor Invoice.";
+		}
+
+		if ($idSubcontractorInvoice = $this->workorders_model->saveSubcontractorInvoice()) {
+			$data["result"] = true;
+			$data["idRecord"] = $idSubcontractorInvoice;
+			$this->session->set_flashdata('retornoExito', $msj);
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
 }
