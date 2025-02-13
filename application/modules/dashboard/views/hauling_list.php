@@ -83,9 +83,13 @@
 											echo "<td class='text-center'>";
 											?>
 								<a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling']); ?>' target="_blank" title="Download"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
-								<a href='<?php echo base_url('hauling/add_hauling/' . $lista['id_hauling']); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
+
 								<?php
-									if ($lista['state'] != 3) { ?>
+									if ($lista['state'] == 2) { ?>
+									<p class="text-danger"><strong>Closed</strong></p>
+								<?php } else if ($lista['state'] != 3) { ?>
+									<a href='<?php echo base_url('hauling/add_hauling/' . $lista['id_hauling']); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
+
 									<button type="button" id="<?php echo $lista['id_hauling']; ?>" class='btn btn-danger btn-xs btn-delete-hauling' title="Delete">
 										<i class="fa fa-trash-o"></i>
 									</button><?php } ?>
