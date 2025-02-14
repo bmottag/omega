@@ -1095,8 +1095,8 @@ class Workorders extends CI_Controller
 						if ($hauling["state"] != 3) {
 							$arrParam = array(
 								"table" => "hauling",
-								"primaryKey" => "fk_id_workorder",
-								"id" => $data["idWorkorder"],
+								"primaryKey" => "id_hauling",
+								"id" => $hauling['id_hauling'],
 								"column" => "state",
 								"value" => 2
 							);
