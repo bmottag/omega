@@ -257,11 +257,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Employee</th>
-                                    <th class="text-center">Working Hours</th>
+                                    <th class="text-center">Working Hours (HH:MM)</th>
                                     <th class="text-center">Job Code/Name - Start</th>
-                                    <th class="text-center">Working Hours - Start</th>
+                                    <th class="text-center">Working Hours (HH:MM) - Start</th>
                                     <th class="text-center">Job Code/Name - Finish</th>
-                                    <th class="text-center">Working Hours - Finish</th>
+                                    <th class="text-center">Working Hours (HH:MM) - Finish</th>
                                     <th>Task description</th>
                                     <th>Observation</th>
                                     <th> </th>

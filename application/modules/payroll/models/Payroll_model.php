@@ -14,7 +14,7 @@ class Payroll_model extends CI_Model
 	 */
 	public function savePayroll()
 	{
-		$idUser = $this->session->userdata("id");
+		$idUser = 1; //$this->session->userdata("id");
 		$idOperation =  $this->input->post('hddTask');
 		$idJob =  $this->input->post('jobName');
 		$task =  $this->security->xss_clean($this->input->post('taskDescription'));
@@ -140,7 +140,6 @@ class Payroll_model extends CI_Model
 			$regularHours = $workingHours;
 		}
 
-
 		if ($idProgramming) {
 			$hours_first_project = ($hours_first_project) ? $hours_first_project : 0;
 			$hours_end_project = $workingHours - $hours_first_project;
@@ -187,20 +186,19 @@ class Payroll_model extends CI_Model
 
 			$sql = "UPDATE task";
 			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours,
-			regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project'";
+			regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project', hours_start_project =  '$hours_first_project'";
 			$sql .= " WHERE id_task=$idTask";
 		} elseif ($adminUpdate == 2) {
 
 			$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
 			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project'";
+			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_start_project =  '$hours_first_project', hours_end_project =  '$hours_end_project'";
 			$sql .= " WHERE id_task=$id_task";
 		} else {
 			$sql = "UPDATE task";
-			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project'";
+			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_start_project =  '$hours_first_project', hours_end_project =  '$hours_end_project'";
 			$sql .= " WHERE id_task=$idTask";
 		}
-
 
 		if ($idProgramming) {
 
