@@ -1624,7 +1624,7 @@ class Workorders_model extends CI_Model
 	 * Add/Edit Subcontractors Invoices
 	 * @since 13/02/2025
 	 */
-	public function saveSubcontractorInvoice() 
+	public function saveSubcontractorInvoice($archivo) 
 	{
 		$idSubcontractorInvoice = $this->input->post('hddIdentificador');
 		$idSubcontractor = $this->input->post('company');
@@ -1644,10 +1644,15 @@ class Workorders_model extends CI_Model
 		}
 
 		$data = array(
+			'date_issue' => date("Y-m-d"),
 			'fk_id_company' => $idSubcontractor,
 			'invoice_number' => addslashes($this->security->xss_clean($this->input->post('invoice_number'))),
 			'invoice_amount' => addslashes($this->security->xss_clean($this->input->post('amount')))
 		);
+
+		if ($archivo != 'xxx') {
+			$data['file'] = $archivo;
+		}
 		
 		//revisar si es para adicionar o editar
 		if ($idSubcontractorInvoice == '') {

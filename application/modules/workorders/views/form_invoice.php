@@ -11,8 +11,9 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-primary">
+			<div class="panel panel-success">
 				<div class="panel-heading">
+					<a class="btn btn-success btn-xs" href="<?php echo base_url() . 'workorders/subcontractor_invoice'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<i class="fa fa-money"></i> <strong>SUBCONTRACTORS INVOICES</strong>
 				</div>
 				<div class="panel-body">
@@ -46,7 +47,7 @@
 					}
 					?>
 
-					<form name="form" id="form" class="form-horizontal" method="post">
+					<form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="post">
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information ? $information[0]["id_subcontractor_invoice"] : ""; ?>" />
 						
 						<div class="form-group">
@@ -107,7 +108,6 @@
 							<hr>
 						</div>
 
-
 						<div class="row">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="invoice_number">Invoice Number: *</label>
@@ -122,40 +122,49 @@
 							</div>
 						</div>
 
+						<div class="form-group">					
+							<label class="col-sm-4 control-label" for="hddTask">Attach document if necessary
+								<br><small class="text-danger">Allowed format: pdf
+								<br>Maximum size: 3000 KB </small>
+							</label>
+							<div class="col-sm-5">
+								 <input type="file" name="userfile" />
+								 <br>
+								 <?php if (!empty($information[0]["file"])) { ?>
+									<a href="<?php echo base_url('files/sub_invoices/' . $information[0]["file"]) ?>" target="_blank">Attached document: <?php echo $information[0]["file"]; ?></a>
+								<?php } ?>
+							</div>
+						</div>
 
-						
-							<div class="form-group">
-								<div class="row" align="center">
-									<div style="width:100%;" align="center">
-
-										<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary">
-											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-										</button>
-
-
-
-									</div>
+						<div class="form-group">
+							<div class="row" align="center">
+								<div style="width:100%;" align="center">
+									<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary">
+										Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+									</button>
 								</div>
 							</div>
+						</div>
 
-							<div class="form-group">
-								<div class="row" align="center">
-									<div style="width:80%;" align="center">
-										<div id="div_load" style="display:none">
-											<div class="progress progress-striped active">
-												<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-													<span class="sr-only">45% completado</span>
-												</div>
+						<div class="form-group">
+							<div class="row" align="center">
+								<div style="width:80%;" align="center">
+									<div id="div_load" style="display:none">
+										<div class="progress progress-striped active">
+											<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+												<span class="sr-only">45% completado</span>
 											</div>
 										</div>
-										<div id="div_error" style="display:none">
-											<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" id="span_msj">&nbsp;</span></div>
+									</div>
+									<div id="div_error" style="display:none">
+										<div class="alert alert-danger">
+											<span class="glyphicon glyphicon-remove"></span>
+											<span id="span_msj"></span>	
 										</div>
 									</div>
 								</div>
 							</div>
-
-
+						</div>
 					</form>
 				</div>
 			</div>

@@ -61,29 +61,32 @@ $( document ).ready( function () {
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
 
+				var formData = new FormData($("#form")[0]);
+
 				$.ajax({
 					type: "POST",	
 					url: base_url + "workorders/save_subcontractor_invoice",	
-					data: $("#form").serialize(),
+					data: formData, 
 					dataType: "json",
-					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+					contentType: false,
+					processData: false,
 					cache: false,
 					
 					success: function(data){             
-						if( data.result == "error" )
-						{
-							//alert(data.mensaje);
+						if (data.result == "error") {
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');							
-							return false;
-						} 
+							$("#div_error").css("display", "inline");
+							$("#span_msj").html(data.message);
+							$('#btnSubmit').removeAttr('disabled');
+							return;
+						}
 										
 						if( data.result )//true
 						{	                                                        
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "workorders/add_invoice/" + data.idRecord;
+							var url = base_url + "workorders/subcontractor_invoice";
 							$(location).attr("href", url);
 						}
 						else
