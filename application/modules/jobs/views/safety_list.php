@@ -32,7 +32,7 @@ if(!$hazards){
 }
 ?>
 				
-					<a class='btn btn-outline btn-info btn-block' href='<?php echo $url; ?>' <?php echo $boton; ?> >
+					<a class='btn btn-info btn-block' href='<?php echo $url; ?>' <?php echo $boton; ?> >
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Add FLHA
 					</a>
 					
