@@ -271,19 +271,15 @@
                                 <?php
                                 foreach ($payrollInfo as $lista) :
 
-                                    if ($lista['hours_difference']) {
-                                        $decimal_hours_start = $lista['hours_difference'];
+                                    $decimal_hours_start = $lista['hours_start_project'];
 
-                                        $hours_start = floor($decimal_hours_start);          // Obtiene la parte entera de las horas
-                                        $minutes_start = round(($decimal_hours_start - $hours_start) * 60); // Obtiene los minutos restantes
+                                    $hours_start = floor($decimal_hours_start);          // Obtiene la parte entera de las horas
+                                    $minutes_start = round(($decimal_hours_start - $hours_start) * 60); // Obtiene los minutos restantes
 
-                                        $formatted_hours_start = str_pad($hours_start, 2, '0', STR_PAD_LEFT);
-                                        $formatted_minutes_start = str_pad($minutes_start, 2, '0', STR_PAD_LEFT);
+                                    $formatted_hours_start = str_pad($hours_start, 2, '0', STR_PAD_LEFT);
+                                    $formatted_minutes_start = str_pad($minutes_start, 2, '0', STR_PAD_LEFT);
 
-                                        $formatted_time_start = $formatted_hours_start . ":" . $formatted_minutes_start;
-                                    } else {
-                                        $formatted_time_start = substr($lista['working_hours_new'], 0, -3);
-                                    }
+                                    $formatted_time_start = $formatted_hours_start . ":" . $formatted_minutes_start;
 
                                     $decimal_hours_finished = $lista['hours_end_project'];
 
@@ -295,17 +291,24 @@
 
                                     $formatted_time_finished = $formatted_hours_finished . ":" . $formatted_minutes_finished;
 
+                                    $hidden_finished = ($lista['wo_end_project'] != null) ? 'hidden' : ' ';
+                                    $hidden_start = ($lista['wo_start_project'] != null) ? 'hidden' : ' ';
+
                                     echo "<tr>";
                                     echo "<td class='text-center'>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
                                     echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, -3) . "</td>";
                                     echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
-                                    echo "<td class='text-right'>" . $formatted_time_start . "</td>";
+                                    echo "<td class='text-center'>" . $formatted_time_start . "<br>
+                                    <button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign WO</button>
+                                     </td>";
                                     echo "<td class='text-center'>" . $lista['job_finish'] . "</td>";
-                                    echo "<td class='text-right'>" . $formatted_time_finished . "</td>";
+                                    echo "<td class='text-center'>" . $formatted_time_finished . "<br>
+                                    <button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign WO</button>
+                                    </td>";
                                     echo "<td class='text-right'>" . $lista['task_description'] . "</td>";
-                                    echo "<td class='text-right'>" . $lista['observation'] . "</td>";
+                                    echo "<td class='text-right'>" . $lista['observation'] . "-" . $lista['id_task'] . "</td>";
                                     echo "<td class='text-right'>";
-                                    echo "<a href='https://v-contracting.ca/demo/dashboard/without_work_order' class='btn btn-danger'>Assign WO</a>";
+                                    echo "<a href='#' class='btn btn-primary'>Edit</a>";
                                     echo "</td>";
                                     echo "</tr>";
                                 endforeach;
@@ -472,6 +475,28 @@
 </div>
 <!-- /#page-wrapper -->
 
+<!--INICIO Modal para adicionar WORKER -->
+<div class="modal fade text-center" id="modalWorker" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="tablaDatos">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">ADD WORKER</h4>
+            </div>
+            <div class="modal-body">
+                <h5 id="modalMessage"></h5> <!-- Mensaje que se mostrará -->
+                <p id="time" hidden></p>
+                <p id="taskId" hidden></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnModalAssign" class="btn btn-primary">Asignar</button> <!-- Botón para asignar -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FIN Modal para adicionar WORKER -->
+
 <!-- Tables -->
 <script>
     $(document).ready(function() {
@@ -482,7 +507,61 @@
             "searching": false,
             "pageLength": 25
         });
+    });
 
+    $('[id^=btnAssign_]').click(function() {
+        var taskId = $(this).attr('id').split('_')[1];
+        var time = $(this).attr('time');
 
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'dashboard/modalListWo',
+            data: {
+                'taskId': taskId,
+                'time': time
+            },
+            success: function(response) {
+
+                if (response) {
+                    $('#modalMessage').text('Asignar las horas a la WO ' + response.id_workorder);
+                    $('#time').text(time);
+                    $('#taskId').text(taskId);
+                    $('#btnModalAssign').show();
+                } else {
+                    $('#modalMessage').text('Sin WO para la fecha');
+                    $('#btnModalAssign').hide();
+                }
+                $('#modalWorker').modal('show');
+            },
+            error: function() {
+                alert('Error al cargar los datos.');
+            }
+        });
+    });
+
+    // Manejo del botón "Asignar"
+    $('#btnModalAssign').click(function() {
+        var messageText = $('#modalMessage').text();
+        var woID = messageText.split('WO ')[1];
+        var timeText = $('#time').text();
+        var taskId = $('#taskId').text();
+
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'dashboard/assignHoursWo',
+            data: {
+                'taskId': taskId,
+                'woID': woID,
+                'time': timeText
+            },
+            success: function(response) {
+                $('#modalWorker').modal('hide');
+                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('Error al asignar horas: ' + xhr.status + ' - ' + xhr.statusText);
+            }
+        });
     });
 </script>
