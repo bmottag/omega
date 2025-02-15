@@ -27,7 +27,7 @@ $(function(){
 				</div>
 				<div class="panel-body">			
 							
-					<button type="button" class="btn btn-outline btn-info btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add PPE Inspection Program
 					</button><br>
 					

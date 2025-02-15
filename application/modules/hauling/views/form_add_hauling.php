@@ -29,7 +29,7 @@ if ($userRol == 99) {
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
 						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('dashboard/hauling'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
-						<i class="fa fa-truck fa-fw"></i> RECORD TASK(S) - HAULING
+						<i class="fa fa-truck fa-fw"></i> <b>RECORD TASK(S) - HAULING</b>
 					</h4>
 				</div>
 				<div class="panel-body">

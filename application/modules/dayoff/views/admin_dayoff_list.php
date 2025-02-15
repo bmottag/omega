@@ -24,24 +24,10 @@ $(function(){
 <div id="page-wrapper">
 	<br>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-calendar fa-fw"></i>	DAY OFF
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
-	
-	<!-- /.row -->
-	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa <?php echo $icon ?>"></i> DAY OFF LIST - <?php echo $tittle; ?>
+					<i class="fa <?php echo $icon ?>"></i> <b>DAY OFF LIST - <?php echo $tittle; ?></b>
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-info">

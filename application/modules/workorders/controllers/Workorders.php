@@ -2629,6 +2629,20 @@ class Workorders extends CI_Controller
 	}
 
 	/**
+	 * Subcontracotrs list
+	 * @since 13/02/2025
+	 * @author BMOTTAG
+	 */
+	public function subcontractor_invoice()
+	{
+		$arrParam = array();
+		$data['information'] = $this->workorders_model->get_subcontractors_invoice($arrParam);
+
+		$data["view"] = 'subcontractors_invoices';
+		$this->load->view("layout", $data);
+	}
+
+	/**
 	 * Form To add invoice
 	 * @since 12/02/2025
 	 * @author BMOTTAG
@@ -2674,15 +2688,94 @@ class Workorders extends CI_Controller
 			$msj = "You have updated a Subcontractor Invoice.";
 		}
 
-		if ($idSubcontractorInvoice = $this->workorders_model->saveSubcontractorInvoice()) {
-			$data["result"] = true;
-			$data["idRecord"] = $idSubcontractorInvoice;
-			$this->session->set_flashdata('retornoExito', $msj);
-		} else {
-			$data["result"] = "error";
-			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
-		}
+		$config['upload_path'] = './files/sub_invoices/';
+		$config['overwrite'] = TRUE;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = '3000';
+		$config['max_width'] = '2024';
+		$config['max_height'] = '2008';
 
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload() && $_FILES['userfile']['name'] != "") {
+			//SI EL ARCHIVO FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
+            $error = $this->upload->display_errors('', '');
+            $data["result"] = "error";
+            $data["message"] = "File upload failed: " . strip_tags($error);
+            echo json_encode($data);
+            return;
+		} else {
+			if ($_FILES['userfile']['name'] == "") {
+				$archivo = 'xxx';
+			} else {
+				$file_info = $this->upload->data(); //subimos ARCHIVO				
+				$data = array('upload_data' => $this->upload->data());
+				$archivo = $file_info['file_name'];
+			}
+
+			if ($idSubcontractorInvoice = $this->workorders_model->saveSubcontractorInvoice($archivo)) {
+				$data["result"] = true;
+				$data["idRecord"] = $idSubcontractorInvoice;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+		}
 		echo json_encode($data);
 	}
+
+	/**
+	 * FUNCIÓN PARA SUBIR LA IMAGEN 
+	 */
+	function do_upload()
+	{
+		$config['upload_path'] = './images/erp/';
+		$config['overwrite'] = true;
+		$config['allowed_types'] = 'gif|jpg|png|pdf|jpeg';
+		$config['max_size'] = '3000';
+		$config['max_width'] = '3200';
+		$config['max_height'] = '2400';
+		$idJob = $this->input->post("hddIdJobMap");
+		$config['file_name'] = $idJob;
+
+		$this->load->library('upload', $config);
+		//SI LA IMAGEN FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
+		if (!$this->upload->do_upload()) {
+			$error = $this->upload->display_errors();
+			$this->erp_map($idJob, $error);
+		} else {
+			$file_info = $this->upload->data(); //subimos la imagen
+
+			//USAMOS LA FUNCIÓN create_thumbnail Y LE PASAMOS EL NOMBRE DE LA IMAGEN,
+			//ASÍ YA TENEMOS LA IMAGEN REDIMENSIONADA
+			$this->_create_thumbnail($file_info['file_name']);
+			$data = array('upload_data' => $this->upload->data());
+			$imagen = $file_info['file_name'];
+			$path = "images/erp/" . $imagen;
+
+			//actualizamos el campo photo
+			$arrParam = array(
+				"table" => "erp",
+				"primaryKey" => "fk_id_job",
+				"id" => $idJob,
+				"column" => "evacuation_map",
+				"value" => $path
+			);
+
+			$this->load->model("general_model");
+
+			if ($this->general_model->updateRecord($arrParam)) {
+				$data['clase'] = "alert-success";
+				$data['msj'] = "Se subio la imagen con éxito.";
+			} else {
+				$data['clase'] = "alert-danger";
+				$data['msj'] = "Error, contactarse con el administrador.";
+			}
+
+			redirect('jobs/erp_map/' . $idJob);
+		}
+	}
+
 }

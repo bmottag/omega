@@ -242,10 +242,10 @@
 								foreach ($infoNextPlanning as $data) :
 									$idWorkorder = $data['fk_id_workorder'];
 									echo "<tr>";
-									echo "<td class='text-center'>" . date('l, F j, Y', strtotime($data['date_programming'])) . "</td>";
-									echo "<td class='text-center'>" . $data['job_description'] . "</td>";
-									echo "<td>" . $data['observation'] . "</td>";
-									echo "<td>";
+									echo "<td class='text-center' width='15%'>" . date('l, M j, Y', strtotime($data['date_programming'])) . "</td>";
+									echo "<td width='25%'>" . $data['job_description'] . "</td>";
+									echo "<td width='35%'>" . $data['observation'] . "</td>";
+									echo "<td width='25%'>";
 
 									//Buscar lista de trabajadores para esta programacion
 									$ci = &get_instance();
@@ -267,7 +267,7 @@
 											$mensaje .= $worker['site'] == 1 ? "At the yard - " : "At the site - ";
 											$mensaje .= $worker['hora'];
 
-											$mensaje .= "<br>" . $worker['name'];
+											$mensaje .= "<br><b>" . $worker['name'] . "</b>";
 											$mensaje .= $worker['description'] ? "<br>" . $worker['description'] : "";
 											$mensaje .= $worker['fk_id_machine'] != NULL ? "<br>" . $informationEquipments["unit_description"] : "";
 
@@ -306,7 +306,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-violeta">
 					<div class="panel-heading">
-						<i class="fa fa-book fa-fw"></i> Your work schedule is as follows:
+						<i class="fa fa-book fa-fw"></i> <b>Your work schedule is as follows:</b>
 					</div>
 					<div class="panel-body">
 						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTablesPlanning">
@@ -354,7 +354,7 @@
 
 									echo "<tr>";
 									echo "<td>" . date('M j, Y', strtotime($data['date_programming'])) . "</td>";
-									echo "<td class='text-center'>" . $data['job_description'] . "</td>";
+									echo "<td>" . $data['job_description'] . "</td>";
 									echo "<td >" . $data['observation'] . "</td>";
 									echo "<td class='text-center'>" . $data['hora'] . "</td>";
 									echo "<td class='text-center'>" . $site . "</td>";
@@ -380,7 +380,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-book fa-fw"></i> Last Payroll Records
+					<i class="fa fa-book fa-fw"></i> <b>Last Payroll Records</b>
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
@@ -419,12 +419,12 @@
 									echo "<td class='text-center'>" . date('M j, Y - G:i:s', strtotime($lista['start'])) . "</td>";
 									echo "<td class='text-center'>" . $finish . "</td>";
 									echo "<td class='text-right'>" . $lista['working_hours_new']  . "</td>";
-									echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
-									echo "<td class='text-right'>" . $lista['address_start'] . "</td>";
-									echo "<td class='text-center'>" . $lista['job_finish'] . "</td>";
-									echo "<td class='text-right'>" . $lista['address_finish'] . "</td>";
-									echo "<td class='text-right'>" . $lista['task_description'] . "</td>";
-									echo "<td class='text-right'>" . $lista['observation'] . "</td>";
+									echo "<td>" . $lista['job_start'] . "</td>";
+									echo "<td>" . $lista['address_start'] . "</td>";
+									echo "<td>" . $lista['job_finish'] . "</td>";
+									echo "<td>" . $lista['address_finish'] . "</td>";
+									echo "<td>" . $lista['task_description'] . "</td>";
+									echo "<td>" . $lista['observation'] . "</td>";
 									echo "</tr>";
 								endforeach;
 								?>
