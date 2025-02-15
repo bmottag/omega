@@ -1,5 +1,9 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js"); ?>"></script>
-
+<style>
+    .select2-container .select2-dropdown .select2-results__option {
+        text-align: left;
+    }
+</style>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Claims
@@ -12,10 +16,10 @@
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_claim"]:""; ?>"/>
 
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="id_job">Job Code/Name: *</label>
-					<select name="id_job" id="id_job" class="form-control">
+					<select name="id_job" id="id_job" class="form-control js-example-basic-single">
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 							<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
@@ -23,7 +27,9 @@
 					</select>	
 				</div>
 			</div>
+		</div>
 			
+		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="claimNumber">Claim Number: *</label>
@@ -33,7 +39,7 @@
 		</div>
 
 		<div class="row">	
-			<div class="col-sm-6">
+			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="observation">Observation: </label>
 					<textarea id="observation" name="observation" placeholder="Observation" class="form-control" rows="3"><?php echo $information?$information[0]["observation_claim"]:""; ?></textarea>

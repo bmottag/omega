@@ -1,7 +1,7 @@
 $( document ).ready( function () {
 	
 	jQuery.validator.addMethod("unCampo", function(value, element, param) {
-		var id_job = $('#id_job').val();
+		var id_job = $('#id_job_search').val();
 		var state = $('#state').val();
 		var claimNumber = $('#claimNumber').val();
 		if ( id_job == "" && state == "" && claimNumber == "" ) {
@@ -13,8 +13,8 @@ $( document ).ready( function () {
 
 	$( "#formSearch" ).validate( {
 		rules: {
-			id_job:	{ unCampo: true },
-			state:	{ unCampo: true },
+			id_job_search:	{ unCampo: true },
+			state:			{ unCampo: true },
 			claimNumber:	{ unCampo: true, maxlength: 10 }
 		},
 		errorElement: "em",
