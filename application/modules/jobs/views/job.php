@@ -37,7 +37,7 @@ $(function(){
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <a class="btn btn-primary btn-xs" href=" <?php echo base_url().'jobs'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-                    <i class="fa fa-list fa-fw"></i> <b>JOB CODE DETAIL</b>
+                    <i class="fa fa-list fa-fw"></i> <b>Line Item Contract (LIC) DETAIL</b>
                 </div>
                 <div class="panel-body small">
 
@@ -94,7 +94,7 @@ if ($retornoError) {
                                 
                             <div class="col-lg-3">				
                                 <div class="form-group">					
-                                    <label class="col-sm-5 control-label" for="hddTask">Attach Job Detail File:</label>
+                                    <label class="col-sm-5 control-label" for="hddTask">Attach LIC File:</label>
                                     <div class="col-sm-5">
                                         <input type="file" name="userfile" />
                                     </div>
@@ -106,7 +106,7 @@ if ($retornoError) {
                                     <div class="row" align="center">
                                         <div style="width:50%;" align="center">
                                             <button type="submit" id="btnSubir" name="btnSubir" class='btn btn-primary btn-sm'>
-                                                Upload Job Detail <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+                                                Upload LIC <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
                                             </button>
                                         </div>
                                     </div>

@@ -14,6 +14,17 @@ $(function(){
             });
 	});	
 });
+
+	$(document).ready(function() {
+		$('#modal').on('shown.bs.modal', function() {
+			if ($.fn.select2 && $('#id_job').hasClass("select2-hidden-accessible")) {
+				$('#id_job').select2('destroy');
+			}
+			$('#id_job').select2({
+				dropdownParent: $('#modal')
+			});
+		});
+	});
 </script>
 
 <div id="page-wrapper">
@@ -42,11 +53,11 @@ $(function(){
 
 						<div class="form-group">
 							<div class="col-sm-12">
-								<label for="id_job">Job Code/Name:</label>
-								<select name="id_job" id="id_job" class="form-control js-example-basic-single">
+								<label for="id_job_search">Job Code/Name:</label>
+								<select name="id_job_search" id="id_job_search" class="form-control js-example-basic-single">
 									<option value=''>Select...</option>
 									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($_POST && $_POST["id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
+										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($_POST && $_POST["id_job_search"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 									<?php } ?>
 								</select>
 							</div>
@@ -83,15 +94,10 @@ $(function(){
 								</div>
 							</div>
 						</div>
-						
 					</form>
-
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-3 -->
 
 		<div class="col-lg-9">
 			<div class="panel panel-violeta">
