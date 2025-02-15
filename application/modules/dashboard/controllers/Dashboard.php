@@ -721,6 +721,8 @@ class Dashboard extends CI_Controller
 
 		$data["taskId"] = $this->input->post("taskId");
 
+		$time = $this->input->post("time");
+
 		//task INFO
 		$arrParam = array(
 			"table" => "task",
@@ -729,8 +731,14 @@ class Dashboard extends CI_Controller
 			"id" => $this->input->post("taskId")
 		);
 		$data['task'] = $this->general_model->get_basic_search($arrParam); //employee type list
-		$date = $data['task'][0]['finish'];
-		$idJob = $data['task'][0]['fk_id_job'];
+
+		if ($time == "start") {
+			$date = $data['task'][0]['start'];
+			$idJob = $data['task'][0]['fk_id_job'];
+		} else {
+			$date = $data['task'][0]['finish'];
+			$idJob = $data['task'][0]['fk_id_job_finish'];
+		}
 
 		$sql = "SELECT * FROM workorder WHERE date = DATE('$date') AND fk_id_job = $idJob";
 
@@ -760,31 +768,56 @@ class Dashboard extends CI_Controller
 		$task = $this->general_model->get_basic_search($arrParam); //employee type list
 
 		$data["woID"] = $this->input->post("woID");
+		$wo = $this->input->post("woID");
+
+		$column = ($this->input->post("time") == 'start') ? 'wo_start_project' : 'wo_end_project';
 
 		$data["dashboardURL"] = $this->session->userdata("dashboardURL");
+
 		$arrParam = array(
 			"table" => "task",
 			"primaryKey" => "id_task",
 			"id" => $this->input->post("taskId"),
-			"column" => "wo_end_project",
+			"column" => $column,
 			"value" => $this->input->post("woID")
 		);
 		if ($this->general_model->updateRecord($arrParam)) {
 			$data["result"] = true;
 
+			if ($this->input->post("time") == 'start') {
+				$hours_project = $task[0]['hours_start_project'];
+			} else {
+				$hours_project = $task[0]['hours_end_project'];
+			}
+
 			$fk_id_user = $task[0]['fk_id_user'];
-			$hours_end_project = $task[0]['hours_end_project'];
 			$description = $task[0]['task_description'];
 
-			$data = array(
-				'fk_id_workorder' => $this->input->post("woID"),
-				'fk_id_user' => $fk_id_user,
-				'fk_id_employee_type' => 1,
-				'hours' => $hours_end_project,
-				'description' => $description
-			);
+			$sql = "SELECT * FROM workorder_personal W WHERE W.fk_id_workorder  = '$wo' AND W.fk_id_user = '$fk_id_user'";
 
-			$this->db->insert('workorder_personal', $data);
+			$query = $this->db->query($sql);;
+
+			if ($query->num_rows() >= 1) {
+
+				$data = array(
+					'hours' => $hours_project,
+					'description' => $description
+				);
+
+				$this->db->where('fk_id_workorder  ', $wo);
+				$this->db->where('fk_id_user  ', $fk_id_user);
+				$this->db->update('workorder_personal', $data);
+			} else {
+				$data = array(
+					'fk_id_workorder' => $this->input->post("woID"),
+					'fk_id_user' => $fk_id_user,
+					'fk_id_employee_type' => 1,
+					'hours' => $hours_project,
+					'description' => $description
+				);
+
+				$this->db->insert('workorder_personal', $data);
+			}
 
 			$this->session->set_flashdata('retornoExito', 'You have updated the information');
 		} else {
