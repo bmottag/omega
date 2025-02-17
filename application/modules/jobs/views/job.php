@@ -15,12 +15,12 @@ $(function(){
             });
 	});
     
-	$(".btn-outline").click(function () {	
+	$(".lic_add_modal").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
 				url: base_url + 'jobs/cargarModalJobDetail',
-				data: {'idJob': oID, 'idJobDetail': 'x'},
+				data: {'identification': oID, 'idJobDetail': 'x'},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -34,10 +34,10 @@ $(function(){
     <br>
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-primary">
+            <div class="panel panel-dark">
                 <div class="panel-heading">
-                    <a class="btn btn-primary btn-xs" href=" <?php echo base_url().'jobs'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-                    <i class="fa fa-list fa-fw"></i> <b>Line Item Contract (LIC) DETAIL</b>
+                    <a class="btn btn-dark btn-xs" href=" <?php echo base_url().'jobs/job_lic_list'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+                    <i class="fa fa-gears fa-fw"></i> <b>Line Item Contract (LIC) DETAIL</b>
                 </div>
                 <div class="panel-body small">
 
@@ -162,9 +162,6 @@ if ($retornoError) {
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <button type="button" class="btn btn-outline btn-default btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]["id_job"]; ?>">
-                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add APU's
-                                                </button><br>
                                             </div>
                                         </div>
                                     </div>
@@ -192,6 +189,9 @@ if ($retornoError) {
                             <div class="panel-body">
                                 <div class="panel-group" id="accordion">	
                                     <h2><?php echo $lista['chapter_name']; ?></h2>
+                                    <button type="button" class="btn btn-dark btn-block lic_add_modal" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]["id_job"] . "-" . $lista["chapter_number"] . "-" . $lista["chapter_name"]; ?>">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add APU's
+                                    </button><br>
                                     <?php
                                         foreach ($jobDetails as $data):
                                             $balance = $data['extended_amount'] - $data['expenses'];
