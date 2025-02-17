@@ -174,14 +174,20 @@ class Programming_model extends CI_Model
 	 * Lista de vehiculos, para asginarlos a los trabajadores en la programacion
 	 * @since 16/1/2019
 	 */
-	public function get_vehicles_inspection()
+	public function get_vehicles_inspection($arrData)
 	{
 		$trucks = array();
 		$sql = "SELECT id_vehicle, CONCAT(unit_number,' -----> ', description) as unit_description 
 						FROM param_vehicle V 
 						INNER JOIN param_vehicle_type_2 T ON T.id_type_2 = V.type_level_2 
-						WHERE fk_id_company = 1 AND T.link_inspection != 'NA' AND V.id_vehicle NOT IN(41,42,43,44,61,62) AND V.state = 1 AND V.so_blocked = 1
-						ORDER BY unit_number";
+						WHERE fk_id_company = 1 
+						AND T.link_inspection != 'NA' AND V.id_vehicle NOT IN(41,42,43,44,61,62) AND V.state = 1 AND V.so_blocked = 1";
+		if (!empty($arrData["vehicleToExclude"])) {
+			// Convertir el array de IDs a un string separado por comas
+			$excludedIds = implode(",", $arrData["vehicleToExclude"]);
+			$sql .= " AND V.id_vehicle NOT IN ($excludedIds)";
+		}
+		$sql .= " ORDER BY unit_number";
 
 		$query = $this->db->query($sql);
 		if ($query->num_rows() > 0) {
@@ -194,6 +200,32 @@ class Programming_model extends CI_Model
 		}
 		$this->db->close();
 		return $trucks;
+	}
+
+	/**
+	 * Lista de equipment ID para una fecha
+	 * @since 17/02/2025
+	 */
+	public function get_vehicles_selected($filters)
+	{
+		$sql = "SELECT fk_id_machine FROM programming_worker W 
+				INNER JOIN programming P ON P.id_programming = W.fk_id_programming 
+				WHERE P.id_programming != ? AND P.date_programming = ? AND fk_id_machine IS NOT NULL";
+		$query = $this->db->query($sql, array($filters[0]['id_programming'], $filters[0]['date_programming']));
+
+		$trucks = []; // Inicializar array vacío para evitar errores
+	
+		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $row) {
+				// Decodificar el JSON para obtener los IDs de las máquinas
+				$machines = json_decode($row->fk_id_machine, true);
+				if (is_array($machines)) {
+					$trucks = array_merge($trucks, $machines);
+				}
+			}
+		}
+	
+		return $trucks; // Retorna solo los IDs de las máquinas
 	}
 
 	/**
