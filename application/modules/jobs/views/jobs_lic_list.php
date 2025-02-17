@@ -5,7 +5,7 @@
 			<div class="panel panel-dark">
 				<div class="panel-heading">
 					<a class="btn btn-dark btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
-					<i class="fa fa-gears"></i> LIC
+					<i class="fa fa-gears fa-fw"></i> <b>Line Item Contract (LIC)</b>
 				</div>
 				<div class="panel-body">
 

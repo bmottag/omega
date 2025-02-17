@@ -2843,7 +2843,15 @@ class Jobs extends CI_Controller
 		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
 		$data['information'] = FALSE;
-		$data["idJob"] = $this->input->post("idJob");
+		$identification = $this->input->post("identification");
+		$data["idJob"] = "";
+		if($identification != ""){
+			$porciones = explode("-", $identification);
+			$data["idJob"] = $porciones[0];
+			$data["chapterNumber"] = $porciones[1];
+			$data["chapterName"] = $porciones[2];
+		}
+
 		$data["idJobDetail"] = $this->input->post("idJobDetail");
 
 		if ($data["idJobDetail"] != 'x') {
