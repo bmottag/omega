@@ -1074,12 +1074,8 @@ class Workorders extends CI_Controller
 				$info['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam); //workorder equipment list
 				$info['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
 				$this->workorders_model->clone_workorder($info);
-			}
 
-			$data["result"] = true;
-			$data["mensaje"] = $msj;
-
-			if ($status == 5) {
+				//Closed hauling cards 
 				$this->load->model("general_model");
 				$arrParam = array(
 					"table" => "hauling",
@@ -1107,6 +1103,9 @@ class Workorders extends CI_Controller
 					}
 				}
 			}
+
+			$data["result"] = true;
+			$data["mensaje"] = $msj;
 
 			$this->session->set_flashdata('retornoExito', $msj);
 		} else {
