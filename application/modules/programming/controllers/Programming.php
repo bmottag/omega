@@ -41,7 +41,9 @@ class Programming extends CI_Controller
 			//lista de trabajadores para esta programacion
 			$data['informationWorker'] = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 
-			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+			//get ID of vehicules for the same day
+			$equipmentSelected = $this->programming_model->get_vehicles_selected($data['information']);
+			$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection(["vehicleToExclude" => $equipmentSelected]);
 
 			$data['programmingOccasional'] = $this->programming_model->get_programming_occasional($arrParam); //programming ocasional list
 
