@@ -421,7 +421,7 @@
 									</td>
 
 									<td>
-										<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple" disabled>
+										<select multiple="multiple" name="machine[]" class="form-control js-example-basic-multiple">
 											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($informationVehicles); $i++) { ?>
 												<option value="<?php echo $informationVehicles[$i]["id_truck"]; ?>" <?php if ($data["fk_id_machine"] != "" && ($data["fk_id_machine"] == $informationVehicles[$i]["id_truck"] || in_array($informationVehicles[$i]["id_truck"], json_decode($data["fk_id_machine"])))) {
@@ -445,11 +445,13 @@
 									<td class='text-center'>
 										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
 											<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-										</button><br><br>
-
+										</button>
+<!--
+										<br><br>
 										<button type="button" class="btn btn-info btn-equipment  btn-xs" data-toggle="modal" data-target="#modalEquipment" title="Add Equipment" id="<?php echo 'equipment-' . $fkIdProgramming . "-" . $idRecord; ?>" <?php echo $deshabilitar; ?>>
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
 										</button>
+-->
 								</form>
 
 								<br><br>
