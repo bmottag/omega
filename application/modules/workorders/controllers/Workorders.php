@@ -2777,4 +2777,46 @@ class Workorders extends CI_Controller
 		}
 	}
 
+	/**
+	 * Delete Expenses
+	 * @param int $idValue: id que se va a borrar
+	 * @param int $idWorkorder: llave  primaria de workorder
+	 */
+	public function deleteRecordExpenses($subModule, $idWorkorderExpenses, $idSubmodule, $idWorkOrder)
+	{
+		if (empty($subModule) || empty($idWorkorderExpenses) || empty($idWorkOrder)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+		$arrParam = array(
+			"table" => "workorder_expense",
+			"primaryKey" => "id_workorder_expense",
+			"id" => $idWorkorderExpenses
+		);
+		$this->load->model("general_model");
+
+		if ($this->general_model->deleteRecord($arrParam)) {
+			//para expenses recalculo los valores gastados para cada item
+			$arrParam = array('idWorkOrder' => $idWorkOrder);
+			$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam); //info workorder
+			$idJob = $data['information'][0]["fk_id_job"];
+			$this->update_wo_expenses_values($idWorkOrder, $idJob);
+
+			//Update workorder submodule
+			$table = "workorder_" . $subModule;
+			$arrParam = array(
+				"table" => "workorder_" . $subModule,
+				"primaryKey" => "id_workorder_" . $subModule,
+				"id" => $idSubmodule,
+				"column" => "flag_expenses",
+				"value" => 0
+			);
+			$this->general_model->updateRecord($arrParam);
+
+			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>' . $table . '</strong> table.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect(base_url('workorders/workorder_expenses/' . $idWorkOrder), 'refresh');
+	}
+
 }
