@@ -859,4 +859,72 @@ class Payroll extends CI_Controller
 
 		return true;
 	}
+
+	/**
+	 * Cargo modal- formulario para editar las horas de los empleados
+	 * @since 2/2/2018
+	 */
+	public function cargarModalJobCode()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$data['information'] = FALSE;
+
+		//job list
+		$this->load->model("general_model");
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "state",
+			"id" => 1
+		);
+		$data['jobs'] = $this->general_model->get_basic_search($arrParam); //job list
+
+		//busco inicio y fin para calcular horas de trabajo y guardar en la base de datos
+		//START search info for the task
+		$idTask =  $this->input->post('idTask');
+		$data['information'] = $this->payroll_model->get_taskbyid($idTask);
+
+		$data['hours_start'] = $this->separarHorasMinutosEntero($data['information']['hours_start_project']);
+		$data['hours_end'] = $this->separarHorasMinutosEntero($data['information']['hours_end_project']);
+		$this->load->view("modal_job_code", $data);
+	}
+
+	function separarHorasMinutosEntero($horas_decimal)
+	{
+		/**
+		 * Separa las horas y los minutos de un valor decimal.
+		 *
+		 * @param float $horas_decimal Un número decimal que representa las horas (ej. 4.25).
+		 * @return array Un array con las horas y los minutos como enteros.
+		 */
+		$horas = intval($horas_decimal); // Obtiene la parte entera
+		$minutos_decimal = $horas_decimal - $horas; // Obtiene la parte decimal
+		$minutos = round($minutos_decimal * 60);  // Convierte a minutos y redondea
+		return array("horas" => $horas, "minutos" => $minutos);
+	}
+
+	/**
+	 * @since 2/2/2018
+	 * @author BMOTTAG
+	 */
+	public function updateTaskWithWO()
+	{
+		header('Content-Type: application/json');
+
+		$data = array();
+
+		$idTask = $this->input->post('hddIdentificador');
+		$data["idRecord"] = $idTask;
+
+		if ($this->payroll_model->updateTaskWithWO()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', 'You have updated the payroll hour');
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
 }
