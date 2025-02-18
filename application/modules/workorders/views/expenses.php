@@ -146,7 +146,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
             <div class="col-lg-12">
                 <div class="panel panel-dark">
                     <div class="panel-heading">
-                        WO EXPENSES
+                        <i class="fa fa-gears fa-fw"></i> <b>WO EXPENSES</b>
                     </div>
                     <div class="panel-body">
                         <?php if(!$jobDetails){ ?>
@@ -381,6 +381,13 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
                                         echo "</td>";
                                         echo "<td>" . $data['observation'] . "</td>";
                                         echo "<td class='text-right'>$ " . number_format($data['expense_value'],2) . "</td>";
+                                        ?>
+                                            <td class="text-center">
+                                                <a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecordExpenses/' . $data['submodule'] . '/' . $data['id_workorder_expense'] . '/' . $data['fk_id_submodule'] . '/' . $data['fk_id_workorder']) ?>' id="btn-delete">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>      
+                                            </td>
+                                        <?php
                                         echo "</tr>";
                                     endforeach;
                                 ?>
