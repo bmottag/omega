@@ -294,6 +294,8 @@
                                     $hidden_finished = ($lista['wo_end_project'] != null) ? 'hidden' : ' ';
                                     $hidden_start = ($lista['wo_start_project'] != null) ? 'hidden' : ' ';
 
+                                    $hidden_edit = ($lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+
                                     echo "<tr>";
                                     echo "<td class='text-center'>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
                                     echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, -3) . "</td>";
@@ -306,9 +308,9 @@
                                     <button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign WO</button>
                                     </td>";
                                     echo "<td class='text-right'>" . $lista['task_description'] . "</td>";
-                                    echo "<td class='text-right'>" . $lista['observation'] . "-" . $lista['id_task'] . "</td>";
+                                    echo "<td class='text-right'>" . $lista['observation']  . "</td>";
                                     echo "<td class='text-right'>";
-                                    echo "<a href='#' class='btn btn-primary'>Edit</a>";
+                                    echo "<button type='button' class='btn btn-info btn-xs " . $hidden_edit . "' data-toggle='modal' data-target='#modal' id='" . $lista['id_task'] . "'>Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></button>";
                                     echo "</td>";
                                     echo "</tr>";
                                 endforeach;
@@ -497,6 +499,18 @@
 </div>
 <!--FIN Modal para adicionar WORKER -->
 
+<!--INICIO Modal cambio de hora-->
+<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="tablaHours">
+
+        </div>
+    </div>
+</div>
+<!--FIN Modal-->
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Tables -->
 <script>
     $(document).ready(function() {
@@ -563,5 +577,24 @@
                 alert('Error al asignar horas: ' + xhr.status + ' - ' + xhr.statusText);
             }
         });
+    });
+
+    $(function() {
+
+        $(".btn-info").click(function() {
+            var oID = $(this).attr("id");
+            $.ajax({
+                type: 'POST',
+                url: base_url + 'payroll/cargarModalJobCode',
+                data: {
+                    'idTask': oID
+                },
+                cache: false,
+                success: function(data) {
+                    $('#tablaHours').html(data);
+                }
+            });
+        });
+
     });
 </script>

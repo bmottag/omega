@@ -734,4 +734,49 @@ class Payroll_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Update TASK CON WO
+	 * @since 17/02/2025
+	 */
+	public function updateTaskWithWO()
+	{
+		$idTask =  $this->input->post('hddIdentificador');
+
+		$data['fk_id_job'] = $this->input->post('jobName');
+		$data['hours_start_project'] = $this->input->post('start_hour') . '.' . $this->input->post('start_min');
+		$data['fk_id_job_finish'] = $this->input->post('jobNameFinish');
+		$data['hours_end_project'] = $this->input->post('finish_hour') . '.' . $this->input->post('finish_min');
+
+		$this->db->where('id_task', $idTask);
+		$query = $this->db->update('task', $data);
+
+		$task = $this->get_taskbyid($idTask);
+
+		if ($task['wo_start_project']) {
+			$dataWoStar = array(
+				'hours' => $data['hours_start_project'],
+			);
+
+			$this->db->where('fk_id_workorder  ', $task['wo_start_project']);
+			$this->db->where('fk_id_user  ', $task['fk_id_user']);
+			$this->db->update('workorder_personal', $dataWoStar);
+		}
+
+		if ($task['wo_end_project']) {
+			$dataWoEnd = array(
+				'hours' => $data['hours_end_project'],
+			);
+
+			$this->db->where('fk_id_workorder  ', $task['wo_end_project']);
+			$this->db->where('fk_id_user  ', $task['fk_id_user']);
+			$this->db->update('workorder_personal', $dataWoEnd);
+		}
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
