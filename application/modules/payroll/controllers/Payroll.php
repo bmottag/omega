@@ -608,9 +608,9 @@ class Payroll extends CI_Controller
 	public function payroll_check()
 	{
 		$this->load->model("general_model");
-		//search for the last 35 records
+		//search for the last 50 records
 		$arrParam = array(
-			"limit" => 35
+			"limit" => 50
 		);
 		$records = $this->general_model->get_task($arrParam);
 		foreach ($records as $data) :

@@ -217,3 +217,35 @@ if (!function_exists("send_twilio_message")) {
         }
     }
 }
+
+/**
+ * Calculate time difference in hours
+ * @author bmottag
+ * @param $dateStart, $fechaCierre
+ */
+if (!function_exists("calculate_time_difference_in_hours")) {
+
+    function calculate_time_difference_in_hours($dateStart, $dateFinish) {
+        // Convertir a objetos DateTime
+        $start = DateTime::createFromFormat('Y-m-d G:i:s', $dateStart);
+        $finish = DateTime::createFromFormat('Y-m-d G:i:s', $dateFinish);
+    
+        if (!$start || !$finish) {
+            return "Error: Formato de fecha incorrecto";
+        }
+    
+        // Calcular la diferencia en segundos
+        $differenceInSeconds = $finish->getTimestamp() - $start->getTimestamp();
+    
+        // Convertir segundos a horas con decimales
+        $differenceInHours = $differenceInSeconds / 3600;
+    
+        return round($differenceInHours, 2); // Redondear a 2 decimales
+    }
+
+}
+
+
+
+
+
