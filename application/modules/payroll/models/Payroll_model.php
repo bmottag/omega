@@ -109,30 +109,8 @@ class Payroll_model extends CI_Model
 		$workingTime = $dteDiff->format("%R%a days %H:%I:%S"); //days hours:minutes:seconds
 
 		//START hours calculation
-		$minutes = (strtotime($fechaStart) - strtotime($fechaCierre)) / 60;
-		$minutes = abs($minutes);
-		$minutes = round($minutes);
-
-		$hours = $minutes / 60;
-		$hours = round($hours, 2);
-
-		$justHours = intval($hours);
-		$decimals = $hours - $justHours;
-
-		//Ajuste de los decimales para redondearlos a .25 / .5 / .75
-		if ($decimals < 0.12) {
-			$transformation = 0;
-		} elseif ($decimals >= 0.12 && $decimals < 0.37) {
-			$transformation = 0.25;
-		} elseif ($decimals >= 0.37 && $decimals < 0.62) {
-			$transformation = 0.5;
-		} elseif ($decimals >= 0.62 && $decimals < 0.87) {
-			$transformation = 0.75;
-		} elseif ($decimals >= 0.87) {
-			$transformation = 1;
-		}
-		$workingHours = $justHours + $transformation;
 		$overtimeHours = 0;
+		$workingHours = calculate_time_difference_in_hours($fechaStart, $fechaCierre);
 		if ($workingHours > 8) {
 			$regularHours = 8;
 			$overtimeHours = $workingHours - 8;
@@ -144,7 +122,8 @@ class Payroll_model extends CI_Model
 			$hours_first_project = ($hours_first_project) ? $hours_first_project : 0;
 			$hours_end_project = $workingHours - $hours_first_project;
 		} else {
-			$hours_end_project = $hours_first_project;
+			$hours_first_project = ($hours_first_project) ? $hours_first_project : 0;
+			$hours_end_project = $workingHours - $hours_first_project;
 		}
 
 		$sqlTask = "select fk_id_job from task where id_task = $idTask";
@@ -155,7 +134,6 @@ class Payroll_model extends CI_Model
 		if ($this->input->post('jobName') == $fk_id_job) {
 			$hours_end_project = null;
 		}
-
 		//FINISH hours calculation
 
 		//New cal hours
@@ -205,8 +183,8 @@ class Payroll_model extends CI_Model
 			//job programming - (active´s items)
 			$programming_sql = "SELECT p.fk_id_job, p.fk_id_workorder
 					FROM programming p
-					WHERE p.id_programming = $idProgramming;
-					";
+					WHERE p.id_programming = $idProgramming;";
+					
 			$queryProgramming = $this->db->query($programming_sql);
 
 			$job_programming = null;
@@ -225,30 +203,17 @@ class Payroll_model extends CI_Model
 			if ($hours_first_project == 0) {
 
 				if ($idJob == $job_programming && $id_workorder != null) {
-
 					$data = array(
-						// 'fk_id_workorder' => $id_workorder,
-						// 'fk_id_user' => $idUser,
-						// 'fk_id_employee_type' => 1,
 						'hours' => $workingHours,
-						'description' => 'Payroll hours',
 					);
-
-					//$this->db->insert('workorder_personal', $data);
 					$this->db->where('fk_id_workorder  ', $id_workorder);
 					$this->db->where('fk_id_user  ', $idUser);
 					$query = $this->db->update('workorder_personal', $data);
 				}
 			} else {
 				$data = array(
-					// 'fk_id_workorder' => $id_workorder,
-					// 'fk_id_user' => $idUser,
-					// 'fk_id_employee_type' => 1,
-					'hours' => $hours_first_project,
-					'description' => 'Payroll hours',
+					'hours' => $hours_first_project
 				);
-
-				//$this->db->insert('workorder_personal', $data);
 				$this->db->where('fk_id_workorder  ', $id_workorder);
 				$this->db->where('fk_id_user  ', $idUser);
 				$query = $this->db->update('workorder_personal', $data);

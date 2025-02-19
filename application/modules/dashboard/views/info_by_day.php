@@ -1,86 +1,21 @@
 <div id="page-wrapper">
     <br>
     <div class="row">
-
-        <div class="col-lg-3">
+        <div class="col-lg-12">
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url('dashboard/calendar'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the Calendar</a> <br>
+                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url('dashboard/calendar'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the Calendar</a>
+                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url("dashboard/info_by_day/all/" . $fecha) ; ?> "><span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View all the Information for the selectd day</a> <br>
                     <i class="fa fa-bell fa-fw"></i> <strong>SUMMARY</strong> - <?php echo date('F j, Y', strtotime($fecha)); ?>
-                </div>
-                <?php
-                $noPlanning = 0;
-                $noPayroll = 0;
-                $noWorkOrder = 0;
-                $noHauling = 0;
-                $noFLHA = 0;
-                $noToolBox = 0;
-                if ($planningInfo) {
-                    $noPlanning = count($planningInfo);
-                }
-                if ($payrollInfo) {
-                    $noPayroll = count($payrollInfo);
-                }
-                if ($workOrderInfo) {
-                    $noWorkOrder = count($workOrderInfo);
-                }
-                if ($haulingInfo) {
-                    $noHauling = count($haulingInfo);
-                }
-                if ($safetyInfo) {
-                    $noFLHA = count($safetyInfo);
-                }
-                if ($toolBoxInfo) {
-                    $noToolBox = count($toolBoxInfo);
-                }
-                ?>
-
-                <div class="panel-body">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">
-                            <p class="text-warning"><i class="fa fa-list fa-fw"></i><strong> Planning Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noPlanning; ?></em>
-                                </span>
-                            </p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <p class="text-success"><i class="fa fa-money fa-fw"></i><strong> Work Orders Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noWorkOrder; ?></em>
-                                </span>
-                            </p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <p class="text-primary"><i class="fa fa-book fa-fw"></i><strong> Payroll Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noPayroll; ?></em>
-                                </span>
-                            </p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <p class="text-warning"><i class="fa fa-truck fa-fw"></i><strong> Hauling Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noHauling; ?></em>
-                                </span>
-                            </p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <p class="text-info"><i class="fa fa-life-saver fa-fw"></i><strong> FLHA Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noFLHA; ?></em>
-                                </span>
-                            </p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <p class="text-warning"><i class="fa fa-cube fa-fw"></i><strong> Tool Box Records</strong>
-                                <span class="pull-right text-muted small"><em><?php echo $noToolBox; ?></em>
-                                </span>
-                            </p>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-lg-9">
+    <div class="row">
+        <div class="col-lg-12">
             <?php
-            if ($planningInfo) {
+                if (isset($planningInfo) && $planningInfo) {
             ?>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
@@ -91,9 +26,9 @@
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
                             <thead>
                                 <tr>
-                                    <th class='text-center'>Job Code/Name</th>
-                                    <th class='text-center'>Observation</th>
-                                    <th class='text-center'>Message</th>
+                                    <th width='20%'>Job Code/Name</th>
+                                    <th width='60%'>Observation</th>
+                                    <th width='20%'>Message</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -157,27 +92,25 @@
         </div>
     </div>
 
-    <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <?php
-            if ($workOrderInfo) {
+                if (isset($workOrderInfo) && $workOrderInfo) {
             ?>
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
 
+                    <div class="panel-body">
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
                             <thead>
                                 <tr>
-                                    <th class='text-center'>Work Order #</th>
-                                    <th class='text-center'>Job Code/Name</th>
-                                    <th class="text-center">Supervisor</th>
-                                    <th class='text-center'>Task Description</th>
-                                    <th class='text-center'>Last Message</th>
+                                    <th width='10%' class='text-center'>Work Order #</th>
+                                    <th width='20%'>Job Code/Name</th>
+                                    <th width='15%'>Supervisor</th>
+                                    <th width='30%'>Task Description</th>
+                                    <th width='25%'>Last Message</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -222,93 +155,68 @@
                                     echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
                                     echo "<a href='" . base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) . "' target='_blanck'><img src='" . base_url_images('pdf.png') . "' ></a>";
                                     echo '</td>';
-                                    echo "<td class='text-center'>" . $lista['job_description'] . "</td>";
+                                    echo "<td >" . $lista['job_description'] . "</td>";
                                     echo '<td>' . $lista['name'] . '</td>';
-                                    echo "<td class='text-center'>" . $lista['observation'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['last_message'] . "</td>";
+                                    echo "<td>" . $lista['observation'] . "</td>";
+                                    echo "<td>" . $lista['last_message'] . "</td>";
                                     echo "</tr>";
                                 endforeach;
                                 ?>
                             </tbody>
                         </table>
-                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.panel-body -->
                 </div>
             <?php   } ?>
-
         </div>
     </div>
 
-    <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <?php
-            if ($payrollInfo) {
+                if (isset($payrollInfo) && $payrollInfo) {
             ?>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                     </div>
-                    <!-- /.panel-heading -->
                     <div class="panel-body">
-
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Employee</th>
-                                    <th class="text-center">Working Hours (HH:MM)</th>
-                                    <th class="text-center">Job Code/Name - Start</th>
-                                    <th class="text-center">Working Hours (HH:MM) - Start</th>
-                                    <th class="text-center">Job Code/Name - Finish</th>
-                                    <th class="text-center">Working Hours (HH:MM) - Finish</th>
-                                    <th>Task description</th>
-                                    <th>Observation</th>
+                                    <th width='6%'>Employee</th>
+                                    <th width='8%' class="text-center">Working Hours</th>
+                                    <th width='18%'>Job Code/Name - Start</th>
+                                    <th width='8%' class="text-center">Hours Worked at Project Start</th>
+                                    <th width='18%'>Job Code/Name - Finish</th>
+                                    <th width='8%' class="text-center">Hours Worked at Project Finish</th>
+                                    <th width='17%'>Task description</th>
+                                    <th width='17%'>Observation</th>
                                     <th> </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($payrollInfo as $lista) :
-
-                                    $decimal_hours_start = $lista['hours_start_project'];
-
-                                    $hours_start = floor($decimal_hours_start);          // Obtiene la parte entera de las horas
-                                    $minutes_start = round(($decimal_hours_start - $hours_start) * 60); // Obtiene los minutos restantes
-
-                                    $formatted_hours_start = str_pad($hours_start, 2, '0', STR_PAD_LEFT);
-                                    $formatted_minutes_start = str_pad($minutes_start, 2, '0', STR_PAD_LEFT);
-
-                                    $formatted_time_start = $formatted_hours_start . ":" . $formatted_minutes_start;
-
-                                    $decimal_hours_finished = $lista['hours_end_project'];
-
-                                    $hours_finished = floor($decimal_hours_finished);          // Obtiene la parte entera de las horas
-                                    $minutes_finished = round(($decimal_hours_finished - $hours_finished) * 60); // Obtiene los minutos restantes
-
-                                    $formatted_hours_finished = str_pad($hours_finished, 2, '0', STR_PAD_LEFT);
-                                    $formatted_minutes_finished = str_pad($minutes_finished, 2, '0', STR_PAD_LEFT);
-
-                                    $formatted_time_finished = $formatted_hours_finished . ":" . $formatted_minutes_finished;
-
+                                foreach ($payrollInfo as $lista) :   
                                     $hidden_finished = ($lista['wo_end_project'] != null) ? 'hidden' : ' ';
                                     $hidden_start = ($lista['wo_start_project'] != null) ? 'hidden' : ' ';
 
                                     $hidden_edit = ($lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
 
                                     echo "<tr>";
-                                    echo "<td class='text-center'>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
-                                    echo "<td class='text-right'>" . substr($lista['working_hours_new'], 0, -3) . "</td>";
-                                    echo "<td class='text-center'>" . $lista['job_start'] . "</td>";
-                                    echo "<td class='text-center'>" . $formatted_time_start . "<br>
+                                    echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
+                                    echo "<td class='text-center'>";
+                                    echo substr($lista['working_hours_new'], 0, -3) . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
+                                    echo "</td>";
+                                    echo "<td>" . $lista['job_start'] . "</td>";
+                                    echo "<td class='text-center'>" . $lista['hours_start_project'] . " (Hours)<br><br>
                                     <button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign WO</button>
                                      </td>";
-                                    echo "<td class='text-center'>" . $lista['job_finish'] . "</td>";
-                                    echo "<td class='text-center'>" . $formatted_time_finished . "<br>
+                                    echo "<td>" . $lista['job_finish'] . "</td>";
+                                    echo "<td class='text-center'>" . $lista['hours_end_project'] . " (Hours)<br><br>
                                     <button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign WO</button>
                                     </td>";
-                                    echo "<td class='text-right'>" . $lista['task_description'] . "</td>";
-                                    echo "<td class='text-right'>" . $lista['observation']  . "</td>";
+                                    echo "<td>" . $lista['task_description'] . "</td>";
+                                    echo "<td>" . $lista['observation']  . "</td>";
                                     echo "<td class='text-right'>";
                                     echo "<button type='button' class='btn btn-info btn-xs " . $hidden_edit . "' data-toggle='modal' data-target='#modal' id='" . $lista['id_task'] . "'>Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></button>";
                                     echo "</td>";
@@ -317,23 +225,19 @@
                                 ?>
                             </tbody>
                         </table>
-                        <!-- /.table-responsive -->
-
                     </div>
-                    <!-- /.panel-body -->
                 </div>
             <?php   } ?>
 
             <?php
-            if ($haulingInfo) {
+                if (isset($haulingInfo) && $haulingInfo) {
             ?>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <i class="fa fa-truck fa-fw"></i> <strong>HAULING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
 
+                    <div class="panel-body">
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                             <thead>
                                 <tr>
@@ -376,15 +280,12 @@
                                 ?>
                             </tbody>
                         </table>
-                        <!-- /.table-responsive -->
-
                     </div>
-                    <!-- /.panel-body -->
                 </div>
             <?php   } ?>
 
             <?php
-            if ($safetyInfo) {
+                if (isset($safetyInfo) && $safetyInfo) {
             ?>
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -419,23 +320,19 @@
                                 ?>
                             </tbody>
                         </table>
-                        <!-- /.table-responsive -->
-
                     </div>
-                    <!-- /.panel-body -->
                 </div>
             <?php   } ?>
 
             <?php
-            if ($toolBoxInfo) {
+                if (isset($toolBoxInfo) && $toolBoxInfo) {
             ?>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <i class="fa fa-cube fa-fw"></i> <strong>TOOL BOX RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
 
+                    <div class="panel-body">
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                             <thead>
                                 <tr>
@@ -464,10 +361,8 @@
                                 ?>
                             </tbody>
                         </table>
-                        <!-- /.table-responsive -->
 
                     </div>
-                    <!-- /.panel-body -->
                 </div>
             <?php   } ?>
 
@@ -475,7 +370,6 @@
     </div>
 
 </div>
-<!-- /#page-wrapper -->
 
 <!--INICIO Modal para adicionar WORKER -->
 <div class="modal fade text-center" id="modalWorker" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

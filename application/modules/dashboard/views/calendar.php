@@ -47,16 +47,10 @@
 
 <div id="page-wrapper">
 	<br>	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-
 			<div id='calendar'></div>
 			<br>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->

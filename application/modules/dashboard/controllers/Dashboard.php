@@ -480,7 +480,7 @@ class Dashboard extends CI_Controller
 						      "start": "' . $data['date'] . '",
 						      "end": "' . $data['date'] . '",
 						      "color": "green",
-						      "url": "' . base_url("dashboard/info_by_day/" . $data['date']) . '"
+						      "url": "' . base_url("dashboard/info_by_day/workOrderInfo/" . $data['date']) . '"
 						    }';
 
 				if ($i < $longitud) {
@@ -503,7 +503,7 @@ class Dashboard extends CI_Controller
 						      "start": "' . $data['date_programming'] . '",
 						      "end": "' . $data['date_programming'] . '",
 						      "color": "yellow",
-						      "url": "' . base_url("dashboard/info_by_day/" . $data['date_programming']) . '"
+						      "url": "' . base_url("dashboard/info_by_day/planningInfo/" . $data['date_programming']) . '"
 						    }';
 
 				if ($i < $longitud) {
@@ -528,7 +528,7 @@ class Dashboard extends CI_Controller
 						      "start": "' . $data['date_issue'] . ' ' . $data['time_in'] . '",
 						      "end": "' . $data['date_issue'] . ' ' . $data['time_out'] . '",
 						      "color": "red",
-						      "url": "' . base_url("dashboard/info_by_day/" . $data['date_issue']) . '"
+						      "url": "' . base_url("dashboard/info_by_day/haulingInfo/" . $data['date_issue']) . '"
 						    }';
 
 				if ($i < $longitud) {
@@ -551,7 +551,7 @@ class Dashboard extends CI_Controller
 					$startPayroll = substr($data['start'], 0, 10);
 					$payrollInfo = "Payroll: " . $data['first_name'] . ' ' . $data['last_name'];
 					$payrollInfo .=	", Start Job Code/Name: " . $data['job_start'];
-					$payrollInfo .= " - Working Hours: " . $data['hours_difference'];
+					$payrollInfo .= " - Working Hours: " . $data['hours_start_project'];
 					$payrollInfo .=	", Finish Job Code/Name: " . $data['job_finish'];
 					$payrollInfo .= " - Working Hours: " . $data['hours_end_project'];
 				} else {
@@ -570,7 +570,7 @@ class Dashboard extends CI_Controller
 						      "start": "' . $data['start'] . '",
 						      "end": "' . $data['finish'] . '",
 						      "color": "blue",
-						      "url": "' . base_url("dashboard/info_by_day/" . $startPayroll) . '"
+						      "url": "' . base_url("dashboard/info_by_day/payrollInfo/" . $startPayroll) . '"
 						    }';
 
 				if ($i < $longitud) {
@@ -588,32 +588,38 @@ class Dashboard extends CI_Controller
 	 * @since 22/12/2020
 	 * @author BMOTTAG
 	 */
-	public function info_by_day($infoDate)
+	public function info_by_day($view, $infoDate)
 	{
 		$data['fecha'] = $infoDate;
-		$arrParam = array(
+		$arrParam = [
 			"fecha" => $infoDate,
 			"estado" => "ACTIVAS"
-		);
-
-		//informacion Planning
-		$data['planningInfo'] = $this->general_model->get_programming_info($arrParam);
-
-		//Informacion de Payroll
-		$data['payrollInfo'] = $this->general_model->get_task($arrParam);
-
-		//informacion Work Order
-		$data['workOrderInfo'] = $this->general_model->get_workorder_info($arrParam);
-
-		//Informacion de Hauling
-		$data['haulingInfo'] = $this->general_model->get_hauling($arrParam);
-
-		//Informacion de FLHA
-		$data['safetyInfo'] = $this->general_model->get_safety($arrParam); //info de safety
-
-		//Informacion de TOOL BOX
-		$data['toolBoxInfo'] = $this->general_model->get_tool_box($arrParam); //info de safety
-
+		];
+	
+		// Definir las vistas y sus funciones correspondientes
+		$viewsMapping = [
+			"planningInfo"  => "get_programming_info",
+			"payrollInfo"   => "get_task",
+			"workOrderInfo" => "get_workorder_info",
+			"haulingInfo"   => "get_hauling",
+			"safetyInfo"	=> "get_safety",
+			"toolBoxInfo"   => "get_tool_box"
+		];
+	
+		if ($view === "all") {
+			// Si la vista es "all", obtener todas las consultas
+			foreach ($viewsMapping as $key => $method) {
+				$data[$key] = $this->general_model->$method($arrParam);
+			}
+		} elseif (isset($viewsMapping[$view])) {
+			// Si la vista es una específica, obtener solo esa
+			$method = $viewsMapping[$view];
+			$data[$view] = $this->general_model->$method($arrParam);
+		} else {
+			// Manejo de error si la vista no es válida
+			$data["error"] = "Vista no encontrada";
+		}
+	
 		$data["view"] = "info_by_day";
 		$this->load->view("layout_calendar", $data);
 	}
