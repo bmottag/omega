@@ -236,7 +236,7 @@
             ?>
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Orders.
                 </div>
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
@@ -258,23 +258,27 @@
                                     $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " (Hours)";
                                     $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " (Hours)";
     
-                                    $hidden_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
                                     $hidden_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+                                    $hidden_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
                                     $hidden_total = (empty($lista['wo_start_project']) && empty($lista['wo_end_project']) && $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? '' : 'hidden';
                                     $hidden_edit = ($lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+
+                                    $text_total = (empty($lista['wo_start_project']) && empty($lista['wo_end_project']) && $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? "<p class='text-danger'><b>" . substr($lista['working_hours_new'], 0, -3) . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)</b></p>": substr($lista['working_hours_new'], 0, -3) . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
+                                    $text_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? "<p>" . $hoursStart . "</p>" : "<p class='text-danger'><b>" . $hoursStart . "</b></p>";
+                                    $text_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? "<p>" . $hoursFinish . "</p>": "<p class='text-danger'><b>" . $hoursFinish . "</b></p>";
 
                                     echo "<tr>";
                                     echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
                                     echo "<td class='text-center'>";
-                                    echo substr($lista['working_hours_new'], 0, -3) . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
+                                    echo $text_total;
                                     echo "</td>";
                                     echo "<td>" . $lista['job_start'] . "</td>";
-                                    echo "<td class='text-center'>" . $hoursStart . "<br><br>";
+                                    echo "<td class='text-center'>" . $text_start;
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign to a W.O.</button>";
                                     echo $lista["wo_start_project"]?"(W.O. # " . $lista["wo_start_project"] . ")":"";
                                     echo  "</td>";
                                     echo "<td>" . $lista['job_finish'] . "</td>";
-                                    echo "<td class='text-center'>" . $hoursFinish . "<br><br>";
+                                    echo "<td class='text-center'>" . $text_finished;
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign to a W.O.</button>";
                                     echo $lista["wo_end_project"]?"(W.O. # " . $lista["wo_end_project"] . ")":"";
                                     echo  "</td>";

@@ -346,7 +346,44 @@ class Workorders extends CI_Controller
 			->comment(json_encode($log))
 			->log(); //Add Database Entry
 
-		if ($this->general_model->deleteRecord($arrParam)) {
+		if ($this->general_model->deleteRecord($arrParam)) 
+		{
+			//si elimino PERSONAL, ENTONCES VERIFICO SI TIENE EN LA TABLA TASK ALGUN REGISTRO RELACIONADO CON LA WO
+			if($tabla == 'personal'){
+				$arrTask = array(
+					"idWorkOrder" => $idWorkOrder,
+					"idEmployee" => $log['old'][0]['fk_id_user'],
+					"column" => "wo_start_project"
+				);
+				$taskStart = $this->general_model->get_task($arrTask);
+				if($taskStart){
+					$arrParam = array(
+						"table" => "task",
+						"primaryKey" => "id_task",
+						"id" => $taskStart[0]["id_task"],
+						"column" => "wo_start_project",
+						"value" => null
+					);
+					$this->general_model->updateRecord($arrParam);
+				}
+
+				$arrTask = array(
+					"idWorkOrder" => $idWorkOrder,
+					"idEmployee" => $log['old'][0]['fk_id_user'],
+					"column" => "wo_end_project"
+				);
+				$taskEnd = $this->general_model->get_task($arrTask);
+				if($taskEnd){
+					$arrParam = array(
+						"table" => "task",
+						"primaryKey" => "id_task",
+						"id" => $taskEnd[0]["id_task"],
+						"column" => "wo_end_project",
+						"value" => null
+					);
+					$this->general_model->updateRecord($arrParam);
+				}
+			}
 			//elimino de la tabla expenses
 			$arrExpenses = array(
 				"fk_id_workorder" => $idWorkOrder,

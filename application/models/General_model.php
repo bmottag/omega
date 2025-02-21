@@ -60,6 +60,9 @@ class General_model extends CI_Model
 		if (array_key_exists("fecha", $arrData)) {
 			$this->db->like('T.start', $arrData["fecha"]);
 		}
+		if (array_key_exists("idWorkOrder", $arrData)) {
+			$this->db->where($arrData["column"], $arrData["idWorkOrder"]);
+		}
 
 		$this->db->order_by('id_task', 'desc');
 
