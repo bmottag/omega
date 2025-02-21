@@ -787,7 +787,7 @@ class Dashboard extends CI_Controller
 		$flagTime = $this->input->post("time");
 		if($flagTime == 'start'){
 			$column = 'wo_start_project';
-		}elseif($flagTime == 'start'){
+		}elseif($flagTime == 'end'){
 			$column = 'wo_end_project';
 		}else{
 			$column = 'bothColumns';

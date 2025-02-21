@@ -224,7 +224,15 @@
             </div>
 
             <?php
-                if (isset($payrollDanger) && $payrollDanger) {
+            if (isset($payrollDanger) && $payrollDanger) {
+                $countRows = 0;
+                foreach ($payrollDanger as $lista) {
+                    if ($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) {
+                        $countRows++;
+                    }
+                }
+                
+                if ($countRows > 0) {
             ?>
             <div class="panel panel-danger">
                 <div class="panel-heading">
@@ -252,7 +260,7 @@
     
                                     $hidden_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
                                     $hidden_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
-                                    $hidden_total = ($lista['wo_start_project'] != null && $lista['wo_end_project'] != null && $lista['fk_id_job'] != $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+                                    $hidden_total = (empty($lista['wo_start_project']) && empty($lista['wo_end_project']) && $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? '' : 'hidden';
                                     $hidden_edit = ($lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
 
                                     echo "<tr>";
@@ -282,7 +290,7 @@
                     </table>
                 </div>
             </div>
-            <?php   } ?>
+            <?php   }   } ?>
         </div>
     </div>
     <?php   } ?>
