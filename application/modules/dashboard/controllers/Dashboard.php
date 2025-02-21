@@ -615,6 +615,11 @@ class Dashboard extends CI_Controller
 			// Si la vista es una específica, obtener solo esa
 			$method = $viewsMapping[$view];
 			$data[$view] = $this->general_model->$method($arrParam);
+	
+			// Si es payrollInfo, agregar la consulta específica
+			if ($view === "payrollInfo") {
+				$data["payrollDanger"] = $this->general_model->get_task_in_danger($arrParam);
+			}
 		} else {
 			// Manejo de error si la vista no es válida
 			$data["error"] = "Vista no encontrada";
@@ -741,9 +746,12 @@ class Dashboard extends CI_Controller
 		if ($time == "start") {
 			$date = $data['task'][0]['start'];
 			$idJob = $data['task'][0]['fk_id_job'];
-		} else {
-			$date = $data['task'][0]['finish'];
+		}elseif ($time == "end") {
+			$date = $data['task'][0]['start'];
 			$idJob = $data['task'][0]['fk_id_job_finish'];
+		} else {
+			$date = $data['task'][0]['start'];
+			$idJob = $data['task'][0]['fk_id_job'];
 		}
 
 		$sql = "SELECT * FROM workorder WHERE date = DATE('$date') AND fk_id_job = $idJob";
@@ -776,24 +784,31 @@ class Dashboard extends CI_Controller
 		$data["woID"] = $this->input->post("woID");
 		$wo = $this->input->post("woID");
 
-		$column = ($this->input->post("time") == 'start') ? 'wo_start_project' : 'wo_end_project';
+		$flagTime = $this->input->post("time");
+		if($flagTime == 'start'){
+			$column = 'wo_start_project';
+		}elseif($flagTime == 'start'){
+			$column = 'wo_end_project';
+		}else{
+			$column = 'bothColumns';
+		}
 
 		$data["dashboardURL"] = $this->session->userdata("dashboardURL");
 
 		$arrParam = array(
-			"table" => "task",
-			"primaryKey" => "id_task",
 			"id" => $this->input->post("taskId"),
 			"column" => $column,
 			"value" => $this->input->post("woID")
 		);
-		if ($this->general_model->updateRecord($arrParam)) {
+		if ($this->general_model->updateWOTasks($arrParam)) {
 			$data["result"] = true;
 
 			if ($this->input->post("time") == 'start') {
 				$hours_project = $task[0]['hours_start_project'];
-			} else {
+			}elseif ($this->input->post("time") == 'end') {
 				$hours_project = $task[0]['hours_end_project'];
+			} else {
+				$hours_project = $task[0]['working_hours'];
 			}
 
 			$fk_id_user = $task[0]['fk_id_user'];

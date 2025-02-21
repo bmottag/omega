@@ -12,194 +12,247 @@
         </div>
     </div>
 
+    <?php
+        if (isset($planningInfo) && $planningInfo) {
+    ?>
     <div class="row">
         <div class="col-lg-12">
-            <?php
-                if (isset($planningInfo) && $planningInfo) {
-            ?>
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <i class="fa fa-list fa-fw"></i> <strong>PLANNING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
-                    </div>
-                    <div class="panel-body">
-
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
-                            <thead>
-                                <tr>
-                                    <th width='20%'>Job Code/Name</th>
-                                    <th width='60%'>Observation</th>
-                                    <th width='20%'>Message</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($planningInfo as $lista) :
-                                    echo "<tr>";
-                                    echo "<td>" . $lista['job_description'] . "</td>";
-                                    echo "<td>" . $lista['observation'] . "</td>";
-                                    echo "<td>";
-
-                                    //Buscar lista de trabajadores para esta programacion
-                                    $ci = &get_instance();
-                                    $ci->load->model("general_model");
-
-                                    $arrParam = array("idProgramming" => $lista['id_programming']);
-                                    $informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
-
-                                    $mensaje = "";
-                                    if ($informationWorker) {
-                                        foreach ($informationWorker as $data) :
-
-                                            if ($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0) {
-                                                $parsed_data = json_decode($data['fk_id_machine'], true);
-
-                                                if ($parsed_data !== null && is_array($parsed_data)) {
-                                                    $id_values = implode(',', $parsed_data);
-                                                } else {
-                                                    $id_values = $data['fk_id_machine'];
-                                                }
-                                                $arrParam = array("idValues" => $id_values);
-                                                $informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
-                                            }
-
-                                            $mensaje .= $data['site'] == 1 ? "At the yard - " : "At the site - ";
-                                            $mensaje .= $data['hora'];
-
-                                            $mensaje .= "<br>" . $data['name'];
-                                            $mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
-                                            $mensaje .= ($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0) ? "<br>" . $informationEquipments["unit_description"] : "";
-
-                                            if ($data['safety'] == 1) {
-                                                $mensaje .= "<br>Do FLHA";
-                                            } elseif ($data['safety'] == 2) {
-                                                $mensaje .= "<br>Do Tool Box";
-                                            }
-                                            $mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
-                                        endforeach;
-                                    }
-
-                                    echo $mensaje;
-
-                                    echo "</td>";
-                                    echo "</tr>";
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <i class="fa fa-list fa-fw"></i> <strong>PLANNING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
-            <?php   } ?>
+                <div class="panel-body">
+
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
+                        <thead>
+                            <tr>
+                                <th width='20%'>Job Code/Name</th>
+                                <th width='60%'>Observation</th>
+                                <th width='20%'>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($planningInfo as $lista) :
+                                echo "<tr>";
+                                echo "<td>" . $lista['job_description'] . "</td>";
+                                echo "<td>" . $lista['observation'] . "</td>";
+                                echo "<td>";
+
+                                //Buscar lista de trabajadores para esta programacion
+                                $ci = &get_instance();
+                                $ci->load->model("general_model");
+
+                                $arrParam = array("idProgramming" => $lista['id_programming']);
+                                $informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
+
+                                $mensaje = "";
+                                if ($informationWorker) {
+                                    foreach ($informationWorker as $data) :
+
+                                        if ($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0) {
+                                            $parsed_data = json_decode($data['fk_id_machine'], true);
+
+                                            if ($parsed_data !== null && is_array($parsed_data)) {
+                                                $id_values = implode(',', $parsed_data);
+                                            } else {
+                                                $id_values = $data['fk_id_machine'];
+                                            }
+                                            $arrParam = array("idValues" => $id_values);
+                                            $informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
+                                        }
+
+                                        $mensaje .= $data['site'] == 1 ? "At the yard - " : "At the site - ";
+                                        $mensaje .= $data['hora'];
+
+                                        $mensaje .= "<br>" . $data['name'];
+                                        $mensaje .= $data['description'] ? "<br>" . $data['description'] : "";
+                                        $mensaje .= ($data['fk_id_machine'] != NULL && $data['fk_id_machine'] != 0) ? "<br>" . $informationEquipments["unit_description"] : "";
+
+                                        if ($data['safety'] == 1) {
+                                            $mensaje .= "<br>Do FLHA";
+                                        } elseif ($data['safety'] == 2) {
+                                            $mensaje .= "<br>Do Tool Box";
+                                        }
+                                        $mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
+                                    endforeach;
+                                }
+
+                                echo $mensaje;
+
+                                echo "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+    <?php   } ?>
 
+    <?php
+        if (isset($workOrderInfo) && $workOrderInfo) {
+    ?>
     <div class="row">
         <div class="col-lg-12">
-            <?php
-                if (isset($workOrderInfo) && $workOrderInfo) {
-            ?>
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
-                    </div>
-
-                    <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
-                            <thead>
-                                <tr>
-                                    <th width='10%' class='text-center'>Work Order #</th>
-                                    <th width='20%'>Job Code/Name</th>
-                                    <th width='15%'>Supervisor</th>
-                                    <th width='30%'>Task Description</th>
-                                    <th width='25%'>Last Message</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($workOrderInfo as $lista) :
-                                    switch ($lista['state']) {
-                                        case 0:
-                                            $valor = 'On Field';
-                                            $clase = "text-danger";
-                                            $icono = "fa-thumb-tack";
-                                            break;
-                                        case 1:
-                                            $valor = 'In Progress';
-                                            $clase = "text-warning";
-                                            $icono = "fa-refresh";
-                                            break;
-                                        case 2:
-                                            $valor = 'Revised';
-                                            $clase = "text-primary";
-                                            $icono = "fa-check";
-                                            break;
-                                        case 3:
-                                            $valor = 'Send to the Client';
-                                            $clase = "text-success";
-                                            $icono = "fa-envelope-o";
-                                            break;
-                                        case 4:
-                                            $valor = 'Closed';
-                                            $clase = "text-danger";
-                                            $icono = "fa-power-off";
-                                            break;
-                                        case 5:
-                                            $valor = 'Accounting';
-                                            $clase = "text-warning";
-                                            $icono = "fa-list-alt";
-                                            break;
-                                    }
-
-                                    echo "<tr>";
-                                    echo "<td class='text-center'>";
-                                    echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "' target='_blanck'>" . $lista['id_workorder'] . "</a>";
-                                    echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-                                    echo "<a href='" . base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) . "' target='_blanck'><img src='" . base_url_images('pdf.png') . "' ></a>";
-                                    echo '</td>';
-                                    echo "<td >" . $lista['job_description'] . "</td>";
-                                    echo '<td>' . $lista['name'] . '</td>';
-                                    echo "<td>" . $lista['observation'] . "</td>";
-                                    echo "<td>" . $lista['last_message'] . "</td>";
-                                    echo "</tr>";
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
-            <?php   } ?>
+
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
+                        <thead>
+                            <tr>
+                                <th width='10%' class='text-center'>Work Order #</th>
+                                <th width='20%'>Job Code/Name</th>
+                                <th width='15%'>Supervisor</th>
+                                <th width='30%'>Task Description</th>
+                                <th width='25%'>Last Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($workOrderInfo as $lista) :
+                                switch ($lista['state']) {
+                                    case 0:
+                                        $valor = 'On Field';
+                                        $clase = "text-danger";
+                                        $icono = "fa-thumb-tack";
+                                        break;
+                                    case 1:
+                                        $valor = 'In Progress';
+                                        $clase = "text-warning";
+                                        $icono = "fa-refresh";
+                                        break;
+                                    case 2:
+                                        $valor = 'Revised';
+                                        $clase = "text-primary";
+                                        $icono = "fa-check";
+                                        break;
+                                    case 3:
+                                        $valor = 'Send to the Client';
+                                        $clase = "text-success";
+                                        $icono = "fa-envelope-o";
+                                        break;
+                                    case 4:
+                                        $valor = 'Closed';
+                                        $clase = "text-danger";
+                                        $icono = "fa-power-off";
+                                        break;
+                                    case 5:
+                                        $valor = 'Accounting';
+                                        $clase = "text-warning";
+                                        $icono = "fa-list-alt";
+                                        break;
+                                }
+
+                                echo "<tr>";
+                                echo "<td class='text-center'>";
+                                echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "' target='_blanck'>" . $lista['id_workorder'] . "</a>";
+                                echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
+                                echo "<a href='" . base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) . "' target='_blanck'><img src='" . base_url_images('pdf.png') . "' ></a>";
+                                echo '</td>';
+                                echo "<td >" . $lista['job_description'] . "</td>";
+                                echo '<td>' . $lista['name'] . '</td>';
+                                echo "<td>" . $lista['observation'] . "</td>";
+                                echo "<td>" . $lista['last_message'] . "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+    <?php   } ?>
 
+    <?php
+        if (isset($payrollInfo) && $payrollInfo) {
+    ?>
     <div class="row">
         <div class="col-lg-12">
-            <?php
-                if (isset($payrollInfo) && $payrollInfo) {
-            ?>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
-                    </div>
-                    <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th width='6%'>Employee</th>
-                                    <th width='8%' class="text-center">Working Hours</th>
-                                    <th width='18%'>Job Code/Name - Start</th>
-                                    <th width='8%' class="text-center">Hours Worked at Project Start</th>
-                                    <th width='18%'>Job Code/Name - Finish</th>
-                                    <th width='8%' class="text-center">Hours Worked at Project Finish</th>
-                                    <th width='17%'>Task description</th>
-                                    <th width='17%'>Observation</th>
-                                    <th> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($payrollInfo as $lista) :   
-                                    $hidden_finished = ($lista['wo_end_project'] != null) ? 'hidden' : ' ';
-                                    $hidden_start = ($lista['wo_start_project'] != null) ? 'hidden' : ' ';
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th width='6%'>Employee</th>
+                                <th width='8%' class="text-center">Working Hours</th>
+                                <th width='18%'>Job Code/Name - Start</th>
+                                <th width='8%' class="text-center">Hours Worked at Project Start</th>
+                                <th width='18%'>Job Code/Name - Finish</th>
+                                <th width='8%' class="text-center">Hours Worked at Project Finish</th>
+                                <th width='17%'>Task description</th>
+                                <th width='17%'>Observation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($payrollInfo as $lista) :  
+                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"":$lista['working_hours_new'] . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
+                                $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " (Hours)";
+                                $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " (Hours)";
 
+                                echo "<tr>";
+                                echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
+                                echo "<td class='text-center'>";
+                                echo $workingHours;
+                                echo "</td>";
+                                echo "<td>" . $lista['job_start'] . "</td>";
+                                echo "<td class='text-center'>" . $hoursStart;
+                                echo $lista["wo_start_project"]?"<br><br>(W.O. # " . $lista["wo_start_project"] . ")":"";
+                                echo  "</td>";
+                                echo "<td>" . $lista['job_finish'] . "</td>";
+                                echo "<td class='text-center'>" . $hoursFinish;
+                                echo $lista["wo_end_project"]?"<br><br>(W.O. # " . $lista["wo_end_project"] . ")":"";
+                                echo  "</td>";
+                                echo "<td>" . $lista['task_description'] . "</td>";
+                                echo "<td>" . $lista['observation']  . "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <?php
+                if (isset($payrollDanger) && $payrollDanger) {
+            ?>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th width='10%'>Employee</th>
+                                <th width='12%' class="text-center">Working Hours</th>
+                                <th width='20%'>Job Code/Name - Start</th>
+                                <th width='12%' class="text-center">Hours Worked at Project Start</th>
+                                <th width='20%'>Job Code/Name - Finish</th>
+                                <th width='12%' class="text-center">Hours Worked at Project Finish</th>
+                                <th width='4%' > </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($payrollDanger as $lista) :   
+                                if($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) {
+                                    $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " (Hours)";
+                                    $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " (Hours)";
+    
+                                    $hidden_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+                                    $hidden_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+                                    $hidden_total = ($lista['wo_start_project'] != null && $lista['wo_end_project'] != null && $lista['fk_id_job'] != $lista['fk_id_job_finish']) ? 'hidden' : ' ';
                                     $hidden_edit = ($lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
 
                                     echo "<tr>";
@@ -208,168 +261,179 @@
                                     echo substr($lista['working_hours_new'], 0, -3) . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
                                     echo "</td>";
                                     echo "<td>" . $lista['job_start'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['hours_start_project'] . " (Hours)<br><br>";
+                                    echo "<td class='text-center'>" . $hoursStart . "<br><br>";
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign to a W.O.</button>";
                                     echo $lista["wo_start_project"]?"(W.O. # " . $lista["wo_start_project"] . ")":"";
                                     echo  "</td>";
                                     echo "<td>" . $lista['job_finish'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['hours_end_project'] . " (Hours)<br><br>";
+                                    echo "<td class='text-center'>" . $hoursFinish . "<br><br>";
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign to a W.O.</button>";
                                     echo $lista["wo_end_project"]?"(W.O. # " . $lista["wo_end_project"] . ")":"";
                                     echo  "</td>";
-                                    echo "<td>" . $lista['task_description'] . "</td>";
-                                    echo "<td>" . $lista['observation']  . "</td>";
                                     echo "<td class='text-right'>";
                                     echo "<button type='button' class='btn btn-info btn-xs " . $hidden_edit . "' data-toggle='modal' data-target='#modal' id='" . $lista['id_task'] . "'>Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></button>";
+                                    echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_total . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='total'>Assign to a W.O.</button>";
                                     echo "</td>";
-                                    echo "</tr>";
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                    echo "</tr>";                                    
+                                }
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
             <?php   } ?>
-
-            <?php
-                if (isset($haulingInfo) && $haulingInfo) {
-            ?>
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <i class="fa fa-truck fa-fw"></i> <strong>HAULING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
-                    </div>
-
-                    <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th class='text-center'>#</th>
-                                    <th class='text-center'>Report done by</th>
-                                    <th class='text-center'>Download</th>
-                                    <th class='text-center'>Hauling done by</th>
-                                    <th class='text-center'>Truck - Unit Number</th>
-                                    <th class='text-center'>Truck Type</th>
-                                    <th class='text-center'>Material Type</th>
-                                    <th class='text-center'>From Site</th>
-                                    <th class='text-center'>To Site</th>
-                                    <th class='text-center'>Payment</th>
-                                    <th class='text-center'>Time In</th>
-                                    <th class='text-center'>Time Out</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($haulingInfo as $lista) :
-                                    echo "<tr>";
-                                    echo "<td class='text-center'>" . $lista['id_hauling'] . "</td>";
-                                    echo "<td>" . $lista['name'] . "</td>";
-                                    echo "<td class='text-center'>";
-                                ?>
-                                    <a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling']); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
-                                <?php
-                                    echo "</td>";
-                                    echo "<td class='text-center'>" . $lista['company_name'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
-                                    echo "<td>" . $lista['truck_type'] . "</td>";
-                                    echo "<td >" . $lista['material'] . "</td>";
-                                    echo "<td >" . $lista['site_from'] . "</td>";
-                                    echo "<td >" . $lista['site_to'] . "</td>";
-                                    echo "<td >" . $lista['payment'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['time_in'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['time_out'] . "</td>";
-                                    echo "</tr>";
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            <?php   } ?>
-
-            <?php
-                if (isset($safetyInfo) && $safetyInfo) {
-            ?>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <i class="fa fa-life-saver fa-fw"></i> <strong>FLHA RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th class='text-center'>Job Code/Name</th>
-                                    <th class='text-center'>Meeting conducted by</th>
-                                    <th class='text-center'>Task(s) To Be Done</th>
-                                    <th class='text-center'>Download</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($safetyInfo as $lista) :
-                                    echo "<tr>";
-                                    echo "<td>" . $lista['job_description'] . "</td>";
-                                    echo "<td>" . $lista['name'] . "</td>";
-                                    echo "<td>" . $lista['work'] . "</td>";
-                                    echo "<td class='text-center'>";
-                                ?>
-                                    <a href='<?php echo base_url('report/generaSafetyPDF/x/x/x/' . $lista['id_safety']); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
-                                <?php
-                                    echo "</td>";
-                                    echo "</tr>";
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            <?php   } ?>
-
-            <?php
-                if (isset($toolBoxInfo) && $toolBoxInfo) {
-            ?>
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <i class="fa fa-cube fa-fw"></i> <strong>TOOL BOX RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
-                    </div>
-
-                    <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th class='text-center'>Job Code/Name</th>
-                                    <th class='text-center'>Reported by</th>
-                                    <th class='text-center'>Activities of the Day</th>
-                                    <th class='text-center'>Employee Suggestions</th>
-                                    <th class='text-center'>Download</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($toolBoxInfo as $lista) :
-                                    echo "<tr>";
-                                    echo "<td>" . $lista['job_description'] . "</td>";
-                                    echo "<td>" . $lista['name'] . "</td>";
-                                    echo "<td>" . $lista['activities'] . "</td>";
-                                    echo "<td>" . $lista['suggestions'] . "</td>";
-                                    echo "<td class='text-center'>";
-                                ?>
-                                    <a href='<?php echo base_url('jobs/generaTemplatePDF/' . $lista['id_tool_box']); ?>' target="_blank"><img src='<?php echo base_url_images('pdf.png'); ?>'></a>
-                                <?php
-                                    echo "</td>";
-                                    echo "</tr>";
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            <?php   } ?>
-
         </div>
     </div>
+    <?php   } ?>
+
+    <?php
+        if (isset($haulingInfo) && $haulingInfo) {
+    ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <i class="fa fa-truck fa-fw"></i> <strong>HAULING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th class='text-center'>#</th>
+                                <th class='text-center'>Report done by</th>
+                                <th class='text-center'>Download</th>
+                                <th class='text-center'>Hauling done by</th>
+                                <th class='text-center'>Truck - Unit Number</th>
+                                <th class='text-center'>Truck Type</th>
+                                <th class='text-center'>Material Type</th>
+                                <th class='text-center'>From Site</th>
+                                <th class='text-center'>To Site</th>
+                                <th class='text-center'>Payment</th>
+                                <th class='text-center'>Time In</th>
+                                <th class='text-center'>Time Out</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($haulingInfo as $lista) :
+                                echo "<tr>";
+                                echo "<td class='text-center'>" . $lista['id_hauling'] . "</td>";
+                                echo "<td>" . $lista['name'] . "</td>";
+                                echo "<td class='text-center'>";
+                            ?>
+                                <a href='<?php echo base_url('report/generaHaulingPDF/x/x/x/x/' . $lista['id_hauling']); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
+                            <?php
+                                echo "</td>";
+                                echo "<td class='text-center'>" . $lista['company_name'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['unit_number'] . "</td>";
+                                echo "<td>" . $lista['truck_type'] . "</td>";
+                                echo "<td >" . $lista['material'] . "</td>";
+                                echo "<td >" . $lista['site_from'] . "</td>";
+                                echo "<td >" . $lista['site_to'] . "</td>";
+                                echo "<td >" . $lista['payment'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['time_in'] . "</td>";
+                                echo "<td class='text-center'>" . $lista['time_out'] . "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php   } ?>
+
+    <?php
+        if (isset($safetyInfo) && $safetyInfo) {
+    ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <i class="fa fa-life-saver fa-fw"></i> <strong>FLHA RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+                <div class="panel-body">
+
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th class='text-center'>Job Code/Name</th>
+                                <th class='text-center'>Meeting conducted by</th>
+                                <th class='text-center'>Task(s) To Be Done</th>
+                                <th class='text-center'>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($safetyInfo as $lista) :
+                                echo "<tr>";
+                                echo "<td>" . $lista['job_description'] . "</td>";
+                                echo "<td>" . $lista['name'] . "</td>";
+                                echo "<td>" . $lista['work'] . "</td>";
+                                echo "<td class='text-center'>";
+                            ?>
+                                <a href='<?php echo base_url('report/generaSafetyPDF/x/x/x/' . $lista['id_safety']); ?>' target="_blank"> <img src='<?php echo base_url_images('pdf.png'); ?>'></a>
+                            <?php
+                                echo "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php   } ?>
+
+    <?php
+        if (isset($toolBoxInfo) && $toolBoxInfo) {
+    ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <i class="fa fa-cube fa-fw"></i> <strong>TOOL BOX RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th class='text-center'>Job Code/Name</th>
+                                <th class='text-center'>Reported by</th>
+                                <th class='text-center'>Activities of the Day</th>
+                                <th class='text-center'>Employee Suggestions</th>
+                                <th class='text-center'>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($toolBoxInfo as $lista) :
+                                echo "<tr>";
+                                echo "<td>" . $lista['job_description'] . "</td>";
+                                echo "<td>" . $lista['name'] . "</td>";
+                                echo "<td>" . $lista['activities'] . "</td>";
+                                echo "<td>" . $lista['suggestions'] . "</td>";
+                                echo "<td class='text-center'>";
+                            ?>
+                                <a href='<?php echo base_url('jobs/generaTemplatePDF/' . $lista['id_tool_box']); ?>' target="_blank"><img src='<?php echo base_url_images('pdf.png'); ?>'></a>
+                            <?php
+                                echo "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php   } ?>
 
 </div>
 

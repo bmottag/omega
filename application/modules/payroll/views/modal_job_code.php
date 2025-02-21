@@ -32,7 +32,7 @@
 			<div class="col-sm-4">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Worked hours: *</label>
-					<input id="hours_first_project" name="hours_first_project" class="form-control" type="number" min="0" placeholder="Hours" value="<?php echo $information["hours_start_project"]; ?>"  />
+					<input id="hours_first_project" name="hours_first_project" class="form-control" type="number" min="0" step="any" placeholder="Hours" value="<?php echo $information["hours_start_project"]; ?>"  />
 				</div>
 			</div>
 		</div>
@@ -58,7 +58,7 @@
 			<div class="col-sm-4">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Worked hours: *</label>
-					<input id="hours_last_project" name="hours_last_project" class="form-control" type="number" min="0" placeholder="Hours" value="<?php echo $information["hours_end_project"]; ?>"  />
+					<input id="hours_last_project" name="hours_last_project" class="form-control" type="number" min="0" step="any" placeholder="Hours" value="<?php echo $information["hours_end_project"]; ?>"  />
 				</div>
 			</div>
 		</div>
