@@ -709,9 +709,9 @@ class Payroll_model extends CI_Model
 		$idTask =  $this->input->post('hddIdentificador');
 
 		$data['fk_id_job'] = $this->input->post('jobName');
-		$data['hours_start_project'] = $this->input->post('start_hour') . '.' . $this->input->post('start_min');
+		$data['hours_start_project'] = $this->input->post('hours_first_project');
 		$data['fk_id_job_finish'] = $this->input->post('jobNameFinish');
-		$data['hours_end_project'] = $this->input->post('finish_hour') . '.' . $this->input->post('finish_min');
+		$data['hours_end_project'] = $this->input->post('hours_last_project');
 
 		$this->db->where('id_task', $idTask);
 		$query = $this->db->update('task', $data);

@@ -2,32 +2,20 @@
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">EDIT PAYROLL RECORDS HOURS</h4>
-	<p>Total Works Hours: <?php echo date("H:i", strtotime($information["working_hours_new"])); ?></p>
+	<h4 class="modal-title" id="exampleModalLabel">Edit Worked Hours for each Job Code</h4>
+	<p>Total Worked Hours: <b><?php echo $information["working_hours"] . " Hours"; ?></b></p>
 </div>
 
 <div class="modal-body">
 	<form name="formWorker" id="formWorker" role="form" method="post">
 		<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information["id_task"]; ?>" />
-		<input type="hidden" id="workHours" name="workHours" value="<?php echo $information["working_hours_new"]; ?>" />
+		<input type="hidden" id="workedHours" name="workedHours" value="<?php echo $information["working_hours"]; ?>" />
 
-		<?php
-		$inicio = $information['start'];
-		$fechaInicio = substr($inicio, 0, 10);
-		$horaInicio = $hours_start['horas'];
-		$minutosInicio = $hours_start['minutos'];
-
-		$fin = $information['finish'];
-		$fechaFin = substr($fin, 0, 10);
-		$horaFin = $hours_end['horas'];
-		$minutosFin = $hours_end['minutos'];
-
-		?>
 		<div class="row">
-			<div class="col-sm-4">
+			<div class="col-sm-8">
 				<div class="form-group text-left">
-					<label class="control-label" for="jobName">Job Code/Name - Start</label>
-					<select name="jobName" id="jobName" class="form-control js-example-basic-single">
+					<label class="control-label" for="jobName">Job Code/Name - Start: *  <?php echo $information["wo_start_project"]?"(W.O. # " . $information["wo_start_project"] . ")":"";  ?></label>
+					<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $information["wo_start_project"]?"disabled":"";  ?> >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 							<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information["fk_id_job"] == $jobs[$i]["id_job"]) {
@@ -35,54 +23,25 @@
 																				}  ?>><?php echo $jobs[$i]["job_description"]; ?></option>
 						<?php } ?>
 					</select>
+					<?php if ($information["wo_start_project"]) { ?>
+						<input type="hidden" name="jobName" value="<?php echo $information["fk_id_job"]; ?>">
+					<?php } ?>
 				</div>
 			</div>
 
 			<div class="col-sm-4">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Start hour: *</label>
-					<select name="start_hour" id="start_hour" class="form-control" required>
-						<option value=''>Select...</option>
-						<?php
-						for ($i = 0; $i < 24; $i++) {
-
-							$i = $i < 10 ? "0" . $i : $i;
-						?>
-							<option value='<?php echo $i; ?>' <?php
-																if ($information && $i == $horaInicio) {
-																	echo 'selected="selected"';
-																}
-																?>><?php echo $i; ?></option>
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-
-			<div class="col-sm-4">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Start minutes: *</label>
-					<select name="start_min" id="start_min" class="form-control" required>
-						<?php
-						for ($xxx = 0; $xxx < 60; $xxx++) {
-
-							$xxx = $xxx < 10 ? "0" . $xxx : $xxx;
-						?>
-							<option value='<?php echo $xxx; ?>' <?php
-																if ($information && $xxx == $minutosInicio) {
-																	echo 'selected="selected"';
-																}
-																?>><?php echo $xxx; ?></option>
-						<?php } ?>
-					</select>
+					<label for="type" class="control-label">Worked hours: *</label>
+					<input id="hours_first_project" name="hours_first_project" class="form-control" type="number" min="0" placeholder="Hours" value="<?php echo $information["hours_start_project"]; ?>"  />
 				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-sm-4">
+			<div class="col-sm-8">
 				<div class="form-group text-left">
-					<label class="control-label" for="jobNameFinish">Job Code/Name - End</label>
-					<select name="jobNameFinish" id="jobNameFinish" class="form-control js-example-basic-single">
+					<label class="control-label" for="jobNameFinish">Job Code/Name - Finish: *    <?php echo $information["wo_end_project"]?"(W.O. # " . $information["wo_end_project"] . ")":"";  ?></label>
+					<select name="jobNameFinish" id="jobNameFinish" class="form-control js-example-basic-single" <?php echo $information["wo_end_project"]?"disabled":"";  ?>>
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 							<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information["fk_id_job_finish"] == $jobs[$i]["id_job"]) {
@@ -90,45 +49,16 @@
 																				}  ?>><?php echo $jobs[$i]["job_description"]; ?></option>
 						<?php } ?>
 					</select>
+					<?php if ($information["wo_end_project"]) { ?>
+						<input type="hidden" name="jobName" value="<?php echo $information["fk_id_job_finish"]; ?>">
+					<?php } ?>
 				</div>
 			</div>
 
 			<div class="col-sm-4">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Finish hour: *</label>
-					<select name="finish_hour" id="finish_hour" class="form-control" required>
-						<option value=''>Select...</option>
-						<?php
-						for ($i = 0; $i < 24; $i++) {
-
-							$i = $i < 10 ? "0" . $i : $i;
-						?>
-							<option value='<?php echo $i; ?>' <?php
-																if ($information && $i == $horaFin) {
-																	echo 'selected="selected"';
-																}
-																?>><?php echo $i; ?></option>
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-
-			<div class="col-sm-4">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Finish minutes: *</label>
-					<select name="finish_min" id="finish_min" class="form-control" required>
-						<?php
-						for ($xxx = 0; $xxx < 60; $xxx++) {
-
-							$xxx = $xxx < 10 ? "0" . $xxx : $xxx;
-						?>
-							<option value='<?php echo $xxx; ?>' <?php
-																if ($information && $xxx == $minutosFin) {
-																	echo 'selected="selected"';
-																}
-																?>><?php echo $xxx; ?></option>
-						<?php } ?>
-					</select>
+					<label for="type" class="control-label">Worked hours: *</label>
+					<input id="hours_last_project" name="hours_last_project" class="form-control" type="number" min="0" placeholder="Hours" value="<?php echo $information["hours_end_project"]; ?>"  />
 				</div>
 			</div>
 		</div>

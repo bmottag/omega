@@ -208,13 +208,15 @@
                                     echo substr($lista['working_hours_new'], 0, -3) . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
                                     echo "</td>";
                                     echo "<td>" . $lista['job_start'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['hours_start_project'] . " (Hours)<br><br>
-                                    <button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign WO</button>
-                                     </td>";
+                                    echo "<td class='text-center'>" . $lista['hours_start_project'] . " (Hours)<br><br>";
+                                    echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign to a W.O.</button>";
+                                    echo $lista["wo_start_project"]?"(W.O. # " . $lista["wo_start_project"] . ")":"";
+                                    echo  "</td>";
                                     echo "<td>" . $lista['job_finish'] . "</td>";
-                                    echo "<td class='text-center'>" . $lista['hours_end_project'] . " (Hours)<br><br>
-                                    <button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign WO</button>
-                                    </td>";
+                                    echo "<td class='text-center'>" . $lista['hours_end_project'] . " (Hours)<br><br>";
+                                    echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign to a W.O.</button>";
+                                    echo $lista["wo_end_project"]?"(W.O. # " . $lista["wo_end_project"] . ")":"";
+                                    echo  "</td>";
                                     echo "<td>" . $lista['task_description'] . "</td>";
                                     echo "<td>" . $lista['observation']  . "</td>";
                                     echo "<td class='text-right'>";
@@ -377,16 +379,17 @@
         <div class="modal-content" id="tablaDatos">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">ADD WORKER</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Assign hours to a Work Order</h4>
             </div>
             <div class="modal-body">
                 <h5 id="modalMessage"></h5> <!-- Mensaje que se mostrará -->
                 <p id="time" hidden></p>
                 <p id="taskId" hidden></p>
+                <p id="workorderID" hidden></p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnModalAssign" class="btn btn-primary">Asignar</button> <!-- Botón para asignar -->
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnModalAssign" class="btn btn-primary">Assign</button> <!-- Botón para asignar -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -431,12 +434,13 @@
             success: function(response) {
 
                 if (response) {
-                    $('#modalMessage').text('Asignar las horas a la WO ' + response.id_workorder);
+                    $('#modalMessage').text('Assign hours to the W.O. #: ' + response.id_workorder);
                     $('#time').text(time);
                     $('#taskId').text(taskId);
+                    $('#workorderID').text(response.id_workorder);
                     $('#btnModalAssign').show();
                 } else {
-                    $('#modalMessage').text('Sin WO para la fecha');
+                    $('#modalMessage').text("There is no W.O. for the date the employee worked and the Job Code used.");
                     $('#btnModalAssign').hide();
                 }
                 $('#modalWorker').modal('show');
@@ -450,7 +454,7 @@
     // Manejo del botón "Asignar"
     $('#btnModalAssign').click(function() {
         var messageText = $('#modalMessage').text();
-        var woID = messageText.split('WO ')[1];
+        var woID = $('#workorderID').text();
         var timeText = $('#time').text();
         var taskId = $('#taskId').text();
 
