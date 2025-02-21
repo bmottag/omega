@@ -2,44 +2,28 @@ $( document ).ready( function () {
 
 	jQuery.validator.addMethod("validacion", function(value, element, param) {
 		// Obtener los valores de los campos necesarios
-		var start_hour = parseInt($('#start_hour').val(), 10);
-		var start_min = parseInt($('#start_min').val(), 10);
-		var finish_hour = parseInt($('#finish_hour').val(), 10);
-		var finish_min = parseInt($('#finish_min').val(), 10);
-		var working_hours_new = parseInt($('#workHours').val(), 10);
-
-		// Convertir todo a minutos para facilitar la suma y comparación
-		let start_minutes = start_hour * 60 + start_min;
-		let finish_minutes = finish_hour * 60 + finish_min;
-		let work_hours_minutes = working_hours_new * 60;
+		var hours_first_project = parseFloat($('#hours_first_project').val()) || 0;
+		var hours_last_project = parseFloat($('#hours_last_project').val()) || 0;
+		var workedHours = parseFloat($('#workedHours').val()) || 0;
 
 		// Calcular el tiempo trabajado en minutos
-		let tiempo_trabajado = finish_minutes - start_minutes;
+		let tiempo_trabajado = hours_first_project + hours_last_project;
 
-		// Asegurarse de que el tiempo trabajado sea positivo
-		if (tiempo_trabajado < 0) {
-			tiempo_trabajado += 24 * 60; // Asumiendo que el trabajo no excede las 24 horas
-		}
+		console.log(tiempo_trabajado);
+		console.log(workedHours);
 
-		// Validar si el tiempo trabajado excede las horas de trabajo permitidas
-		if (tiempo_trabajado > work_hours_minutes) {
-			console.log('¡Alerta! El tiempo trabajado excede las horas permitidas.');
-			return false; // La validación falla si se exceden las horas permitidas
-		} else {
-			console.log('Tiempo trabajado dentro del límite permitido.');
-			return true; // La validación pasa si no se exceden las horas permitidas
-		}
-	}, "Time worked cannot exceed the hours allowed.");
+		return workedHours === tiempo_trabajado;
+	}, function(params, element) {
+		var workedHours = $('#workedHours').val() || 0;
+		return "The total sum of hours must be equal to " + workedHours + " hours";
+	});
 
 	$( "#formWorker" ).validate( {
 		rules: {
 			jobName:	 			{ required: true },
-			start_hour:	 			{ required: true, validacion: true },
-			start_min:	 			{ required: true, validacion: true },
+			hours_first_project:	{ required: true, validacion: true },
 			jobNameFinish:	 		{ required: true },
-			finish_hour:	 		{ required: true, validacion: true },
-			finish_min:			    { required: true, validacion: true},
-			finish_hour:	 		{ required: true, validacion: true },
+			hours_last_project:	 	{ required: true, validacion: true },
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

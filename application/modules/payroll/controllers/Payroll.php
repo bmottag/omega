@@ -868,8 +868,6 @@ class Payroll extends CI_Controller
 	{
 		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
-		$data['information'] = FALSE;
-
 		//job list
 		$this->load->model("general_model");
 		$arrParam = array(

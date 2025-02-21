@@ -60,6 +60,9 @@ class General_model extends CI_Model
 		if (array_key_exists("fecha", $arrData)) {
 			$this->db->like('T.start', $arrData["fecha"]);
 		}
+		if (array_key_exists("idWorkOrder", $arrData)) {
+			$this->db->where($arrData["column"], $arrData["idWorkOrder"]);
+		}
 
 		$this->db->order_by('id_task', 'desc');
 
@@ -2476,5 +2479,46 @@ class General_model extends CI_Model
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Task list, to check with WO
+	 * Modules: Dashboard - Payroll
+	 * @since 21/02/2025
+	 */
+	public function get_task_in_danger($arrData)
+	{
+		$this->db->select('T.*, id_user, first_name, last_name, log_user, J.job_description job_start, H.job_description job_finish, O.task');
+		$this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
+		$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
+		$this->db->join('param_jobs H', 'H.id_job = T.fk_id_job_finish', 'LEFT');
+		$this->db->join('param_operation O', 'O.id_operation = T.fk_id_operation', 'INNER');
+
+		$this->db->where('T.finish !=', "0000-00-00 00:00:00");
+		if (array_key_exists("fecha", $arrData)) {
+			$this->db->like('T.start', $arrData["fecha"]);
+		}
+		$this->db->order_by('id_task', 'desc');
+		$query = $this->db->get('task T');
+
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Update fields WO in the task table
+	 * @since 21/01/2025
+	 */
+	public function updateWOTasks($arrDatos)
+	{
+		$data = ($arrDatos["column"] === "bothColumns") ? 
+			["wo_start_project" => $arrDatos["value"], "wo_end_project" => $arrDatos["value"]] : 
+			[$arrDatos["column"] => $arrDatos["value"]];
+
+		return $this->db->where("id_task", $arrDatos["id"])->update("task", $data);
 	}
 }

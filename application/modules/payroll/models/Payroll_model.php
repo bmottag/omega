@@ -191,10 +191,8 @@ class Payroll_model extends CI_Model
 			$id_workorder = null;
 			if ($queryProgramming->row_array()) {
 				$result = $queryProgramming->row_array();
-				$fk_id_job = $result['fk_id_job'];
-				$job_programming = $fk_id_job;
-				$fk_id_workorder = $result['fk_id_workorder'];
-				$id_workorder = $fk_id_workorder;
+				$job_programming = $result['fk_id_job'];
+				$id_workorder = $result['fk_id_workorder'];
 			}
 
 			$idJob =  $this->input->post('jobName');
@@ -209,6 +207,14 @@ class Payroll_model extends CI_Model
 					$this->db->where('fk_id_workorder  ', $id_workorder);
 					$this->db->where('fk_id_user  ', $idUser);
 					$query = $this->db->update('workorder_personal', $data);
+
+					//update TASK with wo
+					$data = array(
+						'wo_start_project' => $id_workorder,
+						'wo_end_project' => $id_workorder,
+					);
+					$this->db->where('id_task  ', $idTask);
+					$query = $this->db->update('task', $data);
 				}
 			} else {
 				$data = array(
@@ -217,6 +223,13 @@ class Payroll_model extends CI_Model
 				$this->db->where('fk_id_workorder  ', $id_workorder);
 				$this->db->where('fk_id_user  ', $idUser);
 				$query = $this->db->update('workorder_personal', $data);
+
+				//update TASK with wo
+				$data = array(
+					'wo_start_project' => $id_workorder,
+				);
+				$this->db->where('id_task  ', $idTask);
+				$query = $this->db->update('task', $data);
 			}
 		}
 
@@ -709,9 +722,9 @@ class Payroll_model extends CI_Model
 		$idTask =  $this->input->post('hddIdentificador');
 
 		$data['fk_id_job'] = $this->input->post('jobName');
-		$data['hours_start_project'] = $this->input->post('start_hour') . '.' . $this->input->post('start_min');
+		$data['hours_start_project'] = $this->input->post('hours_first_project');
 		$data['fk_id_job_finish'] = $this->input->post('jobNameFinish');
-		$data['hours_end_project'] = $this->input->post('finish_hour') . '.' . $this->input->post('finish_min');
+		$data['hours_end_project'] = $this->input->post('hours_last_project');
 
 		$this->db->where('id_task', $idTask);
 		$query = $this->db->update('task', $data);
