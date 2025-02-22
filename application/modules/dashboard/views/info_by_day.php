@@ -207,11 +207,11 @@
                                 echo "</td>";
                                 echo "<td>" . $lista['job_start'] . "</td>";
                                 echo "<td class='text-center'>" . $hoursStart;
-                                echo $lista["wo_start_project"]?"<br><br>(W.O. # " . $lista["wo_start_project"] . ")":"";
+                                echo $lista["wo_start_project"]?"<br><br><a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_start_project']) . "'>(W.O. # " . $lista['wo_start_project'] . ")</a>":"";
                                 echo  "</td>";
                                 echo "<td>" . $lista['job_finish'] . "</td>";
                                 echo "<td class='text-center'>" . $hoursFinish;
-                                echo $lista["wo_end_project"]?"<br><br>(W.O. # " . $lista["wo_end_project"] . ")":"";
+                                echo $lista["wo_end_project"]?"<br><br><a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_end_project']) . "'>(W.O. # " . $lista['wo_end_project'] . ")</a>":"";
                                 echo  "</td>";
                                 echo "<td>" . $lista['task_description'] . "</td>";
                                 echo "<td>" . $lista['observation']  . "</td>";
@@ -227,7 +227,8 @@
             if (isset($payrollDanger) && $payrollDanger) {
                 $countRows = 0;
                 foreach ($payrollDanger as $lista) {
-                    if ($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) {
+                    $sumHours = $lista['hours_start_project'] + $lista['hours_end_project'];
+                    if (($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) || $lista['working_hours'] != $sumHours) {
                         $countRows++;
                     }
                 }
@@ -236,25 +237,26 @@
             ?>
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Orders.
+                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Orders or need to check the sum of hours.
                 </div>
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                         <thead>
                             <tr>
-                                <th width='10%'>Employee</th>
-                                <th width='12%' class="text-center">Working Hours</th>
-                                <th width='20%'>Job Code/Name - Start</th>
-                                <th width='12%' class="text-center">Hours Worked at Project Start</th>
-                                <th width='20%'>Job Code/Name - Finish</th>
-                                <th width='12%' class="text-center">Hours Worked at Project Finish</th>
-                                <th width='4%' > </th>
+                                <th width='6%'>Employee</th>
+                                <th width='8%' class="text-center">Working Hours</th>
+                                <th width='18%'>Job Code/Name - Start</th>
+                                <th width='8%' class="text-center">Hours Worked at Project Start</th>
+                                <th width='18%'>Job Code/Name - Finish</th>
+                                <th width='8%' class="text-center">Hours Worked at Project Finish</th>
+                                <th width='34%' > </th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($payrollDanger as $lista) :   
-                                if($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) {
+                            foreach ($payrollDanger as $lista) :
+                                $sumHours = $lista['hours_start_project'] + $lista['hours_end_project'];
+                                if (($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) || $lista['working_hours'] != $sumHours) {
                                     $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " (Hours)";
                                     $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " (Hours)";
     
@@ -275,16 +277,25 @@
                                     echo "<td>" . $lista['job_start'] . "</td>";
                                     echo "<td class='text-center'>" . $text_start;
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "'  data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='start'>Assign to a W.O.</button>";
-                                    echo $lista["wo_start_project"]?"(W.O. # " . $lista["wo_start_project"] . ")":"";
+                                    echo $lista["wo_start_project"]?"<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_start_project']) . "'>(W.O. # " . $lista['wo_start_project'] . ")</a>":"";
                                     echo  "</td>";
                                     echo "<td>" . $lista['job_finish'] . "</td>";
                                     echo "<td class='text-center'>" . $text_finished;
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='end'>Assign to a W.O.</button>";
-                                    echo $lista["wo_end_project"]?"(W.O. # " . $lista["wo_end_project"] . ")":"";
+                                    echo $lista["wo_end_project"]?"<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_end_project']) . "'>(W.O. # " . $lista['wo_end_project'] . ")</a>":"";
                                     echo  "</td>";
-                                    echo "<td class='text-right'>";
+                                    echo "<td>";
                                     echo "<button type='button' class='btn btn-info btn-xs " . $hidden_edit . "' data-toggle='modal' data-target='#modal' id='" . $lista['id_task'] . "'>Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></button>";
                                     echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_total . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='total'>Assign to a W.O.</button>";
+                                    if ($lista['working_hours'] != $sumHours) {
+                                        echo "<br><br><p class='text-danger'><b>These hours were changed from the Work Order, but the sum is not equal to the Working Hours.</b></p>";
+                                    }
+                                    if ($lista['wo_start_project'] == null) {
+                                        echo "<br><br><p class='text-danger'><b>Hours worked at project start have not been assigned to a Work Order.</b></p>";
+                                    }
+                                    if ($lista['wo_end_project'] == null) {
+                                        echo "<br><br><p class='text-danger'><b>Hours worked at project finish have not been assigned to a Work Order.</b></p>";
+                                    }
                                     echo "</td>";
                                     echo "</tr>";                                    
                                 }

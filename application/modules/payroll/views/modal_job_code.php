@@ -50,7 +50,7 @@
 						<?php } ?>
 					</select>
 					<?php if ($information["wo_end_project"]) { ?>
-						<input type="hidden" name="jobName" value="<?php echo $information["fk_id_job_finish"]; ?>">
+						<input type="hidden" name="jobNameFinish" value="<?php echo $information["fk_id_job_finish"]; ?>">
 					<?php } ?>
 				</div>
 			</div>
