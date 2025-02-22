@@ -560,6 +560,43 @@ class Workorders_model extends CI_Model
 				$type = $this->input->post('type_personal');
 				$data['fk_id_employee_type'] = $type;
 				$data['hours'] = $hours;
+
+				//actualizar las horas de la tabla task si tiene relacion con esta WO
+				if($log['old'][0]['hours'] != $hours){
+					$arrTask = array(
+						"idWorkOrder" => $idWorkorder,
+						"idEmployee" => $log['old'][0]['fk_id_user'],
+						"column" => "wo_start_project"
+					);
+					$taskStart = $this->general_model->get_task($arrTask);
+					if($taskStart){
+						$arrParam = array(
+							"table" => "task",
+							"primaryKey" => "id_task",
+							"id" => $taskStart[0]["id_task"],
+							"column" => "hours_start_project",
+							"value" => $hours
+						);
+						$this->general_model->updateRecord($arrParam);
+					}
+
+					$arrTask = array(
+						"idWorkOrder" => $idWorkorder,
+						"idEmployee" => $log['old'][0]['fk_id_user'],
+						"column" => "wo_end_project"
+					);
+					$taskEnd = $this->general_model->get_task($arrTask);
+					if($taskEnd){
+						$arrParam = array(
+							"table" => "task",
+							"primaryKey" => "id_task",
+							"id" => $taskEnd[0]["id_task"],
+							"column" => "hours_end_project",
+							"value" => $hours
+						);
+						$this->general_model->updateRecord($arrParam);
+					}
+				}
 				break;
 			case "materials":
 				$markup = $this->input->post('markup');
