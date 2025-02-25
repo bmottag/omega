@@ -1,8 +1,8 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report/hours.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report/hours_V2.js"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">EDIT WORKER HOURS</h4>
+	<h4 class="modal-title" id="exampleModalLabel">Edit Payroll Employee Hours</h4>
 </div>
 
 <div class="modal-body">
@@ -155,7 +155,7 @@ $minutosFin = substr($fin, 14, 2);
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="observation">Observation: *</label>
-					<textarea id="observation" name="observation" class="form-control" rows="1"></textarea>
+					<textarea id="observation" name="observation" class="form-control" rows="3"></textarea>
 				</div>
 			</div>
 		</div>

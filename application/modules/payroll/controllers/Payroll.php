@@ -107,8 +107,8 @@ class Payroll extends CI_Controller
 	 */
 	public function updatePayroll()
 	{
-		$idTask =  $this->input->post('hddIdentificador');
-		$start =  $this->input->post('hddStart');
+		$idTask = $this->input->post('hddIdentificador');
+		$start = $this->input->post('hddStart');
 		$fechaStart = strtotime($start);
 		$fechaStart = date("Y-m-d", $fechaStart);
 		$fechaActual = date("Y-m-d");
@@ -240,6 +240,7 @@ class Payroll extends CI_Controller
 		$fechaAnterior = $this->input->post('hddfechaInicio');
 		$fechaStart = $this->input->post('start_date');
 		$data["idRecord"] = $idTask;
+		$data["datePayroll"] = $fechaStart;
 
 		if ($this->payroll_model->savePayrollHour()) {
 			$data["result"] = true;

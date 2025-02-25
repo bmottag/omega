@@ -13,6 +13,8 @@
     </div>
 
     <?php
+        $ci = &get_instance();
+        $ci->load->model("general_model");
         if (isset($planningInfo) && $planningInfo) {
     ?>
     <div class="row">
@@ -40,9 +42,6 @@
                                 echo "<td>";
 
                                 //Buscar lista de trabajadores para esta programacion
-                                $ci = &get_instance();
-                                $ci->load->model("general_model");
-
                                 $arrParam = array("idProgramming" => $lista['id_programming']);
                                 $informationWorker = $this->general_model->get_programming_workers($arrParam); //info trabajadores
 
@@ -179,6 +178,8 @@
                 <div class="panel-heading">
                     <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
+
+                <!--
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                         <thead>
@@ -196,9 +197,9 @@
                         <tbody>
                             <?php
                             foreach ($payrollInfo as $lista) :  
-                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"":$lista['working_hours_new'] . " (HH:MM)</br>" . $lista['working_hours'] . " (Hours)";
-                                $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " (Hours)";
-                                $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " (Hours)";
+                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"":$lista['working_hours_new'] . " (HH:MM)</br>" . $lista['working_hours'] . " hours";
+                                $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " hours";
+                                $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " hours";
 
                                 echo "<tr>";
                                 echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
@@ -221,6 +222,135 @@
                         </tbody>
                     </table>
                 </div>
+                -->
+
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th width='8%'>Employee</th>
+                                <th width='8%' class="text-center">Hours Worked at Project Start</th>
+                                <th width='8%' class="text-center">Hours Worked at Project Finish</th>
+                                <th width='8%' class="text-center">Payroll Working Hours</th>
+
+                                <?php 
+                                    if (isset($workOrderCheck) && $workOrderCheck) {
+                                        foreach ($workOrderCheck as $wo) : 
+                                ?>
+                                        <th width='7%' class='text-center'><?php echo "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $wo['id_workorder']) . "'>W.O. # " . $wo['id_workorder'] . "</a>"; ?></th>
+                                <?php 
+                                        endforeach; 
+                                    }
+                                ?>
+                                <th width='8%' class='text-center'>Total W.O. Hours</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($payrollInfo as $lista) :
+                                $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0) ? "" : $lista['hours_start_project'] . " hours";
+                                $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0) ? "" : $lista['hours_end_project'] . " hours";
+
+                                $hidden_start = 'hidden';//($lista['finish'] == "0000-00-00 00:00:00" || ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish'])) ? 'hidden' : ' ';
+                                $hidden_finished = 'hidden';//($lista['finish'] == "0000-00-00 00:00:00" || ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish'])) ? 'hidden' : ' ';
+                                $hidden_total = 'hidden';//(empty($lista['wo_start_project']) && empty($lista['wo_end_project']) && $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? '' : 'hidden';
+
+                                $hidden_edit = 'hidden';//($lista['finish'] == "0000-00-00 00:00:00" || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
+
+                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"":$lista['working_hours'] . " hours";
+
+                                $hours_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) 
+                                    ? "<p>" . $hoursStart . "</p>" 
+                                    : "<p class='text-danger'><b>" . $hoursStart . "</b></p>";
+
+                                $hours_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) 
+                                    ? "<p>" . $hoursFinish . "</p>" 
+                                    : "<p class='text-danger'><b>" . $hoursFinish . "</b></p>";
+
+
+                                $text_start = ($lista['finish'] != "0000-00-00 00:00:00" && $lista['fk_id_job'] != $lista['fk_id_job_finish']) 
+                                    ? "<p class='text-danger'><b>Job Code/Name: " . $lista['job_start'] . "</b></p>" 
+                                    : "";
+
+                                $text_finished = ($lista['finish'] != "0000-00-00 00:00:00" && $lista['fk_id_job'] != $lista['fk_id_job_finish']) 
+                                    ? "<p class='text-danger'>Job Code/Name: " . $lista['job_finish'] . "</b></p>"
+                                    : "";
+                                
+                                $textSameJob = $lista['fk_id_job'] == $lista['fk_id_job_finish'] 
+                                    ? "<br><br><p><b>Job Code/Name: " . $lista['job_start'] . "</b></p>"
+                                    :' ';
+
+                                echo "<tr>";
+                                echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
+                                echo "<td class='text-center'>" . $hours_start . $text_start;
+                                echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . "' time='start'>Assign to a W.O.</button>";
+                                echo $lista["wo_start_project"] ? "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_start_project']) . "'>(W.O. # " . $lista['wo_start_project'] . ")</a>" : "";
+                                echo "</td>";
+
+                                echo "<td class='text-center'>" . $hours_finished . $text_finished;
+                                echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . "' time='end'>Assign to a W.O.</button>";
+                                echo $lista["wo_end_project"] ? "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_end_project']) . "'>(W.O. # " . $lista['wo_end_project'] . ")</a>" : "";
+                                echo "</td>";
+
+                                echo "<td class='text-center'>" . $workingHours . $textSameJob . "</td>";
+
+                                // Ahora recorremos todas las órdenes de trabajo y verificamos si el usuario tiene horas en esa WO
+                                if (isset($workOrderCheck) && $workOrderCheck) {
+                                    $sumWorkorders = 0;
+                                    foreach ($workOrderCheck as $wo) {
+                                        // Verificamos si el empleado tiene horas en esta W.O.
+                                        $arrParamCheck = array("idWorkorder" => $wo['id_workorder'], "idUser" => $lista['fk_id_user']);
+                                        $hoursPersonalWorked = $this->general_model->countHoursPersonal($arrParamCheck);
+                                        $hoursEquipmentWorked = $this->general_model->countHoursEquipmentPersonal($arrParamCheck);
+
+                                        $hoursWorked = $hoursPersonalWorked + $hoursEquipmentWorked;
+
+                                        echo "<td class='text-center'>";
+                                        echo $hoursWorked > 0 ? $hoursWorked . " hours" : "-";
+                                        echo "</td>";
+                                        $sumWorkorders += $hoursWorked;
+                                    }
+                                }
+                                echo "<th class='text-center'>";
+                                
+                                echo "<p>" . $sumWorkorders . " hours</p>";
+                                echo "<button type='button' class='btn btn-info btn-xs job_hours_modal " . $hidden_edit . "' data-toggle='modal' data-target='#modal' id='" . $lista['id_task'] . "'>Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></button>";
+                                if($sumWorkorders != $workingHours){
+                                    echo "<button type='button' class='btn btn-danger btn-xs " . $hidden_total . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='total'>Assign to a W.O.</button><br><br>";
+                                }
+                                
+
+                                /**
+                                 * Opcion de editar horas para  SUPER ADMIN
+                                 */
+                                $userRol = $this->session->rol;
+                                if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ACCOUNTING) {
+                                    //si no se ahn pagado entonces se pueden editar
+                                    if ($lista['period_status'] == 1) {
+                            ?>
+                                        <button type="button" class="btn btn-info btn-xs general_hours_modal" data-toggle="modal" data-target="#modalHoursGeneral" id="<?php echo $lista['id_task']; ?>">
+                                            Edit Hours <span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                        </button>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <div class="alert alert-danger">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> These hours have already been paid, they cannot be edited.
+                                        </div>
+                            <?php
+                                    }
+                                }
+
+                                if ($sumWorkorders != $lista['working_hours']) {
+                                    echo "<br><br><p class='text-danger'><b>Hours worked do not match the Work Orders hours.</b></p>";
+                                }
+                                echo "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <?php
@@ -228,13 +358,14 @@
                 $countRows = 0;
                 foreach ($payrollDanger as $lista) {
                     $sumHours = $lista['hours_start_project'] + $lista['hours_end_project'];
-                    if (($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) || $lista['working_hours'] != $sumHours) {
+                    if (($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) || ($lista['working_hours'] != $sumHours && $sumHours > 0)) {
                         $countRows++;
                     }
                 }
                 
                 if ($countRows > 0) {
             ?>
+            <!--
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Orders or need to check the sum of hours.
@@ -256,7 +387,7 @@
                             <?php
                             foreach ($payrollDanger as $lista) :
                                 $sumHours = $lista['hours_start_project'] + $lista['hours_end_project'];
-                                if (($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) || $lista['working_hours'] != $sumHours) {
+                                if (($lista['wo_end_project'] == null || $lista['wo_start_project'] == null) || ($lista['working_hours'] != $sumHours && $sumHours > 0)) {
                                     $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " (Hours)";
                                     $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " (Hours)";
     
@@ -305,6 +436,7 @@
                     </table>
                 </div>
             </div>
+                        -->
             <?php   }   } ?>
         </div>
     </div>
@@ -493,6 +625,16 @@
 </div>
 <!--FIN Modal-->
 
+<!--INICIO Modal cambio de hora-->
+<div class="modal fade text-center" id="modalHoursGeneral" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" id="tablaHoursGeneral">
+
+		</div>
+	</div>
+</div>
+<!--FIN Modal-->
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Tables -->
@@ -564,22 +706,35 @@
         });
     });
 
-    $(function() {
-
-        $(".btn-info").click(function() {
-            var oID = $(this).attr("id");
-            $.ajax({
-                type: 'POST',
-                url: base_url + 'payroll/cargarModalJobCode',
-                data: {
-                    'idTask': oID
-                },
-                cache: false,
-                success: function(data) {
-                    $('#tablaHours').html(data);
-                }
-            });
+    $(".general_hours_modal").click(function() {
+        var oID = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'payroll/cargarModalHours',
+            data: {
+                'idTask': oID
+            },
+            cache: false,
+            success: function(data) {
+                $('#tablaHoursGeneral').html(data);
+            }
         });
-
     });
+
+    $(".job_hours_modal").click(function() {
+        var oID = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'payroll/cargarModalJobCode',
+            data: {
+                'idTask': oID
+            },
+            cache: false,
+            success: function(data) {
+                $('#tablaHours').html(data);
+            }
+        });
+    });
+
+
 </script>
