@@ -80,7 +80,7 @@ jQuery.validator.addMethod("validacion", function(value, element, param) {
 							$("#div_load").css("display", "none");
 							$('#btnSubmitWorker').removeAttr('disabled');
 
-							var url = base_url + "report/botonEditHour/" + data.idRecord;
+							var url = base_url + "dashboard/info_by_day/payrollInfo/" + data.datePayroll;
 							$(location).attr("href", url);
 						}
 						else

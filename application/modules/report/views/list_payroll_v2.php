@@ -109,12 +109,12 @@
 
 									echo "<td><strong>Start:</strong><br>" . $lista['start'] . "<br><strong>Finish:</strong><br>" . $lista['finish'] . "<br>";
 
-									/**
-									 * Opcion de editar horas para  SUPER ADMIN
-									 */
+									/*
+
+									 SE ELIMINO ESTA OPCION PORQUE SE PASO PARA EL CALENDARIO DESDE FEB 25
+									 
 									$userRol = $this->session->rol;
 									if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ACCOUNTING) {
-										//si no se ahn pagado entonces se pueden editar
 										if ($lista['period_status'] == 1) {
 
 								?>
@@ -130,6 +130,7 @@
 								<?php
 										}
 									}
+										*/
 									echo "</td>";
 
 									echo "<td><strong>Start:</strong><br>" . $lista['job_start'] . "<br><strong>Finish:</strong><br>" . $lista['job_finish'] . "</td>";

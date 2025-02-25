@@ -79,11 +79,14 @@
 										foreach ($infoPayrollUser as $lista) :
 											echo "<tr>";
 											echo "<td><small><strong>Start:</strong><br>" . $lista['start'] . "<br><strong>Finish:</strong><br>" . $lista['finish'] . "</small><br>";
+											/*
+											SE ELIMINO ESTA OPCION PORQUE SE PASO PARA EL CALENDARIO DESDE FEB 25
 									?>
 											<a href="<?php echo base_url("report/botonEditHour/" . $lista['id_task']); ?>" class="btn btn-info btn-xs">
 												Edit Hours <span class="glyphicon glyphicon-edit" aria-hidden="true">
 											</a>
 									<?php
+											*/
 											echo "</td>";
 											echo "<td><small><strong>Start:</strong><br>" . $lista['job_start'] . "<br><strong>Finish:</strong><br>" . $lista['job_finish'] . "</small></td>";
 											echo "<td><small><strong>Start:</strong><br>" . $lista['address_start'] . "<br><strong>Finish:</strong><br>" . $lista['address_finish'] . "</small></td>";

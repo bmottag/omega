@@ -2521,4 +2521,42 @@ class General_model extends CI_Model
 
 		return $this->db->where("id_task", $arrDatos["id"])->update("task", $data);
 	}
+
+	/**
+	 * Sumatoria de horas de personal for Calendar
+	 * @param $idWorkorder
+	 * @param $idUser
+	 * @author BMOTTAG
+	 * @since  24/02/2025
+	 */
+	public function countHoursPersonal($arrDatos)
+	{
+		$sql = "SELECT ROUND(SUM(hours),2) TOTAL";
+		$sql .= " FROM workorder_personal P";
+		$sql .= " WHERE P.fk_id_workorder =" . $arrDatos["idWorkorder"];
+		$sql .= " AND P.fk_id_user =" . $arrDatos["idUser"];
+
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->TOTAL;
+	}
+
+	/**
+	 * Sumatoria de horas de personal en los equipos for Calendar
+	 * @param $idWorkorder
+	 * @param $idUser
+	 * @author BMOTTAG
+	 * @since  24/02/2025
+	 */
+	public function countHoursEquipmentPersonal($arrDatos)
+	{
+		$sql = "SELECT ROUND(SUM(hours),2) TOTAL";
+		$sql .= " FROM workorder_equipment P";
+		$sql .= " WHERE P.fk_id_workorder =" . $arrDatos["idWorkorder"];
+		$sql .= " AND P.operatedby =" . $arrDatos["idUser"];
+
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->TOTAL;
+	}
 }

@@ -600,6 +600,7 @@ class Dashboard extends CI_Controller
 		$viewsMapping = [
 			"planningInfo"  => "get_programming_info",
 			"payrollInfo"   => "get_task",
+			"workOrderCheck" => "get_workorder_info",
 			"workOrderInfo" => "get_workorder_info",
 			"haulingInfo"   => "get_hauling",
 			"safetyInfo"	=> "get_safety",
@@ -618,6 +619,7 @@ class Dashboard extends CI_Controller
 	
 			// Si es payrollInfo, agregar la consulta específica
 			if ($view === "payrollInfo") {
+				$data["workOrderCheck"] = $this->general_model->get_workorder_info($arrParam);
 				$data["payrollDanger"] = $this->general_model->get_task_in_danger($arrParam);
 			}
 		} else {
@@ -814,10 +816,10 @@ class Dashboard extends CI_Controller
 			$fk_id_user = $task[0]['fk_id_user'];
 			$description = $task[0]['task_description'];
 
-			$sql = "SELECT * FROM workorder_personal W WHERE W.fk_id_workorder  = '$wo' AND W.fk_id_user = '$fk_id_user'";
 
-			$query = $this->db->query($sql);;
-
+			$sql = "SELECT * FROM workorder_personal WHERE fk_id_workorder = ? AND fk_id_user = ?";
+			$query = $this->db->query($sql, array($wo, $fk_id_user));
+			
 			if ($query->num_rows() >= 1) {
 
 				$data = array(

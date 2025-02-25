@@ -14,7 +14,7 @@ class Payroll_model extends CI_Model
 	 */
 	public function savePayroll()
 	{
-		$idUser = 1; //$this->session->userdata("id");
+		$idUser = $this->session->userdata("id");
 		$idOperation =  $this->input->post('hddTask');
 		$idJob =  $this->input->post('jobName');
 		$task =  $this->security->xss_clean($this->input->post('taskDescription'));
@@ -201,12 +201,28 @@ class Payroll_model extends CI_Model
 			if ($hours_first_project == 0) {
 
 				if ($idJob == $job_programming && $id_workorder != null) {
-					$data = array(
-						'hours' => $workingHours,
-					);
-					$this->db->where('fk_id_workorder  ', $id_workorder);
-					$this->db->where('fk_id_user  ', $idUser);
-					$query = $this->db->update('workorder_personal', $data);
+					$request = "SELECT * FROM workorder_personal W WHERE W.fk_id_workorder  = '$id_workorder' AND W.fk_id_user = '$idUser'";
+					$query = $this->db->query($request);
+		
+					if ($query->num_rows() >= 1) {
+		
+						$data = array(
+							'hours' => $workingHours,
+						);
+		
+						$this->db->where('fk_id_workorder  ', $id_workorder);
+						$this->db->where('fk_id_user  ', $idUser);
+						$query = $this->db->update('workorder_personal', $data);
+					} else {
+						$data = array(
+							'fk_id_workorder' => $id_workorder,
+							'fk_id_user' => $idUser,
+							'fk_id_employee_type' => 1,
+							'hours' => $workingHours
+						);
+		
+						$this->db->insert('workorder_personal', $data);
+					}
 
 					//update TASK with wo
 					$data = array(
