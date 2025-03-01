@@ -214,7 +214,7 @@ class Programming_model extends CI_Model
 		$query = $this->db->query($sql, array($filters[0]['id_programming'], $filters[0]['date_programming']));
 
 		$trucks = []; // Inicializar array vacío para evitar errores
-	
+
 		if ($query->num_rows() > 0) {
 			foreach ($query->result() as $row) {
 				// Decodificar el JSON para obtener los IDs de las máquinas
@@ -224,7 +224,7 @@ class Programming_model extends CI_Model
 				}
 			}
 		}
-	
+
 		return $trucks; // Retorna solo los IDs de las máquinas
 	}
 
@@ -254,6 +254,26 @@ class Programming_model extends CI_Model
 		$this->db->where('id_programming_worker', $hddId);
 		$query = $this->db->update('programming_worker', $data);
 
+		//actualiza la WO
+		$arrParam = array(
+			"table" => "workorder_personal",
+			"order" => "fk_id_programming_worker",
+			"column" => "fk_id_programming_worker",
+			"id" => $hddId
+		);
+		$result = $this->general_model->get_basic_search($arrParam);
+		$fk_id_workorder = $result[0]['fk_id_programming_worker'];
+
+		if ($fk_id_workorder) {
+			$dataWO = array(
+				'fk_id_employee_type' => $this->input->post('type'),
+				'description' => $this->input->post('description'),
+			);
+
+			$this->db->where('fk_id_programming_worker', $fk_id_workorder);
+			$this->db->update('workorder_personal', $dataWO);
+		}
+
 		if ($query) {
 			return true;
 		} else {
@@ -282,6 +302,7 @@ class Programming_model extends CI_Model
 	 */
 	public function saveOneWorkerProgramming()
 	{
+		$this->load->model("general_model");
 		$idProgramming = $this->input->post('hddId');
 
 		$data = array(
@@ -293,6 +314,32 @@ class Programming_model extends CI_Model
 		);
 
 		$query = $this->db->insert('programming_worker', $data);
+
+		$id_programming_materials = $this->db->insert_id();
+
+		//actualiza la WO
+		$arrParam = array(
+			"table" => "programming",
+			"order" => "id_programming",
+			"column" => "id_programming",
+			"id" => $idProgramming
+		);
+		$result = $this->general_model->get_basic_search($arrParam);
+		$fk_id_workorder = $result[0]['fk_id_workorder'];
+
+		if ($fk_id_workorder) {
+
+			$dataWO = array(
+				'fk_id_workorder' => $fk_id_workorder,
+				'fk_id_user' => $this->input->post('worker'),
+				'fk_id_employee_type' => 1,
+				'hours' => 0,
+				'description' => 'Create planning',
+				'fk_id_programming_worker' => $id_programming_materials
+			);
+
+			$this->db->insert('workorder_personal', $dataWO);
+		}
 
 		if ($query) {
 			return true;
@@ -429,6 +476,7 @@ class Programming_model extends CI_Model
 	 */
 	public function saveMaterial()
 	{
+		$this->load->model("general_model");
 		$data = array(
 			'fk_id_programming' => $this->input->post('hddidProgramming'),
 			'fk_id_material' => $this->input->post('material'),
@@ -438,6 +486,30 @@ class Programming_model extends CI_Model
 		);
 
 		$query = $this->db->insert('programming_material', $data);
+		$id_programming_materials = $this->db->insert_id();
+
+		//actualiza la WO
+		$arrParam = array(
+			"table" => "programming",
+			"order" => "id_programming",
+			"column" => "id_programming",
+			"id" => $this->input->post('hddidProgramming')
+		);
+		$result = $this->general_model->get_basic_search($arrParam);
+		$fk_id_workorder = $result[0]['fk_id_workorder'];
+
+		if ($fk_id_workorder) {
+			$dataWO = array(
+				'fk_id_workorder' => $fk_id_workorder,
+				'fk_id_material' => $this->input->post('material'),
+				'quantity' => $this->input->post('quantity'),
+				'unit' => $this->input->post('unit'),
+				'description' => $this->input->post('description'),
+				'fk_id_programming_materials' => $id_programming_materials
+			);
+
+			$this->db->insert('workorder_materials', $dataWO);
+		}
 
 		if ($query) {
 			return true;
@@ -452,6 +524,7 @@ class Programming_model extends CI_Model
 	 */
 	public function updatedMaterial()
 	{
+		$this->load->model("general_model");
 		$hddId = $this->input->post('hddId');
 		$data = array(
 			'quantity' => $this->input->post('quantity'),
@@ -461,6 +534,27 @@ class Programming_model extends CI_Model
 
 		$this->db->where('id_programming_material', $hddId);
 		$query = $this->db->update('programming_material', $data);
+
+		//actualiza la WO
+		$arrParam = array(
+			"table" => "workorder_materials",
+			"order" => "fk_id_programming_materials",
+			"column" => "fk_id_programming_materials",
+			"id" => $hddId
+		);
+		$result = $this->general_model->get_basic_search($arrParam);
+		$fk_id_workorder = $result[0]['fk_id_programming_materials'];
+
+		if ($fk_id_workorder) {
+			$dataWO = array(
+				'quantity' => $this->input->post('quantity'),
+				'unit' => $this->input->post('unit'),
+				'description' => $this->input->post('description')
+			);
+
+			$this->db->where('fk_id_programming_materials', $hddId);
+			$this->db->update('workorder_materials', $data);
+		}
 
 		if ($query) {
 			return true;
@@ -741,7 +835,7 @@ class Programming_model extends CI_Model
 		);
 		$result = $this->general_model->get_basic_search($arrParam);
 
-		$machine = $result[0]['fk_id_machine'];//records from the DB
+		$machine = $result[0]['fk_id_machine']; //records from the DB
 
 		if (!is_array($machine)) {
 			$machine = json_decode($machine, true);
@@ -749,8 +843,8 @@ class Programming_model extends CI_Model
 				$machine = [];
 			}
 		}
-		
-		$machine[] = $this->input->post('truck');//new record
+
+		$machine[] = $this->input->post('truck'); //new record
 		// Convertirlo a formato string con corchetes
 		$machine_string = '[' . implode(',', $machine) . ']';
 

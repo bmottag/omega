@@ -367,6 +367,28 @@ class Programming extends CI_Controller
 			//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
 			$updateState = $this->update_state($idProgramming);
 
+			//actualiza la WO
+			$arrParam = array(
+				"table" => "workorder_personal",
+				"order" => "fk_id_programming_worker",
+				"column" => "fk_id_programming_worker",
+				"id" => $idWorker
+			);
+			$result = $this->general_model->get_basic_search($arrParam);
+			$fk_id_workorder = $result[0]['fk_id_programming_worker'];
+
+			if ($fk_id_workorder) {
+				$dataWO =
+					array(
+						"table" => "workorder_personal",
+						"primaryKey" => "fk_id_programming_worker",
+						"id" => $idWorker
+					);
+
+				$this->general_model->deleteRecord($dataWO);
+			}
+
+
 			$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
@@ -1428,6 +1450,28 @@ class Programming extends CI_Controller
 		);
 		$this->load->model("general_model");
 		if ($this->general_model->deleteRecord($arrParam)) {
+
+			//actualiza la WO
+			$arrParam = array(
+				"table" => "workorder_materials",
+				"order" => "fk_id_programming_materials",
+				"column" => "fk_id_programming_materials",
+				"id" => $idProgrammingMaterial
+			);
+			$result = $this->general_model->get_basic_search($arrParam);
+			$fk_id_workorder = $result[0]['fk_id_programming_materials'];
+
+			if ($fk_id_workorder) {
+				$dataWO =
+					array(
+						"table" => "workorder_materials",
+						"primaryKey" => "fk_id_programming_materials",
+						"id" => $idProgrammingMaterial
+					);
+
+				$this->general_model->deleteRecord($dataWO);
+			}
+
 
 			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong> Materials </strong> table.');
 		} else {
