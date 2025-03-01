@@ -375,9 +375,7 @@ class Programming extends CI_Controller
 				"id" => $idWorker
 			);
 			$result = $this->general_model->get_basic_search($arrParam);
-			$fk_id_workorder = $result[0]['fk_id_programming_worker'];
-
-			if ($fk_id_workorder) {
+			if ($result) {
 				$dataWO =
 					array(
 						"table" => "workorder_personal",
@@ -1592,6 +1590,7 @@ class Programming extends CI_Controller
 					'fk_id_programming_user' => 'fk_id_user',
 					'fk_id_employee_type' => 'fk_id_employee_type',
 					'description' => 'description',
+					'id_programming_worker' => 'fk_id_programming_worker'
 				);
 
 				foreach ($informationWorker as $indice => $datos_indice) {
@@ -1644,6 +1643,7 @@ class Programming extends CI_Controller
 					'quantity' => 'quantity',
 					'unit' => 'unit',
 					'description' => 'description',
+					'id_programming_material' => 'fk_id_programming_materials',
 				);
 
 				foreach ($programmingMaterials as $indice => $datos_indice) {
