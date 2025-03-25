@@ -204,7 +204,7 @@ if ($userRol == 99) {
 							 * @author BMOTTAG
 							 * @since  23/12/2017
 							 */
-							if ($userRol == 99) {
+							if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER) {
 							?>
 								<script>
 									$(function() {

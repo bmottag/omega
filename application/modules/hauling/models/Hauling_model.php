@@ -163,7 +163,6 @@ class Hauling_model extends CI_Model
 		}
 
 		$data = array(
-			'fk_id_user' => $idUser,
 			'fk_id_company' => $this->input->post('company'),
 			'fk_id_truck' => $this->input->post('truck'),
 			'fk_id_truck_type' => $this->input->post('truckType'),
@@ -186,14 +185,15 @@ class Hauling_model extends CI_Model
 		//revisar si es para adicionar o editar
 		if ($idHauling == '') {
 			$data['date_issue'] = date("Y-m-d");
-			if ($userRol == 99 && $dateIssue != "") {
+			$data['fk_id_user'] = $idUser;
+			if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER) && $dateIssue != "") {
 				$data['date_issue'] = $dateIssue;
 			}
 
 			$query = $this->db->insert('hauling', $data);
 			$idHauling = $this->db->insert_id();
 		} else {
-			if ($userRol == 99 && $dateIssue != "") {
+			if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER) && $dateIssue != "") {
 				$data['date_issue'] = $dateIssue;
 			}
 
