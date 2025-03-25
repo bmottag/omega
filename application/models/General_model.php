@@ -2433,6 +2433,9 @@ class General_model extends CI_Model
 			$types = array(2, 3);
 			$this->db->where_in('C.company_type', $types);
 		}
+		if (array_key_exists("isHauling", $arrData)) {
+			$this->db->where('C.does_hauling', 1);
+		}
 		$this->db->order_by("C.company_name", "asc");
 		$query = $this->db->get("param_company C");
 
