@@ -1,5 +1,48 @@
 <script>
-$(function(){ 
+$(document).ready(function () {
+	$(".btn-delete").click(function () {
+			var oID = $(this).attr("id");
+
+			//Activa icono guardando
+			if(window.confirm('Are you sure you want to delete the Link ?'))
+			{
+					$(".btn-delete").attr('disabled','-1');
+					$.ajax ({
+						type: 'POST',
+						url: base_url + 'enlaces/delete_link',
+						data: {'identificador': oID},
+						cache: false,
+						success: function(data){
+
+							if( data.result == "error" )
+							{
+								alert(data.mensaje);
+								$(".btn-delete").removeAttr('disabled');
+								return false;
+							}
+
+							if( data.result )//true
+							{
+								$(".btn-delete").removeAttr('disabled');
+
+								var url = base_url + "enlaces/links";
+								$(location).attr("href", url);
+							}
+							else
+							{
+								alert('Error. Reload the web page.');
+								$(".btn-delete").removeAttr('disabled');
+							}
+						},
+						error: function(result) {
+							alert('Error. Reload the web page.');
+							$(".btn-deleter").removeAttr('disabled');
+						}
+
+					});
+			}
+	});
+
 	$(".btn-success").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
@@ -81,8 +124,8 @@ if ($retornoError) {
 								<th class="text-center">Link URL</th>
 								<th class="text-center">Link icon</th>
 								<th class="text-center">Order</th>
-								<th class="text-center">State</th>
-								<th class="text-center">Edit</th>
+								<th class="text-center">Status</th>
+								<th class="text-center">Action</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -114,6 +157,10 @@ if ($retornoError) {
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_link']; ?>" >
 										Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
+
+									<button type="button" id="<?php echo $lista['id_link']; ?>" class='btn btn-danger btn-xs btn-delete' title="Delete">
+										<i class="fa fa-trash-o"></i>
+									</button>
 						<?php
 									echo "</td>";
 									echo "</tr>";
@@ -123,15 +170,10 @@ if ($retornoError) {
 					</table>
 				<?php } ?>
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
 		
 				
 <!--INICIO Modal para adicionar HAZARDS -->
