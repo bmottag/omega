@@ -121,6 +121,8 @@ class Enlaces extends CI_Controller {
 			$data = array();
 			
 			$idLink = $this->input->post('hddId');
+			$newIdMenu = $this->input->post('id_menu');
+			$oldIdMenu = $this->input->post('hddIdMenu');
 			
 			$msj = "You have added a new Link!!";
 			if ($idLink != '') {
@@ -128,6 +130,18 @@ class Enlaces extends CI_Controller {
 			}
 
 			if ($this->enlaces_model->saveLink()) {
+				if ($idLink != '' && $newIdMenu != $oldIdMenu) {
+					//Update fk_id_menu in param_menu_permisos
+					$this->load->model("general_model");
+					$arrParam = array(
+						"table" => "param_menu_permisos ",
+						"primaryKey" => "fk_id_link",
+						"id" => $idLink,
+						"column" => "fk_id_menu",
+						"value" => $newIdMenu
+					);
+					$this->general_model->updateRecord($arrParam);
+				}
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {

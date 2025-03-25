@@ -486,13 +486,8 @@ class Acs extends CI_Controller
 	public function income()
 	{
 		$this->load->model("general_model");
-		$arrParam = array(
-			"table" => "param_jobs",
-			"order" => "job_description",
-			"column" => "state",
-			"id" => 1
-		);
-		$data['jobList'] = $this->general_model->get_basic_search($arrParam); //job list
+		$arrParam['state'] = 1;
+		$data['jobList'] = $this->general_model->get_job($arrParam);
 
 		$data["view"] = "income";
 		$this->load->view("layout", $data);

@@ -17,8 +17,8 @@ class Acs_model extends CI_Model
 		if (array_key_exists("idACS", $arrDatos)) {
 			$this->db->where('id_acs', $arrDatos["idACS"]);
 		}
-		if (array_key_exists("jobId", $arrData) && $arrData["jobId"] != '' && $arrData["jobId"] != 0) {
-			$this->db->where('W.fk_id_job', $arrData["jobId"]);
+		if (array_key_exists("jobId", $arrDatos) && $arrDatos["jobId"] != '' && $arrDatos["jobId"] != 0) {
+			$this->db->where('W.fk_id_job', $arrDatos["jobId"]);
 		}
 		$this->db->order_by('id_acs', 'desc');
 		$query = $this->db->get('acs W');
