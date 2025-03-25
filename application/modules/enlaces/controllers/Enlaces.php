@@ -121,6 +121,8 @@ class Enlaces extends CI_Controller {
 			$data = array();
 			
 			$idLink = $this->input->post('hddId');
+			$newIdMenu = $this->input->post('id_menu');
+			$oldIdMenu = $this->input->post('hddIdMenu');
 			
 			$msj = "You have added a new Link!!";
 			if ($idLink != '') {
@@ -128,6 +130,18 @@ class Enlaces extends CI_Controller {
 			}
 
 			if ($this->enlaces_model->saveLink()) {
+				if ($idLink != '' && $newIdMenu != $oldIdMenu) {
+					//Update fk_id_menu in param_menu_permisos
+					$this->load->model("general_model");
+					$arrParam = array(
+						"table" => "param_menu_permisos ",
+						"primaryKey" => "fk_id_link",
+						"id" => $idLink,
+						"column" => "fk_id_menu",
+						"value" => $newIdMenu
+					);
+					$this->general_model->updateRecord($arrParam);
+				}
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
@@ -450,6 +464,87 @@ class Enlaces extends CI_Controller {
 			
 			echo json_encode($data);
     }
+
+	/**
+	 * Delete Link
+	 * @since 27/02/2025
+	 */
+	public function delete_link()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$idLink = $this->input->post('identificador');
+
+		$arrParam = array(
+			"table" => "param_menu_permisos",
+			"primaryKey" => "fk_id_link",
+			"id" => $idLink
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) 
+		{
+			$arrParam = array(
+				"table" => "param_menu_links",
+				"primaryKey" => "id_link",
+				"id" => $idLink
+			);
+			$this->general_model->deleteRecord($arrParam);
+
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', 'You have delete the record.');
+		} else {
+			$data["result"] = "error";
+			$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
+
+	/**
+	 * Delete Link
+	 * @since 27/02/2025
+	 */
+	public function delete_menu()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$idMenu = $this->input->post('identificador');
+
+		$arrParam = array(
+			"table" => "param_menu_permisos",
+			"primaryKey" => "fk_id_menu",
+			"id" => $idMenu
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) 
+		{
+			$arrParam = array(
+				"table" => "param_menu_links",
+				"primaryKey" => "fk_id_menu",
+				"id" => $idMenu
+			);
+			$this->general_model->deleteRecord($arrParam);
+
+			$arrParam = array(
+				"table" => "param_menu",
+				"primaryKey" => "id_menu",
+				"id" => $idMenu
+			);
+			$this->general_model->deleteRecord($arrParam);
+
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', 'You have delete the record.');
+		} else {
+			$data["result"] = "error";
+			$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
 	
 
 

@@ -39,10 +39,10 @@
 					<?php
 					if ($infoHauling) {
 					?>
-						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 							<thead>
 								<tr>
-									<th class='text-center' width="8%">#</th>
+									<th class='text-center' width="6%">#</th>
 									<th class='text-center'>Report done by</th>
 									<th class='text-center'>Date</th>
 									<th class='text-center'>Hauling done by</th>
@@ -54,7 +54,7 @@
 									<th class='text-center'>Payment</th>
 									<th class='text-center'>Time In</th>
 									<th class='text-center'>Time Out</th>
-									<th class='text-center'>Actions</th>
+									<th class='text-center' width="8%">Actions</th>
 								</tr>
 							</thead>
 							<tbody>

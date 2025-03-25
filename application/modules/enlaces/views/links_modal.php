@@ -9,6 +9,7 @@
 <div class="modal-body">
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_link"]:""; ?>"/>
+		<input type="hidden" id="hddIdMenu" name="hddIdMenu" value="<?php echo $information?$information[0]["fk_id_menu"]:""; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-6">

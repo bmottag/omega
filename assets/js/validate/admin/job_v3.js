@@ -4,7 +4,7 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
-			jobCode: 			{ required: true, minlength: 4, maxlength:100 },
+			jobCode: 			{ required: true, minlength: 3, maxlength:100 },
 			jobName: 			{ required: true, minlength: 4, maxlength:100 },
 			company: 			{ required: true },
 			markup: 			{ required: true, minlength: 1, maxlength:2 },

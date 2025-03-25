@@ -94,13 +94,8 @@ class Hauling extends CI_Controller
 		$data['HaulingClose'] = FALSE;
 		$view = 'form_add_hauling';
 
-		//company´s list
-		$arrParam = array(
-			"table" => "param_company",
-			"order" => "company_name",
-			"id" => "x"
-		);
-		$data['companyList'] = $this->general_model->get_basic_search($arrParam);
+		$arrParam = array("isHauling" => true);
+		$data['companyList'] = $this->general_model->get_company($arrParam);
 
 		//truckType´s list
 		$arrParam = array(

@@ -323,10 +323,17 @@ if ($userRol == 99) {
 								</div>
 							</div>
 
+<?php
+$deshabilitar = '';
+if ($information && $information["fk_id_workorder"] != null) { 
+	$deshabilitar = 'disabled';
+}	
+?>
+
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="fromSite">Job Code/Name</label>
 								<div class="col-sm-5">
-									<select name="fromSite" id="fromSite" class="form-control js-example-basic-single">
+									<select name="fromSite" id="fromSite" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 										<option value=''>Select...</option>
 										<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 											<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information["fk_id_site_from"] == $jobs[$i]["id_job"]) {
