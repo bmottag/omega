@@ -1,3 +1,35 @@
+<style>
+.panel-heading {
+    overflow: hidden;
+    position: relative;
+    z-index: 102; /* Asegura que esté por encima de la tabla */
+    background: white; /* Para evitar transparencia */
+}
+
+    .table-container {
+        max-height: 700px; /* Ajusta la altura según necesites */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        position: relative;
+        background: white;
+        padding-top: 0px;
+    }
+
+    /* Fijar el encabezado de la tabla */
+    .table-container thead {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 101;
+    }
+
+    /* Opcional: Agregar sombra para mayor visibilidad del encabezado */
+    .table-container thead th {
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+
 <div id="page-wrapper">
     <br>
     <div class="row">
@@ -178,53 +210,7 @@
                 <div class="panel-heading">
                     <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
-
-                <!--
-                <div class="panel-body">
-                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
-                        <thead>
-                            <tr>
-                                <th width='6%'>Employee</th>
-                                <th width='8%' class="text-center">Working Hours</th>
-                                <th width='18%'>Job Code/Name - Start</th>
-                                <th width='8%' class="text-center">Hours Worked at Project Start</th>
-                                <th width='18%'>Job Code/Name - Finish</th>
-                                <th width='8%' class="text-center">Hours Worked at Project Finish</th>
-                                <th width='17%'>Task description</th>
-                                <th width='17%'>Observation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($payrollInfo as $lista) :  
-                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"":$lista['working_hours_new'] . " (HH:MM)</br>" . $lista['working_hours'] . " hours";
-                                $hoursStart = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_start_project'] == 0)?"":$lista['hours_start_project'] . " hours";
-                                $hoursFinish = ($lista['finish'] == "0000-00-00 00:00:00" || $lista['hours_end_project'] == 0)?"":$lista['hours_end_project'] . " hours";
-
-                                echo "<tr>";
-                                echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
-                                echo "<td class='text-center'>";
-                                echo $workingHours;
-                                echo "</td>";
-                                echo "<td>" . $lista['job_start'] . "</td>";
-                                echo "<td class='text-center'>" . $hoursStart;
-                                echo $lista["wo_start_project"]?"<br><br><a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_start_project']) . "'>(W.O. # " . $lista['wo_start_project'] . ")</a>":"";
-                                echo  "</td>";
-                                echo "<td>" . $lista['job_finish'] . "</td>";
-                                echo "<td class='text-center'>" . $hoursFinish;
-                                echo $lista["wo_end_project"]?"<br><br><a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_end_project']) . "'>(W.O. # " . $lista['wo_end_project'] . ")</a>":"";
-                                echo  "</td>";
-                                echo "<td>" . $lista['task_description'] . "</td>";
-                                echo "<td>" . $lista['observation']  . "</td>";
-                                echo "</tr>";
-                            endforeach;
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-                -->
-
-                <div class="panel-body">
+                <div class="panel-body table-container">
                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                         <thead>
                             <tr>
@@ -237,7 +223,7 @@
                                     if (isset($workOrderCheck) && $workOrderCheck) {
                                         foreach ($workOrderCheck as $wo) : 
                                 ?>
-                                        <th width='7%' class='text-center'><?php echo "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $wo['id_workorder']) . "'>W.O. # " . $wo['id_workorder'] . "</a>"; ?></th>
+                                        <th width='7%' class='text-center'><?php echo $wo['job_description'] . "<br><a target='_blanck' href='" . base_url('workorders/add_workorder/' . $wo['id_workorder']) . "'>W.O. # " . $wo['id_workorder'] . "</a>"; ?></th>
                                 <?php 
                                         endforeach; 
                                     }
@@ -273,7 +259,7 @@
                                     : "";
 
                                 $text_finished = ($lista['finish'] != "0000-00-00 00:00:00" && $lista['fk_id_job'] != $lista['fk_id_job_finish']) 
-                                    ? "<p class='text-danger'>Job Code/Name: " . $lista['job_finish'] . "</b></p>"
+                                    ? "<p class='text-danger'><b>Job Code/Name: " . $lista['job_finish'] . "</b></p>"
                                     : "";
                                 
                                 $textSameJob = $lista['fk_id_job'] == $lista['fk_id_job_finish'] 
@@ -342,8 +328,14 @@
                                 }
 
                                 if ($sumWorkorders != $lista['working_hours']) {
-                                    echo "<br><br><p class='text-danger'><b>Hours worked do not match the Work Orders hours.</b></p>";
+                                    if ($sumWorkorders < $lista['working_hours']) {
+                                        echo "<br><br><p class='text-danger'><b>Worked hours exceed Work Order hours.</b></p>";
+                                    } elseif ($sumWorkorders > $lista['working_hours']) {
+                                        echo "<br><br><p class='text-warning'><b>Work Order hours exceed Worked hours.</b></p>";
+                                    }
                                 }
+                                
+                                
                                 echo "</td>";
                                 echo "</tr>";
                             endforeach;

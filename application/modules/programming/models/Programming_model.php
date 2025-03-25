@@ -262,15 +262,13 @@ class Programming_model extends CI_Model
 			"id" => $hddId
 		);
 		$result = $this->general_model->get_basic_search($arrParam);
-		$fk_id_workorder = $result[0]['fk_id_programming_worker'];
-
-		if ($fk_id_workorder) {
+		if ($result) {
 			$dataWO = array(
 				'fk_id_employee_type' => $this->input->post('type'),
 				'description' => $this->input->post('description'),
 			);
 
-			$this->db->where('fk_id_programming_worker', $fk_id_workorder);
+			$this->db->where('fk_id_programming_worker', $hddId);
 			$this->db->update('workorder_personal', $dataWO);
 		}
 

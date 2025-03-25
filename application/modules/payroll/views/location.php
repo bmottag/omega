@@ -152,12 +152,8 @@
 	
 		   
 	</div> 		
-	<!--<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
-		http://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap"
-	</script>-->
 	<script async defer		
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt__a_n1IUtBPqj9ntMD5cNG8gYlcovWM&libraries=places&callback=initMap">
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDi5PwRbCh0Jsgqgtnrc6dsb7za4wyq3c8&libraries=places&callback=initMap">
 	</script>
   </body>
 </html>

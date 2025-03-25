@@ -375,9 +375,7 @@ class Programming extends CI_Controller
 				"id" => $idWorker
 			);
 			$result = $this->general_model->get_basic_search($arrParam);
-			$fk_id_workorder = $result[0]['fk_id_programming_worker'];
-
-			if ($fk_id_workorder) {
+			if ($result) {
 				$dataWO =
 					array(
 						"table" => "workorder_personal",
@@ -444,10 +442,10 @@ class Programming extends CI_Controller
 		$msgHeader .= "\n";
 
 		if ($data['informationWorker']) {
-			foreach ($data['informationWorker'] as $data) :
+			foreach ($data['informationWorker'] as $info) :
 
-				if ($data['fk_id_machine'] != NULL) {
-					$id_values = implode(',', json_decode($data['fk_id_machine'], true));
+				if ($info['fk_id_machine'] != NULL) {
+					$id_values = implode(',', json_decode($info['fk_id_machine'], true));
 					$arrParam = array(
 						"idValues" => $id_values,
 						"forTextMessague" => true
@@ -456,7 +454,7 @@ class Programming extends CI_Controller
 				}
 
 				$mensaje = $msgHeader . "\n";
-				switch ($data['site']) {
+				switch ($info['site']) {
 					case 1:
 						$mensaje .= "At the yard - ";
 						break;
@@ -470,33 +468,36 @@ class Programming extends CI_Controller
 						$mensaje .= "At the yard - ";
 						break;
 				}
-				$mensaje .= $data['hora'];
+				$mensaje .= $info['hora'];
 
-				$mensaje .= "\n" . $data['name'];
-				$mensaje .= $data['description'] ? "\n" . $data['description'] : "";
-				$mensaje .= $data['fk_id_machine'] != NULL ? "\nInspect following unit(s):\n" . $informationEquipments["unit_description"] : "";
+				$mensaje .= "\n" . $info['name'];
+				$mensaje .= $info['description'] ? "\n" . $info['description'] : "";
+				$mensaje .= $info['fk_id_machine'] != NULL ? "\nInspect following unit(s):\n" . $informationEquipments["unit_description"] : "";
 
-				if ($data['safety'] == 1) {
+				if ($info['safety'] == 1) {
 					$mensaje .= "\nFLHA has being assigned to you.";
-				} elseif ($data['safety'] == 2) {
+				} elseif ($info['safety'] == 2) {
 					$mensaje .= "\nTool Box has being assigned to you.";
-				} elseif ($data['safety'] == 3) {
+				} elseif ($info['safety'] == 3) {
 					$mensaje .= "\nJSO has being assigned to you.";
 				}
 
-				if ($data['creat_wo'] == 1) {
+				if ($info['creat_wo'] == 1) {
 					$mensaje .= "\nYou are in charge of the W.O. #" . $idWorkorder;
 				}
 
-				$to = '+1' . $data['movil'];
-				$message = $client->messages->create(
-					$to,
-					array(
-						'from' => $twilioPhone,
-						'body' => $mensaje
-					)
-				);
-				$this->programming_model->updateSMSWorkerStatus($data['id_programming_worker'], $message->status, $message->sid);
+				$excluded_numbers = ["686289126", "5068494482", "5068393681"];
+				if (!in_array($info['movil'], $excluded_numbers)) {
+					$to = '+1' . $info['movil'];
+					$message = $client->messages->create(
+						$to,
+						array(
+							'from' => $twilioPhone,
+							'body' => $mensaje
+						)
+					);
+					$this->programming_model->updateSMSWorkerStatus($info['id_programming_worker'], $message->status, $message->sid);	
+				}
 
 			endforeach;
 		}
@@ -1592,6 +1593,7 @@ class Programming extends CI_Controller
 					'fk_id_programming_user' => 'fk_id_user',
 					'fk_id_employee_type' => 'fk_id_employee_type',
 					'description' => 'description',
+					'id_programming_worker' => 'fk_id_programming_worker'
 				);
 
 				foreach ($informationWorker as $indice => $datos_indice) {
@@ -1644,6 +1646,7 @@ class Programming extends CI_Controller
 					'quantity' => 'quantity',
 					'unit' => 'unit',
 					'description' => 'description',
+					'id_programming_material' => 'fk_id_programming_materials',
 				);
 
 				foreach ($programmingMaterials as $indice => $datos_indice) {
