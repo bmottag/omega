@@ -217,7 +217,7 @@
                                 <th width='8%'>Employee</th>
                                 <th width='8%' class="text-center">Hours Worked at Project Start</th>
                                 <th width='8%' class="text-center">Hours Worked at Project Finish</th>
-                                <th width='8%' class="text-center">Payroll Working Hours</th>
+                                <th width='8%' class="text-center">Payroll Working Hours </th>
 
                                 <?php 
                                     if (isset($workOrderCheck) && $workOrderCheck) {
@@ -243,7 +243,7 @@
 
                                 $hidden_edit = 'hidden';//($lista['finish'] == "0000-00-00 00:00:00" || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
 
-                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"":$lista['working_hours'] . " hours";
+                                $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"": calculate_time_difference_in_hours($lista['start'], $lista['finish']);
 
                                 $hours_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) 
                                     ? "<p>" . $hoursStart . "</p>" 
@@ -278,7 +278,7 @@
                                 echo $lista["wo_end_project"] ? "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_end_project']) . "'>(W.O. # " . $lista['wo_end_project'] . ")</a>" : "";
                                 echo "</td>";
 
-                                echo "<td class='text-center'>" . $workingHours . $textSameJob . "</td>";
+                                echo "<td class='text-center'>" . convert_hours_minutes($workingHours) . $textSameJob . "</td>";
 
                                 // Ahora recorremos todas las órdenes de trabajo y verificamos si el usuario tiene horas en esa WO
                                 if (isset($workOrderCheck) && $workOrderCheck) {
@@ -292,14 +292,15 @@
                                         $hoursWorked = $hoursPersonalWorked + $hoursEquipmentWorked;
 
                                         echo "<td class='text-center'>";
-                                        echo $hoursWorked > 0 ? $hoursWorked . " hours" : "-";
+                                        echo convert_hours_minutes($hoursWorked) ;
                                         echo "</td>";
                                         $sumWorkorders += $hoursWorked;
                                     }
                                 }
                                 echo "<th class='text-center'>";
                                 
-                                echo "<p>" . $sumWorkorders . " hours</p>";
+                                echo "<p>" . convert_hours_minutes($sumWorkorders) . "</p>";
+                                
                                 echo "<button type='button' class='btn btn-info btn-xs job_hours_modal " . $hidden_edit . "' data-toggle='modal' data-target='#modal' id='" . $lista['id_task'] . "'>Edit <span class='glyphicon glyphicon-edit' aria-hidden='true'></button>";
                                 if($sumWorkorders != $workingHours){
                                     echo "<button type='button' class='btn btn-danger btn-xs " . $hidden_total . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='total'>Assign to a W.O.</button><br><br>";
