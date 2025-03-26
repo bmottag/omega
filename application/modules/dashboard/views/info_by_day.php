@@ -329,9 +329,9 @@
 
                                 if ($sumWorkorders != $lista['working_hours']) {
                                     if ($sumWorkorders < $lista['working_hours']) {
-                                        echo "<br><br><p class='text-danger'><b>Worked hours exceed Work Order hours.</b></p>";
+                                        echo "<br><br><p class='text-danger'><b>Payroll hours exceeds Work Order hours.</b></p>";
                                     } elseif ($sumWorkorders > $lista['working_hours']) {
-                                        echo "<br><br><p class='text-warning'><b>Work Order hours exceed Worked hours.</b></p>";
+                                        echo "<br><br><p class='text-warning'><b>Work Order hours exceeds Payroll hours.</b></p>";
                                     }
                                 }
                                 

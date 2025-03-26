@@ -543,7 +543,33 @@ class Dashboard extends CI_Controller
 		}
 
 		if ($payrollInfo) {
+			$payrollDays = []; // Array para almacenar los días que tienen payroll
+		
+			foreach ($payrollInfo as $data) {
+				$startPayroll = substr($data['start'], 0, 10); // Obtener solo la fecha
+				$payrollDays[$startPayroll] = true; // Marcar que hay payroll en este día
+			}
+		
+			$longitud = count($payrollDays);
+			$i = 1;
+		
+			foreach (array_keys($payrollDays) as $date) {
+				echo  '{
+							"title": "Payroll",
+							"start": "' . $date . '",
+							"end": "' . $date . '",
+							"color": "blue",
+							"url": "' . base_url("dashboard/info_by_day/payrollInfo/" . $date) . '"
+						}';
+		
+				if ($i < $longitud) {
+					echo ',';
+				}
+				$i++;
+			}
 
+			
+			/*
 			$longitud = count($payrollInfo);
 			$i = 1;
 			foreach ($payrollInfo as $data) :
@@ -578,6 +604,7 @@ class Dashboard extends CI_Controller
 				}
 				$i++;
 			endforeach;
+			*/
 		}
 
 		echo  ']';
