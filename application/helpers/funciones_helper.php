@@ -245,6 +245,43 @@ if (!function_exists("calculate_time_difference_in_hours")) {
 
 }
 
+/**
+ * convert_hours_minutes
+ * @author bmottag
+ * @param $horasDecimal
+ */
+if (!function_exists("convert_hours_minutes")) {
+    function convert_hours_minutes($horasDecimal) {
+        if ($horasDecimal == 0) {
+            return "-"; // Si es 0, devuelve "-"
+        }
+    
+        $horas = floor($horasDecimal); // Parte entera (horas)
+        $minutos = round(($horasDecimal - $horas) * 60); // Convertir la parte decimal en minutos
+    
+        return sprintf("%d hrs %02d min", $horas, $minutos);
+    }
+}
+
+/**
+ * convert_hours_minutes
+ * @author bmottag
+ * @param $horasDecimal
+ */
+if (!function_exists("convert_time_to_hours_minutes")) {
+    function convert_time_to_hours_minutes($time) {
+        list($hours, $minutes, $seconds) = explode(":", $time); // Separar HH, MM, SS
+
+        // Redondear los segundos a minutos si es necesario
+        /*
+        if ($seconds >= 30) {
+            $minutes++;
+        }
+        */
+
+        return sprintf("%d hrs %02d min", $hours, $minutes);
+    }
+}
 
 
 

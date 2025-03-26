@@ -23,7 +23,7 @@
 								<tr>
 									<th class='text-center'>W.O. #</th>
 									<th class='text-center'>Job Code/Name</th>
-									<th class='text-center'>Supervisor</th>
+									<th class='text-center'>In Charge</th>
 									<th class='text-center'>Date of Issue</th>
 									<th class='text-center'>Date W.O.</th>
 									<th class='text-center'>More Information</th>
