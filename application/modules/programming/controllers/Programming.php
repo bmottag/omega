@@ -1514,6 +1514,7 @@ class Programming extends CI_Controller
 
 		$programmingSubcontractor = $this->programming_model->get_programming_occasional($arrParam); //Subcontractor list
 
+		/*
 		$arrParamHauling = array(
 			"table" => "hauling",
 			"order" => "fk_id_programming",
@@ -1521,7 +1522,7 @@ class Programming extends CI_Controller
 			"id" => $idProgramming
 		);
 		$programmingHauling = $this->general_model->get_basic_search($arrParamHauling); //Hauling list
-
+*/
 		$arrParam = array(
 			"idProgramming" => $idProgramming,
 			"createWO" => TRUE
@@ -1697,10 +1698,26 @@ class Programming extends CI_Controller
 					}
 
 					$table = 'workorder_ocasional';
-					$this->programming_model->add_item_workorder($table, $data_format);
+					$insertedId = $this->programming_model->add_item_workorder($table, $data_format);
+
+					if($data_indix["does_hauling"] == 1){
+						$info = array(
+							'fk_id_user' => $infoPlanning[0]["fk_id_user"],
+							'fk_id_company' => $data_indix["fk_id_company"],
+							'fk_id_site_from' => $infoPlanning[0]["fk_id_job"],
+							'fk_id_site_to' => $infoPlanning[0]["fk_id_job"],
+							'comments' => $data_indix["description"],
+							'plate' => $data_indix["unit"],
+							'date_issue' => $infoPlanning[0]["date_programming"],
+							'fk_id_workorder' => $idWorkorder,
+							'fk_id_submodule' => $insertedId,
+							'fk_id_programming' => $idProgramming
+						);
+						$this->db->insert('hauling', $info);
+					}
 				}
 			}
-
+/*
 			if ($programmingHauling) {
 				foreach ($programmingHauling as $key => $data_hauling) {
 					//actulizo la hauling
@@ -1715,7 +1732,7 @@ class Programming extends CI_Controller
 					$this->general_model->updateRecord($arrParam);
 				}
 			}
-
+*/
 			return $idWorkorder;
 		} else {
 			return FALSE;
