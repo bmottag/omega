@@ -616,10 +616,10 @@ class Programming_model extends CI_Model
 	 */
 	public function add_item_workorder($table, $data)
 	{
-		$query = $this->db->insert($table, $data);
-
-		if ($query) {
-			return true;
+		$this->db->insert($table, $data);
+	
+		if ($this->db->affected_rows() > 0) {
+			return $this->db->insert_id();
 		} else {
 			return false;
 		}
@@ -631,7 +631,7 @@ class Programming_model extends CI_Model
 	 */
 	public function get_programming_occasional($arrData)
 	{
-		$sql = "SELECT P.*, C.company_name
+		$sql = "SELECT P.*, C.company_name, C.does_hauling
 				FROM programming_ocasional P
 				INNER JOIN param_company C ON C.id_company = P.fk_id_company
 				WHERE  (P.fk_id_programming = " . $arrData["idProgramming"] . " OR " . $arrData["idProgramming"] . " IS NULL)
@@ -692,14 +692,7 @@ class Programming_model extends CI_Model
 			$idWorkorder = $result[0]["fk_id_workorder"];
 			$fk_id_job = $result[0]["fk_id_job"];
 
-			$info['id_work_order'] = $idWorkorder;
-			$info['fk_id_job'] = $fk_id_job;
-			$info['equipment'] = $this->input->post('equipment');
-			$info['unit'] = $this->input->post('unit');
-			$info['description'] = $this->input->post('description');
-			$info['fk_id_programming'] = $this->input->post('hddidProgramming');
-
-			$this->load->model("hauling/hauling_model");
+			//$this->load->model("hauling/hauling_model");
 
 			for ($i = 0; $i < $quantity; $i++) {
 				$data = array(
@@ -714,7 +707,7 @@ class Programming_model extends CI_Model
 				);
 
 				$query = $this->db->insert('programming_ocasional', $data);
-				$this->hauling_model->saveHaulingByProgramming($info);
+				//$this->hauling_model->saveHaulingByProgramming($info);
 			}
 		}
 

@@ -362,7 +362,8 @@ if ($information && $information["fk_id_workorder"] != null) {
 								<label class="col-sm-4 control-label" for="timeIn">Time In</label>
 								<div class="col-sm-2">
 									<?php
-									if ($information) {
+									$hourIn = $minIn = 0;
+									if ($information && $information["time_in"]) {
 										$timeIn = explode(":", $information["time_in"]);
 										$hourIn = $timeIn[0];
 										$minIn = $timeIn[1];
@@ -403,7 +404,8 @@ if ($information && $information["fk_id_workorder"] != null) {
 								<label class="col-sm-4 control-label" for="fromSite">Time Out</label>
 								<div class="col-sm-2">
 									<?php
-									if ($information) {
+									$hourOut = $minOut = 0;
+									if ($information && $information["time_out"]) {
 										$timeOut = explode(":", $information["time_out"]);
 										$hourOut = $timeOut[0];
 										$minOut = $timeOut[1];
