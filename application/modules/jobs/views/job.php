@@ -37,7 +37,7 @@ $(function(){
             <div class="panel panel-dark">
                 <div class="panel-heading">
                     <a class="btn btn-dark btn-xs" href=" <?php echo base_url().'jobs/job_lic_list'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-                    <i class="fa fa-gears fa-fw"></i> <b>Line Item Contract (LIC) DETAIL</b>
+                    <i class="fa fa-gears fa-fw"></i> <b>Line Item Contract (LIC)</b>
                 </div>
                 <div class="panel-body small">
 

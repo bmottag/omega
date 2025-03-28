@@ -2,10 +2,10 @@
 	<br>
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-dark">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<a class="btn btn-dark btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
-					<i class="fa fa-gears fa-fw"></i> <b>Line Item Contract (LIC)</b>
+					<a class="btn btn-primary btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
+					<i class="fa fa-list fa-fw"></i> <b>PROJECTS</b>
 				</div>
 				<div class="panel-body">
 
@@ -26,15 +26,16 @@
 								echo "<tr>";
 								echo "<td>" . $lista['job_description'] . "</td>";
 								echo "<td class='text-center'>";
+						?>
+								<a class='btn btn-primary btn-xs' href='<?php echo base_url('programming/index/' . $lista['id_job']) ?>'>
+									Planning <span class="fa fa-book" aria-hidden="true">
+								</a>
+						<?php
 								if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
 						?>
-									<div class="pull-right">
-										<div class="btn-group">
-											<a class='btn btn-default btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>
-												View Job Details <span class="fa fa-list fa-fw" aria-hidden="true">
-											</a>
-										</div>
-									</div>
+									<a class='btn btn-dark btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>
+										LIC <span class="fa fa-gears fa-fw" aria-hidden="true">
+									</a>
 						<?php
 								}
 								echo "</td>";
