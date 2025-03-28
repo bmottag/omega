@@ -65,7 +65,7 @@ jQuery.validator.addMethod("equipmentValidation", function(value, element, param
 							$("#div_load").css("display", "none");
 							$('#btnSubmitEquipment').removeAttr('disabled');
 
-							var url = base_url + "programming/" + data.controlador + "/" + data.idRecord;
+							var url = base_url + "programming/" + data.controlador + "/" + data.path;
 							$(location).attr("href", url);
 						}
 						else

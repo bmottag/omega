@@ -352,10 +352,11 @@ class Programming_model extends CI_Model
 	 */
 	public function saveWorkerFashPlanning($idProgramming, $idHora)
 	{
-		$machine = '[' . implode(",", $this->input->post('machine')) . ']';
+		$machine = '[' . $this->input->post('machine') . ']';
 		$data = array(
 			'fk_id_programming' => $idProgramming,
 			'fk_id_programming_user' => $this->input->post('worker'),
+			'fk_id_employee_type' => 1,
 			'fk_id_machine' => $machine,
 			'fk_id_hour' => $idHora,
 			'site' => 2, // Se coloca por defecto 2 -> At the Site
@@ -541,9 +542,8 @@ class Programming_model extends CI_Model
 			"id" => $hddId
 		);
 		$result = $this->general_model->get_basic_search($arrParam);
-		$fk_id_workorder = $result[0]['fk_id_programming_materials'];
 
-		if ($fk_id_workorder) {
+		if ($result) {
 			$dataWO = array(
 				'quantity' => $this->input->post('quantity'),
 				'unit' => $this->input->post('unit'),

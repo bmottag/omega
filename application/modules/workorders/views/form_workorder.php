@@ -933,7 +933,13 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									echo "<tr>";
 									echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
 									echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
-									echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small></td>";
+									if($data['contact']){
+									echo "<br><small><strong>Contact</strong><br>" . $data['contact'] . "</small>";
+									}
+									if($data['id_hauling']){
+										echo "<br><br><a href='" . base_url('hauling/add_hauling/' . $data['id_hauling']) . "'>Hauling Card: " . $data['id_hauling'] . "</a>";
+									}
+									echo "</td>";
 
 									$idRecord = $data['id_workorder_ocasional'];
 								?>

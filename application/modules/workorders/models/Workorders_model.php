@@ -417,8 +417,9 @@ class Workorders_model extends CI_Model
 	 */
 	public function get_workorder_ocasional($arrData)
 	{
-		$this->db->select('W.*, C.company_name');
+		$this->db->select('W.*, C.company_name, H.id_hauling');
 		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'INNER');
+		$this->db->join('hauling H', 'H.fk_id_submodule = W.id_workorder_ocasional', 'LEFT');
 		if (array_key_exists("idWorkOrder", $arrData)) {
 			$this->db->where('W.fk_id_workorder', $arrData["idWorkOrder"]);
 		}

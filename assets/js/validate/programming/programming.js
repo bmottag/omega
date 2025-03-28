@@ -105,8 +105,7 @@ $(document).ready(function () {
 							if( data.result )//true
 							{
 								$(".btn-delete-programming").removeAttr('disabled');
-
-								var url = base_url + "programming";
+								var url = base_url + "programming/index/" + data.path;
 								$(location).attr("href", url);
 							}
 							else
@@ -128,6 +127,7 @@ $(document).ready(function () {
 
 		if ($("#form").valid() == true){
 
+				$("#jobName").prop("disabled", false);
 				//Activa icono guardando
 				$('#btnSubmit').attr('disabled','-1');
 				$("#div_error").css("display", "none");
@@ -158,7 +158,7 @@ $(document).ready(function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "programming/index/" + data.idProgramming;
+							var url = base_url + "programming/index/" + data.path;
 							$(location).attr("href", url);
 						}
 						else

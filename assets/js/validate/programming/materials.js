@@ -54,7 +54,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmitMaterial').removeAttr('disabled');
 
-							var url = base_url + "programming/" + data.controller + "/" + data.idRecord;
+							var url = base_url + "programming/" + data.controller + "/" + data.path;
 							$(location).attr("href", url);
 						}
 						else

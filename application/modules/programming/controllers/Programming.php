@@ -16,7 +16,7 @@ class Programming extends CI_Controller
 	 * @since 15/1/2019
 	 * @author BMOTTAG
 	 */
-	public function index($idProgramming = 'x')
+	public function index($idJob, $idProgramming = 'x')
 	{
 		$this->load->model("general_model");
 		$data['information'] = FALSE;
@@ -25,6 +25,9 @@ class Programming extends CI_Controller
 		$data['workersList'] = FALSE;
 		$data['dayoffList'] = FALSE;
 		$data['programmingMaterials'] = FALSE;
+
+		$arrParamJob['idJob'] = $idJob;
+		$data['jobInfo'] = $this->general_model->get_job($arrParamJob);
 
 		//si envio el id, entonces busco la informacion 
 		if ($idProgramming != 'x') {
@@ -75,7 +78,7 @@ class Programming extends CI_Controller
 			$arrParam = array("idProgramming" => $idProgramming);
 			$data['programmingMaterials'] = $this->programming_model->get_programming_materials($arrParam); //material list
 		} else {
-			$arrParam = array("estado" => "ACTIVAS");
+			$arrParam = array("jobId" => $idJob, "estado" => "ACTIVAS");
 			$data['information'] = $this->general_model->get_programming($arrParam); //info solicitudes
 		}
 
@@ -88,7 +91,7 @@ class Programming extends CI_Controller
 	 * @since 15/1/2019
 	 * @author BMOTTAG
 	 */
-	public function add_programming($idProgramming = 'x')
+	public function add_programming($idJob, $idProgramming = 'x')
 	{
 		$this->load->model("general_model");
 		$data['information'] = FALSE;
@@ -101,6 +104,9 @@ class Programming extends CI_Controller
 			"id" => 1
 		);
 		$data['jobs'] = $this->general_model->get_basic_search($arrParam);
+
+		$arrParamJob['idJob'] = $idJob;
+		$data['jobInfo'] = $this->general_model->get_job($arrParamJob);
 
 		//si envio el id, entonces busco la informacion 
 		if ($idProgramming != 'x') {
@@ -122,7 +128,7 @@ class Programming extends CI_Controller
 
 		$idProgramming = $this->input->post('hddId');
 		$idJob = $this->input->post('jobName');
-		//$date = $this->input->post('date');
+		$data["path"] = $idJob . "/" . $idProgramming;
 
 		$date = ($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d', strtotime($this->input->post('from')));
 
@@ -206,13 +212,9 @@ class Programming extends CI_Controller
 
 		$this->load->model("general_model");
 
-		$arrParam = array("idProgramming" => $idProgramming);
-		$data['infoProgramming'] = $this->general_model->get_programming($arrParam); //info programacion
-
 		//workers list
 		$arrParam = array("state" => 1);
 		$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
-
 
 		$data["idProgramming"] = $idProgramming;
 		$data["view"] = 'form_add_workers';
@@ -228,14 +230,19 @@ class Programming extends CI_Controller
 	{
 		header('Content-Type: application/json');
 		$data = array();
-		$data["idProgramming"] = $this->input->post('hddId');
+		$idProgramming = $this->input->post('hddId');
+
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		$data["path"] = $infoProgramming[0]["fk_id_job"] . "/" . $idProgramming;
 
 		if ($this->programming_model->addProgrammingWorker()) {
 			$data["result"] = true;
 			$data["mensaje"] = "Solicitud guardada correctamente.";
 
 			//actualizo el estado de la programacion -> dependiento si se completaron o no la cantidad de trabajadores
-			$updateState = $this->update_state($data["idProgramming"]);
+			$updateState = $this->update_state($idProgramming);
 
 			$this->session->set_flashdata('retornoExito', 'You have added Workers to the Planning, if they are going to use a machine remember to assign it to the worker.');
 		} else {
@@ -258,6 +265,10 @@ class Programming extends CI_Controller
 		$data = array();
 
 		$idProgramming = $this->input->post('identificador');
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		$data["path"] = $infoProgramming[0]["fk_id_job"];
 
 		if ($this->programming_model->deleteProgramming()) {
 			$data["result"] = true;
@@ -311,7 +322,9 @@ class Programming extends CI_Controller
 			}
 		}
 
-		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -344,7 +357,9 @@ class Programming extends CI_Controller
 			$this->session->set_flashdata('retornoExito', "You have updated the record!!");
 		}
 
-		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -391,7 +406,10 @@ class Programming extends CI_Controller
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
-		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -505,7 +523,7 @@ class Programming extends CI_Controller
 		if ($flashPlanning) {
 			return true;
 		} else {
-			$data['linkBack'] = "programming/index/" . $idProgramming;
+			$data['linkBack'] = "programming/index/" . $data['information'][0]["fk_id_job"] . "/". $idProgramming;
 			$data['titulo'] = "<i class='fa fa-list'></i> PLANNING LIST";
 
 			$data['clase'] = "alert-info";
@@ -749,9 +767,9 @@ class Programming extends CI_Controller
 	}
 
 	/**
-	 * Safe one worker
+	 * Save one worker
 	 */
-	public function safet_One_Worker_programming()
+	public function save_One_Worker_programming()
 	{
 		$idProgramming = $this->input->post('hddId');
 
@@ -760,7 +778,10 @@ class Programming extends CI_Controller
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
-		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -1170,7 +1191,8 @@ class Programming extends CI_Controller
 	{
 		$this->load->model("general_model");
 		$data['information'] = FALSE;
-		$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+		$arrToExclude = array();
+		$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection($arrToExclude);
 
 		//jobs list - (active items)
 		$arrParam = array(
@@ -1199,7 +1221,6 @@ class Programming extends CI_Controller
 
 		$this->load->model("general_model");
 		$idProgramming = $this->input->post('hddId');
-
 		$msj = "You have added a new Planning.";
 		if ($idProgramming != '') {
 			$msj = "You have updated a Planning!!";
@@ -1219,11 +1240,11 @@ class Programming extends CI_Controller
 			}
 		endforeach;
 
-		if ($data["idProgramming"] = $this->programming_model->saveProgramming()) {
+		if ($idProgramming = $this->programming_model->saveProgramming()) {
 			//Save worker
-			if ($this->programming_model->saveWorkerFashPlanning($data["idProgramming"], $idHora)) {
+			if ($this->programming_model->saveWorkerFashPlanning($idProgramming, $idHora)) {
 				//envio mensaje de texto
-				$this->send($data["idProgramming"], true);
+				$this->send($idProgramming, true);
 				$msj .= " Message is sent to the worker.";
 			}
 			$data["result"] = true;
@@ -1232,6 +1253,9 @@ class Programming extends CI_Controller
 			$data["result"] = "error";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 		}
+
+		$idJob = $this->input->post('jobName');
+		$data["path"] = $idJob . "/" . $idProgramming;
 
 		echo json_encode($data);
 	}
@@ -1421,7 +1445,12 @@ class Programming extends CI_Controller
 		header('Content-Type: application/json');
 		$data = array();
 
-		$data["idRecord"] = $this->input->post('hddidProgramming');
+		$idProgramming = $this->input->post('hddidProgramming');
+
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		$data["path"] = $infoProgramming[0]["fk_id_job"] . "/" . $idProgramming;
 
 		if ($this->programming_model->saveMaterial()) {
 			$data["result"] = true;
@@ -1460,9 +1489,7 @@ class Programming extends CI_Controller
 				"id" => $idProgrammingMaterial
 			);
 			$result = $this->general_model->get_basic_search($arrParam);
-			$fk_id_workorder = $result[0]['fk_id_programming_materials'];
-
-			if ($fk_id_workorder) {
+			if ($result) {
 				$dataWO =
 					array(
 						"table" => "workorder_materials",
@@ -1473,12 +1500,14 @@ class Programming extends CI_Controller
 				$this->general_model->deleteRecord($dataWO);
 			}
 
-
 			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong> Materials </strong> table.');
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
-		redirect(base_url('programming/index/' . $fk_id_programming), 'refresh');
+
+		$arrParam = array("idProgramming" => $fk_id_programming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $fk_id_programming), 'refresh');
 	}
 
 	public function updated_material()
@@ -1492,8 +1521,10 @@ class Programming extends CI_Controller
 			$data["result"] = "error";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
-
-		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -1790,7 +1821,12 @@ class Programming extends CI_Controller
 		header('Content-Type: application/json');
 		$data = array();
 
-		$data["idRecord"] = $this->input->post('hddidProgramming');
+		$idProgramming = $this->input->post('hddidProgramming');
+
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		$data["path"] = $infoProgramming[0]["fk_id_job"] . "/" . $idProgramming;
 
 		if ($this->programming_model->saveOcasional()) {
 			$data["result"] = true;
@@ -1801,13 +1837,12 @@ class Programming extends CI_Controller
 		}
 
 		$data["controller"] = "index";
-
 		echo json_encode($data);
 	}
 
 	public function save_hour()
 	{
-		$arrParam["idProgramming"] = $idProgramming = $this->input->post('hddIdProgramming');
+		$idProgramming = $this->input->post('hddIdProgramming');
 
 		if ($this->programming_model->saveRate()) {
 			$data["result"] = true;
@@ -1816,19 +1851,21 @@ class Programming extends CI_Controller
 			$data["result"] = "error";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
-
-		redirect(base_url('programming/index/' . $idProgramming), 'refresh');
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
 	 * Delete workorder record
 	 * @param varchar $tabla: nombre de la tabla de la cual se va a borrar
 	 * @param int $idValue: id que se va a borrar
-	 * @param int $idWorkorder: llave  primaria de workorder
+	 * @param int $idProgramming: llave  primaria de idProgramming
 	 */
-	public function deleteRecord($tabla, $idValue, $idWorkOrder, $vista)
+	public function deleteRecord($tabla, $idValue, $idProgramming, $vista)
 	{
-		if (empty($tabla) || empty($idValue) || empty($idWorkOrder)) {
+		if (empty($tabla) || empty($idValue) || empty($idProgramming)) {
 			show_error('ERROR!!! - You are in the wrong place.');
 		}
 		$arrParam = array(
@@ -1837,14 +1874,14 @@ class Programming extends CI_Controller
 			"id" => $idValue
 		);
 		$this->load->model("general_model");
-		$this->load->library('logger');
-
 		if ($this->general_model->deleteRecord($arrParam)) {
 			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>' . $tabla . '</strong> table.');
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
-		redirect(base_url('programming/' . $vista . '/' . $idWorkOrder), 'refresh');
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		redirect(base_url('programming/index/' . $infoProgramming[0]["fk_id_job"] . '/' . $idProgramming), 'refresh');
 	}
 
 	/**
@@ -1884,7 +1921,12 @@ class Programming extends CI_Controller
 		header('Content-Type: application/json');
 		$data = array();
 
-		$data["idRecord"] = $this->input->post('hddidProgramming');
+		$idProgramming = $this->input->post('hddidProgramming');
+
+		$this->load->model("general_model");
+		$arrParam = array("idProgramming" => $idProgramming);
+		$infoProgramming = $this->general_model->get_programming($arrParam);
+		$data["path"] = $infoProgramming[0]["fk_id_job"] . "/" . $idProgramming;
 
 		if ($this->programming_model->updateWorkerEquipment()) {
 			$data["result"] = true;

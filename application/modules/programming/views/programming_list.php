@@ -25,13 +25,18 @@
 					<?php
 					if ($idProgramming != 'x') {
 					?>
-						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('programming'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('programming/index/' . $jobInfo[0]['id_job']); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<?php
 					}
 					?>
-					<i class="fa fa-list"></i> <b>SETTINGS - PLANNING LIST</b>
+					<i class="fa fa-book"></i> <b>PLANNING LIST</b>
 				</div>
 				<div class="panel-body">
+
+					<div class="alert alert-info">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
+						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
+					</div>	
 
 					<?php
 					//DESHABILITAR PROGRAMACION, si es SAFETY
@@ -43,7 +48,7 @@
 					}
 					?>
 					<?php if (!$deshabilitar) { ?>
-						<a class='btn btn-primary btn-block' href='<?php echo base_url('programming/add_programming'); ?>'>
+						<a class='btn btn-primary btn-block' href='<?php echo base_url('programming/add_programming/' . $jobInfo[0]['id_job']); ?>'>
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span> New Planning
 						</a>
 						<br>
@@ -126,7 +131,7 @@
 										<?php
 										if (!$deshabilitar) {
 										?>
-											<a href='<?php echo base_url("programming/add_programming/" . $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
+											<a href='<?php echo base_url("programming/add_programming/" . $lista['fk_id_job'] . "/". $lista['id_programming']); ?>' class='btn btn-info btn-xs' title="Edit"><i class='fa fa-pencil'></i></a>
 
 											<button type="button" id="<?php echo $lista['id_programming']; ?>" class='btn btn-danger btn-xs btn-delete-programming' title="Delete">
 												<i class="fa fa-trash-o"></i>
@@ -136,7 +141,7 @@
 									}
 									?>
 
-									<a href='<?php echo base_url("programming/index/$lista[id_programming]"); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
+									<a href='<?php echo base_url("programming/index/"  . $lista['fk_id_job'] . "/" . $lista['id_programming']); ?>' class='btn btn-success btn-xs' title="View"><i class='fa fa-eye'></i></a>
 
 
 									<?php
@@ -253,6 +258,10 @@
 			</div>
 		</div>
 	</div>
+
+	<?php
+		if ($information) {
+	?>
 
 	<!--INICIO PERSONAL -->
 	<div class="row">
@@ -446,12 +455,6 @@
 										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
 											<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 										</button>
-<!--
-										<br><br>
-										<button type="button" class="btn btn-info btn-equipment  btn-xs" data-toggle="modal" data-target="#modalEquipment" title="Add Equipment" id="<?php echo 'equipment-' . $fkIdProgramming . "-" . $idRecord; ?>" <?php echo $deshabilitar; ?>>
-											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-										</button>
--->
 								</form>
 
 								<br><br>
@@ -679,6 +682,9 @@
 	</div>
 	<!--FIN OCCASIONAL SUBCONTRACTOR -->
 
+	<?php
+		}
+	?>
 </div>
 
 <!--INICIO Modal para adicionar WORKER -->
@@ -692,7 +698,7 @@
 				</div>
 
 				<div class="modal-body">
-					<form name="formWorkerProgramming" id="formWorkerProgramming" role="form" method="post" action="<?php echo base_url("programming/safet_One_Worker_programming") ?>">
+					<form name="formWorkerProgramming" id="formWorkerProgramming" role="form" method="post" action="<?php echo base_url("programming/save_One_Worker_programming") ?>">
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $idProgramming; ?>" />
 
 						<div class="form-group text-left">

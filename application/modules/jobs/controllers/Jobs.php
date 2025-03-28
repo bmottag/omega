@@ -3472,7 +3472,7 @@ class Jobs extends CI_Controller
 
 		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 
-		$data["view"] = 'jobs_lic_list';
+		$data["view"] = 'jobs_engineering_list';
 		$this->load->view("layout_calendar", $data);
 	}
 }
