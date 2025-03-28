@@ -9,7 +9,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-flash"></i> FLASH PLANNING
+					<i class="fa fa-flash"></i> <b>FLASH PLANNING</b>
 				</div>
 				<div class="panel-body">
 

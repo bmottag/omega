@@ -127,8 +127,8 @@ class Programming extends CI_Controller
 		header('Content-Type: application/json');
 
 		$idProgramming = $this->input->post('hddId');
-		$data["idJob"] = $idJob = $this->input->post('jobName');
-		//$date = $this->input->post('date');
+		$idJob = $this->input->post('jobName');
+		$data["path"] = $idJob . "/" . $idProgramming;
 
 		$date = ($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d', strtotime($this->input->post('from')));
 
@@ -1191,7 +1191,8 @@ class Programming extends CI_Controller
 	{
 		$this->load->model("general_model");
 		$data['information'] = FALSE;
-		$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection();
+		$arrToExclude = array();
+		$data['informationVehicles'] = $this->programming_model->get_vehicles_inspection($arrToExclude);
 
 		//jobs list - (active items)
 		$arrParam = array(
@@ -1220,7 +1221,6 @@ class Programming extends CI_Controller
 
 		$this->load->model("general_model");
 		$idProgramming = $this->input->post('hddId');
-
 		$msj = "You have added a new Planning.";
 		if ($idProgramming != '') {
 			$msj = "You have updated a Planning!!";
@@ -1240,11 +1240,11 @@ class Programming extends CI_Controller
 			}
 		endforeach;
 
-		if ($data["idProgramming"] = $this->programming_model->saveProgramming()) {
+		if ($idProgramming = $this->programming_model->saveProgramming()) {
 			//Save worker
-			if ($this->programming_model->saveWorkerFashPlanning($data["idProgramming"], $idHora)) {
+			if ($this->programming_model->saveWorkerFashPlanning($idProgramming, $idHora)) {
 				//envio mensaje de texto
-				$this->send($data["idProgramming"], true);
+				$this->send($idProgramming, true);
 				$msj .= " Message is sent to the worker.";
 			}
 			$data["result"] = true;
@@ -1253,6 +1253,9 @@ class Programming extends CI_Controller
 			$data["result"] = "error";
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 		}
+
+		$idJob = $this->input->post('jobName');
+		$data["path"] = $idJob . "/" . $idProgramming;
 
 		echo json_encode($data);
 	}

@@ -259,6 +259,10 @@
 		</div>
 	</div>
 
+	<?php
+		if ($information) {
+	?>
+
 	<!--INICIO PERSONAL -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -451,12 +455,6 @@
 										<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
 											<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 										</button>
-<!--
-										<br><br>
-										<button type="button" class="btn btn-info btn-equipment  btn-xs" data-toggle="modal" data-target="#modalEquipment" title="Add Equipment" id="<?php echo 'equipment-' . $fkIdProgramming . "-" . $idRecord; ?>" <?php echo $deshabilitar; ?>>
-											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-										</button>
--->
 								</form>
 
 								<br><br>
@@ -684,6 +682,9 @@
 	</div>
 	<!--FIN OCCASIONAL SUBCONTRACTOR -->
 
+	<?php
+		}
+	?>
 </div>
 
 <!--INICIO Modal para adicionar WORKER -->

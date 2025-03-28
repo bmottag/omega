@@ -68,24 +68,6 @@
 	}
 	?>
 
-	<?php
-	$userRol = $this->session->rol;
-	if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_WORKORDER) {
-		if ($infoTask) {
-	?>
-			<div class="row">
-				<div class="col-lg-12">
-					<a class="btn btn-block btn-social btn-pinterest" href="<?php echo base_url('dashboard/without_work_order'); ?>">
-						<i class="fa fa-money"></i> There are some hours from the payroll that are not linked to a Work Order (WO).
-					</a>
-					<br>
-				</div>
-			</div>
-	<?php
-		}
-	}
-	?>
-
 	<div class="row">
 		<!-- INICIO MENSAJE DEL SISTEMA si aprobaron un dayoff en los ultimos 7 dias -->
 		<?php if ($dayoff) { ?>
