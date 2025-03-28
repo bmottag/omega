@@ -541,9 +541,8 @@ class Programming_model extends CI_Model
 			"id" => $hddId
 		);
 		$result = $this->general_model->get_basic_search($arrParam);
-		$fk_id_workorder = $result[0]['fk_id_programming_materials'];
 
-		if ($fk_id_workorder) {
+		if ($result) {
 			$dataWO = array(
 				'quantity' => $this->input->post('quantity'),
 				'unit' => $this->input->post('unit'),

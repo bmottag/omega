@@ -26,11 +26,13 @@
 								echo "<tr>";
 								echo "<td>" . $lista['job_description'] . "</td>";
 								echo "<td class='text-center'>";
+								if($userRol != ID_ROL_ACCOUNTING && $userRol != ID_ROL_BASIC && $userRol != ID_ROL_MECHANIC && $userRol != ID_ROL_ACCOUNTING_ASSISTANT){ 
 						?>
 								<a class='btn btn-primary btn-xs' href='<?php echo base_url('programming/index/' . $lista['id_job']) ?>'>
 									Planning <span class="fa fa-book" aria-hidden="true">
 								</a>
 						<?php
+								}
 								if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
 						?>
 									<a class='btn btn-dark btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>

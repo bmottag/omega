@@ -105,8 +105,7 @@ $(document).ready(function () {
 							if( data.result )//true
 							{
 								$(".btn-delete-programming").removeAttr('disabled');
-
-								var url = base_url + "programming";
+								var url = base_url + "programming/index/" + data.path;
 								$(location).attr("href", url);
 							}
 							else
