@@ -51,33 +51,40 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
 					<div>
-						<i class="fa fa-briefcase"></i> SETTINGS - JOB CODE/NAME LIST
+						<i class="fa fa-briefcase"></i> <b>PROJECTS </b>
 					</div>
 					<div>
-						<a href="<?php echo base_url("admin/job/log"); ?>" class="btn btn-outline btn-primary btn-block" style="background-color: #5067f0; color: #ffffff;">
-							<i class="fa fa-briefcase"></i> LOGS
-						</a>
+						<?php 
+							$userRol = $this->session->rol;
+							if($userRol == ID_ROL_SUPER_ADMIN){ 
+						?>
+							<a href="<?php echo base_url("admin/job/log"); ?>" class="btn btn-outline btn-primary btn-block" style="background-color: #5067f0; color: #ffffff;">
+								<i class="fa fa-briefcase"></i> LOGS
+							</a>
+						<?php } ?>
 					</div>
 				</div>
 
 				<div class="panel-body">
-
-					<ul class="nav nav-pills">
-						<li <?php if ($state == 1) {
-								echo "class='active'";
-							} ?>><a href="<?php echo base_url("admin/job/1"); ?>">List of active Job Code/Name</a>
-						</li>
-						<li <?php if ($state == 2) {
-								echo "class='active'";
-							} ?>><a href="<?php echo base_url("admin/job/2"); ?>">List of inactive Job Code/Name</a>
-						</li>
-					</ul>
+					<?php 
+						if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_ACCOUNTING){ 
+					?>
+						<ul class="nav nav-pills">
+							<li <?php if ($state == 1) {
+									echo "class='active'";
+								} ?>><a href="<?php echo base_url("admin/job/1"); ?>">List of Active Job Code/Name</a>
+							</li>
+							<li <?php if ($state == 2) {
+									echo "class='active'";
+								} ?>><a href="<?php echo base_url("admin/job/2"); ?>">List of Inactive Job Code/Name</a>
+							</li>
+						</ul>
+						<br>
+						<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Job Code/Name
+						</button>
+					<?php } ?>
 					<br>
-
-					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Job Code/Name
-					</button><br>
-
 					<?php
 					$retornoExito = $this->session->flashdata('retornoExito');
 					if ($retornoExito) {
@@ -113,29 +120,31 @@
 
 						<form name="jobs_state" id="jobs_state" method="post" action="<?php echo base_url("admin/jobs_state/$state"); ?>">
 
-
-							<a href="javascript:seleccionar_todo()">Check all</a> |
-							<a href="javascript:deseleccionar_todo()">Uncheck all</a>
-
-
+							<?php 
+								$userRol = $this->session->rol;
+								if($userRol == ID_ROL_SUPER_ADMIN){ 
+							?>
+							<!--
+								<a href="javascript:seleccionar_todo()">Check all</a> |
+								<a href="javascript:deseleccionar_todo()">Uncheck all</a>
+							-->
+							<?php } ?>
 
 							<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 								<thead>
 									<tr>
-										<th class="text-center" width="25%">Job Code/Name</th>
-										<th class="text-center" width="20%">Company</th>
-										<th class="text-center" width="5%">Markup (%)</th>
-										<th class="text-center" width="5%">Profit (%)</th>
-										<th class="text-center" width="30%">Notes</th>
+										<th class="text-center" width="20%">Job Code/Name</th>
+										<th class="text-center" width="15%">Company</th>
+										<th class="text-center" width="20%">Notes</th>
 										<th class="text-center" width="5%">Automatic Planning Message</th>
+										<!--
 										<th class="text-center" width="5%">Status
-
 											<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2">
 												Update Status <span class="glyphicon glyphicon-edit" aria-hidden="true">
 											</button>
-
 										</th>
-										<th class="text-center" width="5%">Links</th>
+										-->
+										<th class="text-center" width="40%">Actions</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -144,8 +153,6 @@
 										echo "<tr>";
 										echo "<td>" . $lista['job_description'] . "</td>";
 										echo "<td>" . $lista['company_name'] . "</td>";
-										echo "<td class='text-center'>" . $lista['markup'] . " %</td>";
-										echo "<td class='text-center'>" . $lista['profit'] . " %</td>";
 										echo "<td >" . $lista['notes'] . "</td>";
 										echo "<td class='text-center'>";
 										switch ($lista['planning_message']) {
@@ -160,6 +167,7 @@
 										}
 										echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
 										echo "</td>";
+										/***
 										echo "<td class='text-center'>";
 										switch ($lista['state']) {
 											case 1:
@@ -175,7 +183,6 @@
 										}
 										echo '<p class="' . $clase . '"><strong>' . $valor . '</strong>';
 
-
 										$data = array(
 											'name' => 'job[]',
 											'id' => 'job',
@@ -186,45 +193,58 @@
 										echo form_checkbox($data);
 
 										echo '</p>';
-
 										echo "</td>";
+										 */
 										echo "<td class='text-center'>";
+									?>
+
+									<?php
+										if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_SAFETY || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_SUPERVISOR || $userRol == ID_ROL_ENGINEER){ 
+									?>
+											<a class='btn btn-primary btn-xs' href='<?php echo base_url('programming/index/' . $lista['id_job']) ?>'>
+												Planning <span class="fa fa-book" aria-hidden="true">
+											</a>
+									<?php
+										}
+									?>
+
+									<?php
+										if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
+									?>
+											<a class='btn btn-dark btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>
+												LIC <span class="fa fa-gears fa-fw" aria-hidden="true">
+											</a>
+									<?php
+										}
+									?>
+
+									<?php
+										if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_ACCOUNTING){ 
 									?>
 										<button type="button" class="btn btn-outline btn-primary btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_job']; ?>">
 											Edit <span class="glyphicon glyphicon-edit" aria-hidden="true">
 										</button>
+									<?php 
+										}
+									?>
 
-										<div class="pull-right">
-											<div class="btn-group">
-												<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-													Actions
-													<span class="caret"></span>
-												</button>
+									<?php
+										if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
+									?>
+											<a class='btn btn-success btn-xs' href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
+												Employee Type Unit Price <span class="fa fa-flag fa-fw" aria-hidden="true">
+											</a>
 
-												<ul class="dropdown-menu pull-right" role="menu">
-													<?php
-													$userRol = 99; //$this->session->userdata("rol");
-													if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER) {
-													?>
-														<li>
-															<a href='<?php echo base_url('prices/employeeTypeUnitPrice/' . $lista['id_job']) ?>'>
-																<i class="fa fa-flag fa-fw"></i> Employee Type
-															</a>
-														</li>
-														<li>
-															<a href='<?php echo base_url('prices/equipmentUnitPrice/' . $lista['id_job'] . '/1') ?>'>
-																<i class="fa fa-flag fa-fw"></i> Equipment
-															</a>
-														</li>
-													<?php } ?>
-													<li>
-														<a href='<?php echo base_url('admin/job_qr_code/' . $lista['id_job'] . '/1') ?>'>
-															<i class="fa fa-qrcode fa-fw"></i> Timesheet QR CODE
-														</a>
-													</li>
-												</ul>
-											</div>
-										</div>
+											<a class='btn btn-success btn-xs' href='<?php echo base_url('prices/equipmentUnitPrice/' . $lista['id_job'] . '/1') ?>'>
+												Equipment Unit Price <span class="fa fa-flag fa-fw" aria-hidden="true">
+											</a>
+
+											<a class='btn btn-success btn-xs' href='<?php echo base_url('admin/job_qr_code/' . $lista['id_job'] . '/1') ?>'>
+												Timesheet QR CODE <span class="fa fa-qrcode fa-fw" aria-hidden="true">
+											</a>
+									<?php
+										}
+									?>
 
 									<?php
 										echo "</td>";
@@ -242,7 +262,6 @@
 	</div>
 </div>
 
-
 <!--INICIO Modal para adicionar -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -258,9 +277,7 @@
 	$(document).ready(function() {
 		$('#dataTables').DataTable({
 			responsive: true,
-			"ordering": false,
-			paging: false,
-			"searching": true
+			"pageLength": 100
 		});
 	});
 </script>

@@ -490,7 +490,7 @@ class Admin extends CI_Controller
 			$data['info'] = $this->general_model->get_job($arrParam);
 
 			$data["view"] = 'job';
-			$this->load->view("layout", $data);
+			$this->load->view("layout_calendar", $data);
 		}
 	}
 
