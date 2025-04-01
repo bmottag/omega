@@ -148,7 +148,7 @@
 		<?php if ($noJobs) {  ?>
 			<div class="col-lg-3 col-md-6">
 				<a class="btn btn-block btn-social btn-info" href="<?php echo base_url('jobs'); ?>">
-					<i class="fa fa-briefcase"></i> <b> Jobs list</b>
+					<i class="fa fa-life-saver"></i> <b> Jobs - Safety</b>
 				</a>
 			</div>
 		<?php } ?>

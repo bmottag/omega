@@ -43,7 +43,7 @@
 						?>						
 									
 						<?php
-								if($userRol != ID_ROL_SUPERVISOR && $userRol != ID_ROL_BASIC){ //Para ROL SUPERVISOR Y BASIC no se muestra el enlace
+								if($userRol != ID_ROL_SUPERVISOR && $userRol != ID_ROL_BASIC && $userRol != ID_ROL_MECHANIC){ //Para ROL SUPERVISOR Y BASIC no se muestra el enlace
 						?>
 									<a class='btn btn-danger btn-xs' href='<?php echo base_url('jobs/hazards/' . $lista['id_job']) ?>'>
 										JHA <span class="fa fa-life-saver" aria-hidden="true">

@@ -17,23 +17,29 @@
 						<li>Last Hauling Records</li>
 						<li>Own Inspections Records</li>
 						</ul>
-						<strong>Record Task:</strong> Payroll
-						<br><strong>Record Task:</strong> Hauling
-						<br><strong>Record Task:</strong> Rental Inspection
-						<br>* <strong>Jobs Info:</strong> 
+						<strong>Inspections</strong>
+						<br><strong>Record Task:</strong> 
+						<ul>
+						<li>Payroll</li>
+						<li>Hauling</li>
+						</ul>
+						* <strong>Jobs - Safety:</strong> 
 						<ul>
 						<li>TOOL BOX</li>
 						<li>FLHA</li>
 						<li>Locates</li>
 						<li>CSEP</li>
+						<li>Fire Watch</li>
+						<li>Bitacora</li>
+						<li>Near miss report</li>
+						<li>Incident/Accident report</li>
 						</ul>
-						<strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br><strong>Day off</strong> (Ask for)
+						----------------------------
+						<br><strong>Day Off:</strong> Request Day Off 
 						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<br>* <strong>Work orders:</strong>
 						<ul>
-						<li>Add/Edit</li>
+						<li>Add/Edit W.O.</li>
 						<li>This user can edit their own work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
@@ -63,26 +69,18 @@
 						<li>Last Hauling Records</li>
 						<li>Own Inspections Records</li>
 						</ul>
-						<strong>Service Order</strong>
+						<strong>Inspections</strong>
+						<br><strong>Service Order</strong>
 						<ul>
 						<li>View, edit and changes status of Service Orders</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
-						<br><strong>Record Task:</strong> Rental Inspection
-						<br>* <strong>Jobs Info:</strong> 
-						<ul>
-						<li>TOOL BOX</li>
-						<li>FLHA</li>
-						<li>Locates</li>
-						<li>CSEP</li>
-						</ul>
-						<strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br><strong>Day off</strong> (Ask for)
+						<br>* <strong>Jobs - Safety:</strong> All except JHA
+						<br><strong>Day Off:</strong> Request Day Off 
 						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<br>* <strong>Work orders:</strong>
 						<ul>
-						<li>Add/Edit</li>
+						<li>Add/Edit W.O.</li>
 						<li>This user can edit their own work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
@@ -107,27 +105,28 @@
 						* <strong>Dashboard: </strong>
 						<ul>
 						<li>Last Payroll Records</li>
-						<li>Jobs Info</li>
-						<li>Last Inspections Records</li>
 						<li>Last FLHA Records</li>
+						<li>Jobs - Safety</li>
+						<li>Last Inspections Records</li>
 						</ul>
-						<strong>Record Task:</strong> Payroll
-						<br><strong>Record Task:</strong> Hauling
-						<br><strong>Record Task:</strong> Rental Inspection
-						<br>* <strong>Jobs Info:</strong> All except JHA
-						<br><strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br><strong>Day off</strong> (Ask for)
-						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<strong>Inspections</strong>
+						<br><strong>Record Task:</strong> 
 						<ul>
-						<li>Add/Edit</li>
-						<li>Search</li>
+						<li>Payroll</li>
+						<li>Hauling</li>
+						</ul>
+						<strong>Jobs - Safety:</strong> All except JHA
+						<br>----------------------------
+						<br><strong>Engineering:</strong> Projects - Planning
+						<br><strong>Day off</strong> Request Day Off
+						<br>----------------------------
+						<br>* <strong>Work orders:</strong>
+						<ul>
+						<li>Add/Edit W.O.</li>
+						<li>Search W.O.</li>
 						<li>This user can edit any work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
-						----------------------------
-						<br><strong>Settings:</strong> Planning
 						<br>----------------------------
 						<br><strong>Manuals</strong>
 					</p>
@@ -155,35 +154,39 @@
 						<li>Last Hauling Records</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
-						<br>* <strong>Jobs info:</strong> ALL
-						<br><strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br><strong>Day off</strong> (Ask for)
+						<br><strong>Jobs - Safety:</strong> ALL
 						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<br><strong>Engineering:</strong>
 						<ul>
-						<li>Add/Edit</li>
-						<li>Search</li>
+						<li>Projects - Planning</li>
+						<li>Projects - ADD/Edit Job Code/Name</li>
+						</ul>
+						----------------------------
+						<br><strong>Accounting:</strong> 
+						<ul>
+						<li>Employee Settings</li>
+						<li>Payroll Report by Period</li>
+						<li>Payroll Report - General</li>
+						<li>Generate Paystubs</li>
+						<li>Review Paystubs</li>
+						<li>Review Total Yearly</li>
+						</ul>
+						----------------------------
+						<br><strong>Day off:</strong> Request Day Off
+						<br>----------------------------
+						<br>* <strong>Work orders:</strong>
+						<ul>
+						<li>Add/Edit W.O.</li>
+						<li>Search W.O.</li>
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
 						<li>This role can edit Work Orders that are "On Field" and "In Progress".</li>
+						<li>Work Order Report</li>
+						<li>Hauling Report</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
-						<br>----------------------------
-						<br><strong>Reports:</strong> Payroll Report by Period
-						<br><strong>Reports:</strong> Payroll Report - General
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Work Order Report
-						<br>----------------------------
-						<br><strong>Accounting:</strong> Generate Paystubs
-						<br><strong>Accounting:</strong> Employee Settings
-						<br><strong>Accounting:</strong> Review Paystubs
-						<br><strong>Accounting:</strong> Review Total Yearly
-						<br>----------------------------
-						<br><strong>Settings:</strong> Job Code/Name
-						<br><strong>Settings:</strong> Planning
 						<br>----------------------------
 						<br><strong>Manuals</strong>
 					</p>
@@ -205,57 +208,72 @@
 						<ul>
 						<li>Maintenance Program</li>
 						<li>Own Payroll Records</li>
-						<li>Jobs Info</li>
-						<li>Last Inspections Records</li>
 						<li>Last FLHA Records</li>
+						<li>Jobs - Safety</li>
+						<li>Last Inspections Records</li>
 						</ul>
-						<strong>Service Order</strong>
+						<strong>Inspections</strong>
+						<br><strong>Service Order</strong>
 						<ul>
 						<li>View, edit and changes status of Service Orders</li>
 						<li>Add Service Orders</li>
-						<li>Add and edit Corective Maintenance</li>
+						<li>Add and edit Corrective Maintenance</li>
 						<li>Add and edit Preventive Maintenance</li>
 						</ul>
-						<strong>Record Task:</strong> Payroll
-						<br><strong>Record Task:</strong> PPE inspection
-						<br><strong>Record Task:</strong> Rental Inspection
-						<br>* <strong>Jobs info:</strong> All
-						<br><strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br><strong>Day off</strong> (Ask for)
-						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<strong>Record Task:</strong> 
 						<ul>
-						<li>Add/Edit</li>
+						<li>Payroll</li>
+						<li>PPE Inspection</li>
+						</ul>
+						----------------------------
+						<strong>Safety:</strong>
+						<ul>
+						<li>Jobs - Safety - All</li>
+						<li>Certificate List</li>
+						<li>Hazard</li>
+						<li>Hazard Activity</li>
+						<li> FLHA Report</li>
+						<li> CSEP Report</li>
+						<li> Near Miss Report</li>
+						<li> Incident/Accident Report</li>
+						<li> Pickups & Trucks Inspection Report</li>
+						<li> Construction Equipment Inspection Report</li>
+						<li> Special Equipment Inspection Report</li>
+						</ul>
+						----------------------------
+						<br><strong>Engineering:</strong> Projects - Planning
+						<br>----------------------------
+						<br><strong>Day off</strong> 
+						<ul>
+						<li>Request Day Off</li>
+						<li>New Requests</li>
+						<li>Approved Requests</li>
+						<li>Denied Requests</li>
+						</ul>
+						----------------------------
+						<br><strong>Accounting</strong> 
+						<ul>
+						<li>Employee List ---> This role can only update the employee certificates.</li>
+						<li>Rentals</li>
+						</ul>
+						----------------------------
+						<br>* <strong>Work orders:</strong>
+						<ul>
+						<li>Add/Edit W.O.</li>
 						<li>This user can edit their own work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
 						<br>----------------------------
-						<br><strong>Manage Day off: </strong> New Day Off
-						<br><strong>Manage Day off: </strong> Approved Day Off
-						<br><strong>Manage Day off: </strong> Denied Day Off
-						<br>----------------------------
-						<br><strong>Reports:</strong> Incidences Report
-						<br><strong>Reports:</strong> Maintenace Report
-						<br><strong>Reports:</strong> FLHA Report
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Pickups & Trucks Inspection Report
-						<br><strong>Reports:</strong> Construction Equipment Inspection Report
-						<br><strong>Reports:</strong> Special Equipment Inspection Report
-						<br>----------------------------
-						<br>* <strong>Settings:</strong> Employee ---> This role can only update the employee certifacates.
-						<br><strong>Settings:</strong> Planning
-						<br><strong>Settings:</strong> Hazard
-						<br><strong>Settings:</strong> Hazard activity
-						<br><strong>Settings:</strong> Vehicles
-						<br><strong>Settings:</strong> Rentals
-						<br><strong>Settings:</strong> Vechicle stock
-						<br><strong>Settings:</strong> Link to videos
-						<br><strong>Settings:</strong> Link to manuals
-						<br><strong>Settings:</strong> Certificate list
-						<br>----------------------------
+						<br>* <strong>Settings:</strong> 
+						<ul>
+						<li>Vehicle - VCI</li>
+						<li>Videos links</li>
+						<li>Manuals links</li>
+						<li>Notifications Settings</li>
+						</ul>
+						----------------------------
 						<br><strong>Manuals</strong>
 					</p>
 				</div>
@@ -279,52 +297,68 @@
 						<li>Last FLHA Records</li>
 						<li>Last Hauling Records</li>
 						</ul>
-						<strong>Record Task:</strong> Payroll
-						<br><strong>Record Task:</strong> Rental Inspection
-						<br><strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<strong>Inspections</strong>
+						<br><strong>Record Task:</strong> 
 						<ul>
-						<li>Add/Edit</li>
-						<li>Search</li>
+						<li>Payroll</li>
+						</ul>
+						<strong>Safety:</strong>
+						<ul>
+						<li> FLHA Report</li>
+						<li> Near Miss Report</li>
+						<li> Incident/Accident Report</li>
+						<li> Pickups & Trucks Inspection Report</li>
+						<li> Construction Equipment Inspection Report</li>
+						<li> Special Equipment Inspection Report</li>
+						</ul>
+						----------------------------
+						<br><strong>Engineering:</strong>
+						<ul>
+						<li>Projects - ADD/Edit Job Code/Name</li>
+						<li>Material Type</li>
+						<li>Claims</li>
+						<li>General Employee Type Prices</li>
+						<li>General Equipment Prices</li>
+						</ul>
+						----------------------------
+						<br><strong>Accounting:</strong> 
+						<ul>
+						<li>Employee List</li>
+						<li>Employee Settings</li>
+						<li>Rentals</li>
+						<li>Payroll Report by Period</li>
+						<li>Payroll Report - General</li>
+						<li>Generate Paystubs</li>
+						<li>Review Paystubs</li>
+						<li>Review Total Yearly</li>
+						</ul>
+						----------------------------
+						<br><strong>Day Off:</strong> Request Day Off 
+						<br>----------------------------
+						<br>* <strong>Work orders:</strong>
+						<ul>
+						<li>Add/Edit W.O.</li>
+						<li>Search W.O.</li>
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
 						<li>This role can edit work orders that are "Revised" and "Send to the Client".</li>
+						<li>Audit Log W.O.</li>
+						<li>Work Order Report</li>
+						<li>Hauling Report</li>
 						</ul>
 						----------------------------
-						<br><strong>Calendar</strong>
-						<br>----------------------------
-						<br><strong>Claims:</strong> Latest Claims
-						<br>----------------------------
-						<br><strong>Prices:</strong> General Employee Type Prices
-						<br><strong>Prices:</strong> General Equipment Prices
-						<br>----------------------------
-						<br><strong>Reports:</strong> Payroll Report by Period
+						<br><strong>Calendar:</strong>
 						<ul>
 						<li>Edit Worker Hours</li>
 						</ul>
-						<strong>Reports:</strong> Incidences Report
-						<br><strong>Reports:</strong> Maintenace Report
-						<br><strong>Reports:</strong> FLHA Report
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Pickups & Trucks Inspection Report
-						<br><strong>Reports:</strong> Construction Equipment Inspection Report
-						<br><strong>Reports:</strong> Work Order Report
-						<br>----------------------------
-						<br><strong>Accounting:</strong> Generate Paystubs
-						<br><strong>Accounting:</strong> Employee Settings
-						<br><strong>Accounting:</strong> Review Paystubs
-						<br><strong>Accounting:</strong> Review Total Yearly
-						<br>----------------------------
-						<br>* <strong>Settings:</strong> Employee ---> This role can only see the information.
-						<br><strong>Settings:</strong> Job Code/Name
-						<br><strong>Settings:</strong> Company
-						<br>* <strong>Settings:</strong> Vehicles ---> This role can only see the information.
-						<br>* <strong>Settings:</strong> Rentals ---> This role can only see the information.
-						<br>----------------------------
+						----------------------------
+						<br>* <strong>Settings:</strong> 
+						<ul>
+						<li>Company</li>
+						<li>Vehicle - VCI</li>
+						</ul>
+						----------------------------
 						<br><strong>Manuals</strong>
 					</p>
 				</div>
@@ -351,44 +385,52 @@
 						<li>Last Hauling Records</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
-						<br>* <strong>Jobs info:</strong> ALL
-						<br><strong>Incidences:</strong> Near miss report
-						<br><strong>Incidences:</strong> Incident/Accident report
-						<br><strong>Day off</strong> (Ask for)
+						<br>* <strong>Jobs - Safety:</strong> ALL
 						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<br><strong>Engineering:</strong>
 						<ul>
-						<li>Add/Edit</li>
-						<li>Search</li>
+						<li>Projects - Planning</li>
+						<li>Projects - LIC</li>
+						<li>Projects - ADD/Edit Job Code/Name</li>
+						<li>Projects - Employee Type Unit Price</li>
+						<li>Projects - Equipment Unit Prive</li>
+						<li>Projects - Timesheet QR CODE</li>
+						<li>Attachments</li>
+						<li>Material Type</li>
+						<li>Claims</li>
+						<li>General Employee Type Prices</li>
+						<li>General Equipment Prices</li>
+						</ul>
+						----------------------------
+						<br><strong>Accounting:</strong> 
+						<ul>
+						<li>Employee Settings</li>
+						<li>Payroll Report by Period</li>
+						<li>Payroll Report - General</li>
+						<li>Generate Paystubs</li>
+						<li>Review Paystubs</li>
+						<li>Review Total Yearly</li>
+						</ul>
+						----------------------------
+						<br><strong>Day off:</strong> Request Day Off
+						<br>----------------------------
+						<br>* <strong>Work orders:</strong>
+						<ul>
+						<li>Add/Edit W.O.</li>
+						<li>Search W.O.</li>
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
 						<li>This role can edit Work Orders that are "On Field", "In Progress" and "Revised".</li>
+						<li>Work Order Report</li>
+						<li>Hauling Report</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
 						<br>----------------------------
-						<br><strong>Claims:</strong> Latest Claims
-						<br>----------------------------
-						<br><strong>Prices:</strong> General Employee Type Prices
-						<br><strong>Prices:</strong> General Equipment Prices
-						<br>----------------------------
-						<br><strong>Reports:</strong> Payroll Report by Period
-						<br><strong>Reports:</strong> Payroll Report - General
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Work Order Report
-						<br>----------------------------
-						<br><strong>Accounting:</strong> Generate Paystubs
-						<br><strong>Accounting:</strong> Employee Settings
-						<br><strong>Accounting:</strong> Review Paystubs
-						<br><strong>Accounting:</strong> Review Total Yearly
-						<br>----------------------------
-						<br><strong>Settings:</strong> Job Code/Name
-						<br><strong>Settings:</strong> Attachments
-						<br><strong>Settings:</strong> Planning
-						<br><strong>Settings:</strong> Material Type
-						<br>----------------------------
 						<br><strong>Manuals</strong>
+						<br>----------------------------
+						<br><strong>Manage System Access:</strong> Role Description
 					</p>
 				</div>
 				<div class="panel-footer">
@@ -407,49 +449,65 @@
 						* <strong>Dashboard: </strong>
 						<ul>
 						<li>Last Payroll Records</li>
-						<li>Jobs Info</li>
+						<li>Last FLHA Records</li>
+						<li>Jobs - Safety</li>
 						<li>Last Hauling Records</li>
 						<li>Last Inspections Records</li>
-						<li>Last FLHA Records</li>
 						</ul>
-						<strong>Record Task:</strong> Hauling
-						<br><strong>Record Task:</strong> Rental Inspection
-						<br>* <strong>Jobs info:</strong> All
-						<br>----------------------------
-						<br>* <strong>Work order:</strong>
+						<strong>Inspections</strong>
+						<br><strong>Record Task:</strong> 
 						<ul>
-						<li>Add/Edit</li>
-						<li>Search</li>
+						<li>Payroll</li>
+						<li>Hauling</li>
+						</ul>
+						----------------------------
+						<br><strong>Safety:</strong>
+						<ul>
+						<li>Jobs - Safety - All</li>
+						<li> FLHA Report</li>
+						<li> Near Miss Report</li>
+						<li> Incident/Accident Report</li>
+						<li> Pickups & Trucks Inspection Report</li>
+						<li> Construction Equipment Inspection Report</li>
+						<li> Special Equipment Inspection Report</li>
+						</ul>
+						----------------------------
+						<br><strong>Engineering:</strong>
+						<ul>
+						<li>Projects - Planning</li>
+						<li>Projects - ADD/Edit Job Code/Name</li>
+						<li>Claims</li>
+						<li>General Employee Type Prices</li>
+						<li>General Equipment Prices</li>
+						</ul>
+						----------------------------
+						<br><strong>Accounting:</strong> 
+						<ul>
+						<li>Employee List</li>
+						<li>Rentals</li>
+						<li>Payroll Report by Period</li>
+						<li>Payroll Report - General</li>
+						</ul>
+						* <strong>Work orders:</strong>
+						<ul>
+						<li>Add/Edit W.O.</li>
+						<li>Search W.O.</li>
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
 						<li>This role can edit work orders that are "Revised" and "Send to the Client".</li>
+						<li>Work Order Report</li>
+						<li>Hauling Report</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
 						<br>----------------------------
-						<br><strong>Claims:</strong> Latest Claims
-						<br>----------------------------
-						<br><strong>Prices:</strong> General Employee Type Prices
-						<br><strong>Prices:</strong> General Equipment Prices
-						<br>----------------------------
-						<br><strong>Reports:</strong> Payroll Report by Period
-						<br><strong>Reports:</strong> Incidences Report
-						<br><strong>Reports:</strong> Maintenace Report
-						<br><strong>Reports:</strong> FLHA Report
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Hauling Report
-						<br><strong>Reports:</strong> Pickups & Trucks Inspection Report
-						<br><strong>Reports:</strong> Construction Equipment Inspection Report
-						<br><strong>Reports:</strong> Work Order Report
-						<br>----------------------------
-						<br>* <strong>Settings:</strong> Employee ---> This role can only see the information.
-						<br><strong>Settings:</strong> Job Code/Name
-						<br><strong>Settings:</strong> Planning
-						<br><strong>Settings:</strong> Company
-						<br>* <strong>Settings:</strong> Vehicles ---> This role can only see the information.
-						<br>* <strong>Settings:</strong> Rentals ---> This role can only see the information.
-						<br>----------------------------
+						<br>* <strong>Settings:</strong> 
+						<ul>
+						<li>Company</li>
+						<li>Vehicle - VCI</li>
+						</ul>
+						----------------------------
 						<br><strong>Manuals</strong>
 						<br>----------------------------
 						<br><strong>Manage System Access:</strong> Role Description

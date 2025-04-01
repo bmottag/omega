@@ -24,7 +24,7 @@ class Workorders_model extends CI_Model
 			$this->db->where('id_workorder', $arrDatos["idWorkOrder"]);
 		}
 		if (array_key_exists("idEmployee", $arrDatos)) {
-			$this->db->where('fk_id_user', $arrDatos["idEmployee"]);
+			$this->db->where('W.fk_id_user', $arrDatos["idEmployee"]);
 		}
 
 		//$this->db->where('W.date >=', $firstDay);
