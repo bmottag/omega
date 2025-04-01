@@ -488,7 +488,7 @@ class Admin extends CI_Controller
 
 			$arrParam['state'] = $state;
 			$data['info'] = $this->general_model->get_job($arrParam);
-
+			$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 			$data["view"] = 'job';
 			$this->load->view("layout_calendar", $data);
 		}

@@ -51,7 +51,8 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
 					<div>
-						<i class="fa fa-briefcase"></i> <b>PROJECTS </b>
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
+						<i class="fa fa-list fa-fw"></i> <b>PROJECTS</b>
 					</div>
 					<div>
 						<?php 
