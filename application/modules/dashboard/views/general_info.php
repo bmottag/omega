@@ -226,7 +226,7 @@
 						<li>PPE Inspection</li>
 						</ul>
 						----------------------------
-						<strong>Safety:</strong>
+						<br><strong>Safety:</strong>
 						<ul>
 						<li>Jobs - Safety - All</li>
 						<li>Certificate List</li>
