@@ -135,7 +135,7 @@
 				if (array_key_exists("maintenanceStatus", $arrDatos)) {
 					$this->db->where('P.maintenance_status', $arrDatos["maintenanceStatus"]);
 				}
-				$this->db->order_by('id_preventive_maintenance', 'asc');
+				$this->db->order_by('id_preventive_maintenance', 'desc');
 				$query = $this->db->get('preventive_maintenance P');
 
 				if ($query->num_rows() > 0) {
@@ -198,7 +198,7 @@
 				if (array_key_exists("idMaintenance", $arrDatos)) {
 					$this->db->where('id_corrective_maintenance', $arrDatos["idMaintenance"]);
 				}	
-				$this->db->order_by('id_corrective_maintenance', 'asc');
+				$this->db->order_by('id_corrective_maintenance', 'desc');
 				$query = $this->db->get('corrective_maintenance P');
 
 				if ($query->num_rows() > 0) {
