@@ -110,7 +110,7 @@ if ($retornoError) {
 					?>
 					<strong>PPE (Basic): </strong><?php echo $ppe; ?><br>
 					<?php if($information[0]["specify_ppe"]){ ?>
-					<strong>Specify PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?><br>
+					<strong>Specialized PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?><br>
 					<?php } ?>
 					<strong>Date & Time: </strong><?php echo $information?$information[0]["date"]:""; ?>
 				</div>

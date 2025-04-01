@@ -458,7 +458,7 @@ class Report extends CI_Controller
 
 			if ($lista['specify_ppe']) {
 				$html .= '<tr>
-								<th bgcolor="#337ab7" style="color:white;"><strong>Specify PPE: </strong></th>
+								<th bgcolor="#337ab7" style="color:white;"><strong>Specialized PPE: </strong></th>
 								<th colspan="3" >' . $lista['specify_ppe'] . '</th>
 							</tr>';
 			}

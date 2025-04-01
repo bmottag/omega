@@ -73,7 +73,7 @@ if ($retornoError) {
 <?php } ?>
 <br><strong>PPE (Basic): </strong><?php echo $ppe; ?>
 <?php if($information[0]["specify_ppe"]){ ?>
-<br><strong>Specify PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>
+<br><strong>Specialized PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>
 <?php } ?>
 
 <a class="btn btn-success btn-xs" href="<?php echo base_url("safety/add_safety/" . $information[0]["fk_id_job"] . "/" . $information[0]["id_safety"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit </a>

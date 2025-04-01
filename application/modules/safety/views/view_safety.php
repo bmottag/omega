@@ -34,7 +34,7 @@
 							<br><strong>Muster Point: </strong><?php echo $information?$information[0]["muster_point"]:""; ?>
 							<br><strong>PPE: </strong><?php echo $ppe; ?>
 							<?php if($information[0]["specify_ppe"]){ ?>
-							<br><strong>Specify PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>
+							<br><strong>Specialized PPE: </strong><?php echo $information?$information[0]["specify_ppe"]:""; ?>
 							<?php } ?>
 							</div>
 						</div>
