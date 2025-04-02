@@ -130,9 +130,9 @@ class Jobs extends CI_Controller
 
 		if ($idToolBox = $this->jobs_model->add_TOOLBOX()) {
 			$data["result"] = true;
-			$data["mensaje"] = "You have saved the Tool Box, continue uploading the information.";
+			$data["mensaje"] = "You have saved the IHSR, continue uploading the information.";
 			$data["idToolBox"] = $idToolBox;
-			$this->session->set_flashdata('retornoExito', 'You have saved the Tool Box, continue uploading the information!!');
+			$this->session->set_flashdata('retornoExito', 'You have saved the IHSR, continue uploading the information!!');
 		} else {
 			$data["result"] = "error";
 			$data["mensaje"] = "Error!!! Ask for help.";
@@ -578,7 +578,7 @@ class Jobs extends CI_Controller
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('VCI');
-		$pdf->SetTitle('Tool Box report');
+		$pdf->SetTitle('IHSR report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
 		// set default header data

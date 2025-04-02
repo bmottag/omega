@@ -103,7 +103,7 @@
                                         if ($data['safety'] == 1) {
                                             $mensaje .= "<br>Do FLHA";
                                         } elseif ($data['safety'] == 2) {
-                                            $mensaje .= "<br>Do Tool Box";
+                                            $mensaje .= "<br>Do IHSR";
                                         }
                                         $mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
                                     endforeach;
@@ -544,7 +544,7 @@
         <div class="col-lg-12">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-cube fa-fw"></i> <strong>TOOL BOX RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-cube fa-fw"></i> <strong>IHSR RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
 
                 <div class="panel-body">

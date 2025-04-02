@@ -25,7 +25,7 @@
 						</ul>
 						* <strong>Jobs - Safety:</strong> 
 						<ul>
-						<li>TOOL BOX</li>
+						<li>IHSR</li>
 						<li>FLHA</li>
 						<li>Locates</li>
 						<li>CSEP</li>

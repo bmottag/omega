@@ -305,7 +305,7 @@
 								<th style="width: 16%"><small>Name / Employee Type</small></th>
 								<th class="text-center" width= "8%"><small>Time In</small></th>
 								<th class="text-center" width= "13%"><small>Site</small></th>
-								<th class="text-center" width= "13%"><small>FLHA/TOOL BOX</small></th>
+								<th class="text-center" width= "13%"><small>FLHA/IHSR</small></th>
 								<th class="text-center" width= "21%"><small>Description</small></th>
 								<th class="text-center" width= "22%"><small>Equipment</small></th>
 								<th class="text-center" width= "8%"><small>Creat WO</small></th>
@@ -351,7 +351,7 @@
 								if ($data['safety'] == 1) {
 									$mensaje .= "<br>Do FLHA";
 								} elseif ($data['safety'] == 2) {
-									$mensaje .= "<br>Do Tool Box";
+									$mensaje .= "<br>Do IHSR";
 								} elseif ($data['safety'] == 3) {
 									$mensaje .= "<br>Job site orientation";
 								}
@@ -418,7 +418,7 @@
 															}  ?>>FLHA</option>
 											<option value=2 <?php if ($data["safety"] == 2) {
 																echo "selected";
-															}  ?>>Tool Box</option>
+															}  ?>>IHSR</option>
 											<option value=3 <?php if ($data["safety"] == 3) {
 																echo "selected";
 															}  ?>>Job Site Orientation</option>
@@ -481,7 +481,7 @@
 									<tr class="headings">
 										<th class="column-title">-- MESSAGE --</th>
 										<th class="column-title">-- INSPECTIONS --</th>
-										<th class="column-title">-- FLHA / TOOL BOX / JSO --</th>
+										<th class="column-title">-- FLHA / IHSR / JSO --</th>
 									</tr>
 								</thead>
 

@@ -182,7 +182,7 @@
                             <li>Time: Every 30 minutes </li>
                         </ul>
 
-                        <strong>TOOL BOX Verifications for Planning:</strong>
+                        <strong>IHSR Verifications for Planning:</strong>
                         <ul>
                             <li>URL: https://v-contracting.ca/app/programming/verificacion_tool_box </li>
                             <li>Time: Every 15 minutes </li>

@@ -495,7 +495,7 @@ class Programming extends CI_Controller
 				if ($info['safety'] == 1) {
 					$mensaje .= "\nFLHA has being assigned to you.";
 				} elseif ($info['safety'] == 2) {
-					$mensaje .= "\nTool Box has being assigned to you.";
+					$mensaje .= "\nIHSR has being assigned to you.";
 				} elseif ($info['safety'] == 3) {
 					$mensaje .= "\nJSO has being assigned to you.";
 				}
@@ -1096,7 +1096,7 @@ class Programming extends CI_Controller
 
 						if (!$inspecciones) {
 							$i++;
-							$nombres .= "<br>" . $dato['name'] . " - Missing TOOL BOX";
+							$nombres .= "<br>" . $dato['name'] . " - Missing IHSR";
 							//ENVIO MENSAJE DE TEXTO
 							if ($bandera && $dato['sms_safety'] != 2) {
 
@@ -1120,8 +1120,8 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $dato['movil'];
 
-										$mensaje = "TOOL BOX APP-VCI";
-										$mensaje .= "\nDo not forget to do the TOOL BOX:";
+										$mensaje = "IHSR APP-VCI";
+										$mensaje .= "\nDo not forget to do the IHSR:";
 										$mensaje .= "\n" . $lista['job_description'];
 
 										// Use the client to do fun stuff like send text messages!
@@ -1142,8 +1142,8 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $phoneAdmin;
 
-										$mensaje = "TOOL BOX APP-VCI";
-										$mensaje .= "\nThe user has not done the TOOL BOX:";
+										$mensaje = "IHSR APP-VCI";
+										$mensaje .= "\nThe user has not done the IHSR:";
 										$mensaje .= "\n" . $dato['name'];
 
 										// Use the client to do fun stuff like send text messages!
@@ -1173,10 +1173,10 @@ class Programming extends CI_Controller
 		}
 
 		if ($i != 0) {
-			$memo =  "Missing TOOL BOX:";
+			$memo =  "Missing IHSR:";
 			$memo .= $nombres;
 		} else {
-			$memo = "There is no TOOL BOX missing";
+			$memo = "There is no IHSR missing";
 		}
 
 		return $memo;

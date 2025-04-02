@@ -1,6 +1,6 @@
 <?php
 	// create some HTML content
-	$html = '<br><h2 align="center" style="color:#337ab7;">TOOL BOX MEETING<br><br></h2>
+	$html = '<br><h2 align="center" style="color:#337ab7;">IHSR MEETING<br><br></h2>
 				<style>
 				table {
 					font-family: arial, sans-serif;

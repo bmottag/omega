@@ -256,7 +256,7 @@
 											if ($worker['safety'] == 1) {
 												$mensaje .= "<br>FLHA has being assigned to you.";
 											} elseif ($worker['safety'] == 2) {
-												$mensaje .= "<br>Tool Box has being assigned to you.";
+												$mensaje .= "<br>IHSR has being assigned to you.";
 											} elseif ($worker['safety'] == 3) {
 												$mensaje .= "<br>JSO has being assigned to you.";
 											}
@@ -300,7 +300,7 @@
 									<th>Time In</th>
 									<th>Site</th>
 									<th>Description</th>
-									<th>FLHA/TOOL BOX</th>
+									<th>FLHA/IHSR</th>
 									<th>Equipment</th>
 									<th>Confirmed?</th>
 								</tr>
@@ -324,7 +324,7 @@
 											break;
 									}
 
-									$safety = $data['safety'] == 1 ? "FLHA has being assigned to you" : ($data['safety'] == 2 ? "Tool Box has being assigned to you" : "");
+									$safety = $data['safety'] == 1 ? "FLHA has being assigned to you" : ($data['safety'] == 2 ? "IHSR has being assigned to you" : "");
 
 									if ($data['confirmation'] == 1) {
 										$confirmation = "<p class='text-success'><b>Confirmed?</b> Yes</p>";

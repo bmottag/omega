@@ -7,7 +7,7 @@
 			<div class="panel panel-warning">
 				<div class="panel-heading">
 					<a class="btn btn-warning btn-xs" href=" <?php echo base_url().'jobs'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-cube"></i> <strong>TOOL BOX</strong>
+					<i class="fa fa-cube"></i> <strong>IHSR</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -17,7 +17,7 @@
 					</div>					
 				
 					<a class='btn btn-outline btn-warning btn-block' href='<?php echo base_url('jobs/add_tool_box/' . $jobInfo[0]['id_job']) ?>'>
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Add a Tool Box
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Add IHSR
 					</a>
 					
 					<br>

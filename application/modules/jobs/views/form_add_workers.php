@@ -7,7 +7,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-edit fa-fw"></i>	TOOL BOX
+					<i class="fa fa-edit fa-fw"></i>	IHSR
 					</h4>
 				</div>
 			</div>
@@ -20,7 +20,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-life-saver"></i> TOOL BOX - ADD WORKERS
+					<i class="fa fa-life-saver"></i> IHSR - ADD WORKERS
 				</div>
 				<div class="panel-body">
 
