@@ -246,7 +246,29 @@
 												$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 											}
 
-											$mensaje .= $worker['site'] == 1 ? "At the yard - " : "At the site - ";
+											switch ($worker['site']) {
+												case 1:
+													$mensaje .= "At the yard - ";
+													break;
+												case 2:
+													$mensaje .= "At the site - ";
+													break;
+												case 3:
+													$mensaje .= "At Terminal - ";
+													break;
+												case 4:
+													$mensaje .= "On-line training - ";
+													break;
+												case 5:
+													$mensaje .= "At training facility - ";
+													break;
+												case 6:
+													$mensaje .= "At client's office - ";
+													break;
+												default:
+													$mensaje .= "At the yard - ";
+													break;
+											}
 											$mensaje .= $worker['hora'];
 
 											$mensaje .= "<br><b>" . $worker['name'] . "</b>";
@@ -318,6 +340,15 @@
 											break;
 										case 3:
 											$site = "At Terminal";
+											break;
+										case 4:
+											$site = "On-line training";
+											break;
+										case 5:
+											$site = "At training facility";
+											break;
+										case 6:
+											$site = "At client's office";
 											break;
 										default:
 											$site = "At the yard";

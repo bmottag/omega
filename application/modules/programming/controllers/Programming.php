@@ -482,6 +482,15 @@ class Programming extends CI_Controller
 					case 3:
 						$mensaje .= "At Terminal - ";
 						break;
+					case 4:
+						$mensaje .= "On-line training - ";
+						break;
+					case 5:
+						$mensaje .= "At training facility - ";
+						break;
+					case 6:
+						$mensaje .= "At client's office - ";
+						break;
 					default:
 						$mensaje .= "At the yard - ";
 						break;

@@ -338,6 +338,15 @@
 									case 3:
 										$mensaje .= "At Terminal - ";
 										break;
+									case 4:
+										$mensaje .= "On-line training - ";
+										break;
+									case 5:
+										$mensaje .= "At training facility - ";
+										break;
+									case 6:
+										$mensaje .= "At client's office - ";
+										break;
 									default:
 										$mensaje .= "At the yard - ";
 										break;
@@ -407,6 +416,15 @@
 											<option value=3 <?php if ($data["site"] == 3) {
 																echo "selected";
 															}  ?>>At Terminal</option>
+											<option value=4 <?php if ($data["site"] == 4) {
+																echo "selected";
+															}  ?>>On-line training</option>
+											<option value=5 <?php if ($data["site"] == 5) {
+																echo "selected";
+															}  ?>>At training facility</option>
+											<option value=6 <?php if ($data["site"] == 6) {
+																echo "selected";
+															}  ?>>At client's office</option>
 										</select>
 									</td>
 
