@@ -164,12 +164,8 @@
 						----------------------------
 						<br><strong>Accounting:</strong> 
 						<ul>
-						<li>Employee Settings</li>
 						<li>Payroll Report by Period</li>
 						<li>Payroll Report - General</li>
-						<li>Generate Paystubs</li>
-						<li>Review Paystubs</li>
-						<li>Review Total Yearly</li>
 						</ul>
 						----------------------------
 						<br><strong>Day off:</strong> Request Day Off
