@@ -128,7 +128,6 @@ class Programming extends CI_Controller
 
 		$idProgramming = $this->input->post('hddId');
 		$idJob = $this->input->post('jobName');
-		$data["path"] = $idJob . "/" . $idProgramming;
 
 		$date = ($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d', strtotime($this->input->post('from')));
 
@@ -152,7 +151,7 @@ class Programming extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> This project is already scheduled for that date.');
 		} else {
 
-			if ($data["idProgramming"] = $this->programming_model->saveProgramming()) {
+			if ($idProgramming = $this->programming_model->saveProgramming()) {
 				$flagDate = $this->input->post('flag_date');
 				$parentId = $this->input->post('hddIdParent');
 				if ($flagDate == 2 && $parentId == "") {
@@ -160,7 +159,7 @@ class Programming extends CI_Controller
 					$arrParam = array(
 						"table" => "programming",
 						"primaryKey" => "parent_id",
-						"id" => $data["idProgramming"]
+						"id" => $idProgramming
 					);
 					$this->load->model("general_model");
 					$this->general_model->deleteRecord($arrParam);
@@ -176,14 +175,14 @@ class Programming extends CI_Controller
 						$applyFor = $this->input->post('apply_for');
 						$nextDate = date('Y-m-d', strtotime('+' . $i . ' day ', strtotime(formatear_fecha($this->input->post('from')))));
 						if ($applyFor == 1) {
-							$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"]);
+							$this->programming_model->savePeriodProgramming($nextDate, $idProgramming);
 						} else {
 							$numero_dia_semana = date("N", strtotime($nextDate));
 
 							if ($applyFor == 2 && $numero_dia_semana >= 1 && $numero_dia_semana <= 5) {
-								$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"]);
+								$this->programming_model->savePeriodProgramming($nextDate, $idProgramming);
 							} elseif ($applyFor == 3 && $numero_dia_semana >= 6 && $numero_dia_semana <= 7) {
-								$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"]);
+								$this->programming_model->savePeriodProgramming($nextDate, $idProgramming);
 							}
 						}
 					}
@@ -195,7 +194,7 @@ class Programming extends CI_Controller
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 			}
 		}
-
+		$data["path"] = $idJob . "/" . $idProgramming;
 		echo json_encode($data);
 	}
 

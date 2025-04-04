@@ -27,7 +27,11 @@
 					?>
 						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('programming/index/' . $jobInfo[0]['id_job']); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<?php
-					}
+					} else {
+					?>
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('admin/job/1'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<?php
+						}
 					?>
 					<i class="fa fa-book"></i> <b>PLANNING LIST</b>
 				</div>
@@ -260,7 +264,7 @@
 	</div>
 
 	<?php
-		if ($information) {
+		if ($idProgramming != 'x') {
 	?>
 
 	<!--INICIO PERSONAL -->
