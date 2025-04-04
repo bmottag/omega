@@ -41,7 +41,7 @@ echo $jobInfo[0]['job_description'];
         
             <div class="list-group">
                 <a href="<?php echo base_url('jobs/tool_box/' . $jobInfo[0]['id_job']); ?>" class="btn btn-warning btn-block">
-                    <i class="fa fa-tag"></i> Tool Box
+                    <i class="fa fa-tag"></i> IHSR
                 </a>
                 <a href="<?php echo base_url('jobs/erp/' . $jobInfo[0]['id_job']); ?>" class="btn btn-success btn-block">
                     <i class="fa fa-tags"></i> ERP

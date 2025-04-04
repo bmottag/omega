@@ -136,9 +136,9 @@ if(!$hazards){
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="management">Specify PPE</label>
+							<label class="col-sm-4 control-label" for="management">Specialized PPE</label>
 							<div class="col-sm-5">
-								<textarea id="specify" name="specify" class="form-control" placeholder="Specify PPE" rows="3"><?php echo $information?$information[0]["specify_ppe"]:""; ?></textarea>
+								<textarea id="specify" name="specify" class="form-control" placeholder="Specialized PPE" rows="3"><?php echo $information?$information[0]["specify_ppe"]:""; ?></textarea>
 							</div>
 						</div>
 					

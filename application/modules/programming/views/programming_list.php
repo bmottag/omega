@@ -27,7 +27,11 @@
 					?>
 						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('programming/index/' . $jobInfo[0]['id_job']); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<?php
-					}
+					} else {
+					?>
+						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('admin/job/1'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
+					<?php
+						}
 					?>
 					<i class="fa fa-book"></i> <b>PLANNING LIST</b>
 				</div>
@@ -260,7 +264,7 @@
 	</div>
 
 	<?php
-		if ($information) {
+		if ($idProgramming != 'x') {
 	?>
 
 	<!--INICIO PERSONAL -->
@@ -305,7 +309,7 @@
 								<th style="width: 16%"><small>Name / Employee Type</small></th>
 								<th class="text-center" width= "8%"><small>Time In</small></th>
 								<th class="text-center" width= "13%"><small>Site</small></th>
-								<th class="text-center" width= "13%"><small>FLHA/TOOL BOX</small></th>
+								<th class="text-center" width= "13%"><small>FLHA/IHSR</small></th>
 								<th class="text-center" width= "21%"><small>Description</small></th>
 								<th class="text-center" width= "22%"><small>Equipment</small></th>
 								<th class="text-center" width= "8%"><small>Creat WO</small></th>
@@ -338,6 +342,15 @@
 									case 3:
 										$mensaje .= "At Terminal - ";
 										break;
+									case 4:
+										$mensaje .= "On-line training - ";
+										break;
+									case 5:
+										$mensaje .= "At training facility - ";
+										break;
+									case 6:
+										$mensaje .= "At client's office - ";
+										break;
 									default:
 										$mensaje .= "At the yard - ";
 										break;
@@ -351,7 +364,7 @@
 								if ($data['safety'] == 1) {
 									$mensaje .= "<br>Do FLHA";
 								} elseif ($data['safety'] == 2) {
-									$mensaje .= "<br>Do Tool Box";
+									$mensaje .= "<br>Do IHSR";
 								} elseif ($data['safety'] == 3) {
 									$mensaje .= "<br>Job site orientation";
 								}
@@ -407,6 +420,15 @@
 											<option value=3 <?php if ($data["site"] == 3) {
 																echo "selected";
 															}  ?>>At Terminal</option>
+											<option value=4 <?php if ($data["site"] == 4) {
+																echo "selected";
+															}  ?>>On-line training</option>
+											<option value=5 <?php if ($data["site"] == 5) {
+																echo "selected";
+															}  ?>>At training facility</option>
+											<option value=6 <?php if ($data["site"] == 6) {
+																echo "selected";
+															}  ?>>At client's office</option>
 										</select>
 									</td>
 
@@ -418,7 +440,7 @@
 															}  ?>>FLHA</option>
 											<option value=2 <?php if ($data["safety"] == 2) {
 																echo "selected";
-															}  ?>>Tool Box</option>
+															}  ?>>IHSR</option>
 											<option value=3 <?php if ($data["safety"] == 3) {
 																echo "selected";
 															}  ?>>Job Site Orientation</option>
@@ -481,7 +503,7 @@
 									<tr class="headings">
 										<th class="column-title">-- MESSAGE --</th>
 										<th class="column-title">-- INSPECTIONS --</th>
-										<th class="column-title">-- FLHA / TOOL BOX / JSO --</th>
+										<th class="column-title">-- FLHA / IHSR / JSO --</th>
 									</tr>
 								</thead>
 

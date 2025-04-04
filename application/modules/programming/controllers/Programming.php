@@ -128,7 +128,6 @@ class Programming extends CI_Controller
 
 		$idProgramming = $this->input->post('hddId');
 		$idJob = $this->input->post('jobName');
-		$data["path"] = $idJob . "/" . $idProgramming;
 
 		$date = ($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d', strtotime($this->input->post('from')));
 
@@ -152,7 +151,7 @@ class Programming extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> This project is already scheduled for that date.');
 		} else {
 
-			if ($data["idProgramming"] = $this->programming_model->saveProgramming()) {
+			if ($idProgramming = $this->programming_model->saveProgramming()) {
 				$flagDate = $this->input->post('flag_date');
 				$parentId = $this->input->post('hddIdParent');
 				if ($flagDate == 2 && $parentId == "") {
@@ -160,7 +159,7 @@ class Programming extends CI_Controller
 					$arrParam = array(
 						"table" => "programming",
 						"primaryKey" => "parent_id",
-						"id" => $data["idProgramming"]
+						"id" => $idProgramming
 					);
 					$this->load->model("general_model");
 					$this->general_model->deleteRecord($arrParam);
@@ -176,14 +175,14 @@ class Programming extends CI_Controller
 						$applyFor = $this->input->post('apply_for');
 						$nextDate = date('Y-m-d', strtotime('+' . $i . ' day ', strtotime(formatear_fecha($this->input->post('from')))));
 						if ($applyFor == 1) {
-							$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"]);
+							$this->programming_model->savePeriodProgramming($nextDate, $idProgramming);
 						} else {
 							$numero_dia_semana = date("N", strtotime($nextDate));
 
 							if ($applyFor == 2 && $numero_dia_semana >= 1 && $numero_dia_semana <= 5) {
-								$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"]);
+								$this->programming_model->savePeriodProgramming($nextDate, $idProgramming);
 							} elseif ($applyFor == 3 && $numero_dia_semana >= 6 && $numero_dia_semana <= 7) {
-								$this->programming_model->savePeriodProgramming($nextDate, $data["idProgramming"]);
+								$this->programming_model->savePeriodProgramming($nextDate, $idProgramming);
 							}
 						}
 					}
@@ -195,7 +194,7 @@ class Programming extends CI_Controller
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 			}
 		}
-
+		$data["path"] = $idJob . "/" . $idProgramming;
 		echo json_encode($data);
 	}
 
@@ -482,6 +481,15 @@ class Programming extends CI_Controller
 					case 3:
 						$mensaje .= "At Terminal - ";
 						break;
+					case 4:
+						$mensaje .= "On-line training - ";
+						break;
+					case 5:
+						$mensaje .= "At training facility - ";
+						break;
+					case 6:
+						$mensaje .= "At client's office - ";
+						break;
 					default:
 						$mensaje .= "At the yard - ";
 						break;
@@ -495,7 +503,7 @@ class Programming extends CI_Controller
 				if ($info['safety'] == 1) {
 					$mensaje .= "\nFLHA has being assigned to you.";
 				} elseif ($info['safety'] == 2) {
-					$mensaje .= "\nTool Box has being assigned to you.";
+					$mensaje .= "\nIHSR has being assigned to you.";
 				} elseif ($info['safety'] == 3) {
 					$mensaje .= "\nJSO has being assigned to you.";
 				}
@@ -1096,7 +1104,7 @@ class Programming extends CI_Controller
 
 						if (!$inspecciones) {
 							$i++;
-							$nombres .= "<br>" . $dato['name'] . " - Missing TOOL BOX";
+							$nombres .= "<br>" . $dato['name'] . " - Missing IHSR";
 							//ENVIO MENSAJE DE TEXTO
 							if ($bandera && $dato['sms_safety'] != 2) {
 
@@ -1120,8 +1128,8 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $dato['movil'];
 
-										$mensaje = "TOOL BOX APP-VCI";
-										$mensaje .= "\nDo not forget to do the TOOL BOX:";
+										$mensaje = "IHSR APP-VCI";
+										$mensaje .= "\nDo not forget to do the IHSR:";
 										$mensaje .= "\n" . $lista['job_description'];
 
 										// Use the client to do fun stuff like send text messages!
@@ -1142,8 +1150,8 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $phoneAdmin;
 
-										$mensaje = "TOOL BOX APP-VCI";
-										$mensaje .= "\nThe user has not done the TOOL BOX:";
+										$mensaje = "IHSR APP-VCI";
+										$mensaje .= "\nThe user has not done the IHSR:";
 										$mensaje .= "\n" . $dato['name'];
 
 										// Use the client to do fun stuff like send text messages!
@@ -1173,10 +1181,10 @@ class Programming extends CI_Controller
 		}
 
 		if ($i != 0) {
-			$memo =  "Missing TOOL BOX:";
+			$memo =  "Missing IHSR:";
 			$memo .= $nombres;
 		} else {
-			$memo = "There is no TOOL BOX missing";
+			$memo = "There is no IHSR missing";
 		}
 
 		return $memo;

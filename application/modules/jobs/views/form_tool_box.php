@@ -42,7 +42,7 @@ $(function(){
 			<div class="panel panel-warning">
 				<div class="panel-heading">
 					<a class="btn btn-warning btn-xs" href=" <?php echo base_url().'jobs/tool_box/' . $jobInfo[0]['id_job']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-cube"></i> <strong>TOOL BOX FORM</strong>
+					<i class="fa fa-cube"></i> <strong>IHSR FORM</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -54,7 +54,7 @@ $(function(){
 						if($information){
 								echo $information[0]["date_tool_box"]; 
 								
-								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download Tool Box: </strong>";
+								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download IHSR: </strong>";
 						?>
 <a href='<?php echo base_url('jobs/generaTemplatePDF/' . $information[0]["id_tool_box"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 

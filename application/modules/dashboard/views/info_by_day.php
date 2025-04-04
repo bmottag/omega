@@ -93,7 +93,29 @@
                                             $informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
                                         }
 
-                                        $mensaje .= $data['site'] == 1 ? "At the yard - " : "At the site - ";
+                                        switch ($data['site']) {
+                                            case 1:
+                                                $mensaje .= "At the yard - ";
+                                                break;
+                                            case 2:
+                                                $mensaje .= "At the site - ";
+                                                break;
+                                            case 3:
+                                                $mensaje .= "At Terminal - ";
+                                                break;
+                                            case 4:
+                                                $mensaje .= "On-line training - ";
+                                                break;
+                                            case 5:
+                                                $mensaje .= "At training facility - ";
+                                                break;
+                                            case 6:
+                                                $mensaje .= "At client's office - ";
+                                                break;
+                                            default:
+                                                $mensaje .= "At the yard - ";
+                                                break;
+                                        }
                                         $mensaje .= $data['hora'];
 
                                         $mensaje .= "<br>" . $data['name'];
@@ -103,7 +125,7 @@
                                         if ($data['safety'] == 1) {
                                             $mensaje .= "<br>Do FLHA";
                                         } elseif ($data['safety'] == 2) {
-                                            $mensaje .= "<br>Do Tool Box";
+                                            $mensaje .= "<br>Do IHSR";
                                         }
                                         $mensaje .= $data['confirmation'] == 1 ? "<p class='text-success'><b>Confirmed?</b> Yes</p>" : "<p class='text-danger'><b>Confirmed?</b> No</p>";
                                     endforeach;
@@ -544,7 +566,7 @@
         <div class="col-lg-12">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-cube fa-fw"></i> <strong>TOOL BOX RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-cube fa-fw"></i> <strong>IHSR RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
 
                 <div class="panel-body">

@@ -246,7 +246,29 @@
 												$informationEquipments = $this->general_model->get_vehicle_info_for_planning($arrParam);
 											}
 
-											$mensaje .= $worker['site'] == 1 ? "At the yard - " : "At the site - ";
+											switch ($worker['site']) {
+												case 1:
+													$mensaje .= "At the yard - ";
+													break;
+												case 2:
+													$mensaje .= "At the site - ";
+													break;
+												case 3:
+													$mensaje .= "At Terminal - ";
+													break;
+												case 4:
+													$mensaje .= "On-line training - ";
+													break;
+												case 5:
+													$mensaje .= "At training facility - ";
+													break;
+												case 6:
+													$mensaje .= "At client's office - ";
+													break;
+												default:
+													$mensaje .= "At the yard - ";
+													break;
+											}
 											$mensaje .= $worker['hora'];
 
 											$mensaje .= "<br><b>" . $worker['name'] . "</b>";
@@ -256,7 +278,7 @@
 											if ($worker['safety'] == 1) {
 												$mensaje .= "<br>FLHA has being assigned to you.";
 											} elseif ($worker['safety'] == 2) {
-												$mensaje .= "<br>Tool Box has being assigned to you.";
+												$mensaje .= "<br>IHSR has being assigned to you.";
 											} elseif ($worker['safety'] == 3) {
 												$mensaje .= "<br>JSO has being assigned to you.";
 											}
@@ -300,7 +322,7 @@
 									<th>Time In</th>
 									<th>Site</th>
 									<th>Description</th>
-									<th>FLHA/TOOL BOX</th>
+									<th>FLHA/IHSR</th>
 									<th>Equipment</th>
 									<th>Confirmed?</th>
 								</tr>
@@ -319,12 +341,21 @@
 										case 3:
 											$site = "At Terminal";
 											break;
+										case 4:
+											$site = "On-line training";
+											break;
+										case 5:
+											$site = "At training facility";
+											break;
+										case 6:
+											$site = "At client's office";
+											break;
 										default:
 											$site = "At the yard";
 											break;
 									}
 
-									$safety = $data['safety'] == 1 ? "FLHA has being assigned to you" : ($data['safety'] == 2 ? "Tool Box has being assigned to you" : "");
+									$safety = $data['safety'] == 1 ? "FLHA has being assigned to you" : ($data['safety'] == 2 ? "IHSR has being assigned to you" : "");
 
 									if ($data['confirmation'] == 1) {
 										$confirmation = "<p class='text-success'><b>Confirmed?</b> Yes</p>";

@@ -29,7 +29,7 @@
 								$userRol = $this->session->rol;
 						?>
 									<a class='btn btn-warning btn-xs' href='<?php echo base_url('jobs/tool_box/' . $lista['id_job']) ?>'>
-										Tool Box <span class="fa fa-cube" aria-hidden="true">
+										IHSR <span class="fa fa-cube" aria-hidden="true">
 									</a>									
 						
 						<?php
