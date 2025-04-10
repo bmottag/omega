@@ -164,8 +164,10 @@
 						----------------------------
 						<br><strong>Accounting:</strong> 
 						<ul>
+						<li>Rentals</li>
 						<li>Payroll Report by Period</li>
 						<li>Payroll Report - General</li>
+						<li>ACS - Reports</li>
 						</ul>
 						----------------------------
 						<br><strong>Day off:</strong> Request Day Off
@@ -400,12 +402,13 @@
 						----------------------------
 						<br><strong>Accounting:</strong> 
 						<ul>
-						<li>Employee Settings</li>
+						<li>Employee List</li>
+						<li>Employee Type</li>
+						<li>Rentals</li>
+						<li>Parts by Store</li>
 						<li>Payroll Report by Period</li>
 						<li>Payroll Report - General</li>
-						<li>Generate Paystubs</li>
-						<li>Review Paystubs</li>
-						<li>Review Total Yearly</li>
+						<li>ACS - Reports</li>
 						</ul>
 						----------------------------
 						<br><strong>Day off:</strong> Request Day Off
@@ -425,8 +428,6 @@
 						<br><strong>Calendar</strong>
 						<br>----------------------------
 						<br><strong>Manuals</strong>
-						<br>----------------------------
-						<br><strong>Manage System Access:</strong> Role Description
 					</p>
 				</div>
 				<div class="panel-footer">

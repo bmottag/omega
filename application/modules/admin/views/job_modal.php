@@ -83,7 +83,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="notes">Notes: </label>
-					<textarea id="notes" name="notes" class="form-control" rows="3"><?php echo $information?$information[0]["notes"]:""; ?></textarea>
+					<textarea id="notes" name="notes" class="form-control" rows="3" required><?php echo $information?$information[0]["notes"]:""; ?></textarea>
 				</div>
 			</div>
 		</div>
@@ -107,14 +107,14 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="jobCode">Foreman's name: </label>
-					<input type="text" id="foreman" name="foreman" class="form-control" value="<?php echo $information?$information[0]["foreman_name"]:""; ?>" placeholder="Foreman's name" >
+					<input type="text" id="foreman" name="foreman" class="form-control" value="<?php echo $information?$information[0]["foreman_name"]:""; ?>" placeholder="Foreman's name" required>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="jobName">Foreman's mobile number:</label>
-					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["foreman_movil_number"]:""; ?>" placeholder="Foreman's mobile number" >
+					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["foreman_movil_number"]:""; ?>" placeholder="Foreman's mobile number" required>
 				</div>
 			</div>
 		</div>
@@ -123,7 +123,7 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="jobCode">Foreman's email: </label>
-					<input type="text" id="email" name="email" class="form-control" value="<?php echo $information?$information[0]["foreman_email"]:""; ?>" placeholder="Foreman's email" >
+					<input type="text" id="email" name="email" class="form-control" value="<?php echo $information?$information[0]["foreman_email"]:""; ?>" placeholder="Foreman's email" required>
 				</div>
 			</div>
 
