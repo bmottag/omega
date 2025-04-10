@@ -25,6 +25,7 @@ class Programming extends CI_Controller
 		$data['workersList'] = FALSE;
 		$data['dayoffList'] = FALSE;
 		$data['programmingMaterials'] = FALSE;
+		$data['programmingOccasional'] = FALSE;
 
 		$arrParamJob['idJob'] = $idJob;
 		$data['jobInfo'] = $this->general_model->get_job($arrParamJob);
