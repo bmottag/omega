@@ -26,7 +26,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-users"></i> SETTINGS - EMPLOYEE LIST
+					<i class="fa fa-users"></i> <b>SETTINGS - EMPLOYEE LIST</b>
 				</div>
 				<div class="panel-body">
 				
@@ -91,7 +91,7 @@ if ($retornoError) {
 								<th class="text-center">ID</th>
 								<th class="text-center">Name</th>
 								<th class="text-center">User</th>
-								<th class="text-center">More Info</th>
+								<th class="text-center">Employee Information</th>
 								<th class="text-center">Certificates</th>
 							</tr>
 						</thead>

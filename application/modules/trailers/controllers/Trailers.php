@@ -21,6 +21,7 @@ class Trailers extends CI_Controller
 
         $data['trailer_inspect'] = $this->trailers_model->get_trailers(); //busco lista de trailers
 
+        $data['dashboardURL'] = $this->session->userdata("dashboardURL");
         $data["view"] = 'trailers_index';
         $this->load->view("layout", $data);
     }

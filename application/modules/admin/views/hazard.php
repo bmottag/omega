@@ -22,7 +22,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-medkit"></i> SETTINGS - HAZARD LIST
+					<i class="fa fa-medkit"></i> <b>SETTINGS - HAZARD LIST</b>
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-outline btn-primary btn-block" data-toggle="modal" data-target="#modal" id="x">
@@ -61,7 +61,7 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">Activity</th>
 								<th class="text-center">Hazard</th>
-								<th class="text-center">Solution</th>
+								<th class="text-center">Controls <small>(E: Elimination, S: Substitution, I: Isolation, ENG: Engineering Control, ADM: Administrative Controls, PPE)</small></th>
 								<th class="text-center">Priority</th>
 								<th class="text-center">Edit</th>
 							</tr>

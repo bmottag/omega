@@ -32,10 +32,6 @@
                             <?php echo $titulo; ?>
                         </div>
                         <div class="panel-body">
-							<div class="alert alert-info">
-								<strong>Note:</strong> 
-								Select the date range to search your records.
-							</div>
 									<form  name="form" id="form" role="form" method="post" class="form-horizontal" >
 
 <!-- INICIO FILTRO POR EMPLEADO PARA PAYROLL CON USUARIO DE ADMINISTRADOR -->
@@ -189,6 +185,16 @@
 												<input type="text" id="to" name="to" class="form-control" placeholder="To" required >
 											</div>
                                         </div>
+
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="alert alert-info">
+													<strong>Note:</strong> 
+													Select the date range to search your records.
+												</div>
+											</div>
+										</div>
+
 <div class="row"></div><br>
 										<div class="form-group">
 											<div class="row" align="center">

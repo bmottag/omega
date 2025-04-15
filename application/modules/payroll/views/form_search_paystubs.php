@@ -5,6 +5,7 @@
         <div class="col-lg-12">
             <div class="panel panel-violeta">
                 <div class="panel-heading">
+					<a class="btn btn-violeta btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
                     <i class="fa fa-fire fa-fw"></i>  <b>PAYSTUBS FORM SEARCH</b>
                 </div>
                 <div class="panel-body">

@@ -114,14 +114,16 @@ if ($retornoError) {
 
 if($companyType == 2){ //si es subcontractor 
 	$labelFecha = "Arrival date";
+	$labelCompany = "Rental Company";
 }else{ //si es vci
 	$labelFecha = "Manufacturer date";
+	$labelCompany = "Company";
 }
 				?>				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Company</th>
+								<th class="text-center"><?php echo $labelCompany; ?></th>
 								<th class="text-center">Photo</th>
 								<th class="text-center">QR code</th>
 								<th class="text-center">Make</th>

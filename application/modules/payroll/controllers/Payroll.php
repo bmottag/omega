@@ -438,7 +438,7 @@ class Payroll extends CI_Controller
 			$data['info'] = $this->general_model->get_users_by_period($arrParam);
 			$data["view"] = $data['contractType'] == 2 ? "list_payroll" : "list_payroll_subcontractor";
 		}
-
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 		$this->load->view("layout_calendar", $data);
 	}
 
@@ -523,6 +523,7 @@ class Payroll extends CI_Controller
 			$data['info'] = $this->general_model->get_paystub_by_period($arrParam);
 		}
 		$data["view"] = "form_search_paystubs";
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 		$this->load->view("layout_calendar", $data);
 	}
 
@@ -551,6 +552,7 @@ class Payroll extends CI_Controller
 			$data['info'] = $this->general_model->get_total_yearly($arrParam);
 		}
 		$data["view"] = "form_search_total_yearly";
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 		$this->load->view("layout_calendar", $data);
 	}
 
@@ -596,7 +598,7 @@ class Payroll extends CI_Controller
 			$data['info'] = $this->general_model->get_users_by_period($arrParam);
 			$data["view"] = "list_payroll_time_sheet";
 		}
-
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 		$this->load->view("layout_calendar", $data);
 	}
 
