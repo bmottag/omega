@@ -435,6 +435,7 @@ class Dashboard extends CI_Controller
 	public function calendar()
 	{
 		$data["view"] = 'calendar';
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 		$this->load->view("layout_calendar", $data);
 	}
 

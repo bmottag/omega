@@ -378,6 +378,82 @@ class Template extends CI_Controller {
 			//============================================================+
 		
 	}
+
+	/**
+	 * Valves
+     * @since 15/04/2025
+     * @author BMOTTAG
+	 */
+	public function valves()
+	{
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "valves",
+				"order" => "valve_number",
+				"id" => "x"
+			);
+			$data['info'] = $this->general_model->get_basic_search($arrParam);
+			
+			$data["view"] = 'valves';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario valves
+     * @since 15/04/2025
+     */
+    public function cargarModalValve() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["idValve"] = $this->input->post("idValve");	
+			
+			if ($data["idValve"] != 'x') {
+				$this->load->model("general_model");
+				$arrParam = array(
+					"table" => "valves",
+					"order" => "id_valve",
+					"column" => "id_valve",
+					"id" => $data["idValve"]
+				);
+				$data['information'] = $this->general_model->get_basic_search($arrParam);
+			}
+			
+			$this->load->view("valves_modal", $data);
+    }
+	
+	/**
+	 * Update Valves
+     * @since 15/04/2025
+     * @author BMOTTAG
+	 */
+	public function save_valve()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idValve = $this->input->post('hddId');
+			
+			$msj = "You have added a new Valve!!";
+			if ($idValve != '') {
+				$msj = "You have updated a Valve!!";
+			}
+
+			if ($idValve = $this->template_model->saveValve()) {
+				$data["result"] = true;
+				$data["idRecord"] = $idValve;
+				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				$data["idRecord"] = "";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			echo json_encode($data);
+    }
 	
 	
 

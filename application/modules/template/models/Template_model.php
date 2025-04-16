@@ -136,11 +136,38 @@
 			}
 		}
 	
-		
-		
-		
-		
-		
+		/**
+		 * Add/Edit VALVES
+		 * @since 15/04/2025
+		 */
+		public function saveValve() 
+		{
+			$idValve = $this->input->post('hddId');
+			
+			$data = array(
+				'valve_number' => $this->input->post('valve_number'),
+				'number_of_turns' => $this->input->post('number_of_turns'),
+				'position' => $this->input->post('position'),
+				'status' => $this->input->post('status'),
+				'direction' => $this->input->post('direction'),
+				'rewarks' => $this->input->post('rewarks'),
+			);
+			
+			//revisar si es para adicionar o editar
+			if ($idValve == '') {
+				$data['fk_id_user'] = $this->session->userdata("id");
+				$data['date_issue'] = date("Y-m-d G:i:s");
+				$query = $this->db->insert('valves', $data);			
+			} else {
+				$this->db->where('id_valve', $idValve);
+				$query = $this->db->update('valves', $data);
+			}
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		
 		
 	    

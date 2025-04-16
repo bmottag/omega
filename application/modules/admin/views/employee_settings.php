@@ -5,7 +5,8 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - EMPLOYEE SETTINGS
+					<a class="btn btn-primary btn-xs" href=" <?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
+					<i class="fa fa-gear fa-fw"></i> <b>SETTINGS - EMPLOYEE SETTINGS</b>
 					</h4>
 				</div>
 			</div>
@@ -18,7 +19,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-flag-o"></i> EMPLOYEE SETTINGS
+					<i class="fa fa-flag-o"></i> <b>EMPLOYEE SETTINGS</b>
 				</div>
 				<div class="panel-body">
 <?php
@@ -68,11 +69,11 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">ID</th>
 								<th class="text-center">Name</th>
-								<th class="text-center">More Info</th>
+								<th class="text-center">Employee Information</th>
 								<th class="text-center">Employee Hour Rate</th>
 								<th class="text-center">Employee Type</th>
-								<th class="text-center">Is Subcontractor?</th>
-								<th class="text-center">Is using bank time?</th>
+								<th class="text-center">Is it a Subcontractor?</th>
+								<th class="text-center">Is it using bank time?</th>
 							</tr>
 						</thead>
 						<tbody>							

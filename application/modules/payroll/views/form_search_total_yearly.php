@@ -5,6 +5,7 @@
         <div class="col-lg-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
+					<a class="btn btn-success btn-xs" href="<?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go to Dashboard </a> 
                     <i class="fa fa-globe fa-fw"></i>  <b>TOTAL YEARLY FORM SEARCH</b>
                 </div>
                 <div class="panel-body">

@@ -2887,4 +2887,67 @@ class Report extends CI_Controller
 		$data["view"] = 'employee_bank_time';
 		$this->load->view("layout_calendar", $data);
 	}
+
+	public function valvesReport()
+	{
+		$this->load->model("general_model");
+		$arrParam = array(
+			"table" => "valves",
+			"order" => "valve_number",
+			"id" => "x"
+		);
+		$info = $this->general_model->get_basic_search($arrParam);
+
+		ob_end_clean();
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="valves_report.xlsx"');
+		header('Cache-Control: max-age=0');
+		
+		$spreadsheet = new Spreadsheet();
+		$spreadsheet->getActiveSheet()->setTitle('Valves Report');
+
+		$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Valve #s')
+			->setCellValue('B1', '# of Turns')
+			->setCellValue('C1', 'Position that valve was found')
+			->setCellValue('D1', 'Condition')
+			->setCellValue('E1', 'The direction of the turn for operation')
+			->setCellValue('F1', 'Rewarks');
+
+		$j = 2;
+		foreach ($info as $data) :
+			$sheet = $spreadsheet->getActiveSheet();
+			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['valve_number'])
+				->setCellValue('B' . $j, $data['number_of_turns'])
+				->setCellValue('C' . $j, $data['position'])
+				->setCellValue('D' . $j, $data['status'])
+				->setCellValue('E' . $j, $data['direction'])
+				->setCellValue('F' . $j, $data['rewarks']);
+			$j++;
+		endforeach;
+		
+		// Set column widths							  
+		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+		$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(15); 
+		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+		$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(40); 
+		$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(45); 
+		$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(55);
+
+		// Add conditional formatting
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(11);
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
+
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->setFillType(Fill::FILL_SOLID);
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->getStartColor()->setARGB('236e09');
+
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+		$spreadsheet->setActiveSheetIndex(0);
+
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('php://output');
+		exit();
+	}
 }

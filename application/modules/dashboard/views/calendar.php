@@ -2,16 +2,30 @@
 <script src="<?php echo base_url("assets/bootstrap/vendor/fullcalendar/lib/main.js"); ?>"></script>
 
 <script>
+	const dashboardURL = "<?php echo base_url($dashboardURL); ?>";
+</script>
+
+<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 
 			headerToolbar: {
-				left: 'prev,next today',
+				left: 'prev,next today myCustomButton',
 				center: 'title',
 				right: 'listDay,listWeek'
 			},
+
+			customButtons: {
+				myCustomButton: {
+					text: 'Go to Dashboard',
+					click: function() {
+						window.location.href = dashboardURL;
+					}
+				}
+			},
+
 
 			// customize the button names,
 			// otherwise they'd all just say "list"

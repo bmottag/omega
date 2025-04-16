@@ -1714,6 +1714,7 @@ class Admin extends CI_Controller
 		$arrParam = array("filtroState" => TRUE);
 		$data['info'] = $this->general_model->get_user($arrParam);
 
+		$data['dashboardURL'] = $this->session->userdata("dashboardURL");
 		$data["view"] = 'employee_settings';
 		$this->load->view("layout_calendar", $data);
 	}
