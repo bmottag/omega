@@ -1,13 +1,31 @@
 $( document ).ready( function () {
-	
-	$( "#form" ).validate( {
+
+jQuery.validator.addMethod("fieldOperated", function(value, element, param) {
+	var standby = $('#standby').val();
+	if(standby == 2 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");
+
+jQuery.validator.addMethod("equipmentValidation", function(value, element, param) {
+	var type = $('#type').val();
+	if(type != 8 && value == ""){
+		return false;
+	}else{
+		return true;
+	}
+}, "This field is required.");	
+
+	$( "#formEquipment" ).validate( {
 		rules: {
-			valve_number:				{ required: true, maxlength: 4 },
-			number_of_turns:			{ required: true },
-			position:					{ required: true },
-			status:						{ required: true },
-			direction:					{ required: true },
-			rewarks:					{ required: true },
+			type: 				{ required: true },
+			truck: 				{ equipmentValidation: true },
+			hour: 				{ required: true, number: true, maxlength:10 },
+			quantity: 			{ number: true, maxlength:10 },
+			operatedby:			{ fieldOperated: true },
+			description: 		{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -17,31 +35,31 @@ $( document ).ready( function () {
 
 		},
 		highlight: function ( element, errorClass, validClass ) {
-			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
 			$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
 		},
 		unhighlight: function (element, errorClass, validClass) {
-			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
 			$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
 		},
 		submitHandler: function (form) {
 			return true;
 		}
 	});
 	
-	$("#btnSubmit").click(function(){		
+	$("#btnSubmitEquipment").click(function(){		
 	
-		if ($("#form").valid() == true){
+		if ($("#formEquipment").valid() == true){
 		
 				//Activa icono guardando
-				$('#btnSubmit').attr('disabled','-1');
+				$('#btnSubmitEquipment').attr('disabled','-1');
 				$("#div_error").css("display", "none");
 				$("#div_load").css("display", "inline");
 			
 				$.ajax({
 					type: "POST",	
-					url: base_url + "template/save_valve",	
-					data: $("#form").serialize(),
+					url: base_url + "forceaccount/save/saveEquipment",	
+					data: $("#formEquipment").serialize(),
 					dataType: "json",
 					contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 					cache: false,
@@ -51,16 +69,16 @@ $( document ).ready( function () {
 						if( data.result == "error" )
 						{
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');							
+							$('#btnSubmitEquipment').removeAttr('disabled');							
 							return false;
 						} 
 
 						if( data.result )//true
 						{	                                                        
 							$("#div_load").css("display", "none");
-							$('#btnSubmit').removeAttr('disabled');
+							$('#btnSubmitEquipment').removeAttr('disabled');
 
-							var url = base_url + "template/valves";
+							var url = base_url + "forceaccount/" + data.controlador + "/" + data.idRecord;
 							$(location).attr("href", url);
 						}
 						else
@@ -68,14 +86,14 @@ $( document ).ready( function () {
 							alert('Error. Reload the web page.');
 							$("#div_load").css("display", "none");
 							$("#div_error").css("display", "inline");
-							$('#btnSubmit').removeAttr('disabled');
+							$('#btnSubmitEquipment').removeAttr('disabled');
 						}	
 					},
 					error: function(result) {
 						alert('Error. Reload the web page.');
 						$("#div_load").css("display", "none");
 						$("#div_error").css("display", "inline");
-						$('#btnSubmit').removeAttr('disabled');
+						$('#btnSubmitEquipment').removeAttr('disabled');
 					}
 					
 		

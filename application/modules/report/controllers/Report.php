@@ -2919,9 +2919,9 @@ class Report extends CI_Controller
 			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['valve_number'])
 				->setCellValue('B' . $j, $data['number_of_turns'])
 				->setCellValue('C' . $j, $data['position'])
-				->setCellValue('D' . $j, $data['status'])
+				->setCellValue('D' . $j, str_replace(["\r", "\n"], ' ', $data['status']))
 				->setCellValue('E' . $j, $data['direction'])
-				->setCellValue('F' . $j, $data['rewarks']);
+				->setCellValue('F' . $j, str_replace(["\r", "\n"], ' ', $data['rewarks']));
 			$j++;
 		endforeach;
 		
