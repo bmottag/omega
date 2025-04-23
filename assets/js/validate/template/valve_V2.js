@@ -2,7 +2,7 @@ $( document ).ready( function () {
 	
 	$( "#form" ).validate( {
 		rules: {
-			valve_number:				{ required: true, maxlength: 4 },
+			valve_number:				{ required: true, maxlength: 20 },
 			number_of_turns:			{ required: true },
 			position:					{ required: true },
 			status:						{ required: true },

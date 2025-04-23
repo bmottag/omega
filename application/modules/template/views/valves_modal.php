@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/template/valve.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/template/valve_V2.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Valve</h4>
@@ -22,7 +22,7 @@
 					<select name="number_of_turns" id="number_of_turns" class="form-control" required>
 						<option value=''>Select...</option>
 						<?php
-						for ($i = 0; $i <= 15; $i++) {
+						for ($i = 0; $i <= 40; $i++) {
 						?>
 							<option value='<?php echo $i; ?>' <?php
 																if ($information && $i == $information[0]["number_of_turns"]) {
@@ -47,6 +47,9 @@
 						<option value="Close" <?php if ($information && $information[0]["position"] == "Close") {
 											echo "selected";
 										}  ?>>Close</option>
+						<option value="NA" <?php if ($information && $information[0]["position"] == "NA") {
+											echo "selected";
+										}  ?>>NA</option>
 					</select>
 				</div> 
 			</div>
@@ -73,6 +76,9 @@
 						<option value="Right" <?php if ($information && $information[0]["direction"] == "Right") {
 											echo "selected";
 										}  ?>>Right</option>
+						<option value="NA" <?php if ($information && $information[0]["direction"] == "NA") {
+											echo "selected";
+										}  ?>>NA</option>
 					</select>
 				</div> 
 			</div>
