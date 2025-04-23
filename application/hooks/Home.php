@@ -78,6 +78,17 @@ class Home {
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
 					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }
+            } else if ($this->ci->uri->segment(1) == "forceaccount") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
+                $arrControllers = array($this->ci->uri->segment(1), "foreman_view", "add_signature");
+                if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
+                    if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
+                        $error = TRUE;
+                    }
+                }
+				
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
             } else if ($this->ci->uri->segment(1) == "jobs") {//SI NO LLEVAN SESSION LOS DEJA PASAR, A LOS SIGUIENTES METODOS
                 $arrControllers = array($this->ci->uri->segment(1), "jso_worker_view", "add_signature_jso", "saveJSOWorker", "review_excavation", "add_signature_excavation");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
@@ -150,6 +161,11 @@ class Home {
                 }
             } else if ($this->ci->uri->segment(1) == "acs") {
                 $arrControllers = array("reportPDF", "generaACSXLS");
+                if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
+					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
+                }
+            } else if ($this->ci->uri->segment(1) == "forceaccount") {
+                $arrControllers = array("generaForceAccountPDF");
                 if ($this->ci->uri->segment(2) != FALSE && in_array($this->ci->uri->segment(2), $arrControllers)) {
 					$flag = FALSE;//NO SE VERIFICA SI EXISTE PERMISOS A ESTE ENLACE
                 }

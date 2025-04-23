@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/workorder_v6.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/forceaccount/forceaccount.js"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -12,13 +12,13 @@
 <script>
 	$(function() {
 
-		$(".btn-warning").click(function() {
+		$(".personal_modal").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
-				url: base_url + 'workorders/cargarModalPersonal',
+				url: base_url + 'forceaccount/cargarModalPersonal',
 				data: {
-					'idWorkorder': oID
+					'idForceaccount': oID
 				},
 				cache: false,
 				success: function(data) {
@@ -27,13 +27,13 @@
 			});
 		});
 
-		$(".btn-success").click(function() {
+		$(".material_modal").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
-				url: base_url + 'workorders/cargarModalMaterials',
+				url: base_url + 'forceaccount/cargarModalMaterials',
 				data: {
-					'idWorkorder': oID
+					'idForceaccount': oID
 				},
 				cache: false,
 				success: function(data) {
@@ -42,13 +42,13 @@
 			});
 		});
 
-		$(".btn-info").click(function() {
+		$(".equipment_modal").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
-				url: base_url + 'workorders/cargarModalEquipment',
+				url: base_url + 'forceaccount/cargarModalEquipment',
 				data: {
-					'idWorkorder': oID
+					'idForceaccount': oID
 				},
 				cache: false,
 				success: function(data) {
@@ -57,15 +57,15 @@
 			});
 		});
 
-		$(".btn-primary").click(function() {
+		$(".ocasional_modal").click(function() {
 			var oID = $(this).attr("id");
 			//verificar que se este enviando el 
 			if (oID != 'btnSubmit') {
 				$.ajax({
 					type: 'POST',
-					url: base_url + 'workorders/cargarModalOcasional',
+					url: base_url + 'forceaccount/cargarModalOcasional',
 					data: {
-						'idWorkorder': oID
+						'idForceaccount': oID
 					},
 					cache: false,
 					success: function(data) {
@@ -75,13 +75,13 @@
 			}
 		});
 
-		$(".btn-violeta").click(function() {
+		$(".receipt_modal").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
-				url: base_url + 'workorders/cargarModalReceipts',
+				url: base_url + 'forceaccount/cargarModalReceipts',
 				data: {
-					'idWorkorder': oID
+					'idForceaccount': oID
 				},
 				cache: false,
 				success: function(data) {
@@ -98,24 +98,24 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-primary">
+			<div class="panel panel-warning">
 				<div class="panel-heading">
 
 					<?php
 					$userRol = $this->session->rol;
 					if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER) { //If it is a SUPER ADMIN user, show GO BACK MENU
 					?>
-						<a class="btn btn-gris btn-xs" href=" <?php echo base_url() . 'workorders/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
+						<a class="btn btn-warning btn-xs" href=" <?php echo base_url() . 'forceaccount/search/y'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
 					<?php } ?>
 
-					<i class="fa fa-money"></i> <strong>WORK ORDERS</strong>
+					<i class="fa fa-money"></i> <strong>FORCE ACCOUNT</strong>
 				</div>
 				<div class="panel-body">
 
 					<?php
 					/**
 					 * If it is:
-					 * SUPER ADMIN, MANAGEMENT, ACCOUNTING ROLES and WORK ORDER USER
+					 * SUPER ADMIN, MANAGEMENT, ACCOUNTING ROLES and Force Account USER
 					 * They have acces to asign rate and dowloadinvoice
 					 */
 					if ($information) {
@@ -123,27 +123,27 @@
 						if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER) {
 					?>
 							<ul class="nav nav-pills">
-								<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
+								<li class='active'><a href="<?php echo base_url('forceaccount/add_forceaccount/' . $information[0]["id_forceaccount"]) ?>">Edit</a>
 								</li>
-								<li><a href="<?php echo base_url('workorders/view_workorder/' . $information[0]["id_workorder"]) ?>">Asign rate</a>
+								<li><a href="<?php echo base_url('forceaccount/view_forceaccount/' . $information[0]["id_forceaccount"]) ?>">Asign rate</a>
 								</li>
-								<li><a href="<?php echo base_url('workorders/generaWorkOrderPDF/' . $information[0]["id_workorder"]) ?>" target="_blank">Download invoice</a>
+								<li><a href="<?php echo base_url('forceaccount/generaForceAccountPDF/' . $information[0]["id_forceaccount"]) ?>" target="_blank">Download Force Account</a>
 								</li>
 								<?php
 $userRol = $this->session->userdata("rol");
 if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_WORKORDER) && $information[0]['state'] != 4) {
 ?>
-						<li><a href="<?php echo base_url('workorders/workorder_expenses/' . $information[0]["id_workorder"]) ?>">Workorder Expenses</a>
+						<li><a href="<?php echo base_url('forceaccount/forceaccount_expenses/' . $information[0]["id_forceaccount"]) ?>">Workorder Expenses</a>
 						</li>
 <?php } ?>
-								<li><a href="<?php echo base_url('workorders/foreman_view/' . $information[0]["id_workorder"]) ?>">Foreman View</a>
+								<li><a href="<?php echo base_url('forceaccount/foreman_view/' . $information[0]["id_forceaccount"]) ?>">Foreman View</a>
 								</li>
 							</ul>
 						<?php } else { ?>
 							<ul class="nav nav-pills">
-								<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_workorder"]) ?>">Edit</a>
+								<li class='active'><a href="<?php echo base_url('forceaccount/add_forceaccount/' . $information[0]["id_forceaccount"]) ?>">Edit</a>
 								</li>
-								<li><a href="<?php echo base_url('workorders/foreman_view/' . $information[0]["id_workorder"]) ?>">Foreman View</a>
+								<li><a href="<?php echo base_url('forceaccount/foreman_view/' . $information[0]["id_forceaccount"]) ?>">Foreman View</a>
 								</li>
 							</ul>
 					<?php }
@@ -210,6 +210,18 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 								break;
 						}
 					?>
+
+					<?php if (empty($information[0]['signature_wo'])) { ?>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert alert-danger">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									<strong>This Force Account is not valid until it has been signed by the client representative.</strong>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
+
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="alert <?php echo $clase; ?>">
@@ -222,7 +234,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 
 					<form name="form" id="form" class="form-horizontal" method="post">
-						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information ? $information[0]["id_workorder"] : ""; ?>" />
+						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information ? $information[0]["id_forceaccount"] : ""; ?>" />
 
 						<div class="form-group">
 							<script>
@@ -233,7 +245,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									});
 								});
 							</script>
-							<label class="col-sm-4 control-label" for="hddTask">Work Order Date :</label>
+							<label class="col-sm-4 control-label" for="hddTask">Force Account Date :</label>
 							<div class="col-sm-5">
 								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information ? $information[0]["date"] : ""; ?>" placeholder="Date" required <?php echo $deshabilitar; ?> />
 							</div>
@@ -313,7 +325,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 										<?php if ($information) { ?>
 
-											<?php //if($information[0]["fk_id_company"] != "" && $information[0]["fk_id_company"] != 0 && $workorderEquipment) { 
+											<?php //if($information[0]["fk_id_company"] != "" && $information[0]["fk_id_company"] != 0 && $forceaccountEquipment) { 
 											?>
 											<!-- SE QUITA OPCION DE ENVIAR CORREO A LA EMPRESA DESDE ABRIL DE 2020
 											<button type="button" id="btnEmail" name="btnEmail" class="btn btn-danger" >
@@ -325,11 +337,11 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 											<?php if ($information[0]['signature_wo']) { ?>
 
-												<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $information[0]['id_workorder'] . "wModal"; ?>" id="<?php echo $information[0]['id_workorder']; ?>">
+												<button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $information[0]['id_forceaccount'] . "wModal"; ?>" id="<?php echo $information[0]['id_forceaccount']; ?>">
 													<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Signature
 												</button>
 
-												<div id="<?php echo $information[0]['id_workorder'] . "wModal"; ?>" class="modal fade" role="dialog">
+												<div id="<?php echo $information[0]['id_forceaccount'] . "wModal"; ?>" class="modal fade" role="dialog">
 													<div class="modal-dialog">
 														<div class="modal-content">
 															<div class="modal-header">
@@ -347,14 +359,14 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 											<?php } ?>
 
 											<!-- enlace para firma -->
-											<a href="<?php echo base_url("workorders/add_signature/" . $information[0]['id_workorder']); ?>" class="btn btn-default">
+											<a href="<?php echo base_url("forceaccount/add_signature/" . $information[0]['id_forceaccount']); ?>" class="btn btn-default">
 												<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Signature
 											</a>
 
 
 											<!-- enlace para enviar mensaje de texto al foreman -->
 											<?php if ($information[0]['foreman_movil_number_wo']) { ?>
-												<a href="<?php echo base_url("workorders/sendSMSForeman/" . $information[0]['id_workorder']); ?>" class="btn btn-default">
+												<a href="<?php echo base_url("forceaccount/sendSMSForeman/" . $information[0]['id_forceaccount']); ?>" class="btn btn-default">
 													<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Send SMS to foreman
 												</a>
 											<?php } ?>
@@ -391,21 +403,21 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						ADDITIONAL INFORMATION <br>
+						<b>ADDITIONAL INFORMATION</b> <br>
 						This field is only additional information for the office.
 					</div>
 					<div class="panel-body">
 
 						<div class="col-lg-12">
 							<form name="formState" id="formState" class="form-horizontal" method="post">
-								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information ? $information[0]["id_workorder"] : ""; ?>" />
+								<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $information ? $information[0]["id_forceaccount"] : ""; ?>" />
 								<input type="hidden" id="hddIdAcs" name="hddIdAcs" value="<?php echo $information ? $information[0]["id_acs"] : ""; ?>" />
 
 								<?php
 								/**
-								 * Estado work order
+								 * Estado Force Account
 								 * Solo se puede editar por los siguientes ROLES
-								 * SUPER ADMIN, MANAGEMENT, ACCOUNTING, WORK ORDER, ENGINEER ROLES
+								 * SUPER ADMIN, MANAGEMENT, ACCOUNTING, Force Account, ENGINEER ROLES
 								 */
 								$userRol = $this->session->userdata("rol");
 								if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ACCOUNTING || $userRol == ID_ROL_WORKORDER || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_ACCOUNTING_ASSISTANT) {
@@ -465,14 +477,14 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-6">
 				<div class="chat-panel panel panel-primary">
 					<div class="panel-heading">
-						<i class="fa fa-comments fa-fw"></i> Status history
+						<i class="fa fa-comments fa-fw"></i> <b>Status history</b>
 					</div>
 
 					<div class="panel-body">
 						<ul class="chat">
 							<?php
-							if ($workorderState) {
-								foreach ($workorderState as $data) :
+							if ($forceaccountState) {
+								foreach ($forceaccountState as $data) :
 
 									switch ($data['state']) {
 										case 0:
@@ -541,21 +553,21 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-warning">
 					<div class="panel-heading">
-						PERSONAL
+						<b>PERSONAL</b>
 					</div>
 					<div class="panel-body">
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
 
-								<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_workorder"]; ?>">
+								<button type="button" class="btn btn-warning personal_modal btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_forceaccount"]; ?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Personal
 								</button><br>
 							</div>
 						<?php } ?>
 
 						<?php
-						if ($workorderPersonal) {
+						if ($forceaccountPersonal) {
 						?>
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<tr class="warning">
@@ -566,16 +578,16 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<th class="text-center">Links</th>
 								</tr>
 								<?php
-								foreach ($workorderPersonal as $data) :
+								foreach ($forceaccountPersonal as $data) :
 									echo "<tr>";
 									echo "<td ><small>" . $data['name'] . "</small></td>";
 
-									$idRecord = $data['id_workorder_personal'];
+									$idRecord = $data['id_forceaccount_personal'];
 								?>
-									<form name="personal_<?php echo $idRecord ?>" id="personal_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
+									<form name="personal_<?php echo $idRecord ?>" id="personal_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("forceaccount/save_hour"); ?>">
 										<input type="hidden" id="formType" name="formType" value="personal" />
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>" />
+										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_forceaccount']; ?>" />
 										<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
 										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
 										<input type="hidden" id="quantity" name="quantity" value=1>
@@ -607,7 +619,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 									<br><br>
 									<?php if (!$deshabilitar) { ?>
-										<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+										<a class='btn btn-danger btn-xs' href='<?php echo base_url('forceaccount/deleteRecord/personal/' . $data['id_forceaccount_personal'] . '/' . $data['fk_id_forceaccount'] . '/add_forceaccount') ?>' id="btn-delete">
 											Delete <i class="fa fa-trash-o"></i>
 										</a>
 									<?php } else {
@@ -631,13 +643,13 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-						MATERIALS VCI
+						<b>MATERIALS VCI</b>
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
 
-								<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
+								<button type="button" class="btn btn-success material_modal btn-block" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_forceaccount"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																				?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials VCI
 								</button><br>
@@ -645,7 +657,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<?php } ?>
 
 						<?php
-						if ($workorderMaterials) {
+						if ($forceaccountMaterials) {
 						?>
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<tr class="success">
@@ -656,16 +668,16 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<th class="text-center">Links</th>
 								</tr>
 								<?php
-								foreach ($workorderMaterials as $data) :
+								foreach ($forceaccountMaterials as $data) :
 									echo "<tr>";
 									echo "<td ><small><strong>Material</strong><br>" . $data['material'] . "</small></td>";
 
-									$idRecord = $data['id_workorder_materials'];
+									$idRecord = $data['id_forceaccount_materials'];
 								?>
-									<form name="material_<?php echo $idRecord ?>" id="material_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
+									<form name="material_<?php echo $idRecord ?>" id="material_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("forceaccount/save_hour"); ?>">
 										<input type="hidden" id="formType" name="formType" value="materials" />
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>" />
+										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_forceaccount']; ?>" />
 										<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
 										<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
 										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
@@ -691,7 +703,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 									<br><br>
 									<?php if (!$deshabilitar) { ?>
-										<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/materials/' . $data['id_workorder_materials'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+										<a class='btn btn-danger btn-xs' href='<?php echo base_url('forceaccount/deleteRecord/materials/' . $data['id_forceaccount_materials'] . '/' . $data['fk_id_forceaccount'] . '/add_forceaccount') ?>' id="btn-delete">
 											Delete <i class="fa fa-trash-o"></i>
 										</a>
 									<?php } else {
@@ -717,14 +729,14 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-violeta">
 					<div class="panel-heading">
-						RECEIPT
+						<b>RECEIPT</b>
 					</div>
 					<div class="panel-body">
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
 
-								<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
+								<button type="button" class="btn btn-violeta receipt_modal btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_forceaccount"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																			?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Receipt
 								</button><br>
@@ -732,7 +744,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<?php } ?>
 
 						<?php
-						if ($workorderReceipt) {
+						if ($forceaccountReceipt) {
 						?>
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<tr class="danger">
@@ -742,16 +754,16 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<th class="text-center">Links</th>
 								</tr>
 								<?php
-								foreach ($workorderReceipt as $data) :
+								foreach ($forceaccountReceipt as $data) :
 									echo "<tr>";
-									$idRecord = $data['id_workorder_receipt'];
+									$idRecord = $data['id_forceaccount_receipt'];
 								?>
-									<form name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/update_receipt"); ?>">
+									<form name="invoice_<?php echo $idRecord ?>" id="invoice_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("forceaccount/update_receipt"); ?>">
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $data['fk_id_workorder']; ?>" />
+										<input type="hidden" id="hddidForceaccount" name="hddidForceaccount" value="<?php echo $data['fk_id_forceaccount']; ?>" />
 										<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
 										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
-										<input type="hidden" id="view" name="view" value="add_workorder" />
+										<input type="hidden" id="view" name="view" value="add_forceaccount" />
 
 										<td>
 											<input type="text" id="place" name="place" class="form-control" placeholder="Place" value="<?php echo $data['place']; ?>" required <?php echo $deshabilitar; ?>>
@@ -773,7 +785,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 									<br><br>
 									<?php if (!$deshabilitar) { ?>
-										<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/receipt/' . $data['id_workorder_receipt'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+										<a class='btn btn-danger btn-xs' href='<?php echo base_url('forceaccount/deleteRecord/receipt/' . $data['id_forceaccount_receipt'] . '/' . $data['fk_id_forceaccount'] . '/add_forceaccount') ?>' id="btn-delete">
 											Delete <i class="fa fa-trash-o"></i>
 										</a>
 									<?php } else {
@@ -797,13 +809,13 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						EQUIPMENT
+						<b>EQUIPMENT</b>
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
 
-								<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalEquipment" id="<?php echo 'equipment-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
+								<button type="button" class="btn btn-info equipment_modal btn-block" data-toggle="modal" data-target="#modalEquipment" id="<?php echo 'equipment-' . $information[0]["id_forceaccount"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																			?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment
 								</button><br>
@@ -811,7 +823,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<?php } ?>
 
 						<?php
-						if ($workorderEquipment) {
+						if ($forceaccountEquipment) {
 						?>
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<tr class="info">
@@ -822,7 +834,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<th class="text-center">Links</th>
 								</tr>
 								<?php
-								foreach ($workorderEquipment as $data) :
+								foreach ($forceaccountEquipment as $data) :
 									echo "<tr>";
 									echo "<td ><small><strong>Type</strong><br>" . $data['type_2'] . "</small>";
 									if ($data['fk_id_attachment'] != "" && $data['fk_id_attachment'] != 0) {
@@ -848,12 +860,12 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 									echo "</td>";
 
-									$idRecord = $data['id_workorder_equipment'];
+									$idRecord = $data['id_forceaccount_equipment'];
 								?>
-									<form name="equipment_<?php echo $idRecord ?>" id="equipment_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
+									<form name="equipment_<?php echo $idRecord ?>" id="equipment_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("forceaccount/save_hour"); ?>">
 										<input type="hidden" id="formType" name="formType" value="equipment" />
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>" />
+										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_forceaccount']; ?>" />
 										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
 										<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
 
@@ -876,7 +888,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 									<br><br>
 									<?php if (!$deshabilitar) { ?>
-										<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/equipment/' . $data['id_workorder_equipment'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+										<a class='btn btn-danger btn-xs' href='<?php echo base_url('forceaccount/deleteRecord/equipment/' . $data['id_forceaccount_equipment'] . '/' . $data['fk_id_forceaccount'] . '/add_forceaccount') ?>' id="btn-delete">
 											Delete <i class="fa fa-trash-o"></i>
 										</a>
 									<?php } else {
@@ -902,13 +914,13 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						OCCASIONAL SUBCONTRACTOR
+						<b>OCCASIONAL SUBCONTRACTOR</b>
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
 
-								<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
+								<button type="button" class="btn btn-primary ocasional_modal btn-block" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_forceaccount"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																				?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
 								</button><br>
@@ -917,7 +929,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<?php } ?>
 
 						<?php
-						if ($workorderOcasional) {
+						if ($forceaccountOcasional) {
 						?>
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<tr class="primary">
@@ -929,7 +941,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									<th class="text-center">Links</th>
 								</tr>
 								<?php
-								foreach ($workorderOcasional as $data) :
+								foreach ($forceaccountOcasional as $data) :
 									echo "<tr>";
 									echo "<td ><small><strong>Company</strong><br>" . $data['company_name'] . "</small>";
 									echo "<br><small><strong>Equipment</strong><br>" . $data['equipment'] . "</small>";
@@ -941,12 +953,12 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 									}
 									echo "</td>";
 
-									$idRecord = $data['id_workorder_ocasional'];
+									$idRecord = $data['id_forceaccount_ocasional'];
 								?>
-									<form name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
+									<form name="ocasional_<?php echo $idRecord ?>" id="ocasional_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("forceaccount/save_hour"); ?>">
 										<input type="hidden" id="formType" name="formType" value="ocasional" />
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>" />
+										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_forceaccount']; ?>" />
 										<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
 										<input type="hidden" id="markup" name="markup" value="<?php echo $data['markup']; ?>" />
 										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
@@ -975,7 +987,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 									<br><br>
 									<?php if (!$deshabilitar) { ?>
-										<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/ocasional/' . $data['id_workorder_ocasional'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
+										<a class='btn btn-danger btn-xs' href='<?php echo base_url('forceaccount/deleteRecord/ocasional/' . $data['id_forceaccount_ocasional'] . '/' . $data['fk_id_forceaccount'] . '/add_forceaccount') ?>' id="btn-delete">
 											Delete <i class="fa fa-trash-o"></i>
 										</a>
 									<?php } else {

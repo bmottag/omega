@@ -2095,6 +2095,30 @@ class General_model extends CI_Model
 	}
 
 	/**
+	 * Get workorder expenses info
+	 * @since 23/04/2025
+	 */
+	public function get_forceaccount_expense($arrData)
+	{
+		$this->db->join('forceaccount F', 'F.id_forceaccount = E.fk_id_forceaccount', 'INNER');
+		$this->db->join('job_details J', 'J.id_job_detail = E.fk_id_job_detail', 'INNER');
+
+		if (array_key_exists("idForceAccount", $arrData)) {
+			$this->db->where('E.fk_id_forceaccount', $arrData["idForceAccount"]);
+		}
+		if (array_key_exists("idJobDetail", $arrData)) {
+			$this->db->where('E.fk_id_job_detail', $arrData["idJobDetail"]);
+		}
+		$query = $this->db->get('forceaccount_expense E');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Get validate user credentials
 	 * @since 26/1/2023
 	 */
