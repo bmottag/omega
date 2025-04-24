@@ -715,7 +715,7 @@ class Workorders extends CI_Controller
 		$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam); //workorder invoice list
 		$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam); //workorder equipment list
 		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
-		$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id); //workorder ocasional list
+		$data['workorderHoldBack'] = false; //$this->workorders_model->get_workorder_hold_back($id); //workorder ocasional list
 
 		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam); //info workorder
 
@@ -1255,7 +1255,7 @@ class Workorders extends CI_Controller
 		$data['workorderReceipt'] = $this->workorders_model->get_workorder_receipt($arrParam); //workorder ocasional list
 		$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam); //workorder equipment list
 		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
-		$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($idWorkOrder); //workorder ocasional list
+		$data['workorderHoldBack'] = false;//$this->workorders_model->get_workorder_hold_back($idWorkOrder); //workorder ocasional list
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Print a table
 
@@ -2062,7 +2062,7 @@ class Workorders extends CI_Controller
 		$data['workorderMaterials'] = $this->workorders_model->get_workorder_materials($arrParam); //workorder material list
 		$data['workorderEquipment'] = $this->workorders_model->get_workorder_equipment($arrParam); //workorder equipment list
 		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
-		$data['workorderHoldBack'] = $this->workorders_model->get_workorder_hold_back($id); //workorder ocasional list
+		$data['workorderHoldBack'] = false;//$this->workorders_model->get_workorder_hold_back($id); //workorder ocasional list
 
 		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam); //info workorder
 
@@ -2854,6 +2854,68 @@ class Workorders extends CI_Controller
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
 		redirect(base_url('workorders/workorder_expenses/' . $idWorkOrder), 'refresh');
+	}
+
+	/**
+	 * View Subcontractors to asocited with Invoices
+	 * @since 23/04/2025
+	 * @author BMOTTAG
+	 */
+	public function subcontractor_invoices($id)
+	{
+		$this->load->model("general_model");
+
+		$arrParam = array('idWorkOrder' => $id);
+		$data['information'] = $this->workorders_model->get_workorder_by_idJob($arrParam); //info workorder
+		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam); //workorder ocasional list
+
+		//DESHABILITAR WORK ORDER
+		$userRol = $this->session->rol;
+		$workorderState = $data['information'][0]['state'];
+		$data['deshabilitar'] = '';
+
+		//si esta cerrada deshabilito los botones
+		if ($workorderState == 4) {
+			$data['deshabilitar'] = 'disabled';
+			//If it is DIFERRENT THAN ON FILD and ROLE is SUPERVISOR OR BASIC OR Safety&Maintenance
+		} elseif ($workorderState != 0 && ($userRol == 4 || $userRol == 6 || $userRol == 7)) {
+			$data['deshabilitar'] = 'disabled';
+		} elseif (($workorderState == 2 || $workorderState == 3) && $userRol == 5) { //WORK ORDER  USER
+			$data['deshabilitar'] = 'disabled';
+		} elseif ($workorderState == 1 && ($userRol == 2 || $userRol == 3)) { //MANAGEMENT AND ACCOUNTING USER
+			$data['deshabilitar'] = 'disabled';
+		}
+
+		$data["view"] = 'subcontractor_invoices';
+		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Save subcontractor invoices
+	 * @since 23/04/2025
+	 * @author BMOTTAG
+	 */
+	public function save_subcontractor_invoices()
+	{
+		$idWorkorder = $this->input->post('hddIdWorkOrder');
+
+		$arrParam = array(
+			"table" => "workorder_ocasional",
+			"primaryKey" => "id_workorder_ocasional",
+			"id" => $this->input->post('hddId'),
+			"column" => "fk_id_subcontractor_invoice",
+			"value" => $this->input->post('idInvoices')
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->updateRecord($arrParam)) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have saved the Rate!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		redirect(base_url('workorders/subcontractor_invoices/' . $idWorkorder), 'refresh');
 	}
 
 }

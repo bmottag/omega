@@ -255,6 +255,10 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 ?>
 						<li><a href="<?php echo base_url('workorders/workorder_expenses/' . $information[0]["id_workorder"]) ?>">Workorder Expenses</a>
 						</li>
+
+						<?php if($workorderOcasional): ?>
+							<li><a href="<?php echo base_url('workorders/subcontractor_invoices/' . $information[0]["id_workorder"]) ?>">Subcontractors Invoices</a></li>
+						<?php endif; ?>
 <?php } ?>
 					</ul>
 					<br>
@@ -472,7 +476,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-warning">
 					<div class="panel-heading">
-						PERSONAL
+						<b>PERSONAL</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -578,7 +582,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-						MATERIALS VCI
+						<b>MATERIALS VCI</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -687,7 +691,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-violeta">
 					<div class="panel-heading">
-						RECEIPT
+						<b>RECEIPT</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -794,7 +798,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						EQUIPMENT
+						<b>EQUIPMENT</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -929,7 +933,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						OCASIONAL
+						<b>OCCASIONAL SUBCONTRACTOR </b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -1043,7 +1047,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 		<!--INICIO HOLD BACK -->
 
-
+<!--
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-purpura">
@@ -1120,7 +1124,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			</div>
 		</div>
 
-
+-->
 		<!--FIN HOLD BACK -->
 
 
