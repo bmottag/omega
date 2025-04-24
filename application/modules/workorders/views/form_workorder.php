@@ -138,6 +138,10 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 <?php } ?>
 								<li><a href="<?php echo base_url('workorders/foreman_view/' . $information[0]["id_workorder"]) ?>">Foreman View</a>
 								</li>
+								<?php if($workorderOcasional): ?>
+								<li><a href="<?php echo base_url('workorders/subcontractor_invoices/' . $information[0]["id_workorder"]) ?>">Subcontractors Invoices</a>
+								</li>
+								<?php endif; ?>
 							</ul>
 						<?php } else { ?>
 							<ul class="nav nav-pills">
@@ -541,7 +545,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-warning">
 					<div class="panel-heading">
-						PERSONAL
+						<b>PERSONAL</b>
 					</div>
 					<div class="panel-body">
 
@@ -631,7 +635,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-						MATERIALS VCI
+						<b>MATERIALS VCI</b>
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>
@@ -717,7 +721,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-violeta">
 					<div class="panel-heading">
-						RECEIPT
+						<b>RECEIPT</b>
 					</div>
 					<div class="panel-body">
 
@@ -797,7 +801,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						EQUIPMENT
+						<b>EQUIPMENT</b>
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>
@@ -902,7 +906,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						OCCASIONAL SUBCONTRACTOR
+						<b>OCCASIONAL SUBCONTRACTOR</b>
 					</div>
 					<div class="panel-body">
 						<?php if (!$deshabilitar) { ?>

@@ -1720,7 +1720,9 @@ class Workorders_model extends CI_Model
 		if (array_key_exists("idSubcontractorInvoice", $arrDatos)) {
 			$this->db->where('id_subcontractor_invoice', $arrDatos["idSubcontractorInvoice"]);
 		}
-
+		if (array_key_exists("idCompany", $arrDatos)) {
+			$this->db->where('S.fk_id_company', $arrDatos["idCompany"]);
+		}
 		$this->db->order_by('id_subcontractor_invoice', 'desc');
 		$query = $this->db->get('subcontractor_invoice S', 50);
 
