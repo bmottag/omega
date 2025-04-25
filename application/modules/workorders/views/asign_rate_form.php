@@ -522,7 +522,7 @@ if ($retornoError) {
 <!--FIN EQUIPMENT -->	
 	
 	
-<!--INICIO OCCASIONAL SUBCONTRACTOR -->
+<!--INICIO SUBCONTRACTOR -->
 
 	<!-- /.row -->
 	<div class="row">
@@ -622,7 +622,7 @@ if ($retornoError) {
 	</div>
 	<!-- /.row -->
 	
-<!--FIN OCCASIONAL SUBCONTRACTOR -->
+<!--FIN SUBCONTRACTOR -->
 
 
 <!--INICIO HOLD BACK -->

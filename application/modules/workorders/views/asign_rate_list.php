@@ -103,7 +103,7 @@
 
 							<small>
 								<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-									Be sure you fild all the information.
+									Make sure to fill up all necessary information.
 								</p>
 							</small>
 

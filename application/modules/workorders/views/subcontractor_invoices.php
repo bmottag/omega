@@ -121,12 +121,12 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 		</div>
 	</div>
 
-	<!--INICIO OCCASIONAL SUBCONTRACTOR -->
+	<!--INICIO SUBCONTRACTOR -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<b>OCCASIONAL SUBCONTRACTOR </b>
+					<b>SUBCONTRACTOR </b>
 				</div>
 				<div class="panel-body">
 					<table class="table table-bordered table-striped table-hover table-condensed">
@@ -193,6 +193,6 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			</div>
 		</div>
 	</div>
-	<!--FIN OCCASIONAL SUBCONTRACTOR -->
+	<!--FIN SUBCONTRACTOR -->
 
 </div>

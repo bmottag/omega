@@ -72,7 +72,7 @@
 	</div>
 	<!-- /.row -->
 
-	<!--INICIO PERSONAL -->
+	<!--INICIO PERSONNEL -->
 	<?php
 	if ($workorderPersonal) {
 	?>
@@ -81,7 +81,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-warning">
 					<div class="panel-heading">
-						PERSONAL
+						PERSONNEL
 					</div>
 					<div class="panel-body">
 
@@ -118,7 +118,7 @@
 		</div>
 		<!-- /.row -->
 	<?php } ?>
-	<!--FIN PERSONAL -->
+	<!--FIN PERSONNEL -->
 
 	<!--INICIO MATERIALS -->
 	<?php
@@ -228,7 +228,7 @@
 	<!--FIN EQUIPMENT -->
 
 
-	<!--INICIO OCCASIONAL SUBCONTRACTOR -->
+	<!--INICIO SUBCONTRACTOR -->
 	<?php
 	if ($workorderOcasional) {
 	?>
@@ -237,7 +237,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						OCCASIONAL SUBCONTRACTOR
+						SUBCONTRACTOR
 					</div>
 					<div class="panel-body">
 
@@ -280,7 +280,7 @@
 		</div>
 		<!-- /.row -->
 	<?php } ?>
-	<!--FIN OCCASIONAL SUBCONTRACTOR -->
+	<!--FIN SUBCONTRACTOR -->
 
 </div>
 <!-- /#page-wrapper -->

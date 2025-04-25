@@ -6,7 +6,7 @@
 </style>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">OCCASIONAL SUBCONTRACTOR
+	<h4 class="modal-title" id="exampleModalLabel">SUBCONTRACTOR
 		<br><small>
 			Add an Occasional Subcontractor
 		</small>

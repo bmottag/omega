@@ -133,7 +133,7 @@
 		</div>
 	</div>
 
-<!--INICIO PERSONAL -->
+<!--INICIO PERSONNEL -->
 <?php 
 	if($acsPersonal){
 ?>
@@ -141,12 +141,12 @@
 		<div class="col-lg-12">				
 			<div class="panel panel-dark">
 				<div class="panel-heading">
-					<strong>PERSONAL</strong>
+					<strong>PERSONNEL</strong>
 				</div>
 				<div class="panel-body">
 					<div class="col-lg-12">
 						<button type="button" class="btn btn-dark btn-block personal_modal" data-toggle="modal" data-target="#modal" id="<?php echo $acs_info[0]["id_acs"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Personal
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Personnel
 						</button><br>
 					</div>
 					<form id="form_acs_personal" method="post" action="<?php echo base_url("acs/save_info_acs_personal"); ?>">
@@ -215,7 +215,7 @@
 		</div>
 	</div>
 <?php } ?>
-<!--FIN PERSONAL -->
+<!--FIN PERSONNEL -->
 
 <!--INICIO MATERIALS -->
 <?php 
@@ -315,7 +315,7 @@
 				<div class="panel-body">
 					<div class="col-lg-12">
 						<button type="button" class="btn btn-dark btn-block receipt_modal" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $acs_info[0]["id_acs"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Receipt
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Receipts
 						</button><br>
 					</div>
 					<form id="form_acs_receipt" method="post" action="<?php echo base_url("acs/save_info_acs_receipt"); ?>">
@@ -396,7 +396,7 @@
 				<div class="panel-body">
 					<div class="col-lg-12">
 						<button type="button" class="btn btn-dark btn-block equipment_modal" data-toggle="modal" data-target="#modalEquipment" id="<?php echo 'equipment-' . $acs_info[0]["id_acs"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Equipment / Rentals
 						</button><br>
 					</div>
 					<form id="form_acs_equipment" method="post" action="<?php echo base_url("acs/save_info_acs_equipment"); ?>">
@@ -494,7 +494,7 @@
 <?php } ?>
 <!--FIN EQUIPMENT -->
 
-<!--INICIO OCCASIONAL SUBCONTRACTOR -->
+<!--INICIO SUBCONTRACTOR -->
 <?php 
 	if($acsOcasional){
 ?>
@@ -502,12 +502,12 @@
 		<div class="col-lg-12">				
 			<div class="panel panel-dark">
 				<div class="panel-heading">
-					<b>OCCASIONAL SUBCONTRACTOR</b>
+					<b>SUBCONTRACTOR</b>
 				</div>
 				<div class="panel-body">
 					<div class="col-lg-12">
 						<button type="button" class="btn btn-dark btn-block ocasional_modal" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $acs_info[0]["id_acs"]; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Subcontractor
 						</button><br>
 					</div>
 					<form id="form_acs_subcontractor" method="post" action="<?php echo base_url("acs/save_info_acs_ocasional"); ?>">
@@ -584,11 +584,11 @@
 		</div>
 	</div>
 <?php } ?>
-<!--FIN OCCASIONAL SUBCONTRACTOR -->
+<!--FIN SUBCONTRACTOR -->
 </div>
 
 
-<!--INICIO Modal para PERSONAL -->
+<!--INICIO Modal para PERSONNEL -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content" id="tablaDatos">
@@ -596,7 +596,7 @@
 		</div>
 	</div>
 </div>
-<!--FIN Modal para PERSONAL -->
+<!--FIN Modal para PERSONNEL -->
 
 <!--INICIO Modal para MATERIAL -->
 <div class="modal fade text-center" id="modalMaterials" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

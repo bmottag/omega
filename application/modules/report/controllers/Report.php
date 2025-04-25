@@ -2280,7 +2280,7 @@ class Report extends CI_Controller
 
 		$html .= '<table border="1" cellspacing="0" cellpadding="5">
 					<tr>
-						<th colspan="5"><strong>PERSONAL</strong></th>
+						<th colspan="5"><strong>PERSONNEL</strong></th>
 					</tr>
 					<tr bgcolor="#dddddd">
 						<th width="5%" align="center"><strong>#</strong></th>
