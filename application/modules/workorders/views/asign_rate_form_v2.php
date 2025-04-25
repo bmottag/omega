@@ -476,14 +476,14 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-warning">
 					<div class="panel-heading">
-						<b>PERSONAL</b>
+						<b>PERSONNEL</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
 
 							<?php if (!$deshabilitar) { ?>
 								<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_workorder"]; ?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Personal
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Personnel
 								</button><br>
 							<?php } ?>
 						</div>
@@ -582,7 +582,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-						<b>MATERIALS VCI</b>
+						<b>MATERIALS AND SUPPLIES</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -590,7 +590,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 							<?php if (!$deshabilitar) { ?>
 								<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalMaterials" id="<?php echo 'material-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																				?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Materials VCI
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Materials and Supplies
 								</button><br>
 							<?php } ?>
 						</div>
@@ -691,7 +691,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-violeta">
 					<div class="panel-heading">
-						<b>RECEIPT</b>
+						<b>RECEIPTS</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -699,7 +699,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 							<?php if (!$deshabilitar) { ?>
 								<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																			?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Receipt
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Receipts
 								</button><br>
 							<?php } ?>
 						</div>
@@ -798,7 +798,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<b>EQUIPMENT</b>
+						<b>EQUIPMENT / RENTALS</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -806,7 +806,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 							<?php if (!$deshabilitar) { ?>
 								<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalEquipment" id="<?php echo 'equipment-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																			?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Equipment
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Equipment / Rentals
 								</button><br>
 							<?php } ?>
 						</div>
@@ -928,12 +928,12 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 
 		<!--FIN EQUIPMENT -->
 
-		<!--INICIO OCCASIONAL SUBCONTRACTOR -->
+		<!--INICIO SUBCONTRACTOR -->
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<b>OCCASIONAL SUBCONTRACTOR </b>
+						<b>SUBCONTRACTOR</b>
 					</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -941,7 +941,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 							<?php if (!$deshabilitar) { ?>
 								<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalOcasional" id="<?php echo 'ocasional-' . $information[0]["id_workorder"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
 																																				?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Occasional Subcontractor
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Subcontractor
 								</button><br>
 							<?php } ?>
 						</div>
@@ -1042,7 +1042,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 		</div>
 
 
-		<!--FIN OCCASIONAL SUBCONTRACTOR -->
+		<!--FIN SUBCONTRACTOR -->
 
 
 		<!--INICIO HOLD BACK -->

@@ -267,12 +267,12 @@
 		if ($idProgramming != 'x') {
 	?>
 
-	<!--INICIO PERSONAL -->
+	<!--INICIO PERSONNEL -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<i class="fa fa-users"></i> <b>PERSONAL</b>
+					<i class="fa fa-users"></i> <b>PERSONNEL</b>
 				</div>
 				<div class="panel-body">
 
@@ -289,7 +289,7 @@
 						<?php } ?>
 					</div>
 
-					<!-- PERSONAL LIST-->
+					<!-- PERSONNEL LIST-->
 					<?php
 					if ($informationWorker) {
 					?>
@@ -541,7 +541,7 @@
 			</div>
 		</div>
 	</div>
-	<!--FIN PERSONAL -->
+	<!--FIN PERSONNEL -->
 	
 	<!--INICIO MATERIALS -->
 	<div class="row">
@@ -617,12 +617,12 @@
 	</div>
 	<!--FIN MATERIALS -->
 
-	<!--INICIO OCCASIONAL SUBCONTRACTOR -->	
+	<!--INICIO SUBCONTRACTOR -->	
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-beer"></i> <b>OCCASIONAL SUBCONTRACTOR</b>
+					<i class="fa fa-beer"></i> <b>SUBCONTRACTOR</b>
 				</div>
 				<div class="panel-body">
 					<div class="col-lg-12">
@@ -702,7 +702,7 @@
 			</div>
 		</div>
 	</div>
-	<!--FIN OCCASIONAL SUBCONTRACTOR -->
+	<!--FIN SUBCONTRACTOR -->
 
 	<?php
 		}
@@ -716,7 +716,7 @@
 			<div class="modal-content" id="tablaDatos">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="exampleModalLabel">ADD PERSONAL</h4>
+					<h4 class="modal-title" id="exampleModalLabel">ADD PERSONNEL</h4>
 				</div>
 
 				<div class="modal-body">

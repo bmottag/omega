@@ -317,7 +317,7 @@ if ($retornoError) {
 <?php } ?>
 <!--FIN WORKERS -->
 
-<!--INICIO OCCASIONAL SUBCONTRACTOR -->
+<!--INICIO SUBCONTRACTOR -->
 <?php 
 	if($safetySubcontractorsWorkers){
 ?>
@@ -385,7 +385,7 @@ if ($retornoError) {
 		</div>
 	</div>
 <?php } ?>
-<!--FIN OCCASIONAL SUBCONTRACTOR -->
+<!--FIN SUBCONTRACTOR -->
 				</div>
 			</div>
 		</div>

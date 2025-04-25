@@ -25,7 +25,7 @@ function deseleccionar_todo(){
 		<div class="col-lg-12">
 			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<i class="fa fa-users"></i> <b>PLANNING - ADD PERSONAL</b>
+					<i class="fa fa-users"></i> <b>PLANNING - ADD PERSONNEL</b>
 				</div>
 				<div class="panel-body">
 

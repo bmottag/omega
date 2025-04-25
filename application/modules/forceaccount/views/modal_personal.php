@@ -1,9 +1,9 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/forceaccount/personal.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">PERSONAL
+	<h4 class="modal-title" id="exampleModalLabel">PERSONNEL
 	<br><small>
-		Add employees to the Force Account
+		Add personnel to the Force Account
 	</small>
 	</h4>
 </div>
