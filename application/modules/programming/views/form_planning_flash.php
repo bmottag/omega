@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/planning_flash.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/planning_flash.js?v=2"); ?>"></script>
 
 
 <div id="page-wrapper">
