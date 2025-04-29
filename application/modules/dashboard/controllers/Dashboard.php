@@ -426,7 +426,6 @@ class Dashboard extends CI_Controller
 		$this->load->view("layout", $data);
 	}
 
-
 	/**
 	 * Calendario
 	 * @since 18/12/2020
@@ -648,7 +647,7 @@ class Dashboard extends CI_Controller
 			// Si es payrollInfo, agregar la consulta específica
 			if ($view === "payrollInfo") {
 				$data["workOrderCheck"] = $this->general_model->get_workorder_info($arrParam);
-				$data["payrollDanger"] = $this->general_model->get_task_in_danger($arrParam);
+				//$data["payrollDanger"] = $this->general_model->get_task_in_danger($arrParam);
 			}
 		} else {
 			// Manejo de error si la vista no es válida

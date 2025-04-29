@@ -220,7 +220,14 @@
                             <li>URL: https://v-contracting.ca/app/admin/checkin_check  </li>
                             <li>Time: Every day at 6pm </li>
                             <li>Verify the peopple who work for specific JOB CODE at the side</li>
-                        </ul>                        
+                        </ul>     
+                        
+                        <strong>Planning Automatic Message:</strong>
+                        <ul>
+                            <li>URL: https://v-contracting.ca/app/programming/automatic_planning_message  </li>
+                            <li>Time: Every day at 12pm </li>
+                            <li>Send message to workers for the planning</li>
+                        </ul> 
 					</p>
 				</div>
 				<div class="panel-footer">
