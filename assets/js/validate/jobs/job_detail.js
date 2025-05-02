@@ -29,6 +29,8 @@ $( document ).ready( function () {
 	
 		if ($("#form").valid() == true){
 		
+				$("#chapter").prop("disabled", false);
+				$("#chapter_number").prop("disabled", false);
 				//Activa icono guardando
 				$('#btnSave').attr('disabled','-1');
 				$("#div_error").css("display", "none");

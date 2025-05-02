@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/ajaxTrucks_v3.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/equipment.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/equipment.js?v=2"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">EQUIPMENT

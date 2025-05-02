@@ -251,10 +251,6 @@ class Dashboard extends CI_Controller
 		$data['noDailyInspection'] = FALSE;
 		$data['noHeavyInspection'] = FALSE;
 
-		$data['infoGenerator'] = FALSE;
-		$data['infoHydrovac'] = FALSE;
-		$data['infoSweeper'] = FALSE;
-		$data['infoWaterTruck'] = FALSE;
 		$data['infoNextPlanning']  = FALSE;
 
 		//informacion de un dayoff si lo aprobaron y lo negaron
@@ -271,6 +267,12 @@ class Dashboard extends CI_Controller
 		$data['info'] = $this->general_model->get_task($arrParam); //search the last 5 records 
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
+
+		$arrParam["limit"] = 6; //Limite de registros para la consulta
+		$data['infoWaterTruck'] = $this->general_model->get_special_inspection_water_truck($arrParam); //info de water truck
+		$data['infoHydrovac'] = $this->general_model->get_special_inspection_hydrovac($arrParam); //info de hydrovac
+		$data['infoSweeper'] = $this->general_model->get_special_inspection_sweeper($arrParam); //info de sweeper
+		$data['infoGenerator'] = $this->general_model->get_special_inspection_generator($arrParam); //info de generador
 
 		$data["view"] = "dashboard";
 		$this->load->view("layout", $data);
@@ -425,7 +427,6 @@ class Dashboard extends CI_Controller
 		$data["view"] = "dashboard";
 		$this->load->view("layout", $data);
 	}
-
 
 	/**
 	 * Calendario
@@ -648,7 +649,7 @@ class Dashboard extends CI_Controller
 			// Si es payrollInfo, agregar la consulta específica
 			if ($view === "payrollInfo") {
 				$data["workOrderCheck"] = $this->general_model->get_workorder_info($arrParam);
-				$data["payrollDanger"] = $this->general_model->get_task_in_danger($arrParam);
+				//$data["payrollDanger"] = $this->general_model->get_task_in_danger($arrParam);
 			}
 		} else {
 			// Manejo de error si la vista no es válida

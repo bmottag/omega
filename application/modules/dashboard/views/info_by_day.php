@@ -233,12 +233,13 @@
                     <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <div class="panel-body table-container">
-                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
+                    <br>
+                    <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTablesPayroll">
                         <thead>
                             <tr>
                                 <th width='8%'>Employee</th>
-                                <th width='8%' class="text-center">Hours Worked at Project Start</th>
-                                <th width='8%' class="text-center">Hours Worked at Project Finish</th>
+                                <th width='7%' class="text-center">Hours Worked at Project Start</th>
+                                <th width='7%' class="text-center">Hours Worked at Project Finish</th>
                                 <th width='8%' class="text-center">Payroll Working Hours </th>
 
                                 <?php 
@@ -250,7 +251,7 @@
                                         endforeach; 
                                     }
                                 ?>
-                                <th width='8%' class='text-center'>Total W.O. Hours</td>
+                                <th width='10%' class='text-center'>Total W.O. Hours</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -289,7 +290,28 @@
                                     :' ';
 
                                 echo "<tr>";
-                                echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "</td>";
+                                echo "<td>" . $lista['first_name'] . " " . $lista['last_name'] . "<br><br>";
+                                /**
+                                 * Opcion de editar horas para  SUPER ADMIN
+                                 */
+                                $userRol = $this->session->rol;
+                                if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ACCOUNTING) {
+                                    //si no se han pagado entonces se pueden editar
+                                    if ($lista['period_status'] == 1) {
+                            ?>
+                                        <button type="button" class="btn btn-info btn-xs general_hours_modal" data-toggle="modal" data-target="#modalHoursGeneral" id="<?php echo $lista['id_task']; ?>">
+                                            Edit Hours <span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                        </button>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <div class="alert alert-danger">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> These hours have already been paid, they cannot be edited.
+                                        </div>
+                            <?php
+                                    }
+                                }
+                                echo "</td>";
                                 echo "<td class='text-center'>" . $hours_start . $text_start;
                                 echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . "' time='start'>Assign to a W.O.</button>";
                                 echo $lista["wo_start_project"] ? "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_start_project']) . "'>(W.O. # " . $lista['wo_start_project'] . ")</a>" : "";
@@ -327,28 +349,6 @@
                                 if($sumWorkorders != $workingHours){
                                     echo "<button type='button' class='btn btn-danger btn-xs " . $hidden_total . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='total'>Assign to a W.O.</button><br><br>";
                                 }
-                                
-
-                                /**
-                                 * Opcion de editar horas para  SUPER ADMIN
-                                 */
-                                $userRol = $this->session->rol;
-                                if ($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ACCOUNTING) {
-                                    //si no se ahn pagado entonces se pueden editar
-                                    if ($lista['period_status'] == 1) {
-                            ?>
-                                        <button type="button" class="btn btn-info btn-xs general_hours_modal" data-toggle="modal" data-target="#modalHoursGeneral" id="<?php echo $lista['id_task']; ?>">
-                                            Edit Hours <span class="glyphicon glyphicon-edit" aria-hidden="true">
-                                        </button>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <div class="alert alert-danger">
-                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> These hours have already been paid, they cannot be edited.
-                                        </div>
-                            <?php
-                                    }
-                                }
 
                                 if ($sumWorkorders != $lista['working_hours']) {
                                     if ($sumWorkorders < $lista['working_hours']) {
@@ -368,6 +368,7 @@
                 </div>
             </div>
 
+            <!--
             <?php
             if (isset($payrollDanger) && $payrollDanger) {
                 $countRows = 0;
@@ -380,7 +381,7 @@
                 
                 if ($countRows > 0) {
             ?>
-            <!--
+            
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Orders or need to check the sum of hours.
@@ -661,6 +662,12 @@
             paging: false,
             "searching": false,
             "pageLength": 25
+        });
+
+        $('#dataTablesPayroll').DataTable({
+            responsive: true,
+            "ordering": true,
+            paging: false
         });
     });
 

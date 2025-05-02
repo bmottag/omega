@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/programming_workers.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/programming/programming_workers.js?v=2"); ?>"></script>
 
 <script>
 
