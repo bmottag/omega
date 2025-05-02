@@ -37,7 +37,7 @@
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     <a class="btn btn-danger btn-xs" href=" <?php echo base_url('dashboard/calendar'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the Calendar</a>
-                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url("dashboard/info_by_day/all/" . $fecha) ; ?> "><span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View all the Information for the selectd day</a> <br>
+                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url("dashboard/info_by_day/all/" . $fecha) ; ?> "><span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View all the Information for the selected day</a> <br>
                     <i class="fa fa-bell fa-fw"></i> <strong>SUMMARY</strong> - <?php echo date('F j, Y', strtotime($fecha)); ?>
                 </div>
             </div>
@@ -267,14 +267,18 @@
                                 $hidden_edit = 'hidden';//($lista['finish'] == "0000-00-00 00:00:00" || $lista['fk_id_job'] == $lista['fk_id_job_finish']) ? 'hidden' : ' ';
 
                                 $workingHours = $lista['finish'] == "0000-00-00 00:00:00"?"": calculate_time_difference_in_hours($lista['start'], $lista['finish']);
+                                $workingHoursHM = $lista['finish'] == "0000-00-00 00:00:00"?"": working_hours_in_hours_format($lista['start'], $lista['finish']);
 
+                                $start = date('M j, Y - G:i:s', strtotime($lista['start']));
+                                $finish = $lista['finish'] == "0000-00-00 00:00:00"?"":date('M j, Y - G:i:s', strtotime($lista['finish']));
+                                
                                 $hours_start = ($lista['wo_start_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) 
-                                    ? "<p>" . $hoursStart . "</p>" 
-                                    : "<p class='text-danger'><b>" . $hoursStart . "</b></p>";
+                                    ? $start 
+                                    : $start . "<p class='text-danger'><b>" . $hoursStart . "</b></p>";
 
                                 $hours_finished = ($lista['wo_end_project'] != null || $lista['fk_id_job'] == $lista['fk_id_job_finish']) 
-                                    ? "<p>" . $hoursFinish . "</p>" 
-                                    : "<p class='text-danger'><b>" . $hoursFinish . "</b></p>";
+                                    ? $finish 
+                                    : $finish . "<p class='text-danger'><b>" . $hoursFinish . "</b></p>";
 
 
                                 $text_start = ($lista['finish'] != "0000-00-00 00:00:00" && $lista['fk_id_job'] != $lista['fk_id_job_finish']) 
@@ -286,7 +290,7 @@
                                     : "";
                                 
                                 $textSameJob = $lista['fk_id_job'] == $lista['fk_id_job_finish'] 
-                                    ? "<br><br><p><b>Job Code/Name: " . $lista['job_start'] . "</b></p>"
+                                    ? "<br><p><b>Job Code/Name: " . $lista['job_start'] . "</b></p>"
                                     :' ';
 
                                 echo "<tr>";
@@ -314,15 +318,13 @@
                                 echo "</td>";
                                 echo "<td class='text-center'>" . $hours_start . $text_start;
                                 echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_start . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . "' time='start'>Assign to a W.O.</button>";
-                                echo $lista["wo_start_project"] ? "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_start_project']) . "'>(W.O. # " . $lista['wo_start_project'] . ")</a>" : "";
                                 echo "</td>";
 
                                 echo "<td class='text-center'>" . $hours_finished . $text_finished;
                                 echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . "' time='end'>Assign to a W.O.</button>";
-                                echo $lista["wo_end_project"] ? "<a target='_blanck' href='" . base_url('workorders/add_workorder/' . $lista['wo_end_project']) . "'>(W.O. # " . $lista['wo_end_project'] . ")</a>" : "";
                                 echo "</td>";
 
-                                echo "<td class='text-center'>" . convert_hours_minutes($workingHours) . $textSameJob . "</td>";
+                                echo "<td class='text-center'>" . convert_hours_minutes($workingHours) . "<p>" . $workingHoursHM . "</p>" . $textSameJob . "</td>";
 
                                 // Ahora recorremos todas las órdenes de trabajo y verificamos si el usuario tiene horas en esa WO
                                 if (isset($workOrderCheck) && $workOrderCheck) {
@@ -350,7 +352,9 @@
                                     echo "<button type='button' class='btn btn-danger btn-xs " . $hidden_total . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . " ' time='total'>Assign to a W.O.</button><br><br>";
                                 }
 
-                                if ($sumWorkorders != $lista['working_hours']) {
+                                $tolerancia = 5 / 60; // 5 minutos en horas = 0.0833...
+                                if (abs($sumWorkorders - $lista['working_hours']) > $tolerancia) {
+
                                     if ($sumWorkorders < $lista['working_hours']) {
                                         echo "<br><br><p class='text-danger'><b>Payroll hours exceeds Work Order hours.</b></p>";
                                     } elseif ($sumWorkorders > $lista['working_hours']) {
