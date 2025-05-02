@@ -206,13 +206,15 @@ class Payroll_model extends CI_Model
 		
 					if ($query->num_rows() >= 1) {
 		
-						$data = array(
-							'hours' => $workingHours,
-						);
-		
-						$this->db->where('fk_id_workorder  ', $id_workorder);
-						$this->db->where('fk_id_user  ', $idUser);
-						$query = $this->db->update('workorder_personal', $data);
+						if ($query->row()->hours != 0) {
+							$data = array(
+								'hours' => $workingHours,
+							);
+			
+							$this->db->where('fk_id_workorder  ', $id_workorder);
+							$this->db->where('fk_id_user  ', $idUser);
+							$query = $this->db->update('workorder_personal', $data);
+						}
 					} else {
 						$data = array(
 							'fk_id_workorder' => $id_workorder,
