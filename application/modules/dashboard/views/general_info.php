@@ -73,6 +73,9 @@
 						<br><strong>Service Order</strong>
 						<ul>
 						<li>View, edit and changes status of Service Orders</li>
+						<li>Add and edit Corrective Maintenance</li>
+						<li>Add and edit Preventive Maintenance</li>
+						<li>Parts by Store</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
 						<br>* <strong>Jobs - Safety:</strong> All except JHA
@@ -152,6 +155,7 @@
 						<li>Last Payroll Records</li>
 						<li>Last FLHA Records</li>
 						<li>Last Hauling Records</li>
+						<li>Last Inspections Records</li>
 						</ul>
 						<strong>Record Task:</strong> Payroll
 						<br><strong>Jobs - Safety:</strong> ALL
