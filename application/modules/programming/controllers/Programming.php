@@ -1645,12 +1645,18 @@ class Programming extends CI_Controller
 					foreach ($datos_indice as $columna => $valor) {
 						if (isset($columnas_mapeo[$columna])) {
 							$columna_destino = $columnas_mapeo[$columna];
+							
+							// Si es fk_id_employee_type y viene vacío, poner 1
+							if ($columna_destino == 'fk_id_employee_type' && (empty($valor) || is_null($valor))) {
+								$valor = 1;
+							}
+				
 							$datos_formateados[$columna_destino] = $valor;
 						}
 					}
 					$table = 'workorder_personal';
 					$this->programming_model->add_item_workorder($table, $datos_formateados);
-				}
+				}				
 			}
 
 			//save equipment info
