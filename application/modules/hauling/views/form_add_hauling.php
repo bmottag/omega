@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/hauling/ajaxTruck.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/hauling/hauling_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/hauling/hauling_v2.js?v=2"); ?>"></script>
 
 <script>
 	$(document).ready(function() {

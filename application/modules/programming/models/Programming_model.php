@@ -313,7 +313,7 @@ class Programming_model extends CI_Model
 
 		$query = $this->db->insert('programming_worker', $data);
 
-		$id_programming_materials = $this->db->insert_id();
+		$id_programming_worker = $this->db->insert_id();
 
 		//actualiza la WO
 		$arrParam = array(
@@ -332,8 +332,7 @@ class Programming_model extends CI_Model
 				'fk_id_user' => $this->input->post('worker'),
 				'fk_id_employee_type' => 1,
 				'hours' => 0,
-				'description' => 'Create planning',
-				'fk_id_programming_worker' => $id_programming_materials
+				'fk_id_programming_worker' => $id_programming_worker
 			);
 
 			$this->db->insert('workorder_personal', $dataWO);

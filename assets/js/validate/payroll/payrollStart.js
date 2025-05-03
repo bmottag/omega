@@ -26,6 +26,7 @@ $( document ).ready( function () {
 
 	$("#btnSubmit").click(function(){
 		if ($("#form").valid() == true){
+			$("#btnSubmit").prop("disabled", true);
 			var form = document.getElementById('form');
 			form.submit();
 		}

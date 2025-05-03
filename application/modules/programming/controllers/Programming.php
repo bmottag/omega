@@ -402,7 +402,7 @@ class Programming extends CI_Controller
 			}
 
 
-			$this->session->set_flashdata('retornoExito', 'You have delete one worker.');
+			$this->session->set_flashdata('retornoExito', 'You have deleted one worker.');
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}
