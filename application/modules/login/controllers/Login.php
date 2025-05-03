@@ -61,8 +61,10 @@ class Login extends CI_Controller {
 				$arrParam['idVehicle'] = $data['idVehicle'];
 				$data['vehicleInfo'] = $this->general_model->get_vehicle_by($arrParam);
 
-				$data['linkInspection'] = $data['vehicleInfo'][0]['link_inspection'];	
-				$data['formInspection'] = $data['vehicleInfo'][0]['form'];					
+				if (!empty($data['vehicleInfo']) && is_array($data['vehicleInfo'])) {
+					$data['linkInspection'] = $data['vehicleInfo'][0]['link_inspection'];	
+					$data['formInspection'] = $data['vehicleInfo'][0]['form'];
+				}
 			}
 
 			//busco datos del vehiculo
