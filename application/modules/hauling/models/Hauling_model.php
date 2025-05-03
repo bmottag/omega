@@ -57,19 +57,20 @@ class Hauling_model extends CI_Model
 			$query = $this->db->insert('workorder_state', $data);
 		} else {
 			$id_work_order = $this->input->post('list_work_order');
-
-			$data = array(
-				'date' => date("Y-m-d"),
-				'fk_id_job' => $this->input->post('fromSite'),
-				'observation' => $this->input->post('comments'),
-				'state' => 0,
-				'last_message' => 'A new Work Order was created from the Hauling',
-				'fk_id_user' => $idUser,
-				'date_issue' => date("Y-m-d G:i:s"),
-				'fk_id_company' => $this->input->post('company'),
-			);
-			$this->db->where('id_workorder', $id_work_order);
-			$query = $this->db->update('workorder', $data);
+			/*
+				$data = array(
+					'date' => date("Y-m-d"),
+					'fk_id_job' => $this->input->post('fromSite'),
+					'observation' => $this->input->post('comments'),
+					'state' => 0,
+					'last_message' => 'A new Work Order was created from the Hauling',
+					'fk_id_user' => $idUser,
+					'date_issue' => date("Y-m-d G:i:s"),
+					'fk_id_company' => $this->input->post('company'),
+				);
+				$this->db->where('id_workorder', $id_work_order);
+				$query = $this->db->update('workorder', $data);
+			*/
 		}
 
 		$minIn = (int)$this->input->post('minIn');
