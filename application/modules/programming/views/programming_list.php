@@ -387,7 +387,6 @@
 									<td>
 									<small><?php echo $data["name"]; ?></small><br>
 										<select name="type" class="form-control" <?php echo $deshabilitar; ?>>
-											<option value=''>Select...</option>
 											<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
 												<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>"  <?php if($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) { echo "selected"; }  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>	
 											<?php } ?>

@@ -454,7 +454,10 @@ class Serviceorder extends CI_Controller
 		} elseif ($data["tabview"] == "tab_preventive_maintenance") {
 			$data['infoPreventiveMaintenance'] = $this->serviceorder_model->get_preventive_maintenance($arrParam);
 		} elseif ($data["tabview"] == "tab_inspections") {
-			$data['infoInspections'] = $this->general_model->get_vehicle_oil_change($data['vehicleInfo']); //vehicle oil change history
+			$data['infoInspections'] = false;
+			if($data['vehicleInfo'][0]['table_inspection']){
+				$data['infoInspections'] = $this->general_model->get_vehicle_oil_change($data['vehicleInfo']); //vehicle oil change history
+			}
 		} elseif ($data["tabview"] == "tab_service_order_detail") {
 			$arrParam["idServiceOrder"] = $this->input->post('serviceOrderId');
 			$data['information'] = $this->serviceorder_model->get_service_order($arrParam);
