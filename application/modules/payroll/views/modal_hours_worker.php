@@ -1,8 +1,8 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report/hours_V2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/report/hours_V2.js?v=2"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Edit Payroll Employee Hours</h4>
+	<h4 class="modal-title" id="exampleModalLabel">Edit payroll employee hours</h4>
 </div>
 
 <div class="modal-body">
