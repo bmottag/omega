@@ -1341,10 +1341,12 @@ class Jobs extends CI_Controller
 
 		if ($data["idJobJsoWorker"] != 'x') {
 			$arrParam = array("idJobJsoWorker" => $data["idJobJsoWorker"]);
-			$data['information'] = $this->jobs_model->get_jso_workers($arrParam); //info bloques
-
-			$data["idJobJso"] = $data['information'][0]['fk_id_job_jso'];
-		}
+			$data['information'] = $this->jobs_model->get_jso_workers($arrParam);
+		
+			if ($data['information'] && is_array($data['information']) && isset($data['information'][0])) {
+				$data["idJobJso"] = $data['information'][0]['fk_id_job_jso'];
+			}
+		}		
 
 		$this->load->view("modal_jso_worker", $data);
 	}
