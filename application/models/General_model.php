@@ -1249,6 +1249,35 @@ class General_model extends CI_Model
 	}
 
 	/**
+	 * Forceaccounts info
+	 * @since 05/05/2025
+	 */
+	public function get_forceaccount_info($arrData)
+	{
+		$this->db->select('W.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name, C.company_name company, C.id_company, A.id_acs');
+		$this->db->join('param_jobs J', 'J.id_job = W.fk_id_job', 'INNER');
+		$this->db->join('param_company C', 'C.id_company = W.fk_id_company', 'LEFT');
+		$this->db->join('acs A', 'A.fk_id_workorder = W.id_forceaccount', 'LEFT');
+		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
+
+		if (array_key_exists("from", $arrData) && $arrData["from"] != '') {
+			$this->db->where('W.date >=', $arrData["from"]);
+		}
+		if (array_key_exists("to", $arrData) && $arrData["to"] != '' && $arrData["from"] != '') {
+			$this->db->where('W.date <', $arrData["to"]);
+		}
+
+		$this->db->order_by('W.id_forceaccount', 'desc');
+		$query = $this->db->get('forceaccount W');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Lista de programacion
 	 * @since 21/12/2020
 	 */

@@ -471,6 +471,9 @@ class Dashboard extends CI_Controller
 		//Informacion de Hauling
 		$haulingInfo = $this->general_model->get_hauling($arrParam);
 
+		//Informacion de Force Account
+		$forceAccountInfo = $this->general_model->get_forceaccount_info($arrParam);
+
 		echo  '[';
 
 		if ($workOrderInfo) {
@@ -609,6 +612,29 @@ class Dashboard extends CI_Controller
 			*/
 		}
 
+		if (($workOrderInfo || $planningInfo || $haulingInfo || $payrollInfo) && $forceAccountInfo) {
+			echo ',';
+		}
+
+		if ($forceAccountInfo) {
+			$longitud = count($forceAccountInfo);
+			$i = 1;
+			foreach ($forceAccountInfo as $data) :
+				echo  '{
+						      "title": "Force Account #: ' . $data['id_forceaccount'] . ' - Job Code/Name: ' . $data['job_description'] . '",
+						      "start": "' . $data['date'] . '",
+						      "end": "' . $data['date'] . '",
+						      "color": "orange",
+						      "url": "' . base_url("dashboard/info_by_day/forceAccountInfo/" . $data['date']) . '"
+						    }';
+
+				if ($i < $longitud) {
+					echo ',';
+				}
+				$i++;
+			endforeach;
+		}
+
 		echo  ']';
 	}
 
@@ -633,7 +659,8 @@ class Dashboard extends CI_Controller
 			"workOrderInfo" => "get_workorder_info",
 			"haulingInfo"   => "get_hauling",
 			"safetyInfo"	=> "get_safety",
-			"toolBoxInfo"   => "get_tool_box"
+			"toolBoxInfo"   => "get_tool_box",
+			"forceAccountInfo"   => "get_forceaccount_info"
 		];
 	
 		if ($view === "all") {
