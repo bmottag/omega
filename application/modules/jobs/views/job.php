@@ -386,15 +386,17 @@ if ($retornoError) {
                                     </thead>
                                     <tbody>	
                                 <?php
+                                $finalTotalExtendedAmount = 0;
+                                $finalTotalExpenses = 0;
+                                $finalTotalBalance = 0;
                                 foreach ($chapterList as $lista):
                                     $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number']);
                                     $jobDetails = $this->general_model->get_job_detail($arrParam);
 
-                                    $totalExtendedAmount = 0;
+                                    $subTotalExtendedAmount = 0;
                                     $totalPercentage = 0;
-                                    $totalExpenses = 0;
-                                    $totalBalance = 0;
-
+                                    $subTotalExpenses = 0;
+                                    $subTotalBalance = 0;
 
                                     foreach ($jobDetails as $data):
                                         $balance = $data['extended_amount'] - $data['expenses'];
@@ -402,22 +404,31 @@ if ($retornoError) {
 
                                         $class = $balance <= $veintePorciento ? "danger" : "default";
 
-                                        $totalExtendedAmount += $data['extended_amount'];
+                                        $subTotalExtendedAmount += $data['extended_amount'];
                                         $totalPercentage += $data['percentage'];
-                                        $totalExpenses += $data['expenses'];
+                                        $subTotalExpenses += $data['expenses'];
                                     endforeach;
 
-                                    $totalBalance = $totalExtendedAmount - $totalExpenses;
+                                    $subTotalBalance = $subTotalExtendedAmount - $subTotalExpenses;
+                                    $finalTotalExtendedAmount += $subTotalExtendedAmount;
+                                    $finalTotalExpenses += $subTotalExpenses;
+                                    $finalTotalBalance += $subTotalBalance;
                                 ?>
 
                                 <?php
                                     echo "<tr>";
                                     echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
-                                    echo "<td width='30%' class='text-right'>$ " . number_format($totalExtendedAmount,2) . "</td>";
-                                    echo "<td width='15%' class='text-right'>$ " . number_format($totalExpenses,2) . "</td>";
-                                    echo "<td width='9%' class='text-right'>$ " . number_format($totalBalance,2) . "</td>";
+                                    echo "<td width='30%' class='text-right'>$ " . number_format($subTotalExtendedAmount,2) . "</td>";
+                                    echo "<td width='15%' class='text-right'>$ " . number_format($subTotalExpenses,2) . "</td>";
+                                    echo "<td width='9%' class='text-right'>$ " . number_format($subTotalBalance,2) . "</td>";
                                     echo "</tr>";
                                 endforeach;
+                                echo "<tr>";
+                                echo "<td width='46%' class='text-right'><b>TOTAL</b></td>";
+                                echo "<td width='30%' class='text-right'><b>$ " . number_format($finalTotalExtendedAmount,2) . "</b></td>";
+                                echo "<td width='15%' class='text-right'><b>$ " . number_format($finalTotalExpenses,2) . "</b></td>";
+                                echo "<td width='9%' class='text-right'><b>$ " . number_format($finalTotalBalance,2) . "</b></td>";
+                                echo "</tr>";
                                 ?>
                                     </tbody>
                                 </table>
