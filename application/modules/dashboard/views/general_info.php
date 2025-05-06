@@ -129,6 +129,7 @@
 						<li>Search W.O.</li>
 						<li>This user can edit any work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
+						<li>Force Account</li>
 						</ul>
 						<br>----------------------------
 						<br><strong>Manuals</strong>
@@ -186,6 +187,7 @@
 						<li>This role can edit Work Orders that are "On Field" and "In Progress".</li>
 						<li>Work Order Report</li>
 						<li>Hauling Report</li>
+						<li>Force Account</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -264,6 +266,7 @@
 						<li>Add/Edit W.O.</li>
 						<li>This user can edit their own work orders if it is "On Field".</li>
 						<li>This user cannot change the status of the work order.</li>
+						<li>Force Account</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -348,6 +351,7 @@
 						<li>Audit Log W.O.</li>
 						<li>Work Order Report</li>
 						<li>Hauling Report</li>
+						<li>Force Account</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar:</strong>
@@ -427,6 +431,7 @@
 						<li>This role can edit Work Orders that are "On Field", "In Progress" and "Revised".</li>
 						<li>Work Order Report</li>
 						<li>Hauling Report</li>
+						<li>Force Account</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -499,6 +504,7 @@
 						<li>This role can edit work orders that are "Revised" and "Send to the Client".</li>
 						<li>Work Order Report</li>
 						<li>Hauling Report</li>
+						<li>Force Account</li>
 						</ul>
 						----------------------------
 						<br><strong>Calendar</strong>
@@ -521,5 +527,4 @@
 		</div>
 
 	</div>
-	<!-- /.row -->
 </div>

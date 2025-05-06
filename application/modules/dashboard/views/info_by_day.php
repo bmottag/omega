@@ -224,6 +224,84 @@
     <?php   } ?>
 
     <?php
+        if (isset($forceAccountInfo) && $forceAccountInfo) {
+    ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <i class="fa fa-money fa-fw"></i> <strong>FORCE ACCOUNTS RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                </div>
+
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
+                        <thead>
+                            <tr>
+                                <th width='10%' class='text-center'>Force Account #</th>
+                                <th width='20%'>Job Code/Name</th>
+                                <th width='15%'>Supervisor</th>
+                                <th width='30%'>Task Description</th>
+                                <th width='25%'>Last Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($forceAccountInfo as $lista) :
+                                switch ($lista['state']) {
+                                    case 0:
+                                        $valor = 'On Field';
+                                        $clase = "text-danger";
+                                        $icono = "fa-thumb-tack";
+                                        break;
+                                    case 1:
+                                        $valor = 'In Progress';
+                                        $clase = "text-warning";
+                                        $icono = "fa-refresh";
+                                        break;
+                                    case 2:
+                                        $valor = 'Revised';
+                                        $clase = "text-primary";
+                                        $icono = "fa-check";
+                                        break;
+                                    case 3:
+                                        $valor = 'Send to the Client';
+                                        $clase = "text-success";
+                                        $icono = "fa-envelope-o";
+                                        break;
+                                    case 4:
+                                        $valor = 'Closed';
+                                        $clase = "text-danger";
+                                        $icono = "fa-power-off";
+                                        break;
+                                    case 5:
+                                        $valor = 'Accounting';
+                                        $clase = "text-warning";
+                                        $icono = "fa-list-alt";
+                                        break;
+                                }
+
+                                echo "<tr>";
+                                echo "<td class='text-center'>";
+                                echo "<a href='" . base_url('forceaccount/add_forceaccount/' . $lista['id_forceaccount']) . "' target='_blanck'>" . $lista['id_forceaccount'] . "</a>";
+                                echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
+                                echo "<a href='" . base_url('forceaccount/generaForceAccountPDF/' . $lista['id_forceaccount']) . "' target='_blanck'><img src='" . base_url_images('pdf.png') . "' ></a>";
+                                echo '</td>';
+                                echo "<td >" . $lista['job_description'] . "</td>";
+                                echo '<td>' . $lista['name'] . '</td>';
+                                echo "<td>" . $lista['observation'] . "</td>";
+                                echo "<td>" . $lista['last_message'] . "</td>";
+                                echo "</tr>";
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php   } ?>
+
+    <?php
         if (isset($payrollInfo) && $payrollInfo) {
     ?>
     <div class="row">

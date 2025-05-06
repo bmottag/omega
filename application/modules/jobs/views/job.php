@@ -367,8 +367,66 @@ if ($retornoError) {
                     <?php 
                            // }
                         endforeach;
+					?>
+
+                        <hr>
+
+                        <div class="panel-body">
+                            <div class="panel-group" id="accordion">	
+                                <h2>Summary</h2>
+
+                                <table width="100%" class="table table-hover dataTable no-footer" id="dataTables">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left" >Chapter</th>
+                                            <th class="text-right" >Extended Amount</th>
+                                            <th class="text-right" >W.O. Expenses</th>
+                                            <th class="text-right" >Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>	
+                                <?php
+                                foreach ($chapterList as $lista):
+                                    $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number']);
+                                    $jobDetails = $this->general_model->get_job_detail($arrParam);
+
+                                    $totalExtendedAmount = 0;
+                                    $totalPercentage = 0;
+                                    $totalExpenses = 0;
+                                    $totalBalance = 0;
+
+
+                                    foreach ($jobDetails as $data):
+                                        $balance = $data['extended_amount'] - $data['expenses'];
+                                        $veintePorciento = $data['extended_amount'] * 0.2;
+
+                                        $class = $balance <= $veintePorciento ? "danger" : "default";
+
+                                        $totalExtendedAmount += $data['extended_amount'];
+                                        $totalPercentage += $data['percentage'];
+                                        $totalExpenses += $data['expenses'];
+                                    endforeach;
+
+                                    $totalBalance = $totalExtendedAmount - $totalExpenses;
+                                ?>
+
+                                <?php
+                                    echo "<tr>";
+                                    echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
+                                    echo "<td width='30%' class='text-right'>$ " . number_format($totalExtendedAmount,2) . "</td>";
+                                    echo "<td width='15%' class='text-right'>$ " . number_format($totalExpenses,2) . "</td>";
+                                    echo "<td width='9%' class='text-right'>$ " . number_format($totalBalance,2) . "</td>";
+                                    echo "</tr>";
+                                endforeach;
+                                ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <?php 
                         } 
                     ?>
+
                 </div>
             </div>
         </div>
