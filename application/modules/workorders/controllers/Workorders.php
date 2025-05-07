@@ -2426,7 +2426,7 @@ class Workorders extends CI_Controller
 		$totalWOIncome = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor + $incomeReceipt;
 
 		if ($totalWOIncome > 0 && $sumPercentageExpense) {
-			$this->workorders_model->updateExpensesValues($workorderExpenses, $totalWOIncome, $sumPercentageExpense);
+			//$this->workorders_model->updateExpensesValues($workorderExpenses, $totalWOIncome, $sumPercentageExpense);
 			//update WO expenses flag
 			$arrParam = array(
 				"table" => "param_jobs",
@@ -2849,7 +2849,7 @@ class Workorders extends CI_Controller
 			);
 			$this->general_model->updateRecord($arrParam);
 
-			$this->session->set_flashdata('retornoExito', 'You have deleted one record from <strong>' . $table . '</strong> table.');
+			$this->session->set_flashdata('retornoExito', 'You have deleted one record.');
 		} else {
 			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 		}

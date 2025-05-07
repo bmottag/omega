@@ -194,14 +194,20 @@ if ($retornoError) {
                                     </button><br>
                                     <?php
                                         foreach ($jobDetails as $data):
-                                            $balance = $data['extended_amount'] - $data['expenses'];
-                                            $veintePorciento = $data['extended_amount'] * 0.2;
-    
-                                            $class = $balance <= $veintePorciento ? "danger" : "default";
-    
+                                            $class = "default";
+                                            if($data['unit_price'] == 0){
+                                                $balance = $data['expenses'];
+                                            }else{
+                                                $balance = $data['extended_amount'] - $data['expenses'];
+
+                                                $veintePorciento = $data['extended_amount'] * 0.2;
+                                                $class = $balance <= $veintePorciento ? "danger" : "default";
+                                            }
+                                            
                                             $totalExtendedAmount += $data['extended_amount'];
                                             $totalPercentage += $data['percentage'];
                                             $totalExpenses += $data['expenses'];
+                                            $totalBalance += $balance;
                                     ?>
                                         <div class="panel panel-<?php echo $class ?>" >
                                             <div class="panel-heading">
@@ -275,7 +281,6 @@ if ($retornoError) {
                                     <?php
                                         endforeach;
 
-                                        $totalBalance = $totalExtendedAmount - $totalExpenses;
                                         echo "<br>";
                                         echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">';
                                             echo "<tr>";
@@ -399,17 +404,19 @@ if ($retornoError) {
                                     $subTotalBalance = 0;
 
                                     foreach ($jobDetails as $data):
-                                        $balance = $data['extended_amount'] - $data['expenses'];
-                                        $veintePorciento = $data['extended_amount'] * 0.2;
-
-                                        $class = $balance <= $veintePorciento ? "danger" : "default";
+                                        if($data['unit_price'] == 0){
+                                            $balance = $data['expenses'];
+                                        }else{
+                                            $balance = $data['extended_amount'] - $data['expenses'];
+                                        }
 
                                         $subTotalExtendedAmount += $data['extended_amount'];
                                         $totalPercentage += $data['percentage'];
                                         $subTotalExpenses += $data['expenses'];
+                                        $subTotalBalance += $balance;
                                     endforeach;
 
-                                    $subTotalBalance = $subTotalExtendedAmount - $subTotalExpenses;
+                                    
                                     $finalTotalExtendedAmount += $subTotalExtendedAmount;
                                     $finalTotalExpenses += $subTotalExpenses;
                                     $finalTotalBalance += $subTotalBalance;
