@@ -194,14 +194,20 @@ if ($retornoError) {
                                     </button><br>
                                     <?php
                                         foreach ($jobDetails as $data):
-                                            $balance = $data['extended_amount'] - $data['expenses'];
-                                            $veintePorciento = $data['extended_amount'] * 0.2;
-    
-                                            $class = $balance <= $veintePorciento ? "danger" : "default";
-    
+                                            $class = "default";
+                                            if($data['unit_price'] == 0){
+                                                $balance = $data['expenses'];
+                                            }else{
+                                                $balance = $data['extended_amount'] - $data['expenses'];
+
+                                                $veintePorciento = $data['extended_amount'] * 0.2;
+                                                $class = $balance <= $veintePorciento ? "danger" : "default";
+                                            }
+                                            
                                             $totalExtendedAmount += $data['extended_amount'];
                                             $totalPercentage += $data['percentage'];
                                             $totalExpenses += $data['expenses'];
+                                            $totalBalance += $balance;
                                     ?>
                                         <div class="panel panel-<?php echo $class ?>" >
                                             <div class="panel-heading">
@@ -275,7 +281,6 @@ if ($retornoError) {
                                     <?php
                                         endforeach;
 
-                                        $totalBalance = $totalExtendedAmount - $totalExpenses;
                                         echo "<br>";
                                         echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">';
                                             echo "<tr>";
@@ -386,38 +391,51 @@ if ($retornoError) {
                                     </thead>
                                     <tbody>	
                                 <?php
+                                $finalTotalExtendedAmount = 0;
+                                $finalTotalExpenses = 0;
+                                $finalTotalBalance = 0;
                                 foreach ($chapterList as $lista):
                                     $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number']);
                                     $jobDetails = $this->general_model->get_job_detail($arrParam);
 
-                                    $totalExtendedAmount = 0;
+                                    $subTotalExtendedAmount = 0;
                                     $totalPercentage = 0;
-                                    $totalExpenses = 0;
-                                    $totalBalance = 0;
-
+                                    $subTotalExpenses = 0;
+                                    $subTotalBalance = 0;
 
                                     foreach ($jobDetails as $data):
-                                        $balance = $data['extended_amount'] - $data['expenses'];
-                                        $veintePorciento = $data['extended_amount'] * 0.2;
+                                        if($data['unit_price'] == 0){
+                                            $balance = $data['expenses'];
+                                        }else{
+                                            $balance = $data['extended_amount'] - $data['expenses'];
+                                        }
 
-                                        $class = $balance <= $veintePorciento ? "danger" : "default";
-
-                                        $totalExtendedAmount += $data['extended_amount'];
+                                        $subTotalExtendedAmount += $data['extended_amount'];
                                         $totalPercentage += $data['percentage'];
-                                        $totalExpenses += $data['expenses'];
+                                        $subTotalExpenses += $data['expenses'];
+                                        $subTotalBalance += $balance;
                                     endforeach;
 
-                                    $totalBalance = $totalExtendedAmount - $totalExpenses;
+                                    
+                                    $finalTotalExtendedAmount += $subTotalExtendedAmount;
+                                    $finalTotalExpenses += $subTotalExpenses;
+                                    $finalTotalBalance += $subTotalBalance;
                                 ?>
 
                                 <?php
                                     echo "<tr>";
                                     echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
-                                    echo "<td width='30%' class='text-right'>$ " . number_format($totalExtendedAmount,2) . "</td>";
-                                    echo "<td width='15%' class='text-right'>$ " . number_format($totalExpenses,2) . "</td>";
-                                    echo "<td width='9%' class='text-right'>$ " . number_format($totalBalance,2) . "</td>";
+                                    echo "<td width='30%' class='text-right'>$ " . number_format($subTotalExtendedAmount,2) . "</td>";
+                                    echo "<td width='15%' class='text-right'>$ " . number_format($subTotalExpenses,2) . "</td>";
+                                    echo "<td width='9%' class='text-right'>$ " . number_format($subTotalBalance,2) . "</td>";
                                     echo "</tr>";
                                 endforeach;
+                                echo "<tr>";
+                                echo "<td width='46%' class='text-right'><b>TOTAL</b></td>";
+                                echo "<td width='30%' class='text-right'><b>$ " . number_format($finalTotalExtendedAmount,2) . "</b></td>";
+                                echo "<td width='15%' class='text-right'><b>$ " . number_format($finalTotalExpenses,2) . "</b></td>";
+                                echo "<td width='9%' class='text-right'><b>$ " . number_format($finalTotalBalance,2) . "</b></td>";
+                                echo "</tr>";
                                 ?>
                                     </tbody>
                                 </table>
