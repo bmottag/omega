@@ -118,6 +118,9 @@ class Payroll_model extends CI_Model
 			$regularHours = $workingHours;
 		}
 
+		log_message('debug', 'workingHours: ' . print_r($workingHours, true));
+		log_message('debug', 'hours_first_project: ' . print_r($hours_first_project, true));	
+
 		if ($idProgramming) {
 			$hours_first_project = ($hours_first_project) ? $hours_first_project : 0;
 			$hours_end_project = $workingHours - $hours_first_project;
@@ -206,7 +209,7 @@ class Payroll_model extends CI_Model
 		
 					if ($query->num_rows() >= 1) {
 		
-						if ($query->row()->hours != 0) {
+						if ($query->row()->hours == 0) {
 							$data = array(
 								'hours' => $workingHours,
 							);
@@ -235,12 +238,24 @@ class Payroll_model extends CI_Model
 					$query = $this->db->update('task', $data);
 				}
 			} else {
-				$data = array(
-					'hours' => $hours_first_project
-				);
-				$this->db->where('fk_id_workorder  ', $id_workorder);
-				$this->db->where('fk_id_user  ', $idUser);
-				$query = $this->db->update('workorder_personal', $data);
+
+				if ($id_workorder != null) {
+					$request = "SELECT * FROM workorder_personal W WHERE W.fk_id_workorder  = '$id_workorder' AND W.fk_id_user = '$idUser'";
+					$query = $this->db->query($request);
+		
+					if ($query->num_rows() >= 1) {
+		
+						if ($query->row()->hours == 0) {
+							$data = array(
+								'hours' => $hours_first_project,
+							);
+			
+							$this->db->where('fk_id_workorder  ', $id_workorder);
+							$this->db->where('fk_id_user  ', $idUser);
+							$query = $this->db->update('workorder_personal', $data);
+						}
+					}
+				}
 
 				//update TASK with wo
 				$data = array(

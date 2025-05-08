@@ -2423,7 +2423,7 @@ class Forceaccount extends CI_Controller
 		$totalWOIncome = $incomePersonal + $incomeMaterial + $incomeEquipment + $incomeSubcontractor + $incomeReceipt;
 
 		if ($totalWOIncome > 0 && $sumPercentageExpense) {
-			$this->forceaccount_model->updateExpensesValues($forceaccountExpenses, $totalWOIncome, $sumPercentageExpense);
+			//$this->forceaccount_model->updateExpensesValues($forceaccountExpenses, $totalWOIncome, $sumPercentageExpense);
 			//update WO expenses flag
 			$arrParam = array(
 				"table" => "param_jobs",
