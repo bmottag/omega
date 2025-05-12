@@ -2617,7 +2617,7 @@ class Workorders extends CI_Controller
 		$data['workorderOcasional'] = $this->workorders_model->get_workorder_ocasional($arrParam);
 		$data['workorderExpenses'] = $this->general_model->get_workorder_expense($arrParam);
 
-		$arrParam = array("idJob" => $data['information'][0]['fk_id_job']);
+		$arrParam = array("idJob" => $data['information'][0]['fk_id_job'], "status" => 1);
 		$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
 
 		$data["view"] = 'expenses';

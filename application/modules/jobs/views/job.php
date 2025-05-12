@@ -45,6 +45,14 @@ $(function(){
 						<span class="fa fa-briefcase" aria-hidden="true"></span>
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>
+
+					<ul class="nav nav-pills">
+                        <?php $ci = & get_instance(); ?>
+						<li <?php if($ci->uri->segment(2) == "job_detail"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/job_detail/" . $jobInfo[0]["id_job"]); ?>">List of active LIC</a>
+						</li>
+						<li <?php if($ci->uri->segment(2) == "charged_lic"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"]); ?>">List of charged LIC</a>
+						</li>
+					</ul>
                     
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
@@ -175,7 +183,7 @@ if ($retornoError) {
                         $ci->load->model("general_model");
 
                         foreach ($chapterList as $lista):
-                            $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number']);
+                            $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number'], "status" => 1);
                             $jobDetails = $this->general_model->get_job_detail($arrParam);
 
                             $totalExtendedAmount = 0;
@@ -395,7 +403,7 @@ if ($retornoError) {
                                 $finalTotalExpenses = 0;
                                 $finalTotalBalance = 0;
                                 foreach ($chapterList as $lista):
-                                    $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number']);
+                                    $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number'], "status" => 1);
                                     $jobDetails = $this->general_model->get_job_detail($arrParam);
 
                                     $subTotalExtendedAmount = 0;

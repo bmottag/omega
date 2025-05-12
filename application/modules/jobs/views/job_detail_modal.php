@@ -69,7 +69,20 @@
 					<label class="control-label" for="unit_price">Unit Price  : *</label>
 					<input type="text" id="unit_price" name="unit_price" class="form-control" value="<?php echo $information?$information[0]["unit_price"]:""; ?>" placeholder="Unit Price" required >
 				</div>
-			</div>			
+			</div>	
+			
+			<?php if($information){ ?>
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="status">Status: *</label>
+					<select name="status" id="status" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information[0]["status"] == 1) { echo "selected"; }  ?>>Active</option>
+						<option value=2 <?php if($information[0]["status"] == 2) { echo "selected"; }  ?>>Charged</option>
+					</select>
+				</div>
+			</div>
+			<?php } ?>
 		</div>
 		
 		<div class="form-group">

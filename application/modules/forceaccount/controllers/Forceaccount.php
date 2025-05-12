@@ -2614,7 +2614,7 @@ class Forceaccount extends CI_Controller
 		$data['forceaccountOcasional'] = $this->forceaccount_model->get_forceaccount_ocasional($arrParam);
 		$data['forceaccountExpenses'] = $this->general_model->get_forceaccount_expense($arrParam);
 
-		$arrParam = array("idJob" => $data['information'][0]['fk_id_job']);
+		$arrParam = array("idJob" => $data['information'][0]['fk_id_job'], "status" => 1);
 		$data['jobDetails'] = $this->general_model->get_job_detail($arrParam);
 
 		$data["view"] = 'expenses';

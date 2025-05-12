@@ -17,6 +17,80 @@ $(function(){
 });
 </script>
 
+<!-- Agrega esto en el <head> o antes del cierre de </body> -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+	let map;
+	let marker;
+
+	function initMap() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition, showError, {
+				enableHighAccuracy: true,
+				timeout: 5000,
+				maximumAge: 0
+			});
+		} else {
+			alert("Geolocalización no es soportada por este navegador.");
+		}
+	}
+
+	function showPosition(position) {
+		const lat = position.coords.latitude;
+		const lng = position.coords.longitude;
+
+		document.getElementById("latitud").value = lat;
+		document.getElementById("longitud").value = lng;
+		document.getElementById("latitude").value = lat;
+		document.getElementById("longitude").value = lng;
+		// Inicializa el mapa con Leaflet
+		map = L.map('map').setView([lat, lng], 14);
+
+		// Carga mapas desde OpenStreetMap
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; OpenStreetMap contributors'
+		}).addTo(map);
+
+		// Agrega marcador
+		marker = L.marker([lat, lng]).addTo(map);
+
+		// Obtiene la dirección con Nominatim
+		fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+			.then(response => response.json())
+			.then(data => {
+				const address = data.display_name;
+				document.getElementById("viewaddress").value = address;
+				document.getElementById("address").value = address;
+			})
+			.catch(error => {
+				console.error("Error obteniendo dirección:", error);
+			});
+	}
+
+	function showError(error) {
+		let msg = "";
+		switch (error.code) {
+			case error.PERMISSION_DENIED:
+				msg = "Permiso denegado para obtener ubicación.";
+				break;
+			case error.POSITION_UNAVAILABLE:
+				msg = "Ubicación no disponible.";
+				break;
+			case error.TIMEOUT:
+				msg = "Tiempo de espera agotado.";
+				break;
+			default:
+				msg = "Error desconocido.";
+				break;
+		}
+		alert(msg);
+	}
+
+	// Ejecutar al cargar la página
+	window.onload = initMap;
+</script>
 
 <div id="page-wrapper">
 	<br>
@@ -303,100 +377,4 @@ $(document).ready(function() {
 		"searching": false
 	});
 });
-</script>
-
-		
-<script>
-    // The following example creates complex markers to indicate beaches near
-	// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
-	// to the base of the flagpole.
-
-	var options = {
-	  enableHighAccuracy: true,
-	  timeout: 5000,
-	  maximumAge: 0
-	};
-
-	function success(pos) {
-		var crd = pos.coords;
-
-		console.log('Your current position is:');
-		console.log('Latitude : ' + crd.latitude);
-		console.log('Longitude: ' + crd.longitude);
-		console.log('More or less ' + crd.accuracy + ' meters.');
-		$("#latitud").val(crd.latitude);
-		$("#longitud").val(crd.longitude);
-		$("#latitude").val(crd.latitude);
-		$("#longitude").val(crd.longitude);
-		var pos = {
-					lat: crd.latitude,
-					lng: crd.longitude
-				};
-		map.setCenter(pos);
-		map.setZoom(17);
-
-		showLatLong(crd.latitude, crd.longitude);
-
-		ultimaPosicionUsuario = new google.maps.LatLng(crd.latitude, crd.longitude);
-		marcadorUsuario = new google.maps.Marker({
-			position: ultimaPosicionUsuario,
-			map: map
-		});
-	};
-
-	function error(err) {
-		console.warn('ERROR(' + err.code + '): ' + err.message);
-	};
-
-	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow.setContent(browserHasGeolocation ?
-							  'Error: Error en el servicio de localizacion.' :
-							  'Error: Navegador no soporta geolocalizacion.');
-	}
-	
-	/**
-	 * INICIO --- Capturar direccion
-	 * http://www.elclubdelprogramador.com/2012/04/22/html5-obteniendo-direcciones-a-partir-de-latitud-y-longitud-geolocalizacion/
-	 */
-	function showLatLong(lat, longi) {
-		var geocoder = new google.maps.Geocoder();
-		var yourLocation = new google.maps.LatLng(lat, longi);
-		geocoder.geocode({ 'latLng': yourLocation },processGeocoder);
-	}
-	function processGeocoder(results, status){
-		if (status == google.maps.GeocoderStatus.OK) {
-			if (results[0]) {
-				document.forms[0].address.value=results[0].formatted_address;
-				document.forms[0].viewaddress.value=results[0].formatted_address;
-			} else {
-				error('Google no retorno resultado alguno.');
-			}
-		} else {
-			error("Geocoding fallo debido a : " + status);
-		}
-	}
-	/**
-	 * FIN
-	 */	
-	
-	function initMap() {
-		var pais = new google.maps.LatLng(51.0209884,-114.1591999);
-		var mapOptions = {
-			center: pais,
-			zoom: 17,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-		
-		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-		//Inicializa el objeto geocoder
-		geocoder = new google.maps.Geocoder();
-				
-		navigator.geolocation.getCurrentPosition(success, error, options);
-	}	
-
-</script>
-
-<script async defer		
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDi5PwRbCh0Jsgqgtnrc6dsb7za4wyq3c8&libraries=places&callback=initMap">
 </script>

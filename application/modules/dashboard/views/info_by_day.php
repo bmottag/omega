@@ -402,7 +402,7 @@
                                 echo "<button type='button' class='btn btn-danger btn-sm " . $hidden_finished . "' data-toggle='modal' id='btnAssign_" . $lista["id_task"] . "' time='end'>Assign to a W.O.</button>";
                                 echo "</td>";
 
-                                echo "<td class='text-center'>" . convert_hours_minutes($workingHours) . "<p>" . $workingHoursHM . "</p>" . $textSameJob . "</td>";
+                                echo "<td class='text-center'>" . convert_hours_minutes($workingHours) . "<br><br>" . $workingHoursHM . "<br><br>" . $textSameJob . "</td>";
 
                                 // Ahora recorremos todas las órdenes de trabajo y verificamos si el usuario tiene horas en esa WO
                                 if (isset($workOrderCheck) && $workOrderCheck) {
