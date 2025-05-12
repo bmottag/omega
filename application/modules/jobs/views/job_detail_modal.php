@@ -78,7 +78,7 @@
 					<select name="status" id="status" class="form-control" required>
 						<option value=''>Select...</option>
 						<option value=1 <?php if($information[0]["status"] == 1) { echo "selected"; }  ?>>Active</option>
-						<option value=2 <?php if($information[0]["status"] == 2) { echo "selected"; }  ?>>Inactive</option>
+						<option value=2 <?php if($information[0]["status"] == 2) { echo "selected"; }  ?>>Charged</option>
 					</select>
 				</div>
 			</div>

@@ -2033,6 +2033,9 @@ class General_model extends CI_Model
 		if (array_key_exists("chapterNumber", $arrData)) {
 			$this->db->where('chapter_number', $arrData["chapterNumber"]);
 		}
+		if (array_key_exists("status", $arrData)) {
+			$this->db->where('status', $arrData["status"]);
+		}
 
 		// Subconsulta para calcular la suma de los gastos
 		$this->db->select('D.*, (SELECT ROUND(SUM(W.expense_value), 2) 

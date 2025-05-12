@@ -2837,6 +2837,31 @@ class Jobs extends CI_Controller
 	}
 
 	/**
+	 * Job Detail List
+	 * @since 12/05/2025
+	 * @author BMOTTAG
+	 */
+	public function charged_lic($idJob)
+	{
+		$this->load->model("general_model");
+		//job info
+		$arrParam = array(
+			"table" => "param_jobs",
+			"order" => "job_description",
+			"column" => "id_job",
+			"id" => $idJob
+		);
+		$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+		$arrParam = array("idJob" => $idJob);
+		$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
+
+		$data["view"] = 'job_lic_charged';
+		
+		$this->load->view("layout_calendar", $data);
+	}
+
+	/**
 	 * Cargo modal - Job Detail
 	 * @since 6/1/2023
 	 */
