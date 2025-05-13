@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/ajaxClaimNumber.js"); ?>"></script>
 <style>
     .select2-container .select2-dropdown .select2-results__option {
         text-align: left;
@@ -35,6 +36,12 @@
 					<label class="control-label" for="claimNumber">Claim Number: *</label>
 					<input type="text" id="claimNumber" name="claimNumber" class="form-control" value="<?php echo $information?$information[0]["claim_number"]:""; ?>" placeholder="Claim Number" required >
 				</div>
+			</div>
+		</div>
+
+		<div class="row" id="div_observation" style="display:none">
+			<div class="col-sm-12">
+			<div class="alert alert-info"><span class="glyphicon glyphicon-remove" id="span_observation">&nbsp;</span></div>
 			</div>
 		</div>
 

@@ -80,7 +80,7 @@ $(function(){
 
 						<div class="form-group">	
 							<div class="col-sm-12">
-								<input type="text" id="claimNumber" name="claimNumber" class="form-control" placeholder="Claim Number" value="<?php echo $_POST?$this->input->post('claimNumber'):""; ?>">
+								<input type="text" id="claimNumberSearch" name="claimNumberSearch" class="form-control" placeholder="Claim Number" value="<?php echo $_POST?$this->input->post('claimNumberSearch'):""; ?>">
 							</div>
 						</div>
 						
