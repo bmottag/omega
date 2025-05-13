@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js?v=2"); ?>"></script>
 <script>
 $(function(){
 	$(".btn-success").click(function () {
@@ -19,7 +19,6 @@ $(function(){
 <div id="page-wrapper">
 	<br>
 	
-	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-3">
 			<div class="panel panel-info">
@@ -39,22 +38,17 @@ $(function(){
 							</div>
 						</div>
 					</div>
-
-					<!-- /.row (nested) -->
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel -->
 
-			<!-- /.panel .chat-panel -->
 			<div class="chat-panel panel panel-success">
 				<div class="panel-heading">
 					<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $claimsInfo[0]['id_claim']; ?>" >
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Info
 					</button>
-					<i class="fa fa-comments fa-fw"></i> State history
+					<i class="fa fa-comments fa-fw"></i> Status history
 				</div>
-				<!-- /.panel-heading -->
+
 				<div class="panel-body">
 					<ul class="chat">
 <?php 
@@ -119,18 +113,14 @@ $(function(){
 					</ul>
 					
 				</div>
-				<!-- /.panel-body -->
 			</div>
-			<!-- /.panel .chat-panel -->
-
 		</div>
-		<!-- /.col-lg-12 -->
 	
-	<!--INICIO WO -->
+	<!--INICIO APU -->
 		<div class="col-lg-9">				
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-money"></i> <strong>ASSIGNED WORK ORDERS TO THE CLAIM</strong>
+					<i class="fa fa-money"></i> <strong>ASSIGNED APU TO CLAIM</strong>
 				</div>
 				<div class="panel-body">
 <?php
@@ -162,170 +152,79 @@ if ($retornoError) {
     <?php
 }
 ?> 
-					<a href="<?php echo base_url("claims/add_wo/" . $claimsInfo[0]["fk_id_job_claim"] . "/" . $claimsInfo[0]["id_claim"]); ?>" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Work Orders to the Claim</a>
 					<br>
-
-				<?php 
-					if($WOList){
-				?>
-					<table class="table table-bordered table-striped table-hover table-condensed">
-						<tr class="dafault">
-							<th class="text-center">W.O. #</th>
-							<th class="text-center">Supervisor</th>
-							<th class="text-center">Date W.O.</th>
-							<th class="text-center">More information</th>
-							<th class="text-center">Subtotal</th>
-							<th class="text-center">Delete</th>
-						</tr>
+					<form id="form_acs_personal" method="post" action="<?php echo base_url("claims/update_claim"); ?>">
+						<input type="hidden" id="hddIdClaim" name="hddIdClaim" value="<?php echo $claimsInfo[0]['id_claim']; ?>" />
 						<?php
-							//se va a consultar registros de la WO
+						if($chapterList){
 							$ci = &get_instance();
-							$ci->load->model("workorders/workorders_model");
+							$ci->load->model("general_model");
 
-							$Total = 0;
-							foreach ($WOList as $lista):
-                            	//buscar informacion por submodulo para sacar el subtotal
-								$arrParam = array('idWorkOrder' =>$lista['id_workorder']);
-								$workorderPersonal = $this->workorders_model->get_workorder_personal($arrParam);//workorder personal list
-								$workorderMaterials = $this->workorders_model->get_workorder_materials($arrParam);//workorder material list
-								$workorderReceipt = $this->workorders_model->get_workorder_receipt($arrParam);//workorder ocasional list
-								$workorderEquipment = $this->workorders_model->get_workorder_equipment($arrParam);//workorder equipment list
-								$workorderOcasional = $this->workorders_model->get_workorder_ocasional($arrParam);//workorder ocasional list
+							foreach ($chapterList as $lista):
+								$arrParam = array("idJob" => $claimsInfo[0]['fk_id_job'], "chapterNumber" => $lista['chapter_number'], "idClaim" => $claimsInfo[0]['id_claim'], "status" => 1);
+								$jobDetails = $this->general_model->get_job_detail($arrParam);
 
-								$totalPersonal = 0;
-								$totalMaterial = 0;
-								$totalReceipt = 0;
-								$totalEquipment = 0;
-								$totalOcasional = 0;
-								$Subtotal = 0;
-								// INICIO PERSONAL
-								if($workorderPersonal)
-								{ 
-									foreach ($workorderPersonal as $data):
-											$totalPersonal = $data['value'] + $totalPersonal;
-									endforeach;
-								}
-								// INICIO MATERIAL
-								if($workorderMaterials)
-								{ 
-									foreach ($workorderMaterials as $data):
-											$totalMaterial = $data['value'] + $totalMaterial;
-									endforeach;
-								}
-								// INICIO RECEIPT
-								if($workorderReceipt)
-								{ 
-									foreach ($workorderReceipt as $data):
-											$totalReceipt = $data['value'] + $totalReceipt;
-									endforeach;
-								}
-								// INICIO EQUIPMENT
-								if($workorderEquipment)
-								{ 
-									foreach ($workorderEquipment as $data):
-											$totalEquipment = $data['value'] + $totalEquipment;
-									endforeach;
-								}							
-								// INICIO SUBCONTRATISTAS OCASIONALES
-								if($workorderOcasional)
-								{ 
-									foreach ($workorderOcasional as $data):
-											$totalOcasional = $data['value'] + $totalOcasional;
-									endforeach;
-								}									
-
-								$Subtotal = $totalPersonal + $totalMaterial + $totalReceipt + $totalOcasional + $totalEquipment;
-								$Total = $Subtotal + $Total;
-
-								//estado
-								switch ($lista['state']) {
-										case 0:
-												$valor = 'On Field';
-												$clase = "text-danger";
-												$icono = "fa-thumb-tack";
-												break;
-										case 1:
-												$valor = 'In Progress';
-												$clase = "text-warning";
-												$icono = "fa-refresh";
-												break;
-										case 2:
-												$valor = 'Revised';
-												$clase = "text-primary";
-												$icono = "fa-check";
-												break;
-										case 3:
-												$valor = 'Send to the Client';
-												$clase = "text-success";
-												$icono = "fa-envelope-o";
-												break;
-										case 4:
-												$valor = 'Closed';
-												$clase = "text-danger";
-												$icono = "fa-power-off";
-												break;
-								}
-
-								echo "<tr>";					
-								echo "<td class='text-center'>";
-								echo "<a href='" . base_url('workorders/add_workorder/' . $lista['id_workorder']) . "' target='_blanck'>" . $lista['id_workorder'] . "</a>";
-								echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-								echo "<a href='" . base_url('workorders/generaWorkOrderPDF/' . $lista['id_workorder']) . "' target='_blanck'><img src='" . base_url_images('pdf.png') . "' ></a>";
-								echo '</td>';
-								echo '<td>' . $lista['name'] . '</td>';
-								echo "<td class='text-center'>" . $lista['date'] . "</td>";
-								echo '<td>';
-								echo '<strong>Task Description:</strong><br>' . $lista['observation'];
-								echo '<br><strong>Additional information last message:</strong><br>' . $lista['last_message'];
-								echo '</td>';
-								echo '<td class="text-right">';
-								echo "<p class='text-info'>";
-								if($totalPersonal>0){
-									echo "<strong>Personal: </strong>$ " . number_format($totalPersonal, 2) . "</br>";
-								}
-								if($totalMaterial>0){
-									echo "<strong>Material: </strong>$ " . number_format($totalMaterial, 2) . "</br>";
-								}
-								if($totalReceipt>0){
-									echo "<strong>Receipt: </strong>$ " . number_format($totalReceipt, 2) . "</br>";
-								}
-								if($totalEquipment>0){
-									echo "<strong>Equipment: </strong>$ " . number_format($totalEquipment, 2) . "</br>";
-								}
-								if($totalOcasional>0){
-									echo "<strong>Ocasional: </strong>$ " . number_format($totalOcasional, 2) . "</br>";
-								}
-
-								echo "</p>";
-								echo "<p class='text-danger'><strong>Subtotal: </strong>$ " . number_format($Subtotal, 2) . "</p>";
-								echo '</td>';
-								echo "<td class='text-center'>";
-								?>
-								<button type="button" id="<?php echo $lista['id_workorder'] . '-' . $claimsInfo[0]['id_claim']; ?>" class='btn btn-danger btn-xs' title="Delete">
-										<i class="fa fa-trash-o"></i>
-								</button>
-								<?php
-								echo '</td>';
-								echo '</tr>';
-							endforeach;
-								echo '<tr>';
-								echo "<td class='text-right' colspan='5'>";
-								echo "<p class='text-danger'><strong>Total: </strong>$ " . number_format($Total, 2) . "</p>";
-								echo '</td>';
-								echo '<td></td>';
-								echo '</tr>';
+								if($jobDetails){
 						?>
-					</table>
-				<?php } ?>
+								<div class="panel-body">
+									<div class="panel-group" id="accordion">	
+										<h2><?php echo $lista['chapter_name']; ?></h2>
+										<?php
+											foreach ($jobDetails as $data):
+												$class = "default";
+										?>
+											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][id_job_detail]" value="<?php echo $data['id_job_detail']; ?>" />
+											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][unit_price]" value="<?php echo $data['unit_price']; ?>" />
+											<div class="panel panel-<?php echo $class ?>" >
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
+														<?php
+															echo "<tr class='" . $class . "'>";
+															echo "<td width='4%' class='text-center'><p class='text-" . $class . "'><b>Item</b><br>" . $data['chapter_number'] . "." . $data['item'] . "</p></td>";
+															echo "<td width='40%'><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
+															echo "<td width='4%' class='text-center'><p class='text-" . $class . "'><b>Unit</b><br>" . $data['unit'] . "</p></td>";
+															echo "<td width='4%' class='text-center'><p class='text-" . $class . "'><b>Qty</b><br>" . $data['quantity'] . "</p></td>";
+															echo "<td width='8%' class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
+															echo "<td width='10%' class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
+														?>
+											<td class="text-right">
+												<b>Qty Claim</b>
+												<input type="text" name="records[<?php echo $data['id_job_detail']; ?>][quantity]" class="form-control" value="<?php echo $data['quantity_claim']; ?>" placeholder="Quantity" >
+											</td>
+
+											<td class="text-right">
+												<b>Cost Claim</b>
+												<input type="text" name="records[<?php echo $data['id_job_detail']; ?>][cost]" class="form-control" value="<?php echo $data['cost']; ?>" placeholder="Cost" >
+											</td>
+														<?php
+															echo "</tr>";
+														?>
+														</table>
+													</h4>
+												</div>
+											</div>
+										<?php
+											endforeach;
+										?>
+									</div>
+								</div>
+						<?php 
+								}
+							endforeach;
+							}
+						?>
+						<button type="submit" id="btnSubmitAPUInfo" name="btnSubmitAPUInfo" class="btn btn-primary">
+							Save Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+						</button>
+					</form>
 
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--INICIO HAZARDS -->
 	
 </div>
-<!-- /#page-wrapper -->
 
 <!--INICIO Modal para adicionar ESTADO -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    

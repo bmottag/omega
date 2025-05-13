@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claim_state.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claim_state.js?v=2"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="state">State: *</label>
+					<label class="control-label" for="state">Status: *</label>
 					<select name="state" id="state" class="form-control" required>
 						<option value=''>Seleccione...</option>
 						<option value=1 >1. New Claim</option>
@@ -24,7 +24,10 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-6">
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="message">Message: *</label>
 					<textarea id="message" name="message" placeholder="Message" class="form-control" rows="3" ></textarea>

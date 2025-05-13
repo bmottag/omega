@@ -2053,6 +2053,39 @@ class General_model extends CI_Model
 	}
 
 	/**
+	 * Job Detail
+	 * @author BMOTTAG
+	 * @since 13/05/2025
+	 */
+	public function get_job_detail_claims_info($arrData)
+	{
+
+		$this->db->select('D.*, C.quantity quantity_claim, C.cost');
+		$this->db->join('claim_apus C', 'C.fk_id_job_detail = D.id_job_detail AND C.fk_id_claim = ' . $arrData["idClaim"], 'LEFT');
+
+		if (array_key_exists("idJobDetail", $arrData)) {
+			$this->db->where('id_job_detail', $arrData["idJobDetail"]);
+		}
+		if (array_key_exists("idJob", $arrData)) {
+			$this->db->where('fk_id_job', $arrData["idJob"]);
+		}
+		if (array_key_exists("chapterNumber", $arrData)) {
+			$this->db->where('chapter_number', $arrData["chapterNumber"]);
+		}
+		if (array_key_exists("status", $arrData)) {
+			$this->db->where('status', $arrData["status"]);
+		}
+		$this->db->order_by('id_job_detail', 'asc');
+		$query = $this->db->get('job_details D');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Get Distinct Chapter list
 	 * @since 25/1/2023
 	 */
@@ -2465,6 +2498,9 @@ class General_model extends CI_Model
 		}
 		if (array_key_exists("state", $arrData)) {
 			$this->db->where('state', $arrData["state"]);
+		}
+		if (array_key_exists("withLIC", $arrData)) {
+			$this->db->where('flag_upload_details', 1);
 		}
 		$this->db->order_by("J.job_description", "asc");
 		$query = $this->db->get("param_jobs J");
