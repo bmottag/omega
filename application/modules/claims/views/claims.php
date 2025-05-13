@@ -131,7 +131,7 @@ $(function(){
 						<?php
 							foreach ($claimsInfo as $lista):
 							
-									switch ($lista['current_state_claim']) {
+									switch ($lista['current_status_claim']) {
 											case 1:
 													$valor = 'New Claim';
 													$clase = "text-violeta";
@@ -166,9 +166,9 @@ $(function(){
 							
 									echo "<tr>";
 									echo "<td class='text-center'>";
-									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "'>" . $lista['claim_number'] . "</a>";
+									echo "<a href='" . base_url('claims/upload_apu/' . $lista['id_claim']) . "'>" . $lista['claim_number'] . "</a>";
 									echo '<p class="' . $clase . '"><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</p>';
-									echo "<a href='" . base_url('claims/upload_wo/' . $lista['id_claim']) . "' class='btn btn-success btn-xs' title='View'>Review Claim</a>";
+									echo "<a href='" . base_url('claims/upload_apu/' . $lista['id_claim']) . "' class='btn btn-success btn-xs' title='View'>Review Claim</a>";
 									echo "</td>";
 									echo "<td>" . $lista['job_description'] . "</td>";
 									echo "<td>" . $lista['name'] . "</td>";

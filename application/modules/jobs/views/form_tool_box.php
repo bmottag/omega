@@ -239,10 +239,8 @@ if($information[0]["signature"]){
 			</div>
 		</div>
 	</div>
-	<!-- /.row -->
 <?php } ?>	
 <!--FIN NEW HAZARD -->
-
 
 
 <!--INICIO WORKERS -->								
@@ -594,7 +592,7 @@ if($userRol==99){
 			<div class="modal-body">
 				<form name="formHazard" id="formHazard" role="form" method="post" action="<?php echo base_url("jobs/tool_box_One_Worker") ?>" >
 					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
-					<input type="hidden" id="hddIdToolBox" name="hddIdToolBox" value="<?php echo $information[0]["id_tool_box"]; ?>"/>
+					<input type="hidden" id="hddIdToolBox" name="hddIdToolBox" value="<?php echo $information?$information[0]["id_tool_box"]:""; ?>" />
 
 					<div class="form-group text-left">
 						<label class="control-label" for="worker">Worker</label>
@@ -647,7 +645,7 @@ if($userRol==99){
 			<div class="modal-body">
 				<form name="formSubcontractor" id="formSubcontractor" role="form" method="post" action="<?php echo base_url("jobs/tool_box_subcontractor_Worker") ?>" >					
 					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]["id_job"]; ?>"/>
-					<input type="hidden" id="hddIdToolBox" name="hddIdToolBox" value="<?php echo $information[0]["id_tool_box"]; ?>"/>
+					<input type="hidden" id="hddIdToolBox" name="hddIdToolBox" value="<?php echo $information?$information[0]["id_tool_box"]:""; ?>" />
 					
 					
 					<div class="form-group text-left">

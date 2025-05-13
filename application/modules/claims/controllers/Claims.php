@@ -64,12 +64,10 @@ class Claims extends CI_Controller {
 			//job list - (active items)
 			$this->load->model("general_model");
 			$arrParam = array(
-				"table" => "param_jobs",
-				"order" => "job_description",
-				"column" => "state",
-				"id" => 1
+				"state" => 1,
+				"withLIC" => true
 			);
-			$data['jobs'] = $this->general_model->get_basic_search($arrParam);
+			$data['jobs'] = $this->general_model->get_job($arrParam);
 							
 			$this->load->view("claims_modal", $data);
     }
@@ -115,11 +113,11 @@ class Claims extends CI_Controller {
     }
 
 	/**
-	 * Form Upload WO to claim
-     * @since 2/2/2021
+	 * Form Upload APU to claim
+     * @since 12/05/2025
      * @author BMOTTAG
 	 */
-	public function upload_wo($idClaim = 'x')
+	public function upload_apu($idClaim = 'x')
 	{
 			//Claim info
 			$arrParam = array('idClaim' => $idClaim);
@@ -128,12 +126,56 @@ class Claims extends CI_Controller {
 			//Claim State history
 			$data['claimsHistory'] = $this->claims_model->get_claims_history($arrParam);
 											
-			//WO list
 			$this->load->model("general_model");
-			$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
+			//$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
+			$arrParam = array("idJob" => $data['claimsInfo'][0]['fk_id_job']);
+			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
 			
 			$data["view"] = 'form_upload_info_claim';
 			$this->load->view("layout_calendar", $data);
+	}
+
+	/**
+	 * Update Claim info
+     * @since 12/05/2025
+     * @author BMOTTAG
+	 */
+	public function update_claim()
+	{
+		$idClaim = $this->input->post('hddIdClaim');
+		$records = $this->input->post('records');
+		$successCount = 0;
+		$errorCount = 0;
+
+		// Elimina los registros anteriores con ese idClaim
+		$this->db->where('fk_id_claim', $idClaim);
+		$this->db->delete('claim_apus');
+
+		foreach ($records as $record) {
+
+			if($record['quantity'] || $record['cost']){
+				$dataToSave = [
+					'fk_id_claim'   => $idClaim,
+					'fk_id_job_detail' => $record['id_job_detail'],
+					'quantity'   => $record['quantity'],
+					'cost'      => $record['quantity'] ? $record['unit_price'] * $record['quantity'] : $record['cost']
+				];
+	
+				if ($this->claims_model->saveInfoAPU($dataToSave)) {
+					$successCount++;
+				} else {
+					$errorCount++;
+				}
+			}
+
+		}
+
+		if ($errorCount === 0) {
+			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
+		} else {
+			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
+		}
+		redirect(base_url('claims/upload_apu/' . $idClaim), 'refresh');
 	}
 
 	/**
@@ -195,7 +237,6 @@ class Claims extends CI_Controller {
 					$this->session->set_flashdata('retornoError', 'You have to select a W.O.');
 			}
 			echo json_encode($data);
-
 	}
 
 	/**

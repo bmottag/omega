@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-	class Claims_model extends CI_Model {
+class Claims_model extends CI_Model {
 
 			
 		/**
@@ -10,8 +10,8 @@
 		public function get_claims($arrDatos) 
 		{							
 				$this->db->select('C.*, J.id_job, job_description, CONCAT(U.first_name, " ", U.last_name) name');
-				$this->db->join('param_jobs J', 'J.id_job = C.fk_id_job_claim', 'INNER');
-				$this->db->join('user U', 'U.id_user = C.fk_id_user_claim', 'INNER');
+				$this->db->join('param_jobs J', 'J.id_job = C.fk_id_job', 'INNER');
+				$this->db->join('user U', 'U.id_user = C.fk_id_user', 'INNER');
 				if (array_key_exists("idClaim", $arrDatos) && $arrDatos["idClaim"] != '') {
 					$this->db->where('id_claim', $arrDatos["idClaim"]);
 				}
@@ -19,10 +19,10 @@
 					$this->db->where('claim_number', $arrDatos["claimNumber"]);
 				}
 				if (array_key_exists("idJob", $arrDatos) && $arrDatos["idJob"] != '') {
-					$this->db->where('fk_id_job_claim', $arrDatos["idJob"]);
+					$this->db->where('fk_id_job', $arrDatos["idJob"]);
 				}
 				if (array_key_exists("state", $arrDatos) && $arrDatos["state"] != '' ) {
-					$this->db->where('current_state_claim', $arrDatos["state"]);
+					$this->db->where('current_status_claim', $arrDatos["state"]);
 				}
 				$this->db->order_by('id_claim', 'desc');
 				
@@ -49,16 +49,16 @@
 				$idUser = $this->session->userdata("id");
 				
 				$data = array(
-					'fk_id_user_claim' => $idUser,
+					'fk_id_user' => $idUser,
 					'claim_number' => $this->input->post('claimNumber'),
-					'fk_id_job_claim' => $this->input->post('id_job'),
+					'fk_id_job' => $this->input->post('id_job'),
 					'observation_claim' => $this->input->post('observation')
 				);	
 
 				//revisar si es para adicionar o editar
 				if ($idClaim == '') 
 				{	
-					$data['current_state_claim'] = 1;
+					$data['current_status_claim'] = 1;
 					$data['date_issue_claim'] = date("Y-m-d G:i:s");
 					$query = $this->db->insert('claim', $data);
 					$idClaim = $this->db->insert_id();
@@ -155,7 +155,7 @@
 		public function update_claim($arrData)
 		{			
 			$data = array(
-				'current_state_claim' => $arrData["state"],
+				'current_status_claim' => $arrData["state"],
 				'last_message_claim' => $arrData["message"]
 			);			
 			$this->db->where('id_claim', $arrData["idClaim"]);
@@ -216,6 +216,15 @@
 			}
 		}
 
+	/**
+	 * Insert APU information
+	 * @since 12/05/2025
+	 */
+	public function saveInfoAPU($data)
+	{
+		return $this->db->insert('claim_apus', $data);
+	}
+
 	
 	    
-	}
+}

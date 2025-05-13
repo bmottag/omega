@@ -14,9 +14,11 @@ $( document ).ready( function () {
 		},
 		highlight: function ( element, errorClass, validClass ) {
 			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
 		},
 		unhighlight: function (element, errorClass, validClass) {
 			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
 		},
 		submitHandler: function (form) {
 			return true;
@@ -56,7 +58,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "claims/upload_wo/" + data.idRecord;
+							var url = base_url + "claims/upload_apu/" + data.idRecord;
 							$(location).attr("href", url);
 						}
 						else
