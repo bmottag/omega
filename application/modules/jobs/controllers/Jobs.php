@@ -2870,6 +2870,7 @@ class Jobs extends CI_Controller
 		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 
 		$data['information'] = FALSE;
+		$data['claimPercentage'] = FALSE;
 		$identification = $this->input->post("identification");
 		$data["idJob"] = "";
 		if($identification != ""){
@@ -2888,6 +2889,15 @@ class Jobs extends CI_Controller
 			$this->load->model("general_model");
 			$data['information'] = $this->general_model->get_job_detail($arrParam);
 
+			//calcuate %
+			$claimCost = $this->general_model->get_total_cost_by_job_detail($arrParam);
+			$totalAmount = $data['information'][0]['extended_amount'];
+
+			if ($totalAmount > 0) {
+				$data['claimPercentage'] = $percentage = round(($claimCost / $totalAmount) * 100, 2);
+			} else {
+				$data['claimPercentage'] = 0;
+			}
 			$data["idJob"] = $data['information'][0]['fk_id_job'];
 		}
 

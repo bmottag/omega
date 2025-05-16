@@ -2657,4 +2657,24 @@ class General_model extends CI_Model
 		$row = $query->row();
 		return $row->TOTAL;
 	}
+
+	/**
+	 * Sumatoria total de costos para un job_detail
+	 * @param $idJobDetail
+	 * @author BMOTTAG
+	 * @since  15/05/2025
+	 */
+	public function get_total_cost_by_job_detail($arrData) {
+		$this->db->select_sum('cost');
+		$this->db->from('claim_apus');
+		$this->db->where('fk_id_job_detail', $arrData["idJobDetail"]);
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			return $query->row()->cost ?? 0;
+		} else {
+			return 0;
+		}
+	}
+	
 }
