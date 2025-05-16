@@ -186,12 +186,12 @@ if ($retornoError) {
                             $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number'], "status" => 1);
                             $jobDetails = $this->general_model->get_job_detail($arrParam);
 
-                            $totalExtendedAmount = 0;
-                            $totalPercentage = 0;
-                            $totalExpenses = 0;
-                            $totalBalance = 0;
+                            if($jobDetails){
 
-                            //if($jobInfo[0]['flag_expenses'] == 1){
+                                $totalExtendedAmount = 0;
+                                $totalPercentage = 0;
+                                $totalExpenses = 0;
+                                $totalBalance = 0;
 					?>
 
                             <div class="panel-body">
@@ -220,8 +220,6 @@ if ($retornoError) {
                                         <div class="panel panel-<?php echo $class ?>" >
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data['chapter_number'] . $data['item']; ?>">
-
                                                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                                                     <?php
                                                         echo "<tr class='" . $class . "'>";
@@ -230,9 +228,13 @@ if ($retornoError) {
                                                         <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
                                                             <span class="glyphicon glyphicon-edit" aria-hidden="true">
                                                         </button>
-
+<!--
                                                         <button type="button" id="<?php echo $jobInfo[0]["id_job"] . '-' . $data['id_job_detail']; ?>" class='btn btn-danger btn-xs btn-delete-job-detail' title="Delete">
                                                             <i class="fa fa-trash-o"></i>
+                                                        </button>
+-->
+                                                        <button type="button" class="btn btn-info btn-xs" onclick="toggleCollapse('<?php echo $data['chapter_number'] . $data['item']; ?>')">
+                                                            <i class="fa fa-eye"></i> View W.O.
                                                         </button>
                                                     <?php
                                                         echo "</td>";
@@ -247,7 +249,6 @@ if ($retornoError) {
                                                         echo "</tr>";
                                                     ?>
                                                     </table>
-                                                    </a>
                                                 </h4>
                                             </div>
                                             <div id="collapse<?php echo $data['chapter_number'] . $data['item']; ?>" class="panel-collapse collapse">
@@ -378,7 +379,7 @@ if ($retornoError) {
                             </table>
 -->
                     <?php 
-                           // }
+                            }
                         endforeach;
 					?>
 
@@ -406,37 +407,39 @@ if ($retornoError) {
                                     $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number'], "status" => 1);
                                     $jobDetails = $this->general_model->get_job_detail($arrParam);
 
-                                    $subTotalExtendedAmount = 0;
-                                    $totalPercentage = 0;
-                                    $subTotalExpenses = 0;
-                                    $subTotalBalance = 0;
+                                    if($jobDetails){
+                                        $subTotalExtendedAmount = 0;
+                                        $totalPercentage = 0;
+                                        $subTotalExpenses = 0;
+                                        $subTotalBalance = 0;
 
-                                    foreach ($jobDetails as $data):
-                                        if($data['unit_price'] == 0){
-                                            $balance = $data['expenses'];
-                                        }else{
-                                            $balance = $data['extended_amount'] - $data['expenses'];
-                                        }
+                                        foreach ($jobDetails as $data):
+                                            if($data['unit_price'] == 0){
+                                                $balance = $data['expenses'];
+                                            }else{
+                                                $balance = $data['extended_amount'] - $data['expenses'];
+                                            }
 
-                                        $subTotalExtendedAmount += $data['extended_amount'];
-                                        $totalPercentage += $data['percentage'];
-                                        $subTotalExpenses += $data['expenses'];
-                                        $subTotalBalance += $balance;
-                                    endforeach;
+                                            $subTotalExtendedAmount += $data['extended_amount'];
+                                            $totalPercentage += $data['percentage'];
+                                            $subTotalExpenses += $data['expenses'];
+                                            $subTotalBalance += $balance;
+                                        endforeach;
 
-                                    
-                                    $finalTotalExtendedAmount += $subTotalExtendedAmount;
-                                    $finalTotalExpenses += $subTotalExpenses;
-                                    $finalTotalBalance += $subTotalBalance;
+                                        
+                                        $finalTotalExtendedAmount += $subTotalExtendedAmount;
+                                        $finalTotalExpenses += $subTotalExpenses;
+                                        $finalTotalBalance += $subTotalBalance;
                                 ?>
 
                                 <?php
-                                    echo "<tr>";
-                                    echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
-                                    echo "<td width='30%' class='text-right'>$ " . number_format($subTotalExtendedAmount,2) . "</td>";
-                                    echo "<td width='15%' class='text-right'>$ " . number_format($subTotalExpenses,2) . "</td>";
-                                    echo "<td width='9%' class='text-right'>$ " . number_format($subTotalBalance,2) . "</td>";
-                                    echo "</tr>";
+                                        echo "<tr>";
+                                        echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
+                                        echo "<td width='30%' class='text-right'>$ " . number_format($subTotalExtendedAmount,2) . "</td>";
+                                        echo "<td width='15%' class='text-right'>$ " . number_format($subTotalExpenses,2) . "</td>";
+                                        echo "<td width='9%' class='text-right'>$ " . number_format($subTotalBalance,2) . "</td>";
+                                        echo "</tr>";
+                                    }
                                 endforeach;
                                 echo "<tr>";
                                 echo "<td width='46%' class='text-right'><b>TOTAL</b></td>";
@@ -469,35 +472,30 @@ if ($retornoError) {
 </div>                       
 <!--FIN Modal -->
 
-<!-- Tables -->
+
+
 <script>
-$(document).ready(function() {
-	$('#dataTables').DataTable({
-		responsive: true,
-		"ordering": false,
-        paging: false,
-        "searching": false,
-        "info": false
-	});
-});
 
-
-$(function() {
-    $('#btnSubir').click(function(event) {
-        event.preventDefault();
-        $('#btnSubir').addClass('disabled');
-        $('#animationload').fadeIn();
-        $('#formCargue').submit();
+    $(function() {
+        $('#btnSubir').click(function(event) {
+            event.preventDefault();
+            $('#btnSubir').addClass('disabled');
+            $('#animationload').fadeIn();
+            $('#formCargue').submit();
+        });
     });
-});
 
-
-/*
-* Function Delelete information
-*/
-function deleteInformation(attachmentId, status) {
-    if (window.confirm('Are you sure you want to reset all the information?')) {
-        document.getElementById('formDeleteInfo').submit();
+    /*
+    * Function Delelete information
+    */
+    function deleteInformation(attachmentId, status) {
+        if (window.confirm('Are you sure you want to reset all the information?')) {
+            document.getElementById('formDeleteInfo').submit();
+        }
     }
-}
+
+    function toggleCollapse(id) {
+        $('#collapse' + id).collapse('toggle');
+    }
+
 </script>
