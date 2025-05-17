@@ -3512,4 +3512,21 @@ class Jobs extends CI_Controller
 		$data["view"] = 'jobs_engineering_list';
 		$this->load->view("layout_calendar", $data);
 	}
+
+	/**
+	 * Job Details View
+	 * @since 16/05/2025
+	 * @author BMOTTAG
+	 */
+	public function load_claims_view()
+	{
+		$this->load->model("general_model");
+		//job´s list - (active´s items)
+		$arrParam = array(
+			"idJobDetail" => $this->input->post('idJobDetail')
+		);
+		$data['claims'] = $this->general_model->get_claims_by_id_job_detail($arrParam);
+
+		$this->load->view('claims_view', $data);
+	}
 }

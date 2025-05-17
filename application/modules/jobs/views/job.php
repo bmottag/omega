@@ -234,8 +234,13 @@ if ($retornoError) {
                                                         </button>
 -->
                                                         <button type="button" class="btn btn-info btn-xs" onclick="toggleCollapse('<?php echo $data['chapter_number'] . $data['item']; ?>')">
-                                                            <i class="fa fa-eye"></i> View W.O.
+                                                            <i class="fa fa-eye"></i> W.O.
                                                         </button>
+
+                                                        <button type="button" class="btn btn-warning btn-xs" onclick="loadClaims('<?php echo $data['id_job_detail']; ?>')">
+                                                            <i class="fa fa-cubes"></i> Claims
+                                                        </button>
+
                                                     <?php
                                                         echo "</td>";
                                                         echo "<td width='42%'><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
@@ -270,14 +275,14 @@ if ($retornoError) {
                                                             </thead>
                                                             <tbody>					
                                                             <?php
-                                                                foreach ($expenses as $data):
+                                                                foreach ($expenses as $expense):
                                                                     echo "<tr>";
                                                                     echo "<td class='text-center'>";
-                                                                    echo "<a href='" . base_url('workorders/add_workorder/' . $data['id_workorder']) . "' target='_blank'>" . $data['id_workorder'] . "</a>";
+                                                                    echo "<a href='" . base_url('workorders/add_workorder/' . $expense['id_workorder']) . "' target='_blank'>" . $expense['id_workorder'] . "</a>";
                                                                     echo "</td>";
-                                                                    echo "<td class='text-center'>" . $data['date'] . "</td>";
-                                                                    echo "<td class='text-left'>" . $data['observation'] . "</td>";
-                                                                    echo "<td class='text-right'>$ " . number_format($data['total_expenses'],2) . "</td>";
+                                                                    echo "<td class='text-center'>" . $expense['date'] . "</td>";
+                                                                    echo "<td class='text-left'>" . $expense['observation'] . "</td>";
+                                                                    echo "<td class='text-right'>$ " . number_format($expense['total_expenses'],2) . "</td>";
                                                                     echo "</tr>";
                                                                 endforeach;
                                                             ?>
@@ -286,6 +291,9 @@ if ($retornoError) {
                                                     <?php } ?>
                                                 </div>
                                             </div>
+
+                                            <div id="claims_<?php echo $data['id_job_detail']; ?>" style="display:none; margin-top:10px;"></div>
+
                                         </div>
                                     <?php
                                         endforeach;
@@ -497,5 +505,23 @@ if ($retornoError) {
     function toggleCollapse(id) {
         $('#collapse' + id).collapse('toggle');
     }
+
+    function loadClaims(idJobDetail) {
+        let target = '#claims_' + idJobDetail;
+        if ($(target).is(':visible')) {
+            $(target).slideUp();
+            return;
+        }
+
+        $.ajax({
+            url: '<?php echo base_url("jobs/load_claims_view"); ?>',
+            type: 'POST',
+            data: { idJobDetail: idJobDetail },
+            success: function(response) {
+                $(target).html(response).slideDown();
+            }
+        });
+    }
+
 
 </script>

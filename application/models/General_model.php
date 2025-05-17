@@ -2676,5 +2676,25 @@ class General_model extends CI_Model
 			return 0;
 		}
 	}
+
+	/**
+	 * Get get_claims_by_id_job_detail
+	 * @since 16/05/2025
+	 */
+	public function get_claims_by_id_job_detail($arrData)
+	{
+		$this->db->select('C.claim_number, A.quantity, A.cost');
+		$this->db->join('claim C', 'C.id_claim = A.fk_id_claim', 'INNER');
+		if (array_key_exists("idJobDetail", $arrData)) {
+			$this->db->where('A.fk_id_job_detail', $arrData["idJobDetail"]);
+		}
+		$query = $this->db->get('claim_apus A');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
 	
 }
