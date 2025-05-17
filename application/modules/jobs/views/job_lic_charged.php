@@ -35,9 +35,9 @@ $(function(){
 
 					<ul class="nav nav-pills">
                         <?php $ci = & get_instance(); ?>
-						<li <?php if($ci->uri->segment(2) == "job_detail"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/job_detail/" . $jobInfo[0]["id_job"]); ?>">List of active LIC</a>
+						<li <?php if($ci->uri->segment(2) == "job_detail"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/job_detail/" . $jobInfo[0]["id_job"]); ?>">List of Active LIC</a>
 						</li>
-						<li <?php if($ci->uri->segment(2) == "charged_lic"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"]); ?>">List of charged LIC</a>
+						<li <?php if($ci->uri->segment(2) == "charged_lic"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"]); ?>">List of Executed LIC</a>
 						</li>
 					</ul>
                     

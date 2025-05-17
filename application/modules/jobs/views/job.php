@@ -48,9 +48,9 @@ $(function(){
 
 					<ul class="nav nav-pills">
                         <?php $ci = & get_instance(); ?>
-						<li <?php if($ci->uri->segment(2) == "job_detail"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/job_detail/" . $jobInfo[0]["id_job"]); ?>">List of active LIC</a>
+						<li <?php if($ci->uri->segment(2) == "job_detail"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/job_detail/" . $jobInfo[0]["id_job"]); ?>">List of Active LIC</a>
 						</li>
-						<li <?php if($ci->uri->segment(2) == "charged_lic"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"]); ?>">List of charged LIC</a>
+						<li <?php if($ci->uri->segment(2) == "charged_lic"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"]); ?>">List of Executed LIC</a>
 						</li>
 					</ul>
                     
@@ -186,12 +186,12 @@ if ($retornoError) {
                             $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number'], "status" => 1);
                             $jobDetails = $this->general_model->get_job_detail($arrParam);
 
-                            $totalExtendedAmount = 0;
-                            $totalPercentage = 0;
-                            $totalExpenses = 0;
-                            $totalBalance = 0;
+                            if($jobDetails){
 
-                            //if($jobInfo[0]['flag_expenses'] == 1){
+                                $totalExtendedAmount = 0;
+                                $totalPercentage = 0;
+                                $totalExpenses = 0;
+                                $totalBalance = 0;
 					?>
 
                             <div class="panel-body">
@@ -220,8 +220,6 @@ if ($retornoError) {
                                         <div class="panel panel-<?php echo $class ?>" >
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data['chapter_number'] . $data['item']; ?>">
-
                                                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
                                                     <?php
                                                         echo "<tr class='" . $class . "'>";
@@ -230,10 +228,19 @@ if ($retornoError) {
                                                         <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $data['id_job_detail']; ?>" >
                                                             <span class="glyphicon glyphicon-edit" aria-hidden="true">
                                                         </button>
-
+<!--
                                                         <button type="button" id="<?php echo $jobInfo[0]["id_job"] . '-' . $data['id_job_detail']; ?>" class='btn btn-danger btn-xs btn-delete-job-detail' title="Delete">
                                                             <i class="fa fa-trash-o"></i>
                                                         </button>
+-->
+                                                        <button type="button" class="btn btn-info btn-xs" onclick="toggleCollapse('<?php echo $data['chapter_number'] . $data['item']; ?>')">
+                                                            <i class="fa fa-eye"></i> W.O.
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-warning btn-xs" onclick="loadClaims('<?php echo $data['id_job_detail']; ?>')">
+                                                            <i class="fa fa-cubes"></i> Claims
+                                                        </button>
+
                                                     <?php
                                                         echo "</td>";
                                                         echo "<td width='42%'><p class='text-" . $class . "'><b>Description</b><br>" . $data['description'] . "</p></td>";
@@ -247,7 +254,6 @@ if ($retornoError) {
                                                         echo "</tr>";
                                                     ?>
                                                     </table>
-                                                    </a>
                                                 </h4>
                                             </div>
                                             <div id="collapse<?php echo $data['chapter_number'] . $data['item']; ?>" class="panel-collapse collapse">
@@ -269,14 +275,14 @@ if ($retornoError) {
                                                             </thead>
                                                             <tbody>					
                                                             <?php
-                                                                foreach ($expenses as $data):
+                                                                foreach ($expenses as $expense):
                                                                     echo "<tr>";
                                                                     echo "<td class='text-center'>";
-                                                                    echo "<a href='" . base_url('workorders/add_workorder/' . $data['id_workorder']) . "' target='_blank'>" . $data['id_workorder'] . "</a>";
+                                                                    echo "<a href='" . base_url('workorders/add_workorder/' . $expense['id_workorder']) . "' target='_blank'>" . $expense['id_workorder'] . "</a>";
                                                                     echo "</td>";
-                                                                    echo "<td class='text-center'>" . $data['date'] . "</td>";
-                                                                    echo "<td class='text-left'>" . $data['observation'] . "</td>";
-                                                                    echo "<td class='text-right'>$ " . number_format($data['total_expenses'],2) . "</td>";
+                                                                    echo "<td class='text-center'>" . $expense['date'] . "</td>";
+                                                                    echo "<td class='text-left'>" . $expense['observation'] . "</td>";
+                                                                    echo "<td class='text-right'>$ " . number_format($expense['total_expenses'],2) . "</td>";
                                                                     echo "</tr>";
                                                                 endforeach;
                                                             ?>
@@ -285,6 +291,9 @@ if ($retornoError) {
                                                     <?php } ?>
                                                 </div>
                                             </div>
+
+                                            <div id="claims_<?php echo $data['id_job_detail']; ?>" style="display:none; margin-top:10px;"></div>
+
                                         </div>
                                     <?php
                                         endforeach;
@@ -378,7 +387,7 @@ if ($retornoError) {
                             </table>
 -->
                     <?php 
-                           // }
+                            }
                         endforeach;
 					?>
 
@@ -406,37 +415,39 @@ if ($retornoError) {
                                     $arrParam = array("idJob" => $jobInfo[0]['id_job'], "chapterNumber" => $lista['chapter_number'], "status" => 1);
                                     $jobDetails = $this->general_model->get_job_detail($arrParam);
 
-                                    $subTotalExtendedAmount = 0;
-                                    $totalPercentage = 0;
-                                    $subTotalExpenses = 0;
-                                    $subTotalBalance = 0;
+                                    if($jobDetails){
+                                        $subTotalExtendedAmount = 0;
+                                        $totalPercentage = 0;
+                                        $subTotalExpenses = 0;
+                                        $subTotalBalance = 0;
 
-                                    foreach ($jobDetails as $data):
-                                        if($data['unit_price'] == 0){
-                                            $balance = $data['expenses'];
-                                        }else{
-                                            $balance = $data['extended_amount'] - $data['expenses'];
-                                        }
+                                        foreach ($jobDetails as $data):
+                                            if($data['unit_price'] == 0){
+                                                $balance = $data['expenses'];
+                                            }else{
+                                                $balance = $data['extended_amount'] - $data['expenses'];
+                                            }
 
-                                        $subTotalExtendedAmount += $data['extended_amount'];
-                                        $totalPercentage += $data['percentage'];
-                                        $subTotalExpenses += $data['expenses'];
-                                        $subTotalBalance += $balance;
-                                    endforeach;
+                                            $subTotalExtendedAmount += $data['extended_amount'];
+                                            $totalPercentage += $data['percentage'];
+                                            $subTotalExpenses += $data['expenses'];
+                                            $subTotalBalance += $balance;
+                                        endforeach;
 
-                                    
-                                    $finalTotalExtendedAmount += $subTotalExtendedAmount;
-                                    $finalTotalExpenses += $subTotalExpenses;
-                                    $finalTotalBalance += $subTotalBalance;
+                                        
+                                        $finalTotalExtendedAmount += $subTotalExtendedAmount;
+                                        $finalTotalExpenses += $subTotalExpenses;
+                                        $finalTotalBalance += $subTotalBalance;
                                 ?>
 
                                 <?php
-                                    echo "<tr>";
-                                    echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
-                                    echo "<td width='30%' class='text-right'>$ " . number_format($subTotalExtendedAmount,2) . "</td>";
-                                    echo "<td width='15%' class='text-right'>$ " . number_format($subTotalExpenses,2) . "</td>";
-                                    echo "<td width='9%' class='text-right'>$ " . number_format($subTotalBalance,2) . "</td>";
-                                    echo "</tr>";
+                                        echo "<tr>";
+                                        echo "<td width='46%' class='text-left'>" . $lista['chapter_name'] . "</td>";
+                                        echo "<td width='30%' class='text-right'>$ " . number_format($subTotalExtendedAmount,2) . "</td>";
+                                        echo "<td width='15%' class='text-right'>$ " . number_format($subTotalExpenses,2) . "</td>";
+                                        echo "<td width='9%' class='text-right'>$ " . number_format($subTotalBalance,2) . "</td>";
+                                        echo "</tr>";
+                                    }
                                 endforeach;
                                 echo "<tr>";
                                 echo "<td width='46%' class='text-right'><b>TOTAL</b></td>";
@@ -469,35 +480,48 @@ if ($retornoError) {
 </div>                       
 <!--FIN Modal -->
 
-<!-- Tables -->
+
+
 <script>
-$(document).ready(function() {
-	$('#dataTables').DataTable({
-		responsive: true,
-		"ordering": false,
-        paging: false,
-        "searching": false,
-        "info": false
-	});
-});
 
-
-$(function() {
-    $('#btnSubir').click(function(event) {
-        event.preventDefault();
-        $('#btnSubir').addClass('disabled');
-        $('#animationload').fadeIn();
-        $('#formCargue').submit();
+    $(function() {
+        $('#btnSubir').click(function(event) {
+            event.preventDefault();
+            $('#btnSubir').addClass('disabled');
+            $('#animationload').fadeIn();
+            $('#formCargue').submit();
+        });
     });
-});
 
-
-/*
-* Function Delelete information
-*/
-function deleteInformation(attachmentId, status) {
-    if (window.confirm('Are you sure you want to reset all the information?')) {
-        document.getElementById('formDeleteInfo').submit();
+    /*
+    * Function Delelete information
+    */
+    function deleteInformation(attachmentId, status) {
+        if (window.confirm('Are you sure you want to reset all the information?')) {
+            document.getElementById('formDeleteInfo').submit();
+        }
     }
-}
+
+    function toggleCollapse(id) {
+        $('#collapse' + id).collapse('toggle');
+    }
+
+    function loadClaims(idJobDetail) {
+        let target = '#claims_' + idJobDetail;
+        if ($(target).is(':visible')) {
+            $(target).slideUp();
+            return;
+        }
+
+        $.ajax({
+            url: '<?php echo base_url("jobs/load_claims_view"); ?>',
+            type: 'POST',
+            data: { idJobDetail: idJobDetail },
+            success: function(response) {
+                $(target).html(response).slideDown();
+            }
+        });
+    }
+
+
 </script>

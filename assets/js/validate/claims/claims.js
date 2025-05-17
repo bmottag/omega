@@ -75,6 +75,7 @@ $( document ).ready( function () {
 	
 		if ($("#form").valid() == true){
 		
+				$("#claimNumber").prop("disabled", false);
 				//Activa icono guardando
 				$('#btnSubmit').attr('disabled','-1');
 				$("#div_error").css("display", "none");

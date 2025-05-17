@@ -22,12 +22,10 @@ class Claims extends CI_Controller {
 			//job list - (active items)
 			$this->load->model("general_model");
 			$arrParam = array(
-				"table" => "param_jobs",
-				"order" => "job_description",
-				"column" => "state",
-				"id" => 1
+				"state" => 1,
+				"withLIC" => true
 			);
-			$data['jobs'] = $this->general_model->get_basic_search($arrParam);
+			$data['jobs'] = $this->general_model->get_job($arrParam);
 
 			if(!$_POST)
 			{
@@ -83,30 +81,41 @@ class Claims extends CI_Controller {
 			$data = array();
 			
 			$idClaimInicial = $this->input->post('hddId');
-		
-			$msj = "You have added a Claim, continue uploading the information.";
-			if ($idClaimInicial != '') {
-				$msj = "You have updated the Claim, continue uploading the information.";
-			}
-			
-			if ($idClaim = $this->claims_model->guardarClaim()) 
-			{
-				//guardo el primer estado del claim
-				if(!$idClaimInicial){
-					$arrParam = array(
-						"idClaim" => $idClaim,
-						"message" => "New Claim.",
-						"state" => 1
-					);					
-					$this->claims_model->add_claim_state($arrParam);
-				}
+			$msj = $idClaimInicial ? "You have updated the Claim, continue uploading the information." : "You have added a Claim, continue uploading the information.";
 
-				$data["idRecord"] = $idClaim;
-				$data["result"] = true;		
-				$this->session->set_flashdata('retornoExito', '<strong>Right!</strong> ' . $msj);
-			} else {
+			$resultSearch = false;
+			if ($idClaimInicial == '') {
+				$arrParam = array(
+					"idJob" => $this->input->post('id_job'),
+					"claimNumberSearch" => $this->input->post('claimNumber')
+				);
+				$resultSearch = $this->claims_model->get_claims($arrParam);
+			}
+	
+			if ($resultSearch) {
 				$data["result"] = "error";
-				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				$data["mensaje"] = " Error. Duplicate entry: This claim number already exists for the selected job.";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Duplicate entry: This claim number already exists for the selected job.');
+			} else {
+				if ($idClaim = $this->claims_model->guardarClaim()) 
+				{
+					//guardo el primer estado del claim
+					if(!$idClaimInicial){
+						$arrParam = array(
+							"idClaim" => $idClaim,
+							"message" => "New Claim.",
+							"state" => 1
+						);					
+						$this->claims_model->add_claim_state($arrParam);
+					}
+
+					$data["idRecord"] = $idClaim;
+					$data["result"] = true;		
+					$this->session->set_flashdata('retornoExito', '<strong>Right!</strong> ' . $msj);
+				} else {
+					$data["result"] = "error";
+					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+				}
 			}
 			
 			echo json_encode($data);
@@ -342,7 +351,26 @@ class Claims extends CI_Controller {
 		
 			echo json_encode($data);
     }
-		
+
+	/**
+	 * Next claim number
+	 * @since 13/05/2025
+	 * @author BMOTTAG
+	 */
+	public function nextClaimNumber()
+	{
+		$idJob = $this->input->post('job');
+		$this->load->model("general_model");
+	
+		$arrParam = array('idJob' => $idJob, 'limit' => 1);
+		$claim = $this->claims_model->get_claims($arrParam);
+	
+		$nextClaimNumber = $claim ? ($claim[0]['claim_number'] + 1) : 1;
+		$lastObservation = $claim ? ($claim[0]['observation_claim']) : false;
+	
+		echo json_encode(['next' => $nextClaimNumber, 'lastObservation' => $lastObservation]);
+	}
+
 	
 	
 }

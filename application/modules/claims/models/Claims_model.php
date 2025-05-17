@@ -15,8 +15,8 @@ class Claims_model extends CI_Model {
 				if (array_key_exists("idClaim", $arrDatos) && $arrDatos["idClaim"] != '') {
 					$this->db->where('id_claim', $arrDatos["idClaim"]);
 				}
-				if (array_key_exists("claimNumber", $arrDatos) && $arrDatos["claimNumber"] != '') {
-					$this->db->where('claim_number', $arrDatos["claimNumber"]);
+				if (array_key_exists("claimNumberSearch", $arrDatos) && $arrDatos["claimNumberSearch"] != '') {
+					$this->db->where('claim_number', $arrDatos["claimNumberSearch"]);
 				}
 				if (array_key_exists("idJob", $arrDatos) && $arrDatos["idJob"] != '') {
 					$this->db->where('fk_id_job', $arrDatos["idJob"]);
