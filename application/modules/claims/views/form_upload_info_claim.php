@@ -13,6 +13,109 @@ $(function(){
             }
         });
 	});
+
+	const formatCurrency = value => {
+		const num = parseFloat(value);
+		if (isNaN(num)) return '';
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+			minimumFractionDigits: 2
+		}).format(num);
+	};
+
+	$(document).on("click", "#confirmSubmit", function () {
+		const formData = $("#form_claims").serialize();
+
+		$.ajax({
+			type: "POST",
+			url: base_url + "claims/update_claim",
+			data: formData,
+			success: function (response) {
+				window.location.href = base_url + "claims/upload_apu/" + $("#hddIdClaim").val();
+			},
+			error: function () {
+				alert("Error al guardar la información");
+			}
+		});
+	});
+
+	$("#openConfirmModal").click(function () {
+		const formData = $("#form_claims").serializeArray();
+		let dataPorId = {};
+		formData.forEach(item => {
+			const match = item.name.match(/^records\[(\d+)\]\[(.+)\]$/);
+			if (match) {
+				const id = match[1];
+				const field = match[2];
+				if (!dataPorId[id]) {
+					dataPorId[id] = {};
+				}
+				dataPorId[id][field] = item.value;
+			}
+		});
+
+		let tieneDatos = false;
+		let rowsHtml = "";
+
+		for (let id in dataPorId) {
+			const r = dataPorId[id];
+			const quantity = r['quantity'];
+			const cost = r['cost'];
+
+			if (quantity || cost) {
+				tieneDatos = true;
+				rowsHtml += `
+					<tr>
+						<td>${r['chapter_number']}.${r['item']}</td>
+						<td class="text-left">${r['description']}</td>
+						<td class="text-right">${quantity}</td>
+						<td class="text-right">${formatCurrency(cost)}</td>
+					</tr>
+				`;
+			}
+		}
+
+		let contentHtml = tieneDatos ? `
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm Affected Records</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered table-striped table-hover small">
+					<thead>
+						<tr class="info">
+							<th>Item</th>
+							<th>Description</th>
+							<th class="text-right">Qty</th>
+							<th class="text-right">Cost</th>
+						</tr>
+					</thead>
+					<tbody>
+						${rowsHtml}
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="confirmSubmit">Confirm</button>
+			</div>
+		` : `
+			<div class="modal-header">
+				<h4 class="modal-title">Sin datos válidos</h4>
+			</div>
+			<div class="modal-body">
+				<p>No hay datos con quantity o cost para guardar.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		`;
+
+		$("#tablaDatos").html(contentHtml);
+		$("#modal").modal("show");
+	});
+
+
 });
 </script>
 
@@ -153,7 +256,7 @@ if ($retornoError) {
 }
 ?> 
 					<br>
-					<form id="form_acs_personal" method="post" action="<?php echo base_url("claims/update_claim"); ?>">
+					<form id="form_claims" method="post" action="<?php echo base_url("claims/update_claim"); ?>">
 						<input type="hidden" id="hddIdClaim" name="hddIdClaim" value="<?php echo $claimsInfo[0]['id_claim']; ?>" />
 						<?php
 						if($chapterList){
@@ -162,7 +265,7 @@ if ($retornoError) {
 
 							foreach ($chapterList as $lista):
 								$arrParam = array("idJob" => $claimsInfo[0]['fk_id_job'], "chapterNumber" => $lista['chapter_number'], "idClaim" => $claimsInfo[0]['id_claim'], "status" => 1);
-								$jobDetails = $this->general_model->get_job_detail($arrParam);
+								$jobDetails = $this->general_model->get_job_detail_claims_info($arrParam);
 
 								if($jobDetails){
 						?>
@@ -175,6 +278,11 @@ if ($retornoError) {
 										?>
 											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][id_job_detail]" value="<?php echo $data['id_job_detail']; ?>" />
 											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][unit_price]" value="<?php echo $data['unit_price']; ?>" />
+
+											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][chapter_number]" value="<?php echo $data['chapter_number']; ?>" >
+											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][item]" value="<?php echo $data['item']; ?>" >
+											<input type="hidden" name="records[<?php echo $data['id_job_detail']; ?>][description]" value="<?php echo $data['description']; ?>" >
+
 											<div class="panel panel-<?php echo $class ?>" >
 												<div class="panel-heading">
 													<h4 class="panel-title">
@@ -188,15 +296,15 @@ if ($retornoError) {
 															echo "<td width='8%' class='text-right'><p class='text-" . $class . "'><b>Unit Price</b><br>$ " . number_format($data['unit_price'],2) . "</p></td>";
 															echo "<td width='10%' class='text-right'><p class='text-" . $class . "'><b>Extended Amount</b><br>$ " . number_format($data['extended_amount'],2) . "</p></td>";
 														?>
-											<td class="text-right">
-												<b>Qty Claim</b>
-												<input type="text" name="records[<?php echo $data['id_job_detail']; ?>][quantity]" class="form-control" value="<?php echo $data['quantity_claim']; ?>" placeholder="Quantity" >
-											</td>
+														<td class="text-right">
+															<b>Qty Claim <?php echo $claimsInfo?$claimsInfo[0]["claim_number"]:"";?></b>
+															<input type="text" name="records[<?php echo $data['id_job_detail']; ?>][quantity]" class="form-control" value="<?php echo $data['quantity_claim']; ?>" placeholder="Quantity" >
+														</td>
 
-											<td class="text-right">
-												<b>Cost Claim</b>
-												<input type="text" name="records[<?php echo $data['id_job_detail']; ?>][cost]" class="form-control" value="<?php echo $data['cost']; ?>" placeholder="Cost" >
-											</td>
+														<td class="text-right">
+															<b>Cost Claim <?php echo $claimsInfo?$claimsInfo[0]["claim_number"]:"";?></b>
+															<input type="text" name="records[<?php echo $data['id_job_detail']; ?>][cost]" class="form-control" value="<?php echo $data['cost']; ?>" placeholder="Cost" >
+														</td>
 														<?php
 															echo "</tr>";
 														?>
@@ -214,9 +322,12 @@ if ($retornoError) {
 							endforeach;
 							}
 						?>
-						<button type="submit" id="btnSubmitAPUInfo" name="btnSubmitAPUInfo" class="btn btn-primary">
-							Save Information <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+
+						<button type="button" class="btn btn-primary" id="openConfirmModal">
+							Save Information <span class="glyphicon glyphicon-floppy-disk"></span>
 						</button>
+
+
 					</form>
 
 				</div>
@@ -228,7 +339,7 @@ if ($retornoError) {
 
 <!--INICIO Modal para adicionar ESTADO -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content" id="tablaDatos">
 
 		</div>
