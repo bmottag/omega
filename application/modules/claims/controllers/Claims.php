@@ -151,6 +151,8 @@ class Claims extends CI_Controller {
 	 */
 	public function update_claim()
 	{
+		header('Content-Type: application/json');
+
 		$idClaim = $this->input->post('hddIdClaim');
 		$records = $this->input->post('records');
 		$successCount = 0;
@@ -178,13 +180,10 @@ class Claims extends CI_Controller {
 			}
 
 		}
-
-		if ($errorCount === 0) {
-			$this->session->set_flashdata('retornoExito', "$successCount records saved successfully!");
-		} else {
-			$this->session->set_flashdata('retornoError', "$errorCount records failed to save.");
-		}
-		redirect(base_url('claims/upload_apu/' . $idClaim), 'refresh');
+		echo json_encode([
+			"status" => $errorCount === 0 ? "success" : "error",
+			"message" => $errorCount === 0 ? "$successCount records saved successfully!" : "$errorCount records failed to save."
+		]);
 	}
 
 	/**
