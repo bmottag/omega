@@ -370,6 +370,32 @@ class Claims extends CI_Controller {
 		echo json_encode(['next' => $nextClaimNumber, 'lastObservation' => $lastObservation]);
 	}
 
+	/**
+	 * Claim history
+     * @since 20/05/2025
+     * @author BMOTTAG
+	 */
+	public function claim_history($idClaim = 'x')
+	{
+			//Claim info
+			$arrParam = array('idClaim' => $idClaim);
+			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
+
+			//Claim State history
+			$data['claimsHistory'] = $this->claims_model->get_claims_history($arrParam);
+											
+			$this->load->model("general_model");
+			//$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
+			$arrParam = array("idJob" => $data['claimsInfo'][0]['fk_id_job']);
+			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
+
+			$arrParam = array('idJob' => $data['claimsInfo'][0]['fk_id_job'], 'order' => 'asc');
+			$data['allClaims'] = $this->claims_model->get_claims($arrParam);
+
+			$data["view"] = 'claim_history';
+			$this->load->view("layout_calendar", $data);
+	}
+
 	
 	
 }

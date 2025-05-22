@@ -111,8 +111,8 @@ $(function(){
 			</div>
 		`;
 
-		$("#tablaDatos").html(contentHtml);
-		$("#modal").modal("show");
+		$("#infoConfirm").html(contentHtml);
+		$("#modalConfirm").modal("show");
 	});
 
 
@@ -121,111 +121,17 @@ $(function(){
 
 <div id="page-wrapper">
 	<br>
-	
 	<div class="row">
-		<div class="col-lg-3">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<a class="btn btn-info btn-xs" href="<?php echo base_url().'claims'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
-					<i class="fa fa-bomb"></i> <strong>CLAIMS</strong>
-				</div>
-				<div class="panel-body">
-
-					<div class="row">
-						<div class="col-lg-12">								
-							<div class="alert alert-info">
-								<strong>Claim Number: </strong><?php echo $claimsInfo?$claimsInfo[0]["claim_number"]:""; ?>
-								<br><strong>Job Code/Name: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["job_description"]:""; ?>
-								<br><strong>Date Issue: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["date_issue_claim"]:""; ?>
-								<br><strong>Observation: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["observation_claim"]:""; ?>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="chat-panel panel panel-success">
-				<div class="panel-heading">
-					<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $claimsInfo[0]['id_claim']; ?>" >
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Info
-					</button>
-					<i class="fa fa-comments fa-fw"></i> Status history
-				</div>
-
-				<div class="panel-body">
-					<ul class="chat">
-<?php 
-	if($claimsHistory)
-	{
-		foreach ($claimsHistory as $data):		
-
-			switch ($data['state_claim']) {
-					case 1:
-							$valor = 'New Claim';
-							$clase = "text-violeta";
-							$icono = "fa-flag";
-							break;
-					case 2:
-							$valor = 'Send to client';
-							$clase = "text-success";
-							$icono = "fa-share";
-							break;
-					case 3:
-							$valor = 'Partial Payment';
-							$clase = "text-primary";
-							$icono = "fa-star-half-empty";
-							break;
-					case 4:
-							$valor = 'Hold Back';
-							$clase = "text-warning";
-							$icono = "fa-bullhorn";
-							break;
-					case 5:
-							$valor = 'Short Payment';
-							$clase = "text-warning";
-							$icono = "fa-thumbs-o-down";
-							break;
-					case 6:
-							$valor = 'Final Payment';
-							$clase = "text-danger";
-							$icono = "fa-bomb";
-							break;
-			}
-?>
-			<li class="right clearfix">
-				<span class="chat-img pull-right">
-					<small class="pull-right text-muted">
-						<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['date_issue_claim_state']; ?>
-					</small>
-				</span>
-				<div class="chat-body clearfix">
-					<div class="header">
-						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-						<strong class="primary-font"><?php echo $data['first_name']; ?></strong>
-					</div>
-					<p>
-						<?php echo $data['message_claim']; ?>
-					</p>
-					<?php echo '<p class="' . $clase . '"><strong><i class="fa ' . $icono . ' fa-fw"></i>' . $valor . '</strong></p>'; ?>
-				</div>
-			</li>
-<?php
-		endforeach;
-	}
-?>
-					</ul>
-					
-				</div>
-			</div>
-		</div>
-	
-	<!--INICIO APU -->
-		<div class="col-lg-9">				
+		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-money"></i> <strong>ASSIGNED APU TO CLAIM</strong>
+					<a class="btn btn-primary btn-xs" href="<?php echo base_url().'claims'; ?> ">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back
+					</a>
+					<i class="fa fa-money"></i> <strong>CLAIM DETAILS & ASSIGNED APU</strong>
 				</div>
 				<div class="panel-body">
+
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -255,7 +161,107 @@ if ($retornoError) {
     <?php
 }
 ?> 
+
+					<ul class="nav nav-pills">
+                        <?php $ci = & get_instance(); ?>
+						<li class='active'><a href="<?php echo base_url("claims/upload_apu/" . $claimsInfo[0]['id_claim']); ?>">Current Claim Form</a>
+						</li>
+						<li><a href="<?php echo base_url("claims/claim_history/" . $claimsInfo[0]['id_claim']); ?>">Claim History</a>
+						</li>
+					</ul>
 					<br>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<i class="fa fa-bomb"></i> <strong>CLAIM INFORMATION</strong>
+								</div>
+								<div class="panel-body">
+									<div class="alert alert-info">
+										<strong>Claim Number: </strong><?php echo $claimsInfo?$claimsInfo[0]["claim_number"]:""; ?>
+										<br><strong>Job Code/Name: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["job_description"]:""; ?>
+										<br><strong>Date Issue: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["date_issue_claim"]:""; ?>
+										<br><strong>Observation: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["observation_claim"]:""; ?>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="chat-panel panel panel-success">
+								<div class="panel-heading">
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $claimsInfo[0]['id_claim']; ?>" >
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Info
+									</button>
+									<i class="fa fa-comments fa-fw"></i> Status History
+								</div>
+								<div class="panel-body">
+									<ul class="chat">
+										<?php 
+											if($claimsHistory)
+											{
+												foreach ($claimsHistory as $data):		
+													switch ($data['state_claim']) {
+														case 1:
+															$valor = 'New Claim';
+															$clase = "text-violeta";
+															$icono = "fa-flag";
+															break;
+														case 2:
+															$valor = 'Send to client';
+															$clase = "text-success";
+															$icono = "fa-share";
+															break;
+														case 3:
+															$valor = 'Partial Payment';
+															$clase = "text-primary";
+															$icono = "fa-star-half-empty";
+															break;
+														case 4:
+															$valor = 'Hold Back';
+															$clase = "text-warning";
+															$icono = "fa-bullhorn";
+															break;
+														case 5:
+															$valor = 'Short Payment';
+															$clase = "text-warning";
+															$icono = "fa-thumbs-o-down";
+															break;
+														case 6:
+															$valor = 'Final Payment';
+															$clase = "text-danger";
+															$icono = "fa-bomb";
+															break;
+													}
+										?>
+										<li class="right clearfix">
+											<span class="chat-img pull-right">
+												<small class="pull-right text-muted">
+													<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['date_issue_claim_state']; ?>
+												</small>
+											</span>
+											<div class="chat-body clearfix">
+												<div class="header">
+													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+													<strong class="primary-font"><?php echo $data['first_name']; ?></strong>
+												</div>
+												<p><?php echo $data['message_claim']; ?></p>
+												<p class="<?php echo $clase; ?>">
+													<strong><i class="fa <?php echo $icono; ?> fa-fw"></i><?php echo $valor; ?></strong>
+												</p>
+											</div>
+										</li>
+										<?php
+												endforeach;
+											}
+										?>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div> <!-- Fin de fila superior -->
+
+					<hr>
 					<form id="form_claims" method="post" action="<?php echo base_url("claims/update_claim"); ?>">
 						<input type="hidden" id="hddIdClaim" name="hddIdClaim" value="<?php echo $claimsInfo[0]['id_claim']; ?>" />
 						<?php
@@ -333,16 +339,24 @@ if ($retornoError) {
 				</div>
 			</div>
 		</div>
-	</div>
-	
+	</div>	
 </div>
 
 <!--INICIO Modal para adicionar ESTADO -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog" role="document">
 		<div class="modal-content" id="tablaDatos">
 
 		</div>
 	</div>
-</div>                       
+</div>                
 <!--FIN Modal para adicionar ESTADO -->
+
+
+<div class="modal fade text-center" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content" id="infoConfirm">
+
+		</div>
+	</div>
+</div>
