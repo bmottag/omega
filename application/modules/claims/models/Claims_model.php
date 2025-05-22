@@ -24,7 +24,11 @@ class Claims_model extends CI_Model {
 				if (array_key_exists("state", $arrDatos) && $arrDatos["state"] != '' ) {
 					$this->db->where('current_status_claim', $arrDatos["state"]);
 				}
-				$this->db->order_by('id_claim', 'desc');
+				if (array_key_exists("order", $arrDatos) && $arrDatos["order"] != '' ) {
+					$this->db->order_by('id_claim', $arrDatos["order"]);
+				}else{
+					$this->db->order_by('id_claim', 'desc');
+				}
 				
 				if (array_key_exists("limit", $arrDatos)) {
 					$query = $this->db->get('claim C', $arrDatos["limit"]);
