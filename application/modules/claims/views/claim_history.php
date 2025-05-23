@@ -208,13 +208,10 @@ if ($retornoError) {
 													echo "<td class='text-right'>$ " . number_format($data['unit_price'],2) . "</td>";
 													echo "<td class='text-right'>$ " . number_format($data['extended_amount'],2) . "</td>";
 													if (isset($allClaims) && $allClaims) {
-														$sumWorkorders = 0;
 														foreach ($allClaims as $claim) {
-															// Verificamos si el empleado tiene horas en esta W.O.
 															$arrParamCheck = array("idClaim" => $claim['id_claim'], "idJobDetail" => $data['id_job_detail']);
 															$claimInfo = $this->general_model->get_job_detail_claims_info($arrParamCheck);
 
-									
 															echo "<td class='text-center'>" . $claimInfo[0]['quantity_claim'] . "</td>";
 															echo "<td class='text-center'>" . $claimInfo[0]['cost'] . "</td>";
 														}
