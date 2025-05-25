@@ -9,7 +9,7 @@ $( document ).ready( function () {
 	
 		$.ajax({
 			type: "POST",	
-			url: base_url + "claims/save_claim_wo",	
+			url: base_url + "claims/save_claim_apu",	
 			data: $("#form").serialize(),
 			dataType: "json",
 			contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -19,7 +19,6 @@ $( document ).ready( function () {
 									
 				if( data.result == "error" )
 				{
-					//alert(data.mensaje);
 					$("#div_load").css("display", "none");
 					$('#btnSubmit').removeAttr('disabled');							
 					return false;
@@ -30,7 +29,7 @@ $( document ).ready( function () {
 					$("#div_load").css("display", "none");
 					$('#btnSubmit').removeAttr('disabled');
 
-					var url = base_url + "claims/upload_wo/" + data.idRecord;
+					var url = base_url + "claims/upload_apu/" + data.idRecord;
 					$(location).attr("href", url);
 				}
 				else

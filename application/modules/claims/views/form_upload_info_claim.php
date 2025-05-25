@@ -265,6 +265,8 @@ if ($retornoError) {
 						</div>
 					</div> <!-- Fin de fila superior -->
 
+					<a href="<?php echo base_url("claims/add_apu/" . $claimsInfo[0]["fk_id_job"] . "/" . $claimsInfo[0]["id_claim"]); ?>" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add LIC to the Claim</a>
+
 					<hr>
 					<form id="form_claims" method="post" action="<?php echo base_url("claims/update_claim"); ?>">
 						<input type="hidden" id="hddIdClaim" name="hddIdClaim" value="<?php echo $claimsInfo[0]['id_claim']; ?>" />
