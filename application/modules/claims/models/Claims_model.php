@@ -78,25 +78,22 @@ class Claims_model extends CI_Model {
 		}
 
 		/**
-		 * Save Claim WO 
-		 * @since 3/2/2021
+		 * Save Claim LIC 
+		 * @since 25/05/2025
 		 */
-		public function saveClaimWO() 
+		public function saveClaimAPU() 
 		{
 			$idClaim = $this->input->post('hddId');
 
-			//update idClaim
 			$query = 1;
-			if ($wo = $this->input->post('wo')) {
-				$tot = count($wo);
-				for ($i = 0; $i < $tot; $i++) 
-				{
-					//actualizo la tabla de WO
+			if ($apus = $this->input->post('apu')) {
+				$tot = count($apus);
+				foreach ($apus as $idJobDetail) {
 					$data = array(
-						'fk_id_claim' => $idClaim
+						'fk_id_claim' => $idClaim,
+						'fk_id_job_detail' => $idJobDetail
 					);			
-					$this->db->where('id_workorder', $wo[$i]);
-					$query = $this->db->update('workorder', $data);
+					$query = $this->db->insert('claim_apus', $data);
 				}
 			}
 			if ($query) {

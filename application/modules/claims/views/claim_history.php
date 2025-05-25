@@ -167,8 +167,8 @@ if ($retornoError) {
 							$ci->load->model("general_model");
 
 							foreach ($chapterList as $lista):
-								$arrParam = array("idJob" => $claimsInfo[0]['fk_id_job'], "chapterNumber" => $lista['chapter_number'], "idClaim" => $claimsInfo[0]['id_claim'], "status" => 1);
-								$jobDetails = $this->general_model->get_job_detail_claims_info($arrParam);
+								$arrParam = array("idJob" => $claimsInfo[0]['fk_id_job'], "chapterNumber" => $lista['chapter_number']);
+								$jobDetails = $this->general_model->get_job_detail($arrParam);
 
 								if($jobDetails){
 						?>
@@ -204,16 +204,18 @@ if ($retornoError) {
 													echo "<td class='text-center'>" . $data['chapter_number'] . "." . $data['item'] . "</td>";
 													echo "<td>" . $data['description'] . "</td>";
 													echo "<td class='text-center'>" . $data['unit'] . "</td>";
-													echo "<td class='text-center'>" . $data['quantity_claim'] . "</td>";
+													echo "<td class='text-center'>" . $data['quantity'] . "</td>";
 													echo "<td class='text-right'>$ " . number_format($data['unit_price'],2) . "</td>";
 													echo "<td class='text-right'>$ " . number_format($data['extended_amount'],2) . "</td>";
 													if (isset($allClaims) && $allClaims) {
 														foreach ($allClaims as $claim) {
 															$arrParamCheck = array("idClaim" => $claim['id_claim'], "idJobDetail" => $data['id_job_detail']);
 															$claimInfo = $this->general_model->get_job_detail_claims_info($arrParamCheck);
+															$qty  = isset($claimInfo[0]['quantity_claim']) ? $claimInfo[0]['quantity_claim'] : '';
+															$cost = isset($claimInfo[0]['cost']) ? $claimInfo[0]['cost'] : '';
 
-															echo "<td class='text-center'>" . $claimInfo[0]['quantity_claim'] . "</td>";
-															echo "<td class='text-center'>" . $claimInfo[0]['cost'] . "</td>";
+															echo "<td class='text-center'>{$qty}</td>";
+															echo "<td class='text-center'>{$cost}</td>";
 														}
 													}
 													echo "</tr>";

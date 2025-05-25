@@ -50,7 +50,9 @@ $(function(){
                         <?php $ci = & get_instance(); ?>
 						<li <?php if($ci->uri->segment(2) == "job_detail"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/job_detail/" . $jobInfo[0]["id_job"]); ?>">List of Active LIC</a>
 						</li>
-						<li <?php if($ci->uri->segment(2) == "charged_lic"){ echo "class='active'";} ?>><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"]); ?>">List of Executed LIC</a>
+						<li><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"] . "/2"); ?>">List of Executed LIC</a>
+						</li>
+						<li><a href="<?php echo base_url("jobs/charged_lic/" . $jobInfo[0]["id_job"] . "/3"); ?>">List of Closed LIC</a>
 						</li>
 					</ul>
                     

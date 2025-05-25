@@ -140,20 +140,20 @@ class Claims extends CI_Controller {
 	 */
 	public function upload_apu($idClaim = 'x')
 	{
-			//Claim info
-			$arrParam = array('idClaim' => $idClaim);
-			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
+		//Claim info
+		$arrParam = array('idClaim' => $idClaim);
+		$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
 
-			//Claim State history
-			$data['claimsHistory'] = $this->claims_model->get_claims_history($arrParam);
-											
-			$this->load->model("general_model");
-			//$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
-			$arrParam = array("idJob" => $data['claimsInfo'][0]['fk_id_job']);
-			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
-			
-			$data["view"] = 'form_upload_info_claim';
-			$this->load->view("layout_calendar", $data);
+		//Claim State history
+		$data['claimsHistory'] = $this->claims_model->get_claims_history($arrParam);
+										
+		$this->load->model("general_model");
+		//$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
+		$arrParam = array("idJob" => $data['claimsInfo'][0]['fk_id_job']);
+		$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
+		
+		$data["view"] = 'form_upload_info_claim';
+		$this->load->view("layout_calendar", $data);
 	}
 
 	/**
@@ -199,12 +199,12 @@ class Claims extends CI_Controller {
 	}
 
 	/**
-	 * Form Add WO to Claim
-	 * Muestre lista de WO por trabajo y los que estan asignados al CLAIM
-     * @since 3/2/2021
+	 * Form Add APU to Claim
+	 * Muestre lista de APU y los que estan asignados al CLAIM
+     * @since 24/05/2025
      * @author BMOTTAG
 	 */
-	public function add_wo($idJob, $idClaim)
+	public function add_apu($idJob, $idClaim)
 	{
 			if (empty($idJob) || empty($idClaim)) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -212,49 +212,40 @@ class Claims extends CI_Controller {
 			
 			 //list de WO para un JOB que no estan asignadas
 			$this->load->model("general_model");
-			$arrParam = array(
-				'jobId' => $idJob,
-				'idClaim' => 0
-			);
-			$data['WOList'] = $this->general_model->get_workorder_info($arrParam);	
-
-			$arrParam = array(
-				"table" => "param_jobs",
-				"order" => "job_description",
-				"column" => "id_job",
-				"id" => $idJob
-			);
-			$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+			$arrParam = array("idJob" => $idJob);
+			$data['chapterList'] = $this->general_model->get_chapter_list($arrParam);
+			$data['jobInfo'] = $this->general_model->get_job($arrParam);
 
 			$data["idJob"] = $idJob;
 			$data["idClaim"] = $idClaim;
-			$data["view"] = 'form_add_wo';
+			$data["view"] = 'form_add_apu';
 			$this->load->view("layout_calendar", $data);
 	}
 
 	/**
-	 * Asignar WO al claim
-     * @since 3/2/2021
+	 * Asignar APU al claim
+     * @since 25/05/2025
      * @author BMOTTAG
 	 */
-	public function save_claim_wo()
+	public function save_claim_apu()
 	{	
 			header('Content-Type: application/json');
 			$data = array();
 			$data['idRecord'] = $this->input->post('hddId');
-			$wo = $this->input->post('wo');
-			if($wo){
-				if ($this->claims_model->saveClaimWO()) {
+
+			$apu = $this->input->post('apu');
+			if($apu){
+				if ($this->claims_model->saveClaimAPU()) {
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoExito', "Work orders assigned to the claim!!");
+					$this->session->set_flashdata('retornoExito', "LIC assigned to the claim!!");
 				} else {
 					$data["result"] = "error";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 				}
 			}else{
 					$data["result"] = "error";
-					$data["mensaje"] = " You have to select a W.O.";
-					$this->session->set_flashdata('retornoError', 'You have to select a W.O.');
+					$data["mensaje"] = " You have to select LIC";
+					$this->session->set_flashdata('retornoError', 'You have to select LIC');
 			}
 			echo json_encode($data);
 	}
@@ -542,10 +533,17 @@ class Claims extends CI_Controller {
 							$colQty = Coordinate::stringFromColumnIndex($colIndexInfo);
 							$colCost = Coordinate::stringFromColumnIndex($colIndexInfo + 1);
 
-							$spreadsheet->getActiveSheet()->setCellValue($colQty . $j, $claimInfo[0]['quantity_claim']);
-							$spreadsheet->getActiveSheet()->setCellValue($colCost . $j, $claimInfo[0]['cost']);
+							$qty  = isset($claimInfo[0]['quantity_claim']) ? $claimInfo[0]['quantity_claim'] : '';
+							$cost = isset($claimInfo[0]['cost']) ? $claimInfo[0]['cost'] : '';
 
-							$spreadsheet->getActiveSheet()->getStyle($colCost . $j)->getNumberFormat()->setFormatCode('"$"#,##0.00');
+							$spreadsheet->getActiveSheet()->setCellValue($colQty . $j, $qty);
+							$spreadsheet->getActiveSheet()->setCellValue($colCost . $j, $cost);
+							if ($cost !== '') {
+								$spreadsheet->getActiveSheet()
+									->getStyle($colCost . $j)
+									->getNumberFormat()
+									->setFormatCode('"$"#,##0.00');
+							}
 
 							$colIndexInfo += 2;
 						}

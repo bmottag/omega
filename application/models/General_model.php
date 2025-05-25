@@ -2061,7 +2061,7 @@ class General_model extends CI_Model
 	{
 
 		$this->db->select('D.*, C.quantity quantity_claim, C.cost');
-		$this->db->join('claim_apus C', 'C.fk_id_job_detail = D.id_job_detail AND C.fk_id_claim = ' . $arrData["idClaim"], 'LEFT');
+		$this->db->join('claim_apus C', 'C.fk_id_job_detail = D.id_job_detail AND C.fk_id_claim = ' . $arrData["idClaim"], 'INNER');
 
 		if (array_key_exists("idJobDetail", $arrData)) {
 			$this->db->where('id_job_detail', $arrData["idJobDetail"]);
