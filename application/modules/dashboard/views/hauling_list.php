@@ -64,7 +64,7 @@
 									echo "<td class='text-center'>" . $lista['id_hauling'] . "
 									<br>"
 								?><?php
-									if ($lista['fk_id_workorder'] != null) {
+									if ($lista['fk_id_workorder']) {
 									?>
 								<a href='<?php echo base_url('workorders/add_workorder/' . $lista['fk_id_workorder']); ?>' target="_blank"> W.O. # <?php echo $lista['fk_id_workorder']; ?></a>
 								<?php } ?><?php
