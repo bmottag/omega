@@ -31,7 +31,7 @@ class Hauling_model extends CI_Model
 		$timeOut = $hourOut . ":" . $this->input->post('minOut');
 
 		$isUsingWO = ($this->input->post('id_work_order') == '') ? null : $this->input->post('id_work_order');
-		$id_work_order = "";
+		$id_work_order = $this->input->post('list_work_order');
 
 		if ($isUsingWO == 1) {
 			$data = array(
@@ -58,8 +58,6 @@ class Hauling_model extends CI_Model
 
 			$query = $this->db->insert('workorder_state', $data);
 		} elseif ($isUsingWO == 2) {
-			$id_work_order = $this->input->post('list_work_order');
-			
 			$data = array(
 				'date' => date("Y-m-d"),
 				'fk_id_job' => $this->input->post('fromSite'),
