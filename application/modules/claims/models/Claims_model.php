@@ -84,24 +84,29 @@ class Claims_model extends CI_Model {
 		public function saveClaimAPU() 
 		{
 			$idClaim = $this->input->post('hddId');
+			$query = true;
 
-			$query = 1;
 			if ($apus = $this->input->post('apu')) {
-				$tot = count($apus);
 				foreach ($apus as $idJobDetail) {
-					$data = array(
-						'fk_id_claim' => $idClaim,
-						'fk_id_job_detail' => $idJobDetail
-					);			
-					$query = $this->db->insert('claim_apus', $data);
+					// Verificar si ya existe el registro
+					$this->db->where('fk_id_claim', $idClaim);
+					$this->db->where('fk_id_job_detail', $idJobDetail);
+					$exists = $this->db->get('claim_apus')->num_rows() > 0;
+
+					if (!$exists) {
+						$data = array(
+							'fk_id_claim' => $idClaim,
+							'fk_id_job_detail' => $idJobDetail
+						);			
+						if (!$this->db->insert('claim_apus', $data)) {
+							$query = false;
+						}
+					}
 				}
 			}
-			if ($query) {
-				return true;
-			} else{
-				return false;
-			}
-		}
+
+			return $query;
+	}
 
 		/**
 		 * Add Claim state
@@ -218,14 +223,18 @@ class Claims_model extends CI_Model {
 		}
 
 	/**
-	 * Insert APU information
+	 * Update APU information
 	 * @since 12/05/2025
 	 */
-	public function saveInfoAPU($data)
+	public function updateInfoAPU($data)
 	{
-		return $this->db->insert('claim_apus', $data);
+		$this->db->where('fk_id_claim', $data['fk_id_claim']);
+		$this->db->where('fk_id_job_detail', $data['fk_id_job_detail']);
+		return $this->db->update('claim_apus', [
+			'quantity' => $data['quantity'],
+			'cost' => $data['cost']
+		]);
 	}
-
 	
 	    
 }

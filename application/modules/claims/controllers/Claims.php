@@ -170,27 +170,19 @@ class Claims extends CI_Controller {
 		$successCount = 0;
 		$errorCount = 0;
 
-		// Elimina los registros anteriores con ese idClaim
-		$this->db->where('fk_id_claim', $idClaim);
-		$this->db->delete('claim_apus');
-
 		foreach ($records as $record) {
+			$dataToSave = [
+				'fk_id_claim'   => $idClaim,
+				'fk_id_job_detail' => $record['id_job_detail'],
+				'quantity'   => $record['quantity'],
+				'cost'      => $record['quantity'] ? $record['unit_price'] * $record['quantity'] : $record['cost']
+			];
 
-			if($record['quantity'] || $record['cost']){
-				$dataToSave = [
-					'fk_id_claim'   => $idClaim,
-					'fk_id_job_detail' => $record['id_job_detail'],
-					'quantity'   => $record['quantity'],
-					'cost'      => $record['quantity'] ? $record['unit_price'] * $record['quantity'] : $record['cost']
-				];
-	
-				if ($this->claims_model->saveInfoAPU($dataToSave)) {
-					$successCount++;
-				} else {
-					$errorCount++;
-				}
+			if ($this->claims_model->updateInfoAPU($dataToSave)) {
+				$successCount++;
+			} else {
+				$errorCount++;
 			}
-
 		}
 		echo json_encode([
 			"status" => $errorCount === 0 ? "success" : "error",

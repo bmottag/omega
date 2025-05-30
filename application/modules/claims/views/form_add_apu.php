@@ -48,14 +48,18 @@
 										<tbody>
 											<?php
 												foreach ($jobDetails as $data):
+													$arrDetail = array('idClaim' => $idClaim, "idJobDetail" => $data['id_job_detail']);
+													$found = $ci->general_model->get_job_detail_claims_info($arrDetail);
+
 													echo "<tr>";
 													echo '<td class="text-center">';
 													$check = array(
 														'name' => 'apu[]',
 														'id' => 'apu',
 														'value' => $data['id_job_detail'],
+														'checked' => $found,
 														'style' => 'margin:10px'
-													);
+													);						
 													echo form_checkbox($check);
 													echo '</td>';
 													echo "<td class='text-center'>" . $data['chapter_number'] . "." . $data['item'] . "</td>";
