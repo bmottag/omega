@@ -12,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class Claims extends CI_Controller {
 	
@@ -417,6 +418,23 @@ class Claims extends CI_Controller {
 
 		$sheet = $spreadsheet->getActiveSheet();
 
+
+		/**
+		 * LOGO
+		 */
+		$logoPath = FCPATH . 'images/logo.png';
+		if (file_exists($logoPath)) {
+			$drawing = new Drawing();
+			$drawing->setName('Logo');
+			$drawing->setDescription('Company Logo');
+			$drawing->setPath($logoPath);
+			$drawing->setHeight(120);
+			$drawing->setCoordinates('B1');
+			$drawing->setOffsetX(10);
+			$drawing->setOffsetY(10);
+			$drawing->setWorksheet($spreadsheet->getActiveSheet());
+		}
+
 		/**
 		 * Project Information
 		 */
@@ -430,10 +448,7 @@ class Claims extends CI_Controller {
 		$sheet->mergeCells('F5:G5');
 		$sheet->mergeCells('F6:G6');
 
-		$sheet->getStyle('D3:E3')->getFont()->setBold(true);
-		$sheet->getStyle('D4:E4')->getFont()->setBold(true);
-		$sheet->getStyle('D5:E5')->getFont()->setBold(true);
-		$sheet->getStyle('D6:E6')->getFont()->setBold(true);
+		$sheet->getStyle('D3:E6')->getFont()->setBold(true);
 
 		$spreadsheet->getActiveSheet()->getStyle('D3:G3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 		$spreadsheet->getActiveSheet()->getStyle('D4:G4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -456,6 +471,7 @@ class Claims extends CI_Controller {
 		 */
 		$sheet->getStyle('D8:G9')->getFont()->setBold(true);
 		$sheet->mergeCells('D8:G9');
+		$sheet->getStyle('D8:G9')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 		$spreadsheet->getActiveSheet()->getStyle('D8:G9')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 		$spreadsheet->getActiveSheet()->getStyle('D8:G9')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 		$spreadsheet->getActiveSheet()->getStyle('D8:G9')->getFont()->setSize(14);
@@ -474,8 +490,10 @@ class Claims extends CI_Controller {
 										->setCellValue('F11', 'Unit Price')
 										->setCellValue('G11', 'Extended Amount');
 
+		$colIndex = 8;
 		if (isset($allClaims) && $allClaims) {
-			$colIndex = 8;
+			
+			//TITLE COST & QUANTITY
 			foreach ($allClaims as $claim) {
 				$colQty = Coordinate::stringFromColumnIndex($colIndex);
 				$colCost = Coordinate::stringFromColumnIndex($colIndex + 1);
@@ -488,24 +506,51 @@ class Claims extends CI_Controller {
 
 				$colIndex += 2;
 			}
+
+			$colGreen = Coordinate::stringFromColumnIndex($colIndex-1);
+			$colQtyComplete = Coordinate::stringFromColumnIndex($colIndex);
+			$colCostComplete = Coordinate::stringFromColumnIndex($colIndex+1);
+			$colPerComplete = Coordinate::stringFromColumnIndex($colIndex+2);
+			$spreadsheet->getActiveSheet(0)->setCellValue($colQtyComplete . '11', 'Qty to complete')
+											->setCellValue($colCostComplete . '11', 'Cost to complete')
+											->setCellValue($colPerComplete . '11', '% completed');
+
+			$spreadsheet->getActiveSheet()->getColumnDimension($colQtyComplete)->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension($colCostComplete)->setWidth(20);
+			$spreadsheet->getActiveSheet()->getColumnDimension($colPerComplete)->setWidth(20);
+			
+			$colClaimIni = Coordinate::stringFromColumnIndex(8);
+			$spreadsheet->getActiveSheet()->getStyle($colClaimIni.'11:'.$colPerComplete.'11')->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle($colQtyComplete . '11:' . $colPerComplete . '11')->getFill()->getStartColor()->setARGB('FFFFCCCC');//RED COLOR
+
+			$colIndex += 3;
 		}
+		$finalCol = Coordinate::stringFromColumnIndex($colIndex-1);
+		$finalCol = Coordinate::stringFromColumnIndex($colIndex-1);
+		$sheet->getStyle('B11:' . $finalCol . '11')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 	
+		/**
+		 * DATA
+		 */
 		$j = 12;
 		foreach ($chapterList as $chapter) :
 			$j++;
-			$spreadsheet->getActiveSheet()->setCellValue('B' . $j, $chapter['chapter_number'] . '. ' . $chapter['chapter_name']);
+			$ini = $j;
+			$spreadsheet->getActiveSheet()->setCellValue('B' . $j, $chapter['chapter_number'] . '. ' . $chapter['chapter_name']);//CHAPTER NAME
 		
-			$spreadsheet->getActiveSheet()->getStyle('B'.$j.':Q'.$j)->getFill()->setFillType(Fill::FILL_SOLID);
-			$spreadsheet->getActiveSheet()->getStyle('B'.$j.':Q'.$j)->getFill()->getStartColor()->setARGB('FFD9D9D9');
-			$spreadsheet->getActiveSheet()->getStyle('B'.$j.':Q'.$j)->getFont()->setBold(true);
+			$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFill()->setFillType(Fill::FILL_SOLID);
+			$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFill()->getStartColor()->setARGB('FFD9D9D9');
+			$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFont()->setBold(true);
 
-			$arrParam = array("idJob" => $idJob, "chapterNumber" => $chapter['chapter_number'], "status" => 1);
+			$arrParam = array("idJob" => $idJob, "chapterNumber" => $chapter['chapter_number']);
 			$jobDetails = $this->general_model->get_job_detail($arrParam);
 
 			if($jobDetails){
 
+				$sumExtendedAmount = 0;
 				foreach ($jobDetails as $detail):
 					$j++;
+					$sumExtendedAmount += $detail['extended_amount'];
 					$spreadsheet->getActiveSheet()->setCellValue('B' . $j, $detail['chapter_number'] . "." . $detail['item'])
 													->setCellValue('C' . $j, $detail['description'])
 													->setCellValue('D' . $j, $detail['unit'])
@@ -518,6 +563,8 @@ class Claims extends CI_Controller {
 
 					if (isset($allClaims) && $allClaims) {
 						$colIndexInfo = 8;
+						$subTotalQty = 0;
+						$subTotalCost = 0;
 						foreach ($allClaims as $claim) {
 							$arrParamCheck = array("idClaim" => $claim['id_claim'], "idJobDetail" => $detail['id_job_detail']);
 							$claimInfo = $this->general_model->get_job_detail_claims_info($arrParamCheck);
@@ -525,6 +572,8 @@ class Claims extends CI_Controller {
 							$colQty = Coordinate::stringFromColumnIndex($colIndexInfo);
 							$colCost = Coordinate::stringFromColumnIndex($colIndexInfo + 1);
 
+							$subTotalQty += isset($claimInfo[0]['quantity_claim']) ? $claimInfo[0]['quantity_claim'] : 0;
+							$subTotalCost += isset($claimInfo[0]['cost']) ? $claimInfo[0]['cost'] : 0;
 							$qty  = isset($claimInfo[0]['quantity_claim']) ? $claimInfo[0]['quantity_claim'] : '';
 							$cost = isset($claimInfo[0]['cost']) ? $claimInfo[0]['cost'] : '';
 
@@ -539,19 +588,44 @@ class Claims extends CI_Controller {
 
 							$colIndexInfo += 2;
 						}
+
+						//DATA COMPLETE
+						$totalQty = $detail['quantity']-$subTotalQty;
+						$totalCost = $detail['extended_amount']-$subTotalCost;
+						$colQtyCompleteInfo = Coordinate::stringFromColumnIndex($colIndexInfo);
+						$colCostCompleteInfo = Coordinate::stringFromColumnIndex($colIndexInfo+1);
+						$colPerCompleteInfo = Coordinate::stringFromColumnIndex($colIndexInfo+2);
+						$spreadsheet->getActiveSheet(0)->setCellValue($colQtyCompleteInfo . $j, $totalQty)
+														->setCellValue($colCostCompleteInfo . $j, $totalCost)
+														->setCellValue($colPerCompleteInfo . $j, '%');
+
+						$spreadsheet->getActiveSheet()->getStyle($colCostCompleteInfo . $j)->getNumberFormat()->setFormatCode('"$"#,##0.00');
+
 					}
 				endforeach;
+				$j++;
+				$spreadsheet->getActiveSheet()->setCellValue('B' . $j, 'SUB-TOTAL PART ' . $chapter['chapter_number']);
+				$spreadsheet->getActiveSheet()->setCellValue('G' . $j, $sumExtendedAmount);
+
+				$spreadsheet->getActiveSheet()->getStyle('G' . $j)->getNumberFormat()->setFormatCode('"$"#,##0.00');
+
+				$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+				$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFont()->setSize(14);
+				$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFill()->setFillType(Fill::FILL_SOLID);
+				$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFill()->getStartColor()->setARGB('FFCCE5FF');
+				$spreadsheet->getActiveSheet()->getStyle('B'.$j.':'.$finalCol.$j)->getFont()->setBold(true);
+				$sheet->mergeCells('B'.$j.':C'.$j);
+
+				$sheet->getStyle('B' . $ini . ':' . $finalCol .$j)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 			}
 
 			$j++;
 		endforeach;
 
-		$spreadsheet->getActiveSheet()->getStyle('P' . $j . ':Q' . $j)->getFont()->setBold(true);
-
 		// Set column widths							  
 		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(10);
 		$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(10);
-		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(90);
+		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(140);
 		$spreadsheet->getActiveSheet()->getStyle('C')->getAlignment()->setWrapText(true);
 		$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(15);
 		$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(15);
@@ -559,15 +633,14 @@ class Claims extends CI_Controller {
 		$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
 
 		// Add conditional formatting
-		$spreadsheet->getActiveSheet()->getStyle('B11:Q11')->getFont()->setSize(11);
-		$spreadsheet->getActiveSheet()->getStyle('B11:Q11')->getFont()->setBold(true);
+		$spreadsheet->getActiveSheet()->getStyle('B11:' . $finalCol . '11')->getFont()->setSize(11);
 
-		$spreadsheet->getActiveSheet()->getStyle('B11:Q11')->getFill()->setFillType(Fill::FILL_SOLID);
-		$spreadsheet->getActiveSheet()->getStyle('B11:Q11')->getFill()->getStartColor()->setARGB('FFCCFFCC');
+		$spreadsheet->getActiveSheet()->getStyle('B11:' . $finalCol . '11')->getFill()->setFillType(Fill::FILL_SOLID);
+		$spreadsheet->getActiveSheet()->getStyle('B11:' . $colGreen . '11')->getFill()->getStartColor()->setARGB('FFCCFFCC');//GREEN COLOR
 
 
-		$spreadsheet->getActiveSheet()->getStyle('B11:Q11')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-		$spreadsheet->getActiveSheet()->getStyle('B11:Q11')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('B11:' . $finalCol . '11')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('B11:' . $finalCol . '11')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
 		$spreadsheet->setActiveSheetIndex(0);
 
