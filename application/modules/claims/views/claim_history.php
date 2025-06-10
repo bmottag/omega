@@ -81,6 +81,10 @@ if ($retornoError) {
 										<br><strong>Job Code/Name: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["job_description"]:""; ?>
 										<br><strong>Date Issue: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["date_issue_claim"]:""; ?>
 										<br><strong>Observation: </strong><br><?php echo $claimsInfo?$claimsInfo[0]["observation_claim"]:""; ?>
+										<br>
+										<a href='<?php echo base_url('claims/generaProgressreportXLS/' . $claimsInfo[0]['fk_id_job']); ?>' target="_blank"> 
+											<strong>Download Project Progress Report: </strong><img src='<?php echo base_url_images('xls.png'); ?>'>
+										</a>
 									</div>
 								</div>
 							</div>
