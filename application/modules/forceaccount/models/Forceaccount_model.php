@@ -17,7 +17,7 @@ class Forceaccount_model extends CI_Model
 		$this->db->join('acs A', 'A.fk_id_workorder = W.id_forceaccount', 'LEFT');
 		$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 
-		if (array_key_exists("idForceaccount", $arrDatos)) {
+		if (array_key_exists("idForceAccount", $arrDatos)) {
 			$this->db->where('id_forceaccount', $arrDatos["idForceAccount"]);
 		}
 		if (array_key_exists("idEmployee", $arrDatos)) {
