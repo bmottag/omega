@@ -20,7 +20,7 @@ class Hauling_model extends CI_Model
 			$result = $query->row_array();
 			$fk_id_submodule = $result['fk_id_submodule'];
 		}
-
+		
 		$hourIn = $this->input->post('hourIn');
 		$hourOut = $this->input->post('hourOut');
 
@@ -103,7 +103,7 @@ class Hauling_model extends CI_Model
 		$fractionalHours = round($fractionalHours, 2);
 
 		if($id_work_order){
-			if ($this->input->post('CompanyType') == 1) {
+			if ($this->input->post('company') == 1) {
 				$dataEquipment = array(
 					'fk_id_workorder' => $id_work_order,
 					'fk_id_type_2' => 10,
