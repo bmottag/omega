@@ -1102,7 +1102,7 @@ class Workorders extends CI_Controller
 			);
 			$this->workorders_model->update_workorder($arrParam);
 
-			if ($status == REVISED && !$idACS) {
+			if ($status == IN_PROGRESS && !$idACS) {
 				$arrParam = array('idWorkOrder' => $data["idWorkorder"]);
 				$info['workorder'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
 				$info['workorderPersonal'] = $this->workorders_model->get_workorder_personal($arrParam); //workorder personal list
