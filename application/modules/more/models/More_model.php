@@ -442,7 +442,8 @@ class More_model extends CI_Model
 	{
 		$data = array(
 			'fk_id_job_confined' => $this->input->post('hddIdConfined'),
-			'fk_id_user' => $this->input->post('worker')
+			'fk_id_user' => $this->input->post('worker'),
+			'flag_workers' => 2
 		);
 
 		$query = $this->db->insert('job_confined_workers', $data);
