@@ -1204,6 +1204,12 @@ class Workorders extends CI_Controller
 		$arrParam = array("idWorkOrder" => $idWorkOrder);
 		$data['info'] = $this->workorders_model->get_workorder_by_idJob($arrParam);
 
+		if (empty($data['info'])) {
+			// Option 1: Show a custom error message
+			show_error('No Work Order information found for ID: ' . $idWorkOrder, 404);
+			return;
+		}
+
 		$fecha = date('F j, Y', strtotime($data['info'][0]['date']));
 
 		// set document information
