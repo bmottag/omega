@@ -56,6 +56,8 @@
 							</thead>
 							<tbody>
 								<?php
+								$textOld = '';
+								$textNew = '';
 								foreach ($workOrderInfo as $lista) :
 									$old = (json_decode($lista['comment'])->old != '') ? json_encode(json_decode($lista['comment'])->old[0]) : 'null';
 									$new = (json_decode($lista['comment'])->new != '') ? json_decode($lista['comment'])->new : 'null';
