@@ -40,9 +40,9 @@ class Claims extends CI_Controller {
 			);
 			$data['jobs'] = $this->general_model->get_job($arrParam);
 
+			$data['tituloListado'] = 'LIST OF LAST 50 RECORDS';
 			if(!$_POST)
 			{
-				$data['tituloListado'] = 'LIST OF LAST 50 RECORDS';
 				//busco los ultimos 50 REGISTROS
 				$arrParam = array('limit' => 50);
 			}elseif($this->input->post('id_job_search') || $this->input->post('state') || $this->input->post('claimNumber'))
@@ -592,12 +592,13 @@ class Claims extends CI_Controller {
 						//DATA COMPLETE
 						$totalQty = $detail['quantity']-$subTotalQty;
 						$totalCost = $detail['extended_amount']-$subTotalCost;
+						$percentage = $qty? (100 * ($totalQty/$qty)):0;
 						$colQtyCompleteInfo = Coordinate::stringFromColumnIndex($colIndexInfo);
 						$colCostCompleteInfo = Coordinate::stringFromColumnIndex($colIndexInfo+1);
 						$colPerCompleteInfo = Coordinate::stringFromColumnIndex($colIndexInfo+2);
 						$spreadsheet->getActiveSheet(0)->setCellValue($colQtyCompleteInfo . $j, $totalQty)
 														->setCellValue($colCostCompleteInfo . $j, $totalCost)
-														->setCellValue($colPerCompleteInfo . $j, '%');
+														->setCellValue($colPerCompleteInfo . $j, $percentage.'%');
 
 						$spreadsheet->getActiveSheet()->getStyle($colCostCompleteInfo . $j)->getNumberFormat()->setFormatCode('"$"#,##0.00');
 

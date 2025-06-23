@@ -1,22 +1,4 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js?v=2"); ?>"></script>
-<script>
-$(function(){
-	$(".btn-success").click(function () {
-		var oID = $(this).attr("id");
-        $.ajax ({
-            type: 'POST',
-			url: base_url + 'claims/cargarModalClaimState',
-			data: {'idClaim': oID},
-            cache: false,
-            success: function (data) {
-                $('#tablaDatos').html(data);
-            }
-        });
-	});
-
-
-});
-</script>
 
 <div id="page-wrapper">
 	<br>
@@ -89,79 +71,6 @@ if ($retornoError) {
 								</div>
 							</div>
 						</div>
-
-						<div class="col-md-6">
-							<div class="chat-panel panel panel-success">
-								<div class="panel-heading">
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $claimsInfo[0]['id_claim']; ?>" >
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Info
-									</button>
-									<i class="fa fa-comments fa-fw"></i> Status History
-								</div>
-								<div class="panel-body">
-									<ul class="chat">
-										<?php 
-											if($claimsHistory)
-											{
-												foreach ($claimsHistory as $data):		
-													switch ($data['state_claim']) {
-														case 1:
-															$valor = 'New Claim';
-															$clase = "text-violeta";
-															$icono = "fa-flag";
-															break;
-														case 2:
-															$valor = 'Send to client';
-															$clase = "text-success";
-															$icono = "fa-share";
-															break;
-														case 3:
-															$valor = 'Partial Payment';
-															$clase = "text-primary";
-															$icono = "fa-star-half-empty";
-															break;
-														case 4:
-															$valor = 'Hold Back';
-															$clase = "text-warning";
-															$icono = "fa-bullhorn";
-															break;
-														case 5:
-															$valor = 'Short Payment';
-															$clase = "text-warning";
-															$icono = "fa-thumbs-o-down";
-															break;
-														case 6:
-															$valor = 'Final Payment';
-															$clase = "text-danger";
-															$icono = "fa-bomb";
-															break;
-													}
-										?>
-										<li class="right clearfix">
-											<span class="chat-img pull-right">
-												<small class="pull-right text-muted">
-													<i class="fa fa-clock-o fa-fw"></i> <?php echo $data['date_issue_claim_state']; ?>
-												</small>
-											</span>
-											<div class="chat-body clearfix">
-												<div class="header">
-													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-													<strong class="primary-font"><?php echo $data['first_name']; ?></strong>
-												</div>
-												<p><?php echo $data['message_claim']; ?></p>
-												<p class="<?php echo $clase; ?>">
-													<strong><i class="fa <?php echo $icono; ?> fa-fw"></i><?php echo $valor; ?></strong>
-												</p>
-											</div>
-										</li>
-										<?php
-												endforeach;
-											}
-										?>
-									</ul>
-								</div>
-							</div>
-						</div>
 					</div> 
 					<hr>
 
@@ -204,7 +113,37 @@ if ($retornoError) {
 										<tbody>
 											<?php
 												foreach ($jobDetails as $data):
-													echo "<tr>";
+
+													// Initialize total claimed cost for the current job deta
+													$totalClaimedCost = 0;
+
+													// First pass: calculate totalClaimedCost
+													if (isset($allClaims) && $allClaims) {
+														foreach ($allClaims as $claim) {
+															$arrParamCheck = array(
+																"idClaim" => $claim['id_claim'],
+																"idJobDetail" => $data['id_job_detail']
+															);
+															$claimInfo = $this->general_model->get_job_detail_claims_info($arrParamCheck);
+															if (isset($claimInfo[0]['cost'])) {
+																$totalClaimedCost += (float)$claimInfo[0]['cost'];
+															}
+														}
+													}
+
+													// Determine row class
+													$extendedAmount = (float)$data['extended_amount'];
+													$rowClass = '';
+													if($extendedAmount > 0){
+														if ($totalClaimedCost > $extendedAmount) {
+															$rowClass = 'text-danger';
+														} elseif ($totalClaimedCost >= 0.8 * $extendedAmount) {
+															$rowClass = 'text-primary';
+														}
+													}
+
+
+													echo "<tr class='$rowClass'>";
 													echo "<td class='text-center'>" . $data['chapter_number'] . "." . $data['item'] . "</td>";
 													echo "<td>" . $data['description'] . "</td>";
 													echo "<td class='text-center'>" . $data['unit'] . "</td>";
@@ -219,7 +158,7 @@ if ($retornoError) {
 															$cost = isset($claimInfo[0]['cost']) ? $claimInfo[0]['cost'] : '';
 
 															echo "<td class='text-center'>{$qty}</td>";
-															echo "<td class='text-center'>{$cost}</td>";
+															echo "<td class='text-right'>$ " . number_format((float)$cost,2) . "</td>";
 														}
 													}
 													echo "</tr>";
@@ -239,16 +178,6 @@ if ($retornoError) {
 		</div>
 	</div>	
 </div>
-
-<!--INICIO Modal para adicionar ESTADO -->
-<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
-	<div class="modal-dialog" role="document">
-		<div class="modal-content" id="tablaDatos">
-
-		</div>
-	</div>
-</div>                
-<!--FIN Modal para adicionar ESTADO -->
 
 <script>
 $(document).ready(function() {
