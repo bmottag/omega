@@ -211,7 +211,7 @@ if ($retornoError) {
                                                 $balance = $data['extended_amount'] - $data['expenses'];
 
                                                 $veintePorciento = $data['extended_amount'] * 0.2;
-                                                $class = $balance <= $veintePorciento ? "danger" : "default";
+                                                $class = $balance < 0 ? "danger" : ($balance <= $veintePorciento ? "info" : "default");
                                             }
                                             
                                             $totalExtendedAmount += $data['extended_amount'];
