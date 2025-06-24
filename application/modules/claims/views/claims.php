@@ -6,7 +6,7 @@ $(function(){
             $.ajax ({
                 type: 'POST',
 				url: base_url + 'claims/cargarModalClaim',
-                data: {'idClaim': oID},
+                data: {'idJob': oID},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
@@ -45,7 +45,7 @@ $(function(){
 						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
 					</div>	
 					
-					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modal" id="x">
+					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]['id_job']; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Claim
 					</button>					
 					<br>

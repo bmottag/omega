@@ -49,16 +49,16 @@ class Claims extends CI_Controller {
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
-			$idClaim = $this->input->post("idClaim");
-			
-			//job list - (active items)
 			$this->load->model("general_model");
-			$arrParam = array(
-				"state" => 1,
-				"withLIC" => true
-			);
+			$arrParam['idJob'] = $idJob = $this->input->post("idJob");
 			$data['jobs'] = $this->general_model->get_job($arrParam);
-							
+
+			$arrParam = array('idJob' => $idJob, 'limit' => 1);
+			$claim = $this->claims_model->get_claims($arrParam);
+		
+			$data['nextClaimNumber'] = $claim ? ($claim[0]['claim_number'] + 1) : 1;
+			$data['lastObservation'] = $claim ? ($claim[0]['observation_claim']) : false;
+								
 			$this->load->view("claims_modal", $data);
     }
 
