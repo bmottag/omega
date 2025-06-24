@@ -32,79 +32,18 @@ $(function(){
 	
 	<!-- /.row -->
 	<div class="row">
-		<div class="col-lg-3">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<?php $dashboardURL = $this->session->userdata("dashboardURL"); ?>
-					<a class="btn btn-primary btn-xs" href="<?php echo base_url($dashboardURL); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Dashboard </a> 
-					<i class="fa fa-search"></i> SEARCH
-				</div>
-				<div class="panel-body">
-
-					<form  name="formSearch" id="formSearch" role="form" method="post" class="form-horizontal" >
-
-						<div class="form-group">
-							<div class="col-lg-12">
-								<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> 
-									<strong>Select </strong> at least one option 
-								</p>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-12">
-								<label for="id_job_search">Job Code/Name:</label>
-								<select name="id_job_search" id="id_job_search" class="form-control js-example-basic-single">
-									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($_POST && $_POST["id_job_search"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
-									<?php } ?>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-12">
-								<label for="state">State:</label>
-								<select name="state" id="state" class="form-control">
-									<option value=''>Seleccione...</option>
-									<option value=1 <?php if($_POST && $_POST["state"] == 1) { echo "selected"; }  ?>>1. New Claim</option>
-									<option value=2 <?php if($_POST && $_POST["state"] == 2) { echo "selected"; }  ?>>2. Send to Client</option>
-									<option value=3 <?php if($_POST && $_POST["state"] == 3) { echo "selected"; }  ?>>3. Partial Payment</option>
-									<option value=4 <?php if($_POST && $_POST["state"] == 4) { echo "selected"; }  ?>>4. Hold Back</option>
-									<option value=5 <?php if($_POST && $_POST["state"] == 5) { echo "selected"; }  ?>>5. Short Payment</option>
-									<option value=6 <?php if($_POST && $_POST["state"] == 6) { echo "selected"; }  ?>>6. Final Payment</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">	
-							<div class="col-sm-12">
-								<input type="text" id="claimNumberSearch" name="claimNumberSearch" class="form-control" placeholder="Claim Number" value="<?php echo $_POST?$this->input->post('claimNumberSearch'):""; ?>">
-							</div>
-						</div>
-						
-						<div class="row"></div><br>
-						<div class="form-group">
-							<div class="row" align="center">
-								<div style="width80%;" align="center">
-									
-								 <button type="submit" class="btn btn-primary" id='btnSearch' name='btnSearch'><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search </button>
-									
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-lg-9">
+		<div class="col-lg-12">
 			<div class="panel panel-violeta">
 				<div class="panel-heading">
+					<a class="btn btn-violeta btn-xs" href=" <?php echo base_url('admin/job/1'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
 					<i class="fa fa-bomb"></i> <strong><?php echo $tituloListado; ?></strong>
 				</div>
 				<div class="panel-body">
+
+					<div class="alert alert-violeta">
+						<span class="fa fa-briefcase" aria-hidden="true"></span>
+						<strong>Job Code/Name: </strong><?php echo $jobInfo[0]['job_description']; ?>
+					</div>	
 					
 					<button type="button" class="btn btn-violeta btn-block" data-toggle="modal" data-target="#modal" id="x">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Claim

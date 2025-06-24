@@ -1206,24 +1206,28 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 	 */
 	public function updateJobDetail($jobDetails, $totalExtendedAmount)
 	{
-		$query = 1;
+		$query = true;
+
 		if ($jobDetails) {
 			$tot = count($jobDetails);
 			for ($i = 0; $i < $tot; $i++) {
-				$percentage = number_format($jobDetails[$i]["extended_amount"] * 100 / $totalExtendedAmount, 2);
+				if ($totalExtendedAmount != 0) {
+					$percentage = number_format($jobDetails[$i]["extended_amount"] * 100 / $totalExtendedAmount, 2);
+				} else {
+					$percentage = 0.00;
+				}
 
 				$data = array(
 					'percentage' => $percentage
 				);
 				$this->db->where('id_job_detail', $jobDetails[$i]["id_job_detail"]);
-				$query = $this->db->update('job_details', $data);
+				if (!$this->db->update('job_details', $data)) {
+					$query = false;
+				}
 			}
 		}
-		if ($query) {
-			return true;
-		} else {
-			return false;
-		}
+
+		return $query;
 	}
 
 	/**
