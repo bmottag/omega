@@ -210,6 +210,16 @@
 									?>
 
 									<?php
+										if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_MANAGER || $userRol == ID_ROL_ENGINEER || $userRol == ID_ROL_ACCOUNTING){ 
+									?>
+											<a class='btn btn-violeta btn-xs' href='<?php echo base_url('claims/index/' . $lista['id_job']) ?>'>
+												Claims <span class="fa fa-book" aria-hidden="true">
+											</a>
+									<?php
+										}
+									?>
+
+									<?php
 										if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER){ 
 									?>
 											<a class='btn btn-dark btn-xs' href='<?php echo base_url('jobs/job_detail/' . $lista['id_job']) ?>'>

@@ -1,10 +1,5 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/ajaxClaimNumber.js"); ?>"></script>
-<style>
-    .select2-container .select2-dropdown .select2-results__option {
-        text-align: left;
-    }
-</style>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/claims/claims.js?v=2"); ?>"></script>
+
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Claims
@@ -20,8 +15,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="id_job">Job Code/Name: *</label>
-					<select name="id_job" id="id_job" class="form-control js-example-basic-single">
-						<option value=''>Select...</option>
+					<select name="id_job" id="id_job" class="form-control" disabled>
 						<?php for ($i = 0; $i < count($jobs); $i++) { ?>
 							<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) { echo "selected"; }  ?>><?php echo $jobs[$i]["job_description"]; ?></option>	
 						<?php } ?>
@@ -34,19 +28,22 @@
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="claimNumber">Claim Number: *</label>
-					<input type="text" id="claimNumber" name="claimNumber" class="form-control" value="<?php echo $information?$information[0]["claim_number"]:""; ?>" placeholder="Claim Number" disabled >
+					<input type="text" id="claimNumber" name="claimNumber" class="form-control" value="<?php echo $information?$information[0]["claim_number"]:$nextClaimNumber; ?>" placeholder="Claim Number" disabled >
 				</div>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-12">
-				<div id="div_observation" style="display:none" class="alert alert-info">
-					<b>Last claim observation:</b><br>
-					<span id="span_observation">&nbsp;</span>
+
+		<?php if($lastObservation){ ?>
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="div_observation" class="alert alert-info">
+						<b>Last claim observation:</b><br>
+						<span id="span_observation"><?php echo $lastObservation; ?></span>
+					</div>
 				</div>
 			</div>
-		</div>
+		<?php } ?>
 
 		<div class="row">	
 			<div class="col-sm-12">

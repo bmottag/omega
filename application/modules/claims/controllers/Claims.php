@@ -27,38 +27,17 @@ class Claims extends CI_Controller {
      * @since 3/2/2021
      * @author BMOTTAG
 	 */
-	public function index()
+	public function index($idJob)
 	{		
-			$arrParam = array();
-			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
-
-			//job list - (active items)
+			$data['tituloListado'] = 'LIST OF CLAIMS';
+		
 			$this->load->model("general_model");
-			$arrParam = array(
-				"state" => 1,
-				"withLIC" => true
-			);
-			$data['jobs'] = $this->general_model->get_job($arrParam);
-
-			$data['tituloListado'] = 'LIST OF LAST 50 RECORDS';
-			if(!$_POST)
-			{
-				//busco los ultimos 50 REGISTROS
-				$arrParam = array('limit' => 50);
-			}elseif($this->input->post('id_job_search') || $this->input->post('state') || $this->input->post('claimNumber'))
-			{
-				$data['tituloListado'] = 'LIST OF CLAIMS THAT MATCHES YOUR SEARCH';
-										
-				$arrParam = array(
-					"idJob" => $this->input->post('id_job_search'),
-					"state" => $this->input->post('state'),
-					"claimNumber" => $this->input->post('claimNumber')
-				);		
-			}
+			$arrParam['idJob'] = $idJob;
+			$data['jobInfo'] = $this->general_model->get_job($arrParam);
 			$data['claimsInfo'] = $this->claims_model->get_claims($arrParam);
 
 			$data["view"] ='claims';
-			$this->load->view("layout_calendar", $data);
+			$this->load->view("layout", $data);
 	}
 
     /**
@@ -70,16 +49,16 @@ class Claims extends CI_Controller {
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
-			$idClaim = $this->input->post("idClaim");
-			
-			//job list - (active items)
 			$this->load->model("general_model");
-			$arrParam = array(
-				"state" => 1,
-				"withLIC" => true
-			);
+			$arrParam['idJob'] = $idJob = $this->input->post("idJob");
 			$data['jobs'] = $this->general_model->get_job($arrParam);
-							
+
+			$arrParam = array('idJob' => $idJob, 'limit' => 1);
+			$claim = $this->claims_model->get_claims($arrParam);
+		
+			$data['nextClaimNumber'] = $claim ? ($claim[0]['claim_number'] + 1) : 1;
+			$data['lastObservation'] = $claim ? ($claim[0]['observation_claim']) : false;
+								
 			$this->load->view("claims_modal", $data);
     }
 
