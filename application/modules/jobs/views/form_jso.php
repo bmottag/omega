@@ -267,6 +267,7 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 					<tr class="default">
 						<th>Name</th>
 						<th>Position</th>
+						<th>Worker mobile number</th>
 						<th>Emergency contact</th>
 						<th>Company Name</th>
 						<th class='text-center'>Edit</th>
@@ -278,6 +279,7 @@ walk behind any piece of equipment before making EYE CONTACT with the operator.<
 						echo "<tr>";					
 						echo "<td >" . $data['name'] . "</small></td>";
 						echo "<td >" . $data['position'] . "</small></td>";
+						echo "<td >" . $data['works_phone_number'] . "</small></td>";
 						echo "<td >" . $data['emergency_contact'] . "</small></td>";
 						echo "<td >" . $data['works_for'] . "</small></td>";
 						echo "<td class='text-center'>";									

@@ -1759,24 +1759,29 @@ class Jobs extends CI_Controller
 		$mensaje .= "\n";
 		$mensaje .= base_url("jobs/jso_worker_view/" . $idJSOworker);
 
-		$to = '+1' . $data['information'][0]['works_phone_number'];
+		$to = '+1' . preg_replace('/[^0-9]/', '', $data['information'][0]['works_phone_number']); // sanitize
 
-		// Use the client to do fun stuff like send text messages!
-		$client->messages->create(
-			// the number you'd like to send the message to
-			$to,
-			array(
-				// A Twilio phone number you purchased at twilio.com/console
-				'from' => '587 600 8948',
-				'body' => $mensaje
-			)
-		);
+		try {
+			// Attempt to send SMS
+			$client->messages->create(
+				$to,
+				array(
+					'from' => '+15876008948', // Make sure this is in E.164 format
+					'body' => $mensaje
+				)
+			);
+
+			$data['clase'] = "alert-info";
+			$data['msj'] = "We have sent the SMS to the Worker to sign the JSO.";
+		} catch (\Twilio\Exceptions\RestException $e) {
+			// Handle error
+			log_message('error', 'Twilio error: ' . $e->getMessage());
+			$data['clase'] = "alert-danger";
+			$data['msj'] = "Failed to send SMS: " . $e->getMessage();
+		}
 
 		$data['linkBack'] = "jobs/jso/" . $idJob;
 		$data['titulo'] = "<i class='fa fa-list'></i> JSO";
-
-		$data['clase'] = "alert-info";
-		$data['msj'] = "We have send the SMS to the Worker to sign the JSO." . $idJSOworker;
 
 		$data["view"] = 'template/answer';
 		$this->load->view("layout", $data);
