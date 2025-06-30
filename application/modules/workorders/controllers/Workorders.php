@@ -86,6 +86,10 @@ class Workorders extends CI_Controller
 
 			$data['information'] = $this->workorders_model->get_workordes_by_idUser($arrParam); //info workorder
 
+			if (!$data['information']) {
+				show_error('ERROR!!! - You are in the wrong place.');
+			}
+
 			$arrParam = array(
 				"table" => "param_employee_type",
 				"order" => "employee_type",

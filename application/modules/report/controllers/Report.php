@@ -877,6 +877,10 @@ class Report extends CI_Controller
 		);
 		$info = $this->report_model->get_hauling($arrParam);
 
+		if (!$info || !is_array($info) || count($info) == 0) {
+			show_error('ERROR!!! - No hauling data found for the selected parameters.');
+		}
+
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Print a table
 		foreach ($info as $lista) :
