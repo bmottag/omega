@@ -89,6 +89,10 @@ class Jobs extends CI_Controller
 		);
 		$data['companyList'] = $this->general_model->get_basic_search($arrParam); //company list
 
+		//workers list
+		$arrParam = array("state" => 1);
+		$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
+
 		//si envio el id, entonces busco la informacion 
 		if ($idToolBox != 'x') {
 
@@ -102,10 +106,6 @@ class Jobs extends CI_Controller
 
 			//tool box subcontractors workers list
 			$data['toolBoxSubcontractorsWorkers'] = $this->jobs_model->get_tool_box_subcontractors_workers($idToolBox);
-
-			//workers list
-			$arrParam = array("state" => 1);
-			$data['workersList'] = $this->general_model->get_user($arrParam); //workers list
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
