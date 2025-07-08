@@ -715,9 +715,9 @@ class Incidences extends CI_Controller {
 			// reset pointer to the last page
 			$pdf->lastPage();
 
-
+			$project = $data['info'][0]["job_description"];
 			//Close and output PDF document
-			$pdf->Output('heavy_inspection.pdf', 'I');
+			$pdf->Output('incident_report_' . $project . '.pdf', 'I');
 
 			//============================================================+
 			// END OF FILE
