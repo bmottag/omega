@@ -42,7 +42,7 @@ $(function(){
 			<div class="panel panel-warning">
 				<div class="panel-heading">
 					<a class="btn btn-warning btn-xs" href=" <?php echo base_url().'jobs/tool_box/' . $jobInfo[0]['id_job']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-cube"></i> <strong>IHSR FORM</strong>
+					<i class="fa fa-cube"></i> <strong>Incident, Hazard, and Scope of Work Review Meeting Form</strong>
 				</div>
 				<div class="panel-body">
 				

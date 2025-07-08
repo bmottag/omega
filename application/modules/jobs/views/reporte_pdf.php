@@ -82,7 +82,7 @@
 							case 2:
 								$html.= 'Physical';
 								break;
-							case 2:
+							case 3:
 								$html.= 'Biological';
 								break;
 						}
