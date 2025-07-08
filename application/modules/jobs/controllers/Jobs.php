@@ -645,7 +645,7 @@ class Jobs extends CI_Controller
 
 		ob_end_clean();
 		//Close and output PDF document
-		$pdf->Output('tool_box_' . $idToolBox . '.pdf', 'I');
+		$pdf->Output('IHSR_' . $idToolBox . '.pdf', 'I');
 
 		//============================================================+
 		// END OF FILE
