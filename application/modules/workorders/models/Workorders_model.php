@@ -1714,7 +1714,20 @@ class Workorders_model extends CI_Model
 	 */
 	public function get_subcontractors_invoice($arrDatos)
 	{
-		$this->db->select('S.*, C.company_name company');
+		$this->db->select('
+			S.*, 
+			C.company_name AS company,
+			(
+				SELECT GROUP_CONCAT(DISTINCT O.fk_id_workorder)
+				FROM workorder_ocasional O
+				WHERE O.fk_id_subcontractor_invoice = S.id_subcontractor_invoice
+			) AS related_workorders,
+			(
+				SELECT COALESCE(SUM(O.value), 0)
+				FROM workorder_ocasional O
+				WHERE O.fk_id_subcontractor_invoice = S.id_subcontractor_invoice
+			) AS total_workorder_value
+		');
 		$this->db->join('param_company C', 'C.id_company = S.fk_id_company', 'INNER');
 
 		if (array_key_exists("idSubcontractorInvoice", $arrDatos)) {

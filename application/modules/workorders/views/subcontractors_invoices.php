@@ -22,17 +22,24 @@
 							<thead>
 								<tr>
 									<th class='text-center' width="10%">Date of Issue</th>
-									<th class='text-center' width="30%">Subcontractor</th>
-									<th class='text-center' width="15%">Invoice Number</th>
+									<th class='text-center' width="20%">Subcontractor</th>
+									<th class='text-center' width="10%">Invoice Number</th>
 									<th class='text-center' width="20%">Amount</th>
-									<th class='text-center' width="15%">Invoice</th>
+									<th class='text-center' width="10%">Invoice</th>
 									<th class='text-center' width="10%">Action</th>
+									<th class='text-center' width="10%">Related WO</th>
+									<th class='text-center' width="10%">Total WO Value</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								foreach ($information as $lista) :
-									echo "<tr>";
+									$rowClass = '';
+									if($lista['invoice_amount'] != $lista['total_workorder_value']){
+										$rowClass = 'text-danger';
+									} 
+
+									echo "<tr class='$rowClass'>";
 									echo "<td class='text-center'>" . $lista['date_issue'] . "</td>";
 									echo "<td>" . $lista['company'] . "</td>";
 									echo "<td class='text-center'>" . $lista['invoice_number'] . "</td>";
@@ -45,6 +52,17 @@
 									echo "<td class='text-center'>";
 									echo "<a class='btn btn-success btn-xs' href='" . base_url('workorders/add_invoice/' . $lista['id_subcontractor_invoice']) . "' title='Edit'> <span class='glyphicon glyphicon-edit' aria-hidden='true'></a>";
 									echo "</td>";
+									echo "<td class='text-center'>";
+									if (!empty($lista['related_workorders'])) {
+										$ids = explode(',', $lista['related_workorders']);
+										foreach ($ids as $id) {
+											echo "<a href='" . base_url("workorders/subcontractor_invoices/" . $id) . "' target='_blank'>$id</a><br>";
+										}
+									} else {
+										echo "—";
+									}
+									echo "</td>";
+									echo "<td class='text-right'>$ " . number_format($lista['total_workorder_value'], 2) . "</td>";
 									echo "</tr>";
 								endforeach;
 								?>
