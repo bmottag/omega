@@ -26,11 +26,13 @@
 			
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Done by: </strong></th>
-					<th>' . $info[0]['name']. '</th>
+					<th>' . $info[0]['name'] . '</th>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Date & Time: </strong></th>
-					<th>' . $info[0]['date_tool_box']. '</th>
+					<th>' . ((substr($info[0]['date_tool_box'], 11) === '00:00:00') 
+						? substr($info[0]['date_tool_box'], 0, 10) 
+						: $info[0]['date_tool_box']) . '</th>
 				</tr>
-			
+		
 				<tr>
 					<th bgcolor="#337ab7" style="color:white;"><strong>Review Incidents, Accidents or any new safety matter: </strong></th>
 					<th colspan="3">' . $info[0]['new_safety']. '</th>

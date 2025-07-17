@@ -30,7 +30,7 @@ class Jobs_model extends CI_Model
 			$data['fk_id_job'] = $this->input->post('hddIdJob');
 
 			//solo usuarios SUPER_ADMIN pueden ingresar la fecha de la inspeccion
-			$data['date_tool_box'] = date("Y-m-d");
+			$data['date_tool_box'] = date("Y-m-d G:i:s");
 			if ($userRol == 99 && $dateIssue != "") {
 				$data['date_tool_box'] = $dateIssue;
 			}

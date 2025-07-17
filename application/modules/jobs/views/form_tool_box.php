@@ -42,7 +42,7 @@ $(function(){
 			<div class="panel panel-warning">
 				<div class="panel-heading">
 					<a class="btn btn-warning btn-xs" href=" <?php echo base_url().'jobs/tool_box/' . $jobInfo[0]['id_job']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a> 
-					<i class="fa fa-cube"></i> <strong>Incident, Hazard, and Scope of Work Review Meeting Form</strong>
+					<i class="fa fa-cube"></i> <strong>Incident, Hazard, and Scope of Work Review Meeting</strong>
 				</div>
 				<div class="panel-body">
 				
@@ -52,9 +52,11 @@ $(function(){
 						<br><span class='fa fa-clock-o' aria-hidden='true'></span> <strong>Date: </strong>
 						<?php 
 						if($information){
-								echo $information[0]["date_tool_box"]; 
+							echo (substr($information[0]["date_tool_box"], 11) === '00:00:00')
+								? substr($information[0]["date_tool_box"], 0, 10)
+								: $information[0]["date_tool_box"];
 								
-								echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download IHSR: </strong>";
+							echo "<br><span class='fa fa-cloud-download' aria-hidden='true'></span> <strong>Download IHSR: </strong>";
 						?>
 <a href='<?php echo base_url('jobs/generaTemplatePDF/' . $information[0]["id_tool_box"] ); ?>' target="_blank">PDF <img src='<?php echo base_url_images('pdf.png'); ?>' ></a>	
 						<?php 
@@ -458,7 +460,7 @@ if($userRol==99){
 															
 								<label class="col-sm-4 control-label" for="date">Date of Issue:</label>
 								<div class="col-sm-5">
-									<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?$information[0]["date_tool_box"]:""; ?>" placeholder="Date of Issue" />
+									<input type="text" class="form-control" id="date" name="date" value="<?php echo $information?substr($information[0]["date_tool_box"], 0, 10):""; ?>" placeholder="Date of Issue" />
 								</div>
 							
 						</div>
