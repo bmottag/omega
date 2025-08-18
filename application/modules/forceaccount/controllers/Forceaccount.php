@@ -581,22 +581,6 @@ class Forceaccount extends CI_Controller
 	}
 
 	/**
-	 * Cargo modal- formulario de captura HOLD BACK
-	 * @since 16/04/2025
-	 */
-	public function cargarModalHoldBack()
-	{
-		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-
-		$idForceaccount = $this->input->post("idForceaccount");
-		//como se coloca un ID diferente para que no entre en conflicto con los otros modales, toca sacar el ID
-		$porciones = explode("-", $idForceaccount);
-		$data["idForceaccount"] = $porciones[1];
-
-		$this->load->view("modal_hold_back", $data);
-	}
-
-	/**
 	 * Search by JOB CODE
 	 * @since 16/04/2025
 	 * @author BMOTTAG

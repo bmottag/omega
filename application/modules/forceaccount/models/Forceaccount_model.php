@@ -1100,6 +1100,7 @@ class Forceaccount_model extends CI_Model
 		$idWOReceipt = $this->input->post('hddId');
 		$price = $this->input->post('price');
 		$checkPDF = $this->input->post('check_pdf');
+		$markup = $this->input->post('markup');
 
 		if ($checkPDF) {
 			$checkPDF = 1;
@@ -1114,15 +1115,19 @@ class Forceaccount_model extends CI_Model
 		$data = array(
 			'place' => $this->input->post('place'),
 			'price' => $price,
+			'markup' => $markup,
 			'description' => $this->input->post('description')
 		);
 
 		//revisar si es para adicionar o editar
 		if ($idWOReceipt == '') {
-			$value = $price / 1.05;
+			$price = $price / 1.05;
+			if ($markup == '') {
+				$markup = 0;
+			}
+			$value = $price + ($price * $markup / 100); //valor con el markup
 
 			$data['fk_id_forceaccount'] = $idForceaccount;
-			$data['markup'] = 0;
 			$data['view_pdf'] = 1;
 			$data['value'] = $value;
 			$query = $this->db->insert('forceaccount_receipt', $data);
@@ -1138,8 +1143,6 @@ class Forceaccount_model extends CI_Model
 				->comment(json_encode($log))
 				->log(); //Add Database Entry
 		} else {
-			$markup = $this->input->post('markup');
-
 			$arrParam = array(
 				"table" => "forceaccount_receipt",
 				"order" => "fk_id_forceaccount",

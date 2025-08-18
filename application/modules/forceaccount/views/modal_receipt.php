@@ -28,6 +28,15 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="markup">Markup : </label>
+					<input type="text" id="markup" name="markup" class="form-control" placeholder="Markup" >
+				</div>
+			</div>
+		</div>
 			
 		<div class="row">
 			<div class="col-sm-12">

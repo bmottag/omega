@@ -143,22 +143,7 @@
 			});
 		});
 
-		$(".btn-purpura").click(function() {
-			var oID = $(this).attr("id");
-			$.ajax({
-				type: 'POST',
-				url: base_url + 'forceaccount/cargarModalHoldBack',
-				data: {
-					'idForceaccount': oID
-				},
-				cache: false,
-				success: function(data) {
-					$('#tablaDatosHoldBack').html(data);
-				}
-			});
-		});
-
-		$(".btn-violeta").click(function() {
+		$(".receipt_modal").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
@@ -552,8 +537,7 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 						<div class="col-lg-12">
 
 							<?php if (!$deshabilitar) { ?>
-								<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_forceaccount"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales 
-																																			?>">
+								<button type="button" class="btn btn-warning receipt_modal btn-block" data-toggle="modal" data-target="#modalReceipt" id="<?php echo 'receipt-' . $information[0]["id_forceaccount"]; //se coloca un ID diferente para que no entre en conflicto con los otros modales ?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Receipts
 								</button><br>
 							<?php } ?>
