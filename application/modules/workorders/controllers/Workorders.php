@@ -353,7 +353,7 @@ class Workorders extends CI_Controller
 		if ($this->general_model->deleteRecord($arrParam)) 
 		{
 			//si elimino PERSONAL, ENTONCES VERIFICO SI TIENE EN LA TABLA TASK ALGUN REGISTRO RELACIONADO CON LA WO
-			if($tabla == 'personal'){
+	        if ($tabla == 'personal' && !empty($log['old']) && is_array($log['old']) && isset($log['old'][0]['fk_id_user'])) {
 				$arrTask = array(
 					"idWorkOrder" => $idWorkOrder,
 					"idEmployee" => $log['old'][0]['fk_id_user'],

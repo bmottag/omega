@@ -141,14 +141,15 @@ if($forceaccountMaterials)
 	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
 
 	$html.= '<tr>
-				<th align="center" colspan="2" width="70%"  bgcolor="#ff6b33" style="color:white;"><strong>Materials/Supplies </strong></th>
+				<th align="center" colspan="2" width="60%"  bgcolor="#ff6b33" style="color:white;"><strong>Materials/Supplies </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>QUANTITY </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>UNIT PRICE</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>MARKUP </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>AMOUNT </strong></th>
 			</tr>
 			<tr>
-				<th align="center" width="30%" bgcolor="#ff6b33" style="color:white;"><strong>Materials and Supplies</strong></th>
-				<th align="center" width="40%" bgcolor="#ff6b33" style="color:white;"><strong>Description </strong></th>
+				<th align="center" width="25%" bgcolor="#ff6b33" style="color:white;"><strong>Materials and Supplies</strong></th>
+				<th align="center" width="35%" bgcolor="#ff6b33" style="color:white;"><strong>Description </strong></th>
 			</tr>';
 	foreach ($forceaccountMaterials as $data):
 		$subTotalMaterial += $data['value'];
@@ -163,11 +164,12 @@ if($forceaccountMaterials)
 					<th>' . $description . '</th>
 					<th align="center">' . $data['quantity'] . '</th>
 					<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+					<th align="right">' . $data['markup'] . '</th>
 					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 		$html.= '</tr>';
 	endforeach;
 	$html.= '<tr>
-				<th colspan="4" align="right">Subtotal ' . $item  . '</th>
+				<th colspan="5" align="right">Subtotal ' . $item  . '</th>
 				<th align="right">$ ' . number_format($subTotalMaterial, 2) . '</th>
 			</tr>';
 
@@ -182,15 +184,16 @@ if($forceaccountOcasional)
 	$html.= '<table border="0" cellspacing="0" cellpadding="4">';
 
 	$html.= '<tr>
-				<th align="center" colspan="2" width="60%"  bgcolor="#ff6b33" style="color:white;"><strong>Occasional Subcontractor </strong></th>
+				<th align="center" colspan="2" width="50%"  bgcolor="#ff6b33" style="color:white;"><strong>Occasional Subcontractor </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>QUANTITY </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>HOURS </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>UNIT PRICE</strong></th>
+				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>MARKUP </strong></th>
 				<th align="center" rowspan="2" width="10%" bgcolor="#ff6b33" style="color:white;"><strong>AMOUNT </strong></th>
 			</tr>
 			<tr>
-				<th align="center" width="25%" bgcolor="#ff6b33" style="color:white;"><strong>Subcontractor/Rentals</strong></th>
-				<th align="center" width="35%" bgcolor="#ff6b33" style="color:white;"><strong>Description </strong></th>
+				<th align="center" width="20%" bgcolor="#ff6b33" style="color:white;"><strong>Subcontractor/Rentals</strong></th>
+				<th align="center" width="30%" bgcolor="#ff6b33" style="color:white;"><strong>Description </strong></th>
 			</tr>';
 	foreach ($forceaccountOcasional as $data):
 		$subTotalOcasional += $data['value'];
@@ -206,11 +209,12 @@ if($forceaccountOcasional)
 					<th align="center">' . $data['quantity'] . '</th>
 					<th align="center">' . $data['hours'] . '</th>
 					<th align="right">$ ' . number_format($data['rate'], 2) . '</th>
+					<th align="right">' . $data['markup'] . '</th>
 					<th align="right">$ ' . number_format($data['value'], 2) . '</th>';
 		$html.= '</tr>';
 	endforeach;
 	$html.= '<tr>
-				<th colspan="5" align="right">Subtotal ' . $item  . '</th>
+				<th colspan="6" align="right">Subtotal ' . $item  . '</th>
 				<th align="right">$ ' . number_format($subTotalOcasional, 2) . '</th>
 			</tr>';
 

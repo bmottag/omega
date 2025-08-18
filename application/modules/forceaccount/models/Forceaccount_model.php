@@ -211,6 +211,7 @@ class Forceaccount_model extends CI_Model
 			'fk_id_material' => $this->input->post('material'),
 			'quantity' => $this->input->post('quantity'),
 			'unit' => $this->input->post('unit'),
+			'markup' => $this->input->post('markup'),
 			'description' => $this->input->post('description')
 		);
 
@@ -250,6 +251,7 @@ class Forceaccount_model extends CI_Model
 			'quantity' => $this->input->post('quantity'),
 			'unit' => $this->input->post('unit'),
 			'hours' => $this->input->post('hour'),
+			'markup' => $this->input->post('markup'),
 			'contact' => $this->input->post('contact'),
 			'description' => $this->input->post('description')
 		);
