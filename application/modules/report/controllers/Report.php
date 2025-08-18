@@ -2910,43 +2910,55 @@ class Report extends CI_Controller
 		$spreadsheet = new Spreadsheet();
 		$spreadsheet->getActiveSheet()->setTitle('Valves Report');
 
-		$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Valve #s')
-			->setCellValue('B1', '# of Turns')
-			->setCellValue('C1', 'Position that valve was found')
-			->setCellValue('D1', 'Condition')
-			->setCellValue('E1', 'The direction of the turn for operation')
-			->setCellValue('F1', 'Rewarks');
+		$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'Date Issued')
+			->setCellValue('B1', 'Valve #s')
+			->setCellValue('C1', '# of Turns')
+			->setCellValue('D1', 'Position that valve was found')
+			->setCellValue('E1', 'Condition')
+			->setCellValue('F1', 'The direction of the turn for operation')
+			->setCellValue('G1', 'Rewarks');
 
 		$j = 2;
 		foreach ($info as $data) :
 			$sheet = $spreadsheet->getActiveSheet();
-			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['valve_number'])
-				->setCellValue('B' . $j, $data['number_of_turns'])
-				->setCellValue('C' . $j, $data['position'])
-				->setCellValue('D' . $j, str_replace(["\r", "\n"], ' ', $data['status']))
-				->setCellValue('E' . $j, $data['direction'])
-				->setCellValue('F' . $j, str_replace(["\r", "\n"], ' ', $data['rewarks']));
+			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['date_issue'])
+				->setCellValue('B' . $j, $data['valve_number'])
+				->setCellValue('C' . $j, $data['number_of_turns'])
+				->setCellValue('D' . $j, $data['position'])
+				->setCellValue('E' . $j, str_replace(["\r", "\n"], ' ', $data['status']))
+				->setCellValue('F' . $j, $data['direction'])
+				->setCellValue('G' . $j, str_replace(["\r", "\n"], ' ', $data['rewarks']));
 			$j++;
 		endforeach;
 		
 		// Set column widths							  
-		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-		$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(15); 
-		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(30);
-		$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(40); 
-		$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(45); 
-		$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(55);
+		$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+		$spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(10);
+		$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20); 
+		$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+		$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(100); 
+		$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(40); 
+		$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(100);
 
 		// Add conditional formatting
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(11);
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->setSize(11);
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->setBold(true);
 
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->setFillType(Fill::FILL_SOLID);
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->getStartColor()->setARGB('236e09');
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFill()->setFillType(Fill::FILL_SOLID);
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFill()->getStartColor()->setARGB('236e09');
 
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+		$spreadsheet->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+		// Ajustar texto en columnas
+		$spreadsheet->getActiveSheet()->getStyle('E1:E' . ($j - 1))
+			->getAlignment()->setWrapText(true);
+		$spreadsheet->getActiveSheet()->getStyle('G1:G' . ($j - 1))
+			->getAlignment()->setWrapText(true);
+
+		// Ajustar altura automática
+		$spreadsheet->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
 
 		$spreadsheet->setActiveSheetIndex(0);
 
