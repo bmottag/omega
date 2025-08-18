@@ -53,7 +53,8 @@ class Forceaccount_model extends CI_Model
 			'foreman_name_wo' => $this->input->post('foreman'),
 			'foreman_movil_number_wo' => $this->input->post('movilNumber'),
 			'foreman_email_wo' => $this->input->post('email'),
-			'observation' => $this->input->post('observation')
+			'observation' => $this->input->post('observation'),
+			'profit' => $this->input->post('profit'),
 		);
 
 		//revisar si es para adicionar o editar

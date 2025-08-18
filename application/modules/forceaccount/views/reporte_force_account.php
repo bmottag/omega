@@ -265,7 +265,14 @@ if($forceaccountReceipt)
 
 
 // Calculamos el total
-$total = $subTotalPersonal + $subTotalEquipment + $subTotalMaterial + $subTotalOcasional + $subTotalReceipt;
+$subtotal = $subTotalPersonal + $subTotalEquipment + $subTotalMaterial + $subTotalOcasional + $subTotalReceipt;
+// Normalizamos el profit
+$profit = $info[0]['profit'] ?? 0;   // Si no existe, por defecto 0
+$profit = is_numeric($profit) ? floatval($profit) : 0; // Aseguramos número
+$profit = max(0, min(100, $profit)); // Forzamos rango entre 0 y 100
+$profitValue = $subtotal * $profit / 100;
+// Calculamos el total con profit
+$total = $subtotal + $profitValue;
 
 // Armamos la tabla de firma (izquierda)
 $signature = '';
@@ -355,9 +362,20 @@ if ($forceaccountReceipt) {
 }
 
 $html .= '<tr>
+	<th colspan="2" align="right" bgcolor="#ff6b33" style="color:white;"><strong>SUBTOTAL AMOUNT</strong></th>
+	<th align="right" bgcolor="#ff6b33" style="color:white;"><strong>$ ' . number_format($subtotal, 2) . '</strong></th>
+</tr>
+
+		<tr>
+	<th colspan="2" align="right" bgcolor="#ff6b33" style="color:white;"><strong>PROFIT ( ' . $profit .  '% )</strong></th>
+	<th align="right" bgcolor="#ff6b33" style="color:white;"><strong>$ ' . number_format($profitValue, 2) . '</strong></th>
+</tr>
+
+		<tr>
 	<th colspan="2" align="right" bgcolor="#ff6b33" style="color:white;"><strong>TOTAL AMOUNT</strong></th>
 	<th align="right" bgcolor="#ff6b33" style="color:white;"><strong>$ ' . number_format($total, 2) . '</strong></th>
 </tr>
+
 		</table>
 	</td>
 </tr>

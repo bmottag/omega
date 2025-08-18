@@ -303,6 +303,13 @@ if (($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_ENGINEER || $userRol =
 							<?php } ?>
 						<?php } ?>
 
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="profit">Profit : </label>
+							<div class="col-sm-5">
+								<input type="text" id="profit" name="profit" class="form-control" placeholder="Profit" value="<?php echo $information ? $information[0]["profit"] : 0; ?>" <?php echo $deshabilitar; ?>>
+							</div>
+						</div>
+
 						<?php if (!$deshabilitar) { ?>
 							<div class="form-group">
 								<div class="row" align="center">
