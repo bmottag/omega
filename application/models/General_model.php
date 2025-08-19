@@ -2696,5 +2696,32 @@ class General_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Task list for Payroll Check
+	 * Modules: Payroll payroll_check
+	 * @since 19/08/2025
+	 */
+	public function get_payroll_check()
+	{
+		$this->db->select('T.*, id_user, first_name, last_name, log_user, J.job_description job_start, H.job_description job_finish, O.task');
+		$this->db->join('user U', 'U.id_user = T.fk_id_user', 'INNER');
+		$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
+		$this->db->join('param_jobs H', 'H.id_job = T.fk_id_job_finish', 'LEFT');
+		$this->db->join('param_operation O', 'O.id_operation = T.fk_id_operation', 'INNER');
+		//$this->db->where('T.start >=', '2023-06-01');
+		//$this->db->where('T.start <', '2025-06-01');
+		$this->db->where('T.finish', '0000-00-00 00:00:00');
+
+		$this->db->order_by('id_task', 'desc');
+
+		$query = $this->db->get('task T');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
 	
 }

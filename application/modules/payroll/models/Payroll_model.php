@@ -97,7 +97,7 @@ class Payroll_model extends CI_Model
 	 * @since 17/11/2016
 	 * @review 2/02/2022
 	 */
-	public function updateWorkingTimePayroll($fechaStart, $fechaCierre, $adminUpdate = 'x', $id_task = 'x')
+	public function updateWorkingTimePayroll($fechaStart, $fechaCierre, $adminUpdate = 'x')
 	{
 		$dteStart = new DateTime($fechaStart);
 		$dteEnd   = new DateTime($fechaCierre);
@@ -169,12 +169,6 @@ class Payroll_model extends CI_Model
 			$sql .= " SET observation='$observation', finish =  '$fechaCierre', fk_id_job_finish='$idJob', latitude_finish = $latitude, longitude_finish = $longitude, address_finish = '$address', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours,
 			regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_end_project =  '$hours_end_project', hours_start_project =  '$hours_first_project'";
 			$sql .= " WHERE id_task=$idTask";
-		} elseif ($adminUpdate == 2) {
-
-			$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
-			$sql = "UPDATE task";
-			$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_start_project =  '$hours_first_project', hours_end_project =  '$hours_end_project'";
-			$sql .= " WHERE id_task=$id_task";
 		} else {
 			$sql = "UPDATE task";
 			$sql .= " SET working_time='$workingTime', working_hours =  $workingHours, working_hours_new = '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours', hours_start_project =  '$hours_first_project', hours_end_project =  '$hours_end_project'";
@@ -266,6 +260,58 @@ class Payroll_model extends CI_Model
 			}
 		}
 
+		$query = $this->db->query($sql);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Update PAYROLL - from Payroll check
+	 * @since 19/08/2025
+	 */
+	public function updateWorkingTimePayrollCheck($fechaStart, $fechaCierre, $idTask)
+	{
+		$dteStart = new DateTime($fechaStart);
+		$dteEnd   = new DateTime($fechaCierre);
+
+		$dteDiff  = $dteStart->diff($dteEnd);
+		$workingTime = $dteDiff->format("%R%a days %H:%I:%S"); //days hours:minutes:seconds
+		
+		//START hours calculation
+		$overtimeHours = 0;
+		$workingHours = calculate_time_difference_in_hours($fechaStart, $fechaCierre);
+		if ($workingHours > 8) {
+			$regularHours = 8;
+			$overtimeHours = $workingHours - 8;
+		} else {
+			$regularHours = $workingHours;
+		}
+		//FINISH hours calculation
+
+		//New cal hours
+		$hoursNEW = $dteDiff->h + ($dteDiff->days * 24);
+		$minutesNEW = $dteDiff->i;
+		$secondsNEW = $dteDiff->s;
+		$formatNEW = sprintf("%02d:%02d:%02d", $hoursNEW, $minutesNEW, $secondsNEW);
+
+		$newOvertimeHours = 0;
+		if ($hoursNEW >= 8) {
+			$newRegularHours =  '08:00';
+			$hoursNEW = $hoursNEW - 8;
+			$newOvertimeHours = sprintf("%02d:%02d:%02d", $hoursNEW, $minutesNEW, $secondsNEW);
+		} else {
+			$newRegularHours = $formatNEW;
+		}
+		//FINISH New cal hours
+
+		$observation = "********************<br><strong>Changue hour by the system, automatically.</strong><br>********************";
+		$sql = "UPDATE task";
+		$sql .= " SET observation='$observation', finish =  '$fechaCierre', working_time='$workingTime', working_hours =  $workingHours, working_hours_new =  '$formatNEW', regular_hours =  $regularHours, regular_hours_new =  '$newRegularHours', overtime_hours =  $overtimeHours, overtime_hours_new =  '$newOvertimeHours'";
+		$sql .= " WHERE id_task=$idTask";
 		$query = $this->db->query($sql);
 
 		if ($query) {

@@ -611,33 +611,29 @@ class Payroll extends CI_Controller
 	public function payroll_check()
 	{
 		$this->load->model("general_model");
-		//search for the last 50 records
-		$arrParam = array(
-			"limit" => 50
-		);
-		$records = $this->general_model->get_task($arrParam);
+		$records = $this->general_model->get_payroll_check();
+pr($records);		
 		foreach ($records as $data) :
-			if ($data['finish'] == '0000-00-00 00:00:00') {
+			$fechaStart = strtotime($data['start']);
+			$fechaStart = date("Y-m-d G:i:s", $fechaStart);
+			$fechaActual = date("Y-m-d G:i:s");
 
-				$fechaStart = strtotime($data['start']);
-				$fechaStart = date("Y-m-d G:i:s", $fechaStart);
-				$fechaActual = date("Y-m-d G:i:s");
-
-				//START hours calculation
-				$hours = (strtotime($fechaStart) - strtotime($fechaActual)) / 3600;
-				$hours = abs($hours);
-				$hours = round($hours);
-				echo $hours;
-				echo "<br>";
-				if ($hours > 18) {
-					//end the current task automatically
-					$this->updatePayrollAutomatically($data['id_task'], $data['start']);
-				} elseif ($hours > 14) {
-					//send sms to the employee
-					echo "entro a enviar mensaje de text";
-					$this->sendSMSWorkerTask($data['fk_id_user']);
-				}
+			//START hours calculation
+			$hours = (strtotime($fechaStart) - strtotime($fechaActual)) / 3600;
+			$hours = abs($hours);
+			$hours = round($hours);
+			echo "IDTASK: " . $data['id_task'] . " - ";
+			echo $hours . " - ";
+			if ($hours > 18) {
+				//end the current task automatically
+				echo "entro a cerrar payroll";
+				$this->updatePayrollAutomatically($data['id_task'], $data['start']);
+			} elseif ($hours > 14) {
+				//send sms to the employee
+				echo "entro a enviar mensaje de text";
+				$this->sendSMSWorkerTask($data['fk_id_user']);
 			}
+			echo "<br>";
 		endforeach;
 	}
 
@@ -650,7 +646,7 @@ class Payroll extends CI_Controller
 	{
 		$fechaStart = strtotime($start);
 		$finish = date("Y-m-d G:i:s");
-		$this->payroll_model->updateWorkingTimePayroll($start, $finish, 2, $idTask);
+		$this->payroll_model->updateWorkingTimePayrollCheck($start, $finish, $idTask);
 		/**
 		 * Guardar el id del periodo en la tabla task
 		 * busco el periodo, sino existe lo creo
