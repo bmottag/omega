@@ -308,11 +308,11 @@ class Dashboard extends CI_Controller
 
 		$data['infoSafety'] = $this->general_model->get_safety($arrParam); //info de safety
 
-		$arrParam["limit"] = 6; //Limite de registros para la consulta
-		$data['infoWaterTruck'] = $this->general_model->get_special_inspection_water_truck($arrParam); //info de water truck
-		$data['infoHydrovac'] = $this->general_model->get_special_inspection_hydrovac($arrParam); //info de hydrovac
-		$data['infoSweeper'] = $this->general_model->get_special_inspection_sweeper($arrParam); //info de sweeper
-		$data['infoGenerator'] = $this->general_model->get_special_inspection_generator($arrParam); //info de generador
+		$arrParamEquipment["limit"] = 6; //Limite de registros para la consulta
+		$data['infoWaterTruck'] = $this->general_model->get_special_inspection_water_truck($arrParamEquipment); //info de water truck
+		$data['infoHydrovac'] = $this->general_model->get_special_inspection_hydrovac($arrParamEquipment); //info de hydrovac
+		$data['infoSweeper'] = $this->general_model->get_special_inspection_sweeper($arrParamEquipment); //info de sweeper
+		$data['infoGenerator'] = $this->general_model->get_special_inspection_generator($arrParamEquipment); //info de generador
 
 		$data["view"] = "dashboard";
 		$this->load->view("layout", $data);
