@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/dayoff/dayoffModal.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/dayoff/dayoffModal.js?v=2"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">DAY OFF
@@ -30,7 +30,7 @@
 	});
 </script>
 		<div class="form-group text-left">
-				<label for="date">Date : *</label>
+				<label for="date">Date : * <small>Please enter a valid date (YYYY-MM-DD)</small></label>
 				<input type="text" class="form-control" id="date" name="date" value="" placeholder="Date" required />
 		</div>			
 		

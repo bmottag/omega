@@ -1,11 +1,25 @@
 $( document ).ready( function () {
+
+	// Método para validar formato YYYY-MM-DD
+	$.validator.addMethod("dateISO", function(value, element) {
+		return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
+	}, "Please enter a valid date (YYYY-MM-DD).");
 			
 	$( "#form" ).validate( {
 		rules: {
 			type				: {	required	:	true },
 			observation			: {	required	:	true },
-			date				: { required	:	true }
+            date: { 
+                required: true,
+                dateISO: true // Aquí aplicamos la regla
+            }
 		},
+        messages: {
+            date: {
+                required: "Please select a date",
+                dateISO: "Invalid format. Use YYYY-MM-DD"
+            }
+        },
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
 			// Add the `help-block` class to the error element

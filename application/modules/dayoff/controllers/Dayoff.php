@@ -49,6 +49,23 @@ class Dayoff extends CI_Controller {
 			$today = date("Y-m-d H:i:s"); 
 			$date =  $this->input->post('date'); 
 
+			// Validar formato YYYY-MM-DD
+			if (!$date || !preg_match("/^\d{4}-\d{2}-\d{2}$/", $date)) {
+				$data["result"] = "error";
+				$data["mensaje"] = "Invalid date format. Please select a valid date.";
+				echo json_encode($data);
+				exit;
+			}
+
+			// Validar que realmente sea una fecha válida (ej. 2025-02-30 no existe)
+			list($y, $m, $d) = explode('-', $date);
+			if (!checkdate((int)$m, (int)$d, (int)$y)) {
+				$data["result"] = "error";
+				$data["mensaje"] = "The date is not valid. Please select a correct one.";
+				echo json_encode($data);
+				exit;
+			}
+
 			//START hours calculation
 			$minutes = (strtotime($today)-strtotime($date))/60;
 			$minutes = abs($minutes);  
@@ -251,7 +268,7 @@ class Dayoff extends CI_Controller {
 			if (!empty($envioAlerta['email'])) 
 			{
 				$user = $envioAlerta['name_email'];
-				$to = "benmotta@gmail.com";//$envioAlerta['email'];
+				$to = $envioAlerta['email'];
 
 				// ⚡ usar id_user individual, no el JSON completo
 				$urlEmail = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['id_user_email']);
@@ -280,7 +297,7 @@ class Dayoff extends CI_Controller {
 			// envío de SMS
 			if (!empty($envioAlerta['movil'])) 
 			{
-				$toSms = '+14034089921';// . $envioAlerta['movil'];
+				$toSms = '+1'. $envioAlerta['movil'];
 
 				// ⚡ usar id_user individual
 				$urlMovil = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['id_user_sms']);
