@@ -91,7 +91,7 @@ class Dayoff extends CI_Controller {
 									break;
 							}
 							//mensaje del correo
-							$subjet = "Day Off";
+							$subjet = "DAY OFF APP-VCI";
 							$observation =  $this->security->xss_clean($this->input->post('observation'));
 							$observation =  addslashes($observation);
 							$mensajeEmail = "<p>There is a new request for a Day Off:</p>";
@@ -248,22 +248,23 @@ class Dayoff extends CI_Controller {
 
 		foreach($configuracionAlertas as $envioAlerta):
 			//envio correo 
-			if($envioAlerta['email'])
+			if (!empty($envioAlerta['email'])) 
 			{
 				$user = $envioAlerta['name_email'];
-				$to = $envioAlerta['email'];
-				$urlEmail = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['fk_id_user_email']);
-				$mensajeEmail = $mensajeEmail . $urlEmail;
+				$to = "benmotta@gmail.com";//$envioAlerta['email'];
 
-				//Contenido correo					
+				// ⚡ usar id_user individual, no el JSON completo
+				$urlEmail = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['id_user_email']);
+				$mensajeEmailFinal = $mensajeEmail . $urlEmail;
+
+				// Contenido correo					
 				$mensaje = "<html>
 							<head>
-							  <title> $subjet </title>
+							<title>$subjet</title>
 							</head>
 							<body>
-								<p>Dear	$user:<br/>
-								</p>
-								$mensajeEmail
+								<p>Dear $user:<br/></p>
+								$mensajeEmailFinal
 								<p>Cordially,</p>
 								<p><strong>V-CONTRACTING INC</strong></p>
 							</body>
@@ -273,26 +274,26 @@ class Dayoff extends CI_Controller {
 				$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 				$headers .= "From: VCI APP <info@v-contracting.ca>\r\n";
 
-				//enviar correo
-				$envio = mail($to, $subjet, $mensaje, $headers);
+				mail($to, $subjet, $mensaje, $headers);
 			}
 
-			//envio mensaje de texto
-			if($envioAlerta['movil'])
+			// envío de SMS
+			if (!empty($envioAlerta['movil'])) 
 			{
-				$urlMovil = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['fk_id_user_sms']);
-				$mensajeSMS = $mensajeSMS . $urlMovil;
-				$to = '+1' . $envioAlerta['movil'];
+				$toSms = '+14034089921';// . $envioAlerta['movil'];
+
+				// ⚡ usar id_user individual
+				$urlMovil = base_url("external/aproveDayOff/" . $idDayoff . "/" . $envioAlerta['id_user_sms']);
+				$mensajeSMSFinal = $mensajeSMS . $urlMovil;
+
 				$client->messages->create(
-					$to,
+					$toSms,
 					array(
 						'from' => $twilioPhone,
-						'body' => $mensajeSMS
+						'body' => $mensajeSMSFinal
 					)
 				);
-
 			}
-
 		endforeach;
 		return true;
 	}

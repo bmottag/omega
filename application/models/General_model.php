@@ -1486,7 +1486,17 @@ class General_model extends CI_Model
 	 */
 	public function get_notifications_access($arrData)
 	{
-		$this->db->select("A.*, N.notification, N.description, CONCAT(U.first_name, ' ', U.last_name) AS name_email, U.email, CONCAT(X.first_name, ' ', X.last_name) AS name_sms, X.movil");
+		$this->db->select("
+			A.*, 
+			N.notification, 
+			N.description, 
+			CONCAT(U.first_name, ' ', U.last_name) AS name_email, 
+			U.email, 
+			U.id_user AS id_user_email, 
+			CONCAT(X.first_name, ' ', X.last_name) AS name_sms, 
+			X.movil, 
+			X.id_user AS id_user_sms
+		");
 		$this->db->join('notifications N', 'N.id_notification = A.fk_id_notification', 'INNER');
 
 		// Convertir el ID de usuario a cadena antes de usar JSON_QUOTE
@@ -1509,6 +1519,8 @@ class General_model extends CI_Model
 			$results = $query->result_array();
 
 			foreach ($results as $key => $value) {
+				$data[$key]['id_user_email'] = $value['id_user_email'];
+				$data[$key]['id_user_sms']   = $value['id_user_sms'];
 				$data[$key]['id_notification_access'] = $value['id_notification_access'];
 				$data[$key]['fk_id_notification'] = $value['fk_id_notification'];
 				$data[$key]['fk_id_user_email'] = $value['fk_id_user_email'];

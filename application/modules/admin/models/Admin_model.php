@@ -725,13 +725,13 @@ class Admin_model extends CI_Model
 		$idNotificationAccess = $this->input->post('hddId');
 
 		$data = array(
-			'fk_id_notification' => $this->input->post('notification'),
 			'fk_id_user_email' => $emailTo,
 			'fk_id_user_sms' => $smsTo
 		);
 
 		//revisar si es para adicionar o editar
 		if ($idNotificationAccess == '') {
+			$data['fk_id_notification'] = $this->input->post('notification');
 			$query = $this->db->insert('notifications_access', $data);
 		} else {
 			$this->db->where('id_notification_access', $idNotificationAccess);
