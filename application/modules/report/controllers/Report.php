@@ -1129,6 +1129,7 @@ class Report extends CI_Controller
 								<th><strong>Make: </strong><br>' . $lista['make'] . '</th>
 								<th><strong>Model: </strong><br>' . $lista['model'] . '</th>
 								<th><strong>Unit Number: </strong><br>' . $lista['unit_number'] . '</th>
+								<th><strong>Hours/Kilometers: </strong><br>' . $lista['hours'] . '</th>
 								<th><strong>Date & Time: </strong><br>' . $lista['date_issue'] . '</th>
 							</tr>
 						</table>

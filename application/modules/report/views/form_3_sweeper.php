@@ -33,6 +33,7 @@
 								<th><strong>Make: </strong><br>' . $info[$consecutivo]['make'] . '</th>
 								<th><strong>Model: </strong><br>' . $info[$consecutivo]['model'] . '</th>
 								<th><strong>Unit Number: </strong><br>' . $info[$consecutivo]['unit_number'] . '</th>
+								<th><strong>Hrs/Km: </strong><br>' . $info[$consecutivo]['hours'] . '</th>
 								<th><strong>Date: </strong><br>' . $info[$consecutivo]['date_issue'] . '</th>
 							</tr>
 						</table>
