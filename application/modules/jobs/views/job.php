@@ -172,6 +172,11 @@ if ($retornoError) {
                                                         </div>
                                                     </div>
                                                 </form>
+                                                
+                                                <button type="button" class="btn btn-dark btn-block lic_add_modal" data-toggle="modal" data-target="#modal" id="<?php echo $jobInfo[0]["id_job"] . "-x-x"; ?>">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add APU's
+                                                </button><br>
+
                                             </div>
                                         </div>
                                     </div>

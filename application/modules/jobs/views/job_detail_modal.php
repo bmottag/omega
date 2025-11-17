@@ -15,7 +15,7 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="chapter" >Chapter : *</label>
-					<input type="text" id="chapter" name="chapter" class="form-control" value="<?php echo $information?$information[0]["chapter_name"]:$chapterName; ?>" placeholder="Chapter name" disabled >
+					<input type="text" id="chapter" name="chapter" class="form-control" value="<?php echo $information?$information[0]["chapter_name"]:($chapterName == "x"?"":$chapterName); ?>" placeholder="Chapter name" <?php echo $information?"disabled":($chapterName == "x"?"required":"disabled"); ?> >
 				</div>
 			</div>
 			
@@ -25,7 +25,7 @@
 			<div class="col-sm-6">		
 				<div class="form-group text-left">
 					<label class="control-label" for="chapter_number" >Chapter number: *</label>
-					<input type="text" id="chapter_number" name="chapter_number" class="form-control" value="<?php echo $information?$information[0]["chapter_number"]:$chapterNumber; ?>" placeholder="Chapter number" disabled >
+					<input type="text" id="chapter_number" name="chapter_number" class="form-control" value="<?php echo $information?$information[0]["chapter_number"]:($chapterNumber == "x"?"":$chapterNumber); ?>" placeholder="Chapter number" <?php echo $information?"disabled":($chapterNumber == "x"?"required":"disabled"); ?> >
 				</div>
 			</div>
 			
