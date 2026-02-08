@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/incidences/incident_v2.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/incidences/incident_v2.js?v=2"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -342,7 +342,7 @@ if($information[0]["coordinator_signature"]){
 						<?php
 							}
 						?>
-							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('incidences/add_signature/incident/personsInvolved/' . $data['fk_id_incident'] . '/' . $data['id_incident_person']) ?>' id="btn-delete">
+							<a class='btn <?php echo $class; ?> btn-sm' href='<?php echo base_url('incidences/add_signature/incident/personsInvolved/' . $jobInfo[0]['id_job'] . '/' . $data['fk_id_incident'] . '/' . $data['id_incident_person']) ?>' id="btn-delete">
 									<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>  Signature
 							</a>
 						<?php
@@ -558,6 +558,7 @@ if($information[0]["coordinator_signature"]){
 			<div class="modal-body">
 				<form name="formPerson" id="formPerson" role="form" method="post" action="<?php echo base_url("incidences/save_person_involved") ?>" >
 					<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_incident"]:""; ?>"/>
+					<input type="hidden" id="hddIdJob" name="hddIdJob" value="<?php echo $jobInfo[0]['id_job']; ?>"/>
 					<input type="hidden" id="hddFormIdentifier" name="hddFormIdentifier" value=2 />
 					
 					<div class="row">

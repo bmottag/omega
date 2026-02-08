@@ -734,10 +734,12 @@ class Incidences extends CI_Controller {
 	{
 			$idIncident = $this->input->post('hddId');
 			$formIdentifier = $this->input->post('hddFormIdentifier');
+			
 			if($formIdentifier==1){
 				$path = 'incidences/add_near_miss/' . $idIncident;
 			}else{
-				$path = 'incidences/add_incident/' . $idIncident;
+				$idJob = $this->input->post('hddIdJob');
+				$path = 'incidences/add_incident/' . $idJob . '/' . $idIncident;
 			}
 
 			if ($this->incidences_model->savePersonInvolved()) {
