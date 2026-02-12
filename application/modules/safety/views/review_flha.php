@@ -257,19 +257,37 @@ if ($retornoError) {
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th class='text-center'>Signature</th>
+								<th>Name / Signature</th>
 							</tr>
 						</thead>
 
 					<?php
 						foreach ($safetyWorkers as $data):
 							echo "<tr>";					
-							echo "<td >" . $data['name'] . "</td>";
-							echo "<td class='text-center'><small><center>";
+
+					?>
+						<form name="personal_<?php echo $data['id_safety_worker']  ?>" id="personal_<?php echo $data['id_safety_worker'] ?>" method="post" action="<?php echo base_url("safety/save_worker_undestanding"); ?>">
+							<input type="hidden" id="hddId" name="hddId" value="<?php echo $information[0]["id_safety"]; ?>" />
+							<input type="hidden" id="hddIdSafetyWorker" name="hddIdSafetyWorker" value="<?php echo $data['id_safety_worker'] ; ?>" />
+							
+				
+							<td >
+								<?php echo $data['name']; ?>
+								<br>
+								<textarea id="description" name="description" class="form-control" rows="6" minlength="200" required placeholder="Worker's Understanding of Hazards Discussed"><?php echo $data['understanding']; ?></textarea>
+								<br>
+					<?php
 							$class = "btn-primary";
 
-							if($data['signature']){ 
+							if($data['understanding'] == "") { 
+
+					?>
+								<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save">
+									Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+								</button>
+
+					<?php
+							}elseif($data['signature']){ 
 								$class = "btn-default";
 					?>
 								<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#<?php echo $data['id_safety_worker'] . "wModal"; ?>" id="<?php echo $data['id_safety_worker']; ?>">
@@ -305,9 +323,13 @@ if ($retornoError) {
 					<?php
 							}
 							echo "</small></td>"; 
-							echo "</tr>";
-						endforeach;
 					?>
+
+							</td>
+
+							</form>
+							</tr>
+						<?php endforeach; ?>
 					</table>
 
 				</div>

@@ -151,7 +151,7 @@
 		 */
 		public function get_safety_workers($idSafety) 
 		{		
-				$this->db->select("W.id_safety_worker, W.fk_id_safety, W.signature, W.fk_id_user, CONCAT(first_name, ' ', last_name) name");
+				$this->db->select("W.id_safety_worker, W.fk_id_safety, W.signature, W.fk_id_user, W.understanding, CONCAT(first_name, ' ', last_name) name");
 				$this->db->join('user U', 'U.id_user = W.fk_id_user', 'INNER');
 				$this->db->where('W.fk_id_safety', $idSafety); 
 				$this->db->order_by('U.first_name, U.last_name', 'asc');

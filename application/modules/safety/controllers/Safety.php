@@ -819,6 +819,55 @@ class Safety extends CI_Controller {
 			echo json_encode($data);
     }
 
+	/**
+	 * Save safetty undestanding
+	 * @since 8/02/2026
+	 * @author BMOTTAG
+	 */
+	public function save_worker_undestanding()
+	{
+		$idSafety = $this->input->post('hddId');
+
+		$arrParam = array(
+			"table" => "safety_workers",
+			"primaryKey" => "id_safety_worker",
+			"id" => $this->input->post('hddIdSafetyWorker'),
+			"column" => "understanding",
+			"value" => $this->input->post('description')
+		);
+		$this->load->model("general_model");
+		if ($this->general_model->updateRecord($arrParam)) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have saved the understanding information!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		redirect(base_url('safety/review_flha/' . $idSafety), 'refresh');
+	}
+
+function translateToEnglish($text)
+{
+    $data = [
+        'q' => $text,
+        'source' => 'auto',
+        'target' => 'en',
+        'format' => 'text'
+    ];
+
+    $ch = curl_init('https://libretranslate.com/translate');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $result = json_decode($response, true);
+    return $result['translatedText'] ?? $text;
+}
+
+
 
 	
 }
