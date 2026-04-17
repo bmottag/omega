@@ -723,8 +723,8 @@ class Programming extends CI_Controller
 												//actualizo la bandera sms_inspection a 2
 												$updateState = $this->update_sms_worker($dato['id_programming_worker'], "sms_inspection", 2);
 
-												//$to = '+1' . $phoneAdmin;
-												$to = '+14034089921'; // . $phoneAdmin;
+												$to = '+1' . $phoneAdmin;
+												//$to = '+14034089921';
 
 												$mensaje = "INSPECTION APP-VCI";
 												$mensaje .= "\nThe user has not done the Inspection:";

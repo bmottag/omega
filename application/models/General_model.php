@@ -1942,7 +1942,7 @@ class General_model extends CI_Model
 	public function get_day_off($arrData)
 	{
 		$idUser = $this->session->userdata("id");
-		$firstDay = date('Y-m-d', strtotime('-2 month', time()));
+		$firstDay = date('Y-m-d', strtotime('-6 month', time()));
 		$actualDay = date('Y-m-d'); //dia actual
 		$afterTommorrow = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 2, date("Y")));
 

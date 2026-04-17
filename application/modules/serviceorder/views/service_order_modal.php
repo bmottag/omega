@@ -31,7 +31,7 @@
 		<input type="hidden" id="hour" name="hour" value="<?php echo $information?$information[0]["hours"]:""; ?>" >
 <?php
 	//Disabled fields
-	$deshabilitar = 'disabled';
+	$deshabilitar = '';
 	$userRol = $this->session->rol;
 	if($userRol == ID_ROL_SUPER_ADMIN || $userRol == ID_ROL_SAFETY){
 		$deshabilitar = '';
