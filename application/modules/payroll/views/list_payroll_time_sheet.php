@@ -78,7 +78,7 @@
 										$weeklyOvertime = 0;
 										foreach ($infoPayrollUser as $lista) :
 											echo "<tr>";
-											echo "<td><small><strong>Start:</strong><br>" . $lista['start'] . "<br><strong>Finish:</strong><br>" . $lista['finish'] . "</small><br>";
+											echo "<td><small><strong>Start:</strong><br>" . date('M j, Y - G:i', strtotime($lista['start'])) . "<br><strong>Finish:</strong><br>" . date('M j, Y - G:i', strtotime($lista['finish'])) . "</small><br>";
 											/*
 											SE ELIMINO ESTA OPCION PORQUE SE PASO PARA EL CALENDARIO DESDE FEB 25
 									?>

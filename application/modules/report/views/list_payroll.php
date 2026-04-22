@@ -87,7 +87,7 @@
 									echo "<tr>";
 									echo "<td class='text-left'>" . $lista['name'] . "</td>";
 
-									echo "<td><strong>Start:</strong><br>" . $lista['start'] . "<br><strong>Finish:</strong><br>" . $lista['finish'] . "<br>";
+									echo "<td><strong>Start:</strong><br>" . date('M j, Y - G:i', strtotime($lista['start'])) . "<br><strong>Finish:</strong><br>" . date('M j, Y - G:i', strtotime($lista['finish'])) . "<br>";
 
 									/**
 									 * Opcion de editar horas para  SUPER ADMIN

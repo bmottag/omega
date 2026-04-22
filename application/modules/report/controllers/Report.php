@@ -2139,8 +2139,8 @@ class Report extends CI_Controller
 			$html .= '<tr>';
 			$html .= '<th >' . $data['name'] . '</th>';
 
-			$html .= '<th align="center">' . $data['start'] . '</th>';
-			$html .= '<th align="center">' . $data['finish'] . '</th>';
+			$html .= '<th align="center">' . date('M j, Y - G:i', strtotime($data['start'])) . '</th>';
+			$html .= '<th align="center">' . date('M j, Y - G:i', strtotime($data['finish'])) . '</th>';
 			$html .= '<th>' . $data['job_start'] . '</th>';
 			$html .= '<th>' . $data['job_finish'] . '</th>';
 			$html .= '<th align="center">' . substr($data['working_hours_new'], 0, 5)  . '</th>';
@@ -2427,8 +2427,8 @@ class Report extends CI_Controller
 
 
 			$spreadsheet->getActiveSheet()->setCellValue('A' . $j, $data['name'])
-				->setCellValue('B' . $j, $data['start'])
-				->setCellValue('C' . $j, $data['finish'])
+				->setCellValue('B' . $j, date('M j, Y - G:i', strtotime($data['start'])))
+				->setCellValue('C' . $j, date('M j, Y - G:i', strtotime($data['finish'])))
 				->setCellValue('D' . $j, $data['job_start'])
 				->setCellValue('E' . $j, $data['job_finish'])
 				->setCellValue('F' . $j, $data['task_description'])

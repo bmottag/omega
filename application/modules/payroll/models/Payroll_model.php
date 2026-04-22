@@ -433,7 +433,7 @@ class Payroll_model extends CI_Model
 		$observation =  $this->security->xss_clean($this->input->post('observation'));
 		$observation =  addslashes($observation);
 
-		$moreInfo = "<strong>Change hour by SUPER ADMIN.</strong> <br>Before -> Start: " . $inicio . " <br>Before -> Finish: " . $fin;
+		$moreInfo = "<strong>Change hour by SUPER ADMIN.</strong> <br>Before -> Start: " . date('M j, Y - G:i', strtotime($inicio)) . " <br>Before -> Finish: " . date('M j, Y - G:i', strtotime($fin));
 		$observation = $firstObservation . "<br>********************<br>" . $moreInfo . "<br>" . $observation . "<br>Date: " . date("Y-m-d G:i:s") . "<br>********************";
 
 		$fechaStart = $this->input->post('start_date');

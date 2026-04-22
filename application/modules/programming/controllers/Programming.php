@@ -513,7 +513,7 @@ class Programming extends CI_Controller
 					$mensaje .= "\nYou are in charge of the W.O. #" . $idWorkorder;
 				}
 
-				$excluded_numbers = ["686289126", "5068494482", "5068393681"];
+				$excluded_numbers = ["686289126", "5068494482", "5068393681", "5870000000"];
 				if (!in_array($info['movil'], $excluded_numbers)) {
 					$to = '+1' . $info['movil'];
 					$message = $client->messages->create(
