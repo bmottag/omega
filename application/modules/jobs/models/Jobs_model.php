@@ -1347,6 +1347,7 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 	public function saveFireWatchCheckin()
 	{
 		$idWorker = $this->session->userdata("id");
+		$site = $this->session->userdata("current_tag_name") ?? null ;
 		$data = array(
 			'fk_id_job_fire_watch' => $this->input->post('idFireWatch'),
 			'fk_id_worker' => $idWorker,
@@ -1355,7 +1356,8 @@ Y.movil phone_emer_1, CONCAT(Y.first_name, " " , Y.last_name) emer_1, Z.movil ph
 			'address_start' => $this->input->post('address'),
 			'latitude_start' => $this->input->post('latitude'),
 			'longitude_start' => $this->input->post('longitude'),
-			'notes' => $this->input->post('notes')
+			'notes' => $this->input->post('notes'),
+			'site'  => $site
 		);
 		$query = $this->db->insert('job_fire_watch_checkin', $data);
 		if ($query) {

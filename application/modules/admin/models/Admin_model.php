@@ -955,4 +955,56 @@ class Admin_model extends CI_Model
 			return false;
 		}
 	}
+
+	/**
+	 * Get Tags list
+	 * @since 25/04/2026
+	 */
+	public function get_tags($arrData)
+	{
+		$this->db->select();
+		$this->db->join('param_jobs J', 'J.id_job = T.fk_id_job', 'INNER');
+
+		if (array_key_exists("idTag", $arrData)) {
+			$this->db->where('T.id_tag', $arrData["idTag"]);
+		}
+
+		$this->db->order_by('T.fk_id_job, T.name', 'ASC');
+		$query = $this->db->get('param_tags T');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Tag
+	 * @since 25/04/2026
+	 */
+	public function saveTag()
+	{
+		$id = $this->input->post('hddId');
+
+		$data = array(
+			'fk_id_job' => $this->input->post('idJob'),
+			'name'		=> $this->input->post('name'),
+			'number' 	=> $this->input->post('number')
+		);
+
+		//revisar si es para adicionar o editar
+		if ($id == '') {
+			$data['token'] = bin2hex(random_bytes(16));
+			$query = $this->db->insert('param_tags', $data);
+		} else {
+			$this->db->where('id_tag', $id);
+			$query = $this->db->update('param_tags', $data);
+		}
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

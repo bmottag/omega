@@ -2113,4 +2113,73 @@ class Admin extends CI_Controller
 		endforeach;
 		return true;
 	}
+
+	/**
+	 * Tags List
+	 * @since 24/04/2026
+	 * @author BMOTTAG
+	 */
+	public function tags()
+	{
+		//se filtra por company_type para que solo se pueda editar los subcontratistas
+		$arrParam = array(
+			"table" => "param_tags",
+			"order" => "name",
+			"id" => "x"
+		);
+		$data['info'] = $this->general_model->get_basic_search($arrParam);
+
+		$data["view"] = 'tag';
+		$this->load->view("layout", $data);
+	}
+
+	/**
+	 * Cargo modal - formulario Tags
+	 * @since 24/04/2026
+	 */
+	public function cargarModalTag()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$data['information'] = false;
+		$data["idTag"] = $this->input->post("idTag");
+
+		$data['jobList'] = $this->general_model->get_job(['state' => 1]);
+
+		if ($data["idTag"] != 'x') {
+			$data['information'] = $this->admin_model->get_tags(['idTag' => $data["idTag"]]);
+		}
+
+		$this->load->view("tag_modal", $data);
+	}
+
+	/**
+	 * Update Tag
+	 * @since 24/04/2026
+	 * @author BMOTTAG
+	 */
+	public function save_tag()
+	{
+		header('Content-Type: application/json');
+		$data = array();
+
+		$id = $this->input->post('hddId');
+
+		$msj = "You have added a new Tag!!";
+		if ($id != '') {
+			$msj = "You have updated a Tag!!";
+		}
+
+		if ($this->admin_model->saveTag()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', $msj);
+		} else {
+			$data["result"] = "error";
+			$data["idRecord"] = "";
+
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+
+		echo json_encode($data);
+	}
 }

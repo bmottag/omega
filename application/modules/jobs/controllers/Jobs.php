@@ -3071,17 +3071,32 @@ class Jobs extends CI_Controller
 	 * @since 27/1/2023
 	 * @author BMOTTAG
 	 */
-	public function fire_watch($idJob)
+	public function fire_watch($idJob = 'x', $token = null)
 	{
 		$this->load->model("general_model");
-		//job info
-		$arrParam = array(
-			"table" => "param_jobs",
-			"order" => "job_description",
-			"column" => "id_job",
-			"id" => $idJob
-		);
-		$data['jobInfo'] = $this->general_model->get_basic_search($arrParam);
+
+		if($token){
+			$token = base64_decode($token);
+			$arrParam = array(
+				"table" => "param_tags",
+				"order" => "id_tag",
+				"column" => "token",
+				"id" => $token 
+			);
+			$tagInfo = $this->general_model->get_basic_search($arrParam);
+
+			if ($tagInfo) {
+				$idJob = $tagInfo[0]['fk_id_job'];
+
+				// 🔥 AQUÍ guardas el punto en sesión
+				$this->session->set_userdata(['current_tag_name' => $tagInfo[0]['name']]);
+			}
+		}else {
+			// 🔥 limpiar si NO viene token
+			$this->session->unset_userdata(['current_tag_name']);
+		}
+
+		$data['jobInfo'] = $this->general_model->get_job(['idJob' => $idJob]);
 
 		//fire watch info
 		$arrParam = array("idJob" => $idJob);
